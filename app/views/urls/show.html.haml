@@ -1,0 +1,39 @@
+%p#notice= notice
+
+%p
+  %b Category:
+  = @url.category
+%p
+  %b Url:
+  = @url.url
+%p
+  %b Titel:
+  = @url.titel
+%p
+  %b Descr:
+  = @url.descr
+%p
+  %b Sprache:
+  = @url.sprache
+%p
+  %b Land:
+  = @url.land
+%p
+  %b Bland:
+  = @url.bland
+%p
+  %b Email:
+  = @url.email
+%p
+  %b Lastchange:
+  = @url.lastchange
+%p
+  %b Confirmed:
+  = @url.confirmed
+%p
+  %b Ip:
+  = @url.ip
+
+= link_to_edit( edit_url_path(@url),'Edit')
+\|
+= link_back( urls_path,'Back')

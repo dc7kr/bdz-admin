@@ -1,0 +1,38 @@
+%h1 Konzertliste
+
+%table
+  %tr
+    %th Datum
+    %th Zeit
+    %th Stadt
+    %th Titel
+    %th Ort
+    %th Festival
+    %th Interpret
+    %th Homepage
+    %th Bemerkung
+    %th Bland
+    %th Land
+    %th Email
+    %th Url
+    %th Eintritt
+    %th Owner
+
+  - @concerts.each do |concert|
+    %tr
+      %td= concert.datum
+      %td= concert.zeit
+      %td= concert.stadt
+      %td= concert.titel
+      %td= concert.ort
+      %td= concert.festival
+      %td= concert.interpret
+      %td= concert.url
+      %td= concert.bemerkung
+      %td= concert.state.name
+      %td= concert.country.name
+      %td= concert.email
+      %td= concert.eintritt
+      %td= concert.fk_owner
+%br
+

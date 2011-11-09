@@ -1,0 +1,292 @@
+.block
+  .secondary-navigation
+    %ul.wat-cf
+      %li.first= link_to "#{t("web-app-theme.list", :default => "List")}", orchestras_path
+      %li= link_to "#{t("web-app-theme.new", :default => "New")}", new_orchestra_path
+      %li.active= link_to "#{t("web-app-theme.show", :default => "Show")}", orchestra_path
+  .content
+    .inner
+      %p
+        %b
+          = t("activerecord.attributes.orchestra.mglnr", :default => t("activerecord.labels.mglnr", :default => "Mglnr"))
+          \:
+        = @orchestra.mglnr
+      %p
+        %b
+          = t("activerecord.attributes.orchestra.orchName", :default => t("activerecord.labels.orchName", :default => "Orchname"))
+          \:
+        = @orchestra.orchName
+      %p
+        %b
+          = t("activerecord.attributes.orchestra.anrede", :default => t("activerecord.labels.anrede", :default => "Anrede"))
+          \:
+        = @orchestra.anrede
+      %p
+        %b
+          = t("activerecord.attributes.orchestra.vorname", :default => t("activerecord.labels.vorname", :default => "Vorname"))
+          \:
+        = @orchestra.vorname
+      %p
+        %b
+          = t("activerecord.attributes.orchestra.nachname", :default => t("activerecord.labels.nachname", :default => "Nachname"))
+          \:
+        = @orchestra.nachname
+      %p
+        %b
+          = t("activerecord.attributes.orchestra.strasse", :default => t("activerecord.labels.strasse", :default => "Strasse"))
+          \:
+        = @orchestra.strasse
+      %p
+        %b
+          = t("activerecord.attributes.orchestra.land", :default => t("activerecord.labels.land", :default => "Land"))
+          \:
+        = @orchestra.land
+      %p
+        %b
+          = t("activerecord.attributes.orchestra.plz", :default => t("activerecord.labels.plz", :default => "Plz"))
+          \:
+        = @orchestra.plz
+      %p
+        %b
+          = t("activerecord.attributes.orchestra.ort", :default => t("activerecord.labels.ort", :default => "Ort"))
+          \:
+        = @orchestra.ort
+      %p
+        %b
+          = t("activerecord.attributes.orchestra.telefon", :default => t("activerecord.labels.telefon", :default => "Telefon"))
+          \:
+        = @orchestra.telefon
+      %p
+        %b
+          = t("activerecord.attributes.orchestra.fax", :default => t("activerecord.labels.fax", :default => "Fax"))
+          \:
+        = @orchestra.fax
+      %p
+        %b
+          = t("activerecord.attributes.orchestra.gruendung", :default => t("activerecord.labels.gruendung", :default => "Gruendung"))
+          \:
+        = @orchestra.gruendung
+      %p
+        %b
+          = t("activerecord.attributes.orchestra.eintritt", :default => t("activerecord.labels.eintritt", :default => "Eintritt"))
+          \:
+        = @orchestra.eintritt
+      %p
+        %b
+          = t("activerecord.attributes.orchestra.za", :default => t("activerecord.labels.za", :default => "Za"))
+          \:
+        = @orchestra.za
+      %p
+        %b
+          = t("activerecord.attributes.orchestra.konto", :default => t("activerecord.labels.konto", :default => "Konto"))
+          \:
+        = @orchestra.konto
+      %p
+        %b
+          = t("activerecord.attributes.orchestra.blz", :default => t("activerecord.labels.blz", :default => "Blz"))
+          \:
+        = @orchestra.blz
+      %p
+        %b
+          = t("activerecord.attributes.orchestra.lv", :default => t("activerecord.labels.lv", :default => "Lv"))
+          \:
+        = @orchestra.lv
+      %p
+        %b
+          = t("activerecord.attributes.orchestra.zw", :default => t("activerecord.labels.zw", :default => "Zw"))
+          \:
+        = @orchestra.zw
+      %p
+        %b
+          = t("activerecord.attributes.orchestra.zeitungen", :default => t("activerecord.labels.zeitungen", :default => "Zeitungen"))
+          \:
+        = @orchestra.zeitungen
+      %p
+        %b
+          = t("activerecord.attributes.orchestra.gema", :default => t("activerecord.labels.gema", :default => "Gema"))
+          \:
+        = @orchestra.gema
+      %p
+        %b
+          = t("activerecord.attributes.orchestra.numBis14", :default => t("activerecord.labels.numBis14", :default => "Numbis14"))
+          \:
+        = @orchestra.numBis14
+      %p
+        %b
+          = t("activerecord.attributes.orchestra.num15bis18", :default => t("activerecord.labels.num15bis18", :default => "Num15bis18"))
+          \:
+        = @orchestra.num15bis18
+      %p
+        %b
+          = t("activerecord.attributes.orchestra.num19bis27", :default => t("activerecord.labels.num19bis27", :default => "Num19bis27"))
+          \:
+        = @orchestra.num19bis27
+      %p
+        %b
+          = t("activerecord.attributes.orchestra.numUeber27", :default => t("activerecord.labels.numUeber27", :default => "Numueber27"))
+          \:
+        = @orchestra.numUeber27
+      %p
+        %b
+          = t("activerecord.attributes.orchestra.sumMitglieder", :default => t("activerecord.labels.sumMitglieder", :default => "Summitglieder"))
+          \:
+        = @orchestra.sumMitglieder
+      %p
+        %b
+          = t("activerecord.attributes.orchestra.azubi", :default => t("activerecord.labels.azubi", :default => "Azubi"))
+          \:
+        = @orchestra.azubi
+      %p
+        %b
+          = t("activerecord.attributes.orchestra.passive", :default => t("activerecord.labels.passive", :default => "Passive"))
+          \:
+        = @orchestra.passive
+      %p
+        %b
+          = t("activerecord.attributes.orchestra.beitrag", :default => t("activerecord.labels.beitrag", :default => "Beitrag"))
+          \:
+        = @orchestra.beitrag
+      %p
+        %b
+          = t("activerecord.attributes.orchestra.unfallversicherung", :default => t("activerecord.labels.unfallversicherung", :default => "Unfallversicherung"))
+          \:
+        = @orchestra.unfallversicherung
+      %p
+        %b
+          = t("activerecord.attributes.orchestra.meldebogen", :default => t("activerecord.labels.meldebogen", :default => "Meldebogen"))
+          \:
+        = @orchestra.meldebogen
+      %p
+        %b
+          = t("activerecord.attributes.orchestra.rechnungsDruck", :default => t("activerecord.labels.rechnungsDruck", :default => "Rechnungsdruck"))
+          \:
+        = @orchestra.rechnungsDruck
+      %p
+        %b
+          = t("activerecord.attributes.orchestra.koopMitglied", :default => t("activerecord.labels.koopMitglied", :default => "Koopmitglied"))
+          \:
+        = @orchestra.koopMitglied
+      %p
+        %b
+          = t("activerecord.attributes.orchestra.austrittZum", :default => t("activerecord.labels.austrittZum", :default => "Austrittzum"))
+          \:
+        = @orchestra.austrittZum
+      %p
+        %b
+          = t("activerecord.attributes.orchestra.schreibenVom", :default => t("activerecord.labels.schreibenVom", :default => "Schreibenvom"))
+          \:
+        = @orchestra.schreibenVom
+      %p
+        %b
+          = t("activerecord.attributes.orchestra.uvBetrag", :default => t("activerecord.labels.uvBetrag", :default => "Uvbetrag"))
+          \:
+        = @orchestra.uvBetrag
+      %p
+        %b
+          = t("activerecord.attributes.orchestra.rechnungsbetrag", :default => t("activerecord.labels.rechnungsbetrag", :default => "Rechnungsbetrag"))
+          \:
+        = @orchestra.rechnungsbetrag
+      %p
+        %b
+          = t("activerecord.attributes.orchestra.versaeumniszuschlag", :default => t("activerecord.labels.versaeumniszuschlag", :default => "Versaeumniszuschlag"))
+          \:
+        = @orchestra.versaeumniszuschlag
+      %p
+        %b
+          = t("activerecord.attributes.orchestra.vZuschlag", :default => t("activerecord.labels.vZuschlag", :default => "Vzuschlag"))
+          \:
+        = @orchestra.vZuschlag
+      %p
+        %b
+          = t("activerecord.attributes.orchestra.mahngebuehr1", :default => t("activerecord.labels.mahngebuehr1", :default => "Mahngebuehr1"))
+          \:
+        = @orchestra.mahngebuehr1
+      %p
+        %b
+          = t("activerecord.attributes.orchestra.mahngebuehr2", :default => t("activerecord.labels.mahngebuehr2", :default => "Mahngebuehr2"))
+          \:
+        = @orchestra.mahngebuehr2
+      %p
+        %b
+          = t("activerecord.attributes.orchestra.mGebuehr1", :default => t("activerecord.labels.mGebuehr1", :default => "Mgebuehr1"))
+          \:
+        = @orchestra.mGebuehr1
+      %p
+        %b
+          = t("activerecord.attributes.orchestra.mGebuehr2", :default => t("activerecord.labels.mGebuehr2", :default => "Mgebuehr2"))
+          \:
+        = @orchestra.mGebuehr2
+      %p
+        %b
+          = t("activerecord.attributes.orchestra.bemerkung", :default => t("activerecord.labels.bemerkung", :default => "Bemerkung"))
+          \:
+        = @orchestra.bemerkung
+      %p
+        %b
+          = t("activerecord.attributes.orchestra.eMail", :default => t("activerecord.labels.eMail", :default => "Email"))
+          \:
+        = @orchestra.eMail
+      %p
+        %b
+          = t("activerecord.attributes.orchestra.url", :default => t("activerecord.labels.url", :default => "Url"))
+          \:
+        = @orchestra.url
+      %p
+        %b
+          = t("activerecord.attributes.orchestra.lastschriftErfasst", :default => t("activerecord.labels.lastschriftErfasst", :default => "Lastschrifterfasst"))
+          \:
+        = @orchestra.lastschriftErfasst
+      %p
+        %b
+          = t("activerecord.attributes.orchestra.kuendigungErfasst", :default => t("activerecord.labels.kuendigungErfasst", :default => "Kuendigungerfasst"))
+          \:
+        = @orchestra.kuendigungErfasst
+      %p
+        %b
+          = t("activerecord.attributes.orchestra.zweitanschrift", :default => t("activerecord.labels.zweitanschrift", :default => "Zweitanschrift"))
+          \:
+        = @orchestra.zweitanschrift
+      %p
+        %b
+          = t("activerecord.attributes.orchestra.name2", :default => t("activerecord.labels.name2", :default => "Name2"))
+          \:
+        = @orchestra.name2
+      %p
+        %b
+          = t("activerecord.attributes.orchestra.dageVER", :default => t("activerecord.labels.dageVER", :default => "Dagever"))
+          \:
+        = @orchestra.dageVER
+      %p
+        %b
+          = t("activerecord.attributes.orchestra.haftpflichtVers", :default => t("activerecord.labels.haftpflichtVers", :default => "Haftpflichtvers"))
+          \:
+        = @orchestra.haftpflichtVers
+      %p
+        %b
+          = t("activerecord.attributes.orchestra.haftpflichtGebuehrLV", :default => t("activerecord.labels.haftpflichtGebuehrLV", :default => "Haftpflichtgebuehrlv"))
+          \:
+        = @orchestra.haftpflichtGebuehrLV
+      %p
+        %b
+          = t("activerecord.attributes.orchestra.lvGebuehr", :default => t("activerecord.labels.lvGebuehr", :default => "Lvgebuehr"))
+          \:
+        = @orchestra.lvGebuehr
+      %p
+        %b
+          = t("activerecord.attributes.orchestra.uvZusatzzahl", :default => t("activerecord.labels.uvZusatzzahl", :default => "Uvzusatzzahl"))
+          \:
+        = @orchestra.uvZusatzzahl
+      %p
+        %b
+          = t("activerecord.attributes.orchestra.uvZahl", :default => t("activerecord.labels.uvZahl", :default => "Uvzahl"))
+          \:
+        = @orchestra.uvZahl
+      %p
+        %b
+          = t("activerecord.attributes.orchestra.jahreszahl", :default => t("activerecord.labels.jahreszahl", :default => "Jahreszahl"))
+          \:
+        = @orchestra.jahreszahl
+      .wat-cf
+        = link_to image_tag("web-app-theme/icons/application_edit.png", :alt => "#{t("web-app-theme.edit", :default=> "Edit")}") + " " + t("web-app-theme.edit", :default=> "Edit"), edit_orchestra_path(@orchestra), :class => "button"
+        = link_to image_tag("web-app-theme/icons/cross.png", :alt => "#{t("web-app-theme.delete", :default=> "Delete")}") + " " + t("web-app-theme.delete", :default => "Delete"), orchestra_path(@orchestra), :method => "delete", :class => "button", :confirm => "#{t("web-app-theme.confirm", :default => "Are you sure?")}"
+- content_for :sidebar, render(:partial => 'sidebar')

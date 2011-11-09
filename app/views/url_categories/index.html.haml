@@ -1,0 +1,25 @@
+%h1 Listing url_categories
+
+%table
+  %tr
+    %th Parent
+    %th Leaf
+    %th Hascountry
+    %th Description
+    %th
+    %th
+    %th
+
+  - @url_categories.each do |url_category|
+    %tr
+      %td= url_category.parent
+      %td= url_category.leaf
+      %td= url_category.hascountry
+      %td= url_category.description
+      %td= link_to 'Show', url_category
+      %td= link_to 'Edit', edit_url_category_path(url_category)
+      %td= link_to 'Destroy', url_category, :confirm => 'Are you sure?', :method => :delete
+
+%br
+
+= link_to 'New Url category', new_url_category_path

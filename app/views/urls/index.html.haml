@@ -1,0 +1,39 @@
+%h1 Listing urls
+
+%table
+  %tr
+    %th Category
+    %th Url
+    %th Titel
+    %th Descr
+    %th Sprache
+    %th Land
+    %th Bland
+    %th Email
+    %th Lastchange
+    %th Confirmed
+    %th Ip
+    %th
+    %th
+    %th
+
+  - @urls.each do |url|
+    %tr
+      %td= url.category
+      %td= url.url
+      %td= url.titel
+      %td= url.descr
+      %td= url.sprache
+      %td= url.land
+      %td= url.bland
+      %td= url.email
+      %td= url.lastchange
+      %td= url.confirmed
+      %td= url.ip
+      %td= link_to 'Show', url
+      %td= link_to 'Edit', edit_url_path(url)
+      %td= link_to 'Destroy', url, :confirm => 'Are you sure?', :method => :delete
+
+%br
+
+= link_to 'New Url', new_url_path

@@ -1,0 +1,30 @@
+%p#notice= notice
+
+%p
+  %b Anrede:
+  = @address.anrede
+%p
+  %b Name:
+  = @address.name
+%p
+  %b Strasse:
+  = @address.strasse
+%p
+  %b Plz:
+  = @address.plz
+%p
+  %b Ort:
+  = @address.ort
+%p
+  %b Mobil:
+  = @address.mobil
+%p
+  %b Fax:
+  = @address.fax
+%p
+  %b Email:
+  = @address.email
+
+= link_to_edit( edit_address_path(@address),'Edit')
+\|
+= link_back( addresses_path,'Back')

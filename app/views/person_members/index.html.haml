@@ -1,0 +1,35 @@
+.block
+  .secondary-navigation
+    %ul.wat-cf
+      %li.first.active= link_to "#{t("web-app-theme.list", :default => "List")}", person_members_path
+      %li= link_to "#{t("web-app-theme.new", :default => "New")}", new_person_member_path
+  .content
+    %h2.title
+      = t("web-app-theme.all", :default => "All")
+      PersonMembers
+    .inner
+      %table.table
+        %tr
+          %th.first 
+            = t("activerecord.attributes.person_member.mitgliedsnummer", :default => t("activerecord.labels.mitgliedsnummer", :default => "Mitgliedsnummer"))
+          %th
+            = t("activerecord.labels.vorname", :default => "Vorname")
+          %th
+            = t("activerecord.labels.nachname", :default => "Name")
+          %th.last &nbsp;
+        - @person_members.each do |person_member|
+          %tr{:class => cycle("odd", "even")}
+            %td
+              = link_to person_member.mitgliedsnummer, person_member_path(person_member)
+            %td
+              = person_member.vorname
+            %td
+              = person_member.nachname
+            %td.last
+              = link_to_show(person_member_path(person_member), "#{t("web-app-theme.show", :default => "Show")}")
+              |
+              \#{link_to_edit(edit_person_member_path(person_member), "#{t("web-app-theme.edit", :default => "Edit")}")} |
+              \#{link_to_delete(person_member_path(person_member), "#{t("web-app-theme.delete", :default => "Delete")}", "#{t("web-app-theme.confirm", :default => "Are you sure?")}")}
+      .actions-bar.wat-cf
+        .actions
+- content_for :sidebar, render(:partial => 'sidebar')

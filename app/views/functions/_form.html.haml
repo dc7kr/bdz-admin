@@ -1,0 +1,34 @@
+= form_for @function do |f|
+  -if @function.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@function.errors.count, "error")} prohibited this function from being saved:"
+      %ul
+        - @function.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.label :label
+    = f.text_field :label
+  .field
+    = f.label :regional_organization
+    = f.collection_select :fk_lv_id , RegionalOrganization.find(:all,:order => "name ASC"), :id, :name
+  .field
+    = f.label :address
+    = f.collection_select :fk_addr_id, Address.find(:all,:order => "name ASC, vorname ASC"), :id, :to_s
+  .field
+    = f.label :bund
+    = f.check_box :bund, :class => 'check_box'
+  .field
+    = f.label :jugend
+    = f.check_box :jugend, :class => 'check_box'
+  .field
+    = f.label :nr
+    = f.text_field :nr
+  .field
+    = f.label :funktion
+    = f.text_field :funktion
+  .field
+    = f.label :fkt_subtitle
+    = f.text_field :fkt_subtitle
+  .actions
+    = f.submit 'Save'

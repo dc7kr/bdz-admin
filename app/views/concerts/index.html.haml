@@ -1,0 +1,57 @@
+.block
+  .secondary-navigation
+    %ul.wat-cf
+      %li.first.active= link_to "#{t("web-app-theme.list", :default => "List")}", concerts_path
+      %li= link_to "#{t("web-app-theme.new", :default => "New")}", new_concert_path
+  .content
+    %h2.title
+      = t("web-app-theme.all", :default => "All")
+      Konzerte
+    .inner
+      %table.table
+        %tr
+          %th.first 
+            = corika_tr("concert","datum","Datum")
+          %th
+            = corika_tr("concert","zeit","Zeit")
+          %th
+            = corika_tr("concert","stadt","Stadt")
+          %th
+            = corika_tr("concert","titel","Titel")
+          %th
+            = corika_tr("concert","ort","Ort")
+          %th
+            = corika_tr("concert","festival","Festival")
+          %th
+            = corika_tr("concert","interpret","Interpret")
+          %th
+            = corika_tr("concert","bland","Bland")
+          %th
+            = corika_tr("concert","land","Land")
+          %th
+            = corika_tr("concert","url","Url")
+          %th
+            = corika_tr("concert","eintritt","Eintritt")
+          %th
+            = corika_tr("concert","owner","Owner")
+          %th.last &nbsp;
+          - @concerts.each do |concert|
+            %tr
+              %td= concert.datum
+              %td= concert.zeit
+              %td= concert.stadt
+              %td= concert.titel
+              %td= concert.ort
+              %td= concert.festival.name
+              %td= concert.interpret
+              %td= concert.state.name
+              %td= concert.country.name
+              %td= concert.eintritt
+              %td
+                = link_to_show(concert, 'Show')
+                = link_to_edit edit_concert_path(concert), 'Edit'
+                = link_to_delete concert, 'Delete', 'Are you sure?'
+
+%br
+
+= link_to 'New Concert', new_concert_path

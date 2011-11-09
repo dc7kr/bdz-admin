@@ -1,0 +1,28 @@
+= form_for @ensemble do |f|
+  -if @ensemble.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@ensemble.errors.count, "error")} prohibited this ensemble from being saved:"
+      %ul
+        - @ensemble.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.label :name
+    = f.text_field :name
+  .field
+    = f.label :homepage
+    = f.text_field :homepage
+  .field
+    = f.label :beschreibung
+    = f.text_field :beschreibung
+  .field
+    = f.label :email
+    = f.text_field :email
+  .field
+    = f.label :owner
+    = f.text_field :owner
+  .field
+    = f.label :visible
+    = f.text_field :visible
+  .actions
+    = f.submit 'Save'

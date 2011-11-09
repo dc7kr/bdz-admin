@@ -1,0 +1,65 @@
+= form_for @concert do |f|
+  -if @concert.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@concert.errors.count, "error")} prohibited this concert from being saved:"
+      %ul
+        - @concert.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.label :datum
+    = f.date_select :datum, :class => 'date_select'
+  .field
+    = f.label :zeit
+    = f.text_field :zeit
+  .field
+    = f.label :reported
+    = f.text_field :reported
+  .field
+    = f.label :confirmed
+    = f.text_field :confirmed
+  .field
+    = f.label :token
+    = f.text_field :token
+  .field
+    = f.label :stadt
+    = f.text_field :stadt
+  .field
+    = f.label :titel
+    = f.text_field :titel
+  .field
+    = f.label :ort
+    = f.text_field :ort
+  .field
+    = f.label :festival
+    = f.text_field :festival
+  .field
+    = f.label :interpret
+    = f.text_field :interpret
+  .field
+    = f.label :url
+    = f.text_field :url
+  .field
+    = f.label :bemerkung
+    = f.text_field :bemerkung
+  .field
+    = f.label :bland
+    = select_tag "bland", options_from_collection_for_select(@states, "id", "name")
+  .field
+    = f.label :land
+    = select_tag "land", options_from_collection_for_select(@countries, "id", "name")
+  .field
+    = f.label :email
+    = f.text_field :email
+  .field
+    = f.label :eintritt
+    = f.text_field :eintritt
+  .field
+    = f.label :fk_owner
+    = f.text_field :fk_owner
+  .field
+    = f.label :visible
+    = f.check_box :visible, :class => 'check_box'
+
+  .actions
+    = f.submit 'Save'

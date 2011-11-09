@@ -1,0 +1,18 @@
+%p#notice= notice
+
+%p
+  %b Parent:
+  = @url_category.parent
+%p
+  %b Leaf:
+  = @url_category.leaf
+%p
+  %b Hascountry:
+  = @url_category.hascountry
+%p
+  %b Description:
+  = @url_category.description
+
+= link_to_edit( edit_url_category_path(@url_category),'Edit')
+\|
+= link_back( url_categories_path,'Back')

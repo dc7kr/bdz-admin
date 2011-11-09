@@ -1,0 +1,39 @@
+%h1 Adressen
+
+%table
+  %tr
+    %th Anrede
+    %th Titel
+    %th Vorname
+    %th Name
+    %th Strasse
+    %th Plz
+    %th Ort
+    %th Telefon
+    %th Mobil
+    %th Fax
+    %th Email
+    %th
+    %th
+    %th
+
+  - @addresses.each do |address|
+    %tr
+      %td= address.anrede
+      %td= address.titel
+      %td= address.vorname
+      %td= address.name
+      %td= address.strasse
+      %td= address.plz
+      %td= address.ort
+      %td= address.telefon
+      %td= address.mobil
+      %td= address.fax
+      %td= address.email
+      %td= link_to_show(address,'Show')
+      %td= link_to_edit(edit_address_path(address),'Edit')
+      %td= link_to_delete(address, 'Destroy','Really?')
+
+%br
+
+= link_to_new(new_address_path,'New')

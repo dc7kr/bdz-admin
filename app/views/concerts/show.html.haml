@@ -1,0 +1,57 @@
+%p#notice= notice
+
+%p
+  %b Datum:
+  = @concert.datum
+%p
+  %b Zeit:
+  = @concert.zeit
+%p
+  %b Reported:
+  = @concert.reported
+%p
+  %b Confirmed:
+  = @concert.confirmed
+%p
+  %b Token:
+  = @concert.token
+%p
+  %b Stadt:
+  = @concert.stadt
+%p
+  %b Titel:
+  = @concert.titel
+%p
+  %b Ort:
+  = @concert.ort
+%p
+  %b Festival:
+  = @concert.festival
+%p
+  %b Interpret:
+  = @concert.interpret
+%p
+  %b Homepage:
+  = @concert.url
+%p
+  %b Bemerkung:
+  = @concert.bemerkung
+%p
+  %b Bland:
+  = @concert.bland
+%p
+  %b Land:
+  = @concert.land
+%p
+  %b Email:
+  = @concert.email
+%p
+  %b Eintritt:
+  = @concert.eintritt
+%p
+  %b Owner:
+  = @concert.fk_owner
+
+= link_to_edit( edit_concert_path(@concert),'Edit')
+\|
+= link_back( concerts_path,'Back')

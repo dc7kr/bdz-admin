@@ -1,0 +1,22 @@
+= form_for @url_category do |f|
+  -if @url_category.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@url_category.errors.count, "error")} prohibited this url_category from being saved:"
+      %ul
+        - @url_category.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.label :parent
+    = f.text_field :parent
+  .field
+    = f.label :leaf
+    = f.text_field :leaf
+  .field
+    = f.label :hascountry
+    = f.text_field :hascountry
+  .field
+    = f.label :description
+    = f.text_field :description
+  .actions
+    = f.submit 'Save'

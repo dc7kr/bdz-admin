@@ -1,0 +1,33 @@
+.block
+  .secondary-navigation
+    %ul.wat-cf
+      %li.first.active= link_to "#{t("web-app-theme.list", :default => "List")}", orchestras_path
+      %li= link_to "#{t("web-app-theme.new", :default => "New")}", new_orchestra_path
+  .content
+    %h2.title
+      = t("web-app-theme.all", :default => "All")
+      Orchestras
+    .inner
+      %table.table
+        %tr
+          %th.first ID
+          %th
+            = t("activerecord.attributes.orchestra.mglnr", :default => t("activerecord.labels.mglnr", :default => "Mglnr"))
+          %th= t("web-app-theme.created_at", :default => "Created at")
+          %th.last &nbsp;
+        - @orchestras.each do |orchestra|
+          %tr{:class => cycle("odd", "even")}
+            %td
+              = orchestra.id
+            %td
+              = link_to orchestra.mglnr, orchestra_path(orchestra)
+            %td
+              = orchestra.created_at
+            %td.last
+              = link_to "#{t("web-app-theme.show", :default => "Show")}", orchestra_path(orchestra)
+              |
+              \#{link_to "#{t("web-app-theme.edit", :default => "Edit")}", edit_orchestra_path(orchestra)} |
+              \#{link_to "#{t("web-app-theme.delete", :default => "Delete")}", orchestra_path(orchestra), :method => :delete, :confirm => "#{t("web-app-theme.confirm", :default => "Are you sure?")}"}
+      .actions-bar.wat-cf
+        .actions
+- content_for :sidebar, render(:partial => 'sidebar')

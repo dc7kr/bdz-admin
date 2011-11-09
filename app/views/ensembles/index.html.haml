@@ -1,0 +1,29 @@
+%h1 Listing ensembles
+
+%table
+  %tr
+    %th Name
+    %th Homepage
+    %th Beschreibung
+    %th Email
+    %th Owner
+    %th Visible
+    %th
+    %th
+    %th
+
+  - @ensembles.each do |ensemble|
+    %tr
+      %td= ensemble.name
+      %td= ensemble.homepage
+      %td= ensemble.beschreibung
+      %td= ensemble.email
+      %td= ensemble.owner
+      %td= ensemble.visible
+      %td= link_to 'Show', ensemble
+      %td= link_to 'Edit', edit_ensemble_path(ensemble)
+      %td= link_to 'Destroy', ensemble, :confirm => 'Are you sure?', :method => :delete
+
+%br
+
+= link_to 'New Ensemble', new_ensemble_path

@@ -1,0 +1,38 @@
+%h1 Listing festivals
+
+%table
+  %tr
+    %th Startdate
+    %th Bland
+    %th Name
+    %th Description
+    %th Anmeldung
+    %th Gebuehren
+    %th Stadt
+    %th Homepage
+    %th Ort
+    %th Ortdetails
+    %th Visible
+    %th
+    %th
+    %th
+
+  - @festivals.each do |festival|
+    %tr
+      %td= festival.startdate
+      %td= festival.bland
+      %td= festival.name
+      %td= festival.description
+      %td= festival.anmeldung
+      %td= festival.gebuehren
+      %td= festival.stadt
+      %td= festival.homepage
+      %td= festival.ort
+      %td= festival.ortdetails
+      %td= festival.visible
+      %td= link_to_show( festival_path(festival), 'Show')
+      %td= link_to_edit( edit_festival_path(festival) ,'Edit')
+      %td= link_to_delete(festival,'Satz löschen','Wirklich löschen?')
+%br
+
+= link_to_new(new_festival_path, "New festival")

@@ -1,0 +1,39 @@
+%p#notice= notice
+
+%p
+  %b Startdate:
+  = @festival.startdate
+%p
+  %b Bland:
+  = @festival.bland
+%p
+  %b Name:
+  = @festival.name
+%p
+  %b Description:
+  = @festival.description
+%p
+  %b Anmeldung:
+  = @festival.anmeldung
+%p
+  %b Gebuehren:
+  = @festival.gebuehren
+%p
+  %b Stadt:
+  = @festival.stadt
+%p
+  %b Homepage:
+  = @festival.homepage
+%p
+  %b Ort:
+  = @festival.ort
+%p
+  %b Ortdetails:
+  = @festival.ortdetails
+%p
+  %b Visible:
+  = @festival.visible
+
+= link_to_edit( edit_festival_path(@festival),'Edit')
+\|
+= link_back( festivals_path,'Back')

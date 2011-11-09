@@ -1,0 +1,30 @@
+%p#notice= notice
+
+%p
+  %b Label:
+  = @function.label
+%p
+  %b Lv:
+  = @function.regional_organization
+%p
+  %b Address:
+  = @function.address
+%p
+  %b Bund:
+  = @function.bund
+%p
+  %b Jugend:
+  = @function.jugend
+%p
+  %b Nr:
+  = @function.nr
+%p
+  %b Funktion:
+  = @function.funktion
+%p
+  %b Fktsubtitle:
+  = @function.fkt_subtitle
+
+= link_to_edit( edit_function_path(@function),'Edit')
+\|
+= link_back( functions_path,'Back')

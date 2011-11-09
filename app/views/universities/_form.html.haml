@@ -1,0 +1,43 @@
+= form_for @university do |f|
+  -if @university.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@university.errors.count, "error")} prohibited this university from being saved:"
+      %ul
+        - @university.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.label :name
+    = f.text_field :name
+  .field
+    = f.label :institut
+    = f.text_field :institut
+  .field
+    = f.label :strasse
+    = f.text_field :strasse
+  .field
+    = f.label :plz
+    = f.text_field :plz
+  .field
+    = f.label :ort
+    = f.text_field :ort
+  .field
+    = f.label :land
+    = f.text_field :land
+  .field
+    = f.label :telefon
+    = f.text_field :telefon
+  .field
+    = f.label :studiengang
+    = f.text_field :studiengang
+  .field
+    = f.label :dozent
+    = f.text_field :dozent
+  .field
+    = f.label :email
+    = f.text_field :email
+  .field
+    = f.label :homepage
+    = f.text_field :homepage
+  .actions
+    = f.submit 'Save'

@@ -1,0 +1,15 @@
+%p#notice= notice
+
+%p
+  %b Year:
+  = @report_sheet.year
+%p
+  %b Children:
+  = @report_sheet.children
+%p
+  %b Youth:
+  = @report_sheet.youth
+
+= link_to 'Edit', edit_report_sheet_path(@report_sheet)
+\|
+= link_to 'Back', report_sheets_path

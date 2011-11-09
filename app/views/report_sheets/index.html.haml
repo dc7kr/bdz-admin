@@ -1,0 +1,23 @@
+%h1 Listing report_sheets
+
+%table
+  %tr
+    %th Year
+    %th Children
+    %th Youth
+    %th
+    %th
+    %th
+
+  - @report_sheets.each do |report_sheet|
+    %tr
+      %td= report_sheet.year
+      %td= report_sheet.children
+      %td= report_sheet.youth
+      %td= link_to 'Show', report_sheet
+      %td= link_to 'Edit', edit_report_sheet_path(report_sheet)
+      %td= link_to 'Destroy', report_sheet, :confirm => 'Are you sure?', :method => :delete
+
+%br
+
+= link_to 'New Report sheet', new_report_sheet_path

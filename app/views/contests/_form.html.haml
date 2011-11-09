@@ -1,0 +1,40 @@
+= form_for @contest do |f|
+  -if @contest.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@contest.errors.count, "error")} prohibited this contest from being saved:"
+      %ul
+        - @contest.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.label :startdate
+    = f.text_field :startdate
+  .field
+    = f.label :enddate
+    = f.text_field :enddate
+  .field
+    = f.label :titel
+    = f.text_field :titel
+  .field
+    = f.label :beschreibung
+    = f.text_field :beschreibung
+  .field
+    = f.label :gebuehr
+    = f.text_field :gebuehr
+  .field
+    = f.label :preis
+    = f.text_field :preis
+  .field
+    = f.label :anmeldung
+    = f.text_field :anmeldung
+  .field
+    = f.label :deadline
+    = f.text_field :deadline
+  .field
+    = f.label :reported
+    = f.text_field :reported
+  .field
+    = f.label :visible
+    = f.text_field :visible
+  .actions
+    = f.submit 'Save'
