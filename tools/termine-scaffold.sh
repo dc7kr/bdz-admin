@@ -1,0 +1,5 @@
+#script/rails g scaffold Concert datum:date, zeit:time, reported:datetime, confirmed:datetime, token:string, stadt:string, titel:string, ort:string, festival:references, interpret:string, homepage:string, bemerkung:string, bland:references, land:references, email:string, url:string, eintritt:float, owner:references,visible:bool
+#script/rails g scaffold User username:string, passwd:string, email:string
+#script/rails g scaffold Festival startdate:date,enddate:date, bland:references,land:references, name:string, description:string, anmeldung:string, gebuehren:string, stadt:string, homepage:string, ort:string, ortdetails:string,owner:references, visible:bool
+##script/rails g scaffold Contest startdate:date, enddate:date, titel:string, beschreibung:string, gebuehr:string, preis:string, anmeldung:string, deadline:datetime,email:string, reported:datetime,confirmed:datetime,owner:references, visible:bool
+script/rails g scaffold Ensemble name:string, homepage:string, beschreibung:string, email:string, owner:references, visible:bool

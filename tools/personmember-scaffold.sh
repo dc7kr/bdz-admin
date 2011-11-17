@@ -1,0 +1,2 @@
+script/rails g scaffold PersonMember mitgliedsnummer:long anrede:string vorname:string nachname:string strasse:string landeskennzeichen:string plz:string ort:string geburtstag:date telPriv:string telDienst:string fax:string eintritt:date za:string konto:bignum blz:bignum zahler:string lv:references beitragsart:double    bemerkung:string zeitungen:integer austrittZum:date kuendigungVom:date beitrag:double zusatzzeitung:bignum eMail:string lastschriftErfasst:bool  rechnungsDruck:bool   jahreszahl:integer
+
