@@ -1,6 +1,8 @@
 class RegionalOrganizationsController < ApplicationController
   # GET /regional_organizations
   # GET /regional_organizations.json
+  before_filter :authenticate_user!#, :except => [:index]
+  load_and_authorize_resource
   def index
     @regional_organizations = RegionalOrganization.all
 

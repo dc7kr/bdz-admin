@@ -1,6 +1,8 @@
 class FunctionsController < ApplicationController
   # GET /functions
   # GET /functions.json
+  before_filter :authenticate_user!#, :except => [:index]
+  load_and_authorize_resource
   def index
     @functions = Function.includes(:regional_organization,:address)
 

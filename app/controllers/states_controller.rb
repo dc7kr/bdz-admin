@@ -1,6 +1,8 @@
 class StatesController < ApplicationController
   # GET /states
   # GET /states.json
+  before_filter :authenticate_user!#, :except => [:index]
+  load_and_authorize_resource
   def index
     @states = State.all
 

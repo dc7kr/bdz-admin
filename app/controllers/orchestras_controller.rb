@@ -1,6 +1,8 @@
 class OrchestrasController < ApplicationController
   # GET /orchestras
   # GET /orchestras.json
+  before_filter :authenticate_user!, :except => [:some_action_without_auth]
+  load_and_authorize_resource
   def index
     @orchestras = Orchestra.all
 

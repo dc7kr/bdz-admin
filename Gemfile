@@ -13,9 +13,12 @@ gem 'jquery-rails'
 
 gem 'haml'
 gem 'haml-rails'
-#obsoleted by kaminari
+
+# authenticate
 gem 'devise'
+# authorize
 gem 'cancan'
+#paginator
 gem 'kaminari'
 
 gem 'ruby_parser'
@@ -34,6 +37,8 @@ end
 
 gem 'jquery-rails'
 
+gem 'will_paginate'
+# testing
 gem 'capybara'
 gem 'rspec-rails'
 gem 'haml-rails'

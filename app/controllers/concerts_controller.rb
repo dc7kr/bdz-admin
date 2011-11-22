@@ -1,6 +1,8 @@
 class ConcertsController < ApplicationController
   # GET /concerts
   # GET /concerts.json
+  before_filter :authenticate_user!, :except => [:index]
+  load_and_authorize_resource
   def index
     @concerts = Concert.find(:all,:include=>[:country,:state],:conditions=>"datum >= date(now())")
 

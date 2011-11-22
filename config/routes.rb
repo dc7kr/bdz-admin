@@ -95,4 +95,13 @@ RailsAdmin::Application.routes.draw do
   # This is a legacy wild controller route that's not recommended for RESTful applications.
   # Note: This route will make all actions in every controller accessible via GET requests.
   # match ':controller(/:action(/:id(.:format)))'
+
+  # login and logout urls ...
+  devise_scope :user do
+    get "/login" => "devise/sessions#new"
+  end
+  devise_scope :user do
+    get "/logout" => "devise/sessions#destroy"
+  end
+
 end

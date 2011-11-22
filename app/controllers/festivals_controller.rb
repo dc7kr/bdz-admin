@@ -1,6 +1,8 @@
 class FestivalsController < ApplicationController
   # GET /festivals
   # GET /festivals.json
+  before_filter :authenticate_user!#, :except => [:index]
+  load_and_authorize_resource
   def index
     @festivals = Festival.all
 

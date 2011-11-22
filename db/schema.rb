@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 0) do
+ActiveRecord::Schema.define(:version => 20111122165156) do
 
   create_table "addresses", :force => true do |t|
     t.string "anrede",  :limit => 10, :null => false
@@ -28,84 +28,6 @@ ActiveRecord::Schema.define(:version => 0) do
 
   add_index "addresses", ["vorname", "name"], :name => "fullname", :unique => true
 
-  create_table "be_groups", :primary_key => "uid", :force => true do |t|
-    t.integer "pid",                              :default => 0,     :null => false
-    t.integer "tstamp",                           :default => 0,     :null => false
-    t.string  "title",              :limit => 50, :default => "",    :null => false
-    t.text    "non_exclude_fields"
-    t.text    "explicit_allowdeny"
-    t.string  "allowed_languages",                :default => "",    :null => false
-    t.text    "custom_options"
-    t.string  "db_mountpoints",                   :default => "",    :null => false
-    t.string  "pagetypes_select",                 :default => "",    :null => false
-    t.text    "tables_select"
-    t.text    "tables_modify"
-    t.integer "crdate",                           :default => 0,     :null => false
-    t.integer "cruser_id",                        :default => 0,     :null => false
-    t.text    "groupMods"
-    t.string  "file_mountpoints",                 :default => "",    :null => false
-    t.boolean "hidden",                           :default => false, :null => false
-    t.integer "inc_access_lists",   :limit => 1,  :default => 0,     :null => false
-    t.text    "description"
-    t.string  "lockToDomain",       :limit => 50, :default => "",    :null => false
-    t.boolean "deleted",                          :default => false, :null => false
-    t.text    "TSconfig"
-    t.string  "subgroup",                         :default => "",    :null => false
-    t.integer "hide_in_lists",      :limit => 1,  :default => 0,     :null => false
-    t.integer "workspace_perms",    :limit => 1,  :default => 1,     :null => false
-    t.integer "fileoper_perms",     :limit => 1,  :default => 0,     :null => false
-  end
-
-  add_index "be_groups", ["pid"], :name => "parent"
-
-  create_table "be_sessions", :id => false, :force => true do |t|
-    t.string  "ses_id",         :limit => 32,         :default => "", :null => false
-    t.string  "ses_name",       :limit => 32,         :default => "", :null => false
-    t.string  "ses_iplock",     :limit => 39,         :default => "", :null => false
-    t.integer "ses_hashlock",                         :default => 0,  :null => false
-    t.integer "ses_userid",                           :default => 0,  :null => false
-    t.integer "ses_tstamp",                           :default => 0,  :null => false
-    t.text    "ses_data",       :limit => 2147483647
-    t.integer "ses_backuserid",                       :default => 0,  :null => false
-  end
-
-  create_table "be_users", :primary_key => "uid", :force => true do |t|
-    t.integer "pid",                                 :default => 0,     :null => false
-    t.integer "tstamp",                              :default => 0,     :null => false
-    t.string  "username",              :limit => 50, :default => "",    :null => false
-    t.string  "password",              :limit => 40, :default => "",    :null => false
-    t.integer "admin",                 :limit => 1,  :default => 0,     :null => false
-    t.string  "usergroup",                           :default => "",    :null => false
-    t.boolean "disable",                             :default => false, :null => false
-    t.integer "starttime",                           :default => 0,     :null => false
-    t.integer "endtime",                             :default => 0,     :null => false
-    t.string  "lang",                  :limit => 2,  :default => "",    :null => false
-    t.string  "email",                 :limit => 80, :default => "",    :null => false
-    t.string  "db_mountpoints",                      :default => "",    :null => false
-    t.integer "options",               :limit => 1,  :default => 0,     :null => false
-    t.integer "crdate",                              :default => 0,     :null => false
-    t.integer "cruser_id",                           :default => 0,     :null => false
-    t.string  "realName",              :limit => 80, :default => "",    :null => false
-    t.string  "userMods",                            :default => "",    :null => false
-    t.string  "allowed_languages",                   :default => "",    :null => false
-    t.text    "uc"
-    t.string  "file_mountpoints",                    :default => "",    :null => false
-    t.integer "fileoper_perms",        :limit => 1,  :default => 0,     :null => false
-    t.integer "workspace_perms",       :limit => 1,  :default => 1,     :null => false
-    t.string  "lockToDomain",          :limit => 50, :default => "",    :null => false
-    t.boolean "disableIPlock",                       :default => false, :null => false
-    t.boolean "deleted",                             :default => false, :null => false
-    t.text    "TSconfig"
-    t.integer "lastlogin",                           :default => 0,     :null => false
-    t.integer "createdByAction",                     :default => 0,     :null => false
-    t.string  "usergroup_cached_list",               :default => "",    :null => false
-    t.integer "workspace_id",                        :default => 0,     :null => false
-    t.integer "workspace_preview",     :limit => 1,  :default => 1,     :null => false
-  end
-
-  add_index "be_users", ["pid"], :name => "parent"
-  add_index "be_users", ["username"], :name => "username"
-
   create_table "blacklist", :force => true do |t|
     t.string   "ip",          :limit => 16, :null => false
     t.datetime "blacklisted",               :null => false
@@ -114,8 +36,12 @@ ActiveRecord::Schema.define(:version => 0) do
   add_index "blacklist", ["ip"], :name => "ip", :unique => true
 
   create_table "bundeslaender", :force => true do |t|
-    t.integer "land", :limit => 8, :default => 0, :null => false
-    t.string  "name",                             :null => false
+    t.integer  "land",       :limit => 8, :default => 0, :null => false
+    t.string   "name",                                   :null => false
+    t.date     "created_on",                             :null => false
+    t.datetime "created_at",                             :null => false
+    t.date     "updated_on",                             :null => false
+    t.datetime "updated_at",                             :null => false
   end
 
   add_index "bundeslaender", ["land"], :name => "land"
@@ -188,8 +114,12 @@ ActiveRecord::Schema.define(:version => 0) do
   add_index "concertino_inhalt", ["category"], :name => "category"
 
   create_table "country", :force => true do |t|
-    t.string "name",               :default => "", :null => false
-    t.string "ccode", :limit => 5, :default => "", :null => false
+    t.string   "name",                    :default => "", :null => false
+    t.string   "ccode",      :limit => 5, :default => "", :null => false
+    t.date     "created_on",                              :null => false
+    t.datetime "created_at",                              :null => false
+    t.date     "updated_on",                              :null => false
+    t.datetime "updated_at",                              :null => false
   end
 
   add_index "country", ["name"], :name => "name", :unique => true
@@ -887,11 +817,77 @@ ActiveRecord::Schema.define(:version => 0) do
   add_index "kurse", ["fk_festival"], :name => "fk_festival"
 
   create_table "landesverband", :force => true do |t|
-    t.integer "nummer",                   :null => false
-    t.string  "name",       :limit => 40, :null => false
-    t.string  "subname",    :limit => 50, :null => false
-    t.string  "homepage",   :limit => 50, :null => false
-    t.string  "jugend_url", :limit => 50, :null => false
+    t.integer  "nummer",                   :null => false
+    t.string   "name",       :limit => 40, :null => false
+    t.string   "subname",    :limit => 50, :null => false
+    t.string   "homepage",   :limit => 50, :null => false
+    t.string   "jugend_url", :limit => 50, :null => false
+    t.datetime "created_at",               :null => false
+    t.datetime "updated_at"
+  end
+
+  create_table "member_account", :force => true do |t|
+    t.integer "member_id", :limit => 8, :null => false
+    t.string  "type",      :limit => 0, :null => false
+  end
+
+  create_table "orchestras", :force => true do |t|
+    t.integer "mglnr",                :limit => 8
+    t.string  "orchName",             :limit => 200
+    t.string  "anrede",               :limit => 100
+    t.string  "vorname",              :limit => 100
+    t.string  "nachname",             :limit => 100
+    t.string  "strasse",              :limit => 510
+    t.string  "land",                 :limit => 510
+    t.string  "plz",                  :limit => 100
+    t.string  "ort",                  :limit => 510
+    t.string  "telefon",              :limit => 510
+    t.string  "fax",                  :limit => 510
+    t.date    "gruendung"
+    t.date    "eintritt"
+    t.string  "za",                   :limit => 2
+    t.integer "konto",                :limit => 8
+    t.integer "blz",                  :limit => 8
+    t.integer "lv",                   :limit => 2
+    t.string  "zw",                   :limit => 510
+    t.integer "zeitungen",            :limit => 8
+    t.integer "gema",                 :limit => 8
+    t.integer "numBis14"
+    t.integer "num15bis18"
+    t.integer "num19bis27"
+    t.integer "numUeber27"
+    t.integer "sumMitglieder",        :limit => 8
+    t.integer "azubi",                :limit => 8
+    t.integer "passive",              :limit => 8
+    t.float   "beitrag"
+    t.boolean "unfallversicherung"
+    t.boolean "meldebogen"
+    t.boolean "rechnungsDruck"
+    t.boolean "koopMitglied"
+    t.date    "austrittZum"
+    t.date    "schreibenVom"
+    t.float   "uvBetrag"
+    t.float   "rechnungsbetrag"
+    t.boolean "versaeumniszuschlag"
+    t.float   "vZuschlag"
+    t.boolean "mahngebuehr1"
+    t.boolean "mahngebuehr2"
+    t.float   "mGebuehr1"
+    t.float   "mGebuehr2"
+    t.string  "bemerkung",            :limit => 510
+    t.string  "eMail",                :limit => 100
+    t.string  "url",                  :limit => 100
+    t.boolean "lastschriftErfasst"
+    t.boolean "kuendigungErfasst"
+    t.string  "zweitanschrift",       :limit => 100
+    t.string  "name2",                :limit => 100
+    t.integer "dageVER",              :limit => 8
+    t.integer "haftpflichtVers",      :limit => 8
+    t.float   "haftpflichtGebuehrLV"
+    t.float   "lvGebuehr"
+    t.integer "uvZusatzzahl",         :limit => 8
+    t.integer "uvZahl",               :limit => 8
+    t.integer "jahreszahl",           :limit => 8
   end
 
   create_table "orte", :primary_key => "ID", :force => true do |t|
@@ -1018,6 +1014,39 @@ ActiveRecord::Schema.define(:version => 0) do
 
   add_index "pages_language_overlay", ["pid", "sys_language_uid"], :name => "parent"
   add_index "pages_language_overlay", ["t3ver_oid", "t3ver_wsid"], :name => "t3ver_oid"
+
+  create_table "person_members", :force => true do |t|
+    t.integer  "mitgliedsnummer",    :limit => 8
+    t.string   "anrede",             :limit => 40
+    t.string   "vorname",            :limit => 100
+    t.string   "nachname",           :limit => 510
+    t.string   "strasse",            :limit => 100
+    t.string   "land",               :limit => 510
+    t.string   "plz",                :limit => 100
+    t.string   "Ort",                :limit => 100
+    t.date     "geburtstag"
+    t.string   "telefonPrivat",      :limit => 60
+    t.string   "telefonDienstl",     :limit => 60
+    t.string   "telefax",            :limit => 60
+    t.date     "eintritt"
+    t.string   "za",                 :limit => 4
+    t.integer  "konto",              :limit => 8
+    t.integer  "blz",                :limit => 8
+    t.string   "zahler",             :limit => 510
+    t.integer  "lv",                 :limit => 8
+    t.float    "beitragsart"
+    t.string   "bemerkung",          :limit => 510
+    t.integer  "zeitungen",          :limit => 2
+    t.date     "austrittZum"
+    t.date     "kuendigungVom"
+    t.float    "beitrag"
+    t.integer  "zusatzzeitung",      :limit => 8
+    t.string   "eMail",              :limit => 100
+    t.boolean  "lastschriftErfasst"
+    t.boolean  "rechnungsDruck"
+    t.integer  "jahreszahl",         :limit => 8
+    t.datetime "created_at",                        :null => false
+  end
 
   create_table "phpbb3_acl_groups", :id => false, :force => true do |t|
     t.integer "group_id",       :limit => 3, :default => 0, :null => false
@@ -1318,6 +1347,21 @@ ActiveRecord::Schema.define(:version => 0) do
   add_index "phpbb3_log", ["reportee_id"], :name => "reportee_id"
   add_index "phpbb3_log", ["topic_id"], :name => "topic_id"
   add_index "phpbb3_log", ["user_id"], :name => "user_id"
+
+  create_table "phpbb3_login_attempts", :id => false, :force => true do |t|
+    t.string  "attempt_ip",            :limit => 40,  :default => "",  :null => false
+    t.string  "attempt_browser",       :limit => 150, :default => "",  :null => false
+    t.string  "attempt_forwarded_for",                :default => "",  :null => false
+    t.integer "attempt_time",                         :default => 0,   :null => false
+    t.integer "user_id",               :limit => 3,   :default => 0,   :null => false
+    t.string  "username",                             :default => "0", :null => false
+    t.string  "username_clean",                       :default => "0", :null => false
+  end
+
+  add_index "phpbb3_login_attempts", ["attempt_forwarded_for", "attempt_time"], :name => "att_for"
+  add_index "phpbb3_login_attempts", ["attempt_ip", "attempt_time"], :name => "att_ip"
+  add_index "phpbb3_login_attempts", ["attempt_time"], :name => "att_time"
+  add_index "phpbb3_login_attempts", ["user_id"], :name => "user_id"
 
   create_table "phpbb3_moderator_cache", :id => false, :force => true do |t|
     t.integer "forum_id",         :limit => 3, :default => 0,    :null => false
@@ -1739,6 +1783,7 @@ ActiveRecord::Schema.define(:version => 0) do
   end
 
   add_index "phpbb3_topics_track", ["forum_id"], :name => "forum_id"
+  add_index "phpbb3_topics_track", ["topic_id"], :name => "topic_id"
 
   create_table "phpbb3_topics_watch", :id => false, :force => true do |t|
     t.integer "topic_id",      :limit => 3, :default => 0,     :null => false
@@ -1883,389 +1928,6 @@ ActiveRecord::Schema.define(:version => 0) do
   add_index "phpbb_auth_access", ["forum_id"], :name => "forum_id"
   add_index "phpbb_auth_access", ["group_id"], :name => "group_id"
 
-  create_table "phpbb_banlist", :primary_key => "ban_id", :force => true do |t|
-    t.integer "ban_userid", :limit => 3, :null => false
-    t.string  "ban_ip",     :limit => 8, :null => false
-    t.string  "ban_email"
-  end
-
-  add_index "phpbb_banlist", ["ban_ip", "ban_userid"], :name => "ban_ip_user_id"
-
-  create_table "phpbb_categories", :primary_key => "cat_id", :force => true do |t|
-    t.string  "cat_title", :limit => 100
-    t.integer "cat_order", :limit => 3,   :null => false
-  end
-
-  add_index "phpbb_categories", ["cat_order"], :name => "cat_order"
-
-  create_table "phpbb_config", :primary_key => "config_name", :force => true do |t|
-    t.string "config_value", :null => false
-  end
-
-  create_table "phpbb_confirm", :id => false, :force => true do |t|
-    t.string "confirm_id", :limit => 32, :default => "", :null => false
-    t.string "session_id", :limit => 32, :default => "", :null => false
-    t.string "code",       :limit => 6,  :default => "", :null => false
-  end
-
-  create_table "phpbb_disallow", :primary_key => "disallow_id", :force => true do |t|
-    t.string "disallow_username", :limit => 25, :default => "", :null => false
-  end
-
-  create_table "phpbb_forum_prune", :primary_key => "prune_id", :force => true do |t|
-    t.integer "forum_id",   :limit => 2, :null => false
-    t.integer "prune_days", :limit => 2, :null => false
-    t.integer "prune_freq", :limit => 2, :null => false
-  end
-
-  add_index "phpbb_forum_prune", ["forum_id"], :name => "forum_id"
-
-  create_table "phpbb_forums", :primary_key => "forum_id", :force => true do |t|
-    t.integer "cat_id",             :limit => 3,                      :null => false
-    t.string  "forum_name",         :limit => 150
-    t.text    "forum_desc"
-    t.integer "forum_status",       :limit => 1,   :default => 0,     :null => false
-    t.integer "forum_order",        :limit => 3,   :default => 1,     :null => false
-    t.integer "forum_posts",        :limit => 3,   :default => 0,     :null => false
-    t.integer "forum_topics",       :limit => 3,   :default => 0,     :null => false
-    t.integer "forum_last_post_id", :limit => 3,   :default => 0,     :null => false
-    t.integer "prune_next"
-    t.boolean "prune_enable",                      :default => false, :null => false
-    t.integer "auth_view",          :limit => 1,   :default => 0,     :null => false
-    t.integer "auth_read",          :limit => 1,   :default => 0,     :null => false
-    t.integer "auth_post",          :limit => 1,   :default => 0,     :null => false
-    t.integer "auth_reply",         :limit => 1,   :default => 0,     :null => false
-    t.integer "auth_edit",          :limit => 1,   :default => 0,     :null => false
-    t.integer "auth_delete",        :limit => 1,   :default => 0,     :null => false
-    t.integer "auth_sticky",        :limit => 1,   :default => 0,     :null => false
-    t.integer "auth_announce",      :limit => 1,   :default => 0,     :null => false
-    t.integer "auth_vote",          :limit => 1,   :default => 0,     :null => false
-    t.integer "auth_pollcreate",    :limit => 1,   :default => 0,     :null => false
-    t.integer "auth_attachments",   :limit => 1,   :default => 0,     :null => false
-  end
-
-  add_index "phpbb_forums", ["cat_id"], :name => "cat_id"
-  add_index "phpbb_forums", ["forum_last_post_id"], :name => "forum_last_post_id"
-  add_index "phpbb_forums", ["forum_order"], :name => "forums_order"
-
-  create_table "phpbb_groups", :primary_key => "group_id", :force => true do |t|
-    t.integer "group_type",        :limit => 1,  :default => 1,    :null => false
-    t.string  "group_name",        :limit => 40,                   :null => false
-    t.string  "group_description",                                 :null => false
-    t.integer "group_moderator",   :limit => 3,  :default => 0,    :null => false
-    t.boolean "group_single_user",               :default => true, :null => false
-  end
-
-  add_index "phpbb_groups", ["group_single_user"], :name => "group_single_user"
-
-  create_table "phpbb_posts", :primary_key => "post_id", :force => true do |t|
-    t.integer "topic_id",        :limit => 3,  :default => 0,     :null => false
-    t.integer "forum_id",        :limit => 2,  :default => 0,     :null => false
-    t.integer "poster_id",       :limit => 3,  :default => 0,     :null => false
-    t.integer "post_time",                     :default => 0,     :null => false
-    t.string  "poster_ip",       :limit => 8,                     :null => false
-    t.string  "post_username",   :limit => 25
-    t.boolean "enable_bbcode",                 :default => true,  :null => false
-    t.boolean "enable_html",                   :default => false, :null => false
-    t.boolean "enable_smilies",                :default => true,  :null => false
-    t.boolean "enable_sig",                    :default => true,  :null => false
-    t.integer "post_edit_time"
-    t.integer "post_edit_count", :limit => 2,  :default => 0,     :null => false
-  end
-
-  add_index "phpbb_posts", ["forum_id"], :name => "forum_id"
-  add_index "phpbb_posts", ["post_time"], :name => "post_time"
-  add_index "phpbb_posts", ["poster_id"], :name => "poster_id"
-  add_index "phpbb_posts", ["topic_id"], :name => "topic_id"
-
-  create_table "phpbb_posts_text", :primary_key => "post_id", :force => true do |t|
-    t.string "bbcode_uid",   :limit => 10, :default => "", :null => false
-    t.string "post_subject", :limit => 60
-    t.text   "post_text"
-  end
-
-  create_table "phpbb_privmsgs", :primary_key => "privmsgs_id", :force => true do |t|
-    t.integer "privmsgs_type",           :limit => 1, :default => 0,     :null => false
-    t.string  "privmsgs_subject",                     :default => "0",   :null => false
-    t.integer "privmsgs_from_userid",    :limit => 3, :default => 0,     :null => false
-    t.integer "privmsgs_to_userid",      :limit => 3, :default => 0,     :null => false
-    t.integer "privmsgs_date",                        :default => 0,     :null => false
-    t.string  "privmsgs_ip",             :limit => 8,                    :null => false
-    t.boolean "privmsgs_enable_bbcode",               :default => true,  :null => false
-    t.boolean "privmsgs_enable_html",                 :default => false, :null => false
-    t.boolean "privmsgs_enable_smilies",              :default => true,  :null => false
-    t.boolean "privmsgs_attach_sig",                  :default => true,  :null => false
-  end
-
-  add_index "phpbb_privmsgs", ["privmsgs_from_userid"], :name => "privmsgs_from_userid"
-  add_index "phpbb_privmsgs", ["privmsgs_to_userid"], :name => "privmsgs_to_userid"
-
-  create_table "phpbb_privmsgs_text", :primary_key => "privmsgs_text_id", :force => true do |t|
-    t.string "privmsgs_bbcode_uid", :limit => 10, :default => "0", :null => false
-    t.text   "privmsgs_text"
-  end
-
-  create_table "phpbb_ranks", :primary_key => "rank_id", :force => true do |t|
-    t.string  "rank_title",   :limit => 50,                    :null => false
-    t.integer "rank_min",     :limit => 3,  :default => 0,     :null => false
-    t.boolean "rank_special",               :default => false
-    t.string  "rank_image"
-  end
-
-  create_table "phpbb_search_results", :primary_key => "search_id", :force => true do |t|
-    t.string  "session_id",   :limit => 32,       :default => "", :null => false
-    t.integer "search_time",                      :default => 0,  :null => false
-    t.text    "search_array", :limit => 16777215,                 :null => false
-  end
-
-  add_index "phpbb_search_results", ["session_id"], :name => "session_id"
-
-  create_table "phpbb_search_wordlist", :primary_key => "word_text", :force => true do |t|
-    t.integer "word_id",     :limit => 3,                    :null => false
-    t.boolean "word_common",              :default => false, :null => false
-  end
-
-  add_index "phpbb_search_wordlist", ["word_id"], :name => "word_id"
-
-  create_table "phpbb_search_wordmatch", :id => false, :force => true do |t|
-    t.integer "post_id",     :limit => 3, :default => 0,     :null => false
-    t.integer "word_id",     :limit => 3, :default => 0,     :null => false
-    t.boolean "title_match",              :default => false, :null => false
-  end
-
-  add_index "phpbb_search_wordmatch", ["post_id"], :name => "post_id"
-  add_index "phpbb_search_wordmatch", ["word_id"], :name => "word_id"
-
-  create_table "phpbb_sessions", :primary_key => "session_id", :force => true do |t|
-    t.integer "session_user_id",   :limit => 3, :default => 0,     :null => false
-    t.integer "session_start",                  :default => 0,     :null => false
-    t.integer "session_time",                   :default => 0,     :null => false
-    t.string  "session_ip",        :limit => 8, :default => "0",   :null => false
-    t.integer "session_page",                   :default => 0,     :null => false
-    t.boolean "session_logged_in",              :default => false, :null => false
-    t.integer "session_admin",     :limit => 1, :default => 0,     :null => false
-  end
-
-  add_index "phpbb_sessions", ["session_id", "session_ip", "session_user_id"], :name => "session_id_ip_user_id"
-  add_index "phpbb_sessions", ["session_user_id"], :name => "session_user_id"
-
-  create_table "phpbb_sessions_keys", :id => false, :force => true do |t|
-    t.string  "key_id",     :limit => 32, :default => "0", :null => false
-    t.integer "user_id",    :limit => 3,  :default => 0,   :null => false
-    t.string  "last_ip",    :limit => 8,  :default => "0", :null => false
-    t.integer "last_login",               :default => 0,   :null => false
-  end
-
-  add_index "phpbb_sessions_keys", ["last_login"], :name => "last_login"
-
-  create_table "phpbb_smilies", :primary_key => "smilies_id", :force => true do |t|
-    t.string "code",      :limit => 50
-    t.string "smile_url", :limit => 100
-    t.string "emoticon",  :limit => 75
-  end
-
-  create_table "phpbb_themes", :primary_key => "themes_id", :force => true do |t|
-    t.string  "template_name",    :limit => 30,  :default => "", :null => false
-    t.string  "style_name",       :limit => 30,  :default => "", :null => false
-    t.string  "head_stylesheet",  :limit => 100
-    t.string  "body_background",  :limit => 100
-    t.string  "body_bgcolor",     :limit => 6
-    t.string  "body_text",        :limit => 6
-    t.string  "body_link",        :limit => 6
-    t.string  "body_vlink",       :limit => 6
-    t.string  "body_alink",       :limit => 6
-    t.string  "body_hlink",       :limit => 6
-    t.string  "tr_color1",        :limit => 6
-    t.string  "tr_color2",        :limit => 6
-    t.string  "tr_color3",        :limit => 6
-    t.string  "tr_class1",        :limit => 25
-    t.string  "tr_class2",        :limit => 25
-    t.string  "tr_class3",        :limit => 25
-    t.string  "th_color1",        :limit => 6
-    t.string  "th_color2",        :limit => 6
-    t.string  "th_color3",        :limit => 6
-    t.string  "th_class1",        :limit => 25
-    t.string  "th_class2",        :limit => 25
-    t.string  "th_class3",        :limit => 25
-    t.string  "td_color1",        :limit => 6
-    t.string  "td_color2",        :limit => 6
-    t.string  "td_color3",        :limit => 6
-    t.string  "td_class1",        :limit => 25
-    t.string  "td_class2",        :limit => 25
-    t.string  "td_class3",        :limit => 25
-    t.string  "fontface1",        :limit => 50
-    t.string  "fontface2",        :limit => 50
-    t.string  "fontface3",        :limit => 50
-    t.integer "fontsize1",        :limit => 1
-    t.integer "fontsize2",        :limit => 1
-    t.integer "fontsize3",        :limit => 1
-    t.string  "fontcolor1",       :limit => 6
-    t.string  "fontcolor2",       :limit => 6
-    t.string  "fontcolor3",       :limit => 6
-    t.string  "span_class1",      :limit => 25
-    t.string  "span_class2",      :limit => 25
-    t.string  "span_class3",      :limit => 25
-    t.integer "img_size_poll",    :limit => 2
-    t.integer "img_size_privmsg", :limit => 2
-  end
-
-  create_table "phpbb_themes_name", :primary_key => "themes_id", :force => true do |t|
-    t.string "tr_color1_name",   :limit => 50
-    t.string "tr_color2_name",   :limit => 50
-    t.string "tr_color3_name",   :limit => 50
-    t.string "tr_class1_name",   :limit => 50
-    t.string "tr_class2_name",   :limit => 50
-    t.string "tr_class3_name",   :limit => 50
-    t.string "th_color1_name",   :limit => 50
-    t.string "th_color2_name",   :limit => 50
-    t.string "th_color3_name",   :limit => 50
-    t.string "th_class1_name",   :limit => 50
-    t.string "th_class2_name",   :limit => 50
-    t.string "th_class3_name",   :limit => 50
-    t.string "td_color1_name",   :limit => 50
-    t.string "td_color2_name",   :limit => 50
-    t.string "td_color3_name",   :limit => 50
-    t.string "td_class1_name",   :limit => 50
-    t.string "td_class2_name",   :limit => 50
-    t.string "td_class3_name",   :limit => 50
-    t.string "fontface1_name",   :limit => 50
-    t.string "fontface2_name",   :limit => 50
-    t.string "fontface3_name",   :limit => 50
-    t.string "fontsize1_name",   :limit => 50
-    t.string "fontsize2_name",   :limit => 50
-    t.string "fontsize3_name",   :limit => 50
-    t.string "fontcolor1_name",  :limit => 50
-    t.string "fontcolor2_name",  :limit => 50
-    t.string "fontcolor3_name",  :limit => 50
-    t.string "span_class1_name", :limit => 50
-    t.string "span_class2_name", :limit => 50
-    t.string "span_class3_name", :limit => 50
-  end
-
-  create_table "phpbb_topics", :primary_key => "topic_id", :force => true do |t|
-    t.integer "forum_id",            :limit => 2,  :default => 0,     :null => false
-    t.string  "topic_title",         :limit => 60,                    :null => false
-    t.integer "topic_poster",        :limit => 3,  :default => 0,     :null => false
-    t.integer "topic_time",                        :default => 0,     :null => false
-    t.integer "topic_views",         :limit => 3,  :default => 0,     :null => false
-    t.integer "topic_replies",       :limit => 3,  :default => 0,     :null => false
-    t.integer "topic_status",        :limit => 1,  :default => 0,     :null => false
-    t.boolean "topic_vote",                        :default => false, :null => false
-    t.integer "topic_type",          :limit => 1,  :default => 0,     :null => false
-    t.integer "topic_first_post_id", :limit => 3,  :default => 0,     :null => false
-    t.integer "topic_last_post_id",  :limit => 3,  :default => 0,     :null => false
-    t.integer "topic_moved_id",      :limit => 3,  :default => 0,     :null => false
-  end
-
-  add_index "phpbb_topics", ["forum_id"], :name => "forum_id"
-  add_index "phpbb_topics", ["topic_moved_id"], :name => "topic_moved_id"
-  add_index "phpbb_topics", ["topic_status"], :name => "topic_status"
-  add_index "phpbb_topics", ["topic_type"], :name => "topic_type"
-
-  create_table "phpbb_topics_watch", :id => false, :force => true do |t|
-    t.integer "topic_id",      :limit => 3, :default => 0,     :null => false
-    t.integer "user_id",       :limit => 3, :default => 0,     :null => false
-    t.boolean "notify_status",              :default => false, :null => false
-  end
-
-  add_index "phpbb_topics_watch", ["notify_status"], :name => "notify_status"
-  add_index "phpbb_topics_watch", ["topic_id"], :name => "topic_id"
-  add_index "phpbb_topics_watch", ["user_id"], :name => "user_id"
-
-  create_table "phpbb_user_group", :id => false, :force => true do |t|
-    t.integer "group_id",     :limit => 3, :default => 0, :null => false
-    t.integer "user_id",      :limit => 3, :default => 0, :null => false
-    t.boolean "user_pending"
-  end
-
-  add_index "phpbb_user_group", ["group_id"], :name => "group_id"
-  add_index "phpbb_user_group", ["user_id"], :name => "user_id"
-
-  create_table "phpbb_users", :primary_key => "user_id", :force => true do |t|
-    t.boolean "user_active",                                                        :default => true
-    t.string  "username",              :limit => 25,                                                         :null => false
-    t.string  "user_password",         :limit => 32,                                                         :null => false
-    t.integer "user_session_time",                                                  :default => 0,           :null => false
-    t.integer "user_session_page",     :limit => 2,                                 :default => 0,           :null => false
-    t.integer "user_lastvisit",                                                     :default => 0,           :null => false
-    t.integer "user_regdate",                                                       :default => 0,           :null => false
-    t.integer "user_level",            :limit => 1,                                 :default => 0
-    t.integer "user_posts",            :limit => 3,                                 :default => 0,           :null => false
-    t.decimal "user_timezone",                        :precision => 5, :scale => 2, :default => 0.0,         :null => false
-    t.integer "user_style",            :limit => 1
-    t.string  "user_lang"
-    t.string  "user_dateformat",       :limit => 14,                                :default => "d M Y H:i", :null => false
-    t.integer "user_new_privmsg",      :limit => 2,                                 :default => 0,           :null => false
-    t.integer "user_unread_privmsg",   :limit => 2,                                 :default => 0,           :null => false
-    t.integer "user_last_privmsg",                                                  :default => 0,           :null => false
-    t.integer "user_login_tries",      :limit => 2,                                 :default => 0,           :null => false
-    t.integer "user_last_login_try",                                                :default => 0,           :null => false
-    t.integer "user_emailtime"
-    t.boolean "user_viewemail"
-    t.boolean "user_attachsig"
-    t.boolean "user_allowhtml",                                                     :default => true
-    t.boolean "user_allowbbcode",                                                   :default => true
-    t.boolean "user_allowsmile",                                                    :default => true
-    t.boolean "user_allowavatar",                                                   :default => true,        :null => false
-    t.boolean "user_allow_pm",                                                      :default => true,        :null => false
-    t.boolean "user_allow_viewonline",                                              :default => true,        :null => false
-    t.boolean "user_notify",                                                        :default => true,        :null => false
-    t.boolean "user_notify_pm",                                                     :default => false,       :null => false
-    t.boolean "user_popup_pm",                                                      :default => false,       :null => false
-    t.integer "user_rank",                                                          :default => 0
-    t.string  "user_avatar",           :limit => 100
-    t.integer "user_avatar_type",      :limit => 1,                                 :default => 0,           :null => false
-    t.string  "user_email"
-    t.string  "user_icq",              :limit => 15
-    t.string  "user_website",          :limit => 100
-    t.string  "user_from",             :limit => 100
-    t.text    "user_sig"
-    t.string  "user_sig_bbcode_uid",   :limit => 10
-    t.string  "user_aim"
-    t.string  "user_yim"
-    t.string  "user_msnm"
-    t.string  "user_occ",              :limit => 100
-    t.string  "user_interests"
-    t.string  "user_actkey",           :limit => 32
-    t.string  "user_newpasswd",        :limit => 32
-  end
-
-  add_index "phpbb_users", ["user_session_time"], :name => "user_session_time"
-
-  create_table "phpbb_vote_desc", :primary_key => "vote_id", :force => true do |t|
-    t.integer "topic_id",    :limit => 3, :default => 0, :null => false
-    t.text    "vote_text",                               :null => false
-    t.integer "vote_start",               :default => 0, :null => false
-    t.integer "vote_length",              :default => 0, :null => false
-  end
-
-  add_index "phpbb_vote_desc", ["topic_id"], :name => "topic_id"
-
-  create_table "phpbb_vote_results", :id => false, :force => true do |t|
-    t.integer "vote_id",          :limit => 3, :default => 0, :null => false
-    t.integer "vote_option_id",   :limit => 1, :default => 0, :null => false
-    t.string  "vote_option_text",                             :null => false
-    t.integer "vote_result",                   :default => 0, :null => false
-  end
-
-  add_index "phpbb_vote_results", ["vote_id"], :name => "vote_id"
-  add_index "phpbb_vote_results", ["vote_option_id"], :name => "vote_option_id"
-
-  create_table "phpbb_vote_voters", :id => false, :force => true do |t|
-    t.integer "vote_id",      :limit => 3, :default => 0, :null => false
-    t.integer "vote_user_id", :limit => 3, :default => 0, :null => false
-    t.string  "vote_user_ip", :limit => 8,                :null => false
-  end
-
-  add_index "phpbb_vote_voters", ["vote_id"], :name => "vote_id"
-  add_index "phpbb_vote_voters", ["vote_user_id"], :name => "vote_user_id"
-  add_index "phpbb_vote_voters", ["vote_user_ip"], :name => "vote_user_ip"
-
-  create_table "phpbb_words", :primary_key => "word_id", :force => true do |t|
-    t.string "word",        :limit => 100, :null => false
-    t.string "replacement", :limit => 100, :null => false
-  end
-
   create_table "plz2bl", :primary_key => "loc_id", :force => true do |t|
     t.string  "plz",   :limit => 5,  :null => false
     t.string  "name",                :null => false
@@ -2285,6 +1947,20 @@ ActiveRecord::Schema.define(:version => 0) do
   add_index "plz_geodb", ["loc_id"], :name => "loc_id_2", :unique => true
   add_index "plz_geodb", ["ort"], :name => "ort"
   add_index "plz_geodb", ["plz"], :name => "plz", :unique => true
+
+  create_table "report_sheets", :force => true do |t|
+    t.integer "year",                      :null => false
+    t.integer "orchestra_id", :limit => 8, :null => false
+    t.integer "children",                  :null => false
+    t.integer "teens",                     :null => false
+    t.integer "youth",                     :null => false
+    t.integer "adult",                     :null => false
+    t.integer "uv",                        :null => false
+    t.integer "zeitungen",                 :null => false
+    t.integer "gema",                      :null => false
+    t.integer "azubi",                     :null => false
+    t.integer "passive",                   :null => false
+  end
 
   create_table "static_template", :primary_key => "uid", :force => true do |t|
     t.integer "pid",                           :default => 0,  :null => false
@@ -2364,6 +2040,27 @@ ActiveRecord::Schema.define(:version => 0) do
 
   add_index "user", ["email"], :name => "email", :unique => true
   add_index "user", ["username"], :name => "username", :unique => true
+
+  create_table "users", :force => true do |t|
+    t.string   "username"
+    t.string   "passwd"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "email",                                 :default => "", :null => false
+    t.string   "encrypted_password",     :limit => 128, :default => "", :null => false
+    t.string   "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",                         :default => 0
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
+    t.string   "role"
+  end
+
+  add_index "users", ["email"], :name => "index_users_on_email", :unique => true
+  add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
 
   create_table "wettbewerbe", :force => true do |t|
     t.date     "startdate",                                    :null => false
