@@ -1,0 +1,7 @@
+de:
+  web-app-theme:
+    all: "Alle"
+  will_paginate:
+    previous_label: "Zurück"
+    next_label: "Weiter"
+    page_gap: "..."
