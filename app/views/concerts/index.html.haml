@@ -37,8 +37,8 @@
           %th.last &nbsp;
           - @concerts.each do |concert|
             %tr
-              %td= concert.datum
-              %td= concert.zeit
+              %td= format_date(concert.datum)
+              %td= format_time(concert.zeit)
               %td= concert.stadt
               %td= concert.titel
               %td= concert.ort
@@ -49,9 +49,9 @@
               %td= concert.eintritt
               %td
                 = link_to_show(concert, 'Show')
-                = link_to_edit edit_concert_path(concert), 'Edit'
-                = link_to_delete concert, 'Delete', 'Are you sure?'
-
+                - if can? :edit, @concert
+                  = link_to_edit(edit_concert_path(concert), 'Edit')
+                  = link_to_delete concert, 'Delete', 'Are you sure?'
 %br
-
+= will_paginate @concerts
 = link_to 'New Concert', new_concert_path

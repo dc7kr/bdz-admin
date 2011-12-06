@@ -16,4 +16,11 @@ class ApplicationController < ActionController::Base
       super
     end
   end
+
+  def admin?
+	session[:user].email=='karsten.richter@bdz-online.de'
+  end
+
+  helper_method :admin?
+
 end

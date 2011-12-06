@@ -1,10 +1,14 @@
 class EnsemblesController < ApplicationController
+  # for table sort by column click
+  helper_method :sort_column, :sort_direction
+
   # GET /ensembles
   # GET /ensembles.json
   before_filter :authenticate_user!, :except => [:some_action_without_auth]
   load_and_authorize_resource
   def index
-    @ensembles = Ensemble.all
+    @ensembles = Ensemble.search(params[:search]).order(sort_column+ " "+ sort_direction).paginate(:per_page => 20, :page => params[:page])
+
 
     respond_to do |format|
       format.html # index.html.erb
@@ -81,5 +85,15 @@ class EnsemblesController < ApplicationController
       format.html { redirect_to ensembles_url }
       format.json { head :ok }
     end
+  end
+
+
+  private 
+  def sort_column
+    Ensemble.column_names.include?(params[:sort]) ? params[:sort] : "name"
+  end
+  
+  def sort_direction
+    %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
   end
 end

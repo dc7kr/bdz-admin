@@ -4,7 +4,15 @@ class ConcertsController < ApplicationController
   before_filter :authenticate_user!, :except => [:index]
   load_and_authorize_resource
   def index
-    @concerts = Concert.find(:all,:include=>[:country,:state],:conditions=>"datum >= date(now())")
+    @festival_id = params[:event_id]
+
+    if (@festival_id != nil ) 
+	#@Concerts = Concert.where(:all,:include=>[:country,:state,:festival],:conditions=>"datum >= date(now()),festival_id = @festival_id").paginate(:per_page => 20, :page => params[:page])
+	@Concerts = Concert.paginate(:per_page => 20, :page => params[:page])
+    else
+      #@concerts = Concert.where(:all,:include=>[:country,:state,:festival],:conditions=>"datum >= date(now())").paginate(:per_page => 20, :page => params[:page])
+      @concerts = Concert.paginate(:per_page => 20, :page => params[:page])
+    end
 
     respond_to do |format|
       format.html # index.html.erb

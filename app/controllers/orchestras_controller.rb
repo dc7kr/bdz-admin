@@ -1,10 +1,13 @@
 class OrchestrasController < ApplicationController
+  # for table sort by column click
+  helper_method :sort_column, :sort_direction
+
   # GET /orchestras
   # GET /orchestras.json
   before_filter :authenticate_user!, :except => [:some_action_without_auth]
   load_and_authorize_resource
   def index
-    @orchestras = Orchestra.all
+    @orchestras = Orchestra.search(params[:search]).order(sort_column+ " "+ sort_direction).paginate(:per_page=>10, :page=>params[:page])
 
     respond_to do |format|
       format.html # index.html.erb
@@ -81,5 +84,13 @@ class OrchestrasController < ApplicationController
       format.html { redirect_to orchestras_url }
       format.json { head :ok }
     end
+  end
+  private 
+  def sort_column
+    Orchestra.column_names.include?(params[:sort]) ? params[:sort] : "mglnr"
+  end
+  
+  def sort_direction
+    %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
   end
 end

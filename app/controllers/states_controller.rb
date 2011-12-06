@@ -1,10 +1,13 @@
 class StatesController < ApplicationController
+
+  before_filter :determine_scope
+
   # GET /states
   # GET /states.json
   before_filter :authenticate_user!#, :except => [:index]
   load_and_authorize_resource
   def index
-    @states = State.all
+    @states = @scope.all 
 
     respond_to do |format|
       format.html # index.html.erb
@@ -82,4 +85,16 @@ class StatesController < ApplicationController
       format.json { head :ok }
     end
   end
+
+
+  protected
+
+    def determine_scope
+      @scope = if params[:country_id]
+        Country.find(params[:country_id]).states
+      else
+        State
+      end
+    end
+
 end

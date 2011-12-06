@@ -13,13 +13,17 @@ RailsAdmin::Application.routes.draw do
 
   resources :contests
 
-  resources :festivals
+  resources :festivals do
+    resources :concerts
+  end
 
   resources :users
 
   resources :urls
 
-  resources :url_categories
+  resources :url_categories do
+    resources :urls
+  end
 
   resources :functions
 
@@ -30,10 +34,13 @@ RailsAdmin::Application.routes.draw do
   resources :personmembers
 
   resources :states
+  resources :countries do
+    resources :states
+  end
 
-  resources :countries
-
-  resources :regional_organizations
+  resources :regional_organizations do
+  	resources :regional_organizations
+  end
 
   resources :landesverbands
 

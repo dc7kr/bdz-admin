@@ -3,3 +3,6 @@
 
 en:
   hello: "Hello world"
+
+web_app_theme:
+  regional_organization: "Regional OrganizationTL"

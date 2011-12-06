@@ -12,7 +12,7 @@
         %tr
           %th.first ID
           %th
-            = t("activerecord.attributes.state.land", :default => t("activerecord.labels.land", :default => "Land"))
+            = t("activerecord.attributes.state.country_id", :default => t("activerecord.labels.country_id", :default => "Land"))
           %th= t("web-app-theme.created_at", :default => "Created at")
           %th.last &nbsp;
         - @states.each do |state|
@@ -20,7 +20,7 @@
             %td
               = state.id
             %td
-              = link_to state.land, state_path(state)
+              = link_to state.country, state_path(state)
             %td
               = state.created_at
             %td.last

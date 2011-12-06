@@ -4,7 +4,7 @@ class PersonMembersController < ApplicationController
   # GET /person_members
   # GET /person_members.json
   def index
-    @person_members = PersonMember.all
+    @person_members = PersonMember.order(:mitgliedsnummer).find(:all)
 
     respond_to do |format|
       format.html # index.html.erb

@@ -9,4 +9,9 @@ class User < ActiveRecord::Base
   attr_accessible :email, :password, :password_confirmation, :remember_me
 
   ROLES = %w[admin regional national personal]
+
+  def admin?
+	return self.email =='karsten.richter@bdz-online.de'
+  end
+
 end
