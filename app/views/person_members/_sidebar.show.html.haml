@@ -6,6 +6,6 @@
   %h3 Links
   %ul.navigation
     %li
-      %a{:href => "#"} Mitgliedskonto
+      = link_to( "Mitgliedskonto", person_member_bookings_url(@person_member)) 
     %li
       %a{:href => "#"} Link 2

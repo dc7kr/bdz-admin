@@ -8,149 +8,144 @@
     .inner
       %p
         %b
-          = t("activerecord.attributes.person_member.mitgliedsnummer", :default => t("activerecord.labels.mitgliedsnummer", :default => "Mitgliedsnummer"))
+          = t("member.mglnr", :default => "MGLNR")
           \:
-        = @person_member.mitgliedsnummer
+        = @person_member.mglnr
       %p
         %b
-          = t("activerecord.attributes.person_member.anrede", :default => t("activerecord.labels.anrede", :default => "Anrede"))
+          = t("member.anrede", :default => "Anrede")
           \:
         = @person_member.anrede
       %p
         %b
-          = t("activerecord.attributes.person_member.vorname", :default => t("activerecord.labels.vorname", :default => "Vorname"))
+          = t("member.vorname", :default => "Vorname")
           \:
         = @person_member.vorname
       %p
         %b
-          = t("activerecord.attributes.person_member.nachname", :default => t("activerecord.labels.nachname", :default => "Nachname"))
+          = t("member.nachname", :default => "Nachname")
           \:
         = @person_member.nachname
       %p
         %b
-          = t("activerecord.attributes.person_member.strasse", :default => t("activerecord.labels.strasse", :default => "Strasse"))
+          = t("member.strasse", :default => "Strasse")
           \:
         = @person_member.strasse
       %p
         %b
-          = t("activerecord.attributes.person_member.land", :default => t("activerecord.labels.land", :default => "Land"))
+          = t("member.land", :default => "Land")
           \:
         = @person_member.land
       %p
         %b
-          = t("activerecord.attributes.person_member.plz", :default => t("activerecord.labels.plz", :default => "Plz"))
+          = t("member.plz", :default => "Plz")
           \:
         = @person_member.plz
       %p
         %b
-          = t("activerecord.attributes.person_member.Ort", :default => t("activerecord.labels.Ort", :default => "Ort"))
+          = t("member.Ort", :default => "Ort")
           \:
         = @person_member.Ort
       %p
         %b
-          = t("activerecord.attributes.person_member.geburtstag", :default => t("activerecord.labels.geburtstag", :default => "Geburtstag"))
+          = t("person_member.geburtstag", :default => "Geburtstag")
           \:
-        = @person_member.geburtstag
+        = format_date(@person_member.geburtstag)
       %p
         %b
-          = t("activerecord.attributes.person_member.telefonPrivat", :default => t("activerecord.labels.telefonPrivat", :default => "Telefonprivat"))
+          = t("member.telefonPrivat", :default => "Telefonprivat")
           \:
         = @person_member.telefonPrivat
       %p
         %b
-          = t("activerecord.attributes.person_member.telefonDienstl", :default => t("activerecord.labels.telefonDienstl", :default => "Telefondienstl"))
+          = t("member.telefonDienstl", :default => "Telefondienstl")
           \:
         = @person_member.telefonDienstl
       %p
         %b
-          = t("activerecord.attributes.person_member.telefax", :default => t("activerecord.labels.telefax", :default => "Telefax"))
+          = t("member.telefax", :default => "Telefax")
           \:
         = @person_member.telefax
       %p
         %b
-          = t("activerecord.attributes.person_member.eintritt", :default => t("activerecord.labels.eintritt", :default => "Eintritt"))
+          = t("member.eintritt", :default => "Eintritt")
           \:
-        = @person_member.eintritt
+        = format_date(@person_member.eintritt)
       %p
         %b
-          = t("activerecord.attributes.person_member.za", :default => t("activerecord.labels.za", :default => "Za"))
+          = t("person_member.za", :default => "Za")
           \:
         = @person_member.za
       %p
         %b
-          = t("activerecord.attributes.person_member.konto", :default => t("activerecord.labels.konto", :default => "Konto"))
+          = t("person_member.konto", :default => "Konto")
           \:
         = @person_member.konto
       %p
         %b
-          = t("activerecord.attributes.person_member.blz", :default => t("activerecord.labels.blz", :default => "Blz"))
+          = t("person_member.blz", :default => "Blz")
           \:
         = @person_member.blz
       %p
         %b
-          = t("activerecord.attributes.person_member.zahler", :default => t("activerecord.labels.zahler", :default => "Zahler"))
+          = t("person_member.zahler", :default => "Zahler")
           \:
         = @person_member.zahler
       %p
         %b
-          = t("activerecord.attributes.person_member.lv", :default => t("activerecord.labels.lv", :default => "Lv"))
+          = t("person_member.lv", :default => "Lv")
           \:
         = @person_member.lv
       %p
         %b
-          = t("activerecord.attributes.person_member.beitragsart", :default => t("activerecord.labels.beitragsart", :default => "Beitragsart"))
+          = t("person_member.tarrif_id", :default => "Beitragsart")
           \:
-        = @person_member.beitragsart
+        = @person_member.tariff.description
       %p
         %b
-          = t("activerecord.attributes.person_member.bemerkung", :default => t("activerecord.labels.bemerkung", :default => "Bemerkung"))
+          = t("person_member.bemerkung", :default => "Bemerkung")
           \:
         = @person_member.bemerkung
       %p
         %b
-          = t("activerecord.attributes.person_member.zeitungen", :default => t("activerecord.labels.zeitungen", :default => "Zeitungen"))
+          = t("person_member.zeitungen", :default => "Zeitungen")
           \:
         = @person_member.zeitungen
       %p
         %b
-          = t("activerecord.attributes.person_member.austrittZum", :default => t("activerecord.labels.austrittZum", :default => "Austrittzum"))
+          = t("person_member.austritt_zum", :default => "Austrittzum")
           \:
-        = @person_member.austrittZum
+        = @person_member.austritt_zum
       %p
         %b
-          = t("activerecord.attributes.person_member.kuendigungVom", :default => t("activerecord.labels.kuendigungVom", :default => "Kuendigungvom"))
+          = t("person_member.kuendigungVom", :default => "Kuendigungvom")
           \:
         = @person_member.kuendigungVom
       %p
         %b
-          = t("activerecord.attributes.person_member.beitrag", :default => t("activerecord.labels.beitrag", :default => "Beitrag"))
+          = t("person_member.beitrag", :default => "Beitrag")
           \:
         = @person_member.beitrag
       %p
         %b
-          = t("activerecord.attributes.person_member.zusatzzeitung", :default => t("activerecord.labels.zusatzzeitung", :default => "Zusatzzeitung"))
+          = t("person_member.zusatzzeitung", :default => "Zusatzzeitung")
           \:
         = @person_member.zusatzzeitung
       %p
         %b
-          = t("activerecord.attributes.person_member.eMail", :default => t("activerecord.labels.eMail", :default => "Email"))
+          = t("person_member.eMail", :default => "Email")
           \:
         = @person_member.eMail
       %p
         %b
-          = t("activerecord.attributes.person_member.lastschriftErfasst", :default => t("activerecord.labels.lastschriftErfasst", :default => "Lastschrifterfasst"))
+          = t("person_member.lastschriftErfasst", :default => "Lastschrifterfasst")
           \:
         = @person_member.lastschriftErfasst
       %p
         %b
-          = t("activerecord.attributes.person_member.rechnungsDruck", :default => t("activerecord.labels.rechnungsDruck", :default => "Rechnungsdruck"))
+          = t("person_member.rechnungsDruck", :default => "Rechnungsdruck")
           \:
         = @person_member.rechnungsDruck
-      %p
-        %b
-          = t("activerecord.attributes.person_member.jahreszahl", :default => t("activerecord.labels.jahreszahl", :default => "Jahreszahl"))
-          \:
-        = @person_member.jahreszahl
       .wat-cf
         = edit_button(edit_person_member_path(@person_member))
         = del_button(person_member_path(@person_member))

@@ -1,11 +1,10 @@
-.block.notice
-  %h3 Simple Block
-  .content
-    %p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 .block
   %h3 Links
   %ul.navigation
     %li
-      %a{:href => "#"} Link 1
-    %li
-      %a{:href => "#"} Link 2
+      %p
+        = form_tag person_members_path, :method => 'get' do
+          = hidden_field_tag :direction, params[:direction]
+          = hidden_field_tag :sort, params[:sort]
+          = text_field_tag :search, params[:search]
+          = submit_tag "Suchen", :name => nil
