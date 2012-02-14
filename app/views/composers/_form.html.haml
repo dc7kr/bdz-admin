@@ -1,0 +1,34 @@
+= form_for @composer do |f|
+  -if @composer.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@composer.errors.count, "error")} prohibited this composer from being saved:"
+      %ul
+        - @composer.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.label :name
+    = f.text_field :name
+  .field
+    = f.label :vorname
+    = f.text_field :vorname
+  .field
+    = f.label :gebjahr
+    = f.text_field :gebjahr
+  .field
+    = f.label :sterbejahr
+    = f.text_field :sterbejahr
+  .field
+    = f.label :ca_geb
+    = f.check_box :ca_geb
+  .field
+    = f.label :ca_sterb
+    = f.check_box :ca_sterb
+  .field
+    = f.label :fk_ref_komp
+    = f.text_field :fk_ref_komp
+  .field
+    = f.label :comment
+    = f.text_field :comment
+  .actions
+    = f.submit 'Save'

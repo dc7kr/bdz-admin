@@ -6,8 +6,8 @@
       %li.active= link_to "#{t("web-app-theme.edit", :default => "Edit")}", edit_orchestra_path
   .content
     %h2.title
+      Orchester
       = t("web-app-theme.edit", :default => "Edit")
-      Orchestra
     .inner
       = form_for @orchestra, :url => orchestra_path(@orchestra), :html => { :class => :form } do |f|
         = render :partial => "form", :locals => {:f => f}

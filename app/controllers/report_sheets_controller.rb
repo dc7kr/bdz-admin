@@ -2,7 +2,8 @@ class ReportSheetsController < ApplicationController
   # GET /report_sheets
   # GET /report_sheets.json
   def index
-    @report_sheets = ReportSheet.all
+    @report_sheets = ReportSheet.find_all_by_orchestra_id(params[:orchestra_id])
+    @orchestra = Orchestra.find_by_member_id(params[:orchestra_id])
 
     respond_to do |format|
       format.html # index.html.erb
@@ -14,6 +15,7 @@ class ReportSheetsController < ApplicationController
   # GET /report_sheets/1.json
   def show
     @report_sheet = ReportSheet.find(params[:id])
+    @orchestra = @report_sheet.orchestra
 
     respond_to do |format|
       format.html # show.html.erb
@@ -24,7 +26,8 @@ class ReportSheetsController < ApplicationController
   # GET /report_sheets/new
   # GET /report_sheets/new.json
   def new
-    @report_sheet = ReportSheet.new
+    @orchestra = Orchestra.find_by_member_id(params[:orchestra_id])
+    @report_sheet = ReportSheet.new(:orchestra=>@orchestra)
 
     respond_to do |format|
       format.html # new.html.erb
@@ -35,6 +38,7 @@ class ReportSheetsController < ApplicationController
   # GET /report_sheets/1/edit
   def edit
     @report_sheet = ReportSheet.find(params[:id])
+    @orchestra = Orchestra.find_by_member_id(params[:orchestra_id])
   end
 
   # POST /report_sheets
@@ -44,7 +48,7 @@ class ReportSheetsController < ApplicationController
 
     respond_to do |format|
       if @report_sheet.save
-        format.html { redirect_to @report_sheet, :notice => 'Report sheet was successfully created.' }
+        format.html { redirect_to orchestra_report_sheet_path(@orchestra,@report_sheet), :notice => 'Report sheet was successfully created.' }
         format.json { render :json => @report_sheet, :status => :created, :location => @report_sheet }
       else
         format.html { render :action => "new" }

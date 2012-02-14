@@ -1,0 +1,42 @@
+th a.sort {
+	color:#ffffff;
+	text-decoration:none;
+}
+
+th a.asc {
+	color:#ffffff;
+	text-decoration:none;
+}
+
+th a.desc {
+	color:#ffffff;
+	text-decoration:none;
+}
+
+#search {
+	float:right;
+	width: 25%;
+}
+
+#search form {
+	padding:20px;
+}
+
+div.pagination {
+	text-align:center;
+}
+
+div.block-content {
+	padding:10px;
+}
+
+.message p {
+	color:#404040;
+}
+td.label {
+	font-weight: bold;
+}
+
+td.sum {
+	text-align:right;
+}

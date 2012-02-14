@@ -53,5 +53,5 @@
                   = link_to_edit(edit_concert_path(concert), 'Edit')
                   = link_to_delete concert, 'Delete', 'Are you sure?'
 %br
-= will_paginate @concerts
+= paginate @concerts
 = link_to 'New Concert', new_concert_path

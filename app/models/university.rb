@@ -1,3 +1,6 @@
 class University < ActiveRecord::Base
-	set_table_name "hochschulen"
+	self.table_name = "hochschulen"
+
+	belongs_to :country	
+	
 end

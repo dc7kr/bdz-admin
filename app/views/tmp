@@ -1,0 +1,1 @@
+rails g scaffold Composer name:string 	vorname:string 	gebjahr:string 	sterbejahr:string 	ca_geb:boolean 	ca_sterb:boolean 	fk_ref_komp:references 	comment:string

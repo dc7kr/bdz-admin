@@ -22,11 +22,11 @@
     = f.label :sprache
     = f.text_field :sprache
   .field
-    = f.label :land
-    = f.text_field :land
+    = f.label :country, corika_tr("url","country","COUNTRY")
+    = collection_select(:url, :country_id, Country.all, :id, :name) 
   .field
-    = f.label :bland
-    = f.text_field :bland
+    = f.label :bland, corika_tr("url","state","STATE")
+    = collection_select(:url, :bland, State.all, :id, :name) 
   .field
     = f.label :email
     = f.text_field :email

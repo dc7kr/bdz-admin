@@ -7,7 +7,7 @@ class OrchestrasController < ApplicationController
   before_filter :authenticate_user!, :except => [:some_action_without_auth]
   load_and_authorize_resource
   def index
-    @orchestras = Orchestra.search(params[:search]).order(sort_column+ " "+ sort_direction).paginate(:per_page=>10, :page=>params[:page])
+    @orchestras = Orchestra.includes(:member).search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(10)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -18,8 +18,8 @@ class OrchestrasController < ApplicationController
   # GET /orchestras/1
   # GET /orchestras/1.json
   def show
-    @orchestra = Orchestra.find(params[:id])
-
+    @orchestra = Orchestra.includes(:report_sheets).find(params[:id])
+    @report_sheets = @orchestra.report_sheets 
     respond_to do |format|
       format.html # show.html.erb
       format.json { render :json => @orchestra }
@@ -49,7 +49,7 @@ class OrchestrasController < ApplicationController
 
     respond_to do |format|
       if @orchestra.save
-        format.html { redirect_to @orchestra, :notice => 'Orchestra was successfully created.' }
+        format.html { redirect_to @orchestra, :notice => t('orchestra.create_success') }
         format.json { render :json => @orchestra, :status => :created, :location => @orchestra }
       else
         format.html { render :action => "new" }
@@ -65,7 +65,7 @@ class OrchestrasController < ApplicationController
 
     respond_to do |format|
       if @orchestra.update_attributes(params[:orchestra])
-        format.html { redirect_to @orchestra, :notice => 'Orchestra was successfully updated.' }
+        format.html { redirect_to @orchestra, :notice => t('orchestra.update_success') }
         format.json { head :ok }
       else
         format.html { render :action => "edit" }
@@ -87,7 +87,8 @@ class OrchestrasController < ApplicationController
   end
   private 
   def sort_column
-    Orchestra.column_names.include?(params[:sort]) ? params[:sort] : "mglnr"
+    Member.column_names.include?(params[:sort]) ? "members."+params[:sort] :
+    Orchestra.column_names.include?(params[:sort]) ? params[:sort] : "members.mglnr"
   end
   
   def sort_direction

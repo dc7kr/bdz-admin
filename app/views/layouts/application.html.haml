@@ -2,9 +2,8 @@
 %html
   %head
     %title BDZ Admin Interface
-    = stylesheet_link_tag 'web_app_theme'
-    = stylesheet_link_tag 'style'
-    = javascript_include_tag 'application'
+    = stylesheet_link_tag :application
+    = javascript_include_tag :application
     = csrf_meta_tag
   %body
     #container
@@ -14,7 +13,7 @@
         #user-navigation
           %ul.wat-cf
             %li
-              %a{:href => "#"}= t("web-app-theme.profile", :default => "Profile")
+              %a{:href => user_path(current_user)}= t("web-app-theme.profile", :default => "Profile")
             %li
               %a{:href => "#"}= t("web-app-theme.settings", :default => "Settings")
             %li
@@ -31,7 +30,7 @@
           #footer
             .block
               %p
-                Copyright &copy; #{Time.now.year} by Karsten Richter 
+                Copyright &copy; 2011-#{Time.now.year} by Karsten Richter 
         #sidebar
           = yield :sidebar
 

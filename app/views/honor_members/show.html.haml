@@ -1,0 +1,24 @@
+%p#notice= notice
+
+%p
+  %b Nr:
+  = @honor_member.nr
+%p
+  %b Vorname:
+  = @honor_member.vorname
+%p
+  %b Name:
+  = @honor_member.name
+%p
+  %b Ort:
+  = @honor_member.ort
+%p
+  %b Honortype:
+  = @honor_member.honorType
+%p
+  %b Honordate:
+  = @honor_member.honorDate
+
+= link_to 'Edit', edit_honor_member_path(@honor_member)
+\|
+= link_to 'Back', honor_members_path

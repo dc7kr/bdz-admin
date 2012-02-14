@@ -1,15 +1,92 @@
-%p#notice= notice
-
-%p
-  %b Year:
-  = @report_sheet.year
-%p
-  %b Children:
-  = @report_sheet.children
-%p
-  %b Youth:
-  = @report_sheet.youth
-
-= link_to 'Edit', edit_report_sheet_path(@report_sheet)
-\|
-= link_to 'Back', report_sheets_path
+.block
+  .secondary-navigation
+    %ul.wat-cf
+      %li.first= link_to "#{t("web-app-theme.list", :default => "List")}", orchestras_path
+      %li= link_to "#{t("web-app-theme.new", :default => "New")}", new_orchestra_path
+      %li.active= link_to "#{t("web-app-theme.show", :default => "Show")}", orchestra_path
+  .content
+    .inner
+      %table
+        %tr
+          %td.label
+            = t("report_sheet.year")
+            \:
+          %td= @report_sheet.year
+        %tr
+          %td.label
+            = t("report_sheet.children")
+            \:
+          %td= @report_sheet.children
+          %td
+            à
+            =Prices.childrenRate
+            €
+          %td.sum
+            = format_currency(@report_sheet.children * Prices.childrenRate,'€')
+        %tr
+          %td.label
+            = t("report_sheet.teens")
+            \:
+          %td= @report_sheet.teens
+          %td 
+            à
+            =Prices.teensRate
+            €
+          %td.sum
+            = format_currency(@report_sheet.teens * Prices.teensRate,'€')
+        %tr
+          %td.label
+            = t("report_sheet.youth")
+            \:
+          %td= @report_sheet.youth
+          %td
+            à
+            =Prices.youthRate 
+            €
+          %td.sum
+            = format_currency(@report_sheet.youth * Prices.youthRate,'€')
+        %tr
+          %td.label=t("report_sheet.adult")
+          %td= @report_sheet.adult
+          %td
+            à
+            = format_currency(Prices.adultRate,'€')
+          %td.sum
+            = format_currency(@report_sheet.adult * Prices.adultRate,'€')
+        %tr
+          %td.label=t("report_sheet.uv")
+          %td!= format_bool(@report_sheet.uv)
+          %td
+            à
+            =format_currency(Prices.uvRate ,'€')
+        %tr
+          %td.label=t("report_sheet.zeitungen")
+          %td= @report_sheet.zeitungen
+        %tr
+          %td.label=t("report_sheet.gema")
+          %td= @report_sheet.gema
+        %tr
+          %td.label=t("report_sheet.azubi")
+          %td= @report_sheet.azubi
+        %tr
+          %td.label=t("report_sheet.passive")
+          %td= @report_sheet.passive
+        %tr
+          %td.label=t("report_sheet.sum")
+          %td
+          %td
+          %td.sum= format_currency(@report_sheet.calcBeitrag,'€')
+        %tr
+          %td.label=t("report_sheet.uvsum")
+          %td
+          %td
+          %td.sum= format_currency(@report_sheet.calcUV,'€')
+        %tr
+          %td.label=t("report_sheet.invsum")
+          %td
+          %td
+          %td.sum= format_currency(@report_sheet.calcInvoice,'€')
+  
+    .wat-cf
+      = edit_button(edit_orchestra_report_sheet_path(@orchestra,@report_sheet))
+      = del_button( orchestra_report_sheet_path(@report_sheet))

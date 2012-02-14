@@ -1,10 +1,11 @@
 class Orchestra < ActiveRecord::Base
-  belongs_to :regional_organization
-  has_many :report_sheet
+  has_many :report_sheets
+
+  inherits_from :member
 
   def self.search(search)
 	if (search)
-		where('mglnr like ?',"%#{search}%")
+		where('members.mglnr = ?',"#{search}")
 	else
 		scoped
 	end

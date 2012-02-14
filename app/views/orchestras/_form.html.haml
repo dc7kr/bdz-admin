@@ -1,228 +1,125 @@
 .group
-  = f.label :mglnr, corika_tr("orchestra","mglnr","Mitgl.-Nr."), :class => :label
-  = f.number_field :mglnr, :class => 'number_field'
-  %span.description Ex: a simple text
-.group
-  = f.label :orchName, corika_tr("orchestra","orchName","Name"), :class => :label
-  = f.text_field :orchName, :class => 'text_field'
-  %span.description Ex: a simple text
-.group
-  = f.label :anrede, corika_tr("orchestra","anrede","Anrede"), :class => :label
-  = f.text_field :anrede, :class => 'text_field'
-  %span.description Ex: a simple text
-.group
-  = f.label :vorname, corika_tr("orchestra","vorname","Vorname"), :class => :label
-  = f.text_field :vorname, :class => 'text_field'
-  %span.description Ex: a simple text
-.group
-  = f.label :nachname, corika_tr("orchestra","nachname","Nachname"), :class => :label
-  = f.text_field :nachname, :class => 'text_field'
-  %span.description Ex: a simple text
-.group
-  = f.label :strasse, corika_tr("orchestra","strasse","Strasse"), :class => :label
-  = f.text_field :strasse, :class => 'text_field'
-  %span.description Ex: a simple text
-.group
-  = f.label :plz, corika_tr("orchestra","plz","Plz"), :class => :label
-  = f.text_field :plz, :class => 'text_field'
-  %span.description Ex: a simple text
-.group
-  = f.label :ort, corika_tr("orchestra","ort","Ort"), :class => :label
-  = f.text_field :ort, :class => 'text_field'
-  %span.description Ex: a simple text
-.group
-  = f.label :land, corika_tr("orchestra","land","Land"), :class => :label
-  = f.text_field :land, :class => 'text_field'
-  %span.description Ex: a simple text
-.group
-  = f.label :telefon, corika_tr("orchestra","telefon","Telefon"), :class => :label
-  = f.text_field :telefon, :class => 'text_field'
-  %span.description Ex: a simple text
-.group
-  = f.label :fax, corika_tr("orchestra","fax","Fax"), :class => :label
-  = f.text_field :fax, :class => 'text_field'
-  %span.description Ex: a simple text
-.group
-  = f.label :gruendung, corika_tr("orchestra","gruendung","Gruendung"), :class => :label
-  = f.date_select :gruendung, :class => 'date_select'
-  %span.description Ex: a simple text
-.group
-  = f.label :eintritt, corika_tr("orchestra","eintritt","Eintritt"), :class => :label
-  = f.date_select :eintritt, :class => 'date_select'
-  %span.description Ex: a simple text
-.group
-  = f.label :za, corika_tr("orchestra","za","Za"), :class => :label
-  = f.text_field :za, :class => 'text_field'
-  %span.description Ex: a simple text
-.group
-  = f.label :konto, corika_tr("orchestra","konto","Konto"), :class => :label
-  = f.number_field :konto, :class => 'number_field'
-  %span.description Ex: a simple text
-.group
-  = f.label :blz, corika_tr("orchestra","blz","Blz"), :class => :label
-  = f.number_field :blz, :class => 'number_field'
-  %span.description Ex: a simple text
-.group
-  = f.label :lv, corika_tr("orchestra","lv","Lv"), :class => :label
-  = f.number_field :lv, :class => 'number_field'
-  %span.description Ex: a simple text
-.group
-  = f.label :zw, corika_tr("orchestra","zw","Zw"), :class => :label
-  = f.text_field :zw, :class => 'text_field'
-  %span.description Ex: a simple text
-.group
-  = f.label :zeitungen, corika_tr("orchestra","zeitungen","Zeitungen"), :class => :label
-  = f.number_field :zeitungen, :class => 'number_field'
-  %span.description Ex: a simple text
-.group
-  = f.label :gema, corika_tr("orchestra","gema","Gema"), :class => :label
-  = f.number_field :gema, :class => 'number_field'
-  %span.description Ex: a simple text
-.group
-  = f.label :numBis14, corika_tr("orchestra","numBis14","Numbis14"), :class => :label
-  = f.number_field :numBis14, :class => 'number_field'
-  %span.description Ex: a simple text
-.group
-  = f.label :num15bis18, corika_tr("orchestra","num15bis18","Num15bis18"), :class => :label
-  = f.number_field :num15bis18, :class => 'number_field'
-  %span.description Ex: a simple text
-.group
-  = f.label :num19bis27, corika_tr("orchestra","num19bis27","Num19bis27"), :class => :label
-  = f.number_field :num19bis27, :class => 'number_field'
-  %span.description Ex: a simple text
-.group
-  = f.label :numUeber27, corika_tr("orchestra","numUeber27","Numueber27"), :class => :label
-  = f.number_field :numUeber27, :class => 'number_field'
-  %span.description Ex: a simple text
-.group
-  = f.label :sumMitglieder, corika_tr("orchestra","sumMitglieder","Summitglieder"), :class => :label
-  = f.number_field :sumMitglieder, :class => 'number_field'
-  %span.description Ex: a simple text
-.group
-  = f.label :azubi, corika_tr("orchestra","azubi","Azubi"), :class => :label
-  = f.number_field :azubi, :class => 'number_field'
-  %span.description Ex: a simple text
-.group
-  = f.label :passive, corika_tr("orchestra","passive","Passive"), :class => :label
-  = f.number_field :passive, :class => 'number_field'
-  %span.description Ex: a simple text
-.group
-  = f.label :beitrag, corika_tr("orchestra","beitrag","Beitrag"), :class => :label
-  = f.text_field :beitrag, :class => 'text_field'
-  %span.description Ex: a simple text
-.group
-  = f.label :unfallversicherung, corika_tr("orchestra","unfallversicherung","Unfallversicherung"), :class => :label
-  = f.check_box :unfallversicherung, :class => 'check_box'
-  %span.description Ex: a simple text
-.group
-  = f.label :meldebogen, corika_tr("orchestra","meldebogen","Meldebogen"), :class => :label
-  = f.check_box :meldebogen, :class => 'check_box'
-  %span.description Ex: a simple text
-.group
-  = f.label :rechnungsDruck, corika_tr("orchestra","rechnungsDruck","Rechnungsdruck"), :class => :label
-  = f.check_box :rechnungsDruck, :class => 'check_box'
-  %span.description Ex: a simple text
-.group
-  = f.label :koopMitglied, corika_tr("orchestra","koopMitglied","Koopmitglied"), :class => :label
-  = f.check_box :koopMitglied, :class => 'check_box'
-  %span.description Ex: a simple text
-.group
-  = f.label :austrittZum, corika_tr("orchestra","austrittZum","Austrittzum"), :class => :label
-  = f.date_select :austrittZum, :class => 'date_select'
-  %span.description Ex: a simple text
-.group
-  = f.label :schreibenVom, corika_tr("orchestra","schreibenVom","Schreibenvom"), :class => :label
-  = f.date_select :schreibenVom, :class => 'date_select'
-  %span.description Ex: a simple text
-.group
-  = f.label :uvBetrag, corika_tr("orchestra","uvBetrag","Uvbetrag"), :class => :label
-  = f.text_field :uvBetrag, :class => 'text_field'
-  %span.description Ex: a simple text
-.group
-  = f.label :rechnungsbetrag, corika_tr("orchestra","rechnungsbetrag","Rechnungsbetrag"), :class => :label
-  = f.text_field :rechnungsbetrag, :class => 'text_field'
-  %span.description Ex: a simple text
-.group
-  = f.label :versaeumniszuschlag, corika_tr("orchestra","versaeumniszuschlag","Versaeumniszuschlag"), :class => :label
-  = f.check_box :versaeumniszuschlag, :class => 'check_box'
-  %span.description Ex: a simple text
-.group
-  = f.label :vZuschlag, corika_tr("orchestra","vZuschlag","Vzuschlag"), :class => :label
-  = f.text_field :vZuschlag, :class => 'text_field'
-  %span.description Ex: a simple text
-.group
-  = f.label :mahngebuehr1, corika_tr("orchestra","mahngebuehr1","Mahngebuehr1"), :class => :label
-  = f.check_box :mahngebuehr1, :class => 'check_box'
-  %span.description Ex: a simple text
-.group
-  = f.label :mahngebuehr2, corika_tr("orchestra","mahngebuehr2","Mahngebuehr2"), :class => :label
-  = f.check_box :mahngebuehr2, :class => 'check_box'
-  %span.description Ex: a simple text
-.group
-  = f.label :mGebuehr1, corika_tr("orchestra","mGebuehr1","Mgebuehr1"), :class => :label
-  = f.text_field :mGebuehr1, :class => 'text_field'
-  %span.description Ex: a simple text
-.group
-  = f.label :mGebuehr2, corika_tr("orchestra","mGebuehr2","Mgebuehr2"), :class => :label
-  = f.text_field :mGebuehr2, :class => 'text_field'
-  %span.description Ex: a simple text
-.group
-  = f.label :bemerkung, corika_tr("orchestra","bemerkung","Bemerkung"), :class => :label
-  = f.text_field :bemerkung, :class => 'text_field'
-  %span.description Ex: a simple text
-.group
-  = f.label :eMail, corika_tr("orchestra","eMail","Email"), :class => :label
-  = f.text_field :eMail, :class => 'text_field'
-  %span.description Ex: a simple text
-.group
-  = f.label :url, corika_tr("orchestra","url","Url"), :class => :label
-  = f.text_field :url, :class => 'text_field'
-  %span.description Ex: a simple text
-.group
-  = f.label :lastschriftErfasst, corika_tr("orchestra","lastschriftErfasst","Lastschrifterfasst"), :class => :label
-  = f.check_box :lastschriftErfasst, :class => 'check_box'
-  %span.description Ex: a simple text
-.group
-  = f.label :kuendigungErfasst, corika_tr("orchestra","kuendigungErfasst","Kuendigungerfasst"), :class => :label
-  = f.check_box :kuendigungErfasst, :class => 'check_box'
-  %span.description Ex: a simple text
-.group
-  = f.label :zweitanschrift, corika_tr("orchestra","zweitanschrift","Zweitanschrift"), :class => :label
-  = f.text_field :zweitanschrift, :class => 'text_field'
-  %span.description Ex: a simple text
-.group
-  = f.label :name2, corika_tr("orchestra","name2","Name2"), :class => :label
-  = f.text_field :name2, :class => 'text_field'
-  %span.description Ex: a simple text
-.group
-  = f.label :dageVER, corika_tr("orchestra","dageVER","Dagever"), :class => :label
-  = f.number_field :dageVER, :class => 'number_field'
-  %span.description Ex: a simple text
-.group
-  = f.label :haftpflichtVers, corika_tr("orchestra","haftpflichtVers","Haftpflichtvers"), :class => :label
-  = f.number_field :haftpflichtVers, :class => 'number_field'
-  %span.description Ex: a simple text
-.group
-  = f.label :haftpflichtGebuehrLV, corika_tr("orchestra","haftpflichtGebuehrLV","Haftpflichtgebuehrlv"), :class => :label
-  = f.text_field :haftpflichtGebuehrLV, :class => 'text_field'
-  %span.description Ex: a simple text
-.group
-  = f.label :lvGebuehr, corika_tr("orchestra","lvGebuehr","Lvgebuehr"), :class => :label
-  = f.text_field :lvGebuehr, :class => 'text_field'
-  %span.description Ex: a simple text
-.group
-  = f.label :uvZusatzzahl, corika_tr("orchestra","uvZusatzzahl","Uvzusatzzahl"), :class => :label
-  = f.number_field :uvZusatzzahl, :class => 'number_field'
-  %span.description Ex: a simple text
-.group
-  = f.label :uvZahl, corika_tr("orchestra","uvZahl","Uvzahl"), :class => :label
-  = f.number_field :uvZahl, :class => 'number_field'
-  %span.description Ex: a simple text
-.group
-  = f.label :jahreszahl, corika_tr("orchestra","jahreszahl","Jahreszahl"), :class => :label
-  = f.number_field :jahreszahl, :class => 'number_field'
-  %span.description Ex: a simple text
-.group.navform.wat-cf
+  %table
+    %tr
+      %td= f.label :mglnr, corika_tr("orchestra","mglnr","Mitgl.-Nr."), :class => :label
+      %td= f.text_field :mglnr, :class => 'number_field'
+    %tr
+      %td= f.label :orchName, corika_tr("orchestra","orchName","Name"), :class => :label
+      %td= f.text_field :orchName, :class => 'text_field'
+    %tr
+      %td= f.label :anrede, corika_tr("orchestra","anrede","Anrede"), :class => :label
+      %td= f.text_field :anrede, :class => 'text_field'
+    %tr
+      %td= f.label :vorname, corika_tr("orchestra","vorname","Vorname"), :class => :label
+      %td= f.text_field :vorname, :class => 'text_field'
+    %tr
+      %td= f.label :nachname, corika_tr("orchestra","nachname","Nachname"), :class => :label
+      %td= f.text_field :nachname, :class => 'text_field'
+    %tr
+      %td= f.label :strasse, corika_tr("orchestra","strasse","Strasse"), :class => :label
+      %td= f.text_field :strasse, :class => 'text_field'
+    %tr
+      %td= f.label :plz, corika_tr("orchestra","plz","Plz"), :class => :label
+      %td= f.text_field :plz, :class => 'text_field'
+    %tr
+      %td= f.label :ort, corika_tr("orchestra","ort","Ort"), :class => :label
+      %td= f.text_field :ort, :class => 'text_field'
+    %tr
+      %td= f.label :land, corika_tr("orchestra","land","Land"), :class => :label
+      %td= f.text_field :land, :class => 'text_field'
+    %tr
+      %td= f.label :telefon, corika_tr("orchestra","telefon","Telefon"), :class => :label
+      %td= f.text_field :telefon, :class => 'text_field'
+    %tr
+      %td= f.label :fax, corika_tr("orchestra","fax","Fax"), :class => :label
+      %td= f.text_field :fax, :class => 'text_field'
+    %tr
+      %td= f.label :gruendung, corika_tr("orchestra","gruendung","Gruendung"), :class => :label
+      %td= f.text_field :gruendung 
+    %tr
+      %td= f.label :eintritt, corika_tr("orchestra","eintritt","Eintritt"), :class => :label
+      %td= f.text_field :eintritt
+    %tr
+      %td= f.label :za, corika_tr("orchestra","za","Za"), :class => :label
+      %td= f.select :za, options_for_select([["Lastschrift", "L"], ["Rechnung", "R"]],:selected=>@orchestra.za) 
+    %tr
+      %td= f.label :konto, corika_tr("orchestra","konto","Konto"), :class => :label
+      %td= f.number_field :konto, :class => 'number_field'
+    %tr
+      %td= f.label :blz, corika_tr("orchestra","blz","Blz"), :class => :label
+      %td= f.number_field :blz, :class => 'number_field'
+    %tr
+      %td= f.label :regional_organization, corika_tr("orchestra","regional_organization","Landesverband"), :class => :label
+      %td= collection_select(:orchestra, :regional_organization_id, RegionalOrganization.all, :id, :name) 
+    %tr
+      %td= f.label :zw, corika_tr("orchestra","zw","Zw"), :class => :label
+      %td= f.text_field :zw, :class => 'text_field'
+    %tr
+      %td= f.label :gema, corika_tr("orchestra","gema","Gema"), :class => :label
+      %td= f.number_field :gema, :class => 'number_field'
+    %tr
+      %td= f.label :koopMitglied, corika_tr("orchestra","koopMitglied","Koopmitglied"), :class => :label
+      %td= f.check_box :koopMitglied, :class => 'check_box'
+    %tr
+      %td= f.label :austritt_zum, corika_tr("orchestra","austritt_zum","Austrittzum"), :class => :label
+      %td= f.text_field :austritt_zum, :class => 'datePicker'
+    %tr
+      %td= f.label :schreibenVom, corika_tr("orchestra","schreibenVom","Schreibenvom"), :class => :label
+      %td= f.text_field :schreibenVom, :class => 'datePicker'
+    %tr
+      %td= f.label :uvBetrag, corika_tr("orchestra","uvBetrag","Uvbetrag"), :class => :label
+      %td= f.text_field :uvBetrag, :class => 'text_field'
+    %tr
+      %td= f.label :rechnungsbetrag, corika_tr("orchestra","rechnungsbetrag","Rechnungsbetrag"), :class => :label
+      %td= f.text_field :rechnungsbetrag, :class => 'text_field'
+    %tr
+      %td= f.label :versaeumniszuschlag, corika_tr("orchestra","versaeumniszuschlag","Versaeumniszuschlag"), :class => :label
+      %td= f.check_box :versaeumniszuschlag, :class => 'check_box'
+    %tr
+      %td= f.label :vZuschlag, corika_tr("orchestra","vZuschlag","Vzuschlag"), :class => :label
+      %td= f.text_field :vZuschlag, :class => 'text_field'
+    %tr
+      %td= f.label :mahngebuehr1, corika_tr("orchestra","mahngebuehr1","Mahngebuehr1"), :class => :label
+      %td= f.check_box :mahngebuehr1, :class => 'check_box'
+    %tr
+      %td= f.label :mahngebuehr2, corika_tr("orchestra","mahngebuehr2","Mahngebuehr2"), :class => :label
+      %td= f.check_box :mahngebuehr2, :class => 'check_box'
+    %tr
+      %td= f.label :mGebuehr1, corika_tr("orchestra","mGebuehr1","Mgebuehr1"), :class => :label
+      %td= f.text_field :mGebuehr1, :class => 'text_field'
+    %tr
+      %td= f.label :mGebuehr2, corika_tr("orchestra","mGebuehr2","Mgebuehr2"), :class => :label
+      %td= f.text_field :mGebuehr2, :class => 'text_field'
+    %tr
+      %td= f.label :bemerkung, corika_tr("orchestra","bemerkung","Bemerkung"), :class => :label
+      %td= f.text_field :bemerkung, :class => 'text_field'
+    %tr
+      %td= f.label :eMail, corika_tr("orchestra","eMail","Email"), :class => :label
+      %td= f.text_field :eMail, :class => 'text_field'
+    %tr
+      %td= f.label :url, corika_tr("orchestra","url","Url"), :class => :label
+      %td= f.text_field :url, :class => 'text_field'
+    %tr
+      %td= f.label :lastschriftErfasst, corika_tr("orchestra","lastschriftErfasst","Lastschrifterfasst"), :class => :label
+      %td= f.check_box :lastschriftErfasst, :class => 'check_box'
+    %tr
+      %td= f.label :kuendigungErfasst, corika_tr("orchestra","kuendigungErfasst","Kuendigungerfasst"), :class => :label
+      %td= f.check_box :kuendigungErfasst, :class => 'check_box'
+    %tr
+      %td= f.label :zweitanschrift, corika_tr("orchestra","zweitanschrift","Zweitanschrift"), :class => :label
+      %td= f.text_field :zweitanschrift, :class => 'text_field'
+    %tr
+      %td= f.label :name2, corika_tr("orchestra","name2","Name2"), :class => :label
+      %td= f.text_field :name2, :class => 'text_field'
+    %tr
+      %td= f.label :dageVER, corika_tr("orchestra","dageVER","Dagever"), :class => :label
+      %td= f.number_field :dageVER, :class => 'number_field'
+    %tr
+      %td= f.label :haftpflichtVers, corika_tr("orchestra","haftpflichtVers","Haftpflichtvers"), :class => :label
+      %td= f.number_field :haftpflichtVers, :class => 'number_field'
+    %tr
+      %td= f.label :haftpflichtGebuehrLV, corika_tr("orchestra","haftpflichtGebuehrLV","Haftpflichtgebuehrlv"), :class => :label
+      %td= f.text_field :haftpflichtGebuehrLV, :class => 'text_field'
   %button.button{:type => "submit"}
     = image_tag("web-app-theme/icons/tick.png", :alt => "#{t("web-app-theme.save", :default => "Save")}")
     = t("web-app-theme.save", :default => "Save")

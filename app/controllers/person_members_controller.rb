@@ -1,10 +1,14 @@
 class PersonMembersController < ApplicationController
   before_filter :authenticate_user!, :except => [:some_action_without_auth]
+  helper_method :sort_column, :sort_direction
+
   load_and_authorize_resource
   # GET /person_members
   # GET /person_members.json
+# TODO: inherited sort!!!
   def index
-    @person_members = PersonMember.order(:mitgliedsnummer).find(:all)
+    @person_members = PersonMember.includes(:member).search(params[:search]).order(sort_column+" "+sort_direction).page(params[:page]).per(20)
+
 
     respond_to do |format|
       format.html # index.html.erb
@@ -15,7 +19,8 @@ class PersonMembersController < ApplicationController
   # GET /person_members/1
   # GET /person_members/1.json
   def show
-    @person_member = PersonMember.find(params[:id])
+    @person_member = PersonMember.includes(:tariff).find(params[:id])
+    #@bookings = @person_member.member_account_bookings
 
     respond_to do |format|
       format.html # show.html.erb
@@ -81,5 +86,16 @@ class PersonMembersController < ApplicationController
       format.html { redirect_to person_members_url }
       format.json { head :ok }
     end
+  end
+
+
+  private 
+  def sort_column
+    Member.column_names.include?(params[:sort]) ? "members."+params[:sort] :
+    PersonMember.column_names.include?(params[:sort]) ? params[:sort] : "members.mglnr"
+  end
+  
+  def sort_direction
+    %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
   end
 end

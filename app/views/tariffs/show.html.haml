@@ -1,0 +1,15 @@
+%p#notice= notice
+
+%p
+  %b Tariff type:
+  = @tariff.tariff_type
+%p
+  %b Description:
+  = @tariff.description
+%p
+  %b Amount:
+  = @tariff.amount
+
+= link_to 'Edit', edit_tariff_path(@tariff)
+\|
+= link_to 'Back', tariffs_path

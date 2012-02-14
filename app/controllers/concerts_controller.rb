@@ -8,10 +8,10 @@ class ConcertsController < ApplicationController
 
     if (@festival_id != nil ) 
 	#@Concerts = Concert.where(:all,:include=>[:country,:state,:festival],:conditions=>"datum >= date(now()),festival_id = @festival_id").paginate(:per_page => 20, :page => params[:page])
-	@Concerts = Concert.paginate(:per_page => 20, :page => params[:page])
+	@Concerts = Concert.includes(:festival).page(params[:page]).per(20)
     else
       #@concerts = Concert.where(:all,:include=>[:country,:state,:festival],:conditions=>"datum >= date(now())").paginate(:per_page => 20, :page => params[:page])
-      @concerts = Concert.paginate(:per_page => 20, :page => params[:page])
+      @concerts = Concert.page(params[:page]).per(20)
     end
 
     respond_to do |format|

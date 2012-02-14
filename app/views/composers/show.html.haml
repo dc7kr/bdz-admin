@@ -1,0 +1,30 @@
+%p#notice= notice
+
+%p
+  %b Name:
+  = @composer.name
+%p
+  %b Vorname:
+  = @composer.vorname
+%p
+  %b Gebjahr:
+  = @composer.gebjahr
+%p
+  %b Sterbejahr:
+  = @composer.sterbejahr
+%p
+  %b Ca geb:
+  = @composer.ca_geb
+%p
+  %b Ca sterb:
+  = @composer.ca_sterb
+%p
+  %b Fk ref komp:
+  = @composer.fk_ref_komp
+%p
+  %b Comment:
+  = @composer.comment
+
+= link_to 'Edit', edit_composer_path(@composer)
+\|
+= link_to 'Back', composers_path

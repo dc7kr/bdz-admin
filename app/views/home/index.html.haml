@@ -1,27 +1,45 @@
-#block-text.block
-  .content
-    %h2.title Home
-    .inner
+.secondary-navigation
+  %ul.wat-cf
+    %li.first.active= link_to "#{t("web-app-theme.list", :default => "List")}", concerts_path
+    %li= link_to "#{t("web-app-theme.new", :default => "New")}", new_concert_path
+.content
+  %h2.title= t("home", :default => "Home")
+  .inner
     .block
-      %h3 Öffentliche Daten
-      %ul
-        %li
-          = link_to "Konzerte", concerts_path
-        %li
-          = link_to "Orchester", orchestras_path 
-        %li
-          = link_to "Ensembles", ensembles_path
-        %li
-          = link_to "Wettbewerbe", contests_path
+      .block-content
+        %h3 Öffentliche Daten
+        = link_to "Konzerte", concerts_path
+        %br
+        = link_to "Ensembles", ensembles_path
+        %br
+        = link_to "Wettbewerbe", contests_path
+        %br
+        = link_to "Studienmöglichkeiten", universities_path
+        %br
+        = link_to "Ehrentafel", honor_member_path
+        %br
+        = link_to "Komponisten", composers_path
+        %br
+        = link_to "URLs", urls_path
+        %br
+        = link_to "URL Kategorien", url_categories_path
+        %br
     .block
-      %h3 Stammdaten
-      %ul
-        %li
-          = link_to "Länder", countries_path
-        %li
-          = link_to "Bundesländer", states_path 
-        %li
-          = link_to "Landesverbände", regional_organizations_path
-        %li
-          = link_to "Wettbewerbe", contests_path
+      .block-content
+        %h3 Mitgliedsdaten
+        = link_to "Orchester", orchestras_path 
+        %br
+        = link_to "Einzelmitglieder", person_members_path 
+        %br
+    .block
+      .block-content
+        %h3 Stammdaten
+        = link_to "Länder", countries_path
+        %br
+        = link_to "Bundesländer", states_path 
+        %br
+        = link_to "Landesverbände", regional_organizations_path
+        %br
+        = link_to "Wettbewerbe", contests_path
+        %br
 - content_for :sidebar, render(:partial => 'sidebar')

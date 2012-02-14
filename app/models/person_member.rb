@@ -1,4 +1,12 @@
 class PersonMember < ActiveRecord::Base
-	belongs_to :regional_organization
-	belongs_to :country
+  inherits_from :member
+  belongs_to :tariff
+
+  def self.search(search)
+	if (search)
+		where('members.mglnr = ?',"#{search}")
+	else
+		scoped
+	end
+  end
 end
