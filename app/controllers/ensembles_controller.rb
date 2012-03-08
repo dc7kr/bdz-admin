@@ -7,8 +7,7 @@ class EnsemblesController < ApplicationController
   before_filter :authenticate_user!, :except => [:some_action_without_auth]
   load_and_authorize_resource
   def index
-    @ensembles = Ensemble.search(params[:search]).order(sort_column+ " "+ sort_direction).paginate(:per_page => 20, :page => params[:page])
-
+    @ensembles = Ensemble.search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(10)
 
     respond_to do |format|
       format.html # index.html.erb
