@@ -1,11 +1,23 @@
 RailsAdmin::Application.routes.draw do
+  get "invoice/persons"
+
+  get "invoice/orchestras"
+
+  resources :tariffs
+  resources :about
+
+  resources :composers
+
   resources :report_sheets
 
-  resources :person_members
+  resources :person_members do
+    resources :member_account_bookings, :as => 'bookings'
+  end
 
   devise_for :users
 
   resources :universities
+  resources :honor_members
 
   resources :ensembles
 
@@ -29,11 +41,16 @@ RailsAdmin::Application.routes.draw do
 
   resources :addresses
 
-  resources :orchestras
-
-  resources :personmembers
+  resources :orchestras do
+    resources :member_account_bookings, :as => 'bookings'
+    resources :report_sheets
+	collection do 
+		get :noreport
+	end
+  end
 
   resources :states
+
   resources :countries do
     resources :states
   end
@@ -42,8 +59,10 @@ RailsAdmin::Application.routes.draw do
   	resources :regional_organizations
   end
 
-  resources :landesverbands
 
+  namespace :cron do
+    resources :invoices
+  end
   get "home/index"
 
   # The priority is based upon order of creation:

@@ -1,7 +1,114 @@
 de:
+  errors:
+    konto:
+      required_by_za: Zahlungsart Lastschrift erfordert Kontonummer
+      invalid: Kontonummer ist ungültig
+    blz:
+      required_by_za: Zahlungsart Lastschrift erfordert Bankleitzahl
+      unknown: ist unbekannt
+  common:
+    za_L: Lastschrift
+    za_R: Rechnung
+    back: Zurück
+    save: Speichern
+    about: Über
+
+  time:
+    formats:
+      long: "%d.%m.%Y"
+      short: "%d.%m.%Y"
   web-app-theme:
     all: "Alle"
   will_paginate:
     previous_label: "Zurück"
     next_label: "Weiter"
     page_gap: "..."
+
+  member:
+    mglnr: Mitgl.-Nr.
+    eintritt: Eintritt
+    austritt_zum: Austritt zum
+    za: Zahlungsart
+    lv: Landesverband
+    konto: Konto-Nr.
+    blz: BLZ
+    zahler: Konto-Inhaber
+
+  person_member:
+    nachname: Name
+    vorname: Vorname
+    strasse: Straße
+    land: Land
+    plz: PLZ
+    ort: Wohnort
+    telefon: Telefon
+    fax: Fax 	
+
+  orchestra:
+    update_success: "Orchester wurde erfolgreich aktualisiert."
+    orchName: Orchestername
+    orch_type: Orchestertyp
+    anrede: Anrede
+    vorname: Vorname
+    nachname: Nachname 
+    gruendung: Gründungsdatum
+    koopMitglied: Kooperativ
+    schreibenVom: Schreiben vom 
+    bemerkung: Bemerkung
+    eMail: E-Mail
+    url: Homepage
+    lastschriftErfasst: Lastschrift erfasst
+    kuendigungErfasst: Kündigung erfasst
+    zweitanschrift: Zweitanschrift
+    name2: Zweiter Name 	
+    dageVER : WTF is dageVER?
+    type_O: Vereinsorchester
+    type_K: Kooperativ
+    type_L: Landesorchester
+  report_sheet: 
+    create_success: Meldebogen erfolgreich angelegt
+    children: Kinder
+    teens: Jugendliche 15-18
+    youth: 19-27
+    adults: Erwachsene
+    passive: Passiv
+    year: Jahr
+    gema: GEMA
+    azubi: Beitragsfrei
+    uv: Unfallvers.
+    new: Neuer Meldebogen
+
+  views:
+    pagination:
+        truncate: ... 
+        next: Nächste
+        last: Letzte
+        first: Erste
+        previous: Vorherige
+  activerecord: 
+    errors:
+      template:
+        header: Fehler im Formular
+        body: Betroffene Felder 
+
+activerecord:
+  attributes:
+    orchestra:
+       mglnr: Mitgl.-Nr.
+       orchName: Orchester-Name
+       anrede: Anrede
+       vorname: Vorname
+       nachname: Nachname
+       strasse: Straße
+       land: Land
+       plz: PLZ
+       ort: Wohnort
+       telefon: Telefon
+       fax: Fax
+       gruendung: Gründungsdatum
+       eintritt: Eintritt
+       za: Zahlungsart
+       konto: Konto-Nr.
+       blz: Bankleitzahl
+       lv: Landesverband
+
