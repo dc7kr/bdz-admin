@@ -1,76 +1,84 @@
 
 class Prices 
 
-	@@prices =  {
-		'urkunden'=>4.5,
-		'silbernadel'=>7,
-		'goldnadel'=>7,
-		'medaille'=>28,
-		'ehrenbrief'=>19,
-		'bundesnadel'=>6,
-		'koop'=>50,
-		'maxBeitrag'=>950,
-		'minBeitrag'=>160,
-		'zeitung'=>16,
-		'uv'=>1.2,
-		'mgebuehr1'=>10,
-		'vzuschlag'=>30,
-		'mgebuehr2'=>20,
-		'hvgebuehrLv'=>8,
-		'childrenRate'=>2.5,
-		'teensRate'=>11,
-		'youthRate'=>16,
-		'adultRate'=>16,
-		'uvRate'=>1.20 
-	}
-	def self.minBeitrag
-		return @@prices['minBeitrag']
+	# fees
+	def self.mgebuehr1 
+		return BDZ_SETTINGS['fees']['mgebuehr1']
 	end
-	def self.childrenRate
-		return @@prices['childrenRate']
+
+	def self.mgebuehr2
+		return BDZ_SETTINGS['fees']['mgebuehr2']
+	end
+
+	def self.vzuschlag
+		return BDZ_SETTINGS['fees']['mgebuehr2']
+	end
+
+	# honor
+	def self.urkunden
+		return BDZ_SETTINGS['honor']['urkunden'].to_f
 	end
 	def self.silbernadel
-		return @@prices['silbernadel']
+		return BDZ_SETTINGS['honor']['silbernadel'].to_f
 	end
 	def self.goldnadel
-		return @@prices['goldnadel']
+		return BDZ_SETTINGS['honor']['goldnadel'].to_f
 	end
 	def self.bundesnadel
-		return @@prices['bundesnadel']
+		return BDZ_SETTINGS['honor']['bundesnadel'].to_f
 	end
-	def self.maxBeitrag
-		return @@prices['maxBeitrag']
+	def self.medaille
+		return BDZ_SETTINGS['honor']['medaille'].to_f
 	end
-	def self.XXX
-		return @@prices['XXX']
-	end
-	def self.XXX
-		return @@prices['XXX']
-	end
-	def self.XXX
-		return @@prices['XXX']
-	end
-	def self.XXX
-		return @@prices['XXX']
-	end
-	def self.XXX
-		return @@prices['XXX']
+	def self.ehrenbrief
+		return BDZ_SETTINGS['honor']['ehrenbrief'].to_f
 	end
 
 	#beitraege
 	def self.childrenRate 
-		return @@prices['childrenRate']
+		return BDZ_SETTINGS['tariff']['childrenRate'].to_f
 	end
+
 	def self.teensRate 
-		return @@prices['teensRate']
+		return BDZ_SETTINGS['tariff']['teensRate'].to_f
 	end
+
 	def self.youthRate 
-		return @@prices['youthRate']
+		return BDZ_SETTINGS['tariff']['youthRate'].to_f
 	end
+
 	def self.adultRate 
-		return @@prices['adultRate']
+		return BDZ_SETTINGS['tariff']['adultRate'].to_f
 	end
+
 	def self.uvRate 
-		return @@prices['uvRate']
+		return BDZ_SETTINGS['tariff']['uvRate'].to_f
+	end
+
+	def self.minTariff
+		return BDZ_SETTINGS['tariff']['minBeitrag'].to_f
+	end
+
+	def self.maxTariff
+		return BDZ_SETTINGS['tariff']['maxBeitrag'].to_f
+	end
+
+	def self.zeitung
+		return BDZ_SETTINGS['tariff']['zeitung'].to_f
+	end
+	def self.uvRate
+		return BDZ_SETTINGS['tariff']['uv'].to_f
+	end
+	def self.hvLvRate
+		return BDZ_SETTINGS['tariff']['hvgebuehrLv'].to_f
+	end
+	def self.lvOrchRate
+		return BDZ_SETTINGS['tariff']['lvOrch'].to_f
+	end
+	def self.lvMember
+		return BDZ_SETTINGS['tariff']['lvMember'].to_f
+	end
+	def self.koopRate
+		return BDZ_SETTINGS['tariff']['koop'].to_f
 	end
 end

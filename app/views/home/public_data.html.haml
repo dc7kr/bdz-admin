@@ -1,0 +1,30 @@
+.secondary-navigation
+  %ul.wat-cf
+    %li.first.active= link_to t("common.public_data", :default => "Öffentliche Daten"),:controller=>"home",:tab=>"public_data"
+    %li= link_to t("common.member_data", :default => "Mitgliedsdaten"),:controller=>"home",:tab=>"member_data"
+ 
+    %li= link_to t("common.reference_data", :default => "Stammdaten"),:controller=>"home",:tab=>"reference_data"
+.content
+  .inner
+    .block
+      .block-content
+        = link_to "Konzerte", concerts_path
+        %br
+        = link_to "Ensembles", ensembles_path
+        %br
+        = link_to "Wettbewerbe", contests_path
+        %br
+        = link_to "Studienmöglichkeiten", universities_path
+        %br
+        = link_to "Ehrentafel", honor_members_path
+        %br
+        = link_to "Komponisten", composers_path
+        %br
+        = link_to "URLs", urls_path
+        %br
+        = link_to "URL Kategorien", url_categories_path
+        %br
+        = link_to "Adressen", addresses_path 
+        %br
+        %br
+- content_for :sidebar, render(:partial => 'sidebar')

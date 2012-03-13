@@ -43,9 +43,9 @@
         = @person_member.plz
       %p
         %b
-          = t("member.Ort", :default => "Ort")
+          = t("member.ort", :default => "Ort")
           \:
-        = @person_member.Ort
+        = @person_member.ort
       %p
         %b
           = t("person_member.geburtstag", :default => "Geburtstag")
@@ -75,7 +75,7 @@
         %b
           = t("person_member.za", :default => "Za")
           \:
-        = @person_member.za
+        = t("common.za_"+@person_member.za)
       %p
         %b
           = t("person_member.konto", :default => "Konto")
@@ -95,7 +95,7 @@
         %b
           = t("person_member.lv", :default => "Lv")
           \:
-        = @person_member.lv
+        = @person_member.regional_organization.name
       %p
         %b
           = t("person_member.tarrif_id", :default => "Beitragsart")

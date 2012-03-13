@@ -6,6 +6,12 @@
       %li.active= link_to "#{t("web-app-theme.show", :default => "Show")}", orchestra_path
   .content
     .inner
+      %h2
+        = @report_sheet.orchestra.orchName
+        %br
+        Meldebogen
+        = @report_sheet.year
+
       %table
         %tr
           %td.label
@@ -64,7 +70,11 @@
           %td= @report_sheet.zeitungen
         %tr
           %td.label=t("report_sheet.gema")
-          %td= @report_sheet.gema
+          %td
+            = @report_sheet.gema
+            (
+            = @report_sheet.calcGemaCount
+            )
         %tr
           %td.label=t("report_sheet.azubi")
           %td= @report_sheet.azubi
@@ -90,3 +100,4 @@
     .wat-cf
       = edit_button(edit_orchestra_report_sheet_path(@orchestra,@report_sheet))
       = del_button( orchestra_report_sheet_path(@report_sheet))
+- content_for :sidebar, render(:partial => 'sidebar')

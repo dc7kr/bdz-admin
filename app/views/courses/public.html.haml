@@ -1,0 +1,20 @@
+%a{:name=>"top"}
+
+%center
+  %h2 Termine, Adressen &amp; Daten
+.nav_element 
+  %a{:href=>"index.htm"}
+    Termine, Adressen &amp; Daten: 
+  Kurse
+
+.heading Zupforchester und Gitarrenensembles
+
+#header 
+  %br
+  %br
+
+#content
+  .content
+    %b 2012
+    %dl
+      = render :partial => "course.public", :collection => @courses

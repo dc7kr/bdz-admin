@@ -1,0 +1,18 @@
+.secondary-navigation
+  %ul.wat-cf
+    %li.first= link_to t("common.public_data", :default => "Öffentliche Daten"),:controller=>"home",:tab=>"public_data" 
+    %li= link_to t("common.member_data", :default => "Mitgliedsdaten"),:controller=>"home",:tab=>"member_data" 
+    %li.active= link_to t("common.reference_data", :default => "Stammdaten")
+.content
+  .inner
+    .block
+      .block-content
+        = link_to "Länder", countries_path
+        %br
+        = link_to "Bundesländer", states_path 
+        %br
+        = link_to "Landesverbände", regional_organizations_path
+        %br
+        = link_to "Wettbewerbe", contests_path
+        %br
+- content_for :sidebar, render(:partial => 'sidebar')

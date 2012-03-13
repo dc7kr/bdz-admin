@@ -1,6 +1,10 @@
 %tr
-  %td @booking.booking_type
-  %td @booking.booking_date
-  %td @booking.booking_txt
-  %td @booking.amount
+  %td=member_account_booking.booking_date
+  %td=member_account_booking.booking_type
+  %td=member_account_booking.booking_txt
+  %td=format_currency(member_account_booking.amount,'€')
+  %td
+    -if ( member_account_booking.booking_mode=='M') then
+      = link_to_edit( edit_orchestra_member_account_booking_path(@member,member_account_booking),'Edit')
+      = link_to_delete( orchestra_member_account_bookings_path(member_account_booking), 'Del','Wirklich löschen?')
 

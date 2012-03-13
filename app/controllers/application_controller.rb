@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
+
   include SessionHelper
 
   rescue_from CanCan::AccessDenied do |exception|
@@ -22,5 +23,20 @@ class ApplicationController < ActionController::Base
   end
 
   helper_method :admin?
+
+  protected
+  def sort_direction
+    %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
+  end
+  def choose_layout
+	case action_name
+    when "public"
+      "public"
+    else
+      "application"
+    end
+
+  end
+
 
 end

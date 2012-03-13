@@ -1,0 +1,23 @@
+.block
+  .secondary-navigation
+    =render :partial=>'nav'
+  .content
+    %h2.title
+      = t("web-app-theme.all", :default => "All")
+      Orchester
+    .inner
+      %table.table
+        %tr
+          %th.first 
+            = sortable "mglnr", t("orchestra.mglnr", :default => "Mglnr")
+          %th=t("orchestra.orchName",:default => "#orchName")
+          %th=t("member_account_booking.balance",:default => "#balance#")
+          %th.last &nbsp;
+        - @orchestras.each do |orchestra| 
+          %tr
+            %td=link_to orchestra.mglnr, orchestra_path(orchestra)
+            %td=orchestra.orchName
+            %td=format_currency(@accounts[orchestra.member_id],'€')
+      .actions-bar.wat-cf
+        .actions
+//- content_for :sidebar, render(:partial => 'sidebar')

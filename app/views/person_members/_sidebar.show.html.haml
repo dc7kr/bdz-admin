@@ -1,11 +1,8 @@
-.block.notice
-  %h3 Mitglied
-  .content
-    %p Hier koennte z.b. ein Bemerkungsfeld stehen...
+=render :partial=>'search'
 .block
   %h3 Links
   %ul.navigation
     %li
-      = link_to( "Mitgliedskonto", person_member_bookings_url(@person_member)) 
-    %li
-      %a{:href => "#"} Link 2
+      = link_to( "Mitgliedskonto", person_member_member_account_bookings_url(@person_member)) 
+
+

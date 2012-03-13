@@ -1,0 +1,22 @@
+= f.hidden_field :member_id, :value=>@member.member_id
+.block
+  = f.error_messages :message => "", :header_tag => :h3
+.group
+  %table
+    %tr
+      %td= f.label :booking_type, corika_tr("booking","booking_type","Booking Type"), :class => :label
+      %td= f.select :booking_type, options_for_select([["Beitrag", "B"], ["Lastschrift", "L"],  ["Gutschrift", "G"], ["Rücklastschrift","R"],["Zahlungseingang","Z"]],:selected=>@booking.booking_type)
+    %tr
+      %td= f.label :booking_date, corika_tr("booking","booking_date","Booking Date"), :class => :label
+      %td= f.text_field :booking_date, :class => 'text_field'
+    %tr
+      %td= f.label :booking_txt, corika_tr("booking","booking_text","Booking Text"), :class => :label
+      %td= f.text_field :booking_txt, :class => 'text_field'
+    %tr
+      %td= f.label :amount, corika_tr("booking","amount","Betrag"), :class => :label
+      %td= f.text_field :amount, :class => 'text_field'
+      
+  %button.button{:type => "submit"}
+    =submit_button(t("common.save", :default => "Save"))
+  = link_to t("web-app-theme.cancel", :default => "Cancel"), orchestras_path, :class => "text_button_padding button"
+  %br

@@ -1,3 +1,4 @@
+require 'set'
 class OrchestrasController < ApplicationController
   # for table sort by column click
   helper_method :sort_column, :sort_direction
@@ -6,6 +7,24 @@ class OrchestrasController < ApplicationController
   # GET /orchestras.json
   before_filter :authenticate_user!, :except => [:some_action_without_auth]
   load_and_authorize_resource
+  def nopayment
+	@accounts = MemberAccountBooking.sum(:amount,:group=>:member_id)
+
+
+	@ids = Set.new
+	@accounts.each do |account|
+      if (account[1]<0) then
+        @ids.add(account[0])
+	  end
+	end
+	@orchestras = Orchestra.includes(:member).order("members.mglnr").find(:all, :conditions=> ["member_id in (?)",@ids])
+
+    respond_to do |format|
+     format.html
+     format.json { render :json => @orchestras }
+    end
+
+  end
   def index
     @orchestras = Orchestra.includes(:member).search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(10)
 
@@ -13,6 +32,16 @@ class OrchestrasController < ApplicationController
       format.html # index.html.erb
       format.json { render :json => @orchestras }
     end
+  end
+
+  def noreport
+	@orchestras = Orchestra.includes([:member]).joins('LEFT JOIN report_sheets ON report_sheets.orchestra_id = orchestras.member_id AND report_sheets.year='+String(Time.now.year)).page(params[:page]).per(10).where(['report_sheets.id IS NULL']).search(params[:search]).order(sort_column+ " "+ sort_direction)
+
+
+	respond_to do |format|
+		format.html 
+		format.json {render :json => @orchestras }
+	end
   end
 
   # GET /orchestras/1
@@ -46,7 +75,6 @@ class OrchestrasController < ApplicationController
   # POST /orchestras.json
   def create
     @orchestra = Orchestra.new(params[:orchestra])
-
     respond_to do |format|
       if @orchestra.save
         format.html { redirect_to @orchestra, :notice => t('orchestra.create_success') }

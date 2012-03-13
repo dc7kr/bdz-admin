@@ -1,7 +1,8 @@
 .secondary-navigation
   %ul.wat-cf
-    %li.first.active= link_to "#{t("web-app-theme.list", :default => "List")}", concerts_path
-    %li= link_to "#{t("web-app-theme.new", :default => "New")}", new_concert_path
+    %li.first.active= link_to t("common.public_data", :default => "Öffentliche Daten"), home_path
+    %li= link_to t("common.member_data", :default => "Mitgliedsdaten"), home_path
+    %li= link_to t("common.reference_data", :default => "Stammdaten"), home_path
 .content
   %h2.title= t("home", :default => "Home")
   .inner
@@ -16,13 +17,16 @@
         %br
         = link_to "Studienmöglichkeiten", universities_path
         %br
-        = link_to "Ehrentafel", honor_member_path
+        = link_to "Ehrentafel", honor_members_path
         %br
         = link_to "Komponisten", composers_path
         %br
         = link_to "URLs", urls_path
         %br
         = link_to "URL Kategorien", url_categories_path
+        %br
+        = link_to "Adressen", addresses_path 
+        %br
         %br
     .block
       .block-content

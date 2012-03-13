@@ -14,4 +14,30 @@ class Concert < ActiveRecord::Base
    self.datum = Time.parse(value)
   end
 
+  def self.search(search)
+	if (search)
+		where('concerts.titel like ? or concerts.ort like ?',"#{search}","#{search}")
+	else
+		scoped
+	end
+  end
+  def self.searchByDate(search)
+	if (search)
+		where('concerts.date = ? ',"#{search}")
+	else
+		scoped
+	end
+  end
+
+
+  def self.inactive()
+	where('visible=0')
+  end
+  def self.active()
+	where('visible=1')
+  end
+
+  def self.public()
+    where('visible=1 and datum >= now()')
+  end
 end

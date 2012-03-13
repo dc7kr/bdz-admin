@@ -1,8 +1,6 @@
 .block
   .secondary-navigation
-    %ul.wat-cf
-      %li.first.active= link_to "#{t("web-app-theme.list", :default => "List")}", orchestras_path
-      %li= link_to "#{t("web-app-theme.new", :default => "New")}", new_orchestra_path
+    =render :partial=>'nav'
   .content
     %h2.title
       = t("web-app-theme.all", :default => "All")
@@ -14,17 +12,7 @@
             = sortable "mglnr", t("orchestra.mglnr", :default => "Mglnr")
           %th= sortable "orchName", t("orchestra.orchName", :default => "Name")
           %th.last &nbsp;
-        - @orchestras.each do |orchestra|
-          %tr{:class => cycle("odd", "even")}
-            %td
-              = link_to orchestra.mglnr, orchestra_path(orchestra)
-            %td
-              = orchestra.orchName
-            %td.last
-              = link_to_show( orchestra_path(orchestra), "#{t("web-app-theme.show", :default => "Show")}")
-              |
-              \#{link_to_edit(edit_orchestra_path(orchestra),  "#{t("web-app-theme.edit", :default => "Edit")}" )} |
-              \#{link_to_delete(orchestra_path(orchestra), "#{t("web-app-theme.delete", :default => "Delete")}", "#{t("web-app-theme.confirm", :default => "Are you sure?")}")}
+        =render @orchestras
       = paginate @orchestras
       .actions-bar.wat-cf
         .actions

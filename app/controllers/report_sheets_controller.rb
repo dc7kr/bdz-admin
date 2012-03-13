@@ -27,7 +27,7 @@ class ReportSheetsController < ApplicationController
   # GET /report_sheets/new.json
   def new
     @orchestra = Orchestra.find_by_member_id(params[:orchestra_id])
-    @report_sheet = ReportSheet.new(:orchestra=>@orchestra)
+    @report_sheet = ReportSheet.new(:orchestra=>@orchestra,:year=>Time.now.year)
 
     respond_to do |format|
       format.html # new.html.erb
@@ -48,7 +48,7 @@ class ReportSheetsController < ApplicationController
 
     respond_to do |format|
       if @report_sheet.save
-        format.html { redirect_to orchestra_report_sheet_path(@orchestra,@report_sheet), :notice => 'Report sheet was successfully created.' }
+        format.html { redirect_to orchestra_report_sheet_path(@report_sheet.orchestra,@report_sheet), :notice => t('report_sheet.create_success') }
         format.json { render :json => @report_sheet, :status => :created, :location => @report_sheet }
       else
         format.html { render :action => "new" }
@@ -76,11 +76,12 @@ class ReportSheetsController < ApplicationController
   # DELETE /report_sheets/1
   # DELETE /report_sheets/1.json
   def destroy
-    @report_sheet = ReportSheet.find(params[:id])
+    @report_sheet = ReportSheet.includes(:orchestra).find(params[:id])
+    @orchestra = Orchestra.find_by_member_id(@report_sheet.member_id)
     @report_sheet.destroy
 
     respond_to do |format|
-      format.html { redirect_to report_sheets_url }
+      format.html { redirect_to orchestra_report_sheets_path(@orchestra)}
       format.json { head :ok }
     end
   end

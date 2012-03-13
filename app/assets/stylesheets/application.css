@@ -1,4 +1,5 @@
 /* ...
 *= require_self
-*= require_tree .
+*= require_tree ./web-app-theme
+*= require_tree ./smoothness
 */

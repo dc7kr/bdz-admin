@@ -1,4 +1,8 @@
 class ContestsController < ApplicationController
+  layout :choose_layout
+  helper_method :sort_column, :sort_direction
+  before_filter :authenticate_user!, :except => [:index,:show,:public]
+  load_and_authorize_resource :except => [:public]
   # GET /contests
   # GET /contests.json
   def index

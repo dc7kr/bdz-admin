@@ -6,6 +6,9 @@ class EnsemblesController < ApplicationController
   # GET /ensembles.json
   before_filter :authenticate_user!, :except => [:some_action_without_auth]
   load_and_authorize_resource
+  def inactive 
+    @ensembles = Ensemble.inactive().search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(10)
+  end
   def index
     @ensembles = Ensemble.search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(10)
 

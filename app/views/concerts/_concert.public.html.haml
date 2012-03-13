@@ -1,0 +1,17 @@
+%dt
+  %a{:name => "#{'O'+String(concert.id)}"}
+  = concert.datum
+  ,
+  = concert.zeit
+  ,
+  = concert.stadt
+  ,
+  = concert.ort
+  ,
+%dd.title=concert.titel
+%dd
+  %a{:href=>"#{concert.url}",:target=>"_blank", :onclick=>"meldung()"}
+    =concert.interpret
+  %i
+    =concert.bemerkung
+

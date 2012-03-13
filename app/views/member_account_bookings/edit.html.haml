@@ -1,0 +1,17 @@
+%h1 Buchung bearbeiten
+
+-if(@isOrchestra)
+  = link_back(orchestra_member_account_bookings_path(@member),'Back')
+-else
+  = link_back(person_member_member_account_bookings_path(@member),'Back')
+
+= form_for ([@member,@booking]) do |f|
+  -if @booking.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@booking.errors.count, "error")} prohibited this booking from being saved:"
+      %ul
+        - @booking.errors.full_messages.each do |msg|
+          %li= msg
+  = f.hidden_field :member_id, :value=>@member.member_id
+  = render :partial => "form", :locals => {:f => f}
+

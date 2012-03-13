@@ -1,0 +1,10 @@
+.content
+  .inner
+    .block.notice
+      %h2=t('common.about')
+      .content
+        %p
+          %b Application:
+          =git_info[:application].html_safe
+          %b Last commit: 
+          %pre=git_info[:last_commit].html_safe

@@ -1,17 +1,37 @@
 class ConcertsController < ApplicationController
   # GET /concerts
   # GET /concerts.json
-  before_filter :authenticate_user!, :except => [:index]
-  load_and_authorize_resource
+  layout :choose_layout
+  helper_method :sort_column, :sort_direction
+  before_filter :authenticate_user!, :except => [:index,:show,:public]
+  load_and_authorize_resource :except => [:public]
+  #skip_authorize_resource :only => :show
+
+  def public 
+    @concerts = Concert.public().search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render :json => @concerts }
+    end
+  end
+
+  def inactive 
+    @concerts = Concert.inactive().search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render :json => @concerts }
+    end
+  end
   def index
     @festival_id = params[:event_id]
 
     if (@festival_id != nil ) 
 	#@Concerts = Concert.where(:all,:include=>[:country,:state,:festival],:conditions=>"datum >= date(now()),festival_id = @festival_id").paginate(:per_page => 20, :page => params[:page])
-	@Concerts = Concert.includes(:festival).page(params[:page]).per(20)
+	@Concerts = Concert.includes(:festival).search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
     else
       #@concerts = Concert.where(:all,:include=>[:country,:state,:festival],:conditions=>"datum >= date(now())").paginate(:per_page => 20, :page => params[:page])
-      @concerts = Concert.page(params[:page]).per(20)
+      @concerts = Concert.search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
     end
 
     respond_to do |format|
@@ -95,5 +115,10 @@ class ConcertsController < ApplicationController
       format.html { redirect_to concerts_url }
       format.json { head :ok }
     end
+  end
+
+  private 
+  def sort_column
+    Concert.column_names.include?(params[:sort]) ? params[:sort] : "datum"
   end
 end

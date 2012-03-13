@@ -1,11 +1,18 @@
 %tr
-  %td=@report_sheet.year
-  %td=@report_sheet.children 
-  %td=@report_sheet.teens 
-  %td=@report_sheet.youth 
-  %td=@report_sheet.adult 
-  %td=@report_sheet.uv 
-  %td=@report_sheet.zeitungen 
-  %td=@report_sheet.gema 
-  %td=@report_sheet.azubi 
-  %td=@report_sheet.passive
+  %td=report_sheet.year
+  %td=report_sheet.children 
+  %td=report_sheet.teens 
+  %td=report_sheet.youth 
+  %td=report_sheet.adult 
+  %td=report_sheet.uv 
+  %td=report_sheet.zusatz_uv
+  %td=report_sheet.zeitungen 
+  %td=report_sheet.zusatz_ztg
+  %td=report_sheet.calcGemaCount 
+  %td=report_sheet.azubi 
+  %td=report_sheet.passive
+  %td
+    = link_to_show( orchestra_report_sheet_path(@orchestra,report_sheet),'Show')
+    = link_to_edit( edit_orchestra_report_sheet_path(@orchestra,report_sheet),'Edit')
+    = link_to_delete( orchestra_report_sheets_path(report_sheet), 'Del','Wirklich löschen?')
+

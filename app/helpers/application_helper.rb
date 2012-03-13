@@ -12,6 +12,17 @@ module ApplicationHelper
     ''
   end
 
+def c_t(entity,field)
+	c_t(entity,field,nil)
+end
+
+def c_t(entity,field,default)
+	if (default )
+		t(entity+"."+field,:default => default)
+	else
+		t(entity+"."+field,:default=>"#"+field+"#" )
+	end
+end
 def corika_tr(entity,field,default)
     t("activerecord.attributes."+entity+"."+field, :default => t("activerecord.labels."+field, :default => default))
 end
@@ -19,6 +30,9 @@ end
 
 def link_back(path, txt)
     link_to image_tag('/assets/icons/back.png', {:size=>'16x16',:alt=>txt,:title=>txt,:class=>'btn'} ),path
+end
+def submit_button(txt)
+    image_tag("web-app-theme/icons/tick.png", :alt => txt)+txt
 end
 def del_button(path) 
 	link_to image_tag("/assets/icons/delete.png", :alt => "#{t("common.delete", :default=> "Delete")}") + " " + t("common.delete", :default => "Delete"), path, :method => "delete", :class => "button", :confirm => "#{t("common.confirm", :default => "Are you sure?")}"

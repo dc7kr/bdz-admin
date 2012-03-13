@@ -1,114 +1,116 @@
-%table
-  %tr
-    %td= f.label :mglnr, corika_tr("person_member","mglnr","Mitgliedsnummer"), :class => :label
-    %td= f.number_field :mglnr, :class => 'number_field'
-    
-  %tr
-    %td= f.label :anrede, corika_tr("person_member","anrede","Anrede"), :class => :label
-    %td= f.text_field :anrede, :class => 'text_field'
-    
-  %tr
-    %td= f.label :vorname, corika_tr("person_member","vorname","Vorname"), :class => :label
-    %td= f.text_field :vorname, :class => 'text_field'
-    
-  %tr
-    %td= f.label :nachname, corika_tr("person_member","nachname","Nachname"), :class => :label
-    %td= f.text_field :nachname, :class => 'text_field'
-    
-  %tr
-    %td= f.label :strasse, corika_tr("person_member","strasse","Strasse"), :class => :label
-    %td= f.text_field :strasse, :class => 'text_field'
-    
-  %tr
-    %td= f.label :land, corika_tr("person_member","land","Land"), :class => :label
-    %td= f.text_field :land, :class => 'text_field'
-    
-  %tr
-    %td= f.label :plz, corika_tr("person_member","plz","Plz"), :class => :label
-    %td= f.text_field :plz, :class => 'text_field'
-    
-  %tr
-    %td= f.label :Ort, corika_tr("person_member","Ort","Ort"), :class => :label
-    %td= f.text_field :Ort, :class => 'text_field'
-    
-  %tr
-    %td= f.label :geburtstag, corika_tr("person_member","geburtstag","Geburtstag"), :class => :label
-    %td= f.text_field :geburtstag, :class => 'datePicker'
-  %tr
-    %td= f.label :telefonPrivat, corika_tr("person_member","telefonPrivat","Telefonprivat"), :class => :label
-    %td= f.text_field :telefonPrivat, :class => 'text_field'
-    
-  %tr
-    %td= f.label :telefonDienstl, corika_tr("person_member","telefonDienstl","Telefondienstl"), :class => :label
-    %td= f.text_field :telefonDienstl, :class => 'text_field'
-    
-  %tr
-    %td= f.label :telefax, corika_tr("person_member","telefax","Telefax"), :class => :label
-    %td= f.text_field :telefax, :class => 'text_field'
-    
-  %tr
-    %td= f.label :eintritt, corika_tr("person_member","eintritt","Eintritt"), :class => :label
-    %td= f.text_field :eintritt
-    
-  %tr
-    %td= f.label :za, corika_tr("person_member","za","Za"), :class => :label
-    %td= f.text_field :za, :class => 'text_field'
-    
-  %tr
-    %td= f.label :konto, corika_tr("person_member","konto","Konto"), :class => :label
-    %td= f.number_field :konto, :class => 'number_field'
-    
-  %tr
-    %td= f.label :blz, corika_tr("person_member","blz","Blz"), :class => :label
-    %td= f.number_field :blz, :class => 'number_field'
-    
-  %tr
-    %td= f.label :zahler, corika_tr("person_member","zahler","Zahler"), :class => :label
-    %td= f.text_field :zahler, :class => 'text_field'
-    
-  %tr
-    %td= f.label :lv, corika_tr("person_member","lv","Lv"), :class => :label
-    %td= collection_select(:person_member, :regional_organization_id, RegionalOrganization.all, :id, :name) 
-  %tr
-    %td= f.label :tariff, corika_tr("person_member","beitragsart","Beitragsart"), :class => :label
-    %td= collection_select(:person_member, :tariff_id, Tariff.all, :id, :description) 
-    
-  %tr
-    %td= f.label :bemerkung, corika_tr("person_member","bemerkung","Bemerkung"), :class => :label
-    %td= f.text_field :bemerkung, :class => 'text_field'
-    
-  %tr
-    %td= f.label :zeitungen, corika_tr("person_member","zeitungen","Zeitungen"), :class => :label
-    %td= f.number_field :zeitungen, :class => 'number_field'
-    
-  %tr
-    %td= f.label :austrittZum, corika_tr("person_member","austrittZum","Austrittzum"), :class => :label
-    %td= f.text_field :austritt_zum, :class => 'datePicker'
-    
-  %tr
-    %td= f.label :kuendigungVom, corika_tr("person_member","kuendigungVom","Kuendigungvom"), :class => :label
-    %td= f.text_field :kuendigungVom, :class => 'datePicker'
-    
-  %tr
-    %td= f.label :beitrag, corika_tr("person_member","beitrag","Beitrag"), :class => :label
-    %td= f.text_field :beitrag, :class => 'text_field'
-    
-  %tr
-    %td= f.label :zusatzzeitung, corika_tr("person_member","zusatzzeitung","Zusatzzeitung"), :class => :label
-    %td= f.number_field :zusatzzeitung, :class => 'number_field'
-    
-  %tr
-    %td= f.label :eMail, corika_tr("person_member","eMail","Email"), :class => :label
-    %td= f.text_field :eMail, :class => 'text_field'
-    
-  %tr
-    %td= f.label :lastschriftErfasst, corika_tr("person_member","lastschriftErfasst","Lastschrifterfasst"), :class => :label
-    %td= f.check_box :lastschriftErfasst, :class => 'check_box'
-    
-  %tr
-    %td= f.label :rechnungsDruck, corika_tr("person_member","rechnungsDruck","Rechnungsdruck"), :class => :label
-    %td= f.check_box :rechnungsDruck, :class => 'check_box'
-    
+.block
+  = f.error_messages :message => "", :header_tag => :h3
+.group
+  %table
+    %tr
+      %td= f.label :mglnr, corika_tr("person_member","mglnr","Mitgliedsnummer"), :class => :label
+      %td= f.number_field :mglnr, :class => 'number_field'
+      
+    %tr
+      %td= f.label :anrede, corika_tr("person_member","anrede","Anrede"), :class => :label
+      %td= f.text_field :anrede, :class => 'text_field'
+      
+    %tr
+      %td= f.label :vorname, corika_tr("person_member","vorname","Vorname"), :class => :label
+      %td= f.text_field :vorname, :class => 'text_field'
+      
+    %tr
+      %td= f.label :nachname, corika_tr("person_member","nachname","Nachname"), :class => :label
+      %td= f.text_field :nachname, :class => 'text_field'
+      
+    %tr
+      %td= f.label :strasse, corika_tr("person_member","strasse","Strasse"), :class => :label
+      %td= f.text_field :strasse, :class => 'text_field'
+      
+    %tr
+      %td= f.label :land, corika_tr("person_member","land","Land"), :class => :label
+      %td= f.text_field :land, :class => 'text_field'
+      
+    %tr
+      %td= f.label :plz, corika_tr("person_member","plz","Plz"), :class => :label
+      %td= f.text_field :plz, :class => 'text_field'
+      
+    %tr
+      %td= f.label :ort, corika_tr("person_member","Ort","Ort"), :class => :label
+      %td= f.text_field :ort, :class => 'text_field'
+      
+    %tr
+      %td= f.label :geburtstag, corika_tr("person_member","geburtstag","Geburtstag"), :class => :label
+      %td= f.text_field :geburtstag, :class => 'datePicker'
+    %tr
+      %td= f.label :telefonPrivat, corika_tr("person_member","telefonPrivat","Telefonprivat"), :class => :label
+      %td= f.text_field :telefonPrivat, :class => 'text_field'
+      
+    %tr
+      %td= f.label :telefonDienstl, corika_tr("person_member","telefonDienstl","Telefondienstl"), :class => :label
+      %td= f.text_field :telefonDienstl, :class => 'text_field'
+      
+    %tr
+      %td= f.label :telefax, corika_tr("person_member","telefax","Telefax"), :class => :label
+      %td= f.text_field :telefax, :class => 'text_field'
+      
+    %tr
+      %td= f.label :eintritt, corika_tr("person_member","eintritt","Eintritt"), :class => :label
+      %td= f.text_field :eintritt
+      
+    %tr
+      %td= f.label :za, corika_tr("person_member","za","Za"), :class => :label
+      %td= f.select :za, options_for_select([["Lastschrift", "L"], ["Rechnung", "R"]],:selected=>@person_member.za) 
+    %tr
+      %td= f.label :konto, corika_tr("person_member","konto","Konto"), :class => :label
+      %td= f.number_field :konto, :class => 'number_field'
+      
+    %tr
+      %td= f.label :blz, corika_tr("person_member","blz","Blz"), :class => :label
+      %td= f.number_field :blz, :class => 'number_field'
+      
+    %tr
+      %td= f.label :zahler, corika_tr("person_member","zahler","Zahler"), :class => :label
+      %td= f.text_field :zahler, :class => 'text_field'
+      
+    %tr
+      %td= f.label :lv, corika_tr("person_member","lv","Lv"), :class => :label
+      %td= collection_select(:person_member, :regional_organization_id, RegionalOrganization.all, :id, :name) 
+    %tr
+      %td= f.label :tariff, corika_tr("person_member","beitragsart","Beitragsart"), :class => :label
+      %td= collection_select(:person_member, :tariff_id, Tariff.all, :id, :description) 
+      
+    %tr
+      %td= f.label :bemerkung, corika_tr("person_member","bemerkung","Bemerkung"), :class => :label
+      %td= f.text_field :bemerkung, :class => 'text_field'
+      
+    %tr
+      %td= f.label :zeitungen, corika_tr("person_member","zeitungen","Zeitungen"), :class => :label
+      %td= f.number_field :zeitungen, :class => 'number_field'
+      
+    %tr
+      %td= f.label :austrittZum, corika_tr("person_member","austrittZum","Austrittzum"), :class => :label
+      %td= f.text_field :austritt_zum, :class => 'datePicker'
+      
+    %tr
+      %td= f.label :kuendigungVom, corika_tr("person_member","kuendigungVom","Kuendigungvom"), :class => :label
+      %td= f.text_field :kuendigungVom, :class => 'datePicker'
+      
+    %tr
+      %td= f.label :beitrag, corika_tr("person_member","beitrag","Beitrag"), :class => :label
+      %td= f.text_field :beitrag, :class => 'text_field'
+      
+    %tr
+      %td= f.label :zusatzzeitung, corika_tr("person_member","zusatzzeitung","Zusatzzeitung"), :class => :label
+      %td= f.number_field :zusatzzeitung, :class => 'number_field'
+      
+    %tr
+      %td= f.label :eMail, corika_tr("person_member","eMail","Email"), :class => :label
+      %td= f.text_field :eMail, :class => 'text_field'
+      
+    %tr
+      %td= f.label :lastschriftErfasst, corika_tr("person_member","lastschriftErfasst","Lastschrifterfasst"), :class => :label
+      %td= f.check_box :lastschriftErfasst, :class => 'check_box'
+      
+    %tr
+      %td= f.label :rechnungsDruck, corika_tr("person_member","rechnungsDruck","Rechnungsdruck"), :class => :label
+      %td= f.check_box :rechnungsDruck, :class => 'check_box'
+      
 .group.navform.wat-cf
   %button.button{:type => "submit"}
     = image_tag("web-app-theme/icons/tick.png", :alt => "#{t("web-app-theme.save", :default => "Save")}")

@@ -1,8 +1,26 @@
+%h2 Mitgliedskonto
+%h3
+
+  #{@name} (#{@member.mglnr})
+
+
+-if(@isOrchestra)
+  = link_back(orchestra_path(@member),'Back')
+-else
+  = link_back(person_member_path(@member),'Back')
+
 %table
   %tr
     %th Datum
     %th Typ
     %th Text
     %th Betrag
-
   = render @bookings
+
+-if(@isOrchestra) then 
+  = link_to_new(new_orchestra_member_account_booking_path(@orchestra),t("common.new"))
+-else
+  = link_to_new(new_person_member_member_account_booking_path(@member),t("common.new"))
+
+
+- content_for :sidebar, render(:partial => 'sidebar')

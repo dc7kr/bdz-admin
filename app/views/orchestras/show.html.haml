@@ -71,7 +71,7 @@
           %td.label
             = t("orchestra.eintritt")
             \:
-          %td= @orchestra.eintritt
+          %td= format_date(@orchestra.eintritt)
         %tr
           %td.label
             = t("orchestra.za")
@@ -94,14 +94,9 @@
           %td= @orchestra.regional_organization.name
         %tr
           %td.label
-            Zett WEE
+            = t("orchestra.orch_type")
             \:
-          %td= @orchestra.zw
-        %tr
-          %td.label
-            = t("orchestra.koopMitglied")
-            \:
-          %td!= format_bool(@orchestra.koopMitglied)
+          %td= t("orchestra.type_"+@orchestra.orch_type)
         %tr
           %td.label
             = t("orchestra.austrittZum")

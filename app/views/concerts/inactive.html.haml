@@ -1,0 +1,32 @@
+.block
+  .secondary-navigation
+    %ul.wat-cf
+      %li.first.active= link_to "#{t("common.list", :default => "List")}", concerts_path
+      %li= link_to "#{t("common.new", :default => "New")}", new_concert_path
+  .content
+    %h2.title
+      = t("common.all", :default => "All")
+      Konzerte
+    .inner
+      %table.table
+        %tr
+          %th.first 
+            = sortable "datum", t("concert.datum", :default =>"#datum#")
+          %th
+            = c_t("concert","zeit",nil)
+          %th
+            = sortable "stadt", c_t("concert","stadt","Stadt")
+          %th
+            = sortable "ort", c_t("concert","ort","Ort")
+          %th
+            = c_t("concert","interpret","Interpret")
+          %th
+            = c_t("concert","url","Url")
+          %th
+            = c_t("concert","eintritt","Eintritt")
+          %th.last &nbsp;
+          = render @concerts
+          
+%br
+= paginate @concerts
+= link_to 'New Concert', new_concert_path

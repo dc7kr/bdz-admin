@@ -1,6 +1,6 @@
 class CountriesController < ApplicationController
   before_filter :authenticate_user!#, :except => [:index]
-  load_and_authorize_resource
+  load_and_authorize_resource :except => [:public ]
   # GET /countries
   # GET /countries.json
   def index

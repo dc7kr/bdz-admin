@@ -2,56 +2,31 @@
   .secondary-navigation
     %ul.wat-cf
       %li.first.active= link_to "#{t("web-app-theme.list", :default => "List")}", ensembles_path
+      %li= link_to "#{t("common.inactive", :default => "Inactive")}", inactive_ensembles_path 
       %li= link_to "#{t("web-app-theme.new", :default => "New")}", new_ensemble_path
   .content
     %h2.title
-      = t("web-app-theme.all", :default => "All")
-      Orchester
+      = t("common.all", :default => "All")
+      = t("ensemble.title")
     .inner
       %table.table
         %tr
           %th.first 
-            = sortable "name", t("activerecord.attributes.ensembles.name", :default => t("activerecord.labels.name", :default => "NAME"))
-          %th= t("web-app-theme.visible", :default => "VISIBLE")
+            = sortable "id", t("ensemble.id", :default => "Nr")
+          %th= sortable "name", t("ensemble.orchName", :default => "Name")
           %th.last &nbsp;
         - @ensembles.each do |ensemble|
           %tr{:class => cycle("odd", "even")}
             %td
-              = link_to ensemble.name, ensemble_path(ensemble)
+              = link_to ensemble.id, ensemble_path(ensemble)
             %td
-              = ensemble.visible
+              = ensemble.name
             %td.last
-              = link_to "#{t("web-app-theme.show", :default => "Show")}", ensemble_path(ensemble)
+              = link_to_show( ensemble_path(ensemble), "#{t("web-app-theme.show", :default => "Show")}")
               |
-              \#{link_to "#{t("web-app-theme.edit", :default => "Edit")}", edit_ensemble_path(ensemble)} |
-              \#{link_to "#{t("web-app-theme.delete", :default => "Delete")}", ensemble_path(ensemble), :method => :delete, :confirm => "#{t("web-app-theme.confirm", :default => "Are you sure?")}"}
-      = will_paginate @ensembles
+              \#{link_to_edit(edit_ensemble_path(ensemble),  "#{t("web-app-theme.edit", :default => "Edit")}" )} |
+              \#{link_to_delete(ensemble_path(ensemble), "#{t("web-app-theme.delete", :default => "Delete")}", "#{t("web-app-theme.confirm", :default => "Are you sure?")}")}
+      = paginate @ensembles
       .actions-bar.wat-cf
         .actions
 - content_for :sidebar, render(:partial => 'sidebar')
-
-%h1 Listing ensembles
-
-%table
-  %tr
-    %th Name
-    %th Homepage
-    %th Beschreibung
-    %th Email
-    %th Owner
-    %th Visible
-    %th
-    %th
-    %th
-
-  - @ensembles.each do |ensemble|
-    %tr
-      %td= ensemble.name
-      %td= ensemble.visible
-      %td= link_to 'Show', ensemble
-      %td= link_to 'Edit', edit_ensemble_path(ensemble)
-      %td= link_to 'Destroy', ensemble, :confirm => 'Are you sure?', :method => :delete
-
-%br
-
-= link_to 'New Ensemble', new_ensemble_path

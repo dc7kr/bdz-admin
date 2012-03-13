@@ -1,0 +1,6 @@
+%ul.wat-cf
+  %li.first.active= link_to "#{t("common.list", :default => "List")}", orchestras_path
+  %li= link_to "#{t("orchestra.noreport", :default => "No Report")}", noreport_orchestras_path
+  %li= link_to "#{t("member.nopayment", :default => "#no payment#")}", nopayment_orchestras_path
+  %li= link_to "#{t("common.new", :default => "New")}", new_orchestra_path
+

@@ -4,7 +4,7 @@ class PersonMember < ActiveRecord::Base
 
   def self.search(search)
 	if (search)
-		where('members.mglnr = ?',"#{search}")
+		where('members.mglnr = ? or person_members.nachname like ?',"#{search}","%#{search}%")
 	else
 		scoped
 	end

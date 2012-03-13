@@ -1,3 +1,5 @@
+.block
+  = f.error_messages :message => "", :header_tag => :h3
 .group
   %table
     %tr
@@ -34,6 +36,13 @@
       %td= f.label :fax, corika_tr("orchestra","fax","Fax"), :class => :label
       %td= f.text_field :fax, :class => 'text_field'
     %tr
+      %td= f.label :eMail, corika_tr("orchestra","eMail","Email"), :class => :label
+      %td= f.text_field :eMail, :class => 'text_field'
+    %tr
+      %td= f.label :url, corika_tr("orchestra","url","Url"), :class => :label
+      %td= f.text_field :url, :class => 'text_field'
+
+    %tr
       %td= f.label :gruendung, corika_tr("orchestra","gruendung","Gruendung"), :class => :label
       %td= f.text_field :gruendung 
     %tr
@@ -52,14 +61,14 @@
       %td= f.label :regional_organization, corika_tr("orchestra","regional_organization","Landesverband"), :class => :label
       %td= collection_select(:orchestra, :regional_organization_id, RegionalOrganization.all, :id, :name) 
     %tr
-      %td= f.label :zw, corika_tr("orchestra","zw","Zw"), :class => :label
-      %td= f.text_field :zw, :class => 'text_field'
-    %tr
-      %td= f.label :gema, corika_tr("orchestra","gema","Gema"), :class => :label
-      %td= f.number_field :gema, :class => 'number_field'
-    %tr
-      %td= f.label :koopMitglied, corika_tr("orchestra","koopMitglied","Koopmitglied"), :class => :label
-      %td= f.check_box :koopMitglied, :class => 'check_box'
+      %td
+        = f.label :orch_type, corika_tr("orchestra","orch_type","OrchType"), :class => :label
+        (
+        = @orchestra.koopMitglied
+        ,
+        = @orchestra.landes_orch
+        )
+      %td= f.select :orch_type, options_for_select([["Vereinsorchester", "O"], ["Kooperativ", "K"],  ["Landesorchester", "L"]],:selected=>@orchestra.orch_type) 
     %tr
       %td= f.label :austritt_zum, corika_tr("orchestra","austritt_zum","Austrittzum"), :class => :label
       %td= f.text_field :austritt_zum, :class => 'datePicker'
@@ -93,12 +102,6 @@
     %tr
       %td= f.label :bemerkung, corika_tr("orchestra","bemerkung","Bemerkung"), :class => :label
       %td= f.text_field :bemerkung, :class => 'text_field'
-    %tr
-      %td= f.label :eMail, corika_tr("orchestra","eMail","Email"), :class => :label
-      %td= f.text_field :eMail, :class => 'text_field'
-    %tr
-      %td= f.label :url, corika_tr("orchestra","url","Url"), :class => :label
-      %td= f.text_field :url, :class => 'text_field'
     %tr
       %td= f.label :lastschriftErfasst, corika_tr("orchestra","lastschriftErfasst","Lastschrifterfasst"), :class => :label
       %td= f.check_box :lastschriftErfasst, :class => 'check_box'
