@@ -12,7 +12,7 @@ class BlzValidator < ActiveModel::EachValidator
     end
 
 	r=false
-	KtoBlzCheck.new do |kbc|
+	KtoBlzCheck.new("/var/lib/ktoblzcheck1/bankdata.txt") do |kbc|
 			name,location=kbc.find(record.blz)
 			if name 
 			then
