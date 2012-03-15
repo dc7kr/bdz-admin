@@ -84,9 +84,9 @@ end
 
 def format_bool(val) 
   if (val) 
-    return "&#x2713;"
+    return t("common.yes")
   else
-    return "-"
+    return t("common.no")
   end
 end
 
