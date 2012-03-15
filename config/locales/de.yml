@@ -7,11 +7,17 @@ de:
       required_by_za: Zahlungsart Lastschrift erfordert Bankleitzahl
       unknown: ist unbekannt
   common:
+    yes: Ja
+    no: Nein
     za_L: Lastschrift
     za_R: Rechnung
     back: Zurück
     save: Speichern
     about: Über
+    new: Neu
+    list: Liste
+    search: Suche
+    nopayment: Säumige Zahler
 
   time:
     formats:
@@ -24,7 +30,14 @@ de:
     next_label: "Weiter"
     page_gap: "..."
 
+  member_account_booking:
+    title: Buchung
+    create_success: Buchung wurde erfolgreich angelegt.
+    update_success: Buchung wurde erfolgreich aktualisiert.
+    balance: Saldo
+  
   member:
+    nopayment: Säumige Zahler
     mglnr: Mitgl.-Nr.
     eintritt: Eintritt
     austritt_zum: Austritt zum
@@ -45,6 +58,8 @@ de:
     fax: Fax 	
 
   orchestra:
+    noreport: Kein Meldebogen
+    search: "Suche nach Mitgliedsnummer oder Teil des Orchesternamens"
     update_success: "Orchester wurde erfolgreich aktualisiert."
     orchName: Orchestername
     orch_type: Orchestertyp
@@ -69,14 +84,18 @@ de:
     create_success: Meldebogen erfolgreich angelegt
     children: Kinder
     teens: Jugendliche 15-18
-    youth: 19-27
-    adults: Erwachsene
+    youth: Erw. 19-27
+    adult: Erw. 27-55
+    senior: Erw. 55+ 
     passive: Passiv
     year: Jahr
     gema: GEMA
     azubi: Beitragsfrei
     uv: Unfallvers.
     new: Neuer Meldebogen
+    invsum: Rechnungsbetrag
+    sum: Mitgliedsbeiträge
+    uvsum: Unfallversicherung
 
   views:
     pagination:
