@@ -1,0 +1,37 @@
+table.bordered {
+	border: solid black 1px;
+	border-style: collapse;
+}
+
+table.bordered td {
+	border:solid black 1px;
+	border-style: collapse;
+}
+
+table.bordered th {
+	border:solid black 1px;
+	border-style: collapse;
+}
+
+td.sum {
+	text-align:right;
+	font-weight:bold;
+}
+
+td.currency {
+	text-align:right;
+}
+
+.field_with_errors input {
+	border: solid red 1px;
+}
+
+#errorExplanation {
+	background-color:#d0d0d0;
+	padding: 5px;
+	border: 1px solid red;
+}
+
+#errorExplanation ul {
+	margin-left:20px;
+}
