@@ -27,7 +27,15 @@ class ReportSheetsController < ApplicationController
   # GET /report_sheets/new.json
   def new
     @orchestra = Orchestra.find_by_member_id(params[:orchestra_id])
-    @report_sheet = ReportSheet.new(:orchestra=>@orchestra,:year=>Time.now.year)
+    @report_sheet = ReportSheet.new(:orchestra=>@orchestra,:year=>Time.now.year,
+		:youth=>0,
+		:children=>0,
+		:teens=>0,
+		:adult=>0,
+		:senior=>0,
+		:passive=>0,
+		:azubi=>0
+    )
 
     respond_to do |format|
       format.html # new.html.erb
@@ -77,7 +85,7 @@ class ReportSheetsController < ApplicationController
   # DELETE /report_sheets/1.json
   def destroy
     @report_sheet = ReportSheet.includes(:orchestra).find(params[:id])
-    @orchestra = Orchestra.find_by_member_id(@report_sheet.member_id)
+    @orchestra = Orchestra.find_by_member_id(@report_sheet.orchestra_id)
     @report_sheet.destroy
 
     respond_to do |format|
