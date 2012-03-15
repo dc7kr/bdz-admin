@@ -51,6 +51,10 @@ class Prices
 		return BDZ_SETTINGS['tariff']['adultRate'].to_f
 	end
 
+	def self.seniorRate
+		return BDZ_SETTINGS['tariff']['adultRate'].to_f
+	end
+
 	def self.uvRate 
 		return BDZ_SETTINGS['tariff']['uvRate'].to_f
 	end
@@ -80,5 +84,9 @@ class Prices
 	end
 	def self.koopRate
 		return BDZ_SETTINGS['tariff']['koop'].to_f
+	end
+
+  	def self.ztgRate
+		return  BDZ_SETTINGS['tariff']['ztgRate'].to_f
 	end
 end

@@ -1,11 +1,11 @@
 class ReportSheet < ActiveRecord::Base
 	belongs_to :orchestra
-
 	def calcRawTariff
 		return children*Prices.childrenRate + 
 			youth*Prices.youthRate + 
 			teens * Prices.teensRate + 
-			adult * Prices.adultRate
+			adult * Prices.adultRate+
+			senior * Prices.seniorRate
 	end
 
 	def calcBeitrag
@@ -29,11 +29,15 @@ class ReportSheet < ActiveRecord::Base
 	end
 
 	def calcGemaCount
-		return youth+teens+adult
+		return youth+teens+adult+senior
 	end
 
 	def calcUvCount
-		return calcGemaCount
+		if (uv) 
+			return calcGemaCount+zusatz_uv
+		else
+			return 0
+		end
 	end
 
 	def calcUV
@@ -42,6 +46,10 @@ class ReportSheet < ActiveRecord::Base
 
 	def calcInvoice
 		return calcUV+calcBeitrag
+	end
+
+	def calcZeitungen
+		return (calcGemaCount*Prices.ztgRate).ceil
 	end
 
 end
