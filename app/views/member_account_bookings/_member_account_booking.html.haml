@@ -5,6 +5,11 @@
   %td=format_currency(member_account_booking.amount,'€')
   %td
     -if ( member_account_booking.booking_mode=='M') then
-      = link_to_edit( edit_orchestra_member_account_booking_path(@member,member_account_booking),'Edit')
-      = link_to_delete( orchestra_member_account_bookings_path(member_account_booking), 'Del','Wirklich löschen?')
+      -if (@isOrchestra) then 
+        = link_to_edit( edit_orchestra_member_account_booking_path(@member,member_account_booking),'Edit')
+        = link_to_delete( orchestra_member_account_bookings_path(member_account_booking), 'Del',t('common.delete_confirm'))
+      -else
+        = link_to_edit( edit_person_member_member_account_booking_path(@member,member_account_booking),'Edit')
+        = link_to_delete( person_member_member_account_bookings_path(member_account_booking), 'Del',t('common.delete_confirm'))
+
 

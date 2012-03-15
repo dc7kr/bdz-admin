@@ -5,7 +5,7 @@
   %table
     %tr
       %td= f.label :booking_type, corika_tr("booking","booking_type","Booking Type"), :class => :label
-      %td= f.select :booking_type, options_for_select([["Beitrag", "B"], ["Lastschrift", "L"],  ["Gutschrift", "G"], ["Rücklastschrift","R"],["Zahlungseingang","Z"]],:selected=>@booking.booking_type)
+      %td= f.select :booking_type, options_for_select([["Beitrag", "B"], ["Lastschrift", "L"],  ["Gutschrift", "G"], ["Ehrungsrechnung","E"],["Rücklastschrift","R"],["Zahlungseingang","Z"]],:selected=>@booking.booking_type)
     %tr
       %td= f.label :booking_date, corika_tr("booking","booking_date","Booking Date"), :class => :label
       %td= f.text_field :booking_date, :class => 'text_field'
