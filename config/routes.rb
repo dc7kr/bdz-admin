@@ -1,65 +1,91 @@
 RailsAdmin::Application.routes.draw do
-  get "invoice/persons"
-
-  get "invoice/orchestras"
-
-  resources :tariffs
-  resources :about
-
-  resources :composers
-
-  resources :report_sheets
-
-  resources :person_members do
-    resources :member_account_bookings, :as => 'bookings'
-  end
 
   devise_for :users
 
-  resources :universities
-  resources :honor_members
+  #entirely public 
+  resources :home
+  resources :about
 
-  resources :ensembles
+  # partly public (except for edit functions)
+  resources :courses do
+	collection do 
+		get :inactive
+		get :public
+	end
+  end
 
-  resources :concerts
+  resources :concerts do
+	collection do 
+		get :inactive
+		get :public
+	end
+  end
 
-  resources :contests
+  resources :composers do
+    collection do
+      get :public
+    end
+  end
+
+  resources :contests do
+	collection do
+		get :inactive
+        get :public
+	end
+  end
 
   resources :festivals do
+    collection do 
+      get :public
+    end
     resources :concerts
   end
 
-  resources :users
+  resources :functions
+  resources :addresses
+  resources :states
+  resources :regional_organizations 
+  resources :tariffs
+  resources :composers
+  resources :universities
+  resources :honor_members
 
-  resources :urls
+  resources :urls 
 
   resources :url_categories do
     resources :urls
   end
 
-  resources :functions
-
-  resources :addresses
-
-  resources :orchestras do
-    resources :member_account_bookings, :as => 'bookings'
-    resources :report_sheets
-	collection do 
-		get :noreport
-	end
-  end
-
-  resources :states
-
   resources :countries do
     resources :states
   end
 
-  resources :regional_organizations do
-  	resources :regional_organizations
+  resources :ensembles do
+	collection do 
+		get :inactive
+	end
   end
 
 
+#confidential
+  resources :users
+  resources :report_sheets
+
+  resources :person_members do
+    resources :member_account_bookings
+  end
+  
+  resources :orchestras do
+    resources :member_account_bookings
+    resources :report_sheets
+	collection do 
+		get :noreport
+		get :nopayment
+	end
+  end
+
+
+# automatic controllers 
   namespace :cron do
     resources :invoices
   end
