@@ -3,9 +3,10 @@
     = link_to orchestra.mglnr, orchestra_path(orchestra)
   %td
     = orchestra.orchName
+  %td
+    = mail_to orchestra.email, orchestra.email
   %td.last
-    = link_to_show( orchestra_path(orchestra), "#{t("web-app-theme.show", :default => "Show")}")
-    |
-    \#{link_to_edit(edit_orchestra_path(orchestra),  "#{t("web-app-theme.edit", :default => "Edit")}" )} |
-    \#{link_to_delete(orchestra_path(orchestra), "#{t("web-app-theme.delete", :default => "Delete")}", "#{t("web-app-theme.confirm", :default => "Are you sure?")}")}
+    = link_to_show orchestra, t("common.show")
+    = link_to_edit orchestra,  t("common.edit")
+    = link_to_delete orchestra, t("common.delete"), t("common.delete_confirm")
 

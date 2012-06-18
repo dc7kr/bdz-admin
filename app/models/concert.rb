@@ -1,5 +1,5 @@
 class Concert < ActiveRecord::Base
-	belongs_to :user , :foreign_key => "fk_owner"
+	belongs_to :user , :foreign_key => "owner"
 	belongs_to :state, :foreign_key => "bland"
 	belongs_to :country, :foreign_key => "land"
 	belongs_to :festival, :foreign_key => "festival"

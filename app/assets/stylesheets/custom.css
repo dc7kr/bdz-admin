@@ -35,3 +35,38 @@ td.currency {
 #errorExplanation ul {
 	margin-left:20px;
 }
+
+li.username {
+color:#d0d0d0;
+}
+
+.alert {
+background-color:#ff0000;
+color:#ffffff;
+}
+
+td.label {
+  font-weight:bold;
+  text-align:right;
+}
+
+#footer {
+	width:98%;
+	position:relative;
+	float:left;
+	
+}
+
+#mainblock {
+	padding: 10px;
+}
+
+a.sort {
+	color: #ffffff;
+}
+
+#sidebar {
+	position:relative;
+	top:0px;
+	float:right;
+}

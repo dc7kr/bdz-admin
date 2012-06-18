@@ -9,148 +9,75 @@
       %table
         %tr
           %td.label
-            = t("orchestra.mglnr")
-            \:
-          %td= @orchestra.mglnr
+            &nbsp;
+          %td #{@orchestra.mglnr} (#{t("orchestra.type_"+@orchestra.orch_type)})
         %tr
-          %td.label
-            = t("orchestra.orchName")
-            \:
+          %td.label #{t("orchestra.orchName")}:
           %td= @orchestra.orchName
         %tr
-          %td.label
-            = t("orchestra.anrede")
-            \:
-          %td= @orchestra.anrede
+          %td.label #{t("common.address")}:
+          %td #{@orchestra.anrede} #{@orchestra.fullname}
         %tr
-          %td.label
-            = t("orchestra.vorname")
-            \:
-          %td= @orchestra.vorname
-        %tr
-          %td.label
-            = t("orchestra.nachname")
-            \:
-          %td= @orchestra.nachname
-        %tr
-          %td.label
-            = t("orchestra.strasse")
-            \:
+          %td &nbsp;
           %td= @orchestra.strasse
         %tr
-          %td.label
-            = t("orchestra.land")
-            \:
-          %td= @orchestra.land
+          %td &nbsp;
+          %td #{@orchestra.plz} #{@orchestra.ort}
         %tr
-          %td.label
-            = t("orchestra.plz")
-            \:
-          %td= @orchestra.plz
+          %td &nbsp;
+          %td= @orchestra.country.name
         %tr
-          %td.label
-            = t("orchestra.ort")
-            \:
-          %td= @orchestra.ort
-        %tr
-          %td.label
-            = t("orchestra.telefon")
-            \:
+          %td.label #{t("orchestra.telefon")}:
           %td= @orchestra.telefon
         %tr
-          %td.label
-            = t("orchestra.fax")
-            \:
+          %td.label #{t("orchestra.fax")}:
           %td= @orchestra.fax
         %tr
-          %td.label
-            = t("orchestra.gruendung")
-            \:
+          %td.label #{t("orchestra.email")}:
+          %td=mail_to @orchestra.email,@orchestra.email
+        %tr
+          %td.label #{t("orchestra.gruendung")}:
           %td= format_date(@orchestra.gruendung)
         %tr
-          %td.label
-            = t("orchestra.eintritt")
-            \:
+          %td.label #{t("orchestra.eintritt")}:
           %td= format_date(@orchestra.eintritt)
         %tr
-          %td.label
-            = t("orchestra.za")
-            \:
-          %td= t("common.za_"+@orchestra.za)
+          %td.label #{t("orchestra.za")}:
+          %td #{t("common.za_"+@orchestra.za)}:
         %tr
-          %td.label
-            = t("orchestra.konto")
-            \:
+          %td.label #{t("orchestra.konto")}:
           %td= @orchestra.konto
         %tr
-          %td.label
-            = t("orchestra.blz")
-            \:
+          %td.label #{t("orchestra.blz")}:
           %td= @orchestra.blz
         %tr
-          %td.label
-            = t("orchestra.lv")
-            \:
-          %td= @orchestra.regional_organization.name
-        %tr
-          %td.label
-            = t("orchestra.orch_type")
-            \:
-          %td= t("orchestra.type_"+@orchestra.orch_type)
-        %tr
-          %td.label
-            = t("orchestra.austrittZum")
-            \:
+          %td.label #{t("orchestra.austrittZum")}:
           %td= format_date(@orchestra.austritt_zum)
         %tr
-          %td.label
-            = t("orchestra.schreibenVom")
-            \:
+          %td.label #{t("orchestra.schreibenVom")}:
           %td= format_date(@orchestra.schreibenVom)
         %tr
-          %td.label
-            = t("orchestra.bemerkung")
-            \:
+          %td.label #{t("orchestra.bemerkung")}:
           %td= @orchestra.bemerkung
         %tr
-          %td.label
-            = t("orchestra.eMail")
-            \:
-          %td= @orchestra.eMail
-        %tr
-          %td.label
-            = t("orchestra.url")
-            \:
+          %td.label #{t("orchestra.url")}:
           %td= @orchestra.url
         %tr
-          %td.label
-            = t("orchestra.lastschriftErfasst")
-            \:
+          %td.label #{t("orchestra.lastschriftErfasst")}:
           %td!= format_bool(@orchestra.lastschriftErfasst)
         %tr
-          %td.label
-            = t("orchestra.kuendigungErfasst")
-            \:
+          %td.label #{t("orchestra.kuendigungErfasst")}:
           %td!= format_bool(@orchestra.kuendigungErfasst)
         %tr
-          %td.label
-            = t("orchestra.zweitanschrift")
-            \:
+          %td.label #{t("orchestra.zweitanschrift")}:
           %td= @orchestra.zweitanschrift
         %tr
-          %td.label
-            = t("orchestra.name2")
-            \:
+          %td.label #{t("orchestra.name2")}:
           %td= @orchestra.name2
-        %tr
-          %td.label
-            = t("orchestra.dageVER")
-            \:
-          %td= @orchestra.dageVER
         
     .wat-cf
-      = edit_button(edit_orchestra_path(@orchestra))
-      = del_button( orchestra_path(@orchestra))
+      = edit_button(edit_orchestra_path(@orchestra),@orchestra)
+      = del_button( orchestra_path(@orchestra),@orchestra)
     //= render 'report_sheets/fororchestra' unless @report_sheets.count ==0
 
 - content_for :sidebar, render(:partial => 'sidebar.show')

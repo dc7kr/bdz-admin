@@ -1,15 +1,12 @@
 .block
   .secondary-navigation
-    %ul.wat-cf
-      %li.first= link_to "#{t("web-app-theme.list", :default => "List")}", orchestras_path
-      %li= link_to "#{t("web-app-theme.new", :default => "New")}", new_orchestra_path
-      %li.active= link_to "#{t("web-app-theme.show", :default => "Show")}", orchestra_path
+    = render :partial=>"nav"
   .content
     .inner
       %h2
         = @report_sheet.orchestra.orchName
         %br
-        Meldebogen
+        = t("report_sheet.title")
         = @report_sheet.year
 
       %table
@@ -70,20 +67,29 @@
             =format_currency(@report_sheet.calcUV,'€')
         %tr
           %td.label=t("report_sheet.zeitungen")
-          %td #{@report_sheet.calcZeitungen} (#{@report_sheet.zeitungen})
+          %td #{@report_sheet.calcZeitungen}
         %tr
           %td.label=t("report_sheet.gema")
           %td
             = @report_sheet.calcGemaCount
-            (
-            = @report_sheet.gema
-            )
         %tr
           %td.label=t("report_sheet.azubi")
           %td= @report_sheet.azubi
         %tr
+          %td{:colspan=>4}
+            %hr
+        %tr
+          %td.label=t("report_sheet.totalActive")
+          %td= @report_sheet.totalActiveMembers
+        %tr
           %td.label=t("report_sheet.passive")
           %td= @report_sheet.passive
+        %tr
+          %td.label=t("report_sheet.total")
+          %td= @report_sheet.passive+@report_sheet.totalActiveMembers
+        %tr
+          %td{:colspan=>4}
+            %hr
         %tr
           %td{:class =>'label',:colspan=>4}=t("report_sheet.sum")
           %td.sum= format_currency(@report_sheet.calcBeitrag,'€')
@@ -94,7 +100,4 @@
           %td{:class =>'label',:colspan=>4}=t("report_sheet.invsum")
           %td.sum= format_currency(@report_sheet.calcInvoice,'€')
   
-    .wat-cf
-      = edit_button(edit_orchestra_report_sheet_path(@orchestra,@report_sheet))
-      = del_button( orchestra_report_sheet_path(@report_sheet))
 - content_for :sidebar, render(:partial => 'sidebar')

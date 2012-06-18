@@ -34,5 +34,9 @@
     %tr
       %td= t("report_sheet.passive")
       %td= f.number_field :passive
+    %tr
+      %td= t("report_sheet.korr_ztg")
+      %td= f.number_field :korr_ztg
   .actions
     = f.submit t("common.save")
+    = cancel_button()

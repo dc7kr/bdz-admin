@@ -6,6 +6,9 @@
   <div><%= f.label :email %><br />
   <%= f.email_field :email %></div>
 
+  <div><%= f.label :name %><br />
+  <%= f.text_field :name %></div>
+
   <div><%= f.label :password %><br />
   <%= f.password_field :password %></div>
 
@@ -15,4 +18,4 @@
   <div><%= f.submit "Sign up" %></div>
 <% end %>
 
-<%= render :partial => "devise/shared/links" %>
+<%= render "links" %>

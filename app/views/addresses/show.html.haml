@@ -25,6 +25,6 @@
   %b Email:
   = @address.email
 
-= link_to_edit( edit_address_path(@address),'Edit')
+= link_to_edit( edit_address_path(@address),'Edit',@address)
 \|
 = link_back( addresses_path,'Back')

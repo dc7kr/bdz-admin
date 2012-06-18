@@ -1,5 +1,3 @@
-%p#notice= notice
-
 %p
   %b Startdate:
   = @contest.startdate
@@ -31,6 +29,6 @@
   %b Visible:
   = @contest.visible
 
-= link_to_edit( edit_contest_path(@contest),'Edit')
+= link_to_edit @contest,t("common.edit")
 \|
-= link_back( contests_path,'Back')
+= link_back t("common.back")

@@ -54,12 +54,14 @@
   .field
     = f.label :eintritt
     = f.text_field :eintritt
-  .field
-    = f.label :fk_owner
-    = f.text_field :fk_owner
+  - if (isAdmin?)
+    .field
+      = f.label :owner
+      = f.text_field :owner
   .field
     = f.label :visible
     = f.check_box :visible, :class => 'check_box'
 
   .actions
     = f.submit t("common.save")
+    = cancel_button()

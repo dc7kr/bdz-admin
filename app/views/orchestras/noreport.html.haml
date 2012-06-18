@@ -1,12 +1,9 @@
 .block
   .secondary-navigation
-    %ul.wat-cf
-      %li.first= link_to "#{t("web-app-theme.list", :default => "List")}", orchestras_path
-      %li.active= link_to "#{t("web-app-theme.noreport", :default => "No Report")}", noreport_orchestras_path
-      %li= link_to "#{t("web-app-theme.new", :default => "New")}", new_orchestra_path
+    =render :partial => 'nav'
   .content
     %h2.title
-      = t("orchestra.noreport_title", :default=>"#noreport#")
+      = t("orchestra.noreport")
     .inner
       %table.table
         %tr

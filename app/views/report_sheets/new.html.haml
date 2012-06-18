@@ -1,5 +1,12 @@
-%h1 Neuen Meldebogen erfassen
+.block
+  .secondary-navigation
+    = render :partial=>"nav"
+  .content
+    .inner
+      %h2
+        = @report_sheet.orchestra.orchName
+        %br
+        = t('common.new')
+        = t("report_sheet.title")
+      = render 'form'
 
-= render 'form'
-
-= link_to 'Back', orchestra_report_sheets_path(@orchestra)

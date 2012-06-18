@@ -57,5 +57,16 @@ RailsAdmin::Application.configure do
 
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
-  config.action_mailer.default_url_options = { :host =>'https://admin.bdz-online.de' }
+  config.action_mailer.default_url_options = { :host =>'admin.bdz-online.de' }
+
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+  :address              => "mail.corika.com",
+  :port                 => 587,
+  :domain               => 'bdz-online.de',
+  :user_name            => '***REMOVED***',
+  :password             => '***REMOVED***',
+  :authentication       => 'plain',
+  :enable_starttls_auto => true  }
+  config.action_mailer.perform_deliveries = true
 end

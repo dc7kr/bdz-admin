@@ -12,17 +12,20 @@
         %tr
           %th.first ID
           %th
-            = t("activerecord.attributes.state.country_id", :default => t("activerecord.labels.country_id", :default => "Land"))
-          %th= t("web-app-theme.created_at", :default => "Created at")
+            = t("activerecord.attributes.state.country_id")
+          %th= t("common.created_at")
           %th.last &nbsp;
         - @states.each do |state|
           %tr{:class => cycle("odd", "even")}
             %td
               = state.id
             %td
-              = link_to state.country, state_path(state)
+              - if ( state.country ) 
+                =  link_to country_path(state.country)
+              - else
+                keines
             %td
-              = state.created_at
+              = link_to state.name, state_path(state)
             %td.last
               = link_to "#{t("web-app-theme.show", :default => "Show")}", state_path(state)
               |

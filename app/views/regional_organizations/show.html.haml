@@ -28,10 +28,20 @@
         = @regional_organization.homepage
       %p
         %b
-          = t("activerecord.attributes.regional_organization.jugend_url", :default => t("activerecord.labels.jugend_url", :default => "Jugend url"))
+          = t("regional_organization.jugend_url")
           \:
         = @regional_organization.jugend_url
+      %p
+        %b
+          = t("regional_organization.konto")
+          \:
+        = @regional_organization.konto
+      %p
+        %b
+          = t("regional_organization.blz")
+          \:
+        = @regional_organization.blz
       .wat-cf
         = link_to image_tag("web-app-theme/icons/application_edit.png", :alt => "#{t("web-app-theme.edit", :default=> "Edit")}") + " " + t("web-app-theme.edit", :default=> "Edit"), edit_regional_organization_path(@regional_organization), :class => "button"
         = link_to image_tag("web-app-theme/icons/cross.png", :alt => "#{t("web-app-theme.delete", :default=> "Delete")}") + " " + t("web-app-theme.delete", :default => "Delete"), regional_organization_path(@regional_organization), :method => "delete", :class => "button", :confirm => "#{t("web-app-theme.confirm", :default => "Are you sure?")}"
-- content_for :sidebar, render(:partial => 'sidebar')
+- content_for :sidebar, render(:partial => 'sidebar.show')

@@ -1,26 +1,20 @@
-%h1 Listing contests
-
-%table
-  %tr
-    %th Startdate
-    %th Enddate
-    %th Titel
-    %th Deadline
-    %th Visible
-    %th
-    %th
-    %th
-
-  - @contests.each do |contest|
-    %tr
-      %td= contest.startdate
-      %td= contest.enddate
-      %td= contest.titel
-      %td= contest.deadline
-      %td= contest.visible
-      %td= link_to 'Show', contest
-      %td= link_to 'Edit', edit_contest_path(contest)
-      %td= link_to 'Destroy', contest, :confirm => 'Are you sure?', :method => :delete
+.block
+  .secondary-navigation
+    =render :partial=>'nav'
+  .content
+    %h2.title
+      #{t("common.list")} #{t("contests.title")}
+    .inner
+      %table.table
+        %tr
+          %th.first= t("contest.startDate")
+          %th.first= t("contest.endDate")
+          %th.first= t("contest.title")
+          %th.first= t("contest.deadline")
+          %th.first= t("contest.visible")
+          
+          %th.last &nbsp;
+        = render @contests
 
 %br
 

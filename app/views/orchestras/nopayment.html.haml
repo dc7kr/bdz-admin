@@ -3,20 +3,21 @@
     =render :partial=>'nav'
   .content
     %h2.title
-      = t("web-app-theme.all", :default => "All")
-      Orchester
+      = t("member.nopayment")
+      (#{t("orchestra.title")})
     .inner
       %table.table
         %tr
           %th.first 
             = sortable "mglnr", t("orchestra.mglnr", :default => "Mglnr")
           %th=t("orchestra.orchName",:default => "#orchName")
-          %th=t("member_account_booking.balance",:default => "#balance#")
-          %th.last &nbsp;
+          %th=t("orchestra.email",:default => "#email")
+          %th.last=t("member_account_booking.balance",:default => "#balance#")
         - @orchestras.each do |orchestra| 
           %tr
             %td=link_to orchestra.mglnr, orchestra_path(orchestra)
             %td=orchestra.orchName
+            %td=mail_to orchestra.email, orchestra.email
             %td=format_currency(@accounts[orchestra.member_id],'€')
       .actions-bar.wat-cf
         .actions

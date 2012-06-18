@@ -50,8 +50,8 @@
   = @concert.eintritt
 %p
   %b Owner:
-  = @concert.fk_owner
+  = @concert.owner
 
-= link_to_edit( edit_concert_path(@concert),'Edit')
+= link_to_edit @concert, t("common.edit")
 \|
-= link_back( concerts_path,'Back')
+= link_back t("common.back")

@@ -12,12 +12,15 @@
           %a{:href => "/"} BDZ Admin Interface
         #user-navigation
           %ul.wat-cf
-            %li
-              %a{:href => user_path(current_user)}= t("web-app-theme.profile", :default => "Profile")
-            %li
-              %a{:href => "#"}= t("web-app-theme.settings", :default => "Settings")
-            %li
-              %a.logout{:href => "/logout"}= t("web-app-theme.logout", :default => "Logout")
+            -if current_user 
+              %li.username
+                Angemeldet als: #{current_user.email} (#{t("common.role."+current_user.first_role)})
+              %li
+                %a{:href => edit_user_password_path(current_user)}= t("web-app-theme.profile", :default => "Profile")  
+              %li
+                %a{:href => "#"}= t("web-app-theme.settings", :default => "Settings")
+              %li
+                %a.logout{:href => "/logout"}= t("web-app-theme.logout", :default => "Logout")
             %li
               %a{:href => "/about"}= t("common.about", :default => "About")
         #main-navigation
@@ -28,11 +31,12 @@
             %div{:class => "message #{type}"}
               %p= message
         #main
-          = yield
-          #footer
-            .block
-              %p
-                Copyright &copy; 2011-#{Time.now.year} by Karsten Richter 
+          .block#mainblock
+            = yield
         #sidebar
           = yield :sidebar
+        #footer
+          .block
+            %p
+              Copyright &copy; 2011-#{Time.now.year} by Karsten Richter 
 

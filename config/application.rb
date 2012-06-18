@@ -47,8 +47,8 @@ module RailsAdmin
 
     config.action_controller.include_all_helpers = false
 
-    config.to_prepare do
-	Devise::SessionsController.layout "sign"
-    end
+    #config.to_prepare do
+	#Devise::SessionsController.layout "sign"
+    #end
   end
 end

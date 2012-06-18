@@ -7,4 +7,7 @@ class Contest < ActiveRecord::Base
   def self.active()
 	where('visible=1')
   end
+  def self.public()
+    where('visible=1 and startDate >= now()')
+  end
 end

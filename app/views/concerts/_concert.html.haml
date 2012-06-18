@@ -1,13 +1,13 @@
-%tr
-  %td= format_date(concert.datum)
-  %td= format_time(concert.zeit)
-  %td= concert.stadt
-  %td= concert.titel
-  %td= concert.ort
-  %td= concert.interpret
-  %td= concert.eintritt
-  %td
-    = link_to_show(concert, 'Show')
-    - if can? :edit, @concert
-      = link_to_edit(edit_concert_path(concert), 'Edit')
-      = link_to_delete concert, 'Delete', 'Are you sure?'
+- if can? :read, concert
+  %tr{:class => cycle("odd", "even")}
+    %td= format_date(concert.datum)
+    %td= format_time(concert.zeit)
+    %td= concert.stadt
+    %td= concert.titel
+    %td= concert.ort
+    %td= concert.interpret
+    %td= concert.eintritt
+    %td
+      = link_to_show concert, t('common.show')
+      = link_to_edit concert, t('common.edit')
+      = link_to_delete concert, t('common.delete'),t('common.delete_confirm')

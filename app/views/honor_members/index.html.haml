@@ -12,17 +12,7 @@
     %th
     %th
 
-  - @honor_members.each do |honor_member|
-    %tr
-      %td= honor_member.nr
-      %td= honor_member.vorname
-      %td= honor_member.name
-      %td= honor_member.ort
-      %td= honor_member.honorType
-      %td= honor_member.honorDate
-      %td= link_to 'Show', honor_member
-      %td= link_to 'Edit', edit_honor_member_path(honor_member)
-      %td= link_to 'Destroy', honor_member, :confirm => 'Are you sure?', :method => :delete
+  = render @honor_members
 
 %br
 

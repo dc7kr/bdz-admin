@@ -19,6 +19,6 @@
   %b Honordate:
   = @honor_member.honorDate
 
-= link_to 'Edit', edit_honor_member_path(@honor_member)
+= link_to_edit @honor_member, t("common.edit")
 \|
-= link_to 'Back', honor_members_path
+= link_back t("common.back")

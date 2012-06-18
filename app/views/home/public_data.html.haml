@@ -2,7 +2,6 @@
   %ul.wat-cf
     %li.first.active= link_to t("common.public_data", :default => "Öffentliche Daten"),:controller=>"home",:tab=>"public_data"
     %li= link_to t("common.member_data", :default => "Mitgliedsdaten"),:controller=>"home",:tab=>"member_data"
- 
     %li= link_to t("common.reference_data", :default => "Stammdaten"),:controller=>"home",:tab=>"reference_data"
 .content
   .inner
@@ -12,7 +11,9 @@
         %br
         = link_to "Ensembles", ensembles_path
         %br
-        = link_to "Wettbewerbe", contests_path
+        = link_to "Kurse", courses_path
+        %br
+        = link_to t("contest.label"), contests_path
         %br
         = link_to "Studienmöglichkeiten", universities_path
         %br
@@ -28,3 +29,4 @@
         %br
         %br
 - content_for :sidebar, render(:partial => 'sidebar')
+

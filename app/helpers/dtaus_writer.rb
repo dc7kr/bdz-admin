@@ -1,52 +1,91 @@
-class DtausWriter 
-  @@workdir = "/srv/httpd/bdz-online.de/tmp"
+require 'zip/zip'
 
-	def self.workdir
-		@@workdir
+class DtausWriter 
+
+
+	def outfile(pFile)
+		@file = pFile
 	end
 
-	def self.writeDtausPersonEntry(f,member,zweck)
+	def initialize
+		@dateprefix=Time.now.strftime '%Y%m%d%H%M%S_'
+	end
+
+	def overrideDate(pref)
+		@dateprefix=pref+"_"
+	end
+
+	def datePrefix
+		@dateprefix
+	end
+
+	def ctlFile
+		DtausWriter.workdir+@dateprefix+"dta.ctl"
+	end
+
+	def self.workdir
+		BDZ_SETTINGS['invoice_workdir']+"/"
+	end
+
+	def writeDtausPersonEntry(member,zweck)
 
 		if (member.konto > 0) then
 			amount = "%.2f" % member.tariff.amount
-			f.write( "{\n")
-			f.write( "Transaktion Einzug\n")
-			f.write( "Name "+member.vorname+" "+member.nachname+"\n")
-			f.write( "Konto "+String(member.konto)+"\n")
-			f.write( "BLZ "+member.blz+"\n")
-			f.write( "Betrag "+amount+"\n")
-			f.write( "Zweck "+zweck+"\n")
-			f.write( "}\n")
+			@file.write( "{\n")
+			@file.write( "Transaktion Einzug\n")
+			@file.write( "Name "+member.fullname+"\n")
+			@file.write( "Konto "+String(member.konto)+"\n")
+			@file.write( "BLZ "+member.blz+"\n")
+			@file.write( "Betrag "+amount+"\n")
+			@file.write( "Zweck "+zweck+"\n")
+			@file.write( "}\n")
 		end
 	end
 
-	def self.writeDtausOrchestraEntry(f,member,zweck,sum)
+	def writeDtausOrchestraEntry(member,zweck,sum)
 
 		if (member.konto > 0) then
 			amount = "%.2f" % sum
-			f.write( "{\n")
-			f.write( "Transaktion Einzug\n")
-			f.write( "Name "+String(member.cleanOrchName)+"\n")
-			f.write( "Konto "+String(member.konto)+"\n")
-			f.write( "BLZ "+member.blz+"\n")
-			f.write( "Betrag "+amount+"\n")
-			f.write( "Zweck "+zweck+"\n")
-			f.write( "}\n")
+			@file.write( "{\n")
+			@file.write( "Transaktion Einzug\n")
+			@file.write( "Name "+String(member.cleanOrchName)+"\n")
+			@file.write( "Konto "+String(member.konto)+"\n")
+			@file.write( "BLZ "+member.blz+"\n")
+			@file.write( "Betrag "+amount+"\n")
+			@file.write( "Zweck "+zweck+"\n")
+			@file.write( "}\n")
 		end
 	end
-	def self.writeDtausHeader(f)
+	def writeDtausHeader()
 		datum = I18n.l(Time.now, :format => :short)
-		f.write("BEGIN {\n")
-		f.write("Art LK\n")
-		f.write("Name "+BDZ_SETTINGS['company']+"\n")
-		f.write("Konto "+BDZ_SETTINGS['konto']+"\n")
-		f.write("BLZ "+BDZ_SETTINGS['blz']+"\n")
-		f.write("Datum "+datum+"\n")
-		f.write("}\n")
+		@file.write("BEGIN {\n")
+		@file.write("Art LK\n")
+		@file.write("Name "+BDZ_SETTINGS['company']+"\n")
+		@file.write("Konto "+BDZ_SETTINGS['konto']+"\n")
+		@file.write("BLZ "+BDZ_SETTINGS['blz']+"\n")
+		@file.write("Datum "+datum+"\n")
+		@file.write("}\n")
 	end
 
-	def self.genDtaus(ctlfile)
-		system("dtaus -d "+workdir+"/dtaus0.txt -c "+workdir+"/"+ctlfile+" -begleit "+workdir+"/dtaus0.doc -o "+workdir+"/dtaus.kontroll.txt -dtaus")
-	end
+	def genDtaus()
+		workdir = BDZ_SETTINGS['invoice_workdir']+"/"
+		dtaFName = workdir+@dateprefix+"dtaus0.txt"
+		bglFName = workdir+@dateprefix+"dta_zettel.txt"
+		sumFName = workdir+@dateprefix+"dta_summen.txt"
 
+		system("/usr/bin/dtaus -d "+dtaFName+" -c "+ctlFile+" -b "+bglFName+" -o "+sumFName+" -dtaus")
+
+		zipfileName = workdir+@dateprefix+"dtaus.zip"
+		Zip::ZipOutputStream.open(zipfileName) do |zos|
+  		  [dtaFName, ctlFile, bglFName, sumFName].each do |fileName|
+			cleanFile = fileName.gsub(workdir,"")
+			if cleanFile.start_with? "/" then
+				cleanFile = cleanFile.gsub("#^/+#","")
+			end
+    		zos.put_next_entry(cleanFile)
+   			zos.print IO.read(fileName)
+  		  end
+		end
+		return DtausWriter.workdir+@dateprefix+"_dtaus.zip"
+	end
 end

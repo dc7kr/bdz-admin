@@ -210,17 +210,12 @@ hr {
   padding: 10px;
 }
 
-.page a {
-	padding:0;
-	min-width:15px;	
-}
 /* pagination */
-.pagination span {
-	background: #cfcfcf;
-  	-moz-border-radius: 3px;
-  	border: 1px solid #c1c1c1;
-	padding: 2px 5px;	
 
+.pagination a, .pagination span {
+  background: #cfcfcf;
+  -moz-border-radius: 3px;
+  border: 1px solid #c1c1c1;
 }
 
 .pagination em {

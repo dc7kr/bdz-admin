@@ -1,5 +1,9 @@
 RailsAdmin::Application.routes.draw do
 
+  resources :classifieds
+
+  resources :advertisements
+
   devise_for :users
 
   #entirely public 
@@ -44,7 +48,11 @@ RailsAdmin::Application.routes.draw do
   resources :functions
   resources :addresses
   resources :states
-  resources :regional_organizations 
+  resources :regional_organizations  do 
+	member do
+		get :members
+    end 
+  end
   resources :tariffs
   resources :composers
   resources :universities
@@ -68,27 +76,55 @@ RailsAdmin::Application.routes.draw do
 
 
 #confidential
-  resources :users
+#  resources :users
   resources :report_sheets
 
   resources :person_members do
-    resources :member_account_bookings
+    resources :member_account_bookings do
+		member do 
+			get 'download'
+		end
+    end
+	collection do 
+		get :nopayment
+		get :notinvoiced
+        get :magazine
+	end
   end
   
   resources :orchestras do
-    resources :member_account_bookings
+    resources :member_account_bookings do
+		member do 
+			get 'download'
+		end
+    end
     resources :report_sheets
 	collection do 
 		get :noreport
 		get :nopayment
+		get :notinvoiced
+        get :gema
+        get :magazine
 	end
+  end
+# reports
+  namespace :reports do
+    resources :gema
+  end
+
+  namespace :public do 
+	resources :concerts, :contests
   end
 
 
 # automatic controllers 
   namespace :cron do
     resources :invoices
+    resources :reminders
+	resources :mails
+	resources :downloads
   end
+
   get "home/index"
 
   # The priority is based upon order of creation:
@@ -151,8 +187,6 @@ RailsAdmin::Application.routes.draw do
   # login and logout urls ...
   devise_scope :user do
     get "/login" => "devise/sessions#new"
-  end
-  devise_scope :user do
     get "/logout" => "devise/sessions#destroy"
   end
 

@@ -17,3 +17,4 @@
     = f.collection_select :role, User::ROLES, :to_s, :humanize 
   .actions
     = f.submit t("common.save")
+    = cancel_button()

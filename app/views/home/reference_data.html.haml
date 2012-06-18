@@ -2,7 +2,7 @@
   %ul.wat-cf
     %li.first= link_to t("common.public_data", :default => "Öffentliche Daten"),:controller=>"home",:tab=>"public_data" 
     %li= link_to t("common.member_data", :default => "Mitgliedsdaten"),:controller=>"home",:tab=>"member_data" 
-    %li.active= link_to t("common.reference_data", :default => "Stammdaten")
+    %li.active= link_to t("common.reference_data", :default => "Stammdaten"),:controller=>"home",:tab=>"reference_data"
 .content
   .inner
     .block

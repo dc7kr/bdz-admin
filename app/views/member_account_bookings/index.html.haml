@@ -5,14 +5,16 @@
 
 
 -if(@isOrchestra)
-  = link_back(orchestra_path(@member),'Back')
+  = link_back('Back')
+  //= link_back(orchestra_path(@member),'Back')
 -else
-  = link_back(person_member_path(@member),'Back')
+  = link_back('Back')
 
 %table
   %tr
     %th Datum
     %th Typ
+    %th Jahr
     %th Text
     %th Betrag
   = render @bookings

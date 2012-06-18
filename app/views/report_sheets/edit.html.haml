@@ -1,8 +1,13 @@
-%h1 Meldebogen bearbeiten
-= link_back orchestra_report_sheets_path(@orchestra), t("common.back")
+.block
+  .secondary-navigation
+    = render :partial=>"nav"
+  .content
+    .inner
+      %h2
+        = @report_sheet.orchestra.orchName
+        %br
+        = t("report_sheet.title")
+        = @report_sheet.year
+      = render 'form'
 
-= render 'form'
 
-= link_to 'Show', orchestra_report_sheet_path(@orchestra,@report_sheet)
-\|
-= link_to 'Back', report_sheets_path

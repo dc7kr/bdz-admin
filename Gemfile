@@ -1,18 +1,36 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.1.1'
+gem 'rails', '3.2'
 
+gem 'haml'
+gem 'haml-rails'
+
+gem 'fastercsv'
+
+#gem 'meta_where'
+gem 'meta_search'
+gem 'http_accept_language'
+
+# Use unicorn as the web server
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'json'
 
+gem 'dynamic_form'
+#gem 'formtastic'
+gem 'valid_email'
+
+gem "comma", "~> 3.0"
+
+gem "spreadsheet"
+#gem "to_xml-rails"
+
 gem 'sqlite3'
 gem 'mysql2' , '>=0.3'
-gem 'jquery-rails'
+gem 'jquery-rails' 	,  '>= 1.0.3'
 
-gem 'haml'
-gem 'haml-rails'
+gem 'rails-asset-jqueryui'
 
 # authenticate
 gem 'devise'
@@ -24,27 +42,30 @@ gem 'kaminari'
 gem 'ruby_parser'
 gem 'hpricot'
 # JS exec environment for asset precompile
-gem 'rails', '3.1.1'
 
 
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
-  gem 'sass-rails',   '~> 3.1.4'
-  gem 'coffee-rails', '~> 3.1.1'
+  gem 'sass-rails',   '~> 3.2.3'
+  gem 'coffee-rails', '~> 3.2.1'
   gem 'uglifier', '>= 1.0.3'
 end
 
-gem 'jquery-rails'
 
-gem 'will_paginate'
+#gem 'will_paginate'
 # testing
 gem 'capybara'
 gem 'rspec-rails'
 gem 'haml-rails'
 gem 'hpricot'
 gem 'ruby_parser'
-gem 'web-app-theme', '~> 0.8.0'
+#gem 'web-app-theme', '~> 0.8.0'
+#gem 'web-app-theme', :git => "git://github.com/pilu/web-app-theme.git"
+
+gem 'class-table-inheritance'
+
+gem 'parseconfig'
 
 #to be able to compile the assets...
 group :production do

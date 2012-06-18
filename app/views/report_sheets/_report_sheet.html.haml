@@ -12,7 +12,5 @@
   %td=report_sheet.azubi 
   %td=report_sheet.passive
   %td
-    = link_to_show( orchestra_report_sheet_path(@orchestra,report_sheet),'Show')
-    = link_to_edit( edit_orchestra_report_sheet_path(@orchestra,report_sheet),'Edit')
-    = link_to_delete( orchestra_report_sheets_path(report_sheet), 'Del','Wirklich löschen?')
-
+    = link_to_show_path( orchestra_report_sheet_path(@orchestra,report_sheet),'Show',report_sheet)
+    = link_to_edit_path( edit_orchestra_report_sheet_path(@orchestra,report_sheet),'Edit',report_sheet)

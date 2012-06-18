@@ -23,7 +23,7 @@ de:
       inactive: 'Ihr Zugang wurde noch nicht aktiviert.'
     sessions:
       signed_in: 'Erfolgreich angemeldet.'
-      signed_out: 'Signed out successfully.'
+      signed_out: 'Erfolgreich abgemeldet.'
     passwords:
       send_instructions: 'You will receive an email with instructions about how to reset your password in a few minutes.'
       updated: 'Your password was changed successfully. You are now signed in.'

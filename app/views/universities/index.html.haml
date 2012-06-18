@@ -16,22 +16,7 @@
     %th
     %th
 
-  - @universities.each do |university|
-    %tr
-      %td= university.name
-      %td= university.institut
-      %td= university.strasse
-      %td= university.plz
-      %td= university.ort
-      %td= university.country.name
-      %td= university.telefon
-      %td= university.dozent
-      %td= university.email
-      %td= university.homepage
-      %td= link_to 'Show', university
-      %td= link_to 'Edit', edit_university_path(university)
-      %td= link_to 'Destroy', university, :confirm => 'Are you sure?', :method => :delete
-
+  = render @universities
 %br
 
 = link_to 'New University', new_university_path

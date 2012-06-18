@@ -1,5 +1,9 @@
 class ReportSheet < ActiveRecord::Base
 	belongs_to :orchestra
+
+    scope :current,
+		lambda { { :conditions => ['year =  ?', String(Time.now.year)] } }
+
 	def calcRawTariff
 		return children*Prices.childrenRate + 
 			youth*Prices.youthRate + 
@@ -9,6 +13,15 @@ class ReportSheet < ActiveRecord::Base
 	end
 
 	def calcBeitrag
+
+		if (orchestra.orch_type == 'K' )
+        then
+           return Prices.koopRate
+		elsif (orchestra.orch_type == 'L')
+        then
+            return Prices.lvOrchRate+(calcGemaCount)*Prices.lvMember
+		end
+
 		val = calcRawTariff
 
 		if ( val < Prices.minTariff ) 
@@ -28,13 +41,27 @@ class ReportSheet < ActiveRecord::Base
 		return calcRawTariff > Prices.maxTariff
 	end
 
+	def totalActiveMembers
+		# TODO: need a clean solution for the double members
+		if orchestra.orch_type =='L' then
+			return youth+teens+adult+senior
+		else
+			return youth+teens+adult+senior+azubi
+		end
+	end
+
 	def calcGemaCount
-		return youth+teens+adult+senior
+		# TODO: need a clean solution for the double members
+		if orchestra.orch_type =='L' then
+			return youth+teens+adult+senior-azubi
+		else
+			return youth+teens+adult+senior
+		end
 	end
 
 	def calcUvCount
-		if (uv) 
-			return calcGemaCount+zusatz_uv
+		if (uv && orchestra.orch_type !='K') 
+			return children+teens+youth+adult+senior+zusatz_uv
 		else
 			return 0
 		end
@@ -48,8 +75,25 @@ class ReportSheet < ActiveRecord::Base
 		return calcUV+calcBeitrag
 	end
 
-	def calcZeitungen
-		return (calcGemaCount*Prices.ztgRate).ceil
+	def calcLvPart
+		return calcBeitrag*0.15
 	end
+
+	def calcZeitungen
+		if (orchestra.orch_type == 'L' ) then
+			return 0
+		end
+		@ztg = (calcGemaCount*Prices.ztgRate).ceil
+		if ( korr_ztg != nil ) then
+			@ztg += korr_ztg;
+		end
+		return @ztg
+	end
+
+    # gema report sheet CSV
+    comma :gema do
+     calcGemaCount
+   end
+
 
 end
