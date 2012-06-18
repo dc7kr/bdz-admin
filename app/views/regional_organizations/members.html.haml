@@ -1,0 +1,39 @@
+.block
+  .secondary-navigation
+    %ul.wat-cf
+      %li.first= link_to "#{t("web-app-theme.list", :default => "List")}", regional_organizations_path
+      %li= link_to "#{t("web-app-theme.new", :default => "New")}", new_regional_organization_path
+      %li.active= link_to "#{t("web-app-theme.show", :default => "Show")}", regional_organization_path
+  .content
+    .inner
+      %h2 Landesverband #{ @regional_organization.name}
+      %h3 Orchester
+      %table.table
+        %thead
+          %tr
+            %td Mitgliedsnummer
+            %td Name
+            %td Mitglieder
+            %td GEMA 
+            %td LV-Beitrag
+        %tbody
+          = render :partial  => "orchestra", :collection => @orchestras
+          %tr
+            %td Summe
+            %td
+            %td
+            %td
+            %td=format_currency(@orchSum,'EUR')
+      %h3 Einzelmitglieder
+      %table.table
+        = render :partial => "person_member", :collection => @person_members
+        %tr
+          %td Summe
+          %td
+          %td
+          %td
+          %td
+          %td
+          %td=format_currency(@personSum,'EUR')
+      %b Summe: #{format_currency(@personSum+@orchSum,'EUR')}
+- content_for :sidebar, render(:partial => 'sidebar')
