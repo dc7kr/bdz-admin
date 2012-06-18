@@ -1,0 +1,21 @@
+%tr{:class => cycle("odd", "even")}
+  %td
+    = link_to orchestra.mglnr, orchestra_path(orchestra)
+  %td
+    = orchestra.orchName
+    %br
+    = orchestra.address
+    %br
+    = mail_to orchestra.email
+    %br
+    = orchestra.telefon
+  - currentSheet = orchestra.currentReportSheet
+  %td
+    = orchestra.currentTotal
+  %td
+    = orchestra.currentGema
+  %td
+    - if ( currentSheet ) then @orchSum= @orchSum + currentSheet.calcLvPart end
+    = if ( currentSheet ) then format_currency(currentSheet.calcLvPart,'EUR') end
+  %td.last
+

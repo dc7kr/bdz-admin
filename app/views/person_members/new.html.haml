@@ -1,13 +1,11 @@
 .block
   .secondary-navigation
-    %ul.wat-cf
-      %li.first= link_to "#{t("web-app-theme.list", :default => "List")}", person_members_path
-      %li.active= link_to "#{t("web-app-theme.new", :default => "New")}", new_person_member_path
+    =render :partial => 'nav'
   .content
     %h2.title
-      = t("web-app-theme.new", :default => "New")
-      PersonMember
+      = t("common.new")
+      = t("person_member.title")
     .inner
-      = form_for :person_member, :url => person_members_path, :html => { :class => :form } do |f|
+      = form_for (:person_member), :url => person_members_path, :html => { :class => :form } do |f|
         = render :partial => "form", :locals => {:f => f}
 - content_for :sidebar, render(:partial => 'sidebar')

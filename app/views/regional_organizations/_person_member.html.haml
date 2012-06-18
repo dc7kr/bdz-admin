@@ -1,0 +1,19 @@
+%tr{:class => cycle("odd", "even")}
+  %td
+    = link_to person_member.mglnr, person_member_path(person_member)
+  %td
+    = person_member.fullname
+  %td
+    = person_member.strasse
+  %td
+    #{person_member.plz} #{person_member.ort}
+  %td 
+    = person_member.telefonPrivat
+  %td
+    = mail_to person_member.email
+  %td
+    = format_currency(person_member.lvPart,'EUR')
+    - @personSum=@personSum+person_member.lvPart
+
+  %td.last
+

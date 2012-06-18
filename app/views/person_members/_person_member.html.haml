@@ -1,0 +1,18 @@
+- if can? :read, person_member 
+  %tr{:class => cycle("odd", "even")}
+    %td
+      = link_to person_member.mglnr, person_member_path(person_member)
+    %td
+      = person_member.fullname
+    %td
+      = person_member.ort
+    %td
+    %td
+      = mail_to person_member.email, person_member.email
+    %td.last
+      = link_to_show(person_member, t("common.show"))
+      |
+      = link_to_edit(person_member, t("common.edit")) 
+      |
+      = link_to_delete person_member, t("common.delete"), t("common.delete_confirm")
+

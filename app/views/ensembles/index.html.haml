@@ -1,9 +1,7 @@
 .block
   .secondary-navigation
     %ul.wat-cf
-      %li.first.active= link_to "#{t("web-app-theme.list", :default => "List")}", ensembles_path
-      %li= link_to "#{t("common.inactive", :default => "Inactive")}", inactive_ensembles_path 
-      %li= link_to "#{t("web-app-theme.new", :default => "New")}", new_ensemble_path
+      =render :partial => 'nav'
   .content
     %h2.title
       = t("common.all", :default => "All")
@@ -15,17 +13,7 @@
             = sortable "id", t("ensemble.id", :default => "Nr")
           %th= sortable "name", t("ensemble.orchName", :default => "Name")
           %th.last &nbsp;
-        - @ensembles.each do |ensemble|
-          %tr{:class => cycle("odd", "even")}
-            %td
-              = link_to ensemble.id, ensemble_path(ensemble)
-            %td
-              = ensemble.name
-            %td.last
-              = link_to_show( ensemble_path(ensemble), "#{t("web-app-theme.show", :default => "Show")}")
-              |
-              \#{link_to_edit(edit_ensemble_path(ensemble),  "#{t("web-app-theme.edit", :default => "Edit")}" )} |
-              \#{link_to_delete(ensemble_path(ensemble), "#{t("web-app-theme.delete", :default => "Delete")}", "#{t("web-app-theme.confirm", :default => "Are you sure?")}")}
+        = render @ensembles
       = paginate @ensembles
       .actions-bar.wat-cf
         .actions

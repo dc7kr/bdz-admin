@@ -1,0 +1,5 @@
+%ul.wat-cf
+  %li{ :class=> tabActiveClass(@current_action,'index','first')}= link_to "#{t("common.list", :default => "List")}", person_members_path
+  %li{ :class=> tabActiveClass(@current_action,'nopayment',nil)}= link_to "#{t("member.nopayment", :default => "#no payment#")}", nopayment_person_members_path
+  %li= link_to "#{t("common.new", :default => "New")}", new_person_member_path
+

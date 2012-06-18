@@ -1,0 +1,2 @@
+$('#person_members').html('#{escape_javascript render(@person_members)}');
+$('#paginator').html('#{escape_javascript(paginate(@person_members, :remote => true).to_s)}');
