@@ -1,0 +1,2 @@
+$('#orchestras').html('#{escape_javascript render(@orchestras)}');
+$('#paginator').html('#{escape_javascript(paginate(@orchestras, :remote => true).to_s)}');
