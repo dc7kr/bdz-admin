@@ -1,0 +1,2 @@
+$('#classifieds').html('#{escape_javascript render(@classifieds)}');
+$('#paginator').html('#{escape_javascript(paginate(@classifieds, :remote => true).to_s)}');

@@ -1,0 +1,9 @@
+%tr
+  %td= classified.object
+  %td= classified.name
+  %td= classified.validuntil
+  %td= link_to 'Show', classified
+  %td= link_to 'Edit', edit_classified_path(classified)
+  %td= link_to 'Destroy', classified, :confirm => 'Are you sure?', :method => :delete
+
+

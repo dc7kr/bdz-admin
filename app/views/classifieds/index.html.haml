@@ -1,0 +1,18 @@
+.block
+  .secondary-navigation
+    =render :partial=>'nav'
+  .content
+    %h2.title
+      = t("common.all")
+      = t("classifieds.label")
+    .inner
+      %table.table
+        %thead
+        %tbody#classifieds
+          = render @classifieds
+      #paginator
+        = paginate @classifieds, :remote=>true
+      .actions-bar.wat-cf
+        .actions
+- content_for :sidebar, render(:partial => 'sidebar')
+

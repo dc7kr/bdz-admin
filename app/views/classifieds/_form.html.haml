@@ -1,0 +1,19 @@
+= form_for @classified do |f|
+  .block
+    = f.error_messages :message => "", :header_tag => :h3
+  .group
+    %table
+      %tr
+        %td= f.label :object, t("classified.object"), :class => :label
+        %td= f.text_field :object
+      %tr
+        %td= f.label :description, t("classified.description"), :class => :label
+        %td= f.text_area :description
+
+                    
+  %button.button{:type => "submit"}
+    = image_tag("common.icons/tick.png", :alt => "#{t("common.save", :default => "Save")}")
+    = t("common.save", :default => "Save")
+  %span.text_button_padding= t("common.or", :default => "or")
+  = cancel_button()
+  
