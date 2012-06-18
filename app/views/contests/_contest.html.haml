@@ -1,0 +1,9 @@
+%tr{:class => cycle("odd", "even")}
+  %td= contest.startdate
+  %td= contest.enddate
+  %td= contest.titel
+  %td= contest.deadline
+  %td= contest.visible
+  %td= link_to_show contest,  t("common.show")
+  %td= link_to_edit contest, t("common.edit")
+  %td= link_to_delete contest, t('common.delete'), t('common.delete_confirm')

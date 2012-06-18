@@ -1,0 +1,20 @@
+%dt.title
+  =contest.startdate
+  -
+  =contest.enddate
+  =contest.titel
+
+%dd=contest.beschreibung
+
+-fields = [ :inhalt,:zielgruppe,:termine,:gebuehr,:dozenten,:preis,:more_dates,:anmeldung,:deadline ]
+
+- fields.each do |field| 
+  - if contest[field] != nil 
+    %dt= t('contest.'+field.to_s)
+    %dd.body=contest[field]
+
+= link_to_show contest,  t("common.show")
+= link_to_edit contest, t("common.edit")
+= link_to_delete contest, t('common.delete'), t('common.delete_confirm')
+
+

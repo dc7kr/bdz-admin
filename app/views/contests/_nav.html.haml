@@ -1,0 +1,4 @@
+%ul.wat-cf
+  %li{ :class => tabActiveClass(@current_action,'index','first')}= link_to t("common.list"), contests_path
+  %li{:class => tabActiveClass(@current_action,'new',nil)}= link_to t("common.new"), new_contest_path
+
