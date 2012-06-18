@@ -1,4 +1,4 @@
-class MemberAccountBookingsController < ApplicationController
+class MemberAccountBookingsController < AuthenticatedController
   # GET /bookings
   # GET /bookings.json
   def index
@@ -12,7 +12,7 @@ class MemberAccountBookingsController < ApplicationController
 		@isOrchestra=true
 	elsif (params[:person_member_id]) then
 		@member= PersonMember.includes(:member).find(params[:person_member_id])
-		@name = @member.vorname+" "+@member.nachname
+		@name = @member.fullname
 		@isOrchestra=false
 	end
     @bookings = MemberAccountBooking.where("member_id=?",@member.member_id)
@@ -45,7 +45,7 @@ class MemberAccountBookingsController < ApplicationController
 	else 
 		@member = PersonMember.find_by_member_id(params[:person_member_id]);
 	end
-    @booking = MemberAccountBooking.new(:member=>@member.member,:booking_date=>Time.now,:booking_mode=>'M')
+    @booking = MemberAccountBooking.new(:member=>@member.member,:booking_date=>Time.now,:booking_year=>Time.now.year,:booking_mode=>'M',:booking_type=>'Z')
 
 
     respond_to do |format|
@@ -130,8 +130,20 @@ class MemberAccountBookingsController < ApplicationController
     @booking.destroy
 
     respond_to do |format|
-      format.html { redirect_to bookings_url }
+      		format.html { 
+				if ( params[:orchestra_id]) then
+					redirect_to orchestra_member_account_bookings_path(params[:orchestra_id])
+				else 
+      				redirect_to person_member_member_account_bookings_path(params[:person_member_id])
+				end
+			}
       format.json { head :ok }
     end
+  end
+
+  def download
+    @booking = MemberAccountBooking.find(params[:id])
+	fullPath = BDZ_SETTINGS['invoice_archive_dir']+"/"+String(@booking.booking_year)+"/"+@booking.filename
+	send_file(fullPath, :filename => @booking.filename, :type => "application/pdf")
   end
 end

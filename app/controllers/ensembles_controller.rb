@@ -1,4 +1,4 @@
-class EnsemblesController < ApplicationController
+class EnsemblesController < AuthenticatedController
   # for table sort by column click
   helper_method :sort_column, :sort_direction
 

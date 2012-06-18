@@ -1,4 +1,5 @@
 class HonorMembersController < ApplicationController
+  load_and_authorize_resource
   # GET /honor_members
   # GET /honor_members.json
   def index

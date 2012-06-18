@@ -3,9 +3,14 @@ class ApplicationController < ActionController::Base
 
   include SessionHelper
 
-  rescue_from CanCan::AccessDenied do |exception|
-    redirect_to root_url, :alert => exception.message
-  end
+  private
+      before_filter :instantiate_controller_and_action_names
+     
+      def instantiate_controller_and_action_names
+          @current_action = action_name
+          @current_controller = controller_name
+      end
+
 
   def after_sign_in_path_for(resource_or_scope)
     case resource_or_scope
@@ -18,11 +23,21 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def admin?
-	session[:user].email=='karsten.richter@bdz-online.de'
+  def render_optional_error_file(status_code)
+    if status_code == :not_found
+      render_404
+    else
+      super
+    end
   end
 
-  helper_method :admin?
+  def render_404
+    respond_to do |type| 
+      type.html { render :template => "errors/error_404", :layout => 'application', :status => 404 } 
+      type.all  { render :nothing => true, :status => 404 } 
+    end
+    true  # so we can do "render_404 and return"
+  end
 
   protected
   def sort_direction
@@ -35,7 +50,6 @@ class ApplicationController < ActionController::Base
     else
       "application"
     end
-
   end
 
 

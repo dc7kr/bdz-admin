@@ -1,8 +1,18 @@
-class ContestsController < ApplicationController
+class ContestsController < AuthenticatedController
   layout :choose_layout
   helper_method :sort_column, :sort_direction
   before_filter :authenticate_user!, :except => [:index,:show,:public]
-  load_and_authorize_resource :except => [:public]
+  skip_authorize_resource :only => [:public]
+
+  def public 
+    @contests= Contest.public().search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render :json => @contests }
+    end
+  end
+
+
   # GET /contests
   # GET /contests.json
   def index
@@ -83,5 +93,9 @@ class ContestsController < ApplicationController
       format.html { redirect_to contests_url }
       format.json { head :ok }
     end
+  end
+
+  def sort_column
+    Contest.column_names.include?(params[:sort]) ? params[:sort] : "startDate"
   end
 end

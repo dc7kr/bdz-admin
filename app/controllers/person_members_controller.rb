@@ -1,8 +1,8 @@
-class PersonMembersController < ApplicationController
-  before_filter :authenticate_user!, :except => [:some_action_without_auth]
+class PersonMembersController < AuthenticatedController
+#  before_filter :authenticate_user!, :except => @publicActions
+#[:some_action_without_auth]
   helper_method :sort_column, :sort_direction
 
-  load_and_authorize_resource
   # GET /person_members
   # GET /person_members.json
 # TODO: inherited sort!!!
@@ -11,11 +11,38 @@ class PersonMembersController < ApplicationController
 
 
     respond_to do |format|
+      format.js # index.html.erb
       format.html # index.html.erb
       format.json { render :json => @person_members }
     end
   end
 
+  def notinvoiced 
+
+    @person_members = PersonMember.includes([:tariff,:member]).joins("LEFT JOIN member_acct_booking mb ON person_members.member_id=mb.member_id AND mb.booking_type='B' and mb.booking_year = YEAR(NOW())").where("mb.id IS NULL").order("members.mglnr").page(params[:page]).per(20)
+	
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render :json => @person_members }
+    end
+
+  end
+  def nopayment
+	@accounts = MemberAccountBooking.sum(:amount,:group=>:member_id)
+
+	@ids = Set.new
+	@accounts.each do |account|
+      if (account[1]<0) then
+        @ids.add(account[0])
+	  end
+	end
+	@person_members= PersonMember.includes(:member).order("members.mglnr").find(:all, :conditions=> ["member_id in (?)",@ids])
+
+    respond_to do |format|
+     format.html
+     format.json { render :json => @orchestras }
+    end
+  end
   # GET /person_members/1
   # GET /person_members/1.json
   def show
@@ -88,6 +115,80 @@ class PersonMembersController < ApplicationController
     end
   end
 
+  def magazine 
+
+	@accounts = MemberAccountBooking.where("booking_year < year(now())").sum(:amount,:group=>:member_id)
+
+	@ids = Set.new
+	@accounts.each do |account|
+      if (account[1]<0) then
+        @ids.add(account[0])
+	  end
+	end
+	
+	@person_members = PersonMember.includes([:member]).where("NOT (member_id  in (?) )",@ids)
+
+	@result = Array.new
+
+	@person_members.each do |person_member|
+		if ( ! @ids.include?(person_member.member_id) && person_member.currentMagazines >0) then
+		  @csvrow = {
+			:mglnr=>person_member.mglnr,
+			:name=> '',
+			:name2=>'',
+			:fullname=>person_member.fullname,
+			:strasse=>person_member.strasse ,
+			:countryCode=>person_member.countryCode,
+			:plz=>person_member.plz,
+			:ort=>person_member.ort,
+			:land=>person_member.letterCountry,
+			:magazines=>person_member.currentMagazines
+
+		  }
+		  @result << @csvrow
+		end
+	end
+  	@outfile = "concertino.em." + Time.now.strftime("%m-%d-%Y") + ".csv"
+ 
+  csv_data = CSV.generate do |csv|
+    csv << [
+    "Lfd Nr",
+    "Mglnr",
+    "Firma",
+    "Firma2",
+    "Name",
+    "Strasse",
+	"Laendercode",
+    "PLZ",
+    "Ort",
+    "Land",
+    "Zeitungen"
+    ]
+	@nr=1
+    @result.sort_by { |item| item[:magazines]}.each do |data|
+		csv << [
+			@nr,
+            data[:mglnr],
+            data[:name],
+            data[:name2],
+            data[:fullname],
+            data[:strasse],
+			data[:countryCode],
+            data[:plz],
+            data[:ort],
+            data[:land],
+            data[:magazines]
+		]
+		@nr=@nr+1
+    end
+	end
+ 	send_data csv_data,
+    	:type => 'text/csv; charset=iso-8859-1; header=present',
+    	:disposition => "attachment; filename=#{@outfile}"
+
+  	flash[:notice] = "Export complete!"
+  end
+
 
   private 
   def sort_column
@@ -95,7 +196,4 @@ class PersonMembersController < ApplicationController
     PersonMember.column_names.include?(params[:sort]) ? params[:sort] : "members.mglnr"
   end
   
-  def sort_direction
-    %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
-  end
 end

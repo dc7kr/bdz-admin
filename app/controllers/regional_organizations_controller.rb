@@ -82,4 +82,16 @@ class RegionalOrganizationsController < ApplicationController
       format.json { head :ok }
     end
   end
+
+  def members 
+	@lvSum=0
+	@orchSum=0
+	@personSum=0
+	@orchestras =  Orchestra.includes([:member,:report_sheets]).where('members.regional_organization_id =?',params[:id]).order('members.mglnr')
+	@person_members = PersonMember.includes(:member,:tariff).where('members.regional_organization_id = ?',params[:id]).order('members.mglnr')
+
+	respond_to do |format|
+		format.html 
+	end
+  end
 end

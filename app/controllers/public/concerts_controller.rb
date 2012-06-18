@@ -1,39 +1,14 @@
-class ConcertsController < AuthenticatedController
+class Public::ConcertsController < AuthenticatedController
   # GET /concerts
   # GET /concerts.json
-  layout :choose_layout
+  layout "public"
   helper_method :sort_column, :sort_direction
   before_filter :authenticate_user!, :except => [:index,:show,:public]
   #skip_authorize_resource :only => :show
-  skip_authorize_resource :only => [:public,:show]
+  skip_authorize_resource :only => [:show,:index]
 
-  def public 
-    @concerts = Concert.public().search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render :json => @concerts }
-    end
-  end
-
-  def inactive 
-    @concerts = Concert.inactive().search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render :json => @concerts }
-    end
-  end
   def index
-    @festival_id = params[:event_id]
-
-    if (@festival_id != nil ) 
-	#@Concerts = Concert.where(:all,:include=>[:country,:state,:festival],:conditions=>"datum >= date(now()),festival_id = @festival_id").paginate(:per_page => 20, :page => params[:page])
-	@Concerts = Concert.includes(:festival).search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
-    else
-      #@concerts = Concert.where(:all,:include=>[:country,:state,:festival],:conditions=>"datum >= date(now())").paginate(:per_page => 20, :page => params[:page])
-      @concerts = Concert.search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
-    end
-
+    @concerts = Concert.public().search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
     respond_to do |format|
       format.html # index.html.erb
       format.json { render :json => @concerts }
@@ -65,15 +40,6 @@ class ConcertsController < AuthenticatedController
     end
   end
 
-  # GET /concerts/1/edit
-  def edit
-    @concert = Concert.find(params[:id])
-    @lvs = RegionalOrganization.all
-    @states = State.all
-    @countries = Country.all
-  end
-
-  # POST /concerts
   # POST /concerts.json
   def create
     @concert = Concert.new(params[:concert])

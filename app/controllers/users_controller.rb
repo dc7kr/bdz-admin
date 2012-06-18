@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  load_and_authorize_resource
   # GET /users
   # GET /users.json
   def index
@@ -24,7 +25,8 @@ class UsersController < ApplicationController
   # GET /users/new
   # GET /users/new.json
   def new
-    @user = User.new
+    @user = User.new()
+	@user.role='personal'
 
     respond_to do |format|
       format.html # new.html.erb
@@ -41,6 +43,7 @@ class UsersController < ApplicationController
   # POST /users.json
   def create
     @user = User.new(params[:user])
+	@user.role = 'personal'
 
     respond_to do |format|
       if @user.save
