@@ -123,7 +123,7 @@ class TexWriter
 			elsif (reportsheet.orchestra.orch_type == 'L')
 			then
 				writeTariffComponent(f,1,Prices.lvOrchRate,'Landesorchesterbeitrag')
-				count = reportsheet.calcGemaCount-reportsheet.azubi
+				count = reportsheet.calcGemaCount
 				if ( count > 0 ) then
 					writeTariffComponent(f,count,Prices.lvMember,'GEMA+Haftpflichtbeitrag je Mitglied')
 				end
