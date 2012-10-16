@@ -1,9 +1,35 @@
 de:
-  devise:
-    sign_up: "Registrieren"
-    sign_in: "Anmelden"
-    forgot_pw: "Passwort vergessen?"
-    remember_me: "Eingeloggt bleiben"
+  custom_info_mail:
+    group: Zielgruppe
+    datafile: Anhang
+  common:
+    all: "Alle"
+    links: Links
+    public_data: Öffentliche Daten
+    member_data: Mitgliedsdaten
+    reference_data: Stammdaten
+    admin_data: Administration
+    cron: Tasks
+    address: Adresse
+    yes: Ja
+    no: Nein
+    za_L: Lastschrift
+    za_R: Rechnung
+    back: Zurück
+    save: Speichern
+    about: Über
+    new: Neu
+    list: Liste
+    search: Suche
+    nopayment: Säumige Zahler
+    delete_confirm: Wirlich löschen?
+    show: Anzeigen
+    edit: Bearbeiten
+    delete: Löschen
+    update_success: wurde erfolgreich aktualisiert.
+    download: Download
+    up: Eine Ebene höher
+
   time:
     formats:
       default: ! '%A, %d. %B %Y, %H:%M Uhr'
@@ -166,28 +192,7 @@ de:
     blz:
       required_by_za: Zahlungsart Lastschrift erfordert Bankleitzahl
       unknown: ist unbekannt
-  common:
-    address: Adresse
-    yes: Ja
-    no: Nein
-    za_L: Lastschrift
-    za_R: Rechnung
-    back: Zurück
-    save: Speichern
-    about: Über
-    new: Neu
-    list: Liste
-    search: Suche
-    nopayment: Säumige Zahler
-    delete_confirm: Wirlich löschen?
-    show: Anzeigen
-    edit: Bearbeiten
-    delete: Löschen
-    update_success: wurde erfolgreich aktualisiert.
-    download: Download
 
-  web-app-theme:
-    all: "Alle"
   will_paginate:
     previous_label: "Zurück"
     next_label: "Weiter"
@@ -195,6 +200,8 @@ de:
 
   booking:
     title: Buchung
+    title_p: Buchungen
+    index: Mitgliedskonto
     create_success: Buchung wurde erfolgreich angelegt.
     update_success: Buchung wurde erfolgreich aktualisiert.
     balance: Saldo
@@ -206,6 +213,7 @@ de:
   
   member:
     nopayment: Säumige Zahler
+    notinvoiced: Keine Rechnung
     invalid_mail: Ungültige Mailadresse
     mglnr: Mitgl.-Nr.
     eintritt: Eintritt
@@ -229,7 +237,17 @@ de:
     ort: Wohnort
     telefon: Telefon
     fax: Fax 	
-
+  distinction:
+    dist_date: Datum
+    title: Ehrung
+    title_p: Ehrungen
+    generate_invoice: Rechung generieren
+    silver_needles: Silbernadeln
+    gold_needles: Goldnadeln
+    national_needles: Bundesnadeln
+    certificates: Urkunden
+    honorletters: Ehrenbriefe
+    medals: BDZ-Medaillen
   orchestra:
     title: Orchester
     noreport: Kein Meldebogen
@@ -253,6 +271,9 @@ de:
     type_O: Vereinsorchester
     type_K: Kooperativ
     type_L: Landesorchester
+    member_account: Mitgliedskonto
+  member_account:
+    balance: Saldo
   contest:
     label: Wettbewerb
     startdate: Beginn Datum
@@ -271,6 +292,7 @@ de:
      
   report_sheet:
     title: Meldebogen
+    title_p: Meldebögen
     create_success: Meldebogen erfolgreich angelegt
     children: Kinder
     teens: Jugendliche 15-18
@@ -284,11 +306,35 @@ de:
     uv: Unfallvers.
     new: Neuer Meldebogen
     invsum: Rechnungsbetrag
+    invsum_short: Summe
     sum: Mitgliedsbeiträge
+    sum_short: Beitrag
     uvsum: Unfallversicherung
+    uvsum_short: UV
     korr_ztg: Zeitungen Korrektur (+/-)
     total_active: Gesamt Aktiv
     total: Gesamtzahl
+    child_ens: Kinderensembles
+    youth_ens: Jugendensembles
+    adult_ens: Erwachsenenensembles
+    senior_ens: Seniorenensembles
+    chamber_ens: Kammermusikensembles
+    other_ens: Sonstige Ensembles
+
+  member_report:
+    title: Mitgliederbericht
+    orchestra_count: Anzahl Orchester
+    active_sum: Summe Aktive
+    member_sum: Summe Mitglieder
+    person_member_count: Anzahl EM
+    lo_only: Mgl nur in LO
+    orch_count: Vereinsorchester
+    koop_count: Kooperative
+    lo_count: Landesorchester
+    lo_all: LO Mgl. Gesamt
+  user:
+    title_p: Benutzer
+    title: Benutzer
 
   views:
     pagination:

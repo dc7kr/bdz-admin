@@ -7,6 +7,8 @@ gem 'haml-rails'
 
 gem 'fastercsv'
 
+gem 'rodf'
+
 #gem 'meta_where'
 gem 'meta_search'
 gem 'http_accept_language'
@@ -16,6 +18,8 @@ gem 'http_accept_language'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'json'
+
+gem 'prawn'
 
 gem 'dynamic_form'
 #gem 'formtastic'

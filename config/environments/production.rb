@@ -1,4 +1,4 @@
-RailsAdmin::Application.configure do
+BDZAdmin::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
 
   # Code is not reloaded between requests
@@ -34,7 +34,7 @@ RailsAdmin::Application.configure do
   config.log_level = :debug
 
   # Use a different logger for distributed setups
-  # config.logger = SyslogLogger.new
+  #config.logger = SyslogLogger.new
 
   # Use a different cache store in production
   # config.cache_store = :mem_cache_store

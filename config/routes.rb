@@ -1,85 +1,73 @@
-RailsAdmin::Application.routes.draw do
+BDZAdmin::Application.routes.draw do
 
-  resources :classifieds
-
-  resources :advertisements
-
-  devise_for :users
-
-  #entirely public 
-  resources :home
-  resources :about
-
-  # partly public (except for edit functions)
-  resources :courses do
-	collection do 
-		get :inactive
-		get :public
-	end
-  end
-
-  resources :concerts do
-	collection do 
-		get :inactive
-		get :public
-	end
-  end
-
-  resources :composers do
-    collection do
-      get :public
-    end
-  end
-
-  resources :contests do
-	collection do
-		get :inactive
-        get :public
-	end
-  end
-
-  resources :festivals do
-    collection do 
-      get :public
-    end
-    resources :concerts
-  end
-
-  resources :functions
   resources :addresses
-  resources :states
-  resources :regional_organizations  do 
-	member do
-		get :members
-    end 
-  end
-  resources :tariffs
-  resources :composers
-  resources :universities
   resources :honor_members
+  resources :member_events
 
-  resources :urls 
-
-  resources :url_categories do
-    resources :urls
+  resources :distinctions do 
+	member do
+		get :gen_invoice
+	end
   end
 
   resources :countries do
     resources :states
   end
+  resources :classifieds
 
-  resources :ensembles do
-	collection do 
-		get :inactive
-	end
+  resources :advertisements
+
+  #devise_for :users, :controllers => {:sessions => 'sessions'}
+  devise_for :users
+
+  resources :users
+
+  #resources :users
+  resources :member_account_bookings
+
+  match 'member_report' => 'member_report#index'
+
+  #entirely public 
+  match 'home/member_data' => 'home#member_data'
+  match 'home/reference_data' => 'home#reference_data'
+  match 'home/admin_data' => 'home#admin_data'
+  match 'home/public_data' => 'home#public_data'
+  match 'home/landing_page' => 'home#landing_page'
+  match 'home/cron' => 'home#cron'
+
+  match 'modify_pdf' => 'modify_pdf#index'
+
+  match 'about' => 'about#index'
+
+  match 'custom_info_mail' => 'custom_info_mail#index'
+  match 'custom_info_mail/kasitest' => 'custom_info_mail#kasitest'
+  match 'custom_info_mail/send_mail' => 'custom_info_mail#send_mail'
+
+  # partly public (except for edit functions)
+
+
+  resources :functions
+  resources :states
+  resources :regional_organizations  do 
+	member do
+		get :members
+		get :orch
+		get :person
+    end 
   end
+  resources :tariffs
 
 
 #confidential
 #  resources :users
-  resources :report_sheets
+  resources :report_sheets do
+	collection do 
+		get 'payed'
+	end
+  end
 
   resources :person_members do
+	resources :member_events
     resources :member_account_bookings do
 		member do 
 			get 'download'
@@ -89,6 +77,7 @@ RailsAdmin::Application.routes.draw do
 		get :nopayment
 		get :notinvoiced
         get :magazine
+		get :addresses
 	end
   end
   
@@ -98,85 +87,110 @@ RailsAdmin::Application.routes.draw do
 			get 'download'
 		end
     end
+	resources :member_events
     resources :report_sheets
+    resources :distinctions do
+		member do
+			get :gen_invoice
+		end
+	end
 	collection do 
 		get :noreport
 		get :nopayment
 		get :notinvoiced
         get :gema
         get :magazine
+		get :addresses
+		get :notyetemailed
 	end
   end
 # reports
   namespace :reports do
     resources :gema
+	resources :member_account_bookings
   end
+
+  resources :concerts
+  	resources :ensembles do
+		collection do 
+			get :inactive
+		end
+		resources :ensemble_concerts
+  	end
 
   namespace :public do 
-	resources :concerts, :contests
-  end
+    resources :addresses
+  	resources :courses do
+		collection do 
+			get :inactive
+			get :public
+		end
+  	end
+
+    resources :honor_members
+	resources :countries do
+		resources :states
+	end
+
+  	resources :ensembles do
+		resources :ensemble_concerts
+  	end
+
+  	resources :concerts do
+		collection do 
+			get :inactive
+			get :public
+		end
+  	end
+
+  	resources :composers do
+   		collection do
+      		get :public
+    	end
+  	end
+
+  	resources :contests do
+		collection do
+			get :inactive
+        	get :public
+		end
+  	end
+
+  	resources :festivals do
+		#    collection do 
+		#      get :public
+		#    end
+    	resources :concerts
+ 	 end
+  	resources :composers
+  	resources :universities
+
+  	resources :urls 
+
+  	resources :url_categories do
+    	resources :urls
+  	end
+  end # END NAMESPACE PUBLIC
 
 
-# automatic controllers 
+# automated controllers 
   namespace :cron do
-    resources :invoices
-    resources :reminders
+ 	match 'invoices/gen_all' => 'invoices#gen_all'
+ 	match 'invoices/gen_orchestras' => 'invoices#gen_orchestras'
+ 	match 'invoices/gen_persons' => 'invoices#gen_persons'
+ 	match 'invoices/ping' => 'invoices#ping'
+    match 'reminders/report_sheet' => 'reminders#report_sheet'
+    match 'reminders/payment' => 'reminders#payment'
+	# TODO: These aren't resources!
 	resources :mails
 	resources :downloads
   end
 
   get "home/index"
 
-  # The priority is based upon order of creation:
-  # first created -> highest priority.
-
-  # Sample of regular route:
-  #   match 'products/:id' => 'catalog#view'
-  # Keep in mind you can assign values other than :controller and :action
-
-  # Sample of named route:
-  #   match 'products/:id/purchase' => 'catalog#purchase', :as => :purchase
-  # This route can be invoked with purchase_url(:id => product.id)
-
-  # Sample resource route (maps HTTP verbs to controller actions automatically):
-  #   resources :products
-
-  # Sample resource route with options:
-  #   resources :products do
-  #     member do
-  #       get 'short'
-  #       post 'toggle'
-  #     end
-  #
-  #     collection do
-  #       get 'sold'
-  #     end
-  #   end
-
-  # Sample resource route with sub-resources:
-  #   resources :products do
-  #     resources :comments, :sales
-  #     resource :seller
-  #   end
-
-  # Sample resource route with more complex sub-resources
-  #   resources :products do
-  #     resources :comments
-  #     resources :sales do
-  #       get 'recent', :on => :collection
-  #     end
-  #   end
-
-  # Sample resource route within a namespace:
-  #   namespace :admin do
-  #     # Directs /admin/products/* to Admin::ProductsController
-  #     # (app/controllers/admin/products_controller.rb)
-  #     resources :products
-  #   end
-
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  root :to => "home#index"
+  root :to => "home#landing_page"
 
   # See how all your routes lay out with "rake routes"
 
@@ -188,6 +202,7 @@ RailsAdmin::Application.routes.draw do
   devise_scope :user do
     get "/login" => "devise/sessions#new"
     get "/logout" => "devise/sessions#destroy"
+	get "/edit_password" => "devise/passwords#edit"
   end
 
 end

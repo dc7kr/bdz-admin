@@ -4,4 +4,4 @@
 require File.expand_path('../config/application', __FILE__)
 require 'rake'
 
-RailsAdmin::Application.load_tasks
+BDZAdmin::Application.load_tasks
