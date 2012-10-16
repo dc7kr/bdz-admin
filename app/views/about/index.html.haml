@@ -5,6 +5,6 @@
       .content
         %p
           %b Application:
-          =git_info[:application].html_safe
+          =@git_info[:application].html_safe
           %b Last commit: 
-          %pre=git_info[:last_commit].html_safe
+          %pre=@git_info[:last_commit].html_safe

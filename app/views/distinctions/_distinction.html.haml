@@ -1,0 +1,18 @@
+%tr
+  %td= format_date(distinction.dist_date)
+  %td= distinction.silver_needles
+  %td= distinction.gold_needles
+  %td= distinction.national_needles
+  %td= distinction.certificates
+  %td= distinction.honorletters
+  %td= distinction.medals
+  %td
+    = link_to_show_path orchestra_distinction_path(@orchestra,distinction), t("common.show"), distinction
+    - if (distinction.member_account_booking == nil or isAdmin?) then
+      = link_to_edit_path edit_orchestra_distinction_path(@orchestra,distinction),  t("common.edit"), distinction
+      = link_to_del_path orchestra_distinction_path(@orchestra,distinction), t("common.delete"), t("common.delete_confirm"), distinction
+    - if (distinction.member_account_booking == nil)
+      = link_to_generate_path t('distinction.generate_invoice'), gen_invoice_orchestra_distinction_path(@orchestra,distinction)
+    - else
+      = link_to_download_path(t('common.download'),download_orchestra_member_account_booking_path(@orchestra,distinction.member_account_booking),distinction.member_account_booking)
+

@@ -1,4 +1,3 @@
-
 class TexWriter 
 	include ApplicationHelper
 	include ActionView::Helpers::NumberHelper
@@ -9,12 +8,38 @@ class TexWriter
 		@@workdir
 	end
 
+	def writeDistinction(distinction,invoiceNumber) 
+		File.open(TexWriter.workdir+"/variables.tex", 'w') {|f| 
+			writeOurData(f,'distinction')
+			writeCommon(f,distinction.orchestra)
+			f.write('\newcommand{\renummer}{'+invoiceNumber+"}\n")
+		}
+		File.open(TexWriter.workdir+"/posten.tex",'w') {|f|
+			writeTariffComponent(f,distinction.certificates,Prices.certificate,"Urkunden")
+			writeTariffComponent(f,distinction.silver_needles,Prices.silverNeedle, 'Silbernadel')
+			writeTariffComponent(f,distinction.gold_needles,Prices.goldenNeedle, 'Goldnadel')
+			writeTariffComponent(f,distinction.honorletters,Prices.honorLetter, 'Ehrenbrief mit Urkundenmappe')
+			writeTariffComponent(f,distinction.medals,Prices.medal, 'BDZ-Verdienstmedaille')
+			writeTariffComponent(f,distinction.national_needles,Prices.nationalNeedle, 'BDZ-Bundesnadel')
+			writeTariffComponent(f,1,Prices.distinctionPorto, 'Porto und Verpackungskostenanteil')
+		}
+    end	
+
 	def writePersonTariff(person) 
 		File.open(TexWriter.workdir+"/posten.tex",'w') {|f|
 			writeTariffComponent(f,1,person.tariff.amount, 'Beitrag '+person.tariff.description)
 		}
 
 			end
+
+	def writeReportSheetReminderData(member)
+		File.open(TexWriter.workdir+"/variables.tex", 'w') {|f| 
+			writeOurData(f,'gs')
+			writeCommon(f,member)
+			intwo= I18n.l(14.days.from_now.to_date , :format => :long)
+			f.write('\newcommand{\inTwoWeeks}{'+intwo+"}\n")
+		}
+    end
 
 	def writeReminderData(member)
 
@@ -94,6 +119,7 @@ class TexWriter
 		#f.write('\newcommand{\myStrasse}{}'+"\n")
 		f.write('\newcommand{\redatum}{'+I18n.l(Time.now.to_date , :format => :long)+"}\n")
 
+
 	end
 	def writeOurData(f,contact) 
 		f.write('\newcommand{\myFirma}{'+BDZ_SETTINGS['company']+"}\n")
@@ -103,15 +129,15 @@ class TexWriter
 		f.write('\newcommand{\myBank}{'+BDZ_SETTINGS['bank']+"}\n")
 		f.write('\newcommand{\myIBAN}{'+BDZ_SETTINGS['iban']+"}\n")
 		f.write('\newcommand{\myBIC}{'+BDZ_SETTINGS['bic']+"}\n")
-		f.write('\newcommand{\myPhone}{'+BDZ_SETTINGS[contact]['phone']+"}\n")
-		f.write('\newcommand{\myFax}{'+BDZ_SETTINGS[contact]['fax']+"}\n")
-		f.write('\newcommand{\myMail}{'+BDZ_SETTINGS[contact]['mail']+"}\n")
-		f.write('\newcommand{\myName}{'+BDZ_SETTINGS[contact]['name']+"}\n")
-		f.write('\newcommand{\myDept}{'+BDZ_SETTINGS[contact]['dept']+"}\n")
-		f.write('\newcommand{\myStreet}{'+BDZ_SETTINGS[contact]['street']+"}\n")
-		f.write('\newcommand{\myPLZ}{'+BDZ_SETTINGS[contact]['plz']+"}\n")
-		f.write('\newcommand{\myOrt}{'+BDZ_SETTINGS[contact]['ort']+"}\n")
-		f.write('\newcommand{\myJob}{'+BDZ_SETTINGS[contact]['job']+"}\n")
+		f.write('\newcommand{\myPhone}{'+BDZ_SETTINGS['contacts'][contact]['phone']+"}\n")
+		f.write('\newcommand{\myFax}{'+BDZ_SETTINGS['contacts'][contact]['fax']+"}\n")
+		f.write('\newcommand{\myMail}{'+BDZ_SETTINGS['contacts'][contact]['mail']+"}\n")
+		f.write('\newcommand{\myName}{'+BDZ_SETTINGS['contacts'][contact]['name']+"}\n")
+		f.write('\newcommand{\myDept}{'+BDZ_SETTINGS['contacts'][contact]['dept']+"}\n")
+		f.write('\newcommand{\myStreet}{'+BDZ_SETTINGS['contacts'][contact]['street']+"}\n")
+		f.write('\newcommand{\myPLZ}{'+BDZ_SETTINGS['contacts'][contact]['plz']+"}\n")
+		f.write('\newcommand{\myOrt}{'+BDZ_SETTINGS['contacts'][contact]['ort']+"}\n")
+		f.write('\newcommand{\myJob}{'+BDZ_SETTINGS['contacts'][contact]['job']+"}\n")
 
 	end
 
@@ -154,7 +180,10 @@ class TexWriter
 		}
 	end
 
-	def writeTariffComponent(file, count, tariff, label)	
+	def writeTariffComponent(file, count, tariff, label)
+		if (count == 0 )  then
+			return
+		end
 		amount = '%.2f' % tariff;
 		amount = amount.gsub('.',',')
 		file.write('\Artikel{'+String(count)+'}{'+label+'}{'+amount+"}\n")
@@ -171,4 +200,25 @@ class TexWriter
 	def format_currency(val,currency)
 		return number_to_currency(val,:locale => :de)
 	end
+
+  def moveGeneratedFiles(datePrefix)
+
+	workDir = BDZ_SETTINGS['invoice_workdir']
+	archiveDir= BDZ_SETTINGS['invoice_archive_dir']
+	tgtDir= archiveDir +"/"+String(Time.now.year)
+
+	shortprefix = Time.now.strftime("%Y%m%d-")
+
+	if ( ! Dir.exists? tgtDir) then
+    	FileUtils.mkdir tgtDir
+	end
+
+	Dir.chdir(workDir)
+	Dir.entries(workDir).each { |file|
+		if file.start_with? datePrefix or file.start_with? shortprefix then
+			FileUtils.mv file, tgtDir+"/"
+		end
+	}
+  end
+
 end

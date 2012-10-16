@@ -1,6 +1,5 @@
 class Cron::DownloadsController < ApplicationController
 
-
   def index
 	fNam = params[:filename]
 

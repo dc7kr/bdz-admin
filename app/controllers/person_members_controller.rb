@@ -17,9 +17,21 @@ class PersonMembersController < AuthenticatedController
     end
   end
 
-  def notinvoiced 
+  def addresses 
+    if (params[:nomail]) then
+		@person_members = PersonMember.includes(:member).nomail
+	else
+		@person_members = PersonMember.includes(:member).all
+	end
+#where("members.email IS NULL or members.email=''")
+	respond_to do |format|
+		format.json { render :json => @person_members.to_json(:include => {:member=> {} })
+		}
+	end
+  end
 
-    @person_members = PersonMember.includes([:tariff,:member]).joins("LEFT JOIN member_acct_booking mb ON person_members.member_id=mb.member_id AND mb.booking_type='B' and mb.booking_year = YEAR(NOW())").where("mb.id IS NULL").order("members.mglnr").page(params[:page]).per(20)
+  def notinvoiced 
+    @person_members = PersonMember.includes([:tariff,:member]).joins("LEFT JOIN member_account_bookings mb ON person_members.member_id=mb.member_id AND mb.booking_type='B' and mb.booking_year = YEAR(NOW())").where("mb.id IS NULL").order("members.mglnr").page(params[:page]).per(20)
 	
     respond_to do |format|
       format.html # index.html.erb
@@ -40,7 +52,8 @@ class PersonMembersController < AuthenticatedController
 
     respond_to do |format|
      format.html
-     format.json { render :json => @orchestras }
+     format.json { render :json => @person_members }
+	 format.csv { render :csv => @person_members, :style=>:minimal, :filename => "nopayment_em_"+Time.now.year.to_s }
     end
   end
   # GET /person_members/1
@@ -59,6 +72,7 @@ class PersonMembersController < AuthenticatedController
   # GET /person_members/new.json
   def new
     @person_member = PersonMember.new
+	@person_member.zeitungen=1
 
     respond_to do |format|
       format.html # new.html.erb
@@ -136,7 +150,8 @@ class PersonMembersController < AuthenticatedController
 			:mglnr=>person_member.mglnr,
 			:name=> '',
 			:name2=>'',
-			:fullname=>person_member.fullname,
+			:vorname=>person_member.vorname,
+			:nachname=>person_member.name,
 			:strasse=>person_member.strasse ,
 			:countryCode=>person_member.countryCode,
 			:plz=>person_member.plz,
@@ -156,6 +171,7 @@ class PersonMembersController < AuthenticatedController
     "Mglnr",
     "Firma",
     "Firma2",
+    "Vorname",
     "Name",
     "Strasse",
 	"Laendercode",
@@ -171,7 +187,8 @@ class PersonMembersController < AuthenticatedController
             data[:mglnr],
             data[:name],
             data[:name2],
-            data[:fullname],
+            data[:vorname],
+            data[:nachname],
             data[:strasse],
 			data[:countryCode],
             data[:plz],

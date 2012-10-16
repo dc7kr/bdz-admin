@@ -38,6 +38,14 @@ class Member < ActiveRecord::Base
 		return country.ccode.upcase
 	end
   end
+
+  def address
+    fullname + ", " +strasse + ", "+plz+ " "+ort
+  end
+
+  def address_block
+	fullname+"\n"+
+	strasse+"\n"+
+	plz+" "+ort
+  end
 end
-
-

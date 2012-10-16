@@ -1,5 +1,8 @@
 class Ensemble < ActiveRecord::Base
 	belongs_to :user, :foreign_key => "owner"
+	has_many :ensemble_concerts
+
+    has_many :public_concerts, :class_name=>"EnsembleConcert", :conditions => ["datum >= ?",Time.now]
 
 
   def self.search(search)

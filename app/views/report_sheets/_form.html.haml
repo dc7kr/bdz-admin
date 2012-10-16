@@ -37,6 +37,27 @@
     %tr
       %td= t("report_sheet.korr_ztg")
       %td= f.number_field :korr_ztg
+
+  %h3 Ensembles
+  %table
+    %tr
+      %td= t("report_sheet.child_ens")
+      %td= f.number_field :child_ens
+    %tr
+      %td= t("report_sheet.youth_ens")
+      %td= f.number_field :youth_ens
+    %tr
+      %td= t("report_sheet.adult_ens")
+      %td= f.number_field :adult_ens
+    %tr
+      %td= t("report_sheet.senior_ens")
+      %td= f.number_field :senior_ens
+    %tr
+      %td= t("report_sheet.chamber_ens")
+      %td= f.number_field :chamber_ens
+    %tr
+      %td= t("report_sheet.other_ens")
+      %td= f.number_field :other_ens
   .actions
     = f.submit t("common.save")
     = cancel_button()

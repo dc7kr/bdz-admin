@@ -3,7 +3,7 @@
     =render :partial=>'nav'
   .content
     %h2.title
-      = t("web-app-theme.all", :default => "All")
+      = t("common.all")
       = t("person_member.title")
     .inner
       %table.table
@@ -12,7 +12,8 @@
             = sortable "mglnr", t("member.mglnr", :default =>"#mglr#")
           %th
             = sortable "name", t("member.fullname", :default => "Name")
-          %th= t("member.email", :default => "#email")
+          %th= t("member.ort")
+          %th= t("member.email")
           %th.last &nbsp;
         %tbody#person_members
           = render @person_members

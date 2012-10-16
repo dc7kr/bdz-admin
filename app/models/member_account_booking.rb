@@ -1,25 +1,36 @@
 class MemberAccountBooking < ActiveRecord::Base
-	set_table_name "member_acct_booking"
 	belongs_to :member
 
+    def has_reference?
+        return ref_booking_id != nil 
+    end
 	def has_attachment?
 		filename != nil and filename.length()>0
     end
 
-	def self.newInvoice(txt,amount,mglnrStr)
+	def self.genericType(txt,prefix,type,amount,mglnrStr)
 		@booking=MemberAccountBooking.new
 		@booking.booking_date = Time.now
 		@booking.booking_year = Time.now.year
 		@booking.booking_txt = txt
 		@booking.booking_mode='A'
-		@booking.booking_type='B'
+		@booking.booking_type=type
 		@booking.amount=amount
 
 		@dateprefix = Time.now.strftime '%Y%m%d'
 		
-		@booking.filename = @dateprefix+"_rechnung"+mglnrStr+".pdf"
+		@booking.filename = @dateprefix+"-"+prefix+mglnrStr+".pdf"
 
 		return @booking
+    end
+
+
+	def self.newDistinctionInvoice(txt,amount,mglnrStr)
+		return genericType(txt,'ehrungsrechnung','E',amount,mglnrStr)
+	end
+
+	def self.newInvoice(txt,amount,mglnrStr)
+		return genericType(txt,'rechnung','B',amount,mglnrStr)
 	end
 	def self.newWithdrawal(txt,amount)
 		@booking=MemberAccountBooking.new

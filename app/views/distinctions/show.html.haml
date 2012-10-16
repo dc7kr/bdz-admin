@@ -1,0 +1,35 @@
+.block
+  .secondary-navigation
+    = render :partial=>'nav'
+  .content
+    .inner
+      %h3
+        #{t("distinction.title")}
+        &nbsp;
+        #{@distinction.orchestra.orchName} (#{@distinction.orchestra.mglnr.to_s})
+      %table
+        %tr
+          %td.label #{t("distinction.dist_date")}:
+          %td= @distinction.dist_date
+        %tr
+          %td.label #{t("distinction.gold_needles")}:
+          %td= @distinction.gold_needles
+        %tr
+          %td.label #{t("distinction.silver_needles")}:
+          %td= @distinction.silver_needles
+        %tr
+          %td.label #{t("distinction.national_needles")}:
+          %td= @distinction.national_needles
+        %tr
+          %td.label #{t("distinction.certificates")}:
+          %td= @distinction.certificates
+        %tr
+          %td.label #{t("distinction.honorletters")}:
+          %td= @distinction.honorletters
+        %tr
+          %td.label #{t("distinction.medals")}:
+          %td= @distinction.medals
+  
+      .actions-bar.wat-cf
+        .actions
+          = link_to_edit_path edit_orchestra_distinction_path(@distinction.orchestra,@distinction), t('common.edit'), @distinction

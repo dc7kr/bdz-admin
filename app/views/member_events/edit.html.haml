@@ -1,0 +1,13 @@
+%h1 Event bearbeiten
+
+= link_back('Back')
+
+= form_for ([@member,@member_event]) do |f|
+  -if @member_event.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@member_event.errors.count, "error")} prohibited this event from being saved:"
+      %ul
+        - @member_event.errors.full_messages.each do |msg|
+          %li= msg
+  = f.hidden_field :member_id, :value=>@member.member_id
+  = render :partial => "form", :locals => {:f => f}

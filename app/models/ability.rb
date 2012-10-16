@@ -21,7 +21,12 @@ class Ability
 	  end
 
       if ( user.honor? )
-		can :manage, MemberAccountBooking, :booking_type => 'E'
+		can :manage, Distinction 
+		can :read, MemberAccountBooking, :booking_type => 'E'
+        can :read, Country
+        can :read, RegionalOrganization
+        can :read, PersonMember
+        can :read, Orchestra
       end
 	end
     # Define abilities for the passed in user here. For example:

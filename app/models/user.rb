@@ -5,11 +5,11 @@ class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable
+         :recoverable, :rememberable, :trackable, :validatable, :token_authenticatable
  
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me
+  attr_accessible :email, :password, :password_confirmation, :remember_me,:name
 
   ROLES = %w[admin gs]
 
@@ -30,14 +30,24 @@ class User < ActiveRecord::Base
   def address?
 	return roles.include?('address')
   end
+
+  def has_role?(role)
+	return roles.include?(role)
+  end
+
   def admin?
 	return roles.include?('admin')
   end
+
+  def cron_permission?
+	return (roles.include?('admin') or roles.include?('national'))
+  end
+
   def national?
 	return roles.include?('national')
   end
 
   def honor?
-	return roles.include?('honor')
+	return roles.include?('distinction')
   end
 end

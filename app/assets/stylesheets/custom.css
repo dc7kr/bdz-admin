@@ -40,10 +40,10 @@ li.username {
 color:#d0d0d0;
 }
 
-.alert {
+/*.alert {
 background-color:#ff0000;
 color:#ffffff;
-}
+}*/
 
 td.label {
   font-weight:bold;
@@ -70,3 +70,14 @@ a.sort {
 	top:0px;
 	float:right;
 }
+
+h2.error {
+	border: solid silver 1px;
+	color:#ff0000;
+	font-weight:bold;
+}
+
+.flash {
+  width: 70%;
+}
+

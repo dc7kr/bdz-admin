@@ -1,8 +1,7 @@
-class UniversitiesController < ApplicationController
+class UniversitiesController < AuthenticatedController
   # GET /universities
   # GET /universities.json
-  before_filter :authenticate_user!#, :except => [:index]
-  load_and_authorize_resource
+
   def index
     @universities = University.all
 

@@ -1,0 +1,19 @@
+%tr
+  %td=l member_event.booking_date.to_date, :format => :long
+  %td=member_event.booking_type
+  %td=member_event.booking_year
+  %td=member_event.booking_txt
+  %td=format_currency(member_event.amount,'€')
+  %td
+    -if (@isOrchestra)
+      = link_to_download_path(t('common.download'),download_orchestra_member_event_path(@member,member_account_booking),member_account_booking)
+    -else
+      = link_to_download_path(t('common.download'),download_person_member_member_event_path(@member,member_account_booking),member_account_booking)
+    -if ( member_event.booking_mode=='M' or isAdmin?) then
+      -if (@isOrchestra) then
+        = link_to_edit_path( edit_orchestra_member_event_path(@member,member_account_booking),'Edit',member_account_booking)
+        = link_to_del_path( orchestra_member_event_path(@member,member_account_booking), 'Del',t('common.delete_confirm'),member_account_booking)
+      -else
+        = link_to_edit_path( edit_person_member_member_event_path(@member,member_account_booking),'Edit',member_account_booking)
+        = link_to_del_path( person_member_member_event_path(@member,member_account_booking), 'Del',t('common.delete_confirm'),member_account_booking)
+

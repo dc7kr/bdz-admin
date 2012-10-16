@@ -1,0 +1,20 @@
+-@member = member_account_booking.member
+-if @member.kind_of? Orchestra
+  %tr
+    %td=member.class
+    %td=format_date(member_account_booking.booking_date)
+    %td=member_account_booking.booking_txt
+    %td=format_currency(member_account_booking.amount,'EUR')
+    -if @member
+      %td=link_to @member.mglnr, orchestra_path(@member.id)
+      %td=@member.name
+    -else
+      %td MEMBER IS NULL!!
+-else 
+  %tr
+    %td=@member.class
+    %td NOT AN ORCHESTRA
+    -if @member
+      %td=@member.mglnr
+    -else
+      %td Member Is NULL

@@ -1,8 +1,5 @@
 .secondary-navigation
-  %ul.wat-cf
-    %li.first= link_to t("common.public_data", :default => "Öffentliche Daten"),:controller=>"home",:tab=>"public_data"
-    %li.active= link_to t("common.member_data", :default => "Mitgliedsdaten"),:controller=>"home",:tab=>"member_data"
-    %li= link_to t("common.reference_data", :default => "Stammdaten"),:controller=>"home",:tab=>"reference_data"
+  = render :partial=>"nav"
 .content
   .inner
     .block
@@ -13,5 +10,9 @@
         %br
     .block
       %h3 Berichte
-      = link_to "GEMA Zahlen", "/orchestras/gema.csv"
+      %ul
+        %li= link_to "GEMA Zahlen", "/orchestras/gema.csv"
+        %li= link_to "concertino EM", "/person_members/magazine.csv"
+        %li= link_to "concertino Orchester", "/orchestras/magazine.csv"
+        %li= link_to "Mitgliederbericht", "/member_report"
 - content_for :sidebar, render(:partial => 'sidebar')

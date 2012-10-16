@@ -14,24 +14,27 @@ class Prices
 		return BDZ_SETTINGS['fees']['mgebuehr2']
 	end
 
-	# honor
-	def self.urkunden
-		return BDZ_SETTINGS['honor']['urkunden'].to_f
+	# distinctions
+	def self.certificate
+		return BDZ_SETTINGS['distinction_prices']['certificate'].to_f
 	end
-	def self.silbernadel
-		return BDZ_SETTINGS['honor']['silbernadel'].to_f
+	def self.silverNeedle
+		return BDZ_SETTINGS['distinction_prices']['silverneedle'].to_f
 	end
-	def self.goldnadel
-		return BDZ_SETTINGS['honor']['goldnadel'].to_f
+	def self.goldenNeedle
+		return BDZ_SETTINGS['distinction_prices']['goldenneedle'].to_f
 	end
-	def self.bundesnadel
-		return BDZ_SETTINGS['honor']['bundesnadel'].to_f
+	def self.nationalNeedle
+		return BDZ_SETTINGS['distinction_prices']['nationalneedle'].to_f
 	end
-	def self.medaille
-		return BDZ_SETTINGS['honor']['medaille'].to_f
+	def self.medal
+		return BDZ_SETTINGS['distinction_prices']['medal'].to_f
 	end
-	def self.ehrenbrief
-		return BDZ_SETTINGS['honor']['ehrenbrief'].to_f
+	def self.honorLetter
+		return BDZ_SETTINGS['distinction_prices']['honorletter'].to_f
+	end
+	def self.distinctionPorto
+		return BDZ_SETTINGS['distinction_prices']['porto'].to_f
 	end
 
 	#beitraege

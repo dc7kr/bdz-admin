@@ -1,0 +1,32 @@
+.block
+  = f.error_messages :message => "", :header_tag => :h3
+.group
+  = f.hidden_field :orchestra_id, :value=>@orchestra.id
+  %table
+    %tr
+      %td= f.label :dist_date, t("distinction.dist_date"), :class => :label
+      %td= f.text_field :dist_date, :class => 'datePicker'
+    %tr
+      %td= f.label :gold_needles, t("distinction.gold_needles"), :class => :label
+      %td= f.text_field :gold_needles, :class => 'number_field'
+    %tr
+      %td= f.label :silver_needles, t("distinction.silver_needles"), :class => :label
+      %td= f.text_field :silver_needles, :class => 'number_field'
+    %tr
+      %td= f.label :national_needles, t("distinction.national_needles"), :class => :label
+      %td= f.text_field :national_needles, :class => 'number_field'
+    %tr
+      %td= f.label :certificates, t("distinction.certificates"), :class => :label
+      %td= f.text_field :certificates, :class => 'number_field'
+    %tr
+      %td= f.label :honorletters, t("distinction.honorletters"), :class => :label
+      %td= f.text_field :honorletters, :class => 'number_field'
+    %tr
+      %td= f.label :medals, t("distinction.medals"), :class => :label
+      %td= f.text_field :medals, :class => 'number_field'
+  
+  %button.button{:type => "submit"}
+    = image_tag("web-app-theme/icons/tick.png", :alt => "#{t("web-app-theme.save", :default => "Save")}")
+    = t("web-app-theme.save", :default => "Save")
+  %span.text_button_padding= t("web-app-theme.or", :default => "or")
+  = cancel_button()

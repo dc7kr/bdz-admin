@@ -15,17 +15,17 @@
       %td= f.label :name, t("member.name"), :class => :label
       %td= f.text_field :name, :class => 'text_field'
     %tr
-      %td= f.label :strasse, t("person_member.strasse"), :class => :label
+      %td= f.label :strasse, t("member.strasse"), :class => :label
       %td= f.text_field :strasse, :class => 'text_field'
-    %tr
-      %td= f.label :land, t("person_member.land"), :class => :label
-      %td= collection_select(:person_member, :country_id, Country.all, :id, :name) 
     %tr
       %td= f.label :plz, t("person_member.plz"), :class => :label
       %td= f.text_field :plz, :class => 'text_field'
     %tr
       %td= f.label :ort, t("person_member.Ort"), :class => :label
       %td= f.text_field :ort, :class => 'text_field'
+    %tr
+      %td= f.label :land, t("person_member.land"), :class => :label
+      %td= collection_select(:person_member, :country_id, Country.all, :id, :name) 
     %tr
       %td= f.label :email, t("member.email"), :class => :label
       %td= f.text_field :email, :class => 'text_field'

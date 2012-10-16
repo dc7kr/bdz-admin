@@ -9,10 +9,10 @@ class OrchMglnrValidator < ActiveModel::EachValidator
 		r=false
       digit = (nr % 1000 ) / 100
 
-		if ( record.landes_orch == true && digit != 2) 
+		if ( record.orch_type== "L" && digit != 2) 
 		then 
 			record.errors[attribute] << (options[:message] || I18n.t("errors.mglnr.require_land_orch")) 
-		elsif (record.koopMitglied == true && digit != 1 ) 
+		elsif (record.orch_type == "K" && digit != 1 ) 
 		then
 			record.errors[attribute] << (options[:message] || I18n.t("errors.mglnr.require_koop")) 
 		else

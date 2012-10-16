@@ -28,34 +28,30 @@ class DtausWriter
 	end
 
 	def writeDtausPersonEntry(member,zweck)
-
 		if (member.konto > 0) then
 			amount = "%.2f" % member.tariff.amount
+			writeDtausEntry(member.fullname,String(member.konto),member.blz,amount,zweck)	
+		end
+	end
+
+    def writeDtausEntry(name,konto,blz,amount,zweck)
 			@file.write( "{\n")
 			@file.write( "Transaktion Einzug\n")
-			@file.write( "Name "+member.fullname+"\n")
-			@file.write( "Konto "+String(member.konto)+"\n")
-			@file.write( "BLZ "+member.blz+"\n")
+			@file.write( "Name "+name+"\n")
+			@file.write( "Konto "+konto+"\n")
+			@file.write( "BLZ "+blz+"\n")
 			@file.write( "Betrag "+amount+"\n")
 			@file.write( "Zweck "+zweck+"\n")
 			@file.write( "}\n")
-		end
 	end
 
 	def writeDtausOrchestraEntry(member,zweck,sum)
-
 		if (member.konto > 0) then
 			amount = "%.2f" % sum
-			@file.write( "{\n")
-			@file.write( "Transaktion Einzug\n")
-			@file.write( "Name "+String(member.cleanOrchName)+"\n")
-			@file.write( "Konto "+String(member.konto)+"\n")
-			@file.write( "BLZ "+member.blz+"\n")
-			@file.write( "Betrag "+amount+"\n")
-			@file.write( "Zweck "+zweck+"\n")
-			@file.write( "}\n")
+			writeDtausEntry(String(member.cleanOrchName),String(member.konto),member.blz,amount,zweck)
 		end
 	end
+
 	def writeDtausHeader()
 		datum = I18n.l(Time.now, :format => :short)
 		@file.write("BEGIN {\n")

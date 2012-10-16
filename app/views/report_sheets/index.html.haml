@@ -1,22 +1,33 @@
-%h1 Meldebögen #{@orchestra.orchName } #{@orchestra.mglnr} 
-=link_back t("common.back")
-%table.bordered
-  %tr
-    %th=t("report_sheet.year")
-    %th=t("report_sheet.children")
-    %th=t("report_sheet.teens")
-    %th=t("report_sheet.youth")
-    %th=t("report_sheet.adult")
-    %th=t("report_sheet.senior")
-    %th=t("report_sheet.uv")
-    %th=t("report_sheet.zusatz_uv")
-    %th=t("report_sheet.zeitungen")
-    %th=t("report_sheet.gema")
-    %th=t("report_sheet.azubi")
-    %th=t("report_sheet.passive")
-  =render @report_sheets
-
-%br
-
-= link_to_new(new_orchestra_report_sheet_path(@orchestra),t("report_sheet.new"))
+.block
+  .secondary-navigation
+    =render :partial=>'nav'
+  .content
+    %h2.title
+      -if @orchestra 
+        Meldebögen #{@orchestra.orchName } #{@orchestra.mglnr} 
+      -else
+        Meldebögen #{@curYear}
+    .inner
+      %table.table
+        %thead
+          %tr
+            %th=t("report_sheet.year")
+            %th=t("report_sheet.children")
+            %th=t("report_sheet.teens")
+            %th=t("report_sheet.youth")
+            %th=t("report_sheet.adult")
+            %th=t("report_sheet.senior")
+            %th=t("report_sheet.uv")
+            %th=t("report_sheet.zusatz_uv")
+            %th=t("report_sheet.zeitungen")
+            %th=t("report_sheet.gema")
+            %th=t("report_sheet.azubi")
+            %th=t("report_sheet.passive")
+            %th.last &nbsp;
+        %tbody#orchestras
+          =render @report_sheets
+      .actions-bar.wat-cf
+        .actions
 - content_for :sidebar, render(:partial => 'sidebar')
+
+

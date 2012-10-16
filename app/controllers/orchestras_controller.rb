@@ -1,24 +1,58 @@
+require 'odf/spreadsheet'
 require 'set'
 require 'csv'
 class OrchestrasController < AuthenticatedController
   # for table sort by column click
   helper_method :sort_column, :sort_direction
 
+
+  #
+  #  JSON ONLY 
+  #
+  def addresses
+    if (params[:nomail]) then
+		@orchestras = Orchestra.includes(:member).nomail
+	elsif (params[:mailonly]) then
+		@orchestras = Orchestra.includes(:member).mail
+    else
+		@orchestras = Orchestra.includes(:member).all
+	end
+#where("members.email IS NULL or members.email=''")
+	#respond_to do |format|
+#		format.json { 
+		render :json => @orchestras.to_json(:include => {:member=> {} })
+#		}
+#	end
+  end
+
+  def notyetemailed
+		@event  = params[:event]
+		@orchestras = Orchestra.mailForEvent(@event)
+    	respond_to do |format|
+	 		format.js
+     		format.html
+     		format.json { render :json => @orchestras.to_json(
+			{ :member => {:include => :member }}
+		)}
+    end
+  end
+
   # GET /orchestras
   # GET /orchestras.json
 #sample  before_filter :authenticate_user!, :except => [:some_action_without_auth]
   def notinvoiced 
-     @orchestras = Orchestras.includes([:orchestra,:members]).joins("LEFT JOIN member_acct_booking mb ON orchestras.member_id=mb.member_id AND mb.booking_type='B' and YEAR(mb.booking_date) = YEAR(NOW())").where("mb.id IS NULL and report_sheets.year= YEAR(NOW())").search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
+     @orchestras = Orchestra.includes([:member,:report_sheets]).joins("LEFT JOIN member_account_bookings mb ON orchestras.member_id=mb.member_id AND mb.booking_type='B' and YEAR(mb.booking_date) = YEAR(NOW())").where("mb.id IS NULL and report_sheets.year= YEAR(NOW())").search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
 
 
     respond_to do |format|
 	 format.js
      format.html
-     format.json { render :json => @orchestras}
+     format.json { render :json => @orchestras.to_json(
+		{ :member => {:include => :member }}
+	)}
     end
-
-	 
   end
+
 
   def magazine 
 
@@ -104,8 +138,13 @@ class OrchestrasController < AuthenticatedController
 	@orchestras = Orchestra.includes(:member).order("members.mglnr").find(:all, :conditions=> ["member_id in (?)",@ids])
 
     respond_to do |format|
-     format.html
+     format.html 
      format.json { render :json => @orchestras }
+		format.csv { render :csv => @orchestras, :style=>:minimal, :filename => "nopayment_"+Time.now.year.to_s } 
+		format.ods {
+			renderNoPayOds("/tmp/nopayment.ods",@accounts,@orchestras);
+    		send_file("/tmp/nopayment.ods", :filename => "orch_nopay_"+Time.now.year.to_s+".ods", :type => "application/octet-stream")
+		}
     end
 
   end
@@ -123,7 +162,12 @@ class OrchestrasController < AuthenticatedController
     @orchestras = Orchestra.includes(:member).search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(10)
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html {
+			if  ( @orchestras.length == 1 ) then
+				redirect_to @orchestras[0]
+			end
+		}
+			# index.html.erb
       format.json { render :json => @orchestras }
 	  format.js
     end
@@ -213,5 +257,19 @@ class OrchestrasController < AuthenticatedController
     Member.column_names.include?(params[:sort]) ? "members."+params[:sort] :
     Orchestra.column_names.include?(params[:sort]) ? params[:sort] : "members.mglnr"
   end
-  
+	private
+		def renderNoPayOds(filename,accounts,orchestras)
+			ODF::Spreadsheet.file(filename) do
+				table "No payment" do
+	    			orchestras.each do |o|
+						row {
+							cell o.mglnr.to_s
+							cell o.orchName
+							cell o.email
+							cell accounts[o.member_id],:type=>:float
+						}
+					end
+  				end
+			end
+		end
 end

@@ -1,0 +1,8 @@
+.secondary-navigation
+  = render :partial=>"nav"
+.content
+  .inner
+    .block
+      .block-content
+- content_for :sidebar, render(:partial => 'sidebar.cron')
+

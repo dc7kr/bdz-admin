@@ -1,0 +1,20 @@
+.block
+  .secondary-navigation
+    =render :partial=>'nav.full'
+  .content
+    %h2.title
+      =t("report_sheet.title_p") 
+      #{@curYear}
+    .inner
+      %table.table
+        %thead
+          %th.first=t("orchestra.mglnr")
+          %th=t("report_sheet.sum_short")
+          %th=t("report_sheet.uvsum_short")
+          %th.last=t("report_sheet.invsum_short")
+        %tbody#report_sheets
+          =render :collection=> @report_sheets,:partial=> 'report_sheet.payed'
+      #paginator
+        = paginate @report_sheets, :remote=>true
+      .actions-bar.wat-cf
+        .actions

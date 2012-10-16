@@ -1,4 +1,4 @@
-class TariffsController < ApplicationController
+class TariffsController < AuthenticatedController
   load_and_authorize_resource
   # GET /tariffs
   # GET /tariffs.json

@@ -1,4 +1,4 @@
-class StatesController < ApplicationController
+class StatesController < AuthenticatedController
 
   before_filter :determine_scope
 

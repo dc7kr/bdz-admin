@@ -1,4 +1,4 @@
-- if can? :read, person_member 
+- if readable? person_member 
   %tr{:class => cycle("odd", "even")}
     %td
       = link_to person_member.mglnr, person_member_path(person_member)
@@ -6,7 +6,6 @@
       = person_member.fullname
     %td
       = person_member.ort
-    %td
     %td
       = mail_to person_member.email, person_member.email
     %td.last

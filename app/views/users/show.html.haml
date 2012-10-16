@@ -1,9 +1,16 @@
-%p#notice= notice
+.block
+  .secondary-navigation
+    = render :partial=>'nav'
+  .content
+    .inner
+      %table
+        %tr
+          %td.label #{t("user.email")}:
+          %td= @user.email
+        %tr
+          %td.label #{t("user.auth_token")}:
+          %td= @user.authentication_token
 
-%p
-  %b Email:
-  = @user.email
-
-= link_to_edit( edit_user_path(@user),'Edit')
+= link_to_edit edit_user_path(@user),'Edit'
 \|
-= link_back( t('common.back')
+= link_back t('common.back')

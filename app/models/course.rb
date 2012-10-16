@@ -4,7 +4,7 @@ class Course < ActiveRecord::Base
 	belongs_to :country, :foreign_key => "land"
 	belongs_to :festival, :foreign_key => "festival"
 	#belongs_to :regional_organization, foreign_key => "lv"
-	set_table_name "kurse"
+	self.table_name = 'kurse'
 
   def zeit_formatted 
      zeit.strftime '%H:%M Uhr'

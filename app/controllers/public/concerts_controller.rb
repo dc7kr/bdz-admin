@@ -1,20 +1,46 @@
-class Public::ConcertsController < AuthenticatedController
+class Public::ConcertsController < ConcertsController
   # GET /concerts
   # GET /concerts.json
-  layout "public"
   helper_method :sort_column, :sort_direction
-  before_filter :authenticate_user!, :except => [:index,:show,:public]
-  #skip_authorize_resource :only => :show
-  skip_authorize_resource :only => [:show,:index]
 
+  # override
   def index
+	@currentTab = params[:tab];
+	if ( @currentTab == nil ) then
+		@currentTab = 0 
+	end
+
+	if ( @currentTab == 0 ) then 
+		renderConcerts
+	elsif (@currentTab==1) then
+		renderEnsembleConcerts(params)
+	elsif (@currentTab==2) then 
+		renderFestivals(params)
+    end
+  end
+
+  def renderEnsembleConcerts
+    respond_to do |format|
+      format.html { render :partial=>"ensembleConcerts" }
+	# index.html.erb
+      format.json { render :json => @concerts }
+    end
+  end
+
+  def renderFestivals
+    respond_to do |format|
+      format.html { render :partial=>"festivals" }
+      format.json { render :json => @concerts }
+    end
+  end
+
+  def renderConcerts
     @concerts = Concert.public().search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
     respond_to do |format|
       format.html # index.html.erb
       format.json { render :json => @concerts }
     end
   end
-
   # GET /concerts/1
   # GET /concerts/1.json
   def show
@@ -33,6 +59,7 @@ class Public::ConcertsController < AuthenticatedController
     @lvs = RegionalOrganization.all
     @states = State.all
     @countries = Country.all
+    @festivals = Festival.where("startdate > ? or id=0",Time.now)
 
     respond_to do |format|
       format.html # new.html.erb
@@ -55,24 +82,10 @@ class Public::ConcertsController < AuthenticatedController
     end
   end
 
-  # PUT /concerts/1
-  # PUT /concerts/1.json
-  def update
-    @concert = Concert.find(params[:id])
-
-    respond_to do |format|
-      if @concert.update_attributes(params[:concert])
-        format.html { redirect_to @concert, :notice => 'Concert was successfully updated.' }
-        format.json { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.json { render :json => @concert.errors, :status => :unprocessable_entity }
-      end
-    end
+  def edit 
+	redirect_to edit_concert_path(params[:id])
   end
-
-  # DELETE /concerts/1
-  # DELETE /concerts/1.json
+  
   def destroy
     @concert = Concert.find(params[:id])
     @concert.destroy

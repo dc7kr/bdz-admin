@@ -3,7 +3,7 @@ class CreateTariffs < ActiveRecord::Migration
     create_table :tariffs do |t|
       t.integer :tariff_type
       t.string :description
-      t.double :amount
+      t.float :amount
 
       t.timestamps
     end

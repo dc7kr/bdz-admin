@@ -1,5 +1,8 @@
 %tr
-  %td=report_sheet.year
+  -if @orchestra
+    %td=report_sheet.year
+  -else
+    %td=report_sheet.orchestra.mglnr
   %td=report_sheet.children 
   %td=report_sheet.teens 
   %td=report_sheet.youth 
@@ -11,6 +14,10 @@
   %td=report_sheet.calcGemaCount 
   %td=report_sheet.azubi 
   %td=report_sheet.passive
-  %td
-    = link_to_show_path( orchestra_report_sheet_path(@orchestra,report_sheet),'Show',report_sheet)
-    = link_to_edit_path( edit_orchestra_report_sheet_path(@orchestra,report_sheet),'Edit',report_sheet)
+  -if @orchestra
+    %td
+      = link_to_show_path( orchestra_report_sheet_path(@orchestra,report_sheet),'Show',report_sheet)
+      = link_to_edit_path( edit_orchestra_report_sheet_path(@orchestra,report_sheet),'Edit',report_sheet)
+  - else
+    -if report_sheet.orchestra.orch_type=='L' and report_sheet.calcGemaCount-report_sheet.azubi <=0
+      %td ALERT

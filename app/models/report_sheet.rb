@@ -95,5 +95,8 @@ class ReportSheet < ActiveRecord::Base
      calcGemaCount
    end
 
-
+#	TODO: def scoped for easier retrieval!
+#   def orchestras 
+#    Orchestra.scoped(:joins => {:user => :memberships}, :conditions => { :memberships => { :group_id => id } })
+#   end
 end

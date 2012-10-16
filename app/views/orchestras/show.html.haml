@@ -1,9 +1,6 @@
 .block
   .secondary-navigation
-    %ul.wat-cf
-      %li.first= link_to "#{t("web-app-theme.list", :default => "List")}", orchestras_path
-      %li= link_to "#{t("web-app-theme.new", :default => "New")}", new_orchestra_path
-      %li.active= link_to "#{t("web-app-theme.show", :default => "Show")}", orchestra_path
+    = render :partial=>'nav'
   .content
     .inner
       %table
@@ -16,7 +13,7 @@
           %td= @orchestra.orchName
         %tr
           %td.label #{t("common.address")}:
-          %td #{@orchestra.anrede} #{@orchestra.fullname}
+          %td #{@orchestra.fullname}
         %tr
           %td &nbsp;
           %td= @orchestra.strasse
@@ -43,7 +40,7 @@
           %td= format_date(@orchestra.eintritt)
         %tr
           %td.label #{t("orchestra.za")}:
-          %td #{t("common.za_"+@orchestra.za)}:
+          %td #{t("common.za_"+@orchestra.za)}
         %tr
           %td.label #{t("orchestra.konto")}:
           %td= @orchestra.konto
@@ -54,17 +51,11 @@
           %td.label #{t("orchestra.austrittZum")}:
           %td= format_date(@orchestra.austritt_zum)
         %tr
-          %td.label #{t("orchestra.schreibenVom")}:
-          %td= format_date(@orchestra.schreibenVom)
-        %tr
           %td.label #{t("orchestra.bemerkung")}:
           %td= @orchestra.bemerkung
         %tr
           %td.label #{t("orchestra.url")}:
           %td= @orchestra.url
-        %tr
-          %td.label #{t("orchestra.lastschriftErfasst")}:
-          %td!= format_bool(@orchestra.lastschriftErfasst)
         %tr
           %td.label #{t("orchestra.kuendigungErfasst")}:
           %td!= format_bool(@orchestra.kuendigungErfasst)

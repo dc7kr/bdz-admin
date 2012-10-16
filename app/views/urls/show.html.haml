@@ -17,7 +17,7 @@
   = @url.sprache
 %p
   %b Land:
-  = @url.land
+  = @url.country.name
 %p
   %b Bland:
   = @url.bland
@@ -34,6 +34,6 @@
   %b Ip:
   = @url.ip
 
-= link_to_edit( edit_url_path(@url),'Edit',@url)
+= link_to_edit( @url,'Edit')
 \|
-= link_back( urls_path,'Back')
+= link_back( 'Back')

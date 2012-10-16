@@ -1,0 +1,11 @@
+%tr{:class => cycle("odd", "even")}
+  %td= user.email
+  %td= format_date_time(user.last_sign_in_at)
+  %td= user.last_sign_in_ip
+  %td= user.sign_in_count
+  %td
+    = link_to_show user, t('common.show');
+    = link_to_edit edit_user_path(user), t('common.edit')
+    = link_to_delete user, t('common.delete'), t('common.delete_confirm')
+
+

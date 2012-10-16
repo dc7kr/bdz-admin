@@ -1,0 +1,12 @@
+%tr{:class => cycle("odd", "even")}
+  %td
+    = regional_organization.id
+  %td
+    = link_to regional_organization.name, regional_organization_path(regional_organization)
+  %td
+    = link_to regional_organization.homepage,regional_organization.homepage
+  %td.last
+    = link_to_show regional_organization, t("common.show")
+    = link_to_edit regional_organization, t("common.edit")
+    = link_to_delete regional_organization, t("common.delete"), "Are you sure?"
+

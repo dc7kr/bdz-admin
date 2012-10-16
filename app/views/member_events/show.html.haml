@@ -1,0 +1,15 @@
+%p#notice= notice
+
+%p
+  %b Event type:
+  = @member_event.event_type
+%p
+  %b Event date:
+  = @member_event.event_date
+%p
+  %b Event:
+  = @member_event.event_id
+
+= link_to 'Edit', edit_member_event_path(@member_event)
+\|
+= link_to 'Back', member_events_path

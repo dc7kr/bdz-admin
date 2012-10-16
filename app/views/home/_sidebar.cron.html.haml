@@ -1,0 +1,19 @@
+.block
+  %h3=t('common.tasks')
+  %ul.navigation
+    %li= link_to "Rechnungslauf komplett", cron_invoices_gen_all_path
+    %li= link_to "Rechnungslauf EM", cron_invoices_gen_persons_path
+    %li= link_to "Rechnungslauf Orchester", cron_invoices_gen_orchestras_path
+    %li= link_to "Rechnungslauf Orchester", cron_invoices_gen_orchestras_path
+
+.block
+  %h3=t('common.events')
+  %ul.navigation
+    %li= link_to "Rundschreiben", custom_info_mail_path
+
+.block
+  %h3=t('common.reminders')
+  %ul.navigation
+    %li= link_to "Mahnungen Meldebogen", cron_reminders_report_sheet_path
+    %li= link_to "Mahnungen Beitrag", cron_reminders_payment_path
+

@@ -6,39 +6,59 @@ require 'fileutils.rb'
 class Cron::InvoicesController < ApplicationController
   load_and_authorize_resource
 
- def index
-
-	mode =""
-	year=0
+ def gen_all
+  	authorize! :member, :edit
 	if (params[:year]) then
 		year = params[:year].to_i
 	else
 		year = Time.now.year
 	end
-	if ( params[:mode] ) then
-		mode = params[:mode]
-	else 
-		mode ="em"
+	orchestraInvoices(year)
+	personMemberInvoices(year)
+	render :text => "Generation OK."
+ end
+
+ def ping
+  	authorize! :member, :edit
+	render :text => "Pong"
+ end
+ def gen_orchestras
+  	authorize! :member, :edit
+	if (params[:year]) then
+		year = params[:year].to_i
+	else
+		year = Time.now.year
 	end
-	if ( mode == 'em' ) then
-		personMemberInvoices(year)
-	elsif ( mode == 'gendta') then
-		testGen(params[:date])
-	else 
-		orchestraInvoices(year)
+	orchestraInvoices(year)
+	render :text => "Generation OK."
+  end
+
+  def gen_persons
+  	authorize! :member, :edit
+	if (params[:year]) then
+		year = params[:year].to_i
+	else
+		year = Time.now.year
 	end
 
-	render :text => mode +" OK."
-  end	
+	personMemberInvoices(year)
+	render :text => "Generation OK."
+  end
+
+  def test_gen
+  	authorize! :member, :edit
+	testGen(params[:date])
+	render :text => "Generation OK."
+  end
 
   # manual query respecting already invoiced:
-  # SELECT m.id, m.strasse, mb.id from person_members m LEFT JOIN member_acct_booking mb ON m.member_id=mb.member_id AND mb.booking_type='B' WHERE mb.id is not null and year(mb.booking_date)=year(now())
+  # SELECT m.id, m.strasse, mb.id from person_members m LEFT JOIN member_account_bookings mb ON m.member_id=mb.member_id AND mb.booking_type='B' WHERE mb.id is not null and year(mb.booking_date)=year(now())
 
   # query for already existing bookings
-  # SELECT m.id, m.strasse, mb.id FROM person_members m LEFT JOIN member_acct_booking mb ON m.member_id = mb.member_id AND mb.booking_type = 'B' WHERE mb.id IS NOT NULL AND year( mb.booking_date ) = year( now( ) )
+  # SELECT m.id, m.strasse, mb.id FROM person_members m LEFT JOIN member_account_bookings mb ON m.member_id = mb.member_id AND mb.booking_type = 'B' WHERE mb.id IS NOT NULL AND year( mb.booking_date ) = year( now( ) )
   def personMemberInvoices(year)
 
-    @person_members = PersonMember.includes([:tariff,:member]).joins("LEFT JOIN member_acct_booking mb ON person_members.member_id=mb.member_id AND mb.booking_type='B' and YEAR(mb.booking_date) = YEAR(NOW())").where("mb.id IS NULL").order("members.mglnr")
+    @person_members = PersonMember.includes([:tariff,:member]).joins("LEFT JOIN member_account_bookings mb ON person_members.member_id=mb.member_id AND mb.booking_type='B' and YEAR(mb.booking_date) = YEAR(NOW())").where("mb.id IS NULL").order("members.mglnr")
 	
 	ctlfile = "dtaus.ctl"
 	@tw = TexWriter.new
@@ -70,61 +90,45 @@ class Cron::InvoicesController < ApplicationController
 
 	system("/opt/bdz-rechnung/bin/merge_pdfs.sh rechnung")
 	@dw.genDtaus()
-	moveGeneratedFiles(@dw.datePrefix)
+	@tw.moveGeneratedFiles(@dw.datePrefix)
   end
 
-  def moveGeneratedFiles(datePrefix)
 
-	workDir = BDZ_SETTINGS['invoice_workdir']
-	archiveDir= BDZ_SETTINGS['invoice_archive_dir']
-	tgtDir= archiveDir +"/"+String(Time.now.year)
-
-	shortprefix = Time.now.strftime("%Y%m%d-")
-
-	if ( ! Dir.exists? tgtDir) then
-    	FileUtils.mkdir tgtDir
-	end
-
-	Dir.chdir(workDir)
-	Dir.entries(workDir).each { |file|
-		if file.start_with? datePrefix or file.start_with? shortprefix then
-			FileUtils.mv file, tgtDir+"/"
-		end
-	}
-  end
-
-  def orchestraInvoices(year)
-	@tw = TexWriter.new
-
-	@orchestras = Orchestra.includes([:report_sheets,:member]).joins("LEFT JOIN member_acct_booking mb ON orchestras.member_id=mb.member_id AND mb.booking_type='B' and YEAR(mb.booking_date) = YEAR(NOW())").where("mb.id IS NULL and report_sheets.year= ?",year).order("members.mglnr")
-
-#    @reportsheets = ReportSheet.includes([:orchestra]).joins(:member,"LEFT JOIN member_acct_booking mb ON orchestras.member_id=mb.member_id AND mb.booking_type='B' and YEAR(mb.booking_date) = YEAR(NOW())").where("mb.id IS NULL and report_sheets.year= ?",year).order("members.mglnr")
-
-	@dw = DtausWriter.new
-
-	File.open(@dw.ctlFile,"w") {|dtafile| 
-		@dw.outfile(dtafile)
-		@dw.writeDtausHeader()
-	@orchestras.each do |orch|
+  def orchestraInvoice(orch,year,tw,dw)
 		@booking_txt = "BDZ-Beitrag "+String(year)
-		@tw.write(orch,year)
+		tw.write(orch,year)
 		@currentSheet = orch.currentReportSheet
-		@tw.writeOrchestraTariff(@currentSheet)
+		tw.writeOrchestraTariff(@currentSheet)
 		system("/opt/bdz-rechnung/bin/rechnung.sh "+String(orch.mglnr))
 		@booking = MemberAccountBooking.newInvoice(@booking_txt,-1*@currentSheet.calcInvoice,String(orch.mglnr))
 		@booking.member_id = orch.id
 		@booking.save
 
-		if ( orch.za =='L') then
-			@dw.writeDtausOrchestraEntry(orch,@booking_txt+" "+String(orch.mglnr),@currentSheet.calcInvoice)
+		if ( orch.za =='L' and dw != nil ) then
+			dw.writeDtausOrchestraEntry(orch,@booking_txt+" "+String(orch.mglnr),@currentSheet.calcInvoice)
 			@booking = MemberAccountBooking.newWithdrawal("Lastschrift "+@booking_txt,@currentSheet.calcInvoice)
 			@booking.member_id = orch.id
 			@booking.save
 		end
-		#DtausWriter.writeOrchestraEntry(@currentSheet.orchestra,sum)
-	end
-	
+  end
+
+  def orchestraInvoices(year)
+	@tw = TexWriter.new
+	@dw = DtausWriter.new
+
+	@orchestras = Orchestra.includes([:report_sheets,:member]).joins("LEFT JOIN member_account_bookings mb ON orchestras.member_id=mb.member_id AND mb.booking_type='B' and YEAR(mb.booking_date) = YEAR(NOW())").where("mb.id IS NULL and report_sheets.year= ?",year).order("members.mglnr")
+
+#    @reportsheets = ReportSheet.includes([:orchestra]).joins(:member,"LEFT JOIN member_account_bookings mb ON orchestras.member_id=mb.member_id AND mb.booking_type='B' and YEAR(mb.booking_date) = YEAR(NOW())").where("mb.id IS NULL and report_sheets.year= ?",year).order("members.mglnr")
+
+
+	File.open(@dw.ctlFile,"w") {|dtafile| 
+		@dw.outfile(dtafile)
+		@dw.writeDtausHeader()
+		@orchestras.each do |orch|
+        	orchestraInvoice(orch,year,@tw,@dw)
+		end
 	}
+
 	system("/opt/bdz-rechnung/bin/merge_pdfs.sh rechnung")
 	@dw.genDtaus()
 	moveGeneratedFiles(@dw.datePrefix)
@@ -143,13 +147,13 @@ class Cron::InvoicesController < ApplicationController
 	year = Time.now.strftime('%Y')
 	pdf_prefix= Time.now.strftime '%Y%m%d'
 
-	@users = User.where("role like ?", "%admin%")
+	@users = User.where("role like ? or role like ?", "%accounting%", "%admin%")
     base_url = cron_downloads_url
 	invoices_url = base_url+"?year="+year+"&filename="+pdf_prefix+"-rechnung_merge.pdf"
 	dtaus_url = base_url+"?year="+year+"&filename="+dtausPrefix+"dtaus.zip"
 
 	@users.each do |user| 
-		InvoiceNotifier.newinvoices_notification(user, invoices_url, dtaus_url).deliver
+		InvoiceNotifier.newinvoices_notification(user, invoices_url, dtaus_url,@current_user).deliver
    		puts 'sent to %s' % current_user.email
 	end
   end

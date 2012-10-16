@@ -1,0 +1,4 @@
+%li.first.active= link_to "#{t("web-app-theme.list", :default => "List")}", ensemble_ensemble_concerts_path(params[:ensemble_id])
+%li= link_to "#{t("common.inactive", :default => "Inactive")}", inactive_ensemble_ensemble_concerts_path params[:ensemble_id]
+%li= link_to "#{t("web-app-theme.new", :default => "New")}", new_ensemble_concert_path
+

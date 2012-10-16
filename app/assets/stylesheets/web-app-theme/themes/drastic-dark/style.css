@@ -286,6 +286,7 @@ hr {
 /* flash-messages */
 .flash .message {
   -moz-border-radius: 3px;
+  border-radius: 3px;
   -webkit-border-radius: 3px;
   text-align:center;
   margin: 0 auto 15px;
@@ -297,7 +298,7 @@ hr {
 }
 .flash .error {
   border: 1px solid #fbb;
-  background-color: #fdd;
+  background-color: #ffffff;
 }
 .flash .warning {
   border: 1px solid #fffaaa;

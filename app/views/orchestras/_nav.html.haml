@@ -1,7 +1,11 @@
 %ul.wat-cf
+  %li{ :class => 'first'}= link_to_up_path t("common.up"), home_member_data_path
   %li{ :class => tabActiveClass(@current_action,'index','first')}= link_to "#{t("common.list", :default => "List")}", orchestras_path
-  %li{ :class => tabActiveClass(@current_action,'noreport',nil)}= link_to "#{t("orchestra.noreport", :default => "No Report")}", noreport_orchestras_path
-  %li{ :class => tabActiveClass(@current_action,'nopayment',nil)}= link_to "#{t("member.nopayment", :default => "#no payment#")}", nopayment_orchestras_path
-  %li{ :class => tabActiveClass(@current_action,'notinvoiced',nil)}= link_to "#{t("member.notinvoiced", :default => "#notinvoiced#")}", notinvoiced_orchestras_path
+  -if (@orchestra)
+    %li{ :class => tabActiveClass(@current_action,'show',nil)}= link_to t("common.show"), '#'
+  -else
+    %li{ :class => tabActiveClass(@current_action,'noreport',nil)}= link_to "#{t("orchestra.noreport", :default => "No Report")}", noreport_orchestras_path
+    %li{ :class => tabActiveClass(@current_action,'nopayment',nil)}= link_to "#{t("member.nopayment", :default => "#no payment#")}", nopayment_orchestras_path
+    %li{ :class => tabActiveClass(@current_action,'notinvoiced',nil)}= link_to "#{t("member.notinvoiced")}", notinvoiced_orchestras_path
   %li{:class => tabActiveClass(@current_action,'new',nil)}= link_to "#{t("common.new", :default => "New")}", new_orchestra_path
 

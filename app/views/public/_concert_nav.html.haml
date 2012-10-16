@@ -1,0 +1,20 @@
+%ul
+  - if @currentTab == "O" then
+    %li{:id=>"selected"}
+      =link_to "Orchester", public_concerts_path
+  - else 
+    %li
+      =link_to "Orchester", public_concerts_path
+  - if @currentTab == "E" then
+    %li{:id=>"selected"}
+      =link_to "Ensembles", public_ensembles_path
+  - else 
+    %li
+      =link_to "Ensembles", public_ensembles_path
+  - if @currentTab == "F" then
+    %li{:id=>"selected"}
+      =link_to "Festivals", public_festivals_path
+  - else
+    %li
+      =link_to "Festivals", public_festivals_path
+

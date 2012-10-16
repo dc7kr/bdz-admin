@@ -1,12 +1,29 @@
-class ReportSheetsController < ApplicationController
+class ReportSheetsController < AuthenticatedController
   load_and_authorize_resource
   # GET /report_sheets
   # GET /report_sheets.json
   def index
-    @report_sheets = ReportSheet.find_all_by_orchestra_id(params[:orchestra_id])
-    @orchestra = Orchestra.find_by_member_id(params[:orchestra_id])
+
+	if (params[:orchestra_id]) then
+	    @report_sheets = ReportSheet.find_all_by_orchestra_id(params[:orchestra_id])
+    	@orchestra = Orchestra.find_by_member_id(params[:orchestra_id])
+	else 
+		@curYear = Time.now.year
+		@report_sheets = ReportSheet.joins(:orchestra => :member).order('members.mglnr').find_all_by_year(@curYear)
+	end
 
     respond_to do |format|
+	  format.js
+      format.html # index.html.erb
+      format.json { render :json => @report_sheets }
+    end
+  end
+
+  def payed 
+		@curYear = Time.now.year
+		@report_sheets = ReportSheet.joins(:orchestra => :member).order('members.mglnr').where("report_sheets.year = ?",@curYear).page(params[:page]).per(20)
+    respond_to do |format|
+	  format.js
       format.html # index.html.erb
       format.json { render :json => @report_sheets }
     end

@@ -1,0 +1,12 @@
+.block
+  .secondary-navigation
+    = render :partial =>'nav'
+  .content
+    %h2.title
+      = t("common.new")
+      = t("distinction.title")
+    .inner
+      = @orchestra.name
+      = form_for ([@orchestra,@distinction]) do |f|
+        = render :partial => "form", :locals => {:f => f}
+- content_for :sidebar, render(:partial => 'sidebar')

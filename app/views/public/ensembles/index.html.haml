@@ -1,0 +1,22 @@
+%a{:name=>"top"}
+
+%center
+  %h2 Termine, Adressen &amp; Daten
+.nav_element 
+  %a{:href=>"index.htm"}
+    Termine, Adressen &amp; Daten: 
+  Konzert-Termine
+
+.heading Zupforchester und Gitarrenensembles
+
+#header 
+  %br
+  %br
+  - @currentTab = "E"
+  = render :partial => "/public/concert_nav"
+
+#content
+  .content
+    %b 2012
+    %dl
+      =render :partial => "ensemble.public", :collection => @ensembles

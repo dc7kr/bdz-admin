@@ -1,4 +1,4 @@
-class FunctionsController < ApplicationController
+class FunctionsController < AuthenticatedController
   # GET /functions
   # GET /functions.json
   before_filter :authenticate_user!#, :except => [:index]

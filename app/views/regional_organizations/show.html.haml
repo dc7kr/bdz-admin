@@ -25,12 +25,12 @@
         %b
           = t("activerecord.attributes.regional_organization.homepage", :default => t("activerecord.labels.homepage", :default => "Homepage"))
           \:
-        = @regional_organization.homepage
+        = link_to @regional_organization.homepage,@regional_organization.homepage
       %p
         %b
           = t("regional_organization.jugend_url")
           \:
-        = @regional_organization.jugend_url
+        = link_to @regional_organization.jugend_url,@regional_organization.jugend_url
       %p
         %b
           = t("regional_organization.konto")

@@ -1,19 +1,48 @@
-class HomeController < ApplicationController
-  before_filter :authenticate_user!#, :except => [:index]
-	skip_authorization_check
-#  load_and_authorize_resource
-  def index
-	if ( ! params[:tab] ) then
-		params[:tab]='member_data'
-	end
-	if params[:tab] == 'public_data'
-		render :action => 'public_data'
-	elsif params[:tab] == 'member_data'
-		render :action => 'member_data'
-	else 
-		render :action => 'reference_data'
-	end
-	
-  end
+class HomeController < AuthenticatedNonResourceController
 
+  skip_authorization_check :only => :landing_page
+  def landing_page
+	if  (current_user == nil ) then
+		redirect_to new_user_session_path
+		return
+
+	end
+    if (current_user.authentication_token==nil) then
+		current_user.authentication_token = User.authentication_token
+		current_user.save
+	end
+    respond_to do |format|
+      format.html
+	end
+  end
+  def member_data
+  	authorize! :index, Orchestra
+    respond_to do |format|
+      format.html
+	end
+  end
+  def public_data
+  	authorize! :index, Concert
+    respond_to do |format|
+      format.html
+	end
+  end
+  def reference_data
+  	authorize! :index, RegionalOrganization
+    respond_to do |format|
+      format.html
+	end
+  end
+  def admin_data
+  	authorize! :user, :destroy
+    respond_to do |format|
+      format.html
+	end
+  end
+  def cron
+  	authorize! :member_account_booking, :show
+    respond_to do |format|
+      format.html
+	end
+  end
 end

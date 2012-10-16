@@ -1,0 +1,25 @@
+.block
+  .secondary-navigation
+    =render :partial=>'nav'
+  .content
+    %h2.title
+      = t("common.all")
+      = t("distinction.title_p")
+    .inner
+      %table.table
+        %thead
+          %th.first= sortable "dist_date", t("distinction.dist_date")
+          %th=t("distinction.silver_needles")
+          %th=t("distinction.gold_needles")
+          %th=t("distinction.national_needles")
+          %th=t("distinction.certificates")
+          %th=t("distinction.honor_letters")
+          %th=t("distinction.medals")
+          %th.last &nbsp;
+        %tbody#distinctions
+          =render @distinctions
+      #paginator
+        = paginate @distinctions, :remote=>true
+      .actions-bar.wat-cf
+        .actions
+- content_for :sidebar, render(:partial => 'sidebar')

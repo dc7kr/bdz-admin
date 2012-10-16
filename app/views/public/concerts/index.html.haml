@@ -8,20 +8,17 @@
   Konzert-Termine
 
 .heading Zupforchester und Gitarrenensembles
-
+=@method
+Action:
+=@current_action
+Controller:
+=@current_controller
+=@namespace
 #header 
   %br
   %br
-  %ul
-    %li{:id=>"selected"}
-      %a{:href=>"?tab=0"}
-        Orchester
-    %li
-      %a{:href=>"?tab=1"}
-        Ensembles
-    %li
-      %a{:href=>"?tab=2"}
-        Festivals
+  - @currentTab = "O"
+  = render :partial => "/public/concert_nav"
 
 #content
   .content

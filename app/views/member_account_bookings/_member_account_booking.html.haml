@@ -1,20 +1,22 @@
-%tr
-  %td=l member_account_booking.booking_date.to_date, :format => :long
-  %td=member_account_booking.booking_type
-  %td=member_account_booking.booking_year
-  %td=member_account_booking.booking_txt
-  %td=format_currency(member_account_booking.amount,'€')
-  %td
-    -if (@isOrchestra)
-      = link_to_download_path(t('common.download'),download_orchestra_member_account_booking_path(@member,member_account_booking),member_account_booking)
-    -else
-      = link_to_download_path(t('common.download'),download_person_member_member_account_booking_path(@member,member_account_booking),member_account_booking)
-    -if ( member_account_booking.booking_mode=='M' or isAdmin?) then
-      -if (@isOrchestra) then 
-        = link_to_edit_path( edit_orchestra_member_account_booking_path(@member,member_account_booking),'Edit',member_account_booking)
-        = link_to_del_path( orchestra_member_account_booking_path(@member,member_account_booking), 'Del',t('common.delete_confirm'),member_account_booking)
+- if readable? member_account_booking
+  %tr
+    %td=l member_account_booking.booking_date.to_date, :format => :long
+    %td=member_account_booking.booking_type
+    %td=member_account_booking.booking_year
+    %td=member_account_booking.booking_txt
+    %td=format_currency(member_account_booking.amount,'€')
+    %td=member_account_booking.has_reference?
+    %td
+      -if (@isOrchestra)
+        = link_to_download_path(t('common.download'),download_orchestra_member_account_booking_path(@member,member_account_booking),member_account_booking)
       -else
-        = link_to_edit_path( edit_person_member_member_account_booking_path(@member,member_account_booking),'Edit',member_account_booking)
-        = link_to_del_path( person_member_member_account_booking_path(@member,member_account_booking), 'Del',t('common.delete_confirm'),member_account_booking)
+        = link_to_download_path(t('common.download'),download_person_member_member_account_booking_path(@member,member_account_booking),member_account_booking)
+      -if ( member_account_booking.booking_mode=='M' or isAdmin?) then
+        -if (@isOrchestra) then 
+          = link_to_edit_path( edit_orchestra_member_account_booking_path(@member,member_account_booking),'Edit',member_account_booking)
+          = link_to_del_path( orchestra_member_account_booking_path(@member,member_account_booking), 'Del',t('common.delete_confirm'),member_account_booking)
+        -else
+          = link_to_edit_path( edit_person_member_member_account_booking_path(@member,member_account_booking),'Edit',member_account_booking)
+          = link_to_del_path( person_member_member_account_booking_path(@member,member_account_booking), 'Del',t('common.delete_confirm'),member_account_booking)
 
 

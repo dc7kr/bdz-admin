@@ -5,7 +5,6 @@ class CoursesController < ApplicationController
   load_and_authorize_resource :except => [:public]
   # GET /courses
   # GET /courses.json
-
   def public
     @courses = Course.public
 

@@ -1,19 +1,23 @@
-%h1 Listing honor_members
+.block
+  .secondary-navigation
+    =render :partial=>'nav'
+  .content
+    %h2.title
+      = t("honor_members.title")
+    .inner
+      %table.table
+        %thead
+          %th.first= t("honor_members.nr")
+          %th= t("honor_members.vorname")
+          %th= t("honor_members.name")
+          %th= t("honor_members.ort")
+          %th= t("honor_members.honortype")
+          %th= t("honor_members.honordate")
+          %th.last &nbsp;
+        %tbody#orchestras
+          = render @honor_members
+      .actions-bar.wat-cf
+        .actions
+- content_for :sidebar, render(:partial => 'sidebar')
 
-%table
-  %tr
-    %th Nr
-    %th Vorname
-    %th Name
-    %th Ort
-    %th Honortype
-    %th Honordate
-    %th
-    %th
-    %th
 
-  = render @honor_members
-
-%br
-
-= link_to 'New Honor member', new_honor_member_path

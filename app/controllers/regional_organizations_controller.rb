@@ -1,8 +1,10 @@
+
 class RegionalOrganizationsController < ApplicationController
   # GET /regional_organizations
   # GET /regional_organizations.json
   before_filter :authenticate_user!#, :except => [:index]
   load_and_authorize_resource
+
   def index
     @regional_organizations = RegionalOrganization.all
 
@@ -83,7 +85,22 @@ class RegionalOrganizationsController < ApplicationController
     end
   end
 
+  def orch
+	@orchestras = Orchestra.includes(:member).where("members.regional_organization_id = ?", params[:id]).order("members.mglnr")
+	respond_to do |format|
+		format.csv { render :csv => @orchestras, :style=>:lv, :filename => "orch_lv"+@regional_organization.nummer.to_s+"_"+Time.now.year.to_s }
+	end
+  end
+
+  def person
+	@person_members = PersonMember.includes(:member).where("members.regional_organization_id = ?", params[:id]).order("members.mglnr").to_comma(:lv)
+	respond_to do |format|
+		format.csv { render :csv => @person_members, :style=>:lv, :filename => "em_lv"+@regional_organization.nummer.to_s+"_"+Time.now.year.to_s }
+	end
+  end
+ 
   def members 
+    @regional_organization = RegionalOrganization.find(params[:id])
 	@lvSum=0
 	@orchSum=0
 	@personSum=0
@@ -92,6 +109,13 @@ class RegionalOrganizationsController < ApplicationController
 
 	respond_to do |format|
 		format.html 
+		format.pdf do
+			pdf = RegionalOrganizationPdf.new(@regional_organization,@orchestras,@person_members,view_context)
+			send_data pdf.render, filename: "lv_#{@regional_organization.id}.pdf",
+				type: "application/pdf",
+				disposition: "inline"
+		end
+		format.csv 
 	end
   end
 end

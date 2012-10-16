@@ -1,0 +1,2 @@
+$('#report_sheets').html('#{escape_javascript render(:collection=>@report_sheets,:partial=>'report_sheet.payed')}');
+$('#paginator').html('#{escape_javascript(paginate(@report_sheets, :remote => true).to_s)}');

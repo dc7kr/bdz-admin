@@ -3,9 +3,8 @@ class ConcertsController < AuthenticatedController
   # GET /concerts.json
   layout :choose_layout
   helper_method :sort_column, :sort_direction
-  before_filter :authenticate_user!, :except => [:index,:show,:public]
+
   #skip_authorize_resource :only => :show
-  skip_authorize_resource :only => [:public,:show]
 
   def public 
     @concerts = Concert.public().search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
@@ -24,9 +23,13 @@ class ConcertsController < AuthenticatedController
     end
   end
   def index
+	if @namespace == "public" then
+		self.public
+		@method="public"
+  	end
     @festival_id = params[:event_id]
-
-    if (@festival_id != nil ) 
+    
+	if (@festival_id != nil ) 
 	#@Concerts = Concert.where(:all,:include=>[:country,:state,:festival],:conditions=>"datum >= date(now()),festival_id = @festival_id").paginate(:per_page => 20, :page => params[:page])
 	@Concerts = Concert.includes(:festival).search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
     else
@@ -117,8 +120,16 @@ class ConcertsController < AuthenticatedController
     end
   end
 
+  # OVERRIDE 
+  protected
+  def noAuthActions 
+		["index","show","public"]
+  end
+
+
   private 
   def sort_column
     Concert.column_names.include?(params[:sort]) ? params[:sort] : "datum"
   end
+
 end

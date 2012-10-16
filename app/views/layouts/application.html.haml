@@ -1,7 +1,8 @@
 !!!
 %html
   %head
-    %title BDZ Admin Interface
+
+    %title #{title}
     = stylesheet_link_tag :application
     = javascript_include_tag :application
     = csrf_meta_tag
@@ -9,16 +10,16 @@
     #container
       #header
         %h1
-          %a{:href => "/"} BDZ Admin Interface
+          %a{:href => "/"} #{title}
         #user-navigation
           %ul.wat-cf
             -if current_user 
               %li.username
-                Angemeldet als: #{current_user.email} (#{t("common.role."+current_user.first_role)})
+                Angemeldet als: #{current_user.email} 
               %li
-                %a{:href => edit_user_password_path(current_user)}= t("web-app-theme.profile", :default => "Profile")  
+                =link_to t("web-app-theme.profile"), edit_user_password_path(current_user)
               %li
-                %a{:href => "#"}= t("web-app-theme.settings", :default => "Settings")
+                = link_to t("web-app-theme.settings"), "#"
               %li
                 %a.logout{:href => "/logout"}= t("web-app-theme.logout", :default => "Logout")
             %li

@@ -1,0 +1,11 @@
+.block
+  .secondary-navigation
+    =render :partial=>'nav'
+  .content
+    %h2.title
+      = t("common.all")
+      = t('member_account_bookings.title')
+    .inner
+      %table.table
+        %thead
+        = render @bookings

@@ -6,6 +6,7 @@
       = t("member.nopayment")
       (#{t("person_member.title")})
     .inner
+      = link_to_csv_download_path(t('common.download'),nopayment_person_members_path(:format=>:csv))
       %table.table
         %tr
           %th.first 

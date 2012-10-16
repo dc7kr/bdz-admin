@@ -1,11 +1,21 @@
 class EnsemblesController < AuthenticatedController
   # for table sort by column click
   helper_method :sort_column, :sort_direction
+  layout :choose_layout
 
   # GET /ensembles
   # GET /ensembles.json
-  before_filter :authenticate_user!, :except => [:some_action_without_auth]
-  load_and_authorize_resource
+  
+  #load_and_authorize_resource
+  def public
+	@ensembles = Ensemble.includes(:public_concerts)
+    respond_to do |format|
+      format.html 
+	# index.html.erb
+      format.json { render :json => @concerts }
+    end
+  end
+
   def inactive 
     @ensembles = Ensemble.inactive().search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(10)
   end
@@ -89,13 +99,14 @@ class EnsemblesController < AuthenticatedController
     end
   end
 
+  protected
+  def noAuthActions
+	["index","public"]
+  end
 
   private 
   def sort_column
     Ensemble.column_names.include?(params[:sort]) ? params[:sort] : "name"
   end
   
-  def sort_direction
-    %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
-  end
 end

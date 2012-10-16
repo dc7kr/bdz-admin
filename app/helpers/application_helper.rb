@@ -1,11 +1,15 @@
 module ApplicationHelper
 
+  def title
+	if ENV["RAILS_ENV"] == "production" 
+		"BDZ Admin Interface"
+	else
+		"Dev. Instance BDZ Admin (DON'T USE FOR PRODUCTION!)"
+	end
+  end
+
   def default_page_title
     title + ' - ' + subtitle
-  end
-  
-  def title
-    'BDZ Admin Interface'
   end
   
   def subtitle
@@ -28,7 +32,14 @@ def corika_tr(entity,field,default)
 end
 
 
-def link_to_up_path(path,label)
+def link_to_up_path(txt,path)
+	link_to image_tag('/assets/icons/up.svg', {:size=>'16x16',:alt=>txt,:title=>txt,:class=>'btn'} ),path
+end
+
+def link_to_csv_download_path(txt,path)
+	if can? :read, path then
+		link_to image_tag('/assets/icons/download.png', {:size=>'16x16',:alt=>txt,:title=>txt,:class=>'btn'}),path
+	end
 end
 def link_to_download_path(txt,path,entity)
 	if entity.has_attachment? and can? :read, entity then
@@ -81,10 +92,12 @@ def link_to_show(entity,txt)
     end
 end
 
-def link_to_new(path, txt)
+def link_to_new(path, txt, clazz)
+	if can? :create, clazz
 #    if user_signed_in?
           link_to image_tag('/assets/icons/new.png', {:size=>'16x16',:alt=>txt,:title=>txt,:class=>'btn'} ),path
 #    end
+	end
 end
 
 def link_to_del_path(path, txt, confirm, entity)
@@ -99,6 +112,14 @@ def link_to_delete(entity, txt, confirm )
     end
 end
 
+def format_date_time(date) 
+  if ( date == nil ) 
+    return ""
+  else
+    return date.strftime '%d.%m.%Y %H:%M Uhr'
+  end
+end
+
 def format_date(date) 
   if ( date == nil ) 
     return ""
@@ -107,12 +128,34 @@ def format_date(date)
   end
 end
 
+def format_date_interval(startDate,endDate)
+  retval = ""
+  if ( startDate == nil ) then
+	retval = "bis "
+  else
+    retval += format_date(startDate)
+	retval += " - "
+  end
+
+  if ( endDate == nil ) then 
+	return retval
+  end
+ 
+  retval += format_date(endDate)
+
+  return retval
+end
+
 def format_time(time) 
   return time.strftime '%H:%M'
 end
 
 def format_currency(val,cur)
   return number_to_currency(val,:precision => 2,:locale => :de)
+end
+
+def format_int(val)
+	return number_with_precision(val,:precision=>0)
 end
 
 def format_bool(val) 
@@ -146,5 +189,8 @@ def isAdmin?
 	return (current_user != nil) && current_user.admin?
 end
 
+def readable?(entity)
+    return can? :read, entity
+end
 
 end
