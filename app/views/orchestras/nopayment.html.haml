@@ -5,8 +5,12 @@
     %h2.title
       = t("member.nopayment")
       (#{t("orchestra.title")})
+    = if (@lastyear != nil ) then
+      %h3 Buchungen bis Geschäftsjahr #{@lastyear}
+
     .inner
       = link_to_csv_download_path(t('common.download'),nopayment_orchestras_path(:format=>:csv))
+
       %table.table
         %tr
           %th.first 

@@ -126,7 +126,12 @@ class OrchestrasController < AuthenticatedController
   	flash[:notice] = "Export complete!"
   end
   def nopayment
-	@accounts = MemberAccountBooking.sum(:amount,:group=>:member_id)
+	if (params[:lastyear] != nil ) then
+		@accounts = MemberAccountBooking.where("booking_year < ?", params[:lastyear]).sum(:amount,:group=>:member_id)
+		@lastyear=params[:lastyear]
+	else
+		@accounts = MemberAccountBooking.sum(:amount,:group=>:member_id)
+	end
 
 
 	@ids = Set.new
