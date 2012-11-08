@@ -1,5 +1,16 @@
 module ApplicationHelper
 
+  def t_opts(group,field,data)
+  
+	tags = Array.new
+
+	data.each do |d|
+  		myarr = [ t(group+"."+field+"_"+d),d ]
+		tags.push(myarr)
+	end
+
+	tags
+  end
   def title
 	if ENV["RAILS_ENV"] == "production" 
 		"BDZ Admin Interface"
@@ -36,7 +47,7 @@ def link_to_up_path(txt,path)
 	link_to image_tag('/assets/icons/up.svg', {:size=>'16x16',:alt=>txt,:title=>txt,:class=>'btn'} ),path
 end
 
-def link_to_csv_download_path(txt,path)
+def link_to_generated_download_path(txt,path)
 	if can? :read, path then
 		link_to image_tag('/assets/icons/download.png', {:size=>'16x16',:alt=>txt,:title=>txt,:class=>'btn'}),path
 	end
