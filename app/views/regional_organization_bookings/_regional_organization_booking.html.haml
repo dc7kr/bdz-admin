@@ -1,0 +1,18 @@
+- if readable? regional_organization_booking
+  %tr
+    %td
+      -if regional_organization_booking.booking_date != nil
+        =l regional_organization_booking.booking_date.to_date, :format => :long
+      -else
+        NULL
+    %td=regional_organization_booking.booking_type
+    %td=regional_organization_booking.booking_year
+    %td=regional_organization_booking.booking_txt
+    %td=format_currency(regional_organization_booking.amount,'€')
+    %td
+      =link_to_download_path(t('common.download'),download_regional_organization_acct_booking_path(@regional_organization,regional_organization_booking),regional_organization_booking)
+      -if ( regional_organization_booking.booking_mode=='M' or isAdmin?) then
+        = link_to_edit_path( edit_regional_organization_acct_booking_path(@regional_organization,regional_organization_booking),'Edit',regional_organization_booking)
+        = link_to_del_path( regional_organization_acct_booking_path(@regional_organization,regional_organization_booking), 'Del',t('common.delete_confirm'),regional_organization_booking)
+
+

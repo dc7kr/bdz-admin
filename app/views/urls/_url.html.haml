@@ -1,0 +1,11 @@
+%tr
+  %td= url.category
+  %td= link_to url.url, url.url
+  %td= url.titel
+  %td= url.sprache
+  %td= mail_to url.email, url.email
+  %td= url.lastchange
+  %td
+    = link_to_show url,t('common.show')
+    = link_to_edit url,t('common.edit')
+    = link_to_delete url, t('common.delete'),t('url.confirm_delete')

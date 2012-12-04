@@ -6,14 +6,14 @@
       = t("member.nopayment")
       (#{t("person_member.title")})
     .inner
-      = link_to_csv_download_path(t('common.download'),nopayment_person_members_path(:format=>:csv))
+      = link_to_generated_download_path(t('common.download'),nopayment_person_members_path(:format=>:ods))
       %table.table
         %tr
           %th.first 
             = sortable "mglnr", t("member.mglnr", :default =>"#mglr#")
           %th=t("person_member.fullname")
-          %th=t("person_member.eMail")
-          %th=t("member_account_booking.balance")
+          %th=t("member.email")
+          %th=t("booking.balance")
           %th.last &nbsp;
         - @person_members.each do |person_member|
           %tr{:class => cycle("odd", "even")}

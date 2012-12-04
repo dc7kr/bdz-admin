@@ -43,6 +43,14 @@ class User < ActiveRecord::Base
 	return (roles.include?('admin') or roles.include?('national'))
   end
 
+  def accounting?
+	return roles.include?('accounting')
+  end
+
+  def gema?
+ 	return roles.include?('gema')
+  end
+
   def national?
 	return roles.include?('national')
   end

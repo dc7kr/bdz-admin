@@ -1,7 +1,45 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
+  @@web_area = {
+		"about" => "public_data",
+		"addresses" => "public_data",
+		"application" => "",
+		"classifieds" => "public_data",
+		"composers" => "public_data",
+		"concerts" => "public_data",
+		"contests" => "public_data",
+		"countries" => "reference_data",
+		"courses" => "public_data",
+		"custom_info_mail" => "member_data",
+		"distinctions" => "member_data",
+		"ensemble_concerts" => "public_data",
+		"ensembles" => "public_data",
+		"festivals" => "public_data",
+		"functions" => "public_data",
+		"honor_members" => "public_data",
+		"member_account_bookings" => "member_data",
+		"member_events" => "member_data",
+		"member_report" => "member_data",
+		"orchestra_contacts" => "member_data",
+		"orchestra_members" => "member_data",
+		"orchestras" => "member_data",
+		"person_members" => "member_data",
+		"regional_organization_bookings" => "reference_data",
+		"regional_organizations" => "reference_data",
+		"report_sheets" => "member_data",
+		"states" => "reference_data",
+		"tariffs" => "reference_data",
+		"universities" => "public_data",
+		"uploads" => "member_data",
+		"url_categories" => "public_data",
+		"urls" => "public_data",
+		"users" => "admin_data" 
+	}
+
   include SessionHelper
+
+	helper_method :current_area
 
 	protected
       before_filter :instantiate_controller_and_action_names
@@ -73,12 +111,38 @@ class ApplicationController < ActionController::Base
 	end
   end
 
- #unless ActionController::Base.consider_all_requests_local
-    rescue_from Exception, :with => :render_error
-    rescue_from ActiveRecord::RecordNotFound, :with => :render_not_found
-    rescue_from ActionController::RoutingError, :with => :render_not_found
-    rescue_from ActionController::UnknownController, :with => :render_not_found
-    rescue_from ActionController::UnknownAction, :with => :render_not_found
- #end 
+  #unless Rails.application.config.consider_all_requests_local
+    rescue_from Exception, with: lambda { |exception| render_error 500, exception }
+    rescue_from ActionController::RoutingError, ActionController::UnknownController, ::AbstractController::ActionNotFound, ActiveRecord::RecordNotFound, with: lambda { |exception| render_error 404, exception }
+  #end
+
+  private
+  def render_error(status, exception)
+#	if ( current_user == nil or current_user.admin?)
+	begin 
+	Rails.logger.error("Encountered error status:"+status.to_s)
+    ErrorMailer.deliver_snapshot(
+        exception, 
+        Rails.env)
+    Rails.logger.error(exception)
+#    rescue => e
+#      	logger.error(e)
+    end
+ # end
+
+	@exception = exception
+    respond_to do |format|
+      format.html { render template: "errors/error_#{status}", layout: 'layouts/application', status: status }
+      format.all { render nothing: true, status: status }
+    end
+  end
+
+  def current_area
+	if @@web_area[@current_controller] then
+		@@web_area[@current_controller]
+	else
+		Rails.logger.error("Unmapped controller: "+@current_controller.to_s)
+	end
+  end
 
 end

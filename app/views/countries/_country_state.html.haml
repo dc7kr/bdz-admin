@@ -1,0 +1,9 @@
+%tr{:class => cycle("odd", "even")}
+  %td
+    = country_state.id
+  %td
+    = link_to country_state.name, country_state_path(country_state)
+  %td.last
+    = link_to_show country_state, t('common.show')
+    = link_to_edit country_state, t('common.edit')
+    = link_to_delete country_state, t("common.delete"), t("common.delete_confirm")

@@ -1,6 +1,8 @@
 require 'valid_email'
 class Orchestra < ActiveRecord::Base
   has_many :report_sheets
+  has_many :orchestra_contacts
+  has_many :orchestra_members
   #has_many :current_report_sheet, :class_name => 'ReportSheet', :where => ['year = ?',Time.now.year]
 
   inherits_from :member

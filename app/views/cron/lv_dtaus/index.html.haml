@@ -1,0 +1,7 @@
+= @bookings.each do |b|
+  - if b[0] != nil then
+    #{@lvHash[b[0]].name}:#{format_currency(b[1]*@lvPercent,"EUR")}
+  - else
+    NIL:#{b[1]*@lvPercent}
+  %br
+ 

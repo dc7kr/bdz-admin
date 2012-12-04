@@ -3,8 +3,10 @@ de:
     group: Zielgruppe
     datafile: Anhang
   common:
-    all: "Alle"
+    fullname: Name
+    all: Alle
     links: Links
+    error_500: Interner Fehler
     public_data: Öffentliche Daten
     member_data: Mitgliedsdaten
     reference_data: Stammdaten
@@ -17,8 +19,10 @@ de:
     za_R: Rechnung
     back: Zurück
     save: Speichern
+    save_and_continue: "Speichern und weiter"
     about: Über
     new: Neu
+    delete: Löschen
     list: Liste
     search: Suche
     nopayment: Säumige Zahler
@@ -29,6 +33,12 @@ de:
     update_success: wurde erfolgreich aktualisiert.
     download: Download
     up: Eine Ebene höher
+    salutation:
+     M: Herr
+     W: Frau
+    salutation_d:
+     M: Herrn
+     W: Frau
 
   time:
     formats:
@@ -206,6 +216,13 @@ de:
     update_success: Buchung wurde erfolgreich aktualisiert.
     balance: Saldo
     booking_type: Buchungstyp
+    booking_type_A: Beitragseingang
+    booking_type_B: Beitrag
+    booking_type_L: Lastschrift
+    booking_type_G: Gutschrift
+    booking_type_E: Ehrungsrechnung
+    booking_type_R: Rücklastschrift
+    booking_type_Z: Zahlungseingang
     booking_year: Geschäftsjahr
     booking_date: Buchungsdatum
     booking_text: Buchungstext
@@ -218,17 +235,26 @@ de:
     mglnr: Mitgl.-Nr.
     eintritt: Eintritt
     austritt_zum: Austritt zum
+    salutation: Anrede
     za: Zahlungsart
     lv: Landesverband
     konto: Konto-Nr.
     blz: BLZ
     zahler: Konto-Inhaber
+    email: E-Mail
     mglnr: Mitgliedsnummer
     name: Name
+    phone: Telefon
+    fax: Fax
     vorname: Vorname
+    country: Land
+    street: Straße
+    city: Ort
+    zip: PLZ
 
   person_member:
     title: Einzelmitglied
+    fullname: Name
     nachname: Name
     vorname: Vorname
     strasse: Straße
@@ -272,6 +298,35 @@ de:
     type_K: Kooperativ
     type_L: Landesorchester
     member_account: Mitgliedskonto
+    contact: Kontakt
+    err_invalid_report_sheet_upload: "Ungültiges Dateiformat hochgeladen!"
+    report_sheet_upload_success: "%{success} Mitgliedsdaten erfolgreich hochgeladen!"
+    report_sheet_upload_warning: "%{success} Datensätze OK, %{error} Datensätze waren fehlerhaft!"
+  orchestra_member:
+    title: Orchestermitglieder
+    first_name: Vorname
+    last_name: Nachname
+    date_of_birth: Geburtstag
+    instrument: Instrument
+  orchestra_contact:
+    title: Kontakt-Adressen
+    title_s: Kontakt-Adresse
+    first_name: Vorname
+    last_name: Nachname
+    street: Straße
+    zip: PLZ
+    city: Ort
+    country: Land
+    email: E-Mail
+    phone: Telefon
+    role: Rolle
+    salutation: Anrede
+    role_V: "1. Vorsitzender"
+    role_S: "Stellvertreter"
+    role_G: "Geschäftsführer"
+    role_D: "Dirigent"
+    role_J: "Jugendleitung"
+    role_O: "Seniorenbeauftragter"
   member_account:
     balance: Saldo
   contest:
@@ -289,21 +344,26 @@ de:
     more_dates: Termine
     anmeldung: Infos und Anmeldung
 
-     
   report_sheet:
     title: Meldebogen
     title_p: Meldebögen
     create_success: Meldebogen erfolgreich angelegt
+    children_col: "<14"
+    teens_col: "15-18"
+    youth_col: "19-27"
+    adult_col: "28-55"
+    senior_col: "55+"
     children: Kinder
     teens: Jugendliche 15-18
     youth: Erw. 19-27
     adult: Erw. 28-55
     senior: Erw. 55+ 
     passive: Passiv
+    supporters: "Fördervereinmitglieder"
     year: Jahr
     gema: GEMA
     azubi: Beitragsfrei
-    uv: Unfallvers.
+    uv: Unfallversicherung
     new: Neuer Meldebogen
     invsum: Rechnungsbetrag
     invsum_short: Summe
@@ -320,6 +380,32 @@ de:
     senior_ens: Seniorenensembles
     chamber_ens: Kammermusikensembles
     other_ens: Sonstige Ensembles
+    azubi_child: "Aktive bis 14 Jahre"
+    azubi_teens: "Aktive 15 – 18 Jahre"
+    azubi_youth: "Aktive 19 – 27 Jahre"
+    azubi_adult: "Aktive 28 – 60 Jahre"
+    azubi_senior: "Aktive ab 60 Jahren"
+    zo: Zupforchester
+    zi_o: Zitherorchester
+    go: Gitarrenorchester
+    oz: "Sonstige Zupfinstrumente"
+    age_category:
+      C: "Kinder bis 14"
+      T: "Jugendliche 15-19"
+      Y: "Jugendliche 19-27"
+      A: "Erwachsene 28-55"
+      S: "Erwachsene 55+"
+  report_sheet_input:
+    login: Anmelden
+    login_title: Meldebogenerfassung
+    token: Passwort
+    save_success: "Daten erfolgreich gespeichert"
+    current_members: "Aktuelle Mitgliederliste"
+    page_1: "Mitgliedermeldung Schritt 1"
+    page_2: "Mitgliedermeldung Schritt 2"
+    page_3: "Mitgliedermeldung Schritt 3"
+    page_4: "Mitgliedermeldung Schritt 4"
+    login_first: "Bitte melden Sie sich an!"
 
   member_report:
     title: Mitgliederbericht
@@ -332,9 +418,23 @@ de:
     koop_count: Kooperative
     lo_count: Landesorchester
     lo_all: LO Mgl. Gesamt
+    insurance_title: Versicherungsdaten
+    uv_count: Unfallversicherung
+    haft_count: Haftpflichtversicherung
   user:
     title_p: Benutzer
     title: Benutzer
+  users:
+    profile:
+      title: "Benutzerprofil"
+      auth_token: "Authentifizierungs-Token"
+      email: "E-Mail"
+      new_password: "Neues Passwort"
+      password_blank_hint: "(Freilassen um nicht zu ändern)"
+      new_password_confirm: "Passwort wiederholen"
+      current_password: "Aktuelles Passwort"
+      current_password_hint: "(wird zum Bestätigen der Änderungen benötigt)"
+      cancel_account: "Benutzeraccount löschen"
 
   views:
     pagination:
@@ -357,20 +457,82 @@ de:
               confirmation: Passwörter stimmen nicht überein.
               too_short: Passwort zu kurz.
   attributes:
-    orchestra:
-       mglnr: Mitgl.-Nr.
-       orchName: Orchester-Name
-       anrede: Anrede
-       vorname: Vorname
-       nachname: Nachname
-       strasse: Straße
-       land: Land
-       plz: PLZ
-       ort: Wohnort
-       telefon: Telefon
-       fax: Fax
-       gruendung: Gründungsdatum
-       eintritt: Eintritt
+    member:
+       za: Zahlungsart
+       konto: Konto-Nr.
+       blz: Bankleitzahl
+       lv: Landesverband
+
+    role: Rolle
+  member_account:
+    balance: Saldo
+  contest:
+    label: Wettbewerb
+    startdate: Beginn Datum
+    enddate: Ende Datum
+    deadline: Anmeldeschluss
+    title: Titel
+    inhalt: Lehrgangsinhalte
+    zielgruppe: Zielgruppe
+    termine: Termine der Arbeitsphasen
+    gebuehr: Teilnahmegebühr
+    dozenten: DozentInnen
+    preis: Preis
+    more_dates: Termine
+    anmeldung: Infos und Anmeldung
+
+     
+  member_report:
+    title: Mitgliederbericht
+    orchestra_count: Anzahl Orchester
+    active_sum: Summe Aktive
+    member_sum: Summe Mitglieder
+    person_member_count: Anzahl EM
+    lo_only: Mgl nur in LO
+    orch_count: Vereinsorchester
+    koop_count: Kooperative
+    lo_count: Landesorchester
+    lo_all: LO Mgl. Gesamt
+    insurance_title: Versicherungsdaten
+    uv_count: Unfallversicherung
+    haft_count: Haftpflichtversicherung
+  url:
+    confirm_delete: "URL wirklich löschen?"
+  user:
+    title_p: Benutzer
+    title: Benutzer
+  users:
+    profile:
+      title: "Benutzerprofil"
+      auth_token: "Authentifizierungs-Token"
+      email: "E-Mail"
+      new_password: "Neues Passwort"
+      password_blank_hint: "(Freilassen um nicht zu ändern)"
+      new_password_confirm: "Passwort wiederholen"
+      current_password: "Aktuelles Passwort"
+      current_password_hint: "(wird zum Bestätigen der Änderungen benötigt)"
+      cancel_account: "Benutzeraccount löschen"
+
+  views:
+    pagination:
+        truncate: ... 
+        next: Nächste
+        last: Letzte
+        first: Erste
+        previous: Vorherige
+  activerecord: 
+    errors:
+      template:
+        header: Fehler im Formular
+        body: Betroffene Felder 
+      models:
+        user:
+          attributes:
+            email:
+              taken: Diese E-Mailadresse wird bereits verwendet.
+            password:
+              confirmation: Passwörter stimmen nicht überein.
+              too_short: Passwort zu kurz.
     member:
        za: Zahlungsart
        konto: Konto-Nr.

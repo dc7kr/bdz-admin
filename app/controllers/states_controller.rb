@@ -65,7 +65,7 @@ class StatesController < AuthenticatedController
 
     respond_to do |format|
       if @state.update_attributes(params[:state])
-        format.html { redirect_to @state, :notice => 'State was successfully updated.' }
+        format.html { redirect_to @state, :notice => t('state.update_success') }
         format.json { head :ok }
       else
         format.html { render :action => "edit" }

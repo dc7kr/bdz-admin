@@ -55,7 +55,7 @@
           %td= @orchestra.bemerkung
         %tr
           %td.label #{t("orchestra.url")}:
-          %td= @orchestra.url
+          %td=link_to @orchestra.url, sanitize_url(@orchestra.url)
         %tr
           %td.label #{t("orchestra.kuendigungErfasst")}:
           %td!= format_bool(@orchestra.kuendigungErfasst)

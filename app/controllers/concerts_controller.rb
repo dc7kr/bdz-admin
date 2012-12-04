@@ -39,6 +39,7 @@ class ConcertsController < AuthenticatedController
 
     respond_to do |format|
       format.html # index.html.erb
+	  format.js
       format.json { render :json => @concerts }
     end
   end

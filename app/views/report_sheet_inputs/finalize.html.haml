@@ -1,0 +1,109 @@
+.block
+  .content
+    %h2.title Meldebogen #{@rs.year} - #{@report_sheet_input.orchestra.orchName} (#{@report_sheet_input.orchestra.mglnr}) 
+    .inner
+      %p Bitte überprüfen Sie noch einmal Ihre Angaben.
+      
+      %h3 Kontaktadresse 
+      %table 
+        %tr
+          %td.label_l=t('orchestra.orchName')
+          %td=@report_sheet_input.orchestra.orchName
+        %tr
+          %td.label_l=t('orchestra.gruendung')
+          %td=l @report_sheet_input.orchestra.gruendung
+        %tr
+          %td.label_l=t('orchestra.contact')
+          %td
+            =t('common.salutation_d.'+@report_sheet_input.orchestra.anrede)
+            =@report_sheet_input.orchestra.vorname
+            =@report_sheet_input.orchestra.name
+        %tr
+          %td.label_l=t('member.strasse')
+          %td=@report_sheet_input.orchestra.strasse
+        %tr
+          %td.label_l=t('orchestra.plz')
+          %td=@report_sheet_input.orchestra.plz
+        %tr
+          %td.label_l=t('orchestra.ort')
+          %td=@report_sheet_input.orchestra.ort
+        %tr
+          %td.label_l=t('orchestra.country')
+          %td=@report_sheet_input.orchestra.country.name
+      %h3 Ansprechpartner
+      %table
+        -@roles.each do |r|
+          - if @contacts[r] != nil then
+            %tr
+              %td
+                %b=t('orchestra_contact.role_'+r)
+              %td=@contacts[r].first_name
+              %td=@contacts[r].last_name
+              %td=@contacts[r].street
+              %td=@contacts[r].zip
+              %td=@contacts[r].city
+              %td=@contacts[r].phone
+              %td=@contacts[r].email
+
+       
+      %h3 Mitglieder
+      %table
+        -ReportSheet.age_categories.each do |cat|
+          %tr
+            %td.label=t('report_sheet.age_category.'+cat)
+            %td=@counts[cat]
+
+      %h3 1. Mitglieder in Ausbildung
+      %table
+        %tr
+          %td.label_l=t('report_sheet.azubi_child')
+          %td=@rs.azubi_child
+        %tr
+          %td.label_l=t('report_sheet.azubi_teens')
+          %td=@rs.azubi_teens
+        %tr
+          %td.label_l=t('report_sheet.azubi_youth')
+          %td=@rs.azubi_youth
+        %tr
+          %td.label_l=t('report_sheet.azubi_adult')
+          %td=@rs.azubi_adult
+        %tr
+          %td.label_l=t('report_sheet.azubi_senior')
+          %td=@rs.azubi_senior
+      
+      %h3 2. Anzahl der passiven Mitglieder (nicht beitragspflichtig)
+      %table
+        %tr
+          %td.label_l=t('report_sheet.passive')
+          %td=@rs.passive
+        %tr
+          %td.label_l=t('report_sheet.supporters')
+          %td=@rs.supporters
+      
+      %h3 3. Anzahl der Ensembls / Orchester im Verein
+      %table 
+        %tr
+          %td.label_l=t('report_sheet.child_ens')
+          %td=@rs.child_ens
+        %tr
+          %td.label_l=t('report_sheet.youth_ens')
+          %td=@rs.youth_ens
+        %tr
+          %td.label_l=t('report_sheet.adult_ens')
+          %td=@rs.adult_ens
+        %tr
+          %td.label_l=t('report_sheet.senior_ens')
+          %td=@rs.senior_ens
+        %tr
+          %td.label_l=t('report_sheet.other_ens')
+          %td=@rs.other_ens
+      
+      %h3 4. Instrumentierung
+      %table
+        %tr
+          %td
+            =@orchestration.join(", ")
+
+    .group.navform.wat-cf
+      =back_button(step4_report_sheet_input_path(@report_sheet_input))
+      =wizard_forward_button("Verbindlich absenden", confirm_report_sheet_input_path(@report_sheet_input))

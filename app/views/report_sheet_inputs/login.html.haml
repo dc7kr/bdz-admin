@@ -1,0 +1,14 @@
+.block
+  .content
+    %h2.title
+      = t("report_sheet_input.login_title")
+    .inner
+      =form_tag({:controller => "report_sheet_inputs", :action => "submit_login", :method => "post"}) do
+        %table
+          %tr
+            %td=t('member.mglnr')
+            %td=text_field_tag(:mglnr)
+          %tr
+            %td=t('report_sheet_input.token')
+            %td=password_field_tag(:token)
+        =submit_tag(t('report_sheet_input.login'))

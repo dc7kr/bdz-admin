@@ -2,5 +2,6 @@
 *= require_self
 *= require_tree ./web-app-theme
 *= require_tree ./smoothness
+*= require jquery.fileupload-ui
 *= require custom.css
 */

@@ -1,8 +1,6 @@
 .block
   .secondary-navigation
-    %ul.wat-cf
-      %li.first.active= link_to "#{t("web-app-theme.list", :default => "List")}", regional_organizations_path
-      %li= link_to "#{t("web-app-theme.new", :default => "New")}", new_regional_organization_path
+    = render :partial => 'nav'
   .content
     %h2.title
       = t("common.all")

@@ -1,8 +1,9 @@
 class MemberEventsController < AuthenticatedController
+  helper_method :sort_column, :sort_direction
+
   # GET /member_events
   # GET /member_events.json
   def index
-
 	@isOrchestra
 	@member
 	@name=nil
@@ -116,5 +117,9 @@ class MemberEventsController < AuthenticatedController
       format.html { redirect_to @return_path }
       format.json { head :no_content }
     end
+  end
+
+  def sort_column
+    MemberEvent.column_names.include?(params[:sort]) ? params[:sort] : "event_date"
   end
 end

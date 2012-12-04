@@ -14,6 +14,34 @@ class MemberReportController < AuthenticatedNonResourceController
 	@em_nomail = PersonMember.includes(:member).nomail.count()
 	@lorch = Hash.new
 
+	@vers_sums = Array.new
+	@vers_hash = Hash.new
+
+	@uv_sum = ReportSheet.includes(:orchestra).calculate(:sum,"children+teens+youth+adult+senior",:group=>"year",:conditions=>"orchestras.orch_type<>'K' and uv=1",:order=>"year")
+
+	@uv_sum.each do |uv|
+		@vers_sums.push(uv[0])
+		h = Hash.new
+		h["uv"]=uv[1]
+		@vers_hash[uv[0]]=h 
+	end
+
+	@haft_sum = ReportSheet.includes(:orchestra).calculate(:sum,"children+teens+youth+adult+senior",:group=>"year",:order=>"year",:conditions=>"orchestras.orch_type='O'")
+	@haft_sum.each do |hv|
+		vals = @vers_hash[hv[0]]
+		if (vals != nil ) then
+			vals["hv"]=hv[1]
+		end
+	end
+
+	@haft_sum = ReportSheet.includes(:orchestra).calculate(:sum,"children+teens+youth+adult+senior-azubi",:group=>"year",:order=>"year",:conditions=>"orchestras.orch_type='L'")
+
+
+	@haft_sum.each do |hv|
+		vals = @vers_hash[hv[0]]
+		vals["hv"]+=hv[1]
+	end
+
 	@l_orch_all.each do |lv|
 		@lorch[lv[0]] = lv[1]
 	end

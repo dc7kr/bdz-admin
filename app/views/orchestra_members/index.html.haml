@@ -1,0 +1,22 @@
+.block
+  .secondary-navigation
+    =render :partial=>'nav'
+  .content
+    %h2.title
+      = t("common.all")
+      = t("orchestra_member.title")
+    .inner
+      %table.table
+        %thead
+          %th.first= sortable "first_name", t("orchestra_member.first_name")
+          %th= sortable "last_name", t("orchestra_member.last_name")
+          %th= sortable "date_of_birth", t("orchestra_member.date_of_birth")
+          %th= sortable "instrument", t("orchestra_member.instrument")
+          %th.last &nbsp;
+        %tbody#orchestra_members
+          =render @orchestra_members
+      #paginator
+        = paginate @orchestra_members, :remote=>true
+      .actions-bar.wat-cf
+        .actions
+- content_for :sidebar, render(:partial => 'sidebar')

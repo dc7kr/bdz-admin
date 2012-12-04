@@ -1,0 +1,39 @@
+.block
+  = f.error_messages :message => "", :header_tag => :h3
+.group
+  %table
+    %tr
+      %td= f.label :role, t("orchestra_contact.role"), :class => :label
+      %td= f.select :role, options_for_select(t_opts("orchestra_contact","role", ["V", "S", "G", "D", "J", "O"]), :selected=>@orchestra_contact.role) 
+    %tr
+      %td= f.label :salutation, t("orchestra_contact.salutation"), :class => :label
+      %td= f.select :salutation, options_for_select([["Herr", "M"], ["Frau", "W"]],:selected=>@orchestra_contact.salutation) 
+    %tr
+      %td= f.label :first_name, t("orchestra_contact.first_name"), :class => :label
+      %td= f.text_field :first_name
+    %tr
+      %td= f.label :last_name, t("orchestra_contact.last_name"), :class => :label
+      %td= f.text_field :last_name
+    %tr
+      %td= f.label :street, t("orchestra_contact.street"), :class => :label
+      %td= f.text_field :street
+    %tr
+      %td= f.label :zip, t("orchestra_contact.zip"), :class => :label
+      %td= f.text_field :zip
+    %tr
+      %td= f.label :city, t("orchestra_contact.city"), :class => :label
+      %td= f.text_field :city
+    %tr
+      %td= f.label :country, t("orchestra_contact.country"), :class => :label
+      %td= f.text_field :country
+    %tr
+      %td= f.label :email, t("orchestra_contact.email"), :class => :label
+      %td= f.text_field :email
+    %tr
+      %td= f.label :phone, t("orchestra_contact.phone"), :class => :label
+      %td= f.text_field :phone
+  
+  %button.button{:type => "submit"}
+    =submit_button(t("common.save", :default => "Save"))
+  = cancel_button()
+  %br

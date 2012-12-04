@@ -45,15 +45,8 @@ class ReportSheetsController < AuthenticatedController
   # GET /report_sheets/new.json
   def new
     @orchestra = Orchestra.find_by_member_id(params[:orchestra_id])
-    @report_sheet = ReportSheet.new(:orchestra=>@orchestra,:year=>Time.now.year,
-		:youth=>0,
-		:children=>0,
-		:teens=>0,
-		:adult=>0,
-		:senior=>0,
-		:passive=>0,
-		:azubi=>0
-    )
+    @report_sheet = ReportSheet.new_for_orchestra(@orchestra,Time.now.year)
+
 
     respond_to do |format|
       format.html # new.html.erb
@@ -110,5 +103,9 @@ class ReportSheetsController < AuthenticatedController
       format.html { redirect_to orchestra_report_sheets_path(@orchestra)}
       format.json { head :ok }
     end
+  end
+
+  def public_form
+
   end
 end

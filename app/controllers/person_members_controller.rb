@@ -1,3 +1,5 @@
+require 'odf/spreadsheet'
+
 class PersonMembersController < AuthenticatedController
 #  before_filter :authenticate_user!, :except => @publicActions
 #[:some_action_without_auth]
@@ -39,6 +41,7 @@ class PersonMembersController < AuthenticatedController
     end
 
   end
+
   def nopayment
 	@accounts = MemberAccountBooking.sum(:amount,:group=>:member_id)
 
@@ -54,6 +57,10 @@ class PersonMembersController < AuthenticatedController
      format.html
      format.json { render :json => @person_members }
 	 format.csv { render :csv => @person_members, :style=>:minimal, :filename => "nopayment_em_"+Time.now.year.to_s }
+	 format.ods {
+			renderNoPayOds("/tmp/nopayment.ods",@accounts,@person_members);
+    		send_file("/tmp/nopayment.ods", :filename => "em_nopay_"+Time.now.year.to_s+".ods", :type => "application/octet-stream")
+		}
     end
   end
   # GET /person_members/1
@@ -212,5 +219,20 @@ class PersonMembersController < AuthenticatedController
     Member.column_names.include?(params[:sort]) ? "members."+params[:sort] :
     PersonMember.column_names.include?(params[:sort]) ? params[:sort] : "members.mglnr"
   end
-  
+
+  private
+  def renderNoPayOds(filename,accounts,person_members)
+	ODF::Spreadsheet.file(filename) do
+				table "No payment"  do
+	    			person_members.each do |pm|
+						row {
+							cell pm.mglnr.to_s
+							cell pm.vorname+" "+pm.name
+							cell pm.email
+							cell accounts[pm.member_id],:type=>:float
+						}
+					end
+  				end
+			end
+  end
 end

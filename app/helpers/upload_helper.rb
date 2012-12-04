@@ -1,5 +1,8 @@
 module UploadHelper
 
+  def storeUploadedFile(targetDir,targetName, params)
+
+  end
   def readDataFile(email_params)
 	if ( email_params[:datafile] ) then 
 		dataFile = email_params[:datafile]

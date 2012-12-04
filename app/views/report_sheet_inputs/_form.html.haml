@@ -1,0 +1,42 @@
+= form_for @report_sheet_input, :url => submit1_report_sheet_input_path(@report_sheet_input) do |f|
+
+  %table.table
+    = f.fields_for @report_sheet_input.report_sheet do |rs|
+      %tr
+        %td= t('report_sheet.uv')
+        %td= rs.check_box :uv
+    = f.fields_for @report_sheet_input.orchestra do |orch|
+      %tr
+        %td= orch.label :orchName, t('orchestra.orchName'), :class => :label
+        %td= orch.text_field :orchName, :class => 'text_field'
+      %tr
+        %td= orch.label :anrede, t('member.salutation'),:class => :label
+        %td=orch.select :anrede, options_for_select([[t('common.salutation.M'),"M"],[t('common.salutation.W'), "W"]],:selected=>@report_sheet_input.orchestra.anrede)
+      %tr
+      %tr
+        %td= orch.label :vorname, t('member.vorname'),:class => :label
+        %td= orch.text_field :vorname
+      %tr
+        %td= orch.label :name,t('member.name'),:class =>:label
+        %td= orch.text_field :name
+      %tr
+        %td= orch.label :strasse, t('member.street'),:class =>:label
+        %td= orch.text_field :strasse
+      %tr
+        %td=t('member.zip')
+        %td= orch.text_field :plz
+      %tr
+        %td=t('member.city')
+        %td= orch.text_field :ort
+      %tr
+        %td=t('member.phone')
+        %td= orch.text_field :telefon
+      %tr
+        %td=t('member.fax')
+        %td= orch.text_field :fax
+      %tr
+        %td=t('member.email')
+        %td= orch.text_field :email
+
+  = submit_button(t("common.save_and_continue"))
+  

@@ -1,0 +1,13 @@
+%h1 Buchung bearbeiten
+
+= link_back('Back')
+
+= form_for [@regional_organization,@booking], :url=>regional_organization_acct_bookings_path(@regional_organization) do |f|
+  -if @booking.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@booking.errors.count, "error")} prohibited this booking from being saved:"
+      %ul
+        - @booking.errors.full_messages.each do |msg|
+          %li= msg
+  = f.hidden_field :regional_organization_id, :value=>@regional_organization.id
+  = render :partial => "form", :locals => {:f => f}

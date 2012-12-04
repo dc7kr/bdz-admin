@@ -1,5 +1,7 @@
 class CustomInfoMailController < AuthenticatedNonResourceController
 
+  include UploadHelper
+
   def index
 	authorize! :member, :edit
   end
@@ -32,14 +34,6 @@ class CustomInfoMailController < AuthenticatedNonResourceController
 		end
   end
 
-  def readDataFile(email_params)
-	if ( email_params[:datafile] ) then 
-		dataFile = email_params[:datafile]
-		return dataFile.read
-	else
-		return nil
-	end
-  end
 
   def recordMailSuccess(mail_params,id)
 	event = MemberEvent.newEmail(mail_params[:event_id],id,mail_params[:subject])

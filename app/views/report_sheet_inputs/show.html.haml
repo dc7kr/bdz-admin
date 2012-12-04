@@ -1,0 +1,15 @@
+%p#notice= notice
+
+%p
+  %b Report sheet:
+  = @report_sheet_input.report_sheet.year
+%p
+  %b Orchestra:
+  = @report_sheet_input.orchestra.mglnr
+%p
+  %b Token:
+  = @report_sheet_input.token
+
+= link_to 'Edit', edit_report_sheet_input_path(@report_sheet_input)
+\|
+= link_to 'Back', report_sheet_inputs_path

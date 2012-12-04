@@ -8,8 +8,9 @@
       %table.table
         %tr
           %th.first 
-            = sortable "mglnr", t("orchestra.mglnr", :default => "Mglnr")
-          %th= sortable "orchName", t("orchestra.orchName", :default => "Name")
+            = sortable "mglnr", t("orchestra.mglnr")
+          %th= sortable "orchName", t("orchestra.orchName")
+          %th= t("orchestra.email")
           %th.last &nbsp;
         =render @orchestras
 

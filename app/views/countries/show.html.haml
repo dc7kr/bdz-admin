@@ -19,4 +19,12 @@
       .wat-cf
         = link_to image_tag("web-app-theme/icons/application_edit.png", :alt => "#{t("web-app-theme.edit", :default=> "Edit")}") + " " + t("web-app-theme.edit", :default=> "Edit"), edit_country_path(@country), :class => "button"
         = link_to image_tag("web-app-theme/icons/cross.png", :alt => "#{t("web-app-theme.delete", :default=> "Delete")}") + " " + t("web-app-theme.delete", :default => "Delete"), country_path(@country), :method => "delete", :class => "button", :confirm => "#{t("web-app-theme.confirm", :default => "Are you sure?")}"
+
+      %table.table
+        %tr
+          %th.first ID
+          %th=t('state.name')
+          %th.last 
+        = render :partial => 'country_state', :collection => @country.states
+
 - content_for :sidebar, render(:partial => 'sidebar')

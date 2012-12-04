@@ -1,6 +1,7 @@
 .group
   = f.label :country, t("activerecord.attributes.state.land", :default => "Land"), :class => :label
   = collection_select(:state, :country_id, Country.order(:name), :id, :name) 
+
 .group
   = f.label :name, t("activerecord.attributes.state.name", :default => "Name"), :class => :label
   = f.text_field :name, :class => 'text_field'

@@ -1,8 +1,60 @@
 class ReportSheet < ActiveRecord::Base
+
 	belongs_to :orchestra
+
+
 
     scope :current,
 		lambda { { :conditions => ['year =  ?', String(Time.now.year)] } }
+
+	def self.age_categories
+		@@age_categories = ["C","T","Y","A","S"]
+	end
+	def init_empty
+		self.adult=0
+		self.adult_ens=0
+		self.azubi=0
+		self.chamber_ens=0
+		self.child_ens=0
+		self.children=0
+		self.gema=0
+		self.korr_ztg=0
+		self.orchestra_id=0
+		self.other_ens=0
+		self.passive=0
+		self.senior=0
+		self.senior_ens=0
+		self.teens=0
+		self.token=0
+		self.uv=0
+		self.youth=0
+		self.youth_ens=0
+		self.zusatz_uv=0
+		self.zusatz_ztg=0
+	end
+
+	def self.for_year(year)
+		@report_sheet = ReportSheet.new
+		@report_sheet.init_empty
+		@report_sheet.orchestra=nil
+		@report_sheet.year=year
+
+		@report_sheet
+	end
+
+	def self.for_orchestra_and_year(orchestra,year)
+
+		@report_sheet = ReportSheet.where("orchestra_id = ? and year = ?",orchestra.id, year).first
+
+		if ( @report_sheet == nil ) then 
+			@report_sheet = ReportSheet.new
+			@report_sheet.init_empty
+			@report_sheet.orchestra=orchestra
+			@report_sheet.year=year
+		end
+
+		return @report_sheet
+	end
 
 	def calcRawTariff
 		return children*Prices.childrenRate + 
@@ -11,6 +63,7 @@ class ReportSheet < ActiveRecord::Base
 			adult * Prices.adultRate+
 			senior * Prices.seniorRate
 	end
+
 
 	def calcBeitrag
 

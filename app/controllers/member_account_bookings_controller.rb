@@ -8,6 +8,7 @@ class MemberAccountBookingsController < AuthenticatedController
 	@mglnr=nil
 	if ( params[:orchestra_id]) then
 		@member = Orchestra.includes(:member).find(params[:orchestra_id])
+		@orchestra = @member
 		@name = @member.orchName
 		@isOrchestra=true
 	elsif (params[:person_member_id]) then

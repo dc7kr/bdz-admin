@@ -1,39 +1,25 @@
-%h1 Listing urls
+.block
+  .secondary-navigation
+    =render :partial=>'nav'
+  .content
+    %h2.title
+      = t("common.all")
+      URLs
+    .inner
+      %table.table
+        %thead
+          %th.first= t('urls.category')
+          %th=sortable 'url', t('urls.url')
+          %th=t('urls.title')
+          %th=t('urls.language')
+          %th=t('urls.email')
+          %th=t('urls.lastchange')
+          %th.last &nbsp;
 
-%table
-  %tr
-    %th Category
-    %th Url
-    %th Titel
-    %th Descr
-    %th Sprache
-    %th Bland
-    %th Land
-    %th Email
-    %th Lastchange
-    %th Confirmed
-    %th Ip
-    %th
-    %th
-    %th
-
-  - @urls.each do |url|
-    %tr
-      %td= url.category
-      %td= url.url
-      %td= url.titel
-      %td= url.descr
-      %td= url.sprache
-      %td= url.bland
-      %td= url.country.name
-      %td= url.email
-      %td= url.lastchange
-      %td= url.confirmed
-      %td= url.ip
-      %td= link_to 'Show', url
-      %td= link_to 'Edit', edit_url_path(url)
-      %td= link_to 'Destroy', url, :confirm => 'Are you sure?', :method => :delete
-
-%br
-
-= link_to 'New Url', new_url_path
+        %tbody#urls
+          =render @urls
+      #paginator
+        = paginate @urls, :remote=>true
+      .actions-bar.wat-cf
+        .actions
+- content_for :sidebar, render(:partial => 'sidebar')

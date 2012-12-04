@@ -6,8 +6,18 @@ gem 'haml'
 gem 'haml-rails'
 
 gem 'fastercsv'
+gem 'paperclip'
 
-gem 'rodf'
+gem 'rbktoblzcheck'
+
+gem "jquery-fileupload-rails"
+
+# 0.3.1 seems to be broken
+# 0.3.2 works fine :)
+gem "rodf", "~> 0.3"
+#gem "rodf", '= 0.3'
+
+gem 'roo'
 
 #gem 'meta_where'
 gem 'meta_search'

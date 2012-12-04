@@ -5,8 +5,8 @@ class HomeController < AuthenticatedNonResourceController
 	if  (current_user == nil ) then
 		redirect_to new_user_session_path
 		return
-
 	end
+
     if (current_user.authentication_token==nil) then
 		current_user.authentication_token = User.authentication_token
 		current_user.save
@@ -16,18 +16,21 @@ class HomeController < AuthenticatedNonResourceController
 	end
   end
   def member_data
+	@website_area = "member_data"
   	authorize! :index, Orchestra
     respond_to do |format|
       format.html
 	end
   end
   def public_data
+	@website_area = "public_data"
   	authorize! :index, Concert
     respond_to do |format|
       format.html
 	end
   end
   def reference_data
+	@website_area = "reference_data"
   	authorize! :index, RegionalOrganization
     respond_to do |format|
       format.html
@@ -44,5 +47,10 @@ class HomeController < AuthenticatedNonResourceController
     respond_to do |format|
       format.html
 	end
+  end
+
+  def current_area
+	@current_action
+
   end
 end

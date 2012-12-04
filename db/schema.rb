@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121001114323) do
+ActiveRecord::Schema.define(:version => 20121201225555) do
 
   create_table "addresses", :force => true do |t|
     t.string "anrede",             :limit => 10,  :null => false
@@ -139,6 +139,7 @@ ActiveRecord::Schema.define(:version => 20121001114323) do
     t.text    "pages",                                     :null => false
     t.string  "title",      :limit => 64, :default => "",  :null => false
     t.integer "cache",      :limit => 1,  :default => 1,   :null => false
+    t.integer "i18n_mode",                :default => 0,   :null => false
   end
 
   add_index "d7_block", ["theme", "module", "delta"], :name => "tmd", :unique => true
@@ -272,6 +273,15 @@ ActiveRecord::Schema.define(:version => 20121001114323) do
   end
 
   add_index "d7_cache_update", ["expire"], :name => "expire"
+
+  create_table "d7_cache_variable", :primary_key => "cid", :force => true do |t|
+    t.binary  "data",       :limit => 2147483647
+    t.integer "expire",                           :default => 0, :null => false
+    t.integer "created",                          :default => 0, :null => false
+    t.integer "serialized", :limit => 2,          :default => 0, :null => false
+  end
+
+  add_index "d7_cache_variable", ["expire"], :name => "expire"
 
   create_table "d7_ckeditor_input_format", :id => false, :force => true do |t|
     t.string "name",   :limit => 128, :default => "", :null => false
@@ -725,6 +735,48 @@ ActiveRecord::Schema.define(:version => 20121001114323) do
 
   add_index "d7_history", ["nid"], :name => "nid"
 
+  create_table "d7_i18n_block_language", :id => false, :force => true do |t|
+    t.string "module",   :limit => 64,                 :null => false
+    t.string "delta",    :limit => 32,                 :null => false
+    t.string "language", :limit => 12, :default => "", :null => false
+  end
+
+  add_index "d7_i18n_block_language", ["language"], :name => "language"
+
+  create_table "d7_i18n_path", :primary_key => "tpid", :force => true do |t|
+    t.integer "tsid",                                   :null => false
+    t.string  "path",                   :default => "", :null => false
+    t.string  "language", :limit => 12, :default => "", :null => false
+    t.integer "pid",                    :default => 0,  :null => false
+  end
+
+  add_index "d7_i18n_path", ["path"], :name => "path"
+  add_index "d7_i18n_path", ["tsid", "language"], :name => "set_language", :unique => true
+
+  create_table "d7_i18n_string", :primary_key => "lid", :force => true do |t|
+    t.string  "textgroup",   :limit => 50, :default => "default", :null => false
+    t.string  "context",                   :default => "",        :null => false
+    t.string  "objectid",                  :default => "",        :null => false
+    t.string  "type",                      :default => "",        :null => false
+    t.string  "property",                  :default => "",        :null => false
+    t.integer "objectindex",               :default => 0,         :null => false
+    t.string  "format"
+  end
+
+  add_index "d7_i18n_string", ["textgroup", "context"], :name => "group_context"
+
+  create_table "d7_i18n_translation_set", :primary_key => "tsid", :force => true do |t|
+    t.string  "title",                    :default => "", :null => false
+    t.string  "type",      :limit => 32,  :default => "", :null => false
+    t.string  "bundle",    :limit => 128, :default => "", :null => false
+    t.integer "master_id",                :default => 0,  :null => false
+    t.integer "status",                   :default => 1,  :null => false
+    t.integer "created",                  :default => 0,  :null => false
+    t.integer "changed",                  :default => 0,  :null => false
+  end
+
+  add_index "d7_i18n_translation_set", ["type", "bundle"], :name => "entity_bundle"
+
   create_table "d7_image_effects", :primary_key => "ieid", :force => true do |t|
     t.integer "isid",                         :default => 0, :null => false
     t.integer "weight",                       :default => 0, :null => false
@@ -747,7 +799,7 @@ ActiveRecord::Schema.define(:version => 20121001114323) do
     t.integer "direction",                 :default => 0,  :null => false
     t.integer "enabled",                   :default => 0,  :null => false
     t.integer "plurals",                   :default => 0,  :null => false
-    t.string  "formula",    :limit => 128, :default => "", :null => false
+    t.string  "formula",                   :default => "", :null => false
     t.string  "domain",     :limit => 128, :default => "", :null => false
     t.string  "prefix",     :limit => 128, :default => "", :null => false
     t.integer "weight",                    :default => 0,  :null => false
@@ -772,6 +824,7 @@ ActiveRecord::Schema.define(:version => 20121001114323) do
     t.string  "language",    :limit => 12, :default => "", :null => false
     t.integer "plid",                      :default => 0,  :null => false
     t.integer "plural",                    :default => 0,  :null => false
+    t.integer "i18n_status",               :default => 0,  :null => false
   end
 
   add_index "d7_locales_target", ["lid"], :name => "lid"
@@ -779,8 +832,10 @@ ActiveRecord::Schema.define(:version => 20121001114323) do
   add_index "d7_locales_target", ["plural"], :name => "plural"
 
   create_table "d7_menu_custom", :primary_key => "menu_name", :force => true do |t|
-    t.string "title",       :default => "", :null => false
-    t.text   "description"
+    t.string  "title",                     :default => "",    :null => false
+    t.text    "description"
+    t.string  "language",    :limit => 12, :default => "und", :null => false
+    t.integer "i18n_mode",                 :default => 0,     :null => false
   end
 
   create_table "d7_menu_links", :primary_key => "mlid", :force => true do |t|
@@ -808,6 +863,8 @@ ActiveRecord::Schema.define(:version => 20121001114323) do
     t.integer "p8",                         :default => 0,        :null => false
     t.integer "p9",                         :default => 0,        :null => false
     t.integer "updated",      :limit => 2,  :default => 0,        :null => false
+    t.string  "language",     :limit => 12, :default => "und",    :null => false
+    t.integer "i18n_tsid",                  :default => 0,        :null => false
   end
 
   add_index "d7_menu_links", ["link_path", "menu_name"], :name => "path_menu", :length => {"link_path"=>128, "menu_name"=>nil}
@@ -1910,16 +1967,46 @@ ActiveRecord::Schema.define(:version => 20121001114323) do
     t.string   "zahler",                   :limit => 100
     t.datetime "created_at",                                              :null => false
     t.datetime "update_at"
+    t.string   "telefon"
+    t.string   "fax"
   end
 
   add_index "members", ["mglnr"], :name => "mglnr", :unique => true
+
+  create_table "orchestra_contacts", :force => true do |t|
+    t.integer  "orchestra_id"
+    t.string   "salutation"
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "street"
+    t.string   "zip"
+    t.string   "city"
+    t.string   "country"
+    t.string   "role"
+    t.string   "email"
+    t.string   "phone"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
+  add_index "orchestra_contacts", ["orchestra_id"], :name => "index_orchestra_contacts_on_orchestra_id"
+
+  create_table "orchestra_members", :force => true do |t|
+    t.integer  "orchestra_id"
+    t.string   "first_name"
+    t.string   "last_name"
+    t.date     "date_of_birth"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+    t.string   "instrument"
+  end
+
+  add_index "orchestra_members", ["orchestra_id"], :name => "index_orchestra_members_on_orchestra_id"
 
   create_table "orchestras", :force => true do |t|
     t.integer  "member_id",         :limit => 8,                    :null => false
     t.string   "orchName",          :limit => 200
     t.string   "land",              :limit => 510
-    t.string   "telefon",           :limit => 510
-    t.string   "fax",               :limit => 510
     t.date     "gruendung"
     t.string   "orch_type",         :limit => 0,   :default => "O", :null => false
     t.string   "bemerkung",         :limit => 510
@@ -1989,9 +2076,7 @@ ActiveRecord::Schema.define(:version => 20121001114323) do
   create_table "person_members", :force => true do |t|
     t.integer  "member_id",          :limit => 8,                  :null => false
     t.date     "geburtstag"
-    t.string   "telefonPrivat",      :limit => 60
     t.string   "telefonDienstl",     :limit => 60
-    t.string   "telefax",            :limit => 60
     t.integer  "lv",                 :limit => 8
     t.integer  "tariff_id",          :limit => 8
     t.string   "bemerkung",          :limit => 510
@@ -2904,9 +2989,35 @@ ActiveRecord::Schema.define(:version => 20121001114323) do
   add_index "plz_geodb", ["ort"], :name => "ort"
   add_index "plz_geodb", ["plz"], :name => "plz", :unique => true
 
+  create_table "regional_organization_bookings", :force => true do |t|
+    t.integer  "regional_organization_id"
+    t.string   "booking_type"
+    t.integer  "booking_year"
+    t.string   "booking_mode"
+    t.datetime "booking_date"
+    t.string   "booking_txt"
+    t.string   "filename"
+    t.float    "amount"
+    t.datetime "created_at",               :null => false
+    t.datetime "updated_at",               :null => false
+  end
+
+  add_index "regional_organization_bookings", ["regional_organization_id"], :name => "index_regional_organization_bookings_on_regional_organization_id"
+
+  create_table "report_sheet_inputs", :force => true do |t|
+    t.integer  "report_sheet_id"
+    t.integer  "orchestra_id"
+    t.string   "token"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
+
+  add_index "report_sheet_inputs", ["orchestra_id"], :name => "index_report_sheet_inputs_on_orchestra_id"
+  add_index "report_sheet_inputs", ["report_sheet_id"], :name => "index_report_sheet_inputs_on_report_sheet_id"
+
   create_table "report_sheets", :force => true do |t|
     t.integer "year",                                         :null => false
-    t.integer "orchestra_id", :limit => 8,                    :null => false
+    t.integer "orchestra_id", :limit => 8
     t.integer "children",                                     :null => false
     t.integer "teens",                                        :null => false
     t.integer "youth",                                        :null => false
@@ -2919,12 +3030,23 @@ ActiveRecord::Schema.define(:version => 20121001114323) do
     t.integer "gema"
     t.integer "azubi",                                        :null => false
     t.integer "passive",                   :default => 0,     :null => false
-    t.integer "child_ens",				   :default => 0,	  :null => false
-    t.integer "youth_ens",				   :default => 0,     :null => false
-    t.integer "adult_ens",				   :default => 0,     :null => false
-    t.integer "senior_ens",				   :default => 0,     :null => false
-    t.integer "chamber_ens",			   :default => 0,     :null => false
-    t.integer "other_ens",				   :default => 0,     :null => false
+    t.integer "child_ens"
+    t.integer "youth_ens"
+    t.integer "adult_ens"
+    t.integer "senior_ens"
+    t.integer "chamber_ens"
+    t.integer "other_ens"
+    t.string  "token"
+    t.integer "azubi_child"
+    t.integer "azubi_teens"
+    t.integer "azubi_youth"
+    t.integer "azubi_adult"
+    t.integer "azubi_senior"
+    t.integer "supporters"
+    t.boolean "zo"
+    t.boolean "zi_o"
+    t.boolean "go"
+    t.boolean "oz"
   end
 
   add_index "report_sheets", ["year", "orchestra_id"], :name => "oneperyear", :unique => true
@@ -2954,6 +3076,15 @@ ActiveRecord::Schema.define(:version => 20121001114323) do
     t.integer "tariff_type",                                              :null => false
     t.string  "description", :limit => 50,                                :null => false
     t.decimal "amount",                    :precision => 10, :scale => 0, :null => false
+  end
+
+  create_table "uploads", :force => true do |t|
+    t.string   "upload_file_name"
+    t.string   "upload_content_type"
+    t.integer  "upload_file_size"
+    t.datetime "upload_updated_at"
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
   end
 
   create_table "url2cat", :id => false, :force => true do |t|

@@ -1,0 +1,42 @@
+.block
+  .content
+    %h2.title
+      = t("report_sheet_input.page_3")
+    .inner
+      %p Bitte verwenden Sie eine der folgenden Vorlagen, füllen Sie diese aus und laden Sie die Datei wieder hoch:
+      %ul
+        %li= link_to "OpenOffice/LibreOffice", "http://www.bdz-online.de/formulare/meldebogen-vorlage.ods"
+        %li= link_to "MS Excel 97 oder höher", "http://www.bdz-online.de/formulare/meldebogen-vorlage.xls"
+      = render 'form3'
+
+      -if @members != nil and @members.count >0
+        %h3=t('report_sheet_input.current_members')
+        %table.border
+          %tr
+            %th=t('orchestra_member.first_name')
+            %th=t('orchestra_member.last_name')
+            %th=t('orchestra_member.date_of_birth')
+            %th=t('orchestra_member.instrument')
+            %th=t('report_sheet.children_col')
+            %th=t('report_sheet.teens_col')
+            %th=t('report_sheet.youth_col')
+            %th=t('report_sheet.adult_col')
+            %th=t('report_sheet.senior_col')
+
+          - @members.each do |m|
+            %tr
+              %td=m.first_name
+              %td=m.last_name
+              %td=l m.date_of_birth
+              %td=m.instrument
+              - ageCategory = memberToAgeCategory(m.date_of_birth,@year)
+              %td.check=ageCategory[0]
+              %td.check=ageCategory[1]
+              %td.check=ageCategory[2]
+              %td.check=ageCategory[3]
+              %td.check=ageCategory[4]
+    
+
+      .wat-cf
+        = back_button(step2_report_sheet_input_path(@report_sheet_input))
+        = wizard_forward_button(t('common.save_and_continue'),step4_report_sheet_input_path(@report_sheet_input))

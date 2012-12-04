@@ -1,0 +1,7 @@
+%tr
+  %td= orchestra_member.first_name
+  %td= orchestra_member.last_name
+  %td= orchestra_member.date_of_birth
+      %td= link_to 'Show', orchestra_member
+      %td= link_to 'Edit', edit_orchestra_member_path(orchestra_member)
+      %td= link_to 'Destroy', orchestra_member, :confirm => 'Are you sure?', :method => :delete

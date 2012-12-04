@@ -1,0 +1,72 @@
+
+
+= form_for @report_sheet , :url=> submit4_report_sheet_input_path(@report_sheet_input) do |f|
+  
+  %h3 1. Mitglieder in Ausbildung
+  %table
+    %tr
+      %td=t('report_sheet.azubi_child')
+      %td=f.text_field :azubi_child
+    %tr
+      %td=t('report_sheet.azubi_teens')
+      %td=f.text_field :azubi_teens
+    %tr
+      %td=t('report_sheet.azubi_youth')
+      %td=f.text_field :azubi_youth
+    %tr
+      %td=t('report_sheet.azubi_adult')
+      %td=f.text_field :azubi_adult
+    %tr
+      %td=t('report_sheet.azubi_senior')
+      %td=f.text_field :azubi_senior
+    %tr
+      %td{:colspan=>2}  
+        %h3 2. Anzahl der passiven Mitglieder (nicht beitragspflichtig)
+    %tr
+      %td=t('report_sheet.passive')
+      %td=f.text_field :passive
+    %tr
+      %td=t('report_sheet.supporters')
+      %td=f.text_field :supporters
+    %tr
+      %td{:colspan=>2} 
+        %h3 3. Anzahl der Ensembls / Orchester im Verein
+    %tr
+      %td=t('report_sheet.child_ens')
+      %td=f.text_field :child_ens
+    %tr
+      %td=t('report_sheet.youth_ens')
+      %td=f.text_field :youth_ens
+    %tr
+      %td=t('report_sheet.adult_ens')
+      %td=f.text_field :adult_ens
+    %tr
+      %td=t('report_sheet.senior_ens')
+      %td=f.text_field :senior_ens
+    %tr
+      %td=t('report_sheet.other_ens')
+      %td=f.text_field :other_ens
+
+    %tr
+      %td{:colspan=>2}
+        %h3 4. Instrumentierung
+    %tr
+      %td=t('report_sheet.zo')
+      %td=f.check_box(:zo)
+    %tr
+      %td=t('report_sheet.zi_o')
+      %td=f.check_box(:zi_o)
+    %tr
+      %td=t('report_sheet.go')
+      %td=f.check_box(:go)
+    %tr
+      %td
+        =t('report_sheet.oz')
+        %br
+        (z.B. Balalaika, Baglama, Bouzouki)
+      %td=f.check_box(:oz)
+  
+  .group.navform.wat-cf
+    = back_button( step3_report_sheet_input_path(@report_sheet_input))
+    = submit_button( t("common.save_and_continue"))
+  

@@ -3,8 +3,8 @@ require 'dtaus_writer'
 require 'invoice_helper'
 require 'fileutils.rb'
 
-class Cron::InvoicesController < ApplicationController
-  load_and_authorize_resource
+class Cron::InvoicesController < AuthenticatedNonResourceController
+  #load_and_authorize_resource
 
  def gen_all
   	authorize! :member, :edit
@@ -60,12 +60,11 @@ class Cron::InvoicesController < ApplicationController
 
     @person_members = PersonMember.includes([:tariff,:member]).joins("LEFT JOIN member_account_bookings mb ON person_members.member_id=mb.member_id AND mb.booking_type='B' and YEAR(mb.booking_date) = YEAR(NOW())").where("mb.id IS NULL").order("members.mglnr")
 	
-	ctlfile = "dtaus.ctl"
 	@tw = TexWriter.new
 	@dw = DtausWriter.new
 	File.open(@dw.ctlFile,"w") {|dtafile| 
 		@dw.outfile(dtafile)
-		@dw.writeDtausHeader()
+		@dw.writeDtausHeader(true)
 
 		@person_members.each do |person|
 			@tw.write(person,year)
@@ -88,9 +87,11 @@ class Cron::InvoicesController < ApplicationController
 		end
 	}
 
-	system("/opt/bdz-rechnung/bin/merge_pdfs.sh rechnung")
+	@invoice_type = "rechnung-em"
+	system("/opt/bdz-rechnung/bin/merge_pdfs.sh "+@invoice_type)
 	@dw.genDtaus()
 	@tw.moveGeneratedFiles(@dw.datePrefix)
+    send_mail(@dw.datePrefix, @invoice_type)
   end
 
 
@@ -123,33 +124,34 @@ class Cron::InvoicesController < ApplicationController
 
 	File.open(@dw.ctlFile,"w") {|dtafile| 
 		@dw.outfile(dtafile)
-		@dw.writeDtausHeader()
+		@dw.writeDtausHeader(true)
 		@orchestras.each do |orch|
         	orchestraInvoice(orch,year,@tw,@dw)
 		end
 	}
 
-	system("/opt/bdz-rechnung/bin/merge_pdfs.sh rechnung")
+	@invoice_type = "rechnung"
+	system("/opt/bdz-rechnung/bin/merge_pdfs.sh "+@invoice_type)
 	@dw.genDtaus()
-	moveGeneratedFiles(@dw.datePrefix)
-    send_mail(@dw.datePrefix)
+	@tw.moveGeneratedFiles(@dw.datePrefix)
+    send_mail(@dw.datePrefix, @invoice_type)
   end
 
   def testGen(datepref)
 	@dw = DtausWriter.new
 	@dw.overrideDate(datepref)
     @dw.genDtaus()
-	moveGeneratedFiles(@dw.datePrefix)
+	@tw.moveGeneratedFiles(@dw.datePrefix)
   end
 
-  def send_mail(dtausPrefix)
+  def send_mail(dtausPrefix,invoice_type)
 
 	year = Time.now.strftime('%Y')
 	pdf_prefix= Time.now.strftime '%Y%m%d'
 
 	@users = User.where("role like ? or role like ?", "%accounting%", "%admin%")
     base_url = cron_downloads_url
-	invoices_url = base_url+"?year="+year+"&filename="+pdf_prefix+"-rechnung_merge.pdf"
+	invoices_url = base_url+"?year="+year+"&filename="+pdf_prefix+"-"+invoice_type+"_merge.pdf"
 	dtaus_url = base_url+"?year="+year+"&filename="+dtausPrefix+"dtaus.zip"
 
 	@users.each do |user| 

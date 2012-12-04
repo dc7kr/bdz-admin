@@ -55,6 +55,8 @@ body {
 #main {  
   width: 70%;
   float: left;    
+  box-shadow: 10px 10px 5px #888;
+  background: #ffffff;
 }
 
 .actions-bar {
@@ -101,7 +103,7 @@ body {
 }
 
 #wrapper {
-  padding-top: 20px;
+  padding-top: 20px;	
 }
 
 #main .block {
@@ -167,10 +169,6 @@ body {
 .secondary-navigation ul li a {
   display: block;
   padding: 10px 15px;  
-}
-
-#footer {
-  padding-bottom: 20px;
 }
 
 /* pagination */

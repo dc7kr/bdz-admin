@@ -1,0 +1,7 @@
+.block
+  .content
+    %h2.title Meldebogen #{@rs.year} - #{@rsi.orchestra.orchName} (#{@rsi.orchestra.mglnr}) 
+    .inner
+      %h3 Vielen Dank!
+      %p Der Meldebogen wurde in das System eingestellt. Die Beitragsrechnung erhalten Sie wie gewohnt auf dem Postweg.
+      = link_to "PDF Version für Ihre Unterlagen.", confirm_report_sheet_input_path(@rsi,:format=>"pdf")

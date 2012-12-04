@@ -20,6 +20,10 @@ class Ability
         can :read, Orchestra
 	  end
 
+      if ( user.accounting? ) 
+		can :read, MemberAccountBooking
+      end
+
       if ( user.honor? )
 		can :manage, Distinction 
 		can :read, MemberAccountBooking, :booking_type => 'E'

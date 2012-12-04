@@ -1,14 +1,21 @@
 class UrlsController < AuthenticatedController
+
+  # for table sort by column click
+  helper_method :sort_column, :sort_direction
+
   # GET /urls
   # GET /urls.json
   before_filter :authenticate_user!#, :except => [:index]
   
   def index
-    @urls = Url.all
+    @urls = Url.search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(30)
+
+
 
     respond_to do |format|
       format.html # index.html.erb
       format.json { render :json => @urls }
+	  format.js
     end
   end
 
@@ -81,5 +88,11 @@ class UrlsController < AuthenticatedController
       format.html { redirect_to urls_url }
       format.json { head :ok }
     end
+  end
+
+
+  private 
+  def sort_column
+    Url.column_names.include?(params[:sort]) ? params[:sort] : "id"
   end
 end

@@ -10,6 +10,7 @@
       %td= f.text_field :orchName, :class => 'text_field'
     %tr
       %td= f.label :anrede, corika_tr("orchestra","anrede","Anrede"), :class => :label
+      %td= f.select :anrede, options_for_select([[t('common.salutation.M'),"M"],[t('common.salutation.W'), "W"]],:selected=>@orchestra.anrede)
       %td= f.text_field :anrede, :class => 'text_field'
     %tr
       %td= f.label :vorname, corika_tr("orchestra","vorname","Vorname"), :class => :label

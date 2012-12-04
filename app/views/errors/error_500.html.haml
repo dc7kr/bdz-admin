@@ -1,3 +1,11 @@
-%h2.error ERROR
+.block
+  .secondary-navigation
+  .content
+    %h2.title
+      = t("common.error_500")
+    .inner
+      %p= @exception 
+      -if current_user != nil and current_user.admin?
+        %pre
+          =@exception.backtrace.join("\n")
 
-=@exception

@@ -1,0 +1,39 @@
+= form_for @report_sheet_input, :url=> submit2_report_sheet_input_path(@report_sheet_input) do |f|
+  -OrchestraContact.roles.each_with_index do |role,i|
+    - contact = @contact_hash[role]
+    = f.fields_for 'contact['+i.to_s+']',contact do |cf|
+      %h3=t('orchestra_contact.role_'+role)
+      = cf.hidden_field(:id)
+      = cf.hidden_field(:role)
+      %table
+        %tr
+          %td= t('orchestra_contact.salutation')
+          %td=cf.select :salutation, options_for_select([[t('common.salutation.M'),"M"],[t('common.salutation.W'), "W"]],:selected=>contact.salutation)
+        %tr
+          %td= t('orchestra_contact.first_name')
+          %td=cf.text_field(:first_name)
+        %tr
+          %td=t('orchestra_contact.last_name')
+          %td= cf.text_field(:last_name)
+        %tr
+          %td=t('orchestra_contact.street')
+          %td=cf.text_field(:street)
+        %tr
+          %td=t('orchestra_contact.zip')
+          %td=cf.text_field(:zip)
+        %tr
+          %td=t('orchestra_contact.city')
+          %td=cf.text_field(:city)
+        %tr
+          %td=t('orchestra_contact.email')
+          %td=cf.text_field(:email)
+        %tr
+          %td=t('orchestra_contact.phone')
+          %td=cf.text_field(:phone)
+  
+  .group.navform.wat-cf
+    = back_button(step1_report_sheet_input_path(@report_sheet_input))
+    %button.button{:type => "submit"}
+      = image_tag("web-app-theme/icons/tick.png", :alt => "#{t("common.save_and_continue")}")
+      = t("common.save_and_continue")
+  

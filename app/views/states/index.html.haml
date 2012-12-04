@@ -15,22 +15,7 @@
             = t("activerecord.attributes.state.country_id")
           %th= t("common.created_at")
           %th.last &nbsp;
-        - @states.each do |state|
-          %tr{:class => cycle("odd", "even")}
-            %td
-              = state.id
-            %td
-              - if ( state.country ) 
-                =  link_to country_path(state.country)
-              - else
-                keines
-            %td
-              = link_to state.name, state_path(state)
-            %td.last
-              = link_to "#{t("web-app-theme.show", :default => "Show")}", state_path(state)
-              |
-              \#{link_to "#{t("web-app-theme.edit", :default => "Edit")}", edit_state_path(state)} |
-              \#{link_to "#{t("web-app-theme.delete", :default => "Delete")}", state_path(state), :method => :delete, :confirm => "#{t("web-app-theme.confirm", :default => "Are you sure?")}"}
+        = render @states
       .actions-bar.wat-cf
         .actions
 - content_for :sidebar, render(:partial => 'sidebar')

@@ -7,7 +7,7 @@
       %td= f.number_field :mglnr, :class => 'number_field'
     %tr
       %td= f.label :anrede, t("person_member.anrede"), :class => :label
-      %td= f.text_field :anrede, :class => 'text_field'
+      %td= f.select :anrede, options_for_select([[t('common.salutation.M'),"M"],[t('common.salutation.W'), "W"]],:selected=>@person_member.anrede)
     %tr
       %td= f.label :vorname, t("member.vorname"), :class => :label
       %td= f.text_field :vorname, :class => 'text_field'
@@ -27,20 +27,20 @@
       %td= f.label :land, t("person_member.land"), :class => :label
       %td= collection_select(:person_member, :country_id, Country.all, :id, :name) 
     %tr
+      %td= f.label :telefon, t("member.phone"), :class => :label
+      %td= f.text_field :telefon, :class => 'text_field'
+    %tr
+      %td= f.label :fax, t("member.fax"), :class => :label
+      %td= f.text_field :fax, :class => 'text_field'
+    %tr
       %td= f.label :email, t("member.email"), :class => :label
       %td= f.text_field :email, :class => 'text_field'
     %tr
       %td= f.label :geburtstag, t("person_member.geburtstag"), :class => :label
       %td= f.text_field :geburtstag, :class => 'datePicker'
     %tr
-      %td= f.label :telefonPrivat, t("person_member.telefonPrivat"), :class => :label
-      %td= f.text_field :telefonPrivat, :class => 'text_field'
-    %tr
       %td= f.label :telefonDienstl, t("person_member.telefonDienstl"), :class => :label
       %td= f.text_field :telefonDienstl, :class => 'text_field'
-    %tr
-      %td= f.label :telefax, t("person_member.telefax"), :class => :label
-      %td= f.text_field :telefax, :class => 'text_field'
     %tr
       %td= f.label :eintritt, t("person_member.eintritt"), :class => :label
       %td= f.text_field :eintritt, :class => 'datePicker'

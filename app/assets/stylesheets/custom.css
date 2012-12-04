@@ -13,6 +13,10 @@ table.bordered th {
 	border-style: collapse;
 }
 
+td.number, th.number {
+	text-align:right;
+}
+
 td.sum {
 	text-align:right;
 	font-weight:bold;
@@ -50,11 +54,19 @@ td.label {
   text-align:right;
 }
 
+td.label_l {
+  font-weight:bold;
+  text-align:left;
+}
+
 #footer {
-	width:98%;
+	width:100%;
 	position:relative;
 	float:left;
+	box-shadow: 10px 10px 5px #888;
+	-webkit-shadow: 10px 10px 5px #888;
 	
+	margin-top:25px;	
 }
 
 #mainblock {
@@ -77,7 +89,35 @@ h2.error {
 	font-weight:bold;
 }
 
+table.border {
+	border:solid silver 1px;
+	margin:0;
+	border-collapse:collapse;
+
+}
+
+table td.check {
+	text-align:center;
+}
+
+table.border tr {
+	border:solid silver 1px;
+}
+
+table.border td,th {
+	border:solid silver 1px;
+	padding:2px;
+}
+
+table.short {
+  width: 50%
+}
+
 .flash {
   width: 70%;
 }
 
+#main .content {
+	padding-left: 10px;
+	padding-bottom:10px;
+}

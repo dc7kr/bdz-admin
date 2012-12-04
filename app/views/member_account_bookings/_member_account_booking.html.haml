@@ -1,7 +1,7 @@
 - if readable? member_account_booking
   %tr
     %td=l member_account_booking.booking_date.to_date, :format => :long
-    %td=member_account_booking.booking_type
+    %td=t('booking.booking_type_'+member_account_booking.booking_type)
     %td=member_account_booking.booking_year
     %td=member_account_booking.booking_txt
     %td=format_currency(member_account_booking.amount,'€')

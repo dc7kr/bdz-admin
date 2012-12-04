@@ -63,5 +63,17 @@
               %td=format_int lv[1]
               %td=format_int @lorch[lv[0]]
 
+      %h3=t('member_report.insurance_title')
+      %table.table
+        %thead
+          %th.first= t("report_sheet.year")
+          %th.number= t("member_report.uv_count")
+          %th.number= t("member_report.haft_count")
+        %tbody
+          - @vers_sums.each do |v|
+            %tr
+              %td=v
+              %td.number=format_int @vers_hash[v]["uv"].to_s
+              %td.number=format_int @vers_hash[v]["hv"].to_s
       .actions-bar.wat-cf
         .actions

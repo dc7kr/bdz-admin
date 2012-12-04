@@ -61,8 +61,13 @@ end
 def link_back(txt)
     link_to image_tag('/assets/icons/back.png', {:size=>'16x16',:alt=>txt,:title=>txt,:class=>'btn'} ),url_for(:back)
 end
+def wizard_forward_button(txt,path)
+    link_to image_tag('web-app-theme/icons/tick.png', {:size=>'16x16',:alt=>txt,:title=>txt,:class=>'btn'} )+" "+txt,path, :class => "text_button_padding button"
+end
 def submit_button(txt)
-    image_tag("web-app-theme/icons/tick.png", :alt => txt)+txt
+    button_tag(:type=>"submit",:class=>"button") do 
+      image_tag("web-app-theme/icons/tick.png", :alt => txt)+" "+txt
+    end
 end
 def cancel_button()
   link_to t("common.cancel"), url_for(:back), :class => "text_button_padding button"
@@ -74,9 +79,13 @@ def del_button(path,entity)
 end
 def edit_button(path,entity) 
   if can? :update, entity
-	link_to image_tag("web-app-theme/icons/application_edit.png", :alt => "#{t("common.edit", :default=> "Edit")}") + " " + t("common.edit", :default=> "Edit"), path, :class => "button"
+	link_to image_tag("web-app-theme/icons/application_edit.png", :alt => "#{t("common.edit")}") + " " + t("common.edit"), path, :class => "button"
   end
 
+end
+
+def back_button(path) 
+  link_to image_tag("icons/back.png", :alt => t("common.back"))+" "+t("common.back"), path, :class => "button"
 end
 
 def link_to_edit(entity, txt)
@@ -202,6 +211,17 @@ end
 
 def readable?(entity)
     return can? :read, entity
+end
+
+def sanitize_url(url)
+	if url == nil || url.length == 0 then
+		return "#"
+	end
+	if not url.starts_with?("http://") then
+		"http://"+url
+	else
+		url
+	end
 end
 
 end

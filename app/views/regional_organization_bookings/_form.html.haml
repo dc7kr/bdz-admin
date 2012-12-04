@@ -1,0 +1,25 @@
+= f.hidden_field :regional_organization_id, :value=>@regional_organization.id
+.block
+  = f.error_messages :message => "", :header_tag => :h3
+.group
+  %table
+    %tr
+      %td= f.label :booking_type, t("booking.booking_type"), :class => :label
+      %td= f.select :booking_type, options_for_select([["Gutschrift", "G"], ["Sollstellung", "S"]],:selected=>@booking.booking_type)
+    %tr
+      %td= f.label :booking_year, t("booking.booking_year")
+      %td= f.number_field :booking_year, :class => 'number_field'
+    %tr
+      %td= f.label :booking_date, t("booking.booking_date"), :class => :label
+      %td= f.text_field :booking_date, :class => 'text_field'
+    %tr
+      %td= f.label :booking_txt, t("booking.booking_text"), :class => :label
+      %td= f.text_field :booking_txt, :class => 'text_field'
+    %tr
+      %td= f.label :amount, t("booking.amount"), :class => :label
+      %td= f.text_field :amount, :class => 'text_field'
+      
+  %button.button{:type => "submit"}
+    =submit_button(t("common.save", :default => "Save"))
+  = cancel_button()
+  %br

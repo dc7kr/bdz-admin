@@ -118,4 +118,13 @@ class RegionalOrganizationsController < ApplicationController
 		format.csv 
 	end
   end
+
+
+  def create_final_payment
+	lvs = @RegionalOrganization.all
+
+	lvs.each do |lv|
+		
+	end
+  end
 end

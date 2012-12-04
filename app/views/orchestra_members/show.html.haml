@@ -1,0 +1,18 @@
+%p#notice= notice
+
+%p
+  %b Orchestra:
+  = @orchestra_member.orchestra
+%p
+  %b First name:
+  = @orchestra_member.first_name
+%p
+  %b Last name:
+  = @orchestra_member.last_name
+%p
+  %b Date of birth:
+  = @orchestra_member.date_of_birth
+
+= link_to 'Edit', edit_orchestra_member_path(@orchestra_member)
+\|
+= link_to 'Back', orchestra_members_path

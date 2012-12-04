@@ -1,6 +1,10 @@
 .block.notice
+  %h3 LV Konto
+
   %h3 Links
   %ul.navigation
+    %li
+      = link_to "LV Konto", regional_organization_acct_bookings_path(@regional_organization)
     %li
       = link_to( "Mitglieder", members_regional_organization_path(@regional_organizaton))
       = link_to( "Mitglieder (PDF)", members_regional_organization_path(@regional_organizaton,:format=>"pdf"))

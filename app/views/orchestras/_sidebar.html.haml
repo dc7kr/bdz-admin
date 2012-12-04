@@ -1,2 +1,8 @@
-
 =render :partial=>'search'
+.block
+  %h3 Berichte
+  %ul.navigation
+    %li
+      =link_to "Säumige GJ #{@previousYear}", nopayment_orchestras_path( :lastyear=> @previousYear)
+    %li= link_to "concertino Liste", "/orchestras/magazine.csv"
+    %li= link_to "GEMA Zahlen", "/orchestras/gema.csv"

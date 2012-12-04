@@ -17,15 +17,15 @@
               %li.username
                 Angemeldet als: #{current_user.email} 
               %li
-                =link_to t("web-app-theme.profile"), edit_user_password_path(current_user)
+                =link_to t("web-app-theme.profile"), edit_user_registration_path
               %li
-                = link_to t("web-app-theme.settings"), "#"
+                = link_to t("web-app-theme.settings"), edit_user_registration_path
               %li
                 %a.logout{:href => "/logout"}= t("web-app-theme.logout", :default => "Logout")
             %li
               %a{:href => "/about"}= t("common.about", :default => "About")
         #main-navigation
-          %ul.wat-cf
+          = render :partial => "main-menu"
       #wrapper.wat-cf
         .flash
           - flash.each do |type, message|

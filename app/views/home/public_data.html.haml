@@ -1,9 +1,31 @@
-.secondary-navigation
-  = render :partial=>"nav"
 .content
   .inner
     .block
       .block-content
+
+        %h2 Admin Ansichten
+        = link_to "Konzerte", concerts_path
+        %br
+        = link_to "Ensembles", ensembles_path
+        %br
+        = link_to "Kurse", courses_path
+        %br
+        = link_to t("contest.label"), contests_path
+        %br
+        = link_to "Studienmöglichkeiten", universities_path
+        %br
+        = link_to "Ehrentafel", honor_members_path
+        %br
+        = link_to "Komponisten", composers_path
+        %br
+        = link_to "URLs", urls_path
+        %br
+        = link_to "URL Kategorien", url_categories_path
+        %br
+        = link_to "Adressen", addresses_path 
+        %br
+        %br
+        %h2 Öffentliche Ansichten
         = link_to "Konzerte", public_concerts_path
         %br
         = link_to "Ensembles", public_ensembles_path

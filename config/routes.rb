@@ -1,5 +1,34 @@
 BDZAdmin::Application.routes.draw do
 
+  resources :report_sheet_inputs do
+	collection do 
+		get :login
+		post :submit_login
+	end
+	member do 
+		get :step1
+		get :step2
+		get :step3
+		get :step4
+		put :submit1
+		put :submit2
+		put :submit3
+		put :submit4
+		put :finalize
+		get :finalize
+		get :confirm
+		put :confirm
+		post 'upload'
+	end
+
+  end
+
+  resources :uploads
+
+  get "errors/error_404"
+
+  get "errors/error_500"
+
   resources :addresses
   resources :honor_members
   resources :member_events
@@ -20,10 +49,12 @@ BDZAdmin::Application.routes.draw do
   #devise_for :users, :controllers => {:sessions => 'sessions'}
   devise_for :users
 
-  resources :users
+  resources :users, :path => :accounts
 
   #resources :users
   resources :member_account_bookings
+
+
 
   match 'member_report' => 'member_report#index'
 
@@ -53,7 +84,15 @@ BDZAdmin::Application.routes.draw do
 		get :members
 		get :orch
 		get :person
-    end 
+    end
+	collection do
+		get :create_annual_payment
+	end
+  	resources :regional_organization_bookings, :as => :acct_bookings do
+		member do 
+			get 'download'
+		end
+	end
   end
   resources :tariffs
 
@@ -82,12 +121,16 @@ BDZAdmin::Application.routes.draw do
   end
   
   resources :orchestras do
+	resources :report_sheet_inputs
+
     resources :member_account_bookings do
 		member do 
 			get 'download'
 		end
     end
 	resources :member_events
+	resources :orchestra_members
+	resources :orchestra_contacts
     resources :report_sheets
     resources :distinctions do
 		member do
@@ -118,6 +161,7 @@ BDZAdmin::Application.routes.draw do
 		resources :ensemble_concerts
   	end
 
+  # BEGIN PUBLIC NAMESPACE
   namespace :public do 
     resources :addresses
   	resources :courses do
@@ -173,12 +217,57 @@ BDZAdmin::Application.routes.draw do
   end # END NAMESPACE PUBLIC
 
 
+  # the admin  equivalent of the public entities
+    resources :addresses
+  	resources :courses do
+		collection do 
+			get :inactive
+		end
+  	end
+
+    resources :honor_members
+	resources :countries do
+		resources :states
+	end
+
+  	resources :ensembles do
+		resources :ensemble_concerts
+  	end
+
+  	resources :concerts do
+		collection do 
+			get :inactive
+		end
+  	end
+
+  	resources :composers
+  	resources :contests do
+		collection do
+			get :inactive
+		end
+  	end
+
+  	resources :festivals do
+		#    collection do 
+		#      get :public
+		#    end
+    	resources :concerts
+ 	 end
+  	resources :composers
+  	resources :universities
+  	resources :urls 
+  	resources :url_categories do
+    	resources :urls
+  	end
+
+
 # automated controllers 
   namespace :cron do
  	match 'invoices/gen_all' => 'invoices#gen_all'
  	match 'invoices/gen_orchestras' => 'invoices#gen_orchestras'
  	match 'invoices/gen_persons' => 'invoices#gen_persons'
  	match 'invoices/ping' => 'invoices#ping'
+	match 'lv_dtaus/index' => 'lv_dtaus#index'
     match 'reminders/report_sheet' => 'reminders#report_sheet'
     match 'reminders/payment' => 'reminders#payment'
 	# TODO: These aren't resources!

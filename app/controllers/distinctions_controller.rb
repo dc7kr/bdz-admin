@@ -14,7 +14,7 @@ class DistinctionsController < AuthenticatedController
 	if (@distinction.orchestra.za =='L') then
 		File.open(@dw.ctlFile,"w") {|dtafile|
         	@dw.outfile(dtafile)
-        	@dw.writeDtausHeader()
+        	@dw.writeDtausHeader(true)
 			amount = "%.2f" % @distinction.calcSum
 			@dw.writeDtausEntry(@orchestra.cleanOrchName,String(@orchestra.konto),@orchestra.blz,amount, @invoiceNumber)
 		}

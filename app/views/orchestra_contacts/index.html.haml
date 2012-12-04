@@ -1,0 +1,23 @@
+.block
+  .secondary-navigation
+    =render :partial=>'nav'
+  .content
+    %h2.title
+      = t("orchestra_contact.title")
+      = @orchestra.mglnr
+    .inner
+      %table.table
+        %thead
+          %th.first=t("orchestra_contact.role")
+          %th= sortable "first_name", t("orchestra_contact.first_name")
+          %th= sortable "last_name", t("orchestra_contact.last_name")
+          %th= sortable "email", t("orchestra_contact.email")
+          %th= sortable "phone", t("orchestra_contact.phone")
+          %th.last &nbsp;
+        %tbody#orchestra_contacts
+          =render @orchestra_contacts
+      #paginator
+        = paginate @orchestra_contacts, :remote=>true
+      .actions-bar.wat-cf
+        .actions
+- content_for :sidebar, render(:partial => 'sidebar')

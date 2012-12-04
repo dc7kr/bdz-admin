@@ -5,7 +5,7 @@
   %table
     %tr
       %td= f.label :booking_type, t("booking.booking_type"), :class => :label
-      %td= f.select :booking_type, options_for_select([["Beitrag", "B"], ["Lastschrift", "L"],  ["Gutschrift", "G"], ["Ehrungsrechnung","E"],["Rücklastschrift","R"],["Zahlungseingang","Z"]],:selected=>@booking.booking_type)
+      %td= f.select :booking_type, options_for_select([[t('booking.booking_type_A'),"A"],[t('booking.booking_type_B'), "B"], [t('booking.booking_type_L'), "L"],  [t('booking.booking_type_G'), "G"], [t('booking.booking_type_E'),"E"],[t('booking.booking_type_R'),"R"],[t('booking.booking_type_Z'),"Z"]],:selected=>@booking.booking_type)
     %tr
       %td= f.label :booking_year, t("booking.booking_year")
       %td= f.number_field :booking_year, :class => 'number_field'

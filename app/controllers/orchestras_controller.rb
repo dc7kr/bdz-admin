@@ -5,7 +5,8 @@ class OrchestrasController < AuthenticatedController
   # for table sort by column click
   helper_method :sort_column, :sort_direction
 
-
+  include UploadHelper
+  include ReportSheetUploadHelper
   #
   #  JSON ONLY 
   #
@@ -69,7 +70,14 @@ class OrchestrasController < AuthenticatedController
 
 	@result = Array.new
 	@orchestras.each do |orchestra|
-		if ( 'L' != orchestra.orch_type && ! @ids.include?(orchestra.id) && orchestra.lastReportSheet.calcZeitungen > 0) then
+		if ( not @ids.include?(orchestra.id) && orchestra.lastReportSheet.calcZeitungen > 0) then
+
+			mag_count=nil
+			if ( orchestra.orch_type == 'O' ) then
+				mag_count = orchestra.currentMagazines
+			else
+				mag_count = 2
+			end
 		  @csvrow = {:name=> orchestra.orchName,
 			:mglnr=>orchestra.mglnr,
 			:fullname=>orchestra.fullname,
@@ -79,7 +87,7 @@ class OrchestrasController < AuthenticatedController
 			:plz=>orchestra.plz,
 			:ort=>orchestra.ort,
 			:land=>orchestra.letterCountry,
-			:magazines=>orchestra.currentMagazines
+			:magazines=>mag_count
 
 		  }
 		  @result << @csvrow
@@ -102,7 +110,7 @@ class OrchestrasController < AuthenticatedController
     "Zeitungen"
     ]
 	@nr=1
-    @result.sort_by { |item| item[:magazines]}.each do |data|
+    @result.sort_by { |item| [item[:magazines],item[:mglnr]]}.each do |data|
 		csv << [
 			@nr,
             data[:mglnr],
@@ -126,13 +134,13 @@ class OrchestrasController < AuthenticatedController
   	flash[:notice] = "Export complete!"
   end
   def nopayment
+	@previousYear = (Time.now.year-1).to_s
 	if (params[:lastyear] != nil ) then
-		@accounts = MemberAccountBooking.where("booking_year < ?", params[:lastyear]).sum(:amount,:group=>:member_id)
-		@lastyear=params[:lastyear]
+		@lastyear= params[:lastyear]
+		@accounts = MemberAccountBooking.where("booking_year < ?", @lastyear).sum(:amount,:group=>:member_id)
 	else
 		@accounts = MemberAccountBooking.sum(:amount,:group=>:member_id)
 	end
-
 
 	@ids = Set.new
 	@accounts.each do |account|
@@ -157,14 +165,15 @@ class OrchestrasController < AuthenticatedController
   def gema
     currentYear = String(Time.now.year)
     respond_to do |format|
-      @orchestras = Orchestra.includes(:member,:report_sheets).where("report_sheets.year = ? and members.mglnr < 20000",currentYear).order("members.mglnr")
+      @orchestras = Orchestra.includes(:member,:report_sheets).where("report_sheets.year = ? and members.mglnr < 20000 and orchestras.orch_type <>'K'",currentYear).order("members.mglnr")
       format.csv { render :csv => @orchestras, :style=>:gema, :filename => "gema"+Time.now.year.to_s }
 		format.json { render :json => @orchestras }
     end
   end
 
   def index
-    @orchestras = Orchestra.includes(:member).search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(10)
+	@previousYear = (Time.now.year-1).to_s
+    @orchestras = Orchestra.includes(:member).search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
 
     respond_to do |format|
       format.html {
@@ -215,6 +224,7 @@ class OrchestrasController < AuthenticatedController
     @orchestra = Orchestra.find(params[:id])
   end
 
+
   # POST /orchestras
   # POST /orchestras.json
   def create
@@ -262,10 +272,10 @@ class OrchestrasController < AuthenticatedController
     Member.column_names.include?(params[:sort]) ? "members."+params[:sort] :
     Orchestra.column_names.include?(params[:sort]) ? params[:sort] : "members.mglnr"
   end
-	private
-		def renderNoPayOds(filename,accounts,orchestras)
+  private
+  def renderNoPayOds(filename,accounts,orchestras)
 			ODF::Spreadsheet.file(filename) do
-				table "No payment" do
+				table "Nopayment" do
 	    			orchestras.each do |o|
 						row {
 							cell o.mglnr.to_s
@@ -274,7 +284,7 @@ class OrchestrasController < AuthenticatedController
 							cell accounts[o.member_id],:type=>:float
 						}
 					end
-  				end
-			end
-		end
+      end
+    end
+  end
 end

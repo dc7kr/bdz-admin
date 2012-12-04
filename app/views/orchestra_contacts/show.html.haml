@@ -1,0 +1,36 @@
+.block
+  .secondary-navigation
+    = render :partial=>'nav'
+  .content
+    .inner
+      %table
+        %tr
+          %td.label #{t("orchestra_contact.role")}:
+          %td=t('orchestra_contact.role_'+@orchestra_contact.role)
+        %tr
+          %td.label #{t("orchestra_contact.salutation")}:
+          %td=@orchestra_contact.salutation
+        %tr
+          %td.label #{t("orchestra_contact.first_name")}:
+          %td=@orchestra_contact.first_name
+        %tr
+          %td.label #{t("orchestra_contact.last_name")}:
+          %td=@orchestra_contact.last_name
+        %tr
+          %td.label #{t("orchestra_contact.street")}:
+          %td=@orchestra_contact.street
+        %tr
+          %td.label #{t("orchestra_contact.zip")}:
+          %td=@orchestra_contact.zip
+        %tr
+          %td.label #{t("orchestra_contact.city")}:
+          %td=@orchestra_contact.city
+        %tr
+          %td.label #{t("orchestra_contact.country")}:
+          %td=@orchestra_contact.country
+        %tr
+          %td.label #{t("orchestra_contact.email")}:
+          %td=mail_to @orchestra_contact.email,@orchestra_contact.email
+        %tr
+          %td.label #{t("orchestra_contact.phone")}:
+          %td=@orchestra_contact.phone
