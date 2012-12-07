@@ -125,7 +125,7 @@ class Orchestra < ActiveRecord::Base
   end
 
   def fullname
-	member.anrede+" "+member.fullname
+	I18n.t("common.salutation_d."+member.anrede)+" "+member.fullname
   end
 
   def address

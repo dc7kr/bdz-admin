@@ -52,15 +52,23 @@ def link_to_generated_download_path(txt,path)
 		link_to image_tag('/assets/icons/download.png', {:size=>'16x16',:alt=>txt,:title=>txt,:class=>'btn'}),path
 	end
 end
+
+
+def icon_link(txt,img,path)
+    link_to image_tag(img, {:size=>'16x16',:alt=>txt,:title=>txt,:class=>'btn'} ),path
+end
+
 def link_to_download_path(txt,path,entity)
 	if entity.has_attachment? and can? :read, entity then
-    	link_to image_tag('/assets/icons/download.png', {:size=>'16x16',:alt=>txt,:title=>txt,:class=>'btn'} ),path
+    	icon_link(txt,'/assets/icons/download.png', path)
     end
 end
 
 def link_back(txt)
-    link_to image_tag('/assets/icons/back.png', {:size=>'16x16',:alt=>txt,:title=>txt,:class=>'btn'} ),url_for(:back)
+	icon_link(txt,'/assets/icons/back.png',url_for(:back))
 end
+
+
 def wizard_forward_button(txt,path)
     link_to image_tag('web-app-theme/icons/tick.png', {:size=>'16x16',:alt=>txt,:title=>txt,:class=>'btn'} )+" "+txt,path, :class => "text_button_padding button"
 end

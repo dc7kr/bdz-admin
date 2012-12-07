@@ -121,6 +121,10 @@ BDZAdmin::Application.routes.draw do
   end
   
   resources :orchestras do
+    member do 
+     get :gen_rsi
+    end
+
 	resources :report_sheet_inputs
 
     resources :member_account_bookings do
@@ -153,13 +157,20 @@ BDZAdmin::Application.routes.draw do
 	resources :member_account_bookings
   end
 
-  resources :concerts
-  	resources :ensembles do
+  resources :concerts do
+    collection do 
+		get :inactive
+	end
+	member do
+		get :confirm
+	end
+  end
+  resources :ensembles do
 		collection do 
 			get :inactive
 		end
 		resources :ensemble_concerts
-  	end
+  end
 
   # BEGIN PUBLIC NAMESPACE
   namespace :public do 

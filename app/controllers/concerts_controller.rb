@@ -69,6 +69,14 @@ class ConcertsController < AuthenticatedController
     end
   end
 
+  def confirm
+	@concert = Concert.find(params[:id])
+
+	@concert.confirmed = Time.now
+	@concert.visible= true
+	@concert.save
+    redirect_to concert_path(@concert), :notice => t('concerts.confirm_success')
+  end
   # GET /concerts/1/edit
   def edit
     @concert = Concert.find(params[:id])

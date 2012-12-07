@@ -1,24 +1,32 @@
-%p#notice= notice
-
-%p
-  %b Name:
-  = @ensemble.name
-%p
-  %b Homepage:
-  = @ensemble.homepage
-%p
-  %b Beschreibung:
-  = @ensemble.beschreibung
-%p
-  %b Email:
-  = @ensemble.email
-%p
-  %b Owner:
-  = @ensemble.owner
-%p
-  %b Visible:
-  = @ensemble.visible
-
-= link_to_edit( edit_ensemble_path(@ensemble),'Edit')
-\|
-= link_back t('common.back')
+.block
+  .secondary-navigation
+    %ul.wat-cf
+      =render :partial => 'nav'
+  .content
+    %h2.title
+      = t("common.all", :default => "All")
+      = t("ensemble.title")
+    .inner
+      %p#notice= notice
+      %p
+        %b Name:
+        = @ensemble.name
+      %p
+        %b Homepage:
+        = @ensemble.homepage
+      %p
+        %b Beschreibung:
+        = @ensemble.beschreibung
+      %p
+        %b Email:
+        = @ensemble.email
+      %p
+        %b Owner:
+        = @ensemble.owner
+      %p
+        %b Visible:
+        = @ensemble.visible
+      
+      = link_to_edit( @ensemble,t('common.edit'))
+      \|
+      = link_back t('common.back')
