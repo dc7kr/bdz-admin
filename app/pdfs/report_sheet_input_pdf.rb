@@ -14,7 +14,8 @@ class ReportSheetInputPdf< Prawn::Document
     rsi_head
 	addresses
 	orch_contacts
-	orch_members
+	report_sheet
+	#orch_members
 	part4
   end
   
@@ -63,6 +64,26 @@ class ReportSheetInputPdf< Prawn::Document
     end
   end
 
+  def report_sheet 
+    move_down 20
+	text "1. Beitragspflichtige Mitglieder", style: :bold, size: 20
+    table report_sheet_rows do
+      column(0).font_style = :bold
+      columns(1).align = :right
+    end
+  end
+
+  def report_sheet_rows
+	[
+		[@view.t('report_sheet.children'),@rsi.report_sheet.children],
+		[@view.t('report_sheet.teens'),@rsi.report_sheet.teens],
+		[@view.t('report_sheet.youth'),@rsi.report_sheet.youth],
+		[@view.t('report_sheet.adult'),@rsi.report_sheet.adult],
+		[@view.t('report_sheet.senior'),@rsi.report_sheet.senior]
+
+	]
+  end
+
   def orch_members
     move_down 20
 	text "Mitgliederliste", style: :bold
@@ -93,7 +114,7 @@ class ReportSheetInputPdf< Prawn::Document
   def part4
     move_down 20
 
-	text "1.Mitglieder in Ausbildung", style: :bold, size: 20
+	text "2. Mitglieder in Ausbildung", style: :bold, size: 20
 
 	rows = [
 	[@view.t('report_sheet.azubi_child'),@rs.azubi_child],
@@ -110,7 +131,7 @@ class ReportSheetInputPdf< Prawn::Document
     end
 
     move_down 20
-	text "2. Anzahl der passiven Mitglieder (nicht beitragspflichtig)", style: :bold, size: 20
+	text "3. Anzahl der passiven Mitglieder (nicht beitragspflichtig)", style: :bold, size: 20
 
 	rows = [[@view.t('report_sheet.passive'),@rs.passive ],
 			[@view.t('report_sheet.supporters'),@rs.supporters]]
@@ -123,7 +144,7 @@ class ReportSheetInputPdf< Prawn::Document
     end
 
     move_down 20
-	text "3. Anzahl der Ensembles / Orchester im Verein", style: :bold, size: 20
+	text "4. Anzahl der Ensembles / Orchester im Verein", style: :bold, size: 20
 
 	rows = [
 		[@view.t('report_sheet.child_ens'),@rs.child_ens],
@@ -140,7 +161,7 @@ class ReportSheetInputPdf< Prawn::Document
     end
 
     move_down 20
-	text "4. Instrumentierung", style: :bold, size: 20
+	text "5. Instrumentierung", style: :bold, size: 20
 	rows = [
 		[@view.t('report_sheet.zo'), check_txt(@rs.zo)],
 		[@view.t('report_sheet.zi_o'),check_txt(@rs.zi_o)],
@@ -152,9 +173,7 @@ class ReportSheetInputPdf< Prawn::Document
       columns(1).align = :left
       self.header = true
     end
-
   end
-
 
   def price(num)
     @view.number_to_currency(num)

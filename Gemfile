@@ -31,6 +31,12 @@ gem 'json'
 
 gem 'prawn'
 
+# markdown to html
+gem 'bluecloth'
+#markdown to pdf
+gem 'gimli'  
+
+
 gem 'dynamic_form'
 #gem 'formtastic'
 gem 'valid_email'

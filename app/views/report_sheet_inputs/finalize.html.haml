@@ -45,7 +45,24 @@
               %td=@contacts[r].phone
               %td=@contacts[r].email
 
-       
+
+      %h3 Beitragspflichtige Mitglieder
+      %table
+        %tr
+          %td.label=t('report_sheet.children')
+          %td=@rs.children
+        %tr
+          %td.label=t('report_sheet.teens')
+          %td=@rs.teens
+        %tr
+          %td.label=t('report_sheet.youth')
+          %td=@rs.youth
+        %tr
+          %td.label=t('report_sheet.adult')
+          %td=@rs.adult
+        %tr
+          %td.label=t('report_sheet.senior')
+          %td=@rs.senior
       %h3 Mitglieder
       %table
         -ReportSheet.age_categories.each do |cat|

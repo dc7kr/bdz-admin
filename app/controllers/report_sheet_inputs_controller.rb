@@ -184,6 +184,25 @@ class ReportSheetInputsController < ApplicationController
 			@report_sheet_input = ReportSheetInput.find(params[:id])
 			@rs = @report_sheet_input.report_sheet
 
+			age_categories = ReportSheet.age_categories
+			ages = Hash.new
+
+			age_categories.each do |c| 
+				ages[c]=0
+			end
+			
+
+			@report_sheet_input.orchestra.orchestra_members.each do |m|
+				ages[m.age_category(@rs.year)]+=1
+			end
+
+			@rs.children = ages["C"];
+			@rs.teens = ages["T"];
+			@rs.youth = ages["Y"];
+			@rs.adult = ages["A"];
+			@rs.senior= ages["S"];
+			@rs.save
+
 			respond_to do |format|
 				format.html { 
 					if ( @rs.update_attributes(params[:report_sheet]) ) then 
@@ -327,7 +346,7 @@ class ReportSheetInputsController < ApplicationController
 
 				doc = open_report_spreadsheet(@att_file,uploaded_file)
 				if ( doc == nil ) then
-      	  redirect_to step3_report_sheet_input_path(@report_sheet_input), :flash => { :error => t('orchestra.invalid_report_sheet_upload') } 
+      	  			redirect_to step3_report_sheet_input_path(@report_sheet_input), :flash => { :error => t('orchestra.invalid_report_sheet_upload') } 
 				else
 					read_report(doc,@orchestra)
 					if ( @error_count > 0 ) then 

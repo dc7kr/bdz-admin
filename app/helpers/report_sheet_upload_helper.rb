@@ -35,26 +35,36 @@ def read_members(doc,orchestra)
   i=0
   @error_count=0
   @success_count=0
+
   2.upto(doc.last_row) do |line|
     if (doc.cell(line,'A') != nil ) then
       i=i+1
       first_name = doc.cell(line,'A')
       last_name = doc.cell(line,'B')
-	  dob_celltype = doc.celltype(line,'C')
+      
+      member_id = doc.cell(line,'C')
+
+	  dob_celltype = doc.celltype(line,'D')
 	  date_of_birth=nil
 	  if ( dob_celltype == :date ) then 
-        date_of_birth =doc.cell(line,'C')
-	  else 
-      	year_of_birth = float_to_int(doc.cell(line,'C'))
+        date_of_birth =doc.cell(line,'D')
+	  elsif (dob_celltype == :string ) then 
+		year_of_birth = doc.cell(line,'D').to_i
+		date_of_birth = Date.new(year_of_birth,1,1)
+	  else  
+      	year_of_birth = float_to_int(doc.cell(line,'D'))
 		date_of_birth = Date.new(year_of_birth,1,1)
 	  end
-      instrument = doc.cell(line,'D')
+      instrument = doc.cell(line,'E')
 
       Rails.logger.info i.to_s+":"+first_name+" "+last_name+"###"+date_of_birth.to_s+"###"+instrument
 	  c = OrchestraMember.new
 	  c.first_name = first_name
 	  c.last_name = last_name
 	  c.date_of_birth = date_of_birth
+      if member_id != nil then
+		c.mglnr = member_id
+      end
 	  c.instrument = instrument
 	  c.orchestra = orchestra
       begin 

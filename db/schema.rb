@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121201225555) do
+ActiveRecord::Schema.define(:version => 20121209132310) do
 
   create_table "addresses", :force => true do |t|
     t.string "anrede",             :limit => 10,  :null => false
@@ -1999,8 +1999,10 @@ ActiveRecord::Schema.define(:version => 20121201225555) do
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
     t.string   "instrument"
+    t.integer  "mglnr"
   end
 
+  add_index "orchestra_members", ["orchestra_id", "first_name", "last_name", "date_of_birth"], :name => "orchestra_id", :unique => true
   add_index "orchestra_members", ["orchestra_id"], :name => "index_orchestra_members_on_orchestra_id"
 
   create_table "orchestras", :force => true do |t|
