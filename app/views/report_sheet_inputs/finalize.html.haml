@@ -11,7 +11,11 @@
           %td=@report_sheet_input.orchestra.orchName
         %tr
           %td.label_l=t('orchestra.gruendung')
-          %td=l @report_sheet_input.orchestra.gruendung
+          %td
+            - if @report_sheet_input.orchestra.gruendung != nil then
+              =l @report_sheet_input.orchestra.gruendung
+            -else 
+              &nbsp; 
         %tr
           %td.label_l=t('orchestra.contact')
           %td
