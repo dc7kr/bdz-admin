@@ -18,15 +18,14 @@ class KontoValidator < ActiveModel::EachValidator
 				when KtoBlzCheck::OK
 					return
 				when KtoBlzCheck::UNKNOWN
-	  				record.errors[attribute] << (options[:message] || I18n.t("errors.konto.error"))
+	  				record.errors[attribute] << ": "+(options[:message] || I18n.t("errors.konto.error"))
 					record.errors[attribute] << name
 					return
 				when KtoBlzCheck::ERROR
-	  				record.errors[attribute] << (options[:message] || I18n.t("errors.konto.invalid")) 
-					record.errors[attribute] << name
+	  				record.errors[attribute] << ": "+(options[:message] || I18n.t("errors.konto.invalid") + " ("+name+")") 
 					return
 				when KtoBlzCheck::BANK_NOT_KNOWN
-	  				record.errors[attribute] << (options[:message] || I18n.t("errors.konto.bank_unknown")) 
+	  				record.errors[attribute] << ": "+(options[:message] || I18n.t("errors.konto.bank_unknown")) 
 					return
 			end
 		  end

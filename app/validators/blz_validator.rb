@@ -6,7 +6,7 @@ class BlzValidator < ActiveModel::EachValidator
     if ( ! value || value.length ==0 ) then
 		if ( record.za == 'L' ) 
 		then 
-			record.errors[attribute] << (options[:message] || I18n.t("errors.blz.required_by_za"))
+			record.errors[attribute] << ": "+(options[:message] || I18n.t("errors.blz.required_by_za"))
 		end
 		return
     end
