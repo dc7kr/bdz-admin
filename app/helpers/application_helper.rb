@@ -1,5 +1,9 @@
 module ApplicationHelper
 
+  def is_production?
+	ENV["RAILS_ENV"] == "production"
+  end
+
   def t_opts(group,field,data)
   
 	tags = Array.new
@@ -11,8 +15,9 @@ module ApplicationHelper
 
 	tags
   end
+
   def title
-	if ENV["RAILS_ENV"] == "production" 
+	if is_production?
 		"BDZ Admin Interface"
 	else
 		"Dev. Instance BDZ Admin (DON'T USE FOR PRODUCTION!)"
