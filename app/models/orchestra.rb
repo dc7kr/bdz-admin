@@ -125,7 +125,11 @@ class Orchestra < ActiveRecord::Base
   end
 
   def fullname
-	I18n.t("common.salutation_d."+member.anrede)+" "+member.fullname
+	if ( member.anrede != nil && member.anrede.length > 0 ) then
+		I18n.t("common.salutation_d."+member.anrede)+" "+member.fullname
+	else
+		member.fullname
+	end
   end
 
   def address
@@ -145,5 +149,9 @@ class Orchestra < ActiveRecord::Base
   end
   def is_regular?
 	orch_type == 'O'
+  end
+
+  def has_event?(event_type,event_id)
+	member.has_event?(event_type,event_id)
   end
 end

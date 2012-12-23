@@ -12,6 +12,10 @@ class Member < ActiveRecord::Base
 
   has_many :member_account_bookings
 
+  def has_event?(event_type,event_id)
+	MemberEvent.where("member_id = :id and event_t = :event_type and event_id = :event_id",:event_id=>event_id,:event_type=>event_type,:id=>id)
+  end
+
   def fullname 
      result =''
      if ( vorname ) 
