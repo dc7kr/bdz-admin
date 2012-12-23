@@ -137,6 +137,10 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def is_production?
+    ENV["RAILS_ENV"] == "production"
+  end
+
   def current_area
 	if @@web_area[@current_controller] then
 		@@web_area[@current_controller]
