@@ -33,6 +33,7 @@ class ReportSheetMailingsController < AuthenticatedNonResourceController
 	def gen_mailings
   		authorize! :index, Orchestra
 
+		@skipCount =0;
 		@orchCount =0;
 		@orchFailCount=0;
 		@letterCount = 0;
@@ -56,33 +57,40 @@ class ReportSheetMailingsController < AuthenticatedNonResourceController
 		to_merge = Array.new
 
 		@orchestras.each do |orchestra|
-		@rsi = ReportSheetInput.for_orchestra_and_year(orchestra,rs_year)
 
-		mailing_pdf = gen_anschreiben(orchestra,@rsi);
+			@rsi = ReportSheetInput.for_orchestra_and_year(orchestra,rs_year)
 
-	   	@att_file = "Anschreiben_Meldebogen_"+rs_year.to_s+".pdf"
-		pdf = File.new(mailing_pdf)
-		@att_data = pdf.read
-		pdf.close
+			mailing_pdf = gen_anschreiben(orchestra,@rsi);
+
+	   		@att_file = "Anschreiben_Meldebogen_"+rs_year.to_s+".pdf"
+			pdf = File.new(mailing_pdf)
+			@att_data = pdf.read
+			pdf.close
 		
-		if (orchestra.email != nil and orchestra.email.length > 0 ) then
-				begin 
-					ReportSheetInputMailer.notify(@rsi,rs_year,@att_file,@att_data).deliver
-					recordMailSuccess(event_id,orchestra.id, "Meldebogen Anschreiben",mailing_pdf)
-					@orchCount=@orchCount+1
-				rescue
-					recordMailFailure(event_id,orchestra.id,orchestra.email,$!)
-					@result = { :err=>$!, :entity=>orchestra,:type =>"O"}
-					@results.push(@result)
-					@orchFailCount+=1
-					# if mail fails we send a PDF via snail mail ;)
-					to_merge << mailing_pdf
-					recordLetter(event_id,orchestra.id,mailing_pdf)
+			if (orchestra.email != nil and orchestra.email.length > 0 ) then
+				if ( orchestra.has_event?('E',event_id))
+					@skipCount+=1
+				else 
+					begin 
+						ReportSheetInputMailer.notify(@rsi,rs_year,@att_file,@att_data).deliver
+						recordMailSuccess(event_id,orchestra.id, "Meldebogen Anschreiben",mailing_pdf)
+						@orchCount=@orchCount+1
+					rescue
+						recordMailFailure(event_id,orchestra.id,orchestra.email,$!)
+						@result = { :err=>$!, :entity=>orchestra,:type =>"O"}
+						@results.push(@result)
+						@orchFailCount+=1
+						# if mail fails we send a PDF via snail mail ;)
+						to_merge << mailing_pdf
+						@letterCount+=1
+						recordLetter(event_id,orchestra.id,mailing_pdf)
+					end
 				end
-		else
-			@letterCount+=1
-			to_merge << mailing_pdf
-		end
+			else
+				@letterCount+=1
+				recordLetter(event_id,orchestra.id,mailing_pdf)
+				to_merge << mailing_pdf
+			end
 	end
 
 	if ( to_merge.size > 0 ) then
