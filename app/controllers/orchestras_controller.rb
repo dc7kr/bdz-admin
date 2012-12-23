@@ -205,6 +205,8 @@ class OrchestrasController < AuthenticatedController
   def show
     @orchestra = Orchestra.includes(:report_sheets).find(params[:id])
     @report_sheets = @orchestra.report_sheets 
+
+
     respond_to do |format|
       format.html # show.html.erb
       format.json { render :json => @orchestra }

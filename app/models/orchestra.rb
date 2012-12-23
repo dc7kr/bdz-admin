@@ -151,6 +151,10 @@ class Orchestra < ActiveRecord::Base
 	orch_type == 'O'
   end
 
+  def has_notify_event?(event_id)
+	member.has_event?(['E','L'],event_id)
+  end
+
   def has_event?(event_type,event_id)
 	member.has_event?(event_type,event_id)
   end

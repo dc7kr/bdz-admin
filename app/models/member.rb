@@ -13,7 +13,11 @@ class Member < ActiveRecord::Base
   has_many :member_account_bookings
 
   def has_event?(event_type,event_id)
-	MemberEvent.where("member_id = :id and event_t = :event_type and event_id = :event_id",:event_id=>event_id,:event_type=>event_type,:id=>id)
+	if event_type.kind_of?(Array) then
+		MemberEvent.where("member_id = :id and event_type in (:event_type) and event_id = :event_id",:event_id=>event_id,:event_type=>event_type,:id=>id).count > 0
+	else 
+		MemberEvent.where("member_id = :id and event_type = :event_type and event_id = :event_id",:event_id=>event_id,:event_type=>event_type,:id=>id).count > 0
+	end
   end
 
   def fullname 

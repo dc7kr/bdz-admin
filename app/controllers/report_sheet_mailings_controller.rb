@@ -57,20 +57,19 @@ class ReportSheetMailingsController < AuthenticatedNonResourceController
 		to_merge = Array.new
 
 		@orchestras.each do |orchestra|
+			if ( orchestra.has_notify_event?(event_id))
+				@skipCount+=1
+			else 
+				@rsi = ReportSheetInput.for_orchestra_and_year(orchestra,rs_year)
 
-			@rsi = ReportSheetInput.for_orchestra_and_year(orchestra,rs_year)
+				mailing_pdf = gen_anschreiben(orchestra,@rsi);
 
-			mailing_pdf = gen_anschreiben(orchestra,@rsi);
+	   			@att_file = "Anschreiben_Meldebogen_"+rs_year.to_s+".pdf"
+				pdf = File.new(mailing_pdf)
+				@att_data = pdf.read
+				pdf.close
 
-	   		@att_file = "Anschreiben_Meldebogen_"+rs_year.to_s+".pdf"
-			pdf = File.new(mailing_pdf)
-			@att_data = pdf.read
-			pdf.close
-		
-			if (orchestra.email != nil and orchestra.email.length > 0 ) then
-				if ( orchestra.has_event?('E',event_id))
-					@skipCount+=1
-				else 
+				if (orchestra.email != nil and orchestra.email.length > 0 ) then
 					begin 
 						ReportSheetInputMailer.notify(@rsi,rs_year,@att_file,@att_data).deliver
 						recordMailSuccess(event_id,orchestra.id, "Meldebogen Anschreiben",mailing_pdf)
@@ -85,30 +84,30 @@ class ReportSheetMailingsController < AuthenticatedNonResourceController
 						@letterCount+=1
 						recordLetter(event_id,orchestra.id,mailing_pdf)
 					end
-				end
-			else
-				@letterCount+=1
-				recordLetter(event_id,orchestra.id,mailing_pdf)
-				to_merge << mailing_pdf
-			end
-	end
+				else
+					@letterCount+=1
+					recordLetter(event_id,orchestra.id,mailing_pdf)
+					to_merge << mailing_pdf
+				end # has email 
+			end # not yet handled
+		end # orchestras.each 
+		# POST loop
+		if ( to_merge.size > 0 ) then
+			docs_dir = BDZ_SETTINGS['docs_archive_dir']+"/"+rs_year.to_s
+			date_prefix = Time.now.strftime '%Y%m%d%H%M%S_'
+			out_file = date_prefix+"anschreiben_merge.pdf"
 
-	if ( to_merge.size > 0 ) then
-		docs_dir = BDZ_SETTINGS['docs_archive_dir']+"/"+rs_year.to_s
-		date_prefix = Time.now.strftime '%Y%m%d%H%M%S_'
-		out_file = date_prefix+"anschreiben_merge.pdf"
+    		merge_pdfs(docs_dir, to_merge,out_file)
+   			base_url = cron_downloads_url
+   			doc_url = base_url+"?year="+rs_year.to_s+"&filename="+out_file
 
-	    merge_pdfs(docs_dir, to_merge,out_file)
-    	base_url = cron_downloads_url
-    	doc_url = base_url+"?year="+rs_year.to_s+"&filename="+out_file
+			@users = admin_notify_users
 
-		@users = admin_notify_users
-
-    	@users.each do |user|
-        	AdminNotifier.report_sheet_notification(user, doc_url,@current_user).deliver
-        	Rails.logger.info 'sent to %s' % user.email
-    	end
-	end
+   			@users.each do |user|
+       			AdminNotifier.report_sheet_notification(user, doc_url,@current_user).deliver
+       			Rails.logger.info 'sent to %s' % user.email
+   			end
+		end
   end
 
   def recordMailSuccess(event_id,id,subject,filename)
