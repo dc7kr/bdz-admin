@@ -1,6 +1,8 @@
 class ReportSheetMailingsController < AuthenticatedNonResourceController
 
 	include PDFHelper
+	include NotifyHelper
+
 	def gen_data
   		authorize! :index, Orchestra
 		rs_year = params[:year].to_i
@@ -52,6 +54,7 @@ class ReportSheetMailingsController < AuthenticatedNonResourceController
 		end
 
 		to_merge = Array.new
+
 		@orchestras.each do |orchestra|
 		@rsi = ReportSheetInput.for_orchestra_and_year(orchestra,rs_year)
 
@@ -81,8 +84,24 @@ class ReportSheetMailingsController < AuthenticatedNonResourceController
 			to_merge << mailing_pdf
 		end
 	end
-	#	// TODO MERGE PDFS!!!
+
+	if ( to_merge.size > 0 ) then
+		docs_dir = BDZ_SETTINGS['docs_archive_dir']+"/"+rs_year.to_s
+		date_prefix = Time.now.strftime '%Y%m%d%H%M%S_'
+		out_file = date_prefix+"anschreiben_merge.pdf"
+
+	    merge_pdfs(docs_dir, to_merge,out_file)
+    	base_url = cron_downloads_url
+    	doc_url = base_url+"?year="+year+"&filename="+out_file
+
+		@users = admin_notify_users
+
+    	@users.each do |user|
+        	AdminNotifier.report_sheet_notification(user, doc_url,@current_user).deliver
+        	Rails.logger.info 'sent to %s' % user.email
+    	end
 	end
+  end
 
   def recordMailSuccess(event_id,id,subject,filename)
 	event = MemberEvent.newEmail(event_id,id,subject)
