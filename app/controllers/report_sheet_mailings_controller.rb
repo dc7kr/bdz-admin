@@ -48,9 +48,9 @@ class ReportSheetMailingsController < AuthenticatedNonResourceController
 		event_id = "MB_"+rs_year.to_s
 
 		if ( is_production? ) then
-			@orchestras = Orchestra.includes(:member).where("members.mglnr=99999")
+			@orchestras = Orchestra.includes(:member)
 		else 
-			@orchestras = Orchestra.includes(:member).where("members.mglnr=1045")
+			@orchestras = Orchestra.includes(:member).where("members.mglnr in (1045,7043,1006,1019,3021)")
 		end
 
 		to_merge = Array.new
@@ -65,7 +65,7 @@ class ReportSheetMailingsController < AuthenticatedNonResourceController
 		@att_data = pdf.read
 		pdf.close
 		
-		if (orchestra.email != nil ) then
+		if (orchestra.email != nil and orchestra.email.length > 0 ) then
 				begin 
 					ReportSheetInputMailer.notify(@rsi,rs_year,@att_file,@att_data).deliver
 					recordMailSuccess(event_id,orchestra.id, "Meldebogen Anschreiben",mailing_pdf)
@@ -92,7 +92,7 @@ class ReportSheetMailingsController < AuthenticatedNonResourceController
 
 	    merge_pdfs(docs_dir, to_merge,out_file)
     	base_url = cron_downloads_url
-    	doc_url = base_url+"?year="+year+"&filename="+out_file
+    	doc_url = base_url+"?year="+rs_year.to_s+"&filename="+out_file
 
 		@users = admin_notify_users
 
