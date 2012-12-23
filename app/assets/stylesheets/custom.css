@@ -31,9 +31,9 @@ td.currency {
 }
 
 #errorExplanation {
-	background-color:#d0d0d0;
+	background-color:white;
 	padding: 5px;
-	border: 1px solid red;
+	border: 2px solid red;
 }
 
 #errorExplanation ul {

@@ -34,11 +34,14 @@ de:
     download: Download
     up: Eine Ebene höher
     salutation:
-     M: Herr
-     W: Frau
+      M: Herr
+      W: Frau
     salutation_d:
-     M: Herrn
-     W: Frau
+      M: Herrn
+      W: Frau
+    salutation_full:
+      M: "Sehr geehrter Herr"
+      W: "Sehr geehrte Frau"
 
   time:
     formats:

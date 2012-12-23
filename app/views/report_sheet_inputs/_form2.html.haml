@@ -11,25 +11,25 @@
           %td=cf.select :salutation, options_for_select([[t('common.salutation.M'),"M"],[t('common.salutation.W'), "W"]],:selected=>contact.salutation)
         %tr
           %td= t('orchestra_contact.first_name')
-          %td=cf.text_field(:first_name)
+          %td=cf.text_field :first_name ,:size=>50
         %tr
           %td=t('orchestra_contact.last_name')
-          %td= cf.text_field(:last_name)
+          %td= cf.text_field :last_name ,:size=>50
         %tr
           %td=t('orchestra_contact.street')
-          %td=cf.text_field(:street)
+          %td=cf.text_field :street ,:size=>50
         %tr
           %td=t('orchestra_contact.zip')
-          %td=cf.text_field(:zip)
+          %td=cf.text_field :zip ,:size=>50
         %tr
           %td=t('orchestra_contact.city')
-          %td=cf.text_field(:city)
+          %td=cf.text_field :city ,:size=>50
         %tr
           %td=t('orchestra_contact.email')
-          %td=cf.text_field(:email)
+          %td=cf.text_field :email ,:size=>50
         %tr
           %td=t('orchestra_contact.phone')
-          %td=cf.text_field(:phone)
+          %td=cf.text_field :phone ,:size=>50
   
   .group.navform.wat-cf
     = back_button(step1_report_sheet_input_path(@report_sheet_input))

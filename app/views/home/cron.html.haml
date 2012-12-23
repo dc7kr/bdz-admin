@@ -1,6 +1,10 @@
 .content
   .inner
     .block
-      .block-content
+      .link-group
+        %h3=t('report_sheet.title')
+        %ul.navigation
+          %li= link_to "Meldebogen Anschreiben", "/api/rsm/gen_mailings"
+          %li= link_to "Mahnungen Meldebogen", cron_reminders_report_sheet_path
 - content_for :sidebar, render(:partial => 'sidebar.cron')
 

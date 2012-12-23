@@ -1,5 +1,4 @@
 = form_for @report_sheet_input, :url => submit1_report_sheet_input_path(@report_sheet_input) do |f|
-
   %table.table
     = f.fields_for @report_sheet_input.report_sheet do |rs|
       %tr
@@ -7,8 +6,15 @@
         %td= rs.check_box :uv
     = f.fields_for @report_sheet_input.orchestra do |orch|
       %tr
+        %td{:colspan=>2}
+          .block
+            =orch.error_messages :message => "", :header_tag => :h3
+      %tr
         %td= orch.label :orchName, t('orchestra.orchName'), :class => :label
-        %td= orch.text_field :orchName, :class => 'text_field'
+        %td= orch.text_field :orchName, :class => 'text_field',:size => 50
+      %tr
+        %td= orch.label :gruendung, t('orchestra.gruendung'), :class => :label
+        %td= orch.text_field :gruendung, :class => 'datePicker'
       %tr
         %td= orch.label :anrede, t('member.salutation'),:class => :label
         %td=orch.select :anrede, options_for_select([[t('common.salutation.M'),"M"],[t('common.salutation.W'), "W"]],:selected=>@report_sheet_input.orchestra.anrede)
@@ -36,7 +42,17 @@
         %td= orch.text_field :fax
       %tr
         %td=t('member.email')
-        %td= orch.text_field :email
+        %td= orch.email_field :email
+      - if ( @report_sheet_input.orchestra.za == 'R' ) then 
+        %tr
+          %td= orch.label :za, t('orchestra.za'), :class => :label
+          %td= orch.select :za, options_for_select([["Lastschrift", "L"], ["Rechnung", "R"]],:selected=>@report_sheet_input.orchestra.za) 
+      %tr
+        %td=t('member.konto')
+        %td= orch.text_field :konto
+      %tr
+        %td=t('member.blz')
+        %td= orch.text_field :blz
 
   = submit_button(t("common.save_and_continue"))
   

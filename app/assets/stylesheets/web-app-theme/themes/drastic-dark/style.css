@@ -129,7 +129,7 @@ hr {
   color: #0B43A8;
 }
 
-#sidebar h3 {
+#sidebar h3, .link-group h3 {
   background: #36393d;
   color: #FFF;
   border-bottom: 5px solid #1a1a1a;
@@ -162,7 +162,7 @@ hr {
 	transition: all 0.2s ease-in-out;
 }
 
-#main-navigation ul:hover li a{
+#main-navigation ul:hover li a {
 	color: transparent;
 	text-shadow: 0px 0px 10px #fff;
 	background: rgba(88,22,22,0.2);
@@ -175,13 +175,13 @@ hr {
 	color: #ffffff;
 }
 
-#sidebar ul li a:link, #sidebar ul li a:visited {
+#sidebar ul li a:link, #sidebar ul li a:visited, .link-group ul li a:link, .link-group ul li a:visited {
   background: #FFF;
   border-bottom: 1px solid #F0F0EE;
   text-decoration: none;
 }
 
-#sidebar ul li a:hover, #sidebar ul li a:active {
+#sidebar ul li a:hover, #sidebar ul li a:active, .link-group ul li a:hover, .link-group ul li a:active {
   background: #666666;
   color: #ffffff;;
 }
@@ -399,6 +399,13 @@ ul.list li .item .avatar {
 .secondary-navigation ul li.first {
   -moz-border-radius-topleft: 4px;
   -webkit-border-top-left-radius: 4px;
+}
+
+.link-group, .link-group .block, .link-group ul.navigation  {
+  -moz-border-radius-bottomleft: 4px;
+  -webkit-border-bottom-left-radius: 4px;
+  -moz-border-radius-bottomright: 4px;
+  -webkit-border-bottom-right-radius: 4px;
 }
 
 #sidebar, #sidebar .block, #main .block, #sidebar ul.navigation, ul.list li, #footer .block, .form input.button, #box .block {

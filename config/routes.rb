@@ -1,5 +1,8 @@
 BDZAdmin::Application.routes.draw do
 
+  match 'api/rsm/gen_data' => 'report_sheet_mailings#gen_data'
+  match 'api/rsm/gen_mailings' => 'report_sheet_mailings#gen_mailings'
+
   resources :report_sheet_inputs do
 	collection do 
 		get :login

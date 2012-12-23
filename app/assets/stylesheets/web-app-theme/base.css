@@ -78,10 +78,21 @@ body {
   float: right;      
 }
 
+.link-group h3 {  
+  padding: 10px 15px;
+  margin: 0;
+  font-size: 13px;
+}
+
 #sidebar h3 {  
   padding: 10px 15px;
   margin: 0;
   font-size: 13px;
+}
+
+.link-group {
+  margin-bottom: 20px;
+  padding-bottom: 10px;
 }
 
 #sidebar .block {
@@ -91,6 +102,11 @@ body {
 
 #sidebar .block .content {
   padding: 0 15px;
+}
+
+.link-group ul.navigation li a:link, #sidebar ul.navigation li a:visited {
+  display: block;
+  padding: 10px 15px;
 }
 
 #sidebar ul.navigation li a:link, #sidebar ul.navigation li a:visited {
@@ -129,7 +145,7 @@ body {
   width: 100%;
 }
 
-#user-navigation ul, #main-navigation ul, .secondary-navigation ul, #sidebar ul.navigation {
+#user-navigation ul, #main-navigation ul, .secondary-navigation ul, #sidebar ul.navigation, .link-group ul { 
   margin: 0;
   padding: 0;
   list-style-type: none;
@@ -405,4 +421,9 @@ button.button:active, a.button:active {
 }
 .link_button{
   cursor: pointer;
+}
+
+.link-group {
+ width:25%;
+ border: solid #222222 1px;
 }

@@ -1,5 +1,13 @@
-class InvoiceNotifier < ActionMailer::Base
+class AdminNotifier < ActionMailer::Base
   default from: "bdzdb@bdz-online.de"
+
+  def report_sheet_notification(user, invoices, current_user)
+	 @recipient = user
+	 @doc_url = invoices
+
+	 @current_user = current_user 
+	 mail(:to => user.email, :subject => "Meldebogen Anschreiben")
+  end
 
   def newinvoices_notification(user, invoices, dtaus, current_user)
 	 @recipient = user
