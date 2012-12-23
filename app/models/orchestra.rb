@@ -136,4 +136,14 @@ class Orchestra < ActiveRecord::Base
 	orchName+"\n"+member.address_block
   end
 
+  def is_coop?
+	orch_type == 'K'
+  end
+
+  def is_lorch?
+	orch_type == 'L'
+  end
+  def is_regular?
+	orch_type == 'O'
+  end
 end
