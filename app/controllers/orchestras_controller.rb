@@ -76,7 +76,7 @@ class OrchestrasController < AuthenticatedController
 		if ( not @ids.include?(orchestra.id) && orchestra.lastReportSheet.calcZeitungen > 0) then
 
 			mag_count=nil
-			if ( orchestra.orch_type == 'O' ) then
+			if ( orchestra.is_regular? ) then
 				mag_count = orchestra.currentMagazines
 			else
 				mag_count = 2
@@ -276,7 +276,7 @@ class OrchestrasController < AuthenticatedController
 
     url = "http://www.bdz-online.de/meldebogen/"
 
-	target = BDZ_SETTINGS['invoice_archive_dir']+"/"+year.to_s+"/"+dateprefix+"_"+@orchestra.mglnr.to_s+"_anschreiben.pdf"
+	target = BDZ_SETTINGS['invoice_archive_dir']+"/"+year.to_s+"/"+dateprefix+"_"+@orchestra.mglnr.to_s+"_meldebogen_anschreiben.pdf"
 
 	gen_anschreiben(@orchestra,@rsi,url,target,year);
     send_file(target, :filename => target, :type => "application/octet-stream")
