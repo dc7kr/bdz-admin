@@ -1,11 +1,16 @@
 require 'prawn' 
 
 module PDFHelper
-	def gen_anschreiben(orchestra,rsi,url,target,year)
-      filename = BDZ_SETTINGS['invoice_archive_dir']+"/"+year.to_s+"/test_anschreiben.pdf"
-      anrede = t('common.salutation_d.'+orchestra.anrede)
+	def gen_anschreiben(orchestra,rsi)
+		year = rsi.report_sheet.year
+    	url = BDZ_SETTINGS['meldebogen_url']
+		dateprefix = Time.now.strftime '%Y%m%d%H%M%S_'
+		target = BDZ_SETTINGS['invoice_archive_dir']+"/"+year.to_s+"/"+dateprefix+"_"+orchestra.mglnr.to_s+"_meldebogen_anschreiben.pdf"
+		template_file = BDZ_SETTINGS['invoice_archive_dir']+"/"+year.to_s+"/meldebogen_anschreiben.template.pdf"
+		year = rsi.report_sheet.year
+		anrede = t('common.salutation_d.'+orchestra.anrede)
   
-      Prawn::Document.generate(target, :template => filename) do
+      Prawn::Document.generate(target, :template => template_file) do
         bounding_box([20,370],:width=>500,:height => 50) do
           font "Times-Roman"
           font_size 11
@@ -23,5 +28,7 @@ module PDFHelper
 		  end
         end
       end
+	  # return filename
+	  target
     end
 end
