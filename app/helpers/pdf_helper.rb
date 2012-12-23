@@ -15,7 +15,11 @@ module PDFHelper
 		target = BDZ_SETTINGS['invoice_archive_dir']+"/"+year.to_s+"/"+dateprefix+"_"+orchestra.mglnr.to_s+"_meldebogen_anschreiben.pdf"
 		template_file = BDZ_SETTINGS['invoice_archive_dir']+"/"+year.to_s+"/meldebogen_anschreiben.template.pdf"
 		year = rsi.report_sheet.year
-		anrede = t('common.salutation_d.'+orchestra.anrede)
+		if ( orchestra.anrede != nil and orchestra.anrede.length > 0 ) then
+			anrede = t('common.salutation_d.'+orchestra.anrede)
+		else
+			anrede =""
+		end
   
       Prawn::Document.generate(target, :template => template_file) do
         bounding_box([35,400],:width=>500,:height => 50) do
