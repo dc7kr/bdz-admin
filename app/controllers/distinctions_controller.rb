@@ -142,7 +142,7 @@ class DistinctionsController < AuthenticatedController
     base_url = cron_downloads_url
 	dtaus_url = base_url+"?year="+year+"&filename="+dtausPrefix+"dtaus.zip"
 
-	InvoiceNotifier.newdistinction_notification(dtaus_url,invoiceNr).deliver
+	AdminNotifier.newdistinction_notification(dtaus_url,invoiceNr).deliver
   end
   
 end
