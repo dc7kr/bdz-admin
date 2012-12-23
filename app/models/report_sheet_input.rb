@@ -17,4 +17,12 @@ class ReportSheetInput < ActiveRecord::Base
 	@report_sheet_input
   end
 
+  def self.for_year(year)
+	includes(:report_sheet,:orchestra).where('report_sheets.year = :year', :year=>year).first
+  end
+
+  def self.for_orchestra_and_year(orchestra,year)
+	includes(:report_sheet).where('report_sheet_inputs.orchestra_id = :orchestra_id and report_sheets.year = :year',:orchestra_id=>orchestra.id, :year=>year).first
+  end
+
 end
