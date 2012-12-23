@@ -59,7 +59,7 @@ class Cron::RemindersController < AuthenticatedNonResourceController
 	dtaus_url = base_url+"?year="+year+"&filename="+dtausPrefix+"dtaus.zip"
 
 	@users.each do |user| 
-		InvoiceNotifier.newinvoices_notification(user, invoices_url, dtaus_url).deliver
+		AdminNotifier.newinvoices_notification(user, invoices_url, dtaus_url).deliver
    		puts 'sent to %s' % current_user.email
 	end
   end

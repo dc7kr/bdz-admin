@@ -15,7 +15,7 @@ class Cron::MailsController < ApplicationController
 	dtaus_url = base_url+"?year=2012&filename=20120529_dtaus.zip"
 
 	@users.each do |user| 
-		InvoiceNotifier.newinvoices_notification(user, invoices_url, dtaus_url).deliver
+		AdminNotifier.newinvoices_notification(user, invoices_url, dtaus_url).deliver
    		puts 'sent to %s' % current_user.email
 	end
 

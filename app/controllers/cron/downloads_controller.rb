@@ -1,9 +1,11 @@
-class Cron::DownloadsController < ApplicationController
+class Cron::DownloadsController < AuthenticatedNonResourceController
 
   def index
+  	authorize! :index, Orchestra
+
 	fNam = params[:filename]
 
-    fullPath = BDZ_SETTINGS['invoice_archive_dir']+"/"+params[:year]+"/"+fNam
+    fullPath = BDZ_SETTINGS['docs_archive_dir']+"/"+params[:year]+"/"+fNam
     send_file(fullPath, :filename => fNam, :type => "application/octet-stream")
   end
 

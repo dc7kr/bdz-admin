@@ -65,7 +65,7 @@ end
     dtaus_url = base_url+"?year="+year+"&filename="+dtausPrefix+"dtaus.zip"
 
     @users.each do |user|
-        InvoiceNotifier.new_lv_dtaus_notification(user, dtaus_url,@current_user).deliver
+        AdminNotifier.new_lv_dtaus_notification(user, dtaus_url,@current_user).deliver
         Rails.logger.info 'sent to %s' % current_user.email
     end
   end
