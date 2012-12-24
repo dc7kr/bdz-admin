@@ -1,0 +1,10 @@
+.block
+  %table
+    %tr
+      %th= t('member.mglnr')
+      %th= t('orchestra.orchName')
+    -@final.each do |r|
+      %tr
+        %td=link_to r.orchestra.mglnr, orchestra_report_sheet_path(r.orchestra.id,r)
+        %td=link_to r.orchestra.orchName, orchestra_report_sheet_path(r.orchestra.id,r)
+
