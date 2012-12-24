@@ -1,6 +1,7 @@
 class ReportSheetInputsController < ApplicationController
   before_filter :authorize, :except => [:login,:submit_login]
-  
+
+  include NotifyHelper  
   include UploadHelper
   include ReportSheetUploadHelper
 
@@ -283,6 +284,14 @@ class ReportSheetInputsController < ApplicationController
 			if ( @rs.orchestra == nil ) then
 				@rs.orchestra = @rsi.orchestra
 				@rs.save
+
+				# admin notify about new RS
+				@users = admin_notify_users
+
+   				@users.each do |user|
+					AdminNotifier.new_report_sheet(user,@rs).deliver
+       				Rails.logger.info 'sent to %s' % user.email
+   				end
 			end
 
 			respond_to do |format|

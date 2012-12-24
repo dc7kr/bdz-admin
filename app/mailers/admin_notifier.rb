@@ -1,6 +1,12 @@
 class AdminNotifier < ActionMailer::Base
   default from: "bdzdb@bdz-online.de"
 
+  def new_report_sheet(user,rs)
+	 @recipient = user
+	 @rs=rs
+     mail(:to => user.email, :subject => "Meldebogen-Eingabe "+rs.orchestra.mglnr.to_s)
+
+  end
   def report_sheet_notification(user, doc_url, current_user)
 	 @recipient = user
 	 @docs_url = doc_url
