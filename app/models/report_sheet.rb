@@ -1,5 +1,7 @@
 class ReportSheet < ActiveRecord::Base
 
+	scope :final, lambda { |year| where('year = ? and orchestra_id is not null', year) }
+	scope :not_final, where(:orchestra_id=> nil)
 	belongs_to :orchestra
 
 

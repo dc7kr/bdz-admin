@@ -19,6 +19,16 @@ class ReportSheetsController < AuthenticatedController
     end
   end
 
+  def final
+    @final = ReportSheet.final(2013)
+
+    respond_to do |format|
+	  format.js
+      format.html # index.html.erb
+      format.json { render :json => @final }
+    end
+  end
+
   def payed 
 		@curYear = Time.now.year
 		@report_sheets = ReportSheet.joins(:orchestra => :member).order('members.mglnr').where("report_sheets.year = ?",@curYear).page(params[:page]).per(20)

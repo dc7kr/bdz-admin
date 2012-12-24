@@ -105,6 +105,7 @@ BDZAdmin::Application.routes.draw do
   resources :report_sheets do
 	collection do 
 		get 'payed'
+		get 'final'
 	end
   end
 
