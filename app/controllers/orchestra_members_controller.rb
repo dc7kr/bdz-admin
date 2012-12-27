@@ -52,7 +52,7 @@ class OrchestraMembersController < AuthenticatedController
 
     respond_to do |format|
       if @orchestra_member.save
-        format.html { redirect_to @orchestra_member, notice: 'Orchestra member was successfully created.' }
+        format.html { redirect_to orchestra_orchestra_member_path(@orchestra_member.orchestra,@orchestra_member), notice: 'Orchestra member was successfully created.' }
         format.json { render json: @orchestra_member, status: :created, location: @orchestra_member }
       else
         format.html { render action: "new" }
@@ -68,7 +68,7 @@ class OrchestraMembersController < AuthenticatedController
 
     respond_to do |format|
       if @orchestra_member.update_attributes(params[:orchestra_member])
-        format.html { redirect_to @orchestra_member, notice: 'Orchestra member was successfully updated.' }
+        format.html { redirect_to orchestra_orchestra_member_path(@orchestra_member.orchestra,@orchestra_member), notice: t('orchestra_member.update_success') }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }

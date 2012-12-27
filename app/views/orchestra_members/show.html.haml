@@ -1,18 +1,25 @@
-%p#notice= notice
-
-%p
-  %b Orchestra:
-  = @orchestra_member.orchestra
-%p
-  %b First name:
-  = @orchestra_member.first_name
-%p
-  %b Last name:
-  = @orchestra_member.last_name
-%p
-  %b Date of birth:
-  = @orchestra_member.date_of_birth
-
-= link_to 'Edit', edit_orchestra_member_path(@orchestra_member)
-\|
-= link_to 'Back', orchestra_members_path
+.block
+  .secondary-navigation
+    =render :partial=>'nav'
+  .content
+    %h2.title
+      = t("orchestra_member.title")
+    .inner
+      %p
+        %b= t('orchestra.title')
+        = @orchestra_member.orchestra.orchName
+      %p
+        %b=t('member.first_name')
+        = @orchestra_member.first_name
+      %p
+        %b=t('member.last_name')
+        = @orchestra_member.last_name
+      %p
+        %b=t('orchestra_member.date_of_birth')
+        = l @orchestra_member.date_of_birth
+      %p
+        %b=t('orchestra_member.instrument')
+        = @orchestra_member.instrument
+      %p
+        %b=t('orchestra_member.mglnr')
+        = @orchestra_member.mglnr

@@ -1,7 +1,11 @@
-%h1 Editing orchestra_member
-
-= render 'form'
-
-= link_to 'Show', @orchestra_member
-\|
-= link_to 'Back', orchestra_members_path
+.block
+  .secondary-navigation
+    = render :partial => 'nav'
+  .content
+    %h2.title
+      = t('common.edit')
+      = t('orchestra_member.title')
+    .inner
+      = form_for @orchestra_member, :url => orchestra_orchestra_member_path(@orchestra_member.orchestra,@orchestra_member), :html => { :class => :form } do |f|
+        = render :partial => "form", :locals => {:f => f}
+- content_for :sidebar, render(:partial => 'sidebar')
