@@ -2,7 +2,7 @@
   %tr{:class => cycle("odd", "even")}
     %td= orchestra_member.first_name
     %td= orchestra_member.last_name
-    %td= orchestra_member.date_of_birth
+    %td= l orchestra_member.date_of_birth
     %td= orchestra_member.instrument
     %td
       = link_to_show_path orchestra_orchestra_member_path(orchestra_member.orchestra,orchestra_member), t('common.show') , orchestra_member
