@@ -1,5 +1,5 @@
 .block
-  %h3 Mitgliedertabelle hochladen
+  %h3 1. Mitgliedertabelle hochladen
   = form_tag upload_report_sheet_input_path(@report_sheet_input), :method => 'post', :multipart=>true do
     = file_field_tag :datafile
-    = submit_tag "Senden", :name => nil
+    = submit_tag "Hochladen", :name => nil

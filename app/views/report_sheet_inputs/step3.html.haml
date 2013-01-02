@@ -11,7 +11,8 @@
 
       .wat-cf
         = back_button(step2_report_sheet_input_path(@report_sheet_input))
-        = wizard_forward_button(t('common.save_and_continue'),step4_report_sheet_input_path(@report_sheet_input))
+        - if (@members != nil and @members.count > 0) or @orchestra.is_coop?
+          = wizard_forward_button(t('common.save_and_continue'),step4_report_sheet_input_path(@report_sheet_input))
       -if @members != nil and @members.count >0
         %h3=t('report_sheet_input.current_members')
         %table.border
