@@ -110,7 +110,12 @@ BDZAdmin::Application.routes.draw do
   end
 
   resources :person_members do
-	resources :member_events
+	resources :member_events do
+		member do
+			get 'download'
+		end
+	end
+
     resources :member_account_bookings do
 		member do 
 			get 'download'
@@ -136,7 +141,11 @@ BDZAdmin::Application.routes.draw do
 			get 'download'
 		end
     end
-	resources :member_events
+	resources :member_events do
+		member do
+			get 'download'	
+		end
+	end
 	resources :orchestra_members
 	resources :orchestra_contacts
     resources :report_sheets

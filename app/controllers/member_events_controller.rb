@@ -119,6 +119,13 @@ class MemberEventsController < AuthenticatedController
     end
   end
 
+
+  def download
+    @event= MemberEvent.find(params[:id])
+	fullPath = BDZ_SETTINGS['invoice_archive_dir']+"/"+@event.filename
+	send_file(fullPath, :filename => File.basename(@event.filename), :type => "application/pdf", :x_sendfile=>true)
+  end
+
   def sort_column
     MemberEvent.column_names.include?(params[:sort]) ? params[:sort] : "event_date"
   end

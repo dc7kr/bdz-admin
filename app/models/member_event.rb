@@ -1,6 +1,10 @@
 class MemberEvent < ActiveRecord::Base
 	belongs_to :member
 
+	def has_attachment?
+		filename != nil and filename.length()>0
+    end
+
 	def self.newLetter(eventId,member,subject)
 		retval = MemberEvent.new
 		retval.member_id=member
