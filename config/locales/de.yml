@@ -311,6 +311,8 @@ de:
     last_name: Nachname
     date_of_birth: Geburtstag
     instrument: Instrument
+    mglnr: Mitgliedsnummer
+    update_success: "Orchestermitglied erfolgreich geändert."
   orchestra_contact:
     title: Kontakt-Adressen
     title_s: Kontakt-Adresse

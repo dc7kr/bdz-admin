@@ -34,6 +34,8 @@ class OrchestraMembersController < AuthenticatedController
   # GET /orchestra_members/new.json
   def new
     @orchestra_member = OrchestraMember.new
+	@orchestra = Orchestra.find(params[:orchestra_id])
+	@orchestra_member.orchestra = @orchestra
 
     respond_to do |format|
       format.html # new.html.erb
@@ -44,6 +46,7 @@ class OrchestraMembersController < AuthenticatedController
   # GET /orchestra_members/1/edit
   def edit
     @orchestra_member = OrchestraMember.find(params[:id])
+	@orchestra = Orchestra.find(@orchestra_member.orchestra)
   end
 
   # POST /orchestra_members

@@ -1,5 +1,11 @@
-%h1 New orchestra_member
+.block
+  .secondary-navigation
+    = render :partial => 'nav'
+  .content
+    %h2.title
+      = t('common.new')
+      = t('orchestra_member.title')
+    .inner
+      = form_for @orchestra_member, :url => orchestra_orchestra_members_path(@orchestra), :html => { :class => :form } do |f|
+        = render :partial => "form", :locals => {:f => f}
 
-= render 'form'
-
-= link_to 'Back', orchestra_members_path
