@@ -1,0 +1,12 @@
+%tr{:class => cycle("odd", "even")}
+  %td= course.startdate
+  %td= course.enddate
+  %td= course.titel
+  %td= course.deadline
+  %td= course.visible
+  %td
+    - if course.visible == false then
+      = link_to_publish course,  t("common.publish")
+    = link_to_show course,  t("common.show")
+    = link_to_edit course, t("common.edit")
+    = link_to_delete course, t('common.delete'), t('common.delete_confirm')

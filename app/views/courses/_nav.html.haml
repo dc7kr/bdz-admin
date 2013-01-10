@@ -1,0 +1,6 @@
+%ul.wat-cf
+  %li.first= link_to_up_path(t('common.up'),home_public_data_path);
+  %li{ :class => tabActiveClass(@current_action,'index',nil)}= link_to t("common.list"), courses_path
+  %li{:class => tabActiveClass(@current_action,'inactive',nil)}= link_to t("common.inactive"), inactive_courses_path
+  %li{:class => tabActiveClass(@current_action,'new',nil)}= link_to t("common.new"), new_course_path
+
