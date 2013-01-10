@@ -29,13 +29,7 @@ class Course < ActiveRecord::Base
 	end
   end
 
-  def self.inactive()
-	where('visible=0')
-  end
-  def self.active()
-	where('visible=1')
-  end
-  def self.public()
-    where('visible=1 and startdate >= now()')
-  end
+  scope :inactive, where('visible=0')
+  scope :active, where('visible=1')
+  scope :public, where('visible=1 and startdate >= now()')
 end

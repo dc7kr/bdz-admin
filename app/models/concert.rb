@@ -1,4 +1,7 @@
 class Concert < ActiveRecord::Base
+
+    scope :public, where('visible=1 and datum >= now()')
+
 	belongs_to :user , :foreign_key => "owner"
 	belongs_to :state, :foreign_key => "bland"
 	belongs_to :country, :foreign_key => "land"
@@ -37,7 +40,5 @@ class Concert < ActiveRecord::Base
 	where('visible=1')
   end
 
-  def self.public()
-    where('visible=1 and datum >= now()')
-  end
+  
 end
