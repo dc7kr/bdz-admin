@@ -1,0 +1,2 @@
+$('#orchestra_members').html('#{escape_javascript render(@orchestra_members)}');
+$('#paginator').html('#{escape_javascript(paginate(@orchestra_members, :remote => true).to_s)}');
