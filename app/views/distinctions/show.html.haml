@@ -29,7 +29,12 @@
         %tr
           %td.label #{t("distinction.medals")}:
           %td= @distinction.medals
+        %tr
+          %td.label #{t("distinction.porto")}:
+          %td=format_currency @distinction.porto,"EUR"
   
       .actions-bar.wat-cf
         .actions
-          = link_to_edit_path edit_orchestra_distinction_path(@distinction.orchestra,@distinction), t('common.edit'), @distinction
+          = edit_button edit_orchestra_distinction_path(@distinction.orchestra,@distinction), @distinction
+          - if (@distinction.member_account_booking == nil)
+            = generate_button t('distinction.generate_invoice'), gen_invoice_orchestra_distinction_path(@orchestra,@distinction)

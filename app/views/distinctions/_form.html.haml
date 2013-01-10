@@ -24,6 +24,10 @@
     %tr
       %td= f.label :medals, t("distinction.medals"), :class => :label
       %td= f.text_field :medals, :class => 'number_field'
+    %tr
+      %td= f.label :porto, t("distinction.porto"), :class => :label
+      %td= f.text_field :porto, :class => 'number_field'
+  
   
   %button.button{:type => "submit"}
     = image_tag("web-app-theme/icons/tick.png", :alt => "#{t("web-app-theme.save", :default => "Save")}")
