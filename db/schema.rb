@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121223091649) do
+ActiveRecord::Schema.define(:version => 20130110130227) do
 
   create_table "addresses", :force => true do |t|
     t.string "anrede",             :limit => 10,  :null => false
@@ -1260,6 +1260,7 @@ ActiveRecord::Schema.define(:version => 20121223091649) do
     t.integer  "silver_needles"
     t.integer  "national_needles"
     t.integer  "member_account_booking_id"
+    t.float    "porto"
   end
 
   add_index "distinctions", ["member_account_booking_id"], :name => "index_distinctions_on_member_account_booking_id"
@@ -3166,7 +3167,7 @@ ActiveRecord::Schema.define(:version => 20121223091649) do
     t.date     "deadline",                                     :null => false
     t.string   "email",        :limit => 50,                   :null => false
     t.datetime "reported",                                     :null => false
-    t.datetime "confirmed",                                    :null => false
+    t.datetime "confirmed"
     t.boolean  "visible",                    :default => true, :null => false
   end
 

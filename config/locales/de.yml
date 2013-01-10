@@ -28,6 +28,7 @@ de:
     nopayment: Säumige Zahler
     delete_confirm: Wirlich löschen?
     show: Anzeigen
+    publish: Veröffentlichen
     edit: Bearbeiten
     delete: Löschen
     update_success: wurde erfolgreich aktualisiert.
@@ -267,10 +268,11 @@ de:
     telefon: Telefon
     fax: Fax 	
   distinction:
+    update_success: Ehrung erfolgreich aktualisiert
     dist_date: Datum
     title: Ehrung
     title_p: Ehrungen
-    generate_invoice: Rechung generieren
+    generate_invoice: Rechnung generieren
     silver_needles: Silbernadeln
     gold_needles: Goldnadeln
     national_needles: Bundesnadeln
@@ -348,6 +350,7 @@ de:
     preis: Preis
     more_dates: Termine
     anmeldung: Infos und Anmeldung
+    publish_success: "Wettbewerb erfolgreich veröffentlicht"
 
   report_sheet:
     title: Meldebogen

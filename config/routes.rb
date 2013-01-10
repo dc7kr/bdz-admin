@@ -222,6 +222,9 @@ BDZAdmin::Application.routes.draw do
 			get :inactive
         	get :public
 		end
+		member do 
+			get :publish
+		end
   	end
 
   	resources :festivals do
@@ -268,6 +271,9 @@ BDZAdmin::Application.routes.draw do
   	resources :contests do
 		collection do
 			get :inactive
+		end
+		member do
+			get :publish
 		end
   	end
 
