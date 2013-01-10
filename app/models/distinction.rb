@@ -3,11 +3,27 @@ class Distinction < ActiveRecord::Base
   belongs_to :member_account_booking
 
   def calcSum 
-	Prices.silverNeedle*silver_needles+
-	Prices.goldenNeedle*gold_needles+
-	Prices.honorLetter*honorletters+
-	Prices.certificate*certificates+
-	Prices.nationalNeedle*national_needles
+	sum = 0
+
+	if ( silver_needles != nil ) then
+		sum+=Prices.silverNeedle*silver_needles
+	end
+
+	if (gold_needles != nil ) then 
+		sum+= Prices.goldenNeedle*gold_needles
+	end
+	if (honorletters != nil ) then 
+		sum+=Prices.honorLetter*honorletters
+	end
+	if (certificates != nil) then
+		sum+=Prices.certificate*certificates
+	end
+	if (national_needles != nil ) then
+		sum+=Prices.nationalNeedle*national_needles
+	end
+	if (porto != nil ) then
+		sum+=porto
+	end
   end
 
 end
