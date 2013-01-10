@@ -1,6 +1,23 @@
 class ClassifiedsController < ApplicationController
   helper_method :sort_column, :sort_direction
 
+  def publish 
+	@classified = Contest.find(params[:id])
+	@classified.confirmed = Time.now
+	@classified.visible = true
+	@classified.save
+
+    respond_to do |format|
+      if @classified.save
+        format.html { redirect_to @classified, :notice => t('classified.publish_success') }
+        format.json { render :json => @classified, :status => :created, :location => @classified }
+      else
+        format.html { render :action => "edit" }
+        format.json { render :json => @classified.errors, :status => :unprocessable_entity }
+      end
+    end
+
+  end
   # GET /classifieds
   # GET /classifieds.json
   def index

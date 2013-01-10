@@ -3,6 +3,14 @@ class CoursesController < ApplicationController
   helper_method :sort_column, :sort_direction
   before_filter :authenticate_user!, :except => [:index,:show,:public]
   load_and_authorize_resource :except => [:public]
+
+  def inactive
+	@courses = Course.inactive
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render :json => @courses }
+    end
+  end
   # GET /courses
   # GET /courses.json
   def public

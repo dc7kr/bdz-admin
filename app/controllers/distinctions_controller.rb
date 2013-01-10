@@ -57,6 +57,7 @@ class DistinctionsController < AuthenticatedController
   # GET /distinctions/1
   # GET /distinctions/1.json
   def show
+	@orchestra = Orchestra.find(params[:orchestra_id])
     @distinction = Distinction.find(params[:id])
 
     respond_to do |format|
@@ -101,11 +102,13 @@ class DistinctionsController < AuthenticatedController
   # PUT /distinctions/1
   # PUT /distinctions/1.json
   def update
+	@orchestra = Orchestra.find(params[:orchestra_id])
     @distinction = Distinction.find(params[:id])
 
     respond_to do |format|
       if @distinction.update_attributes(params[:distinction])
-        format.html { redirect_to @distinction, notice: 'Distinction was successfully updated.' }
+        format.html { redirect_to orchestra_distinction_path(@orchestra,@distinction), notice: t('distinction.update_success') }
+
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -117,11 +120,12 @@ class DistinctionsController < AuthenticatedController
   # DELETE /distinctions/1
   # DELETE /distinctions/1.json
   def destroy
+	@orchestra = Orchestra.find(params[:orchestra_id])
     @distinction = Distinction.find(params[:id])
     @distinction.destroy
 
     respond_to do |format|
-      format.html { redirect_to distinctions_url }
+      format.html { redirect_to orchestra_distinctions_url(@orchestra) }
       format.json { head :no_content }
     end
   end

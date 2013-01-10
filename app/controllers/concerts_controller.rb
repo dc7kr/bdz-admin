@@ -6,6 +6,24 @@ class ConcertsController < AuthenticatedController
 
   #skip_authorize_resource :only => :show
 
+  def publish 
+	@concert = Contest.find(params[:id])
+	@concert.confirmed = Time.now
+	@concert.visible = true
+	@concert.save
+
+    respond_to do |format|
+      if @concert.save
+        format.html { redirect_to @concert, :notice => t('concert.publish_success') }
+        format.json { render :json => @concert, :status => :created, :location => @concert }
+      else
+        format.html { render :action => "new" }
+        format.json { render :json => @concert.errors, :status => :unprocessable_entity }
+      end
+    end
+
+  end
+
   def public 
     @concerts = Concert.public().search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
     respond_to do |format|
@@ -31,7 +49,7 @@ class ConcertsController < AuthenticatedController
     
 	if (@festival_id != nil ) 
 	#@Concerts = Concert.where(:all,:include=>[:country,:state,:festival],:conditions=>"datum >= date(now()),festival_id = @festival_id").paginate(:per_page => 20, :page => params[:page])
-	@Concerts = Concert.includes(:festival).search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
+		@concerts = Concert.includes(:festival).search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
     else
       #@concerts = Concert.where(:all,:include=>[:country,:state,:festival],:conditions=>"datum >= date(now())").paginate(:per_page => 20, :page => params[:page])
       @concerts = Concert.search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)

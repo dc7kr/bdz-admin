@@ -4,6 +4,34 @@ class ContestsController < AuthenticatedController
   before_filter :authenticate_user!, :except => [:index,:show,:public]
   skip_authorize_resource :only => [:public]
 
+
+  def inactive
+    @contests = Contest.inactive
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render :json => @contests }
+    end
+  end
+
+  def publish 
+	@contest = Contest.find(params[:id])
+	@contest.confirmed = Time.now
+	@contest.visible = true
+	@contest.save
+
+    respond_to do |format|
+      if @contest.save
+        format.html { redirect_to @contest, :notice => t('contest.publish_success') }
+        format.json { render :json => @contest, :status => :created, :location => @contest }
+      else
+        format.html { render :action => "new" }
+        format.json { render :json => @contest.errors, :status => :unprocessable_entity }
+      end
+    end
+
+  end
+
   def public 
     @contests= Contest.public().search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
     respond_to do |format|
