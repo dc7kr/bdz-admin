@@ -1,8 +1,7 @@
 .block
   .secondary-navigation
     %ul.wat-cf
-      %li.first.active= link_to "#{t("common.list", :default => "List")}", concerts_path
-      %li= link_to "#{t("common.new", :default => "New")}", new_concert_path
+      =render :partial=>'nav'
   .content
     %h2.title
       = t("common.all", :default => "All")

@@ -1,5 +1,6 @@
 %ul.wat-cf
-  %li.first= link_to_up_path("/",t('common.up'));
-  %li.active= link_to "#{t("web-app-theme.list", :default => "List")}", concerts_path
-  %li= link_to "#{t("web-app-theme.new", :default => "New")}", new_concert_path
+  %li.first= link_to_up_path(t('common.up'),home_public_data_path);
+  %li{ :class => tabActiveClass(@current_action,'index',nil)}= link_to t("common.list"), concerts_path
+  %li{:class => tabActiveClass(@current_action,'inactive',nil)}= link_to t("common.inactive"), inactive_concerts_path
+  %li{:class => tabActiveClass(@current_action,'new',nil)}= link_to "#{t("web-app-theme.new", :default => "New")}", new_concert_path
 
