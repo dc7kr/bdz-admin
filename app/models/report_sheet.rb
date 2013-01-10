@@ -19,7 +19,6 @@ class ReportSheet < ActiveRecord::Base
 		self.chamber_ens=0
 		self.child_ens=0
 		self.children=0
-		self.gema=0
 		self.korr_ztg=0
 		self.orchestra_id=0
 		self.other_ens=0

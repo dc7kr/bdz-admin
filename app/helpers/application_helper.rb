@@ -77,6 +77,7 @@ end
 def wizard_forward_button(txt,path)
     link_to image_tag('web-app-theme/icons/tick.png', {:size=>'16x16',:alt=>txt,:title=>txt,:class=>'btn'} )+" "+txt,path, :class => "text_button_padding button"
 end
+
 def submit_button(txt)
     button_tag(:type=>"submit",:class=>"button") do 
       image_tag("web-app-theme/icons/tick.png", :alt => txt)+" "+txt
@@ -139,9 +140,16 @@ def link_to_del_path(path, txt, confirm, entity)
     end
 end
 
+def link_to_publish(entity,txt) 
+	if can? :update, entity then
+		link_to image_tag('/assets/icons/publish.png', {:size=>'16x16',:alt=>txt,:title=>txt,:class=>'btn'}),{ :id=>entity, :action=>'publish'}
+	end
+end
+
+
 def link_to_delete(entity, txt, confirm )
     if can? :delete, entity
-                link_to image_tag('/assets/icons/delete.png', {:size=>'16x16',:alt=>txt,:title=>txt,:class=>'btn'} ),entity,:confirm => confirm, :method => :delete
+		link_to image_tag('/assets/icons/delete.png', {:size=>'16x16',:alt=>txt,:title=>txt,:class=>'btn'} ),entity,:confirm => confirm, :method => :delete
     end
 end
 

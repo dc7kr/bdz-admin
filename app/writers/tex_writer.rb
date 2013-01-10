@@ -21,7 +21,7 @@ class TexWriter
 			writeTariffComponent(f,distinction.honorletters,Prices.honorLetter, 'Ehrenbrief mit Urkundenmappe')
 			writeTariffComponent(f,distinction.medals,Prices.medal, 'BDZ-Verdienstmedaille')
 			writeTariffComponent(f,distinction.national_needles,Prices.nationalNeedle, 'BDZ-Bundesnadel')
-			writeTariffComponent(f,1,Prices.distinctionPorto, 'Porto und Verpackungskostenanteil')
+			writeTariffComponent(f,1,distinction.porto, 'Porto und Verpackungskostenanteil')
 		}
     end	
 
