@@ -261,6 +261,20 @@ class OrchestrasController < AuthenticatedController
     end
   end
 
+  def rsi_login
+	@orchestra = Orchestra.find(params[:id])
+
+	@rsi = ReportSheetInput.find_by_orchestra_id(@orchestra)	
+
+	
+	if ( @rsi != nil ) then
+
+		session[:report_sheet_input_id]=@rsi.id
+		session[:report_sheet_input_token]=@rsi.token
+		redirect_to step1_report_sheet_input_url(@rsi)
+	end
+  end
+
   def gen_rsi
     @orchestra = Orchestra.includes(:member).find(params[:id])
 
