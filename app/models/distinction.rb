@@ -21,9 +21,14 @@ class Distinction < ActiveRecord::Base
 	if (national_needles != nil ) then
 		sum+=Prices.nationalNeedle*national_needles
 	end
-	if (porto != nil ) then
-		sum+=porto
+
+	p = 0 
+	if (porto == nil ) then
+		p = Prices.distinctionPorto
+	else 
+		p = porto
 	end
+	sum+=p
   end
 
 end

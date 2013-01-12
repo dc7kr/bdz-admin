@@ -132,6 +132,7 @@ BDZAdmin::Application.routes.draw do
   resources :orchestras do
     member do 
      get :gen_rsi
+     get :rsi_login
     end
 
 	resources :report_sheet_inputs
@@ -182,7 +183,14 @@ BDZAdmin::Application.routes.draw do
 		collection do 
 			get :inactive
 		end
-		resources :ensemble_concerts
+		resources :ensemble_concerts do
+			collection do
+				get :inactive
+			end
+			member do
+				get :publish
+			end
+		end
   end
 
   # BEGIN PUBLIC NAMESPACE
@@ -201,7 +209,11 @@ BDZAdmin::Application.routes.draw do
 	end
 
   	resources :ensembles do
-		resources :ensemble_concerts
+		resources :ensemble_concerts do
+			member do
+				get :publish
+			end
+		end
   	end
 
   	resources :concerts do
@@ -241,6 +253,10 @@ BDZAdmin::Application.routes.draw do
   	resources :url_categories do
     	resources :urls
   	end
+	resources :ensembles do
+		resources :ensemble_concerts
+		
+	end
   end # END NAMESPACE PUBLIC
 
 

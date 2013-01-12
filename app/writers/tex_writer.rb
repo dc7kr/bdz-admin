@@ -21,7 +21,15 @@ class TexWriter
 			writeTariffComponent(f,distinction.honorletters,Prices.honorLetter, 'Ehrenbrief mit Urkundenmappe')
 			writeTariffComponent(f,distinction.medals,Prices.medal, 'BDZ-Verdienstmedaille')
 			writeTariffComponent(f,distinction.national_needles,Prices.nationalNeedle, 'BDZ-Bundesnadel')
-			writeTariffComponent(f,1,distinction.porto, 'Porto und Verpackungskostenanteil')
+
+			porto = nil 
+			if ( distinction.porto == nil ) then
+				porto = Prices.distinctionPorto
+			else
+				porto = distinction.porto
+			end
+
+			writeTariffComponent(f,1,porto , 'Porto und Verpackungskostenanteil')
 		}
     end	
 
@@ -181,7 +189,7 @@ class TexWriter
 	end
 
 	def writeTariffComponent(file, count, tariff, label)
-		if (count == 0 )  then
+		if (count == 0 or count == nil )  then
 			return
 		end
 		amount = '%.2f' % tariff;

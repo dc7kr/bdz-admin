@@ -67,10 +67,12 @@ class ReportSheetInputPdf< Prawn::Document
   def report_sheet 
     move_down 20
 	text "1. Beitragspflichtige Mitglieder", style: :bold, size: 20
+
     table report_sheet_rows do
       column(0).font_style = :bold
       columns(1).align = :right
     end
+
   end
 
   def report_sheet_rows
@@ -79,7 +81,8 @@ class ReportSheetInputPdf< Prawn::Document
 		[@view.t('report_sheet.teens'),@rsi.report_sheet.teens],
 		[@view.t('report_sheet.youth'),@rsi.report_sheet.youth],
 		[@view.t('report_sheet.adult'),@rsi.report_sheet.adult],
-		[@view.t('report_sheet.senior'),@rsi.report_sheet.senior]
+		[@view.t('report_sheet.senior'),@rsi.report_sheet.senior],
+		[@view.t('report_sheet.uv'),@rsi.report_sheet.uv ? "Ja" : "Nein"]
 
 	]
   end

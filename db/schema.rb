@@ -1835,13 +1835,13 @@ ActiveRecord::Schema.define(:version => 20130110130227) do
     t.datetime "confirmed",                                                                                  :null => false
     t.string   "stadt",                                                   :default => "",                    :null => false
     t.string   "ort",                                                     :default => "",                    :null => false
-    t.integer  "festival",    :limit => 8,                                :default => 0,                     :null => false
+    t.integer  "festival_id",    :limit => 8,                                :default => 0,                     :null => false
     t.integer  "ensemble_id", :limit => 8,                                :default => 0,                     :null => false
     t.text     "titel",                                                                                      :null => false
     t.string   "comment",                                                 :default => "",                    :null => false
     t.decimal  "eintritt",                 :precision => 10, :scale => 0,                                    :null => false
-    t.integer  "bundesland",  :limit => 8,                                                                   :null => false
-    t.integer  "land",        :limit => 8,                                :default => 0,                     :null => false
+    t.integer  "state_id",  :limit => 8,                                                                   :null => false
+    t.integer  "country_id",        :limit => 8,                                :default => 0,                     :null => false
     t.string   "email",                                                   :default => "",                    :null => false
     t.integer  "fk_owner",    :limit => 8,                                :default => 1,                     :null => false
     t.integer  "visible",     :limit => 2,                                :default => 0,                     :null => false
@@ -1859,7 +1859,7 @@ ActiveRecord::Schema.define(:version => 20130110130227) do
     t.integer "fk_ens_id",  :limit => 8, :null => false
   end
 
-  create_table "konzerte", :force => true do |t|
+  create_table "concerts", :force => true do |t|
     t.date     "datum",                                                                                      :null => false
     t.time     "zeit",                                                    :default => '2000-01-01 00:00:00', :null => false
     t.decimal  "eintritt",                 :precision => 10, :scale => 0,                                    :null => false
@@ -1869,13 +1869,13 @@ ActiveRecord::Schema.define(:version => 20130110130227) do
     t.string   "stadt",                                                                                      :null => false
     t.text     "titel",                                                                                      :null => false
     t.string   "ort",                                                                                        :null => false
-    t.integer  "festival",   :limit => 8,                                 :default => 0,                     :null => false
+    t.integer  "festival_id",   :limit => 8,                                 :default => 0,                     :null => false
     t.string   "interpret",                                                                                  :null => false
     t.string   "url",                                                                                        :null => false
     t.string   "bemerkung",                                                                                  :null => false
     t.string   "bundesland",                                              :default => "",                    :null => false
     t.integer  "bland",      :limit => 8,                                 :default => 0,                     :null => false
-    t.integer  "land",       :limit => 8,                                                                    :null => false
+    t.integer  "country_id",       :limit => 8,                                                                    :null => false
     t.string   "email",                                                   :default => "",                    :null => false
     t.integer  "owner",      :limit => 8,                                 :default => 1,                     :null => false
     t.integer  "visible",    :limit => 2,                                 :default => 1,                     :null => false

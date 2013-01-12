@@ -212,6 +212,9 @@ de:
     next_label: "Weiter"
     page_gap: "..."
 
+
+  ensemble:
+    title: Ensemble
   booking:
     title: Buchung
     title_p: Buchungen
@@ -231,7 +234,9 @@ de:
     booking_date: Buchungsdatum
     booking_text: Buchungstext
     amount: Betrag
-  
+
+  address:
+    title: Adressen  
   member:
     nopayment: Säumige Zahler
     notinvoiced: Keine Rechnung
@@ -279,6 +284,8 @@ de:
     certificates: Urkunden
     honorletters: Ehrenbriefe
     medals: BDZ-Medaillen
+  honor_member:
+    title: Ehrenmitglieder
   orchestra:
     title: Orchester
     noreport: Kein Meldebogen

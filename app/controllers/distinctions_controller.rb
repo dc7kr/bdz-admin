@@ -30,6 +30,12 @@ class DistinctionsController < AuthenticatedController
     @booking.member_id = @orchestra.id
 	@booking.save
 
+	if (@distinction.orchestra.za == 'L') then
+		@wdbooking = MemberAccountBooking.newWithdrawal("Lastschrift "+@booking_txt,@distinction.calcSum)
+		@wdbooking.member_id = @orchestra.id
+		@wdbooking.save
+	end
+
 	@distinction.member_account_booking = @booking
 	@distinction.save
 
