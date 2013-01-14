@@ -1,8 +1,8 @@
 %ul.wat-cf
   -if(@isOrchestra)
     %li{ :class => 'first'}= link_to_up_path t("common.up"), orchestra_path(params[:orchestra_id])
-    %li{ :class => tabActiveClass(@current_action,'index','first')}= link_to "#{t("common.list", :default => "List")}", orchestra_member_events_path(@orchestra)
-    %li{:class => tabActiveClass(@current_action,'new',nil)}= link_to "#{t("common.new", :default => "New")}", new_orchestra_member_event_path(@orchestra)
+    %li{ :class => tabActiveClass(@current_action,'index','first')}= link_to "#{t("common.list", :default => "List")}", orchestra_member_events_path(@member)
+    %li{:class => tabActiveClass(@current_action,'new',nil)}= link_to "#{t("common.new", :default => "New")}", new_orchestra_member_event_path(@member)
   - else
     %li{ :class => 'first'}= link_to_up_path t("common.up"), person_member_path(@member)
     %li{ :class => tabActiveClass(@current_action,'index','first')}= link_to "#{t("common.list", :default => "List")}", person_member_member_events_path(@member)
