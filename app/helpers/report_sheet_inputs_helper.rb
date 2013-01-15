@@ -1,7 +1,13 @@
 module ReportSheetInputsHelper
 
 def memberToAgeCategory(dob,year)
-	age = year-dob.year 
+
+	age = nil
+	if ( dob != nil) then
+		age = year-dob.year 
+	else
+		age = 30
+	end
 
 	category = [ " "," "," "," "," "]
 

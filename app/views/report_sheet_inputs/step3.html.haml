@@ -31,7 +31,7 @@
             %tr
               %td=m.first_name
               %td=m.last_name
-              %td=l m.date_of_birth
+              %td=format_date m.date_of_birth
               %td=m.instrument
               - ageCategory = memberToAgeCategory(m.date_of_birth,@year)
               %td.check=ageCategory[0]

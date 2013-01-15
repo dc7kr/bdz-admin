@@ -51,9 +51,14 @@ def read_members(doc,orchestra)
 	  elsif (dob_celltype == :string ) then 
 		year_of_birth = doc.cell(line,'D').to_i
 		date_of_birth = Date.new(year_of_birth,1,1)
-	  else  
+	  else 
       	year_of_birth = float_to_int(doc.cell(line,'D'))
-		date_of_birth = Date.new(year_of_birth,1,1)
+		if (year_of_birth != nil ) then
+			date_of_birth = Date.new(year_of_birth,1,1)
+		else 
+			year_of_birth = 1960
+			date_of_birth= Date.new(year_of_birth,2,1)
+		end
 	  end
       instrument = doc.cell(line,'E')
 
@@ -67,9 +72,10 @@ def read_members(doc,orchestra)
       end
 	  c.instrument = instrument
 	  c.orchestra = orchestra
+
       begin 
       	c.save
-        @success_count=@success_count+1
+       	@success_count=@success_count+1
 	  rescue
 		Rails.logger.warn("Database Exception")
 		@error_count=@error_count+1
