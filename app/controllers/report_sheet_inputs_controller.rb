@@ -31,7 +31,6 @@ class ReportSheetInputsController < ApplicationController
   end
 
   def login 
-		@report_sheet_input = ReportSheetInput.includes([:orchestra,:member]).where("token = ? and member.mglnr= ? ",params[:token],params[:mglnr])
 
 		
 		#session[:report_sheet_token] = params[:token]
