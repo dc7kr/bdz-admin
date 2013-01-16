@@ -168,7 +168,7 @@ class ReportSheetInputsController < ApplicationController
 
 	@orchestra = @report_sheet_input.orchestra
 
-	@members = @orchestra.orchestra_members
+	@members = @orchestra.orchestra_members.order(["last_name, first_name"])
 
 	@year = @report_sheet_input.report_sheet.year
 

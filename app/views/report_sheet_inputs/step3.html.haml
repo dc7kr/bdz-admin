@@ -19,7 +19,7 @@
           %tr
             %th=t('orchestra_member.first_name')
             %th=t('orchestra_member.last_name')
-            %th=t('orchestra_member.date_of_birth')
+            %th=t('orchestra_member.year_of_birth')
             %th=t('orchestra_member.instrument')
             %th=t('report_sheet.children_col')
             %th=t('report_sheet.teens_col')
@@ -31,7 +31,7 @@
             %tr
               %td=m.first_name
               %td=m.last_name
-              %td=format_date m.date_of_birth
+              %td=m.date_of_birth.year.to_s
               %td=m.instrument
               - ageCategory = memberToAgeCategory(m.date_of_birth,@year)
               %td.check=ageCategory[0]
