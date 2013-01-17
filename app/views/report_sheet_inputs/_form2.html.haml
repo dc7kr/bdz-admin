@@ -1,3 +1,9 @@
+%div.infobox
+  %span.title
+    Hinweis
+  %br
+  Die hier gemeldeten Vorstandsmitglieder werden nicht automatisch in der Beitragsberechnung als aktive Mitglieder berücksichtigt. Bitte melden Sie die aktiven Vorstandsmitglieder im nächsten Schritt erneut als aktive Mitglieder.
+  %br 
 = form_for @report_sheet_input, :url=> submit2_report_sheet_input_path(@report_sheet_input) do |f|
   -OrchestraContact.roles.each_with_index do |role,i|
     - contact = @contact_hash[role]

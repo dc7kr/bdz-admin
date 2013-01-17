@@ -1,5 +1,20 @@
 .block
   %h3 1. Mitgliedertabelle hochladen
+  %div.infobox
+    %span.title
+      Hinweis
+    %br
+    In der Tabelle sind nur aktive Mitglieder einzutragen. 
+    %br 
+    Bitte beachten Sie auch, dass die gemeldeten Vorstandsmitglieder ebenfalls einzutragen sind, sofern sie aktive Mitglieder des Orchesters sind.
+
+  %p Bitte verwenden Sie eine der folgenden Vorlagen, füllen Sie diese aus und laden Sie die Datei wieder hoch:
+  %ul
+    %li= link_to "OpenOffice/LibreOffice", "http://www.bdz-online.de/formulare/meldebogen-vorlage.ods"
+    %li= link_to "MS Excel 97 oder höher", "http://www.bdz-online.de/formulare/meldebogen-vorlage.xls"
+
+
+
   = form_tag upload_report_sheet_input_path(@report_sheet_input), :method => 'post', :multipart=>true do
     = file_field_tag :datafile
     = submit_tag "Hochladen", :name => nil
