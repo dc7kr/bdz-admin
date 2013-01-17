@@ -2,7 +2,11 @@
   %tr{:class => cycle("odd", "even")}
     %td= orchestra_member.first_name
     %td= orchestra_member.last_name
-    %td= l orchestra_member.date_of_birth
+    - if ( orchestra_member.is_dummy_birthday?) then
+      %td.invalid
+        = orchestra_member.year_of_birth
+    - else 
+      %td= orchestra_member.year_of_birth
     %td= orchestra_member.instrument
     %td
       = link_to_show_path orchestra_orchestra_member_path(orchestra_member.orchestra,orchestra_member), t('common.show') , orchestra_member
