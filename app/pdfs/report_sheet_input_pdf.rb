@@ -109,7 +109,7 @@ class ReportSheetInputPdf< Prawn::Document
     [[@view.t('common.fullname'), @view.t('orchestra_member.year_of_birth'),@view.t('orchestra_member.instrument') ]] +
 	
 	@orch.orchestra_members.map do |m| 
-	    [m.first_name+" "+m.last_name, m.year_of_birth), m.instrument] 
+	    [m.first_name+" "+m.last_name, m.year_of_birth, m.instrument] 
     end
   end
 
