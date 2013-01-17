@@ -319,6 +319,7 @@ de:
     first_name: Vorname
     last_name: Nachname
     date_of_birth: Geburtstag
+    year_of_birth: Geburtsjahr
     instrument: Instrument
     mglnr: Mitgliedsnummer
     update_success: "Orchestermitglied erfolgreich geändert."
@@ -421,6 +422,7 @@ de:
     page_3: "Mitgliedermeldung Schritt 3"
     page_4: "Mitgliedermeldung Schritt 4"
     login_first: "Bitte melden Sie sich an!"
+    pdf_confirm: "PDF Bestätigung"
 
   member_report:
     title: Mitgliederbericht
