@@ -29,7 +29,7 @@
             %tr
               %td=m.first_name
               %td=m.last_name
-              %td=m.year_of_birth
+              %td{ :class => birthyear_class(m)}=m.year_of_birth
               %td=m.instrument
               - ageCategory = memberToAgeCategory(m.date_of_birth,@year)
               %td.check=ageCategory[0]

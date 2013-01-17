@@ -136,3 +136,12 @@ table.short {
 	font-weight:bold;
 	font-size:14pt;
 }
+
+td.invalid {
+        background-color:#ff0000;
+        color: #ffffff;
+}
+
+td.warning {
+        background-color:#ffff00;
+}

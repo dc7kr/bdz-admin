@@ -1,5 +1,16 @@
 module ReportSheetInputsHelper
 
+def birthyear_class(member) 
+
+	if (member.date_of_birth == nil ) then
+		"invalid"
+	elsif (member.is_dummy_birthday?) then
+		"warning"
+	else
+		""
+	end
+
+end
 def memberToAgeCategory(dob,year)
 
 	age = nil
