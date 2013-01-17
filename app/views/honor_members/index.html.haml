@@ -3,16 +3,16 @@
     =render :partial=>'nav'
   .content
     %h2.title
-      = t("honor_members.title")
+      = t("honor_member.title")
     .inner
       %table.table
         %thead
-          %th.first= t("honor_members.nr")
-          %th= t("honor_members.vorname")
-          %th= t("honor_members.name")
-          %th= t("honor_members.ort")
-          %th= t("honor_members.honortype")
-          %th= t("honor_members.honordate")
+          %th.first= t("honor_member.nr")
+          %th= t("honor_member.vorname")
+          %th= t("honor_member.name")
+          %th= t("honor_member.ort")
+          %th= t("honor_member.honortype")
+          %th= t("honor_member.honordate")
           %th.last &nbsp;
         %tbody#orchestras
           = render @honor_members

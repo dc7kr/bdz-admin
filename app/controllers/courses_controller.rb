@@ -62,6 +62,14 @@ class CoursesController < ApplicationController
   def create
     @course = Course.new(params[:course])
 
+	if @course.bland == nil then
+		@course.bland = 1
+	end
+
+	if @course.ort == nil then
+		@course.ort="Barmingholtener Vereinshaus, Sterkrader Str. 14,46539 Dinslaken"
+	end
+
     respond_to do |format|
       if @course.save
         format.html { redirect_to @course, :notice => 'Course was successfully created.' }
@@ -73,6 +81,23 @@ class CoursesController < ApplicationController
     end
   end
 
+  def publish 
+	@course = Course.find(params[:id])
+	@course.confirmed = Time.now
+	@course.visible = true
+	@course.save
+
+    respond_to do |format|
+      if @course.save
+        format.html { redirect_to @course, :notice => t('course.publish_success') }
+        format.json { render :json => @course, :status => :created, :location => @course }
+      else
+        format.html { render :action => "new" }
+        format.json { render :json => @course.errors, :status => :unprocessable_entity }
+      end
+    end
+
+  end
   # PUT /courses/1
   # PUT /courses/1.json
   def update

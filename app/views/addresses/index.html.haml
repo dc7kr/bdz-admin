@@ -8,19 +8,13 @@
     .inner
       %table.table
         %thead
-          %th Anrede
-          %th Titel
           %th Vorname
           %th Name
           %th Adresse
           %th Telefon
-          %th Mobil
           %th Fax
           %th Email
           %th
-      %tbody#addresses
-        = render @addresses
+        %tbody#addresses
+          = render @addresses
 
-%br
-
-= link_to_new(new_address_path,'New')

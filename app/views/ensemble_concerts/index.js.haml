@@ -1,0 +1,2 @@
+$('#ensemble_concerts').html('#{escape_javascript render(@ensemble_concerts)}');
+$('#paginator').html('#{escape_javascript(paginate(@ensemble_concerts, :remote => true).to_s)}');

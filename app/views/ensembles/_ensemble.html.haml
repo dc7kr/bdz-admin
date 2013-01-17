@@ -1,14 +1,13 @@
-- @ensembles.each do |ensemble|
-  %tr{:class => cycle("odd", "even")}
-    %td
-      = link_to ensemble.id, ensemble_path(ensemble)
-    %td
-      = ensemble.name
-    %td
-      = link_to ensemble.homepage, ensemble.homepage
-    %td.last
-      = link_to_show ensemble, t("common.show")
-      |
-      = link_to_edit ensemble,  t("common.edit")
-      |
-      = link_to_delete ensemble, t("common.delete"), t("common.delete_confirm")
+%tr{:class => cycle("odd", "even")}
+  %td
+    = link_to ensemble.id, ensemble_path(ensemble)
+  %td
+    = ensemble.name
+  %td
+    = link_to ensemble.homepage, ensemble.homepage
+  %td.last
+    = link_to_show ensemble, t("common.show")
+    |
+    = link_to_edit ensemble,  t("common.edit")
+    |
+    = link_to_delete ensemble, t("common.delete"), t("common.delete_confirm")

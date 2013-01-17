@@ -4,10 +4,9 @@ class Concert < ActiveRecord::Base
 
 	belongs_to :user , :foreign_key => "owner"
 	belongs_to :state, :foreign_key => "bland"
-	belongs_to :country, :foreign_key => "land"
-	belongs_to :festival, :foreign_key => "festival"
+	belongs_to :country
+	belongs_to :festival
 	#belongs_to :regional_organization, foreign_key => "lv"
-	self.table_name = 'konzerte'
 
   def zeit_formatted 
      zeit.strftime '%H:%M Uhr'

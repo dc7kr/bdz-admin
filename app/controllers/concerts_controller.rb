@@ -25,7 +25,7 @@ class ConcertsController < AuthenticatedController
   end
 
   def public 
-    @concerts = Concert.public().search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
+    @concerts = Concert.public.search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
     respond_to do |format|
       format.html # index.html.erb
       format.json { render :json => @concerts }
@@ -33,7 +33,7 @@ class ConcertsController < AuthenticatedController
   end
 
   def inactive 
-    @concerts = Concert.inactive().search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
+    @concerts = Concert.inactive.search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
 
     respond_to do |format|
       format.html # index.html.erb

@@ -36,7 +36,7 @@
           %td= @concert.eintritt
         %tr
           %td.label=t("concert.url")
-          %td= @concert.url
+          %td= link_to @concert.url,@concert.url
         %tr
           %td.label=t("concert.email")
           %td= mail_to @concert.email,@concert.email

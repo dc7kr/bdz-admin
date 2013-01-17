@@ -3,9 +3,9 @@
     %td= format_date(concert.datum)
     %td= format_time(concert.zeit)
     %td= concert.stadt
-    %td= concert.titel
     %td= concert.ort
     %td= concert.interpret
+    %td= link_to concert.url,concert.url
     %td
       = link_to_show concert, t('common.show')
       = link_to_edit concert, t('common.edit')

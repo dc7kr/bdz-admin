@@ -4,8 +4,9 @@
   %td= honor_member.name
   %td= honor_member.ort
   %td= honor_member.honorType
-  %td= honor_member.honorDate
-  %td= link_to_show honor_member, t("common.show")
-  %td= link_to_edit honor_member, t("common.edit")
-  %td= link_to_delete honor_member, t("common.delete"), t("common.delete_confirm")
+  %td= l honor_member.honorDate
+  %td
+    = link_to_show honor_member, t("common.show")
+    = link_to_edit honor_member, t("common.edit")
+    = link_to_delete honor_member, t("common.delete"), t("common.delete_confirm")
 

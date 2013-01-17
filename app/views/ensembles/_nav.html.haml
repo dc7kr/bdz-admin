@@ -3,7 +3,7 @@
   %li{ :class => tabActiveClass(@current_action,'index','first')}= link_to "#{t("common.list", :default => "List")}", ensembles_path
   -if (@ensemble)
     %li{ :class => tabActiveClass(@current_action,'show',nil)}= link_to t("common.show"), '#'
+    %li=link_to t('ensemble_concerts.title'), ensemble_ensemble_concerts_path(@ensemble)
   -else
     -if can? :edit , :ensemble
       %li{:class => tabActiveClass(@current_action,'new',nil)}= link_to "#{t("common.new", :default => "New")}", new_ensemble_path
-

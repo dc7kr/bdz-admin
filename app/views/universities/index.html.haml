@@ -1,22 +1,23 @@
-%h1 Listing universities
-
+.block
+  .secondary-navigation
+    =render :partial=>'nav'
+  .content
+    %h2.title
+      = t("common.all")
+      = t("university.title")
+    .inner
+      %table.table
 %table
   %tr
-    %th Name
-    %th Institut
-    %th Strasse
-    %th Plz
-    %th Ort
-    %th Land
-    %th Telefon
-    %th Dozent
-    %th Email
-    %th Homepage
+    %th=t('university.name')
+    %th=t('university.institute')
+    %th=t('universtity.strasse')
+    %th=t('university.plz')
+    %th=t('university.ort')
+    %th=t('university.land')
+    %th=t('university.telefon')
+    %th=t('university.dozent')
+    %th=t('university.email')
+    %th=t('university.homepage')
     %th
-    %th
-    %th
-
   = render @universities
-%br
-
-= link_to 'New University', new_university_path

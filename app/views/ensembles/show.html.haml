@@ -4,29 +4,22 @@
       =render :partial => 'nav'
   .content
     %h2.title
-      = t("common.all", :default => "All")
-      = t("ensemble.title")
+      = @ensemble.name
     .inner
-      %p#notice= notice
-      %p
-        %b Name:
-        = @ensemble.name
-      %p
-        %b Homepage:
-        = @ensemble.homepage
-      %p
-        %b Beschreibung:
-        = @ensemble.beschreibung
-      %p
-        %b Email:
-        = @ensemble.email
-      %p
-        %b Owner:
-        = @ensemble.owner
-      %p
-        %b Visible:
-        = @ensemble.visible
+      %table
+        %tr
+          %td.label=t('ensemble.homepage')
+          %td= link_to @ensemble.homepage, @ensemble.homepage
+        %tr
+          %td.label=t('ensemble.beschreibung')
+          %td= @ensemble.beschreibung
+        %tr
+          %td.label=t('ensemble.email')
+          %td= mail_to @ensemble.email,@ensemble.email
+        %tr
+          %td.label=t('ensemble.owner')
+          %td= @ensemble.owner
+        %tr
+          %td.label=t('ensemble.visible')
+          %td= @ensemble.visible
       
-      = link_to_edit( @ensemble,t('common.edit'))
-      \|
-      = link_back t('common.back')

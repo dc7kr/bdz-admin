@@ -1,17 +1,17 @@
 %tr{:class => cycle("odd", "even")}
-  %td= address.anrede
-  %td= address.titel
-  %td= address.vorname
+  %td
+    = address.titel
+    = address.vorname
   %td= address.name
   %td
     = address.strasse
     %br
     #{address.plz} #{address.ort}
   %td= address.telefon
-  %td= address.mobil
   %td= address.fax
   %td= mail_to address.email, address.email
-  %td= link_to_show(address,'Show')
-  %td= link_to_edit(address,'Edit')
-  %td= link_to_delete(address, 'Destroy','Really?')
+  %td
+    = link_to_show(address,'Show')
+    = link_to_edit(address,'Edit')
+    = link_to_delete(address, 'Destroy','Really?')
 

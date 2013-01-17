@@ -1,0 +1,48 @@
+.block
+  = f.error_messages :message => "", :header_tag => :h3
+.group
+  %table
+    %tr
+      %td= f.label :datum, t("ensemble_concert.datum")
+      %td= f.text_field :datum
+    %tr
+      %td= f.label :zeit, t("ensemble_concert.zeit")
+      %td= f.text_field :zeit
+    %tr
+      %td= f.label :stadt, t("ensemble_concert.stadt")
+      %td= f.text_field :stadt
+    %tr
+      %td= f.label :ort, t("ensemble_concert.ort")
+      %td=f.text_field :ort
+    %tr
+      %td= f.label :festival, t("ensemble_concert.festival")
+      %td= collection_select(:ensemble_concert, :festival_id, Festival.all, :id, :name)
+    %tr
+      %td= f.label :titel, t("ensemble_concert.titel")
+      %td=f.text_field :titel
+    %tr
+      %td= f.label :comment, t("ensemble_concert.comment")
+      %td=f.text_field :comment
+    %tr
+      %td= f.label :eintritt, t("ensemble_concert.eintritt")
+      %td=f.text_field :eintritt
+    %tr
+      %td= f.label :state, t("ensemble_concert.state")
+      %td= collection_select(:ensemble_concert, :state_id, State.all, :id, :name)
+    %tr
+      %td= f.label :country, t("ensemble_concert.country")
+      %td= collection_select(:ensemble_concert, :country_id, Country.all, :id, :name)
+    %tr
+      %td= f.label :email, t("ensemble_concert.email")
+      %td=f.text_field :email
+    %tr
+      %td= f.label :fk_owner, t("ensemble_concert.owner")
+      %td=f.text_field :fk_owner
+    %tr
+      %td= f.label :url, t("ensemble_concert.url")
+      %td=f.text_field :url
+    %tr
+      %td= f.label :visible, t("ensemble_concert.visible")
+      %td=f.check_box :visible
+  = submit_button(t("common.save"))
+  = cancel_button()

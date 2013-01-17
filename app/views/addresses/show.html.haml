@@ -1,30 +1,37 @@
-%p#notice= notice
+.block
+  .secondary-navigation
+    = render :partial => "nav"
+  .content
+    .inner
+      %table
+        %tr
+          %td.label=t("adressse.anrede")
+          %td= @address.anrede
+        %tr
+          %td.label=t("address.vorname")
+          %td= @address.vorname
+        %tr
+          %td.label=t("address.name")
+          %td= @address.name
+        %tr
+          %td.label=t("address.strasse")
+          %td= @address.strasse
+        %tr
+          %td.label=t("address.plz")
+          %td= @address.plz
+        %tr
+          %td.label=t("address.ort")
+          %td= @address.ort
+        %tr
+          %td.label=t("address.mobil")
+          %td= @address.mobil
+        %tr
+          %td.label=t("address.telefon")
+          %td= @address.telefon
+        %tr
+          %td.label=t("address.fax")
+          %td= @address.fax
+        %tr
+          %td.label=t("address.email")
+          %td= mail_to @address.email, @address.email
 
-%p
-  %b Anrede:
-  = @address.anrede
-%p
-  %b Name:
-  = @address.name
-%p
-  %b Strasse:
-  = @address.strasse
-%p
-  %b Plz:
-  = @address.plz
-%p
-  %b Ort:
-  = @address.ort
-%p
-  %b Mobil:
-  = @address.mobil
-%p
-  %b Fax:
-  = @address.fax
-%p
-  %b Email:
-  = @address.email
-
-= link_to_edit( edit_address_path(@address),'Edit',@address)
-\|
-= link_back( addresses_path,'Back')

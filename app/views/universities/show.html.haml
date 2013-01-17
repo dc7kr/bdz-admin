@@ -1,39 +1,40 @@
-%p#notice= notice
+.block
+  .secondary-navigation
+    = render :partial => "nav"
+  .content
+    .inner
+      %table
+        %tr
+          %td.label=t('university.name')
+          %td= @university.name
+        %tr
+          %td.label=t('university.institute')
+          %td= @university.institut
+        %tr
+          %td.label=t('university.studiengang')
+          %td= @university.studiengang
+        %tr
+          %td.label=t('universtity.strasse')
+          %td= @university.strasse
+        %tr
+          %td.label=t('university.plz')
+          %td= @university.plz
+        %tr
+          %td.label=t('university.ort')
+          %td= @university.ort
+        %tr
+          %td.label=t('university.land')
+          %td= @university.country.name
+        %tr
+          %td.label=t('university.telefon')
+          %td= @university.telefon
+        %tr
+          %td.label=t('university.dozent')
+          %td= @university.dozent
+        %tr
+          %td.label=t('university.email')
+          %td= @university.email
+        %tr
+          %td.label=t('university.homepage')
+          %td= @university.homepage
 
-%p
-  %b Name:
-  = @university.name
-%p
-  %b Institut:
-  = @university.institut
-%p
-  %b Strasse:
-  = @university.strasse
-%p
-  %b Plz:
-  = @university.plz
-%p
-  %b Ort:
-  = @university.ort
-%p
-  %b Land:
-  = @university.country.name
-%p
-  %b Telefon:
-  = @university.telefon
-%p
-  %b Studiengang:
-  = @university.studiengang
-%p
-  %b Dozent:
-  = @university.dozent
-%p
-  %b Email:
-  = @university.email
-%p
-  %b Homepage:
-  = @university.homepage
-
-= link_to 'Edit', edit_university_path(@university)
-\|
-= link_to 'Back', universities_path

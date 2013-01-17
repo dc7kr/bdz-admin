@@ -1,0 +1,34 @@
+%p
+  %b Startdate:
+  = format_date @course.startdate
+%p
+  %b Enddate:
+  = format_date @course.enddate
+%p
+  %b Titel:
+  = @course.titel
+%p
+  %b Beschreibung:
+  = @course.beschreibung
+%p
+  %b Gebuehr:
+  = @course.gebuehr
+%p
+  %b Weitere Termine:
+  = @course.more_dates
+%p
+  %b Anmeldung:
+  = @course.anmeldung
+%p
+  %b Deadline:
+  = format_date @course.deadline
+%p
+  %b Reported:
+  = l @course.reported
+%p
+  %b Visible:
+  = @course.visible
+
+= link_to_edit @course,t("common.edit")
+\|
+= link_back t("common.back")

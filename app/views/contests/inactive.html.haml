@@ -1,0 +1,21 @@
+.block
+  .secondary-navigation
+    =render :partial=>'nav'
+  .content
+    %h2.title
+      #{t("common.list")} #{t("contests.title")}
+    .inner
+      %table.table
+        %tr
+          %th.first= t("contest.startDate")
+          %th.first= t("contest.endDate")
+          %th.first= t("contest.title")
+          %th.first= t("contest.deadline")
+          %th.first= t("contest.visible")
+          
+          %th.last &nbsp;
+        = render @contests
+
+%br
+
+= link_to 'New Contest', new_contest_path
