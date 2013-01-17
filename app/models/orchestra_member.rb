@@ -7,7 +7,7 @@ class OrchestraMember < ActiveRecord::Base
 
   def is_dummy_birthday?
 	if ( date_of_birth == nil ) then
-		false
+		true
 	elsif ( date_of_birth.day == 1 and date_of_birth.month == 2 and date_of_birth.year == 1960 ) then
 		true
 	else

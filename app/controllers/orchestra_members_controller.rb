@@ -96,7 +96,7 @@ class OrchestraMembersController < AuthenticatedController
     @orchestra_member.destroy
 
     respond_to do |format|
-      format.html { redirect_to orchestra_members_url }
+      format.html { redirect_to orchestra_orchestra_members_url(@orchestra) }
       format.json { head :no_content }
     end
   end
