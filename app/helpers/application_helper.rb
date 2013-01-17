@@ -78,6 +78,11 @@ def wizard_forward_button(txt,path)
     link_to image_tag('web-app-theme/icons/tick.png', {:size=>'16x16',:alt=>txt,:title=>txt,:class=>'btn'} )+" "+txt,path, :class => "text_button_padding button"
 end
 
+def wizard_del_button(path,txt,entity)
+    link_to image_tag("/assets/icons/delete.png", {:size=>'16x16', :alt => txt, :title=>txt, :class=>'btn'})+" "+txt,path, :class => "test_button_padding button", :confirm => t("common.delete_confirm")
+end
+
+
 def submit_button(txt)
     button_tag(:type=>"submit",:class=>"button") do 
       image_tag("web-app-theme/icons/tick.png", :alt => txt)+" "+txt

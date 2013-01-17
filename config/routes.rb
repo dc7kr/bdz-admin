@@ -22,6 +22,7 @@ BDZAdmin::Application.routes.draw do
 		get :confirm
 		put :confirm
 		post 'upload'
+		get :delete_members
 	end
 
   end
@@ -147,7 +148,13 @@ BDZAdmin::Application.routes.draw do
 			get 'download'	
 		end
 	end
-	resources :orchestra_members
+
+	resources :orchestra_members do
+		collection do 
+			get 'delete_all'
+		end
+	end
+
 	resources :orchestra_contacts
     resources :report_sheets
     resources :distinctions do
@@ -263,6 +270,9 @@ BDZAdmin::Application.routes.draw do
   # the admin  equivalent of the public entities
     resources :addresses
   	resources :courses do
+		member do 
+			get :publish
+		end
 		collection do 
 			get :inactive
 		end

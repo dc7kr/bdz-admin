@@ -366,6 +366,15 @@ class ReportSheetInputsController < ApplicationController
 	end
   end
 
+
+  def delete_members
+	@report_sheet_input = ReportSheetInput.find(params[:id])
+	@report_sheet_input.orchestra.orchestra_members.delete_all
+    respond_to do |format|
+        format.html { redirect_to step3_report_sheet_input_path(@report_sheet_input), notice: t('report_sheet_input.member_delete_success') }
+    end
+  end
+ 
   # DELETE /report_sheet_inputs/1
   # DELETE /report_sheet_inputs/1.json
   def destroy

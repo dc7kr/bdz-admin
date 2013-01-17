@@ -17,6 +17,14 @@ class OrchestraMembersController < AuthenticatedController
     end
   end
 
+  def delete_members
+	@orchestra = Orchestra.find(params[:orchestra_id])
+	@orchestra.orchestra_members.delete_all
+    respond_to do |format|
+        format.html { redirect_to orchestra_orchestra_members_path(@orchestra), notice: t('report_sheet_input.member_delete_success') }
+    end
+  end
+ 
   # GET /orchestra_members/1
   # GET /orchestra_members/1.json
   def show

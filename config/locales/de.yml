@@ -323,6 +323,7 @@ de:
     instrument: Instrument
     mglnr: Mitgliedsnummer
     update_success: "Orchestermitglied erfolgreich geändert."
+    delete_all: "Alle Orchestermitglieder löschen"
   orchestra_contact:
     title: Kontakt-Adressen
     title_s: Kontakt-Adresse
@@ -423,6 +424,7 @@ de:
     page_4: "Mitgliedermeldung Schritt 4"
     login_first: "Bitte melden Sie sich an!"
     pdf_confirm: "PDF Bestätigung"
+    member_delete_success: "Alle Orchestermitglieder wurden gelöscht."
 
   member_report:
     title: Mitgliederbericht
