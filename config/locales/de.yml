@@ -422,6 +422,8 @@ de:
     page_2: "Mitgliedermeldung Schritt 2"
     page_3: "Mitgliedermeldung Schritt 3"
     page_4: "Mitgliedermeldung Schritt 4"
+    no_file_selected: "Bitte wählen Sie zuerst eine Datei zum Hochladen aus!"
+    invalid_upload: "Das Format der hochgeladenen Datei wurde nicht erkannt!"
     login_first: "Bitte melden Sie sich an!"
     pdf_confirm: "PDF Bestätigung"
     member_delete_success: "Alle Orchestermitglieder wurden gelöscht."

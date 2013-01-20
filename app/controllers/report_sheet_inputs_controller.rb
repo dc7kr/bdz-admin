@@ -343,18 +343,24 @@ class ReportSheetInputsController < ApplicationController
 			@report_sheet_input = ReportSheetInput.find(params[:id])
 			@orchestra = @report_sheet_input.orchestra
 
+			datafile = params[:datafile]
+
 			prefix = @orchestra.mglnr.to_s+"_"+Time.now.year.to_s+"_"
+
+			if (datafile == nil ) then
+      	  		redirect_to step3_report_sheet_input_path(@report_sheet_input), :flash => { :error => t('report_sheet_input.no_file_selected') } 
+				return
+			end
 
 			uploaded_file = DataFile.save(prefix, "/tmp",params[:datafile]) 
 
-			datafile = params[:datafile]
 
 			if ( datafile != nil) then
 				@att_file = datafile.original_filename
 
 				doc = open_report_spreadsheet(@att_file,uploaded_file)
 				if ( doc == nil ) then
-      	  			redirect_to step3_report_sheet_input_path(@report_sheet_input), :flash => { :error => t('orchestra.invalid_report_sheet_upload') } 
+      	  			redirect_to step3_report_sheet_input_path(@report_sheet_input), :flash => { :error => t('report_sheet_input.invalid_upload') } 
 				else
 					read_report(doc,@orchestra)
 					if ( @error_count > 0 ) then 
