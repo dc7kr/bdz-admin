@@ -47,6 +47,17 @@ class Member < ActiveRecord::Base
 	end
   end
 
+  def iban
+	if konto == nil or konto == 0 or blz ==nil 
+		return nil
+	end
+  	de_suffix = "131400"
+  	padded_kto =  "%010d" % konto
+  	suffix = blz+ padded_kto+de_suffix
+  	check_digits = 98- (suffix.to_i % 97)
+  	iban = "DE"+ ("%02d" % check_digits) + blz+padded_kto
+  end
+
   def address
     fullname + ", " +strasse + ", "+plz+ " "+ort
   end

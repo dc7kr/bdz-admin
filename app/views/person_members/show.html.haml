@@ -81,10 +81,11 @@
           %td
             #{t("common.za_"+@person_member.za)}
         %tr
-          %td.label
-            #{t("person_member.konto")}:
-          %td
-            = @person_member.konto
+          %td.label #{t("person_member.konto")}:
+          %td= @person_member.konto
+        %tr
+          %td.label #{t("member.iban")}:
+          %td= @person_member.iban
         %tr
           %td.label
             #{t("person_member.blz")}:

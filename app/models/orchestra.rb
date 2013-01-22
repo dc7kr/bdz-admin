@@ -155,6 +155,10 @@ class Orchestra < ActiveRecord::Base
 	member.has_event?(['E','L'],event_id)
   end
 
+  def iban
+    member.iban
+  end
+
   def has_event?(event_type,event_id)
 	member.has_event?(event_type,event_id)
   end

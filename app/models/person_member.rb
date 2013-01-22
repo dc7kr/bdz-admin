@@ -90,4 +90,8 @@ class PersonMember < ActiveRecord::Base
 	(member.email ? member.email+", " : "") 
   end
 
+  def iban
+	member.iban
+  end
+
 end

@@ -43,7 +43,11 @@
           %td #{t("common.za_"+@orchestra.za)}
         %tr
           %td.label #{t("orchestra.konto")}:
-          %td= @orchestra.konto
+          %td
+            = @orchestra.konto
+        %tr
+          %td.label #{t("member.iban")}:
+          %td= @orchestra.iban
         %tr
           %td.label #{t("orchestra.blz")}:
           %td= @orchestra.blz
@@ -59,12 +63,6 @@
         %tr
           %td.label #{t("orchestra.kuendigungErfasst")}:
           %td!= format_bool(@orchestra.kuendigungErfasst)
-        %tr
-          %td.label #{t("orchestra.zweitanschrift")}:
-          %td= @orchestra.zweitanschrift
-        %tr
-          %td.label #{t("orchestra.name2")}:
-          %td= @orchestra.name2
         
     .wat-cf
       = edit_button(edit_orchestra_path(@orchestra),@orchestra)

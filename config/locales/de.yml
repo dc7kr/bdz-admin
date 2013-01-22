@@ -249,6 +249,7 @@ de:
     lv: Landesverband
     konto: Konto-Nr.
     blz: BLZ
+    iban: IBAN
     zahler: Konto-Inhaber
     email: E-Mail
     mglnr: Mitgliedsnummer
