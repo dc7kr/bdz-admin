@@ -14,8 +14,9 @@
       = link_to( "Meldebögen", orchestra_report_sheets_url(@orchestra)) 
     %li
       = link_to( "Meldebogen-Eingabe", rsi_login_orchestra_url(@orchestra)) 
-    %li
-      = link_to( "Ehrungen", orchestra_distinctions_url(@orchestra)) 
+    - if @orchestra.is_regular?
+      %li
+        = link_to( "Ehrungen", orchestra_distinctions_url(@orchestra)) 
 
   %h3 Aktionen
   %ul.navigation
