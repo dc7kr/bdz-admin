@@ -26,7 +26,8 @@ class Ability
 
       if ( user.honor? )
 		can :manage, Distinction 
-		can :read, MemberAccountBooking, :booking_type => 'E'
+		can :read, MemberAccountBooking
+        can :download, MemberAccountBooking
         can :read, Country
         can :read, RegionalOrganization
         can :read, PersonMember
