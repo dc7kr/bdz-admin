@@ -9,6 +9,7 @@ gem 'fastercsv'
 gem 'paperclip'
 
 gem 'rbktoblzcheck'
+#gem 'konto_check'
 
 gem "jquery-fileupload-rails"
 
@@ -90,6 +91,8 @@ gem 'parseconfig'
 group :production do
   gem 'therubyracer'
 end
+
+gem 'nokogiri', '1.5.5'
 
 
 

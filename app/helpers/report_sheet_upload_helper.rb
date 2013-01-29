@@ -14,7 +14,6 @@ end
 def open_report_spreadsheet(filename,uploaded_file)
 	if filename.end_with?(".ods") then
 		Openoffice.new(uploaded_file)
-
 	elsif filename.end_with?(".xls") then	
 		Excel.new(uploaded_file)
 	else
@@ -31,7 +30,7 @@ def float_to_int(val)
 end
 
 def read_members(doc,orchestra)
-  doc.default_sheet = 'Mitglieder'
+  doc.default_sheet='Mitglieder'
   i=0
   @error_count=0
   @success_count=0
@@ -61,6 +60,10 @@ def read_members(doc,orchestra)
 		end
 	  end
       instrument = doc.cell(line,'E')
+
+      if instrument == nil then
+			instrument = ''
+      end
 
       Rails.logger.info i.to_s+":"+first_name+" "+last_name+"###"+date_of_birth.to_s+"###"+instrument
 	  c = OrchestraMember.new
