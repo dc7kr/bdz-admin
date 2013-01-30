@@ -413,6 +413,10 @@ de:
       Y: "Jugendliche 19-27"
       A: "Erwachsene 28-55"
       S: "Erwachsene 55+"
+  regional_organization_booking:
+    index: Landesverbandskonto
+    booking_type_S: Sollstellung
+    booking_type_G: Gutschrift
   report_sheet_input:
     login: Anmelden
     login_title: Meldebogenerfassung
@@ -443,6 +447,10 @@ de:
     insurance_title: Versicherungsdaten
     uv_count: Unfallversicherung
     haft_count: Haftpflichtversicherung
+  cron:
+    lv_bookings: "LV Beitragsanteile buchen"
+    invoice_orchestras: "Rechnungslauf Orchester"
+    invoice_person_members: "Rechnungslauf EM"
   user:
     title_p: Benutzer
     title: Benutzer

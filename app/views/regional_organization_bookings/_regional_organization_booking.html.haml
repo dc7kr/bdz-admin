@@ -5,7 +5,8 @@
         =l regional_organization_booking.booking_date.to_date, :format => :long
       -else
         NULL
-    %td=regional_organization_booking.booking_type
+    %td=t('regional_organization_booking.booking_type_'+regional_organization_booking.booking_type)
+
     %td=regional_organization_booking.booking_year
     %td=regional_organization_booking.booking_txt
     %td=format_currency(regional_organization_booking.amount,'€')

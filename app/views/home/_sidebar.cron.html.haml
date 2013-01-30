@@ -1,11 +1,9 @@
 .block
   %h3=t('common.tasks')
   %ul.navigation
-    %li= link_to "Rechnungslauf komplett", cron_invoices_gen_all_path
-    %li= link_to "Rechnungslauf EM", cron_invoices_gen_persons_path
-    %li= link_to "Rechnungslauf Orchester", cron_invoices_gen_orchestras_path
-    %li= link_to "Rechnungslauf Orchester", cron_invoices_gen_orchestras_path
-    %li= link_to "LV Beitragsanteile", cron_lv_dtaus_index_path
+    %li= link_to t('cron.invoice_person_members'), cron_invoices_gen_persons_path
+    %li= link_to t('cron.invoice_orchestras'), cron_invoices_gen_orchestras_path
+    %li= link_to t('cron.lv_bookings'), cron_lv_dtaus_index_path
 
 .block
   %h3=t('common.events')
