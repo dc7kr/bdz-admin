@@ -60,7 +60,9 @@ class OrchestraMembersController < AuthenticatedController
   # POST /orchestra_members
   # POST /orchestra_members.json
   def create
+	@orchestra = Orchestra.find(params[:orchestra_id])
     @orchestra_member = OrchestraMember.new(params[:orchestra_member])
+	@orchestra_member.orchestra = @orchestra
 
     respond_to do |format|
       if @orchestra_member.save
