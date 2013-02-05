@@ -1277,7 +1277,7 @@ ActiveRecord::Schema.define(:version => 20130110130227) do
 
   add_index "ensembles", ["owner"], :name => "owner"
 
-  create_table "evt_cards", :force => true do |t|
+  create_table "event_cards", :force => true do |t|
     t.datetime "orderdate",                                     :null => false
     t.string   "name",            :limit => 100,                :null => false
     t.string   "email",           :limit => 100,                :null => false
@@ -1294,7 +1294,7 @@ ActiveRecord::Schema.define(:version => 20130110130227) do
     t.integer  "nr_sa_erm",                      :default => 0, :null => false
   end
 
-  create_table "evt_food", :force => true do |t|
+  create_table "event_food", :force => true do |t|
     t.integer  "tln",       :null => false
     t.integer  "veg",       :null => false
     t.string   "name",      :null => false

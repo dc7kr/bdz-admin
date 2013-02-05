@@ -44,6 +44,26 @@ de:
       M: "Sehr geehrter Herr"
       W: "Sehr geehrte Frau"
 
+  event_meal:
+    title: Essensmeldungen
+    tln: Teilnehmer
+    veg: Vegetarisch
+    name: Name
+    email: E-Mail
+  event_card:
+    title: Kartenbestellungen
+    nr_fest: Festivalkarten
+    nr_fest_erm: "Festivalkarten ermäßigt"
+    nr_fest_bdz: "Festivalkarten BDZ-Mitglieder ermäßigt"
+    nr_fest_bdz_erm: "Festivalkarten BDZ-Mitglieder ermäßigt"
+    nr_do: "Tageskarte Donnerstag"
+    nr_fr: "Tageskarte Freitag"
+    nr_sa: "Tageskarte Samstag"
+    nr_do_erm: "Tageskarte Donnerstag ermäßigt"
+    nr_fr_erm: "Tageskarte Freitag ermäßigt"
+    nr_sa_erm: "Tageskarte Samstag ermäßigt"
+
+
   time:
     formats:
       default: ! '%A, %d. %B %Y, %H:%M Uhr'
@@ -206,12 +226,6 @@ de:
     blz:
       required_by_za: Zahlungsart Lastschrift erfordert Bankleitzahl
       unknown: ist unbekannt
-
-  will_paginate:
-    previous_label: "Zurück"
-    next_label: "Weiter"
-    page_gap: "..."
-
 
   ensemble:
     title: Ensemble
@@ -413,6 +427,8 @@ de:
       Y: "Jugendliche 19-27"
       A: "Erwachsene 28-55"
       S: "Erwachsene 55+"
+    final: "Eingereichte Meldebögen"
+    analysis: "Auffällige Meldebögen"
   regional_organization_booking:
     index: Landesverbandskonto
     booking_type_S: Sollstellung
@@ -465,14 +481,6 @@ de:
       current_password: "Aktuelles Passwort"
       current_password_hint: "(wird zum Bestätigen der Änderungen benötigt)"
       cancel_account: "Benutzeraccount löschen"
-
-  views:
-    pagination:
-        truncate: ... 
-        next: Nächste
-        last: Letzte
-        first: Erste
-        previous: Vorherige
   activerecord: 
     errors:
       template:
@@ -542,14 +550,6 @@ de:
       current_password: "Aktuelles Passwort"
       current_password_hint: "(wird zum Bestätigen der Änderungen benötigt)"
       cancel_account: "Benutzeraccount löschen"
-
-  views:
-    pagination:
-        truncate: ... 
-        next: Nächste
-        last: Letzte
-        first: Erste
-        previous: Vorherige
   activerecord: 
     errors:
       template:
@@ -568,4 +568,19 @@ de:
        konto: Konto-Nr.
        blz: Bankleitzahl
        lv: Landesverband
-
+  views:
+    pagination:
+      first: "&laquo; Erste"
+      last: "Letzte &raquo;"
+      previous: "&lsaquo; Vorherige"
+      next: "Nächste &rsaquo;"
+      truncate: "&hellip;"
+  helpers:
+    page_entries_info:
+      one_page:
+        display_entries:
+          zero: "keine %{entry_name} gefunden"
+          one: "Displaying <b>1</b> %{entry_name}"
+          other: "Displaying <b>all %{count}</b> %{entry_name}"
+      more_pages:
+        display_entries: "Zeige Einträge <b>%{first}&nbsp;-&nbsp;%{last}</b> von <b>%{total}</b>"

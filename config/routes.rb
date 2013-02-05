@@ -1,5 +1,13 @@
 BDZAdmin::Application.routes.draw do
 
+  resources :event_cards
+
+
+  resources :event_meals
+
+
+  resources :uploaded_files
+
   match 'api/rsm/gen_data' => 'report_sheet_mailings#gen_data'
   match 'api/rsm/gen_mailings' => 'report_sheet_mailings#gen_mailings'
 
@@ -107,6 +115,7 @@ BDZAdmin::Application.routes.draw do
 	collection do 
 		get 'payed'
 		get 'final'
+		get 'analysis'
 	end
   end
 
@@ -135,6 +144,8 @@ BDZAdmin::Application.routes.draw do
      get :gen_rsi
      get :rsi_login
     end
+
+    resources :uploaded_files
 
 	resources :report_sheet_inputs
 
@@ -326,6 +337,7 @@ BDZAdmin::Application.routes.draw do
 	match 'lv_dtaus/index' => 'lv_dtaus#index'
     match 'reminders/report_sheet' => 'reminders#report_sheet'
     match 'reminders/payment' => 'reminders#payment'
+    match 'cancellations' => 'batch#cancellations'
 	# TODO: These aren't resources!
 	resources :mails
 	resources :downloads
