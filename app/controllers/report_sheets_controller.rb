@@ -1,5 +1,8 @@
 class ReportSheetsController < AuthenticatedController
   load_and_authorize_resource
+
+	include ReportSheetHelper
+
   # GET /report_sheets
   # GET /report_sheets.json
   def index
@@ -115,7 +118,42 @@ class ReportSheetsController < AuthenticatedController
     end
   end
 
-  def public_form
+  def analysis
+	@current_year = Time.now.year;
+	@last_year = @current_year-1
 
+	@sheets = ReportSheet.includes(:orchestra).where('year in  (?) and orchestra_id IS NOT NULL',[@current_year,@last_year]).order(:orchestra_id)
+
+	@counts = Hash.new
+
+	@warning_sheets = Array.new
+
+	@sheets.each do |s|
+		list = @counts[s.orchestra]
+		if list == nil then
+			list = Hash.new
+			@counts[s.orchestra]=list
+		end
+		list[s.year]=s
+
+		if list[@current_year] != nil and list[@last_year] != nil then
+			Rails.logger.info("Both sheets present")
+			last_sheet = list[@last_year]
+			cur_sheet = list[@current_year]
+
+			if triggers_warning?(last_sheet,cur_sheet) then
+
+				ws = { "cur" => cur_sheet, "last" => last_sheet}
+				
+				@warning_sheets << ws
+			end
+		end
+	end
+	Rails.logger.debug(@warning_sheets.size)
+
+	respond_to do |format|
+		format.html
+	end
   end
+
 end

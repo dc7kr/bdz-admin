@@ -1,0 +1,14 @@
+%tr
+  %td=event_meal.veg
+  %td=event_meal.tln
+  %td=event_meal.name
+  %td=mail_to event_meal.email,event_meal.email
+  - if event_meal.orderdate == nil then
+    %td ---
+  - else
+    %td=l event_meal.orderdate
+  %td
+    = link_to_show event_meal
+    = link_to_edit_path edit_event_meal_path(event_meal),t('common.edit'),event_meal
+    = link_to_delete event_meal
+

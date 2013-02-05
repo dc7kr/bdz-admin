@@ -1,0 +1,11 @@
+.block
+  .secondary-navigation
+    = render :partial =>'nav'
+  .content
+    %h2.title
+      = t("common.edit")
+      = t("event_meal.title")
+    .inner
+      = form_for :event_meal, :url => event_meals_path, :html => { :class => :form } do |f|
+        = render :partial => "form", :locals => {:f => f}
+- content_for :sidebar, render(:partial => 'sidebar')

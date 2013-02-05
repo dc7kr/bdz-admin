@@ -1,0 +1,18 @@
+%p#notice= notice
+
+%p
+  %b Filename:
+  = @uploaded_file.filename
+%p
+  %b Report sheet input:
+  = @uploaded_file.report_sheet_input
+%p
+  %b Correct ds:
+  = @uploaded_file.correct_ds
+%p
+  %b Faulty ds:
+  = @uploaded_file.faulty_ds
+
+= link_to 'Edit', edit_uploaded_file_path(@uploaded_file)
+\|
+= link_to 'Back', uploaded_files_path

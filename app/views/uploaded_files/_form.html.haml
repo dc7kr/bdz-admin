@@ -1,0 +1,9 @@
+= semantic_form_for @uploaded_file do |f|
+  = f.inputs do
+      = f.input :filename
+      = f.input :report_sheet_input
+      = f.input :correct_ds
+      = f.input :faulty_ds
+  
+  = f.buttons do
+    = f.commit_button

@@ -106,12 +106,12 @@ body {
 
 .link-group ul.navigation li a:link, #sidebar ul.navigation li a:visited {
   display: block;
-  padding: 10px 15px;
+  padding: 5px 5px;
 }
 
 #sidebar ul.navigation li a:link, #sidebar ul.navigation li a:visited {
   display: block;
-  padding: 10px 15px;
+  padding: 5px 5px;
 }
 
 #sidebar .block .sidebar-block, #sidebar .notice {
@@ -190,8 +190,6 @@ body {
 /* pagination */
 
 .pagination a, .pagination span, .pagination em {
-  padding: 2px 5px;
-  margin-right: 5px; 
   display: block;
   float: left;
   border-style: solid;
@@ -199,11 +197,18 @@ body {
 }
 
 .pagination em {
-  font-weight: bold;  
+  font-weight: bold;
 }
 
 .pagination a {
-  text-decoration: none;  
+  text-decoration: none;
+  padding: 2px 5px;
+  margin-right: 5px;
+
+}
+
+.pagination span {
+
 }
 
 /* tables */

@@ -1,0 +1,23 @@
+.block
+  .secondary-navigation
+    =render :partial=>'nav'
+  .content
+    %h2.title
+      = t("event_meal.title")
+    .inner
+      %table
+        %tr
+          %td.label=t('event_meal.tln')
+          %td=@event_meal.tln
+        %tr
+          %td.label=t('event_meal.veg')
+          %td=@event_meal.veg
+        %tr
+          %td.label=t('event_meal.name')
+          %td=@event_meal.name
+        %tr
+          %td.label=t('event_meal.email')
+          %td=mail_to @event_meal.email,@event_meal.email
+        %tr
+          %td.label=t('event_meal.orderdate')
+          %td=format_date @event_meal.orderdate

@@ -1,11 +1,8 @@
 .content
   .inner
-    .block
-      .block-content
-        = link_to "Länder", countries_path
-        %br
-        = link_to "Bundesländer", states_path 
-        %br
-        = link_to "Landesverbände", regional_organizations_path
-        %br
+    .link-group
+      %ul.navigation
+        %li= link_to "Länder", countries_path
+        %li= link_to "Bundesländer", states_path 
+        %li= link_to "Landesverbände", regional_organizations_path
 - content_for :sidebar, render(:partial => 'sidebar')

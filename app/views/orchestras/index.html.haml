@@ -6,6 +6,8 @@
       = t("common.all")
       Orchester
     .inner
+      #entry_info
+        = page_entries_info @orchestras
       %table.table
         %thead
           %th.first= sortable "mglnr", t("orchestra.mglnr")

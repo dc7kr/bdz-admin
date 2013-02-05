@@ -1,0 +1,21 @@
+.block
+  = f.error_messages :message => "", :header_tag => :h3
+.group
+  %table
+    %tr
+      %td= f.label :tln, t('event_meal.tln'),:class=>'label'
+      %td= f.text_field :tln, :class => 'number_field'
+    %tr
+      %td= f.label :veg, t('event_meal.veg'),:class=>'label'
+      %td= f.text_field :veg, :class => 'number_field'
+    %tr
+      %td= f.label :name, t('event_meal.name'),:class=>'label'
+      %td= f.text_field :name, :class => 'number_field'
+    %tr
+      %td= f.label :email, t('event_meal.veg'),:class=>'label'
+      %td= f.text_field :email
+  %button.button{:type => "submit"}
+    = image_tag("web-app-theme/icons/tick.png", :alt => "#{t("web-app-theme.save", :default => "Save")}")
+    = t("web-app-theme.save", :default => "Save")
+  %span.text_button_padding= t("web-app-theme.or", :default => "or")
+  = cancel_button()

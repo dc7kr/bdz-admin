@@ -145,3 +145,22 @@ td.invalid {
 td.warning {
         background-color:#ffff00;
 }
+
+.actions-bar {
+	clear:both;
+}
+
+#paginator {
+	align:center;
+	clear:both;
+	margin-left:auto;
+	margin-right:auto;
+}
+#entry_info {
+	width:200px;
+	margin-left:auto;
+	margin-right:auto;
+	padding-top:5px;
+	padding-bottom:5px;
+	clear:both;
+}

@@ -1,0 +1,25 @@
+%h1 Listing uploaded_files
+
+%table
+  %tr
+    %th Filename
+    %th Report sheet input
+    %th Correct ds
+    %th Faulty ds
+    %th
+    %th
+    %th
+
+  - @uploaded_files.each do |uploaded_file|
+    %tr
+      %td= uploaded_file.filename
+      %td= uploaded_file.report_sheet_input
+      %td= uploaded_file.correct_ds
+      %td= uploaded_file.faulty_ds
+      %td= link_to 'Show', uploaded_file
+      %td= link_to 'Edit', edit_uploaded_file_path(uploaded_file)
+      %td= link_to 'Destroy', uploaded_file, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Uploaded file', new_uploaded_file_path

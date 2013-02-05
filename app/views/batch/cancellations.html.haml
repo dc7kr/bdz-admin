@@ -1,0 +1,16 @@
+%h2 Austritte
+%h3 gesamt: #{@orchestras.size+@persons.size}
+%table
+  - @orchestras.each do |o|
+    %tr
+      %td=o.orchName
+      %td=l o.austritt_zum
+
+
+%table
+  - @persons.each do |p|
+    %tr
+      %td=p.fullname
+      %td=l p.austritt_zum
+
+

@@ -2,10 +2,8 @@ class PersonMember < ActiveRecord::Base
   inherits_from :member
   belongs_to :tariff
 
-  def self.nomail
-	where('members.email IS NULL')
-  end
-
+  scope :cancelled, includes(:member).where("members.austritt_zum is not null and members.austritt_zum != '0000-00-00' and austritt_zum < now()")
+  scope :nomail,includes(:member).where('members.email IS NULL')
 
   def self.mailForEvent(event)
 		includes([:member]).joins("LEFT JOIN member_events e ON person_members.member_id=e.member_id AND e.event_type='E' and e.event_id='"+event+"'").where("members.email IS NOT NULL and length(members.email) >3 and e.id IS NULL")

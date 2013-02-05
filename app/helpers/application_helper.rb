@@ -107,7 +107,10 @@ def back_button(path)
   link_to image_tag("icons/back.png", :alt => t("common.back"))+" "+t("common.back"), path, :class => "button"
 end
 
-def link_to_edit(entity, txt)
+def link_to_edit(entity, txt=nil)
+	if txt == nil then
+		txt = t('common.edit')
+	end
     if can? :update, entity
                 link_to image_tag('/assets/icons/edit.png', {:size=>'16x16',:alt=>txt,:title=>txt,:class=>'btn'} ),{ :id=>entity, :action=>'edit'}
     end
@@ -125,7 +128,10 @@ def link_to_show_path(path,txt,entity)
     end
 end
 
-def link_to_show(entity,txt)
+def link_to_show(entity,txt=nil)
+	if ( txt == nil ) then
+		txt = t('common.show')
+	end
 	if can? :read, entity
         link_to image_tag('/assets/icons/show.png', {:size=>'16x16',:alt=>txt,:title=>txt,:class=>'btn'} ),entity
     end
@@ -152,7 +158,13 @@ def link_to_publish(entity,txt)
 end
 
 
-def link_to_delete(entity, txt, confirm )
+def link_to_delete(entity, txt=nil, confirm=nil )
+    if txt == nil then
+      txt = t('common.delete')
+    end
+    if  confirm == nil then 
+      txt = t('common.delete_confirm')
+    end
     if can? :delete, entity
 		link_to image_tag('/assets/icons/delete.png', {:size=>'16x16',:alt=>txt,:title=>txt,:class=>'btn'} ),entity,:confirm => confirm, :method => :delete
     end

@@ -1,0 +1,22 @@
+.block
+  .secondary-navigation
+    =render :partial=>'nav'
+  .content
+    %h2.title #{t('report_sheet.analysis')} #{Time.now.year} (gesamt: #{@warning_sheets.size})
+    .inner
+      %div.infobox
+        %span.title
+          Hinweis
+        %br
+        Meldebögen gelten als auffällig, wenn die Zahl der Gema-pflichtigen Mitglieder um mehr als #{BDZ_SETTINGS['report_sheet']['threshold']*100} Prozent vom Vorjahreswert abweicht.
+      %br
+      %table.table
+        %tr
+          %th=t('orchestra.orchName')
+          %th=@last_year.to_s
+          %th=@current_year.to_s
+        - @warning_sheets.each do |w|
+          %tr
+            %td=link_to w["cur"].orchestra.orchName, orchestra_report_sheet_path(w["cur"].orchestra,w["cur"])
+            %td=w["last"].calcGemaCount
+            %td=w["cur"].calcGemaCount

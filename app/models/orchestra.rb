@@ -1,5 +1,8 @@
 require 'valid_email'
 class Orchestra < ActiveRecord::Base
+
+  scope :cancelled, includes(:member).where("members.austritt_zum is not null and members.austritt_zum != '0000-00-00' and austritt_zum < now()")
+
   has_many :report_sheets
   has_many :orchestra_contacts
   has_many :orchestra_members

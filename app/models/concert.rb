@@ -1,6 +1,7 @@
 class Concert < ActiveRecord::Base
 
     scope :public, where('visible=1 and datum >= now()')
+	scope :inactive, where('visible=0')
 
 	belongs_to :user , :foreign_key => "owner"
 	belongs_to :state, :foreign_key => "bland"
@@ -32,9 +33,6 @@ class Concert < ActiveRecord::Base
   end
 
 
-  def self.inactive()
-	where('visible=0')
-  end
   def self.active()
 	where('visible=1')
   end

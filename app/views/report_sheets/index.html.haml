@@ -11,7 +11,10 @@
       %table.table
         %thead
           %tr
-            %th=t("report_sheet.year")
+            -if @orchestra
+              %th=t("report_sheet.year")
+            -else 
+              %th=t("member.mglnr")
             %th=t("report_sheet.children")
             %th=t("report_sheet.teens")
             %th=t("report_sheet.youth")

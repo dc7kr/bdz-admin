@@ -7,9 +7,6 @@
       = t("orchestra_member.title")
     .inner
 
-      .wat-cf 
-        - if (@orchestra_members != nil and @orchestra_members.count > 0) then
-          = wizard_del_button(delete_all_orchestra_orchestra_members_path(@orchestra), t('orchestra_member.delete_all'),@orchestra_members[0]);
       %table.table
         %thead
           %th.first= sortable "first_name", t("orchestra_member.first_name")
@@ -23,4 +20,7 @@
         = paginate @orchestra_members, :remote=>true
       .actions-bar.wat-cf
         .actions
+          - if (@orchestra_members != nil and @orchestra_members.count > 0) then
+            = wizard_del_button(delete_all_orchestra_orchestra_members_path(@orchestra), t('orchestra_member.delete_all'),@orchestra_members[0]);
+
 - content_for :sidebar, render(:partial => 'sidebar')
