@@ -1,10 +1,12 @@
 .block.notice
   %h3 LV Konto
-
-  %h3 Links
   %ul.navigation
     %li
       = link_to "LV Konto", regional_organization_acct_bookings_path(@regional_organization)
+      = link_to "Oddset Bericht", oddset_report_regional_organization_path(@regional_organization, :year => @lastYear)
+
+  %h3 Links
+  %ul.navigation
     %li
       = link_to( "Mitglieder", members_regional_organization_path(@regional_organization))
       = link_to( "Mitglieder (PDF)", members_regional_organization_path(@regional_organization,:format=>"pdf"))

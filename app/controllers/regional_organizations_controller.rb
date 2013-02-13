@@ -17,6 +17,8 @@ class RegionalOrganizationsController < ApplicationController
   # GET /regional_organizations/1
   # GET /regional_organizations/1.json
   def show
+
+	@lastYear = Time.now.year-1
     @regional_organization = RegionalOrganization.find(params[:id])
 
     respond_to do |format|
