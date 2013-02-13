@@ -1,0 +1,30 @@
+%p#notice= notice
+
+%p
+  %b Nationality:
+  = @festival_application.nationality
+%p
+  %b Orchestra:
+  = @festival_application.orchestra
+%p
+  %b Orch name:
+  = @festival_application.orch_name
+%p
+  %b Conductor:
+  = @festival_application.conductor
+%p
+  %b Num players:
+  = @festival_application.num_players
+%p
+  %b Equipment:
+  = @festival_application.equipment
+%p
+  %b Special cast:
+  = @festival_application.special_cast
+%p
+  %b Contact person:
+  = @festival_application.contact_person
+
+= link_to 'Edit', edit_festival_application_path(@festival_application)
+\|
+= link_to 'Back', festival_applications_path

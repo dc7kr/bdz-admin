@@ -1,0 +1,25 @@
+%h1 Listing festival_pieces
+
+%table
+  %tr
+    %th Festival application
+    %th Composer
+    %th Title
+    %th Duration
+    %th
+    %th
+    %th
+
+  - @festival_pieces.each do |festival_piece|
+    %tr
+      %td= festival_piece.festival_application
+      %td= festival_piece.composer
+      %td= festival_piece.title
+      %td= festival_piece.duration
+      %td= link_to 'Show', festival_piece
+      %td= link_to 'Edit', edit_festival_piece_path(festival_piece)
+      %td= link_to 'Destroy', festival_piece, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Festival piece', new_festival_piece_path

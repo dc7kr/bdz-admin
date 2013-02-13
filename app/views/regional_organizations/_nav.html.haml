@@ -1,5 +1,7 @@
 %ul.wat-cf
   %li.first= link_to_up_path t("common.up"), home_member_data_path
   %li.active= link_to "#{t("web-app-theme.list", :default => "List")}", regional_organizations_path
+  - if @regional_organization
+    %li= link_to t("member_report.oddset_report"), regional_organizations_path
   %li= link_to "#{t("web-app-theme.new", :default => "New")}", new_regional_organization_path
 

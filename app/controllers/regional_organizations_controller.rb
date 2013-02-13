@@ -127,4 +127,17 @@ class RegionalOrganizationsController < ApplicationController
 		
 	end
   end
+
+  def oddset_report
+	@report_sheets = ReportSheet.find_by_sql(["SELECT rs.* FROM report_sheets rs, members m WHERE rs.orchestra_id=m.id AND m.regional_organization_id = ? AND year = ?",params[:id],params[:year]])
+
+
+	@sums = { :orchestras => 0, :passive =>0, :active => 0, :youth =>0 } 
+	@report_sheets.each do |r|
+		@sums[:orchestras]+=1
+		@sums[:passive]+=r.passive
+		@sums[:active]+=r.totalActiveMembers
+		@sums[:youth]+=r.children+r.teens+r.youth
+	end
+  end
 end

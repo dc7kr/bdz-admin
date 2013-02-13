@@ -101,6 +101,18 @@ class ReportSheetInputsController < ApplicationController
   def submit1
 	@report_sheet_input = ReportSheetInput.find(params[:id])
 
+	if current_user != nil then
+    	@report_sheet_input.admin_flag=true
+	else
+		# looks strange but is correct! this is for NIL case and admin
+		# flag not yet set to false... (if it is true we want it to stay true)
+		if ( @report_sheet_input.admin_flag!=true) then
+			@report_sheet_input.admin_flag=false
+		end
+	end
+	@report_sheet_input.save
+
+	
     
     respond_to do |format|
       if @report_sheet_input.orchestra.update_attributes(params[:report_sheet_input][:orchestra]) and @report_sheet_input.report_sheet.update_attributes(params[:report_sheet_input][:report_sheet]) then
@@ -310,6 +322,11 @@ class ReportSheetInputsController < ApplicationController
 		  # POST /report_sheet_inputs.json
 	  def create
 		@report_sheet_input = ReportSheetInput.new(params[:report_sheet_input])
+		if ( current_user != nil ) then
+			@report_sheet_input.admin_flag=true
+		else
+			@report_sheet_input.admin_flag=false
+		end
 
 		respond_to do |format|
 		  if @report_sheet_input.save

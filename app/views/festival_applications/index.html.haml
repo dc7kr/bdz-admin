@@ -1,0 +1,33 @@
+%h1 Listing festival_applications
+
+%table
+  %tr
+    %th Nationality
+    %th Orchestra
+    %th Orch name
+    %th Conductor
+    %th Num players
+    %th Equipment
+    %th Special cast
+    %th Contact person
+    %th
+    %th
+    %th
+
+  - @festival_applications.each do |festival_application|
+    %tr
+      %td= festival_application.nationality
+      %td= festival_application.orchestra
+      %td= festival_application.orch_name
+      %td= festival_application.conductor
+      %td= festival_application.num_players
+      %td= festival_application.equipment
+      %td= festival_application.special_cast
+      %td= festival_application.contact_person
+      %td= link_to 'Show', festival_application
+      %td= link_to 'Edit', edit_festival_application_path(festival_application)
+      %td= link_to 'Destroy', festival_application, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Festival application', new_festival_application_path

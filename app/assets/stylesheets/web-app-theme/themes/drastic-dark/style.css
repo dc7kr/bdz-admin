@@ -278,7 +278,7 @@ hr {
 
 .form input.text_field, .form textarea.text_area {
   width: 100%;
-  border: 1px solid rgba(255,255,255,0.4);
+  border: 1px solid silver;
 }
 
 .form input.button {

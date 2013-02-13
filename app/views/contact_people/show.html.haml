@@ -1,0 +1,33 @@
+%p#notice= notice
+
+%p
+  %b Salutation:
+  = @contact_person.salutation
+%p
+  %b First name:
+  = @contact_person.first_name
+%p
+  %b Last name:
+  = @contact_person.last_name
+%p
+  %b Street:
+  = @contact_person.street
+%p
+  %b Zip:
+  = @contact_person.zip
+%p
+  %b City:
+  = @contact_person.city
+%p
+  %b Country:
+  = @contact_person.country
+%p
+  %b Email:
+  = @contact_person.email
+%p
+  %b Phone:
+  = @contact_person.phone
+
+= link_to 'Edit', edit_contact_person_path(@contact_person)
+\|
+= link_to 'Back', contact_people_path
