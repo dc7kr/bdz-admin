@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130208082837) do
+ActiveRecord::Schema.define(:version => 20130213151453) do
 
   create_table "addresses", :force => true do |t|
     t.string "anrede",             :limit => 10,  :null => false
@@ -73,6 +73,7 @@ ActiveRecord::Schema.define(:version => 20130208082837) do
     t.string   "comment"
     t.datetime "created_at",     :null => false
     t.datetime "updated_at",     :null => false
+    t.string   "link"
   end
 
   add_index "composers", ["fk_ref_komp_id"], :name => "index_composers_on_fk_ref_komp_id"
@@ -106,7 +107,7 @@ ActiveRecord::Schema.define(:version => 20130208082837) do
     t.integer  "festival_id",  :limit => 8,                                 :default => 0,                     :null => false
     t.string   "interpret",                                                                                    :null => false
     t.string   "url",                                                                                          :null => false
-    t.string   "bemerkung",                                                                                    :null => false
+    t.string   "comment",                                                                                      :null => false
     t.string   "bundesland",                                                :default => "",                    :null => false
     t.integer  "bland",        :limit => 8,                                 :default => 0,                     :null => false
     t.integer  "country_id",   :limit => 8,                                                                    :null => false
@@ -121,6 +122,20 @@ ActiveRecord::Schema.define(:version => 20130208082837) do
   add_index "concerts", ["datum", "zeit", "interpret"], :name => "unique_event", :unique => true, :length => {"datum"=>nil, "zeit"=>nil, "interpret"=>30}
   add_index "concerts", ["festival_id"], :name => "festival"
   add_index "concerts", ["owner"], :name => "fk_owner"
+
+  create_table "contact_people", :force => true do |t|
+    t.string   "salutation"
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "street"
+    t.string   "zip"
+    t.string   "city"
+    t.integer  "country_id"
+    t.string   "email"
+    t.string   "phone"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "country", :force => true do |t|
     t.string   "name",                    :default => "", :null => false
@@ -1329,6 +1344,28 @@ ActiveRecord::Schema.define(:version => 20130208082837) do
     t.string   "name",      :null => false
     t.string   "email",     :null => false
     t.datetime "orderdate", :null => false
+  end
+
+  create_table "festival_applications", :force => true do |t|
+    t.integer  "nationality"
+    t.integer  "orchestra_id"
+    t.text     "orch_name"
+    t.text     "conductor"
+    t.integer  "num_players"
+    t.text     "equipment"
+    t.text     "special_cast"
+    t.integer  "contact_person_id"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
+  end
+
+  create_table "festival_pieces", :force => true do |t|
+    t.integer  "festival_application_id"
+    t.string   "composer"
+    t.string   "title"
+    t.time     "duration"
+    t.datetime "created_at",              :null => false
+    t.datetime "updated_at",              :null => false
   end
 
   create_table "festivals", :force => true do |t|

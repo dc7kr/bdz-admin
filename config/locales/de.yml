@@ -405,6 +405,7 @@ de:
     uvsum_short: UV
     korr_ztg: Zeitungen Korrektur (+/-)
     total_active: Gesamt Aktiv
+    total_youth: Gesamt Jugendlich
     total: Gesamtzahl
     child_ens: Kinderensembles
     youth_ens: Jugendensembles
@@ -451,6 +452,7 @@ de:
 
   member_report:
     title: Mitgliederbericht
+    oddset_report: Oddset Zahlen
     orchestra_count: Anzahl Orchester
     active_sum: Summe Aktive
     member_sum: Summe Mitglieder
@@ -463,6 +465,9 @@ de:
     insurance_title: Versicherungsdaten
     uv_count: Unfallversicherung
     haft_count: Haftpflichtversicherung
+    uv_count: Unfallversicherung
+    haft_count: Haftpflichtversicherung
+
   cron:
     lv_bookings: "LV Beitragsanteile buchen"
     invoice_orchestras: "Rechnungslauf Orchester"
@@ -520,20 +525,6 @@ de:
     anmeldung: Infos und Anmeldung
 
      
-  member_report:
-    title: Mitgliederbericht
-    orchestra_count: Anzahl Orchester
-    active_sum: Summe Aktive
-    member_sum: Summe Mitglieder
-    person_member_count: Anzahl EM
-    lo_only: Mgl nur in LO
-    orch_count: Vereinsorchester
-    koop_count: Kooperative
-    lo_count: Landesorchester
-    lo_all: LO Mgl. Gesamt
-    insurance_title: Versicherungsdaten
-    uv_count: Unfallversicherung
-    haft_count: Haftpflichtversicherung
   url:
     confirm_delete: "URL wirklich löschen?"
   user:

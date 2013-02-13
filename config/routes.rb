@@ -1,5 +1,14 @@
 BDZAdmin::Application.routes.draw do
 
+  resources :festival_pieces
+
+
+  resources :contact_people
+
+
+  resources :festival_applications
+
+
   resources :event_cards
 
 
@@ -96,6 +105,7 @@ BDZAdmin::Application.routes.draw do
 		get :members
 		get :orch
 		get :person
+        get :oddset_report
     end
 	collection do
 		get :create_annual_payment

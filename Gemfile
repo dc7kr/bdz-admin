@@ -38,7 +38,7 @@ gem 'bluecloth'
 gem 'gimli' 
 
 gem 'dynamic_form'
-#gem 'formtastic'
+gem 'formtastic'
 gem 'valid_email'
 
 gem "comma", "~> 3.0"
@@ -92,7 +92,7 @@ group :production do
   gem 'therubyracer'
 end
 
-gem 'nokogiri', '1.5.5'
+#gem 'nokogiri', '1.5.5'
 
 
 
