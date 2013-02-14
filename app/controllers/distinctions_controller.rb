@@ -22,7 +22,11 @@ class DistinctionsController < AuthenticatedController
 
 	@tw.writeDistinction(@distinction,@invoiceNumber)
 	system("/opt/bdz-rechnung/bin/ehrungsrechnung.sh "+String(@orchestra.mglnr))
-	@zipName = @dw.genDtaus()
+
+	if ( @distinction.orchestra.za == 'L') then
+		@zipName = @dw.genDtaus()
+	end
+
     @tw.moveGeneratedFiles(@dw.datePrefix)
 	@cur_year = Time.now.year
 	@booking_txt = 'Ehrungsrechung '+@invoiceNumber
