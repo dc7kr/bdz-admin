@@ -20,6 +20,9 @@ class Member < ActiveRecord::Base
 	end
   end
 
+  def is_direct_debit?
+	za == 'L'
+  end
   def fullname 
      result =''
      if ( vorname ) 

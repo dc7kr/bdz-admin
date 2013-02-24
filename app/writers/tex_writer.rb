@@ -13,6 +13,7 @@ class TexWriter
 			writeOurData(f,'distinction')
 			writeCommon(f,distinction.orchestra)
 			f.write('\newcommand{\renummer}{'+invoiceNumber+"}\n")
+			f.write('\newcommand{\zweck}{'+invoiceNumber+"}\n")
 		}
 		File.open(TexWriter.workdir+"/posten.tex",'w') {|f|
 			writeTariffComponent(f,distinction.certificates,Prices.certificate,"Urkunden")
@@ -87,7 +88,7 @@ class TexWriter
 
 	def writeCommon(f,member)
 		f.write('\newcommand{\mglnr}{'+String(member.mglnr)+"}\n")
-		if ( member.za == 'L' ) then
+		if ( member.is_direct_debit? ) then
 			f.write('\newcommand{\konto}{'+String(member.konto)+"}\n")
 			f.write('\newcommand{\blz}{'+member.blz+"}\n")
 		else

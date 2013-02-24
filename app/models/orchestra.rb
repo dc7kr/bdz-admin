@@ -154,6 +154,9 @@ class Orchestra < ActiveRecord::Base
 	orch_type == 'O'
   end
 
+  def is_direct_debit?
+	member.is_direct_debit?
+  end
   def has_notify_event?(event_id)
 	member.has_event?(['E','L'],event_id)
   end

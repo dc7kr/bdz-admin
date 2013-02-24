@@ -11,10 +11,10 @@
     = f.text_field :label
   .field
     = f.label :regional_organization
-    = f.collection_select :fk_lv_id , RegionalOrganization.find(:all,:order => "name ASC"), :id, :name
+    = f.collection_select :regional_organization_id, RegionalOrganization.find(:all,:order => "name ASC"), :id, :name
   .field
     = f.label :address
-    = f.collection_select :fk_addr_id, Address.find(:all,:order => "name ASC, vorname ASC"), :id, :to_s
+    = f.collection_select :address_id, Address.find(:all,:order => "name ASC, vorname ASC"), :id, :to_s
   .field
     = f.label :bund
     = f.check_box :bund, :class => 'check_box'
