@@ -33,8 +33,11 @@ class AdminNotifier < ActionMailer::Base
 	 mail(:to => user.email, :subject => "BDZ LV Beitragsanteile DTAUS")
   end
   
-  def newdistinction_notification(dtaus, invnr)
-     @dtaus_url = dtaus		 
+  def newdistinction_notification(dtaus, invnr, is_direct_debit)
+     @dtaus_url = dtaus
+	 @is_direct_debit = is_direct_debit
+
+	 @invoice_number = invnr
 
 	if ENV["RAILS_ENV"] == "production" 
 		@name = BDZ_SETTINGS['contacts']['treasurer']['name']
@@ -47,6 +50,5 @@ class AdminNotifier < ActionMailer::Base
 	@cc = BDZ_SETTINGS['contacts']['admin']['mail']
 
 	mail(:to => @user, :cc => @cc, :subject => "Neue Ehrungsrechnung Nr. "+invnr);
-
   end
 end
