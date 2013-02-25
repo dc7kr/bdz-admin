@@ -1,0 +1,9 @@
+%h2 Doppelmitgliedschaftscheck
+
+%h3 Fehlerhaft:
+%table
+  = render @faulty_members
+%h3 Erfolgreich geprüft:
+%table
+  = render @checked_members
+

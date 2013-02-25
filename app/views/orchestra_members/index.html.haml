@@ -12,6 +12,8 @@
           %th.first= sortable "first_name", t("orchestra_member.first_name")
           %th= sortable "last_name", t("orchestra_member.last_name")
           %th= sortable "date_of_birth", t("orchestra_member.date_of_birth")
+          - if @orchestra.is_lorch?
+            %th= sortable "mglnr", t("orchestra_member.mglnr")
           %th= sortable "instrument", t("orchestra_member.instrument")
           %th.last &nbsp;
         %tbody#orchestra_members
@@ -22,5 +24,7 @@
         .actions
           - if (@orchestra_members != nil and @orchestra_members.count > 0) then
             = wizard_del_button(delete_all_orchestra_orchestra_members_path(@orchestra), t('orchestra_member.delete_all'),@orchestra_members[0]);
+            - if @orchestra.is_lorch?
+              = wizard_img_button(check_double_orchestra_orchestra_members_path(@orchestra), t('orchestra_member.check_double'), "/assets/icons/check.png")
 
 - content_for :sidebar, render(:partial => 'sidebar')

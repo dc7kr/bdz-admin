@@ -63,7 +63,11 @@ BDZAdmin::Application.routes.draw do
   resources :countries do
     resources :states
   end
-  resources :classifieds
+  resources :classifieds do
+	member do 
+		get :publish
+	end
+  end
 
   resources :advertisements
 
@@ -173,6 +177,10 @@ BDZAdmin::Application.routes.draw do
 	resources :orchestra_members do
 		collection do 
 			get 'delete_all'
+			get 'check_double'
+		end
+		member do
+			get 'exchange'
 		end
 	end
 

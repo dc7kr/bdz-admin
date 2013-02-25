@@ -91,6 +91,50 @@ class OrchestraMembersController < AuthenticatedController
     end
   end
 
+  def exchange
+    @orchestra_member = OrchestraMember.find(params[:id])
+
+	name = @orchestra_member.last_name
+	first = @orchestra_member.first_name
+
+	@orchestra_member.last_name=first
+	@orchestra_member.first_name=name
+
+    respond_to do |format|
+      if @orchestra_member.save
+        format.html { redirect_to orchestra_orchestra_members_path(@orchestra_member.orchestra), notice: t('orchestra_member.exchange_success') }
+      end
+	end
+  end
+
+  def check_double
+    @orchestra_members = OrchestraMember.where("orchestra_id = ?", params[:orchestra_id])
+
+	@faulty_members = Array.new
+	@checked_members = Array.new
+	@orchestra = Orchestra.find(params[:orchestra_id])
+	@orchestra_members.each do |o|
+		if o.mglnr != nil and o.mglnr != 0 then
+			orch = Orchestra.includes(:member).where("members.mglnr = ?",o.mglnr)	
+
+			if (orch != nil and orch[0] != nil ) then
+				Rails.logger.info("Found orchestra")
+				@matching = OrchestraMember.where("orchestra_id = ? and first_name like ? and last_name like ?",orch[0].id,o.first_name,o.last_name)
+
+				if ( @matching != nil and @matching[0] != nil ) then 
+					@checked_members << @matching[0]
+				else 
+					@faulty_members << o
+				end
+			else
+				Rails.logger.info("Invalid mglnr: "+o.mglnr.to_s)
+				@faulty_members << o
+			end
+		end
+	end
+	
+  end
+
   # DELETE /orchestra_members/1
   # DELETE /orchestra_members/1.json
   def destroy

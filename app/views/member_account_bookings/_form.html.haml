@@ -18,6 +18,11 @@
     %tr
       %td= f.label :amount, t("booking.amount"), :class => :label
       %td= f.text_field :amount, :class => 'text_field'
+    - if isAdmin? then
+      %tr
+        %td= f.label :porto, t("distinction.file_name"), :class => :label
+        %td= f.text_field :filename
+
       
   %button.button{:type => "submit"}
     =submit_button(t("common.save", :default => "Save"))

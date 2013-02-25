@@ -3,8 +3,11 @@ class FestivalsController < ApplicationController
   # GET /festivals.json
   before_filter :authenticate_user!#, :except => [:index]
   load_and_authorize_resource
+
+  helper_method :sort_column, :sort_direction
+
   def index
-    @festivals = Festival.all
+    @festivals = Festival.search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -81,5 +84,11 @@ class FestivalsController < ApplicationController
       format.html { redirect_to festivals_url }
       format.json { head :ok }
     end
+  end
+
+
+  private 
+  def sort_column
+    Festival.column_names.include?(params[:sort]) ? params[:sort] : "festivals.startdate"
   end
 end

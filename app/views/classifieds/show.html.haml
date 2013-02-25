@@ -1,6 +1,39 @@
-%p#notice= notice
+.block
+  .secondary-navigation
+    = render :partial=>"nav"
+  .content
+    .inner
+      %h2
+        = t("classified.title")
+        = @classified.object
+      %table
+=@classified.name
+=@classified.email
+=@classified.url
+=@classified.object
+=@classified.description
+=@classified.validuntil
+=@classified.entrydate
+=@classified.visible
+        %tr
+          %td.label
+            = t("classified.adv_type")
+            \:
+          %td= @classified.adv_type
+          %td à
+          %td.currency
+            =format_currency(Prices.childrenRate,'€')
+          %td.currency
+            = format_currency(@classified.children * Prices.childrenRate,'€')
+        %tr
+          %td.label
+            = t("classified.teens")
+            \:
+          %td= @classified.teens
+          %td à
+          %td.currency
+            =format_currency(Prices.teensRate,'€')
+          %td.currency
+            = format_currency(@classified.teens * Prices.teensRate,'€')
 
 
-= link_to 'Edit', edit_classified_path(@classified)
-\|
-= link_to 'Back', classifieds_path

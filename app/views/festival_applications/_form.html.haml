@@ -1,10 +1,22 @@
-= semantic_form_for @festival_application do |f|
-  = f.inputs do
-    = f.input :nationality
-    = f.input :orchestra
-    = f.input :orch_name
-    = f.input :conductor
-    = f.input :num_players
+.block
+  = f.error_messages :message => "", :header_tag => :h3
+.group
+  %table
+    %tr
+      %td= f.label :nationality, t("festival_application.nationality"), :class => :label
+      %td= f.text_field :nationality
+    %tr
+      %td= f.label :orchestra, t("festival_application.orchestra"), :class => :label
+      %td= f.text_field :orchestra
+    %tr
+      %td= f.label :orch_name, t("festival_application.orch_name"), :class => :label
+      %td= f.text_field :orch_name
+    %tr
+      %td= f.label :conductor, t("festival_application.conductor"), :class => :label
+      %td= f.text_field :conductor
+    %tr
+      %td= f.label :num_players, t("festival_application.num_players"), :class => :label
+      %td= f.text_field :num_players
     = f.input :equipment
     = f.input :special_cast
     = f.input :contact_person

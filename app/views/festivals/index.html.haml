@@ -1,3 +1,25 @@
+.block
+  .secondary-navigation
+    =render :partial=>'nav'
+  .content
+    %h2.title
+      = t("common.all")
+      Orchester
+    .inner
+      #entry_info
+        = page_entries_info @festivals
+      %table.table
+        %thead
+          %th.first= sortable "mglnr", t("festival.mglnr")
+          %th= sortable "orchName", t("festival.orchName")
+          %th= sortable "email", t("member.email")
+          %th.last &nbsp;
+        %tbody#festivals
+          =render @festivals
+      #paginator
+        = paginate @festivals, :remote=>true
+      .actions-bar.wat-cf
+        .actions
 %h1 Listing festivals
 
 %table
@@ -17,22 +39,6 @@
     %th
     %th
 
-  - @festivals.each do |festival|
-    %tr
-      %td= festival.startdate
-      %td= festival.bland
-      %td= festival.name
-      %td= festival.description
-      %td= festival.anmeldung
-      %td= festival.gebuehren
-      %td= festival.stadt
-      %td= festival.homepage
-      %td= festival.ort
-      %td= festival.ortdetails
-      %td= festival.visible
-      %td= link_to_show( festival_path(festival), 'Show')
-      %td= link_to_edit( edit_festival_path(festival) ,'Edit')
-      %td= link_to_delete(festival,'Satz löschen','Wirklich löschen?')
+  = render @festivals
 %br
 
-= link_to_new(new_festival_path, "New festival")

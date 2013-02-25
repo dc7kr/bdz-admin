@@ -43,7 +43,7 @@ class DistinctionsController < AuthenticatedController
 	@distinction.member_account_booking = @booking
 	@distinction.save
 
-	send_mail(@dw.datePrefix, @invoiceNumber, @distinction.orchestra.is_direct_debit?)
+	send_mail(@dw.datePrefix, @invoiceNumber, @distinction.orchestra)
 	shortprefix = Time.now.strftime("%Y%m%d-")
 
 	redirect_to(download_orchestra_member_account_booking_path(@orchestra,@booking))
@@ -145,7 +145,7 @@ class DistinctionsController < AuthenticatedController
   end
 
 
-  def send_mail(dtausPrefix, invoiceNr, is_direct_debit)
+  def send_mail(dtausPrefix, invoiceNr, orch )
 
 	year = Time.now.strftime('%Y')
 	pdf_prefix= Time.now.strftime '%Y%m%d'
@@ -154,7 +154,7 @@ class DistinctionsController < AuthenticatedController
     base_url = cron_downloads_url
 	dtaus_url = base_url+"?year="+year+"&filename="+dtausPrefix+"dtaus.zip"
 
-	AdminNotifier.newdistinction_notification(dtaus_url,invoiceNr,is_direct_debit).deliver
+	AdminNotifier.newdistinction_notification(dtaus_url,invoiceNr,orch).deliver
   end
   
 end
