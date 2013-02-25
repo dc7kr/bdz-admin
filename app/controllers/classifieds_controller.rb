@@ -2,7 +2,7 @@ class ClassifiedsController < ApplicationController
   helper_method :sort_column, :sort_direction
 
   def publish 
-	@classified = Contest.find(params[:id])
+	@classified = Classified.find(params[:id])
 	@classified.confirmed = Time.now
 	@classified.visible = true
 	@classified.save

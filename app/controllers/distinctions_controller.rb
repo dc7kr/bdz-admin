@@ -23,7 +23,7 @@ class DistinctionsController < AuthenticatedController
 	@tw.writeDistinction(@distinction,@invoiceNumber)
 	system("/opt/bdz-rechnung/bin/ehrungsrechnung.sh "+String(@orchestra.mglnr))
 
-	if ( @distinction.orchestra.za == 'L') then
+	if ( @distinction.orchestra.is_direct_debit?) then
 		@zipName = @dw.genDtaus()
 	end
 
@@ -34,7 +34,7 @@ class DistinctionsController < AuthenticatedController
     @booking.member_id = @orchestra.id
 	@booking.save
 
-	if (@distinction.orchestra.za == 'L') then
+	if (@distinction.orchestra.is_direct_debit?) then
 		@wdbooking = MemberAccountBooking.newWithdrawal("Lastschrift "+@booking_txt,@distinction.calcSum)
 		@wdbooking.member_id = @orchestra.id
 		@wdbooking.save
@@ -43,12 +43,10 @@ class DistinctionsController < AuthenticatedController
 	@distinction.member_account_booking = @booking
 	@distinction.save
 
-	send_mail(@dw.datePrefix, @invoiceNumber)
+	send_mail(@dw.datePrefix, @invoiceNumber, @distinction.orchestra.is_direct_debit?)
 	shortprefix = Time.now.strftime("%Y%m%d-")
 
 	redirect_to(download_orchestra_member_account_booking_path(@orchestra,@booking))
-
-
   end
 
   # GET /distinctions
@@ -147,7 +145,7 @@ class DistinctionsController < AuthenticatedController
   end
 
 
-  def send_mail(dtausPrefix, invoiceNr)
+  def send_mail(dtausPrefix, invoiceNr, is_direct_debit)
 
 	year = Time.now.strftime('%Y')
 	pdf_prefix= Time.now.strftime '%Y%m%d'
@@ -156,7 +154,7 @@ class DistinctionsController < AuthenticatedController
     base_url = cron_downloads_url
 	dtaus_url = base_url+"?year="+year+"&filename="+dtausPrefix+"dtaus.zip"
 
-	AdminNotifier.newdistinction_notification(dtaus_url,invoiceNr).deliver
+	AdminNotifier.newdistinction_notification(dtaus_url,invoiceNr,is_direct_debit).deliver
   end
   
 end
