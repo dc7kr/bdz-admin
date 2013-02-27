@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.2.11'
+gem 'rails', '3.2.12'
 
 gem 'haml'
 gem 'haml-rails'
@@ -12,6 +12,7 @@ gem 'rbktoblzcheck'
 #gem 'konto_check'
 
 gem "jquery-fileupload-rails"
+gem 'jquery-ui-rails'
 
 # 0.3.1 seems to be broken
 # 0.3.2 works fine :)

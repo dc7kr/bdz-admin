@@ -433,6 +433,8 @@ de:
       S: "Erwachsene 55+"
     final: "Eingereichte Meldebögen"
     analysis: "Auffällige Meldebögen"
+    update_double_members: "Meldebogen anpassen"
+    update_double_success: "Doppelmitglieder erfolgreich auf beitragsfrei gesetzt."
   regional_organization_booking:
     index: Landesverbandskonto
     booking_type_S: Sollstellung

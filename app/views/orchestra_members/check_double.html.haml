@@ -6,4 +6,6 @@
 %h3 Erfolgreich geprüft:
 %table
   = render @checked_members
+- if @checked_members.count > 0 then
+  = wizard_img_button(update_double_members_orchestra_report_sheet_path(@orchestra,@orchestra.currentReportSheet,:dm=>@checked_members.count), t('report_sheet.update_double_members'), "/assets/icons/check.png")
 

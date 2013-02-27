@@ -185,7 +185,11 @@ BDZAdmin::Application.routes.draw do
 	end
 
 	resources :orchestra_contacts
-    resources :report_sheets
+    resources :report_sheets do 
+		member do 
+			get :update_double_members
+		end
+    end
     resources :distinctions do
 		member do
 			get :gen_invoice

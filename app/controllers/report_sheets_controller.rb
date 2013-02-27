@@ -156,4 +156,20 @@ class ReportSheetsController < AuthenticatedController
 	end
   end
 
+  def update_double_members
+    @report_sheet = ReportSheet.find(params[:id])
+
+	@report_sheet.azubi=params[:dm]
+
+    respond_to do |format|
+      if @report_sheet.save
+        format.html { redirect_to orchestra_report_sheet_path(@report_sheet.orchestra,@report_sheet), :notice => t('report_sheet.update_double_success') }
+        format.json { render :json => @report_sheet, :status => :update_double_success, :location => @report_sheet }
+      else
+        format.html { redirect_to orchestra_report_sheet_path(@report_sheet.orchestra,@report_sheet), :warning => t('report_sheet.update_double_failed') }
+        format.json { render :json => @report_sheet.errors, :status => :unprocessable_entity }
+	  end
+	end
+  end
+
 end
