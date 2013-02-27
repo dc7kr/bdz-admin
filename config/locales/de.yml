@@ -3,6 +3,7 @@ de:
     group: Zielgruppe
     datafile: Anhang
   common:
+    exchange: Austauschen
     fullname: Name
     all: Alle
     links: Links
@@ -339,6 +340,8 @@ de:
     mglnr: Mitgliedsnummer
     update_success: "Orchestermitglied erfolgreich geändert."
     delete_all: "Alle Orchestermitglieder löschen"
+    exchange_success: "Vorname und Name erfolgreich ausgetauscht."
+    check_double: "Doppel-Mitgliedschaft prüfen"
   orchestra_contact:
     title: Kontakt-Adressen
     title_s: Kontakt-Adresse
