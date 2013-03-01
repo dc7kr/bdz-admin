@@ -13,9 +13,9 @@ end
 	
 def open_report_spreadsheet(filename,uploaded_file)
 	if filename.end_with?(".ods") then
-		Openoffice.new(uploaded_file)
+		Roo::Openoffice.new(uploaded_file)
 	elsif filename.end_with?(".xls") then	
-		Excel.new(uploaded_file)
+		Roo::Excel.new(uploaded_file)
 	else
 		nil
 	end

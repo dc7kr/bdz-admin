@@ -19,7 +19,7 @@ gem 'jquery-ui-rails'
 gem "rodf", "~> 0.3"
 #gem "rodf", '= 0.3'
 
-gem 'roo'
+gem 'roo', :git => 'git://github.com/dc7kr/roo.git'
 
 #gem 'meta_where'
 gem 'meta_search'
