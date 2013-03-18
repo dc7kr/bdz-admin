@@ -32,6 +32,16 @@ class ReportSheetsController < AuthenticatedController
     end
   end
 
+  def not_final
+    @not_final = ReportSheet.not_final
+
+    respond_to do |format|
+	  format.js
+      format.html # index.html.erb
+      format.json { render :json => @not_final }
+    end
+  end
+
   def payed 
 		@curYear = Time.now.year
 		@report_sheets = ReportSheet.joins(:orchestra => :member).order('members.mglnr').where("report_sheets.year = ?",@curYear).page(params[:page]).per(20)
@@ -58,7 +68,9 @@ class ReportSheetsController < AuthenticatedController
   # GET /report_sheets/new.json
   def new
     @orchestra = Orchestra.find_by_member_id(params[:orchestra_id])
-    @report_sheet = ReportSheet.new_for_orchestra(@orchestra,Time.now.year)
+    @report_sheet = ReportSheet.new
+	@report_sheet.orchestra = @orchestra
+	@report_sheet.year = Time.now.year
 
 
     respond_to do |format|
