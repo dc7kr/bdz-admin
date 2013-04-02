@@ -1,33 +1,24 @@
-%h1 Listing festival_applications
+.block
+  .secondary-navigation
+    =render :partial=>'nav'
+  .content
+    %h2.title
+      = t("common.all")
+      = t("festival_application.plural")
+    .inner
+      %table
+        %tr
+          %th=t("festival_application.country")
+          %th=t("festival_application.orchestra")
+          %th=t("festival_application.orch_name")
+          %th=t("festival_application.conductor")
+          %th=t("festival_application.num players")
+          %th=t("festival_application.equipment")
+          %th=t("festival_application.special_cast")
+          %th=t("festival_application.contact_person")
+          %th
 
-%table
-  %tr
-    %th Nationality
-    %th Orchestra
-    %th Orch name
-    %th Conductor
-    %th Num players
-    %th Equipment
-    %th Special cast
-    %th Contact person
-    %th
-    %th
-    %th
+        = render @festival_applications
+      %br
 
-  - @festival_applications.each do |festival_application|
-    %tr
-      %td= festival_application.nationality
-      %td= festival_application.orchestra
-      %td= festival_application.orch_name
-      %td= festival_application.conductor
-      %td= festival_application.num_players
-      %td= festival_application.equipment
-      %td= festival_application.special_cast
-      %td= festival_application.contact_person
-      %td= link_to 'Show', festival_application
-      %td= link_to 'Edit', edit_festival_application_path(festival_application)
-      %td= link_to 'Destroy', festival_application, method: :delete, data: { confirm: 'Are you sure?' }
-
-%br
-
-= link_to 'New Festival application', new_festival_application_path
+      = link_to 'New Festival application', new_festival_application_path

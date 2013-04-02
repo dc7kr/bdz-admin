@@ -1,0 +1,29 @@
+%h2=t("festval_application.step2_title")
+%h3=t('festival_application.planned_programme')
+
+
+//#festival_pieces_count= festival_pieces_count
+%table#festival_pieces
+  %tr
+    %th=t('festival_piece.composer')
+    %th=t('festival_piece.title')
+    %th=t('festival_piece.duration')
+  = render @festival_pieces 
+
+%h3=t('festival_application.add_piece')
+
+= form_for [@festival_application,FestivalPiece.new], :remote => true do |f| 
+  = f.error_messages 
+  %table
+    %tr
+      %td= f.label :title
+      %td= f.label :composer
+      %td= f.label :duration
+    %tr
+      %td= f.text_field :title
+      %td= f.text_field :composer
+      %td= f.text_field :duration
+      %td= f.submit 
+
+= back_button(edit_festival_application_path(@festival_application))
+= back_button(edit_festival_application_path(@festival_application))
