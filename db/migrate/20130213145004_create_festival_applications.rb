@@ -1,7 +1,7 @@
 class CreateFestivalApplications < ActiveRecord::Migration
   def change
     create_table :festival_applications do |t|
-      t.integer :nationality
+      t.integer :country_id
       t.integer :orchestra_id
       t.text :orch_name
       t.text :conductor
