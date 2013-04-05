@@ -1,0 +1,11 @@
+.block
+  .secondary-navigation
+    =render :partial=>'nav'
+  .content
+    %h2.title
+      = t("common.edit")
+      = t("magazine_sampling.title_s")
+    .inner
+      = form_for @magazine_sampling do |f|
+        = render :partial => "form", :locals => {:f => f}
+

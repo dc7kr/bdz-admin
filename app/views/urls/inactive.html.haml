@@ -1,0 +1,25 @@
+.block
+  .secondary-navigation
+    =render :partial=>'nav'
+  .content
+    %h2.title
+      = t("common.all")
+      URLs
+    .inner
+      %table.table
+        %thead
+          %th.first= t('urls.category')
+          %th=sortable 'url', t('urls.url')
+          %th=t('urls.title')
+          %th=t('urls.language')
+          %th=t('urls.email')
+          %th=t('urls.lastchange')
+          %th.last &nbsp;
+
+        %tbody#urls
+          =render @urls
+      #paginator
+        = paginate @urls, :remote=>true
+      .actions-bar.wat-cf
+        .actions
+- content_for :sidebar, render(:partial => 'sidebar')

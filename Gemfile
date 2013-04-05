@@ -49,7 +49,7 @@ gem "spreadsheet"
 
 gem 'sqlite3'
 gem 'mysql2' , '>=0.3'
-gem 'jquery-rails' 	,  '>= 1.0.3'
+gem 'jquery-rails' 	
 
 gem 'rails-asset-jqueryui'
 

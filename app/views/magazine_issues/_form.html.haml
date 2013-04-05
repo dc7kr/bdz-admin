@@ -1,0 +1,7 @@
+= semantic_form_for @magazine_issue do |f|
+  = f.inputs do
+    = f.input :year
+    = f.input :number
+
+  = f.actions do
+    = f.action :submit, :as => :input

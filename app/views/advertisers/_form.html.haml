@@ -1,0 +1,53 @@
+.block
+  = f.error_messages :message => "", :header_tag => :h3
+.group
+  %table
+    %tr
+      %td= f.label :firma, t("contact.company"), :class => :label
+      %td= f.text_field :firma, :class => 'text_field'
+    %tr
+      %td= f.label :abteilung, t("contact.department"), :class => :label
+      %td= f.text_field :abteilung, :class => 'text_field'
+    %tr
+    %tr
+      %td= f.label :anrede, t("contact.anrede"), :class => :label
+      %td= f.select :anrede, options_for_select([[t('common.anrede.M'),"M"],[t('common.anrede.W'), "W"]],:selected=>@advertiser.anrede)
+    %tr
+      %td= f.label :vorname, t("contact.vorname"), :class => :label
+      %td= f.text_field :vorname, :class => 'text_field'
+    %tr
+      %td= f.label :name, t("contact.name"), :class => :label
+      %td= f.text_field :name, :class => 'text_field'
+    %tr
+      %td= f.label :strasse, t("contact.strasse"), :class => :label
+      %td= f.text_field :strasse, :class => 'text_field'
+    %tr
+      %td= f.label :plz, t("contact.plz"), :class => :label
+      %td= f.text_field :plz, :class => 'text_field'
+    %tr
+      %td= f.label :ort, t("contact.Ort"), :class => :label
+      %td= f.text_field :ort, :class => 'text_field'
+    %tr
+      %td= f.label :country, t("contact.country"), :class => :label
+      %td= collection_select(:advertiser, :country_id, Country.all, :id, :name) 
+    %tr
+      %td= f.label :telefon, t("contact.phone"), :class => :label
+      %td= f.text_field :telefon, :class => 'text_field'
+    %tr
+      %td= f.label :fax, t("contact.fax"), :class => :label
+      %td= f.text_field :fax, :class => 'text_field'
+    %tr
+      %td= f.label :email, t("contact.email"), :class => :label
+      %td= f.text_field :email, :class => 'text_field'
+    %tr
+      %td= f.label :telefon, t("contact.telefonDienstl"), :class => :label
+      %td= f.text_field :telefon, :class => 'text_field'
+      
+      
+      
+.group.navform.wat-cf
+  %button.button{:type => "submit"}
+    = image_tag("web-app-theme/icons/tick.png", :alt => "#{t("web-app-theme.save", :default => "Save")}")
+    = t("web-app-theme.save", :default => "Save")
+  %span.text_button_padding= t("web-app-theme.or", :default => "or")
+  = cancel_button()

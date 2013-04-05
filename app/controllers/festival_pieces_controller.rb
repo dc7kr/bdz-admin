@@ -1,4 +1,5 @@
 class FestivalPiecesController < ApplicationController
+	respond_to :html,:js
   # GET /festival_pieces
   # GET /festival_pieces.json
   def index
@@ -40,17 +41,10 @@ class FestivalPiecesController < ApplicationController
   # POST /festival_pieces
   # POST /festival_pieces.json
   def create
-    @festival_piece = FestivalPiece.new(params[:festival_piece])
+  	@festival_application = FestivalApplication.find(params[:festival_application_id])
+    @festival_piece = @festival_application.festival_pieces.create(params[:festival_piece])
 
-    respond_to do |format|
-      if @festival_piece.save
-        format.html { redirect_to @festival_piece, notice: 'Festival piece was successfully created.' }
-        format.json { render json: @festival_piece, status: :created, location: @festival_piece }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @festival_piece.errors, status: :unprocessable_entity }
-      end
-    end
+    respond_with @festival_piece, :location => festival_application_festival_pieces_url(@festival_application,@festival_application.festival_pieces)
   end
 
   # PUT /festival_pieces/1
@@ -72,12 +66,10 @@ class FestivalPiecesController < ApplicationController
   # DELETE /festival_pieces/1
   # DELETE /festival_pieces/1.json
   def destroy
+    @festival_application = FestivalApplication.find(params[:festival_application_id])
     @festival_piece = FestivalPiece.find(params[:id])
     @festival_piece.destroy
 
-    respond_to do |format|
-      format.html { redirect_to festival_pieces_url }
-      format.json { head :no_content }
-    end
+    respond_with @festival_piece, :location => festival_application_festival_pieces_url(@festival_application,@festival_application.festival_pieces)
   end
 end

@@ -34,7 +34,10 @@ class ApplicationController < ActionController::Base
 		"uploads" => "member_data",
 		"url_categories" => "public_data",
 		"urls" => "public_data",
-		"users" => "admin_data" 
+		"users" => "admin_data",
+		"magazine_issues" => "magazine_data",
+		"magazine_adverts" => "magazine_data",
+		"advertisers" => "magazine_data"
 	}
 
   include SessionHelper

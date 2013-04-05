@@ -1,7 +1,12 @@
 class FestivalApplication < ActiveRecord::Base
-  attr_accessible :conductor, :contact_person, :equipment, :nationality, :num_players, :orch_name, :orchestra, :special_cast
+  attr_accessible :conductor, :contact_person, :equipment, :country_id, :num_players, :orch_name, :orchestra, :special_cast
+  has_many :festival_pieces
+
+  accepts_nested_attributes_for :festival_pieces, :allow_destroy => :true
+
 
   belongs_to :contact_person
-  belongs_to :nationality, :class_name => "Country", :foreign_key => "nationality"
+  belongs_to :country
   belongs_to :orchestra
+
 end

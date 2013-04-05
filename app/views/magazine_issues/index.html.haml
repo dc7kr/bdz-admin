@@ -1,0 +1,14 @@
+.block
+  .secondary-navigation
+    =render :partial=>'nav'
+  .content
+    %h2.title
+      = t("common.all")
+      = t("magazine_issues.title")
+    .inner
+      %table.table
+        %thead
+          %th.first=t('magazine_issue.year')
+          %th=t('magazine_issue.number')
+          %th.last
+        = render @magazine_issues

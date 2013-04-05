@@ -33,6 +33,11 @@ class Ability
         can :read, PersonMember
         can :read, Orchestra
       end
+
+	  if ( user.is_member? )
+		can :manage, PersonMember, :mglnr =>user.username
+		can :manage, Orchestra, :member_id=>420
+	  end
 	end
     # Define abilities for the passed in user here. For example:
     #

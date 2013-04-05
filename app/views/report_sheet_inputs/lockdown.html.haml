@@ -1,0 +1,7 @@
+%table
+  - @report_sheet_inputs.each do |r|
+    %tr
+      %td=r.orchestra != nil ? r.orchestra.orchName : "NIL"
+      %td=r.report_sheet.orchestra_id == nil 
+      
+

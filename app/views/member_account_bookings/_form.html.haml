@@ -4,25 +4,24 @@
 .group
   %table
     %tr
-      %td= f.label :booking_type, t("booking.booking_type"), :class => :label
+      %td= f.label :booking_type, :class => :label
       %td= f.select :booking_type, options_for_select([[t('booking.booking_type_A'),"A"],[t('booking.booking_type_B'), "B"], [t('booking.booking_type_L'), "L"],  [t('booking.booking_type_G'), "G"], [t('booking.booking_type_E'),"E"],[t('booking.booking_type_R'),"R"],[t('booking.booking_type_Z'),"Z"]],:selected=>@booking.booking_type)
     %tr
-      %td= f.label :booking_year, t("booking.booking_year")
+      %td= f.label :booking_year, :class => :label
       %td= f.number_field :booking_year, :class => 'number_field'
     %tr
-      %td= f.label :booking_date, t("booking.booking_date"), :class => :label
+      %td= f.label :booking_date, :class => :label
       %td= f.text_field :booking_date, :class => 'text_field'
     %tr
-      %td= f.label :booking_txt, t("booking.booking_text"), :class => :label
+      %td= f.label :booking_txt, :class => :label
       %td= f.text_field :booking_txt, :class => 'text_field'
     %tr
-      %td= f.label :amount, t("booking.amount"), :class => :label
+      %td= f.label :amount, :class => :label
       %td= f.text_field :amount, :class => 'text_field'
     - if isAdmin? then
       %tr
-        %td= f.label :porto, t("distinction.file_name"), :class => :label
+        %td= f.label :filename, :class => :label
         %td= f.text_field :filename
-
       
   %button.button{:type => "submit"}
     =submit_button(t("common.save", :default => "Save"))

@@ -29,6 +29,7 @@ class HomeController < AuthenticatedNonResourceController
       format.html
 	end
   end
+
   def reference_data
 	@website_area = "reference_data"
   	authorize! :index, RegionalOrganization
@@ -36,12 +37,22 @@ class HomeController < AuthenticatedNonResourceController
       format.html
 	end
   end
+
+  def magazine_data
+	@website_area = "magazine_data"
+  	authorize! :index, Advertiser
+    respond_to do |format|
+      format.html
+	end
+  end
+
   def admin_data
   	authorize! :user, :destroy
     respond_to do |format|
       format.html
 	end
   end
+
   def cron
   	authorize! :member_account_booking, :show
     respond_to do |format|
@@ -51,6 +62,5 @@ class HomeController < AuthenticatedNonResourceController
 
   def current_area
 	@current_action
-
   end
 end

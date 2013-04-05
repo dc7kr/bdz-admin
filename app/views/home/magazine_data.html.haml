@@ -1,0 +1,16 @@
+.content
+  .inner
+    .link-group
+      %h3 Daten
+      %ul.navigation
+        %li= link_to "Ausgaben", magazine_issues_path 
+        %li= link_to "Werbekunden", advertisers_path 
+        %li= link_to "Werbebuchungen", magazine_adverts_path 
+        %li= link_to "Bemusterung", magazine_samplings_path 
+    .link-group
+      %h3 Berichte
+      %ul.navigation
+        %li
+        %li
+        %li
+- content_for :sidebar, render(:partial => 'sidebar')

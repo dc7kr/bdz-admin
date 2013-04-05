@@ -1,0 +1,78 @@
+.block
+  .secondary-navigation
+    = render :partial=>'nav'
+  .content
+    .inner
+      %table
+        %tr
+          %td.label
+            #{t("contact.firma")}:
+          %td
+            = @magazine_sampling.firma
+        %tr
+          %td.label
+            #{t("contact.department")}:
+          %td
+            = @magazine_sampling.abteilung
+        %tr
+        %tr
+          %td.label
+            #{t("contact.anrede")}:
+          %td
+            = @magazine_sampling.anrede
+        %tr
+          %td.label
+            #{t("contact.first_name")}:
+          %td
+            = @magazine_sampling.vorname
+        %tr
+          %td.label
+            #{t("contact.last_name")}:
+          %td
+            = @magazine_sampling.name
+        %tr
+          %td.label
+            #{t("contact.street")}:
+          %td
+            = @magazine_sampling.strasse
+        %tr
+          %td.label
+            #{t("contact.country")}:
+          %td
+            = @magazine_sampling.country.name
+        %tr
+          %td.label
+            #{t("contact.zip")}:
+          %td
+            = @magazine_sampling.plz
+        %tr
+          %td.label
+            #{t("contact.city")}:
+          %td
+            = @magazine_sampling.ort
+        %tr
+          %td.label
+            #{t("contact.email")}:
+          %td
+            = mail_to @magazine_sampling.email, @magazine_sampling.email
+
+        %tr
+          %td.label
+            #{t("contact.phone")}:
+          %td
+            = @magazine_sampling.telefon
+        %tr
+          %td.label
+            #{t("contact.fax")}:
+          %td
+            = @magazine_sampling.fax
+        %tr
+          %td.label
+            #{t("magazine_sampling.count")}:
+          %td
+            = @magazine_sampling.count
+      .wat-cf
+        = edit_button(edit_magazine_sampling_path(@magazine_sampling),@magazine_sampling)
+        = del_button(magazine_sampling_path(@magazine_sampling),@magazine_sampling)
+
+- content_for :sidebar, render(:partial => 'sidebar.show')

@@ -25,6 +25,7 @@ class FestivalApplicationsController < ApplicationController
   # GET /festival_applications/new.json
   def new
     @festival_application = FestivalApplication.new
+	@festival_application.contact_person = ContactPerson.new
 
     respond_to do |format|
       format.html # new.html.erb
@@ -41,10 +42,13 @@ class FestivalApplicationsController < ApplicationController
   # POST /festival_applications.json
   def create
     @festival_application = FestivalApplication.new(params[:festival_application])
+    @contact_person = ContactPerson.new(params[:contact_person])
+	@contact_person.save
+	@festival_application.contact_person= @contact_person
 
     respond_to do |format|
       if @festival_application.save
-        format.html { redirect_to @festival_application, notice: 'Festival application was successfully created.' }
+        format.html { redirect_to step2_festival_application_path(@festival_application), notice: 'Festival application was successfully created.' }
         format.json { render json: @festival_application, status: :created, location: @festival_application }
       else
         format.html { render action: "new" }
@@ -79,5 +83,12 @@ class FestivalApplicationsController < ApplicationController
       format.html { redirect_to festival_applications_url }
       format.json { head :no_content }
     end
+  end
+
+  def step2
+	@festival_application = FestivalApplication.find(params[:id])
+	
+	@festival_pieces = @festival_application.festival_pieces
+
   end
 end

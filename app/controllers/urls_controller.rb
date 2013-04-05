@@ -7,6 +7,24 @@ class UrlsController < AuthenticatedController
   # GET /urls.json
   before_filter :authenticate_user!#, :except => [:index]
   
+  def inactive 
+    @urls = Url.inactive.search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render :json => @urls }
+    end
+  end
+
+  def confirm
+	@url = Url.find(params[:id])
+
+	@url.confirmed = Time.now
+	@url.visible= true
+	@url.save
+    redirect_to urls_path(@url), :notice => t('urls.confirm_success')
+  end
+
   def index
     @urls = Url.search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(30)
 

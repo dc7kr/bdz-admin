@@ -2,6 +2,8 @@ class ReportSheetInput < ActiveRecord::Base
   belongs_to :report_sheet
   belongs_to :orchestra
 
+  scope :not_final, includes(:report_sheet).where("report_sheets.orchestra_id is null")
+
   def self.new_for_orchestra(orchestra,year)
 
     @report_sheet_input = ReportSheetInput.new

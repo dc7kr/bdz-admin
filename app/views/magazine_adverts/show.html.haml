@@ -1,0 +1,12 @@
+%p#notice= notice
+
+%p
+  %b Advertiser:
+  = @magazine_advert.advertiser_id
+%p
+  %b Magazine issue:
+  = @magazine_advert.magazine_issue_id
+
+= link_to 'Edit', edit_magazine_advert_path(@magazine_advert)
+\|
+= link_to 'Back', magazine_adverts_path

@@ -11,24 +11,41 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130213151453) do
+ActiveRecord::Schema.define(:version => 20130403200313) do
 
-  create_table "addresses", :force => true do |t|
-    t.string "anrede",             :limit => 10,  :null => false
-    t.string "titel",              :limit => 10,  :null => false
-    t.string "vorname",            :limit => 50,  :null => false
-    t.string "name",               :limit => 50,  :null => false
-    t.string "strasse",            :limit => 50,  :null => false
-    t.string "plz",                :limit => 10,  :null => false
-    t.string "ort",                :limit => 50,  :null => false
-    t.string "telefon",            :limit => 50
-    t.string "telefon_dienstlich", :limit => 100
-    t.string "mobil",              :limit => 50
-    t.string "fax",                :limit => 50
-    t.string "email",              :limit => 50
+  create_table "Bemusterung", :id => false, :force => true do |t|
+    t.string  "subtype",   :limit => 16
+    t.string  "firma",     :limit => 99
+    t.string  "abteilung", :limit => 59
+    t.string  "titel",     :limit => 24
+    t.string  "vorname",   :limit => 51
+    t.string  "name",      :limit => 14
+    t.string  "strasse",   :limit => 30
+    t.string  "plz",       :limit => 7
+    t.string  "ort",       :limit => 18
+    t.integer "Stückzahl"
   end
 
-  add_index "addresses", ["vorname", "name"], :name => "fullname", :unique => true
+  create_table "Inserenten", :id => false, :force => true do |t|
+    t.string  "Firmenname",    :limit => 35
+    t.string  "Titel",         :limit => 5
+    t.string  "Vorname",       :limit => 12
+    t.string  "Name",          :limit => 8
+    t.string  "Adresszeile 1", :limit => 17
+    t.string  "Postleitzahl",  :limit => 7
+    t.string  "Stadt",         :limit => 14
+    t.integer "Stückzahl"
+  end
+
+  create_table "advertisers", :force => true do |t|
+    t.integer  "advert_type"
+    t.integer  "contact_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+    t.string   "konto"
+    t.string   "iban"
+    t.string   "blz"
+  end
 
   create_table "blacklist", :force => true do |t|
     t.string   "ip",          :limit => 16, :null => false
@@ -109,7 +126,7 @@ ActiveRecord::Schema.define(:version => 20130213151453) do
     t.string   "url",                                                                                          :null => false
     t.string   "comment",                                                                                      :null => false
     t.string   "bundesland",                                                :default => "",                    :null => false
-    t.integer  "bland",        :limit => 8,                                 :default => 0,                     :null => false
+    t.integer  "bland",        :limit => 8,                                 :default => 0
     t.integer  "country_id",   :limit => 8,                                                                    :null => false
     t.string   "email",                                                     :default => "",                    :null => false
     t.integer  "owner",        :limit => 8,                                 :default => 1,                     :null => false
@@ -135,6 +152,25 @@ ActiveRecord::Schema.define(:version => 20130213151453) do
     t.string   "phone"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+  end
+
+  create_table "contacts", :force => true do |t|
+    t.string  "subtype",            :limit => 50,  :null => false
+    t.string  "firma",              :limit => 100
+    t.string  "abteilung",          :limit => 100, :null => false
+    t.string  "anrede",             :limit => 10,  :null => false
+    t.string  "titel",              :limit => 10
+    t.string  "vorname",            :limit => 50,  :null => false
+    t.string  "name",               :limit => 50,  :null => false
+    t.string  "strasse",            :limit => 50,  :null => false
+    t.string  "plz",                :limit => 10,  :null => false
+    t.string  "ort",                :limit => 50,  :null => false
+    t.integer "country_id",         :limit => 8,   :null => false
+    t.string  "telefon",            :limit => 50
+    t.string  "telefon_dienstlich", :limit => 100
+    t.string  "mobil",              :limit => 50
+    t.string  "fax",                :limit => 50
+    t.string  "email",              :limit => 50
   end
 
   create_table "country", :force => true do |t|
@@ -1347,7 +1383,7 @@ ActiveRecord::Schema.define(:version => 20130213151453) do
   end
 
   create_table "festival_applications", :force => true do |t|
-    t.integer  "nationality"
+    t.integer  "country_id"
     t.integer  "orchestra_id"
     t.text     "orch_name"
     t.text     "conductor"
@@ -1388,19 +1424,19 @@ ActiveRecord::Schema.define(:version => 20130213151453) do
   add_index "festivals", ["land"], :name => "land"
 
   create_table "functions", :force => true do |t|
-    t.string  "label",        :limit => 10
-    t.integer "fk_lv_id",     :limit => 8,                 :null => false
-    t.integer "fk_addr_id",   :limit => 8,                 :null => false
-    t.boolean "bund",                                      :null => false
-    t.boolean "jugend",                                    :null => false
-    t.integer "musik",                      :default => 0, :null => false
-    t.integer "nr",                                        :null => false
-    t.string  "funktion",     :limit => 50,                :null => false
-    t.text    "fkt_subtitle",                              :null => false
+    t.string  "label",                    :limit => 10
+    t.integer "regional_organization_id", :limit => 8,                 :null => false
+    t.integer "contact_id",               :limit => 8,                 :null => false
+    t.boolean "bund",                                                  :null => false
+    t.boolean "jugend",                                                :null => false
+    t.integer "musik",                                  :default => 0, :null => false
+    t.integer "nr",                                                    :null => false
+    t.string  "funktion",                 :limit => 50,                :null => false
+    t.text    "fkt_subtitle",                                          :null => false
   end
 
-  add_index "functions", ["fk_addr_id"], :name => "fk_addr_id"
-  add_index "functions", ["fk_lv_id", "fk_addr_id"], :name => "fk_lv_id"
+  add_index "functions", ["contact_id"], :name => "fk_addr_id"
+  add_index "functions", ["regional_organization_id", "contact_id"], :name => "fk_lv_id"
 
   create_table "gallery2_AccessMap", :id => false, :force => true do |t|
     t.integer "g_accessListId",  :null => false
@@ -1960,6 +1996,27 @@ ActiveRecord::Schema.define(:version => 20130213151453) do
     t.integer  "blz",        :limit => 8,  :null => false
     t.datetime "created_at",               :null => false
     t.datetime "updated_at"
+  end
+
+  create_table "magazine_adverts", :force => true do |t|
+    t.integer  "advertiser_id"
+    t.integer  "magazine_issue_id"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
+  end
+
+  create_table "magazine_issues", :force => true do |t|
+    t.integer  "year"
+    t.integer  "number"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "magazine_samplings", :force => true do |t|
+    t.integer  "count"
+    t.integer  "contact_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "member_account_bookings", :force => true do |t|
@@ -2623,6 +2680,7 @@ ActiveRecord::Schema.define(:version => 20130213151453) do
     t.integer "field_order",         :limit => 3,  :default => 0,     :null => false
     t.boolean "field_show_profile",                :default => false, :null => false
     t.boolean "field_show_on_vt",                  :default => false, :null => false
+    t.boolean "field_show_novalue",                :default => false, :null => false
   end
 
   add_index "phpbb3_profile_fields", ["field_order"], :name => "fld_ordr"
@@ -3202,6 +3260,7 @@ ActiveRecord::Schema.define(:version => 20130213151453) do
     t.string   "last_sign_in_ip"
     t.string   "role",                                  :default => "", :null => false
     t.string   "authentication_token"
+    t.string   "username"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

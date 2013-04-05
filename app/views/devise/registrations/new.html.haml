@@ -8,19 +8,23 @@
       = devise_error_messages! 
 
       %div
-        = t("devise.email")
+        = f.label :username
+        %br 
+        = f.text_field :username
+      %div
+        = f.label :email
         %br 
         = f.email_field :email 
       %div
-        = t("devise.name")
+        = f.label :name
         %br 
         = f.text_field :name 
       %div
-        = t("devise.password")
+        = f.label :password
         %br 
         = f.password_field :password 
       %div
-        = t("devise.password_confirmation")
+        = f.label :password_confirmation
         %br
         = f.password_field :password_confirmation 
       %div

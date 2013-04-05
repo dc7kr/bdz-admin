@@ -1,0 +1,12 @@
+%p#notice= notice
+
+%p
+  %b Year:
+  = @magazine_issue.year
+%p
+  %b Number:
+  = @magazine_issue.number
+
+= link_to 'Edit', edit_magazine_issue_path(@magazine_issue)
+\|
+= link_to 'Back', magazine_issues_path

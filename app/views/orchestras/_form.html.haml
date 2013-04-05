@@ -11,7 +11,6 @@
     %tr
       %td= f.label :anrede, corika_tr("orchestra","anrede","Anrede"), :class => :label
       %td= f.select :anrede, options_for_select([[t('common.salutation.M'),"M"],[t('common.salutation.W'), "W"]],:selected=>@orchestra.anrede)
-      %td= f.text_field :anrede, :class => 'text_field'
     %tr
       %td= f.label :vorname, corika_tr("orchestra","vorname","Vorname"), :class => :label
       %td= f.text_field :vorname, :class => 'text_field'
@@ -32,16 +31,16 @@
       %td= collection_select(:orchestra, :country_id, Country.all, :id, :name) 
     %tr
       %td= f.label :telefon, corika_tr("orchestra","telefon","Telefon"), :class => :label
-      %td= f.text_field :telefon, :class => 'text_field'
+      %td= f.telephone_field :telefon, :class => 'text_field'
     %tr
       %td= f.label :fax, corika_tr("orchestra","fax","Fax"), :class => :label
-      %td= f.text_field :fax, :class => 'text_field'
+      %td= f.telephone_field :fax, :class => 'text_field'
     %tr
       %td= f.label :email, corika_tr("member","email","Email"), :class => :label
       %td= f.text_field :email, :class => 'text_field'
     %tr
       %td= f.label :url, corika_tr("orchestra","url","Url"), :class => :label
-      %td= f.text_field :url, :class => 'text_field'
+      %td= f.url_field :url, :class => 'text_field'
 
     %tr
       %td= f.label :gruendung, corika_tr("orchestra","gruendung","Gruendung"), :class => :label

@@ -1,0 +1,14 @@
+.block
+  .secondary-navigation
+    =render :partial=>'nav'
+  .content
+    %h2.title
+      = t("common.all")
+      = t("magazine_sampling.title")
+    .inner
+      %table.table
+        %thead
+          %th.first=t('contact.company')
+          %th=t('magazine_sampling.count')
+          %th.last
+        = render @magazine_samplings

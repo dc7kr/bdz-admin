@@ -1,0 +1,9 @@
+%tr
+  %td= magazine_advert.advertiser.firma
+  %td= magazine_advert.magazine_issue_id
+  %td
+    = link_to 'Show', magazine_advert
+    = link_to 'Edit', edit_magazine_advert_path(magazine_advert)
+    = link_to 'Destroy', magazine_advert, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+

@@ -1,16 +1,68 @@
 BDZAdmin::Application.routes.draw do
 
-  resources :festival_pieces
 
+
+  resources :magazine_samplings
+
+
+  resources :magazine_adverts
+
+
+  resources :magazine_issues
+
+
+  resources :advertisers
+
+
+  # BEGIN member namespace
+  namespace :mgl do
+	resources :orchestras
+    resources :person_members
+
+	resources :report_sheet_inputs do
+		collection do 
+			get :login
+			post :submit_login
+		end
+		member do 
+			get :step1
+			get :step2
+			get :step3
+			get :step4
+			put :submit1
+			put :submit2
+			put :submit3
+			put :submit4
+			put :finalize
+			get :finalize
+			get :confirm
+			put :confirm
+			post 'upload'
+			get :delete_members
+		end
+	end
+
+  end
+
+  resources :report_sheet_inputs do
+	collection do 
+		get :lockdown
+	end
+	end
 
   resources :contact_people
 
 
-  resources :festival_applications
+  resources :festival_pieces
+  resources :festival_applications do
+	member do 
+		get :step2
+	end
+	resources :festival_pieces
+  end
 
 
   resources :event_cards
-
 
   resources :event_meals
 
@@ -20,37 +72,13 @@ BDZAdmin::Application.routes.draw do
   match 'api/rsm/gen_data' => 'report_sheet_mailings#gen_data'
   match 'api/rsm/gen_mailings' => 'report_sheet_mailings#gen_mailings'
 
-  resources :report_sheet_inputs do
-	collection do 
-		get :login
-		post :submit_login
-	end
-	member do 
-		get :step1
-		get :step2
-		get :step3
-		get :step4
-		put :submit1
-		put :submit2
-		put :submit3
-		put :submit4
-		put :finalize
-		get :finalize
-		get :confirm
-		put :confirm
-		post 'upload'
-		get :delete_members
-	end
-
-  end
-
   resources :uploads
 
   get "errors/error_404"
 
   get "errors/error_500"
 
-  resources :addresses
+  resources :contacts
   resources :honor_members
   resources :member_events
 
@@ -89,6 +117,7 @@ BDZAdmin::Application.routes.draw do
   match 'home/admin_data' => 'home#admin_data'
   match 'home/public_data' => 'home#public_data'
   match 'home/landing_page' => 'home#landing_page'
+  match 'home/magazine_data' => 'home#magazine_data'
   match 'home/cron' => 'home#cron'
 
   match 'modify_pdf' => 'modify_pdf#index'
@@ -129,6 +158,7 @@ BDZAdmin::Application.routes.draw do
 	collection do 
 		get 'payed'
 		get 'final'
+		get 'not_final'
 		get 'analysis'
 	end
   end
@@ -160,8 +190,6 @@ BDZAdmin::Application.routes.draw do
     end
 
     resources :uploaded_files
-
-	resources :report_sheet_inputs
 
     resources :member_account_bookings do
 		member do 
@@ -219,6 +247,7 @@ BDZAdmin::Application.routes.draw do
 		get :confirm
 	end
   end
+
   resources :ensembles do
 		collection do 
 			get :inactive
@@ -233,9 +262,10 @@ BDZAdmin::Application.routes.draw do
 		end
   end
 
+
   # BEGIN PUBLIC NAMESPACE
   namespace :public do 
-    resources :addresses
+    resources :contacts
   	resources :courses do
 		collection do 
 			get :inactive
@@ -289,7 +319,6 @@ BDZAdmin::Application.routes.draw do
   	resources :universities
 
   	resources :urls 
-
   	resources :url_categories do
     	resources :urls
   	end
@@ -344,7 +373,15 @@ BDZAdmin::Application.routes.draw do
  	 end
   	resources :composers
   	resources :universities
-  	resources :urls 
+  	resources :urls do
+		collection do
+			get :inactive
+		end
+	    member do
+			get :confirm
+		end
+    end
+
   	resources :url_categories do
     	resources :urls
   	end

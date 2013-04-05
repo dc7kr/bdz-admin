@@ -1,0 +1,10 @@
+%tr
+  %td= magazine_issue.year
+  %td= magazine_issue.number
+  %td
+    = link_to 'Show', magazine_issue
+    = link_to 'Edit', edit_magazine_issue_path(magazine_issue)
+    = link_to 'Destroy', magazine_issue, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+
+

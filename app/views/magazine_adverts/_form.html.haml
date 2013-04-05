@@ -1,0 +1,14 @@
+= form_for @magazine_advert do |f|
+  %tr
+    %td= f.label :advertiser, t("magazine_advert.advertiser"), :class => :label
+    %td= collection_select(:magazine_advert, :advertiser_id, Advertiser.all, :id, :firma) 
+  %tr
+    %td= f.label :land, t("magazine_advert.magazine_issue"), :class => :label
+    %td= collection_select(:magazine_advert, :magazine_issue_id, MagazineIssue.all, :id, :number) 
+
+  .group.navform.wat-cf
+    %button.button{:type => "submit"}
+      = image_tag("web-app-theme/icons/tick.png", :alt => "#{t("web-app-theme.save", :default => "Save")}")
+      = t("web-app-theme.save", :default => "Save")
+    %span.text_button_padding= t("web-app-theme.or", :default => "or")
+    = cancel_button()

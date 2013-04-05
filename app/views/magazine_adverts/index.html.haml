@@ -1,0 +1,18 @@
+.block
+  .secondary-navigation
+    =render :partial=>'nav'
+  .content
+    %h2.title
+      = t("common.all")
+      = t("magazine_adverts.title")
+    .inner
+      %table.table
+        %thead
+          %th.first=t('magazine_advert.year')
+          %th=t('magazine_advert.number')
+          %th.last
+        = render @magazine_adverts
+
+%br
+
+= link_to 'New Magazine advert', new_magazine_advert_path

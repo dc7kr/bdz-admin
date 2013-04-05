@@ -1,23 +1,19 @@
-%h1 Listing report_sheet_inputs
+.block
+  .secondary-navigation
+    =render :partial=>'nav'
+  .content
+    %h2.title
+      = t("common.all")
+      = t("report_sheet_inputs.title")
+    .inner
+      %table.table
+        %thead
+          %th A
+          %th B
+          %th C
+          %th.last &nbsp;
+        %tbody#orchestras
+          =render @report_sheet_inputs
+      .actions-bar.wat-cf
+        .actions
 
-%table
-  %tr
-    %th Report sheet
-    %th Orchestra
-    %th Token
-    %th
-    %th
-    %th
-
-  - @report_sheet_inputs.each do |report_sheet_input|
-    %tr
-      %td= report_sheet_input.report_sheet
-      %td= report_sheet_input.orchestra
-      %td= report_sheet_input.token
-      %td= link_to 'Show', report_sheet_input
-      %td= link_to 'Edit', edit_report_sheet_input_path(report_sheet_input)
-      %td= link_to 'Destroy', report_sheet_input, method: :delete, data: { confirm: 'Are you sure?' }
-
-%br
-
-= link_to 'New Report sheet input', new_report_sheet_input_path

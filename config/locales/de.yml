@@ -10,6 +10,7 @@ de:
     error_500: Interner Fehler
     public_data: Öffentliche Daten
     member_data: Mitgliedsdaten
+    magazine_data: "Auftakt!"
     reference_data: Stammdaten
     admin_data: Administration
     cron: Tasks
@@ -528,7 +529,20 @@ de:
     preis: Preis
     more_dates: Termine
     anmeldung: Infos und Anmeldung
-
+  magazine_sampling:
+    title: Bemusterungen
+    count: Anzahl
+  contact:
+    company: Firma
+    department: Abteilung
+    title: Titel
+    first_name: Vorname
+    last_name: Nachname
+    phone: Telefon
+    fax: Fax
+    email: E-Mail
+    
+    
      
   url:
     confirm_delete: "URL wirklich löschen?"
@@ -572,6 +586,44 @@ de:
       next: "Nächste &rsaquo;"
       truncate: "&hellip;"
   helpers:
+    label:
+      festival_piece: &festival_piece_labels
+        composer: Komponist
+        title: Titel
+        duration: Dauer
+        add_piece: "Stück hinzufügen"
+      festival_application: &festival_app_labels
+        plural: "Festival-Bewerbungen"
+        singular: "Festival-Bewerbung"
+        country_id: "Herkunftsland"
+        orchestra: Orchester
+        orch_name: Orchestername
+        conductor: Dirigent
+        num_players: "Anzahl Spieler"
+        equipment: "Benötigte Ausrüstung"
+        special_cast: "Spezielle Besetzung"
+        contact_person: "Kontaktperson"
+        add_piece: "Stück hinzufügen"
+        step2_title: "Festival Bewerbung (Teil 2)"
+      contact_person: &contact_person_labels
+        salutation: Anrede
+        first_name: Vorname
+        last_name: Name
+        street: "Straße"
+        zip: Postleitzahl
+        city: Stadt
+        country: Land
+        phone: Telefon
+        fax: Fax
+        email: E-Mail
+      member_account_booking:
+        booking_type: Buchungstyp
+        booking_year: "Geschäftsjahr"
+        booking_date: Buchungsdatum
+        booking_txt: Buchungstext	
+        amount: Betrag
+        filename: "Dateiname"
+
     page_entries_info:
       one_page:
         display_entries:
@@ -580,3 +632,10 @@ de:
           other: "Displaying <b>all %{count}</b> %{entry_name}"
       more_pages:
         display_entries: "Zeige Einträge <b>%{first}&nbsp;-&nbsp;%{last}</b> von <b>%{total}</b>"
+  festival_application:
+    <<: *festival_app_labels
+    planned_programme: "Geplantes musikalisches Programm (max. 20 Minuten)"
+  festival_piece:
+    <<: *festival_piece_labels
+  contact_person:
+    <<: *contact_person_labels
