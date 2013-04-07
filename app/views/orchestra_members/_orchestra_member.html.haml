@@ -13,5 +13,5 @@
     %td
       = link_to_show_path orchestra_orchestra_member_path(orchestra_member.orchestra,orchestra_member), t('common.show') , orchestra_member
       = link_to_edit_path  edit_orchestra_orchestra_member_path(orchestra_member.orchestra,orchestra_member),'Edit',orchestra_member
-      = link_to_del_path orchestra_orchestra_member_path(orchestra_member.orchestra,orchestra_member), 'Del',t('common.delete_confirm'),orchestra_member
+      = link_to_del_path orchestra_orchestra_member_path(orchestra_member.orchestra,orchestra_member), orchestra_member
       = link_to_exchange exchange_orchestra_orchestra_member_path(orchestra_member.orchestra,orchestra_member), t('common.exchange') , orchestra_member
