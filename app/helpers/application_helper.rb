@@ -148,9 +148,21 @@ def link_to_new(path, txt, clazz)
 	end
 end
 
-def link_to_del_path(path, txt, confirm, entity)
-    if can? :delete, entity
-                link_to image_tag('/assets/icons/delete.png', {:size=>'16x16',:alt=>txt,:title=>txt,:class=>'btn'} ),path, :confirm => confirm, :method => :delete
+def label_or_default(txt, key)
+	if (txt == nil ) then
+		txt=t(key)
+	end
+
+	txt
+end
+
+def link_to_del_path(path, entity, remote=false, authorize=true, cfm=false,txt=nil, confirm=nil )
+	txt=label_or_default(txt,'common.delete')
+	confirm=label_or_default(txt,'common.confirm_delete')
+    if can? :delete, entity or not authorize
+      img = '/assets/icons/delete.png'
+      img_hash = {:size=>'16x16',:alt=>txt,:title=>txt,:class=>'btn'}
+      link_to image_tag(img, img_hash),path, :confirm => cfm ? confirm : nil, :method => :delete, :remote => remote
     end
 end
 
@@ -159,7 +171,6 @@ def link_to_publish(entity,txt)
 		link_to image_tag('/assets/icons/publish.png', {:size=>'16x16',:alt=>txt,:title=>txt,:class=>'btn'}),{ :id=>entity, :action=>'publish'}
 	end
 end
-
 
 def link_to_delete(entity, txt=nil, confirm=nil )
     if txt == nil then

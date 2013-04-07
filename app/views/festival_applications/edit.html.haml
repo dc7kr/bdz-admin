@@ -1,7 +1,13 @@
-%h1 Editing festival_application
+.block
+  .secondary-navigation
+    = render :partial =>'nav'
+  .content
+    %h2.title
+      = t("common.edit")
+      = t("festival_application.singular")
+    .inner
+      = form_for [@festival_application], :html => { :class => :form } do |f|
+        = render :partial => "form", :locals => {:f => f}
+- content_for :sidebar, render(:partial => 'sidebar')
 
-= render 'form'
 
-= link_to 'Show', @festival_application
-\|
-= link_to 'Back', festival_applications_path

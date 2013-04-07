@@ -55,9 +55,6 @@ BDZAdmin::Application.routes.draw do
 
   resources :festival_pieces
   resources :festival_applications do
-	member do 
-		get :step2
-	end
 	resources :festival_pieces
   end
 
@@ -265,6 +262,13 @@ BDZAdmin::Application.routes.draw do
 
   # BEGIN PUBLIC NAMESPACE
   namespace :public do 
+    resources :festival_applications do
+	  member do 
+	  	get :step2
+		get :finalize
+	  end
+	  resources :festival_pieces 
+    end
     resources :contacts
   	resources :courses do
 		collection do 

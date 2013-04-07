@@ -13,19 +13,6 @@
 
 ActiveRecord::Schema.define(:version => 20130403200313) do
 
-  create_table "Bemusterung", :id => false, :force => true do |t|
-    t.string  "subtype",   :limit => 16
-    t.string  "firma",     :limit => 99
-    t.string  "abteilung", :limit => 59
-    t.string  "titel",     :limit => 24
-    t.string  "vorname",   :limit => 51
-    t.string  "name",      :limit => 14
-    t.string  "strasse",   :limit => 30
-    t.string  "plz",       :limit => 7
-    t.string  "ort",       :limit => 18
-    t.integer "Stückzahl"
-  end
-
   create_table "Inserenten", :id => false, :force => true do |t|
     t.string  "Firmenname",    :limit => 35
     t.string  "Titel",         :limit => 5
@@ -38,10 +25,9 @@ ActiveRecord::Schema.define(:version => 20130403200313) do
   end
 
   create_table "advertisers", :force => true do |t|
-    t.integer  "advert_type"
     t.integer  "contact_id"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
     t.string   "konto"
     t.string   "iban"
     t.string   "blz"
@@ -157,7 +143,7 @@ ActiveRecord::Schema.define(:version => 20130403200313) do
   create_table "contacts", :force => true do |t|
     t.string  "subtype",            :limit => 50,  :null => false
     t.string  "firma",              :limit => 100
-    t.string  "abteilung",          :limit => 100, :null => false
+    t.string  "abteilung",          :limit => 100
     t.string  "anrede",             :limit => 10,  :null => false
     t.string  "titel",              :limit => 10
     t.string  "vorname",            :limit => 50,  :null => false
@@ -2001,9 +1987,13 @@ ActiveRecord::Schema.define(:version => 20130403200313) do
   create_table "magazine_adverts", :force => true do |t|
     t.integer  "advertiser_id"
     t.integer  "magazine_issue_id"
-    t.datetime "created_at",        :null => false
-    t.datetime "updated_at",        :null => false
+    t.string   "advert_type",       :limit => 1, :null => false
+    t.datetime "created_at",                     :null => false
+    t.datetime "updated_at",                     :null => false
   end
+
+  add_index "magazine_adverts", ["advertiser_id"], :name => "advertiser_id"
+  add_index "magazine_adverts", ["magazine_issue_id"], :name => "magazine_issue_id"
 
   create_table "magazine_issues", :force => true do |t|
     t.integer  "year"

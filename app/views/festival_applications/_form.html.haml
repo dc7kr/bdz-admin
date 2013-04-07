@@ -52,9 +52,8 @@
     %tr
       %td= f.label :special_cast, :class => :label
       %td= f.text_field :special_cast
+
   %button.button{:type => "submit"}
     = image_tag("web-app-theme/icons/tick.png", :alt => t("common.save"))
     = t("common.save_and_continue")
-  %span.text_button_padding= t("common.or")
-  = cancel_button()
  

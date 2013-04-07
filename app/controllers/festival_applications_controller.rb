@@ -1,4 +1,5 @@
 class FestivalApplicationsController < ApplicationController
+  layout :choose_layout
   # GET /festival_applications
   # GET /festival_applications.json
   def index
@@ -19,6 +20,10 @@ class FestivalApplicationsController < ApplicationController
       format.html # show.html.erb
       format.json { render json: @festival_application }
     end
+  end
+
+  def finalize 
+    @festival_application = FestivalApplication.find(params[:id])
   end
 
   # GET /festival_applications/new

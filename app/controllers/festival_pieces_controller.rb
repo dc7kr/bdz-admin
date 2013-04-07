@@ -44,6 +44,8 @@ class FestivalPiecesController < ApplicationController
   	@festival_application = FestivalApplication.find(params[:festival_application_id])
     @festival_piece = @festival_application.festival_pieces.create(params[:festival_piece])
 
+	logger.debug("New piece: "+@festival_piece.id.to_s)
+
     respond_with @festival_piece, :location => festival_application_festival_pieces_url(@festival_application,@festival_application.festival_pieces)
   end
 

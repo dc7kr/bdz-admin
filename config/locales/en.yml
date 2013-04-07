@@ -2,7 +2,92 @@
 # See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
-  hello: "Hello world"
+  common:
+    exchange: Exchange
+    fullname: Name
+    all: All
+    links: Links
+    error_500: Internal error
+    public_data: Public data
+    member_data: Member data
+    magazine_data: "Auftakt!"
+    reference_data: Reference data
+    admin_data: Administration
+    cron: Tasks
+    finalize: Finalize
+    address: Address
+    yes: Yes
+    no: No
+    za_L: Direct debit
+    za_R: Invoice
+    back: Back
+    save: Save
+    save_and_continue: "Save and continue"
+    about: About
+    new: New
+    delete: Delete
+    list: List
+    search: Search
+    nopayment: Pending payments
+    delete_confirm: Really delete?
+    show: Show
+    publish: Publish
+    edit: Edit
+    delete: Delete
+    update_success: was successfully updated.
+    download: Download
+    up: One level up
+    salutation:
+      M: Mr.
+      W: Mrs.
+    salutation_d:
+      M: Mr.
+      W: Mrs.
+    salutation_full:
+      M: "Dear Mr."
+      W: "Dear Mrs."
+
+  helpers:
+    label:
+      festival_piece: &festival_piece_labels
+        composer: Composer
+        title: Title
+        duration: Duration
+        add_piece: "Add piece"
+      festival_application: &festival_app_labels
+        plural: "Festival applications"
+        singular: "Festival application"
+        country_id: "Country of origin"
+        orchestra: Orchestra
+        orch_name: Orchestra name
+        conductor: Conductor
+        num_players: "Number of players"
+        equipment: "Required equipment"
+        special_cast: "Special cast"
+        contact_person: "Contact person"
+        add_piece: "Add piece"
+      contact_person: &contact_person_labels
+        salutation: Salutation
+        first_name: First name
+        last_name: Last name
+        street: Street
+        zip: ZIP
+        city: City
+        country: Country
+        phone: Phone
+        fax: Fax
+        email: E-Mail
+  festival_application:
+    <<: *festival_app_labels
+    new: "New festival application"
+    planned_programme: "Planned programme (max. 20 minutes)"
+    step2_title: "Festival application (part 2)"
+    confirm: "Thank you for your application. We will contact you with further details after your application has been processed."
+  festival_piece:
+    <<: *festival_piece_labels
+  contact_person:
+    <<: *contact_person_labels
+
 
 web_app_theme:
   regional_organization: "Regional OrganizationTL"

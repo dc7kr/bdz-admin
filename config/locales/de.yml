@@ -15,6 +15,7 @@ de:
     admin_data: Administration
     cron: Tasks
     address: Adresse
+    finalize: Verbindlich absenden
     yes: Ja
     no: Nein
     za_L: Lastschrift
@@ -344,8 +345,8 @@ de:
     exchange_success: "Vorname und Name erfolgreich ausgetauscht."
     check_double: "Doppel-Mitgliedschaft prüfen"
   orchestra_contact:
-    title: Kontakt-Adressen
-    title_s: Kontakt-Adresse
+    title: Kontakt-Adresse
+    title_p: Kontakt-Adressen
     first_name: Vorname
     last_name: Nachname
     street: Straße
@@ -529,6 +530,9 @@ de:
     preis: Preis
     more_dates: Termine
     anmeldung: Infos und Anmeldung
+  advertiser:
+    title: Werbekunde
+    title_p: Werbekunden
   magazine_sampling:
     title: Bemusterungen
     count: Anzahl
@@ -604,7 +608,6 @@ de:
         special_cast: "Spezielle Besetzung"
         contact_person: "Kontaktperson"
         add_piece: "Stück hinzufügen"
-        step2_title: "Festival Bewerbung (Teil 2)"
       contact_person: &contact_person_labels
         salutation: Anrede
         first_name: Vorname
@@ -634,7 +637,10 @@ de:
         display_entries: "Zeige Einträge <b>%{first}&nbsp;-&nbsp;%{last}</b> von <b>%{total}</b>"
   festival_application:
     <<: *festival_app_labels
+    new: "Neue Festival-Bewerbung"
     planned_programme: "Geplantes musikalisches Programm (max. 20 Minuten)"
+    step2_title: "Festival Bewerbung (Teil 2)"
+    confirm: "Vielen Dank für Ihre Festival-Bewerbung. Wir werden sie kontaktieren sobald Ihre Bewerbung ausgewertet wurde."
   festival_piece:
     <<: *festival_piece_labels
   contact_person:
