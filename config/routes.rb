@@ -1,18 +1,9 @@
 BDZAdmin::Application.routes.draw do
 
-
-
   resources :magazine_samplings
-
-
   resources :magazine_adverts
-
-
   resources :magazine_issues
-
-
   resources :advertisers
-
 
   # BEGIN member namespace
   namespace :mgl do
@@ -230,7 +221,8 @@ BDZAdmin::Application.routes.draw do
 		get :notyetemailed
 	end
   end
-# reports
+
+  # reports
   namespace :reports do
     resources :gema
 	resources :member_account_bookings

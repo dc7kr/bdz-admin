@@ -86,6 +86,7 @@ en:
     confirm: "Thank you for your application. We will contact you with further details after your application has been processed."
   festival_piece:
     <<: *festival_piece_labels
+    create_festival_piece: "Add piece"
   contact_person:
     <<: *contact_person_labels
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130403200313) do
+ActiveRecord::Schema.define(:version => 20130408183901) do
 
   create_table "Inserenten", :id => false, :force => true do |t|
     t.string  "Firmenname",    :limit => 35
@@ -1385,7 +1385,7 @@ ActiveRecord::Schema.define(:version => 20130403200313) do
     t.integer  "festival_application_id"
     t.string   "composer"
     t.string   "title"
-    t.time     "duration"
+    t.string   "duration"
     t.datetime "created_at",              :null => false
     t.datetime "updated_at",              :null => false
   end
