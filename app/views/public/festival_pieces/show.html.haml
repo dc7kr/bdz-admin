@@ -1,0 +1,18 @@
+%p#notice= notice
+
+%p
+  %b Festival application:
+  = @festival_piece.festival_application
+%p
+  %b Composer:
+  = @festival_piece.composer
+%p
+  %b Title:
+  = @festival_piece.title
+%p
+  %b Duration:
+  = @festival_piece.duration
+
+= link_to 'Edit', edit_festival_piece_path(@festival_piece)
+\|
+= link_to 'Back', festival_pieces_path
