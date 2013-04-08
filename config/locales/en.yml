@@ -82,6 +82,7 @@ en:
     new: "New festival application"
     planned_programme: "Planned programme (max. 20 minutes)"
     step2_title: "Festival application (part 2)"
+    finalize_title: "Festival application - finalize"
     confirm: "Thank you for your application. We will contact you with further details after your application has been processed."
   festival_piece:
     <<: *festival_piece_labels

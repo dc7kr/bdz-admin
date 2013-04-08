@@ -640,6 +640,7 @@ de:
     new: "Neue Festival-Bewerbung"
     planned_programme: "Geplantes musikalisches Programm (max. 20 Minuten)"
     step2_title: "Festival Bewerbung (Teil 2)"
+    finalize_title: "Festival Bewerbung"
     confirm: "Vielen Dank für Ihre Festival-Bewerbung. Wir werden sie kontaktieren sobald Ihre Bewerbung ausgewertet wurde."
   festival_piece:
     <<: *festival_piece_labels
