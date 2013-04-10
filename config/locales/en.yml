@@ -59,13 +59,20 @@ en:
         singular: "Festival application"
         country_id: "Country of origin"
         orchestra: Orchestra
-        orch_name: Orchestra name
+        orch_name: Group name
         conductor: Conductor
         num_players: "Number of players"
         equipment: "Required equipment"
         special_cast: "Special cast"
         contact_person: "Contact person"
         add_piece: "Add piece"
+        group_type: "Group type"
+        group_types:
+          O: Orchestra
+          E: Ensemble
+          S: "Soloist"
+          D: Duo 
+          T: Trio
       contact_person: &contact_person_labels
         salutation: Salutation
         first_name: First name

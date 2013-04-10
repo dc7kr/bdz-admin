@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130408183901) do
+ActiveRecord::Schema.define(:version => 20130410135821) do
 
   create_table "Inserenten", :id => false, :force => true do |t|
     t.string  "Firmenname",    :limit => 35
@@ -1379,6 +1379,7 @@ ActiveRecord::Schema.define(:version => 20130408183901) do
     t.integer  "contact_person_id"
     t.datetime "created_at",        :null => false
     t.datetime "updated_at",        :null => false
+    t.string   "group_type"
   end
 
   create_table "festival_pieces", :force => true do |t|

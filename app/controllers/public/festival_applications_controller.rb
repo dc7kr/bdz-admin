@@ -30,6 +30,7 @@ class Public::FestivalApplicationsController < ApplicationController
   # GET /festival_applications/new.json
   def new
     @festival_application = FestivalApplication.new
+	@festival_application.group_type="O"
 	@festival_application.contact_person = ContactPerson.new
 
     respond_to do |format|
@@ -48,18 +49,25 @@ class Public::FestivalApplicationsController < ApplicationController
   def create
     @festival_application = FestivalApplication.new(params[:festival_application])
     @contact_person = ContactPerson.new(params[:contact_person])
-	@contact_person.save
-	@festival_application.contact_person= @contact_person
 
-    respond_to do |format|
-      if @festival_application.save
-        format.html { redirect_to step2_public_festival_application_path(@festival_application), notice: 'Festival application was successfully created.' }
-        format.json { render json: @festival_application, status: :created, location: @festival_application }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @festival_application.errors, status: :unprocessable_entity }
-      end
-    end
+	@festival_application.contact_person= @contact_person
+	if @contact_person.save
+
+			respond_to do |format|
+			  if @festival_application.save
+				format.html { redirect_to step2_public_festival_application_path(@festival_application), notice: 'Festival application was successfully created.' }
+				format.json { render json: @festival_application, status: :created, location: @festival_application }
+			  else
+				format.html { render action: "new" }
+				format.json { render json: @festival_application.errors, status: :unprocessable_entity }
+			  end
+			end
+	else
+		respond_to do |format|
+			format.html { render action: "new" }
+			format.json { render json: @contact_person.errors, status: :unprocessable_entity }
+		end
+	end
   end
 
   # PUT /festival_applications/1

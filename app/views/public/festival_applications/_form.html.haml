@@ -1,10 +1,22 @@
 .block
   = f.error_messages :message => "", :header_tag => :h3
+  -if @festival_application.errors.any? or @festival_application.contact_person.errors.any? then 
+    #error_explanation
+
+      %h2=t("activerecord.errors.template.header")
+      %ul
+        - @festival_application.errors.full_messages.each do |msg|
+          %li= msg
+        - @festival_application.contact_person.errors.full_messages.each do |msg|
+          %li= msg
 .group
   %table
     %tr
       %td= f.label :country_id, :class=> :label
       %td= f.collection_select(:country, Country.all, :id, :name) 
+    %tr
+      %td= f.label :group_type, :class => :label
+      %td= f.select :group_type, options_for_select(get_group_type_options,:selected=>@festival_application.group_type)
     %tr
       %td= f.label :orch_name, :class => :label
       %td= f.text_field :orch_name
@@ -21,7 +33,7 @@
           %table
             %tr
               %td=person_f.label :salutation
-              %td=person_f.select :salutation, options_for_select([[t('common.salutation.M'),"M"],[t('common.salutation.W'), "W"]],:selected=>@festival_application.contact_person.salutation)
+              %td=person_f.select :salutation, options_for_select(get_salutation_options,:selected=>@festival_application.contact_person.salutation)
             %tr
               %td=person_f.label :first_name
               %td=person_f.text_field :first_name 

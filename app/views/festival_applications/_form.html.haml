@@ -21,7 +21,7 @@
           %table
             %tr
               %td=person_f.label :salutation
-              %td=person_f.select :salutation, options_for_select([[t('common.salutation.M'),"M"],[t('common.salutation.W'), "W"]],:selected=>@festival_application.contact_person.salutation)
+              %td=person_f.select :salutation, options_for_select(get_salutation_options,:selected=>@festival_application.contact_person.salutation)
             %tr
               %td=person_f.label :first_name
               %td=person_f.text_field :first_name 

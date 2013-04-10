@@ -222,6 +222,8 @@ de:
       second: Sekunden
       year: Jahr
   errors:
+    format: "%{message}"  
+    
     konto:
       required_by_za: Zahlungsart Lastschrift erfordert Kontonummer
       invalid: Kontonummer ist ungültig
@@ -506,6 +508,17 @@ de:
             password:
               confirmation: Passwörter stimmen nicht überein.
               too_short: Passwort zu kurz.
+        contact_person:
+          attributes:
+            first_name:
+              blank: "Vorname darf nicht leer sein!"
+            last_name:
+              blank: "Nachname darf nicht leer sein!"
+            email:
+              blank: "E-Mail darf nicht leer sein!"
+            phone:
+              blank: "Telefon darf nicht leer sein!"
+
   attributes:
     member:
        za: Zahlungsart
@@ -564,19 +577,6 @@ de:
       current_password: "Aktuelles Passwort"
       current_password_hint: "(wird zum Bestätigen der Änderungen benötigt)"
       cancel_account: "Benutzeraccount löschen"
-  activerecord: 
-    errors:
-      template:
-        header: Fehler im Formular
-        body: Betroffene Felder 
-      models:
-        user:
-          attributes:
-            email:
-              taken: Diese E-Mailadresse wird bereits verwendet.
-            password:
-              confirmation: Passwörter stimmen nicht überein.
-              too_short: Passwort zu kurz.
     member:
        za: Zahlungsart
        konto: Konto-Nr.
@@ -601,13 +601,20 @@ de:
         singular: "Festival-Bewerbung"
         country_id: "Herkunftsland"
         orchestra: Orchester
-        orch_name: Orchestername
+        orch_name: Name der Gruppe
         conductor: Dirigent
         num_players: "Anzahl Spieler"
         equipment: "Benötigte Ausrüstung"
         special_cast: "Spezielle Besetzung"
         contact_person: "Kontaktperson"
         add_piece: "Stück hinzufügen"
+        group_type: "Art der Gruppe"
+        group_types:
+          O: Orchester
+          E: Ensemble
+          S: Solist
+          D: Duo 
+          T: Trio
       contact_person: &contact_person_labels
         salutation: Anrede
         first_name: Vorname

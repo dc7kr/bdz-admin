@@ -1,4 +1,4 @@
-module FestivalApplicationsHelper
+module Public::FestivalApplicationsHelper
 
 def get_group_type_options 
 	[
@@ -9,4 +9,5 @@ def get_group_type_options
 		[t('festival_application.group_types.T'), "T"] 
 	]
 end
+
 end

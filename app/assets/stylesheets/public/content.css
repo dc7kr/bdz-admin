@@ -387,3 +387,39 @@ button.button {
   overflow:visible;
   padding:4px 10px 3px 7px; /* IE6 */
 }
+
+
+#error_explanation {
+  width: 450px;
+  border: 2px solid red;
+  padding: 7px;
+  padding-bottom: 0;
+  margin-bottom: 20px;
+  background-color: #f0f0f0;
+  box-shadow: 10px 10px 5px #888;
+
+
+  h2 {
+    text-align: left;
+    font-weight: bold;
+    padding: 5px 5px 5px 15px;
+    font-size: 12px;
+    margin: -7px;
+    margin-bottom: 0px;
+    background-color: #c00;
+    color: #fff;
+  }
+
+  ul li {
+    font-size: 12px;
+    list-style: square;
+	border: solid silver 1px;
+	background:#ff0000;
+	border: 1px solid silver;
+    color: #FFFFFF;
+    margin: 2px;
+    padding: 3px;
+  }
+
+}
+
