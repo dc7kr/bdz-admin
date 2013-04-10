@@ -410,4 +410,11 @@ JS1
     concat(raw(html_text))
     end
 
+
+def get_salutation_options
+	[[t('common.salutation.M'),"M"],[t('common.salutation.W'), "W"]]
 end
+end
+
+
+
