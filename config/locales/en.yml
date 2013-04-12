@@ -47,6 +47,7 @@ en:
       M: "Dear Mr."
       W: "Dear Mrs."
 
+    
   helpers:
     label:
       festival_piece: &festival_piece_labels
@@ -84,6 +85,12 @@ en:
         phone: Phone
         fax: Fax
         email: E-Mail
+
+  activerecord: 
+    errors:
+      template:
+        header: Errors in form 
+        body: Affected fields
   festival_application:
     <<: *festival_app_labels
     new: "New festival application"
