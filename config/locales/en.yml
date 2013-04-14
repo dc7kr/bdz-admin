@@ -58,6 +58,8 @@ en:
       festival_application: &festival_app_labels
         plural: "Festival applications"
         singular: "Festival application"
+        p: "Festival applications"
+        s: "Festival application"
         country_id: "Country of origin"
         orchestra: Orchestra
         orch_name: Group name

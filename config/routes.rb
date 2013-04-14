@@ -51,7 +51,6 @@ BDZAdmin::Application.routes.draw do
 
 
   resources :event_cards
-
   resources :event_meals
 
 
@@ -261,6 +260,8 @@ BDZAdmin::Application.routes.draw do
 	  end
 	  resources :festival_pieces 
     end
+    resources :event_meals
+    resources :event_cards
     resources :contacts
   	resources :courses do
 		collection do 

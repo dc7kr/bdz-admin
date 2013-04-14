@@ -8,17 +8,10 @@
     .inner
       %table
         %tr
-          %th=t("festival_application.country")
-          %th=t("festival_application.orchestra")
           %th=t("festival_application.orch_name")
           %th=t("festival_application.conductor")
           %th=t("festival_application.num players")
-          %th=t("festival_application.equipment")
-          %th=t("festival_application.special_cast")
           %th=t("festival_application.contact_person")
           %th
 
         = render @festival_applications
-      %br
-
-      = link_to 'New Festival application', new_festival_application_path

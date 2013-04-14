@@ -1,7 +1,9 @@
-%h1 Editing festival_piece
-
-= render 'form'
-
-= link_to 'Show', @festival_piece
-\|
-= link_to 'Back', festival_pieces_path
+.block
+  .secondary-navigation
+    =render :partial=>'nav'
+  .content
+    %h2.title
+      = t("common.edit")
+      = t('festival_piece.s')
+    .inner
+      = render 'form'

@@ -1,12 +1,8 @@
 %tr
-  %td= festival_application.country ? festival_application.country.name : "nil"
-  %td= festival_application.orchestra
   %td= festival_application.orch_name
   %td= festival_application.conductor
   %td= festival_application.num_players
-  %td= festival_application.equipment
-  %td= festival_application.special_cast
-  %td= festival_application.contact_person
+  %td= mail_to festival_application.contact_person.email, festival_application.contact_person.email
   %td
     =link_to_show festival_application
     =link_to_edit festival_application

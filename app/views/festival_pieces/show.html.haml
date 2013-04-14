@@ -1,8 +1,10 @@
-%p#notice= notice
-
-%p
-  %b Festival application:
-  = @festival_piece.festival_application
+.block
+  .secondary-navigation
+    =render :partial=>'nav'
+  .content
+    %h2.title
+      = t('festival_piece.s')
+    .inner
 %p
   %b Composer:
   = @festival_piece.composer
@@ -13,6 +15,3 @@
   %b Duration:
   = @festival_piece.duration
 
-= link_to 'Edit', edit_festival_piece_path(@festival_piece)
-\|
-= link_to 'Back', festival_pieces_path

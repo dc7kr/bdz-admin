@@ -3,7 +3,8 @@ class FestivalPiecesController < ApplicationController
   # GET /festival_pieces
   # GET /festival_pieces.json
   def index
-    @festival_pieces = FestivalPiece.all
+	@festival_application = FestivalApplication.find(params[:festival_application_id])
+    @festival_pieces = @festival_application.festival_pieces
 
     respond_to do |format|
       format.html # index.html.erb
@@ -14,6 +15,7 @@ class FestivalPiecesController < ApplicationController
   # GET /festival_pieces/1
   # GET /festival_pieces/1.json
   def show
+	@festival_application = FestivalApplication.find(params[:festival_application_id])
     @festival_piece = FestivalPiece.find(params[:id])
 
     respond_to do |format|
@@ -25,6 +27,7 @@ class FestivalPiecesController < ApplicationController
   # GET /festival_pieces/new
   # GET /festival_pieces/new.json
   def new
+	@festival_application = FestivalApplication.find(params[:festival_application_id])
     @festival_piece = FestivalPiece.new
 
     respond_to do |format|
@@ -35,6 +38,7 @@ class FestivalPiecesController < ApplicationController
 
   # GET /festival_pieces/1/edit
   def edit
+	@festival_application = FestivalApplication.find(params[:festival_application_id])
     @festival_piece = FestivalPiece.find(params[:id])
   end
 

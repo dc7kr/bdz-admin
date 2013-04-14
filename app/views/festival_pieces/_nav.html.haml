@@ -1,0 +1,7 @@
+%ul.wat-cf
+  %li{ :class => 'first'}= link_to_up_path t("common.up"), festival_application_path(@festival_application)
+  %li{ :class => tabActiveClass(@current_action,'index','first')}= link_to "#{t("common.list", :default => "List")}", festival_pieces_path
+  -if (@festival_piece)
+    %li{ :class => tabActiveClass(@current_action,'show',nil)}= link_to t("common.show"), festival_application_festival_piece_path(@festival_application,@festival_piece)
+  %li{:class => tabActiveClass(@current_action,'new',nil)}= link_to "#{t("common.new", :default => "New")}", new_festival_application_festival_piece_path(@festival_application)
+

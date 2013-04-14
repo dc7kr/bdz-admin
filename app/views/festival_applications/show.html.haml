@@ -1,30 +1,30 @@
-%p#notice= notice
+.block
+  .secondary-navigation
+    =render :partial=>'nav'
+  .content
+    %h2.title
+      = t("festival_application.s")
+    .inner
+      %table
+        %tr
+          %td.label #{t("festival_application.country_id")}:
+          %td= @festival_application.country ? @festival_application.country.name : t('common.none')
+        %tr
+          %td.label #{t("festival_application.orch_name")}:
+          %td= @festival_application.orch_name
+        %tr
+          %td.label #{t("festival_application.conductor")}:
+          %td= @festival_application.conductor
+        %tr
+          %td.label #{t("festival_application.num_players")}:
+          %td= @festival_application.num_players
+        %tr
+          %td.label #{t("festival_application.equipment")}:
+          %td= @festival_application.equipment
+        %tr
+          %td.label #{t("festival_application.special_cast")}:
+          %td= @festival_application.special_cast
+        %tr
+          %td.label #{t("festival_application.contact_person")}:
+          %td= render @festival_application.contact_person
 
-%p
-  %b Country:
-  = @festival_application.country_id
-%p
-  %b Orchestra:
-  = @festival_application.orchestra
-%p
-  %b Orch name:
-  = @festival_application.orch_name
-%p
-  %b Conductor:
-  = @festival_application.conductor
-%p
-  %b Num players:
-  = @festival_application.num_players
-%p
-  %b Equipment:
-  = @festival_application.equipment
-%p
-  %b Special cast:
-  = @festival_application.special_cast
-%p
-  %b Contact person:
-  = @festival_application.contact_person
-
-= link_to 'Edit', edit_festival_application_path(@festival_application)
-\|
-= link_to 'Back', festival_applications_path

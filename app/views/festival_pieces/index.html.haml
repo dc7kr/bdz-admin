@@ -1,0 +1,17 @@
+.block
+  .secondary-navigation
+    =render :partial=>'nav'
+  .content
+    %h2.title
+      = t("common.all")
+      = t('festival_piece.p')
+    .inner
+      %table.table
+        %thead
+          %th.first= t("festival_piece.composer")
+          %th= t("festival_piece.title")
+          %th= t("festival_piece.duration")
+          %th.last &nbsp;
+        %tbody#festvial_pieces
+          =render @festival_pieces
+

@@ -596,9 +596,13 @@ de:
         title: Titel
         duration: Dauer
         add_piece: "Stück hinzufügen"
+        s: "Gemeldetes Stück"
+        p: "Gemeldete Stücke"
       festival_application: &festival_app_labels
         plural: "Festival-Bewerbungen"
         singular: "Festival-Bewerbung"
+        p: "Festival-Bewerbungen"
+        s: "Festival-Bewerbung"
         country_id: "Herkunftsland"
         orchestra: Orchester
         orch_name: Name der Gruppe
