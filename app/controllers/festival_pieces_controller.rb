@@ -1,4 +1,4 @@
-class FestivalPiecesController < ApplicationController
+class FestivalPiecesController < AuthenticatedController
 	respond_to :html,:js
   # GET /festival_pieces
   # GET /festival_pieces.json

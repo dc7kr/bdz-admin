@@ -1,4 +1,4 @@
-class FestivalApplicationsController < ApplicationController
+class FestivalApplicationsController < AuthenticatedController
   layout :choose_layout
   # GET /festival_applications
   # GET /festival_applications.json
