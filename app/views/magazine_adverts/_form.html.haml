@@ -1,14 +1,18 @@
-= form_for @magazine_advert do |f|
+%table
   %tr
     %td= f.label :advertiser, t("magazine_advert.advertiser"), :class => :label
-    %td= collection_select(:magazine_advert, :advertiser_id, Advertiser.all, :id, :firma) 
+    %td= collection_select(:magazine_advert, :advertiser_id, Advertiser.all, :adv_id, :firma) 
   %tr
-    %td= f.label :land, t("magazine_advert.magazine_issue"), :class => :label
+    %td= f.label :magazine_issue, t("magazine_advert.magazine_issue"), :class => :label
     %td= collection_select(:magazine_advert, :magazine_issue_id, MagazineIssue.all, :id, :number) 
+  %tr
+    %td= f.label :advert_type, t("magazine_advert.advert_type"), :class => :label
+    %td= f.select :advert_type, options_for_select([[t('magazine_advert.advert_type.F'),"F"],[t('magazine_advert.advert_type.H'), "H"],[t('magazine_advert.advert_type.Q'), "Q"]],:selected=>@magazine_advert.advert_type)
 
-  .group.navform.wat-cf
-    %button.button{:type => "submit"}
-      = image_tag("web-app-theme/icons/tick.png", :alt => "#{t("web-app-theme.save", :default => "Save")}")
-      = t("web-app-theme.save", :default => "Save")
-    %span.text_button_padding= t("web-app-theme.or", :default => "or")
-    = cancel_button()
+
+.group.navform.wat-cf
+  %button.button{:type => "submit"}
+    = image_tag("web-app-theme/icons/tick.png", :alt => "#{t("web-app-theme.save", :default => "Save")}")
+    = t("web-app-theme.save", :default => "Save")
+  %span.text_button_padding= t("web-app-theme.or", :default => "or")
+  = cancel_button()

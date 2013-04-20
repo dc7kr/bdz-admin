@@ -11,7 +11,7 @@ gem 'paperclip'
 gem 'rbktoblzcheck'
 #gem 'konto_check'
 
-gem "jquery-fileupload-rails"
+gem 'jquery-rails' 	
 gem 'jquery-ui-rails'
 
 # 0.3.1 seems to be broken
@@ -49,7 +49,6 @@ gem "spreadsheet"
 
 gem 'sqlite3'
 gem 'mysql2' , '>=0.3'
-gem 'jquery-rails' 	
 
 gem 'rails-asset-jqueryui'
 

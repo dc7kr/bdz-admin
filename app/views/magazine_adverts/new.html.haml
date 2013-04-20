@@ -1,5 +1,10 @@
-%h1 New magazine_advert
-
-= render 'form'
-
-= link_to 'Back', magazine_adverts_path
+.block
+  .secondary-navigation
+    =render :partial=>'nav'
+  .content
+    %h2.title
+      = t("common.new")
+      = t("magazine_advert.title_s")
+    .inner
+      = form_for @magazine_advert do |f|
+        = render :partial => "form", :locals => {:f => f}

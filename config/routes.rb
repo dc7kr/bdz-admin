@@ -44,7 +44,6 @@ BDZAdmin::Application.routes.draw do
   resources :contact_people
 
 
-  resources :festival_pieces
   resources :festival_applications do
 	resources :festival_pieces
   end
@@ -118,7 +117,11 @@ BDZAdmin::Application.routes.draw do
   # partly public (except for edit functions)
 
 
-  resources :functions
+  resources :functions do 
+      collection do 
+        get :public
+      end
+  end
   resources :states
   resources :regional_organizations  do 
 	member do

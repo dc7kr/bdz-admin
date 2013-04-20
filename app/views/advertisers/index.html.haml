@@ -1,12 +1,15 @@
-%h1 Listing advertisers
+.block
+  .secondary-navigation
+    =render :partial=>'nav'
+  .content
+    %h2.title
+      = t("common.all")
+      = t("advertiser.title_p")
+    .inner
+      %table
+        %thead
+          %th.first=t('contact.company')
+          %th=t('contact.email')
+          %th.last
+        = render @advertisers
 
-%table
-  %tr
-    %th Advert type
-    %th
-    %th
-    %th
-
-  = render @advertisers
-
-= link_to 'New Advertiser', new_advertiser_path

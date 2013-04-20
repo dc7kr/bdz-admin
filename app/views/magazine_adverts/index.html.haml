@@ -4,7 +4,7 @@
   .content
     %h2.title
       = t("common.all")
-      = t("magazine_adverts.title")
+      = t("magazine_adverts.title_p")
     .inner
       %table.table
         %thead
@@ -12,7 +12,3 @@
           %th=t('magazine_advert.number')
           %th.last
         = render @magazine_adverts
-
-%br
-
-= link_to 'New Magazine advert', new_magazine_advert_path

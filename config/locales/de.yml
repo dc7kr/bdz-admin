@@ -232,8 +232,24 @@ de:
       required_by_za: Zahlungsart Lastschrift erfordert Bankleitzahl
       unknown: ist unbekannt
 
+  university:
+    p: Studienmöglichkeiten
+    s: Studienmöglichkeit
+  course:
+    p: Kurse
+    s: Kurs
+  concert:
+    p: Konzerte
+    s: Konzert
+  composer:
+    p: Komponisten
+    s: Komponist
+  festival:
+    p: Festivals
+    s: Festival
   ensemble:
-    title: Ensemble
+    p: Ensembles
+    s: Ensemble
   booking:
     title: Buchung
     title_p: Buchungen
@@ -305,7 +321,8 @@ de:
     honorletters: Ehrenbriefe
     medals: BDZ-Medaillen
   honor_member:
-    title: Ehrenmitglieder
+    p: Ehrenmitglieder
+    s: Ehrenmitglieder
   orchestra:
     title: Orchester
     noreport: Kein Meldebogen
@@ -368,7 +385,8 @@ de:
   member_account:
     balance: Saldo
   contest:
-    label: Wettbewerb
+    s: Wettbewerb
+    p: Wettbewerbe
     startdate: Beginn Datum
     enddate: Ende Datum
     deadline: Anmeldeschluss
@@ -529,20 +547,6 @@ de:
     role: Rolle
   member_account:
     balance: Saldo
-  contest:
-    label: Wettbewerb
-    startdate: Beginn Datum
-    enddate: Ende Datum
-    deadline: Anmeldeschluss
-    title: Titel
-    inhalt: Lehrgangsinhalte
-    zielgruppe: Zielgruppe
-    termine: Termine der Arbeitsphasen
-    gebuehr: Teilnahmegebühr
-    dozenten: DozentInnen
-    preis: Preis
-    more_dates: Termine
-    anmeldung: Infos und Anmeldung
   advertiser:
     title: Werbekunde
     title_p: Werbekunden
@@ -560,9 +564,16 @@ de:
     email: E-Mail
     
     
-     
+  function:
+    p: Funktionen   
+    s: Funktion
   url:
+    p: URLs
+    s: URL
     confirm_delete: "URL wirklich löschen?"
+  url_category:
+    p: URL Kategorien
+    s: URL Kategorie
   user:
     title_p: Benutzer
     title: Benutzer

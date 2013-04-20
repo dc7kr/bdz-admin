@@ -1,6 +1,7 @@
 %tr
   %td= advertiser.firma
-  %td= advertiser.advert_type
-  %td= link_to 'Show', advertiser
-  %td= link_to 'Edit', edit_advertiser_path(advertiser)
-  %td= link_to 'Destroy', advertiser, :method => :delete, :data => { :confirm => 'Are you sure?' }
+  %td= mail_to  advertiser.email, advertiser.email
+  %td
+    = link_to_show advertiser
+    = link_to_edit advertiser
+    = link_to_delete advertiser

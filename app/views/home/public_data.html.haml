@@ -17,15 +17,16 @@
     .link-group
       %h3 Öffentliche Ansichten
       %ul.navigation
-        %li= link_to "Konzerte", public_concerts_path
-        %li= link_to "Festivals", public_festivals_path
-        %li= link_to "Ensembles", public_ensembles_path
-        %li= link_to "Kurse", public_courses_path
-        %li= link_to t("contest.label"), public_contests_path
-        %li= link_to "Studienmöglichkeiten", public_universities_path
-        %li= link_to "Ehrentafel", public_honor_members_path
-        %li= link_to "Komponisten", public_composers_path
-        %li= link_to "URLs", public_urls_path
-        %li= link_to "URL Kategorien", public_url_categories_path
+        %li= link_to t("concert.p"), public_concerts_path
+        %li= link_to t("festival.p"), public_festivals_path
+        %li= link_to t("ensemble.p"), public_ensembles_path
+        %li= link_to t("course.p"), public_courses_path
+        %li= link_to t("contest.p"), public_contests_path
+        %li= link_to t("university.p"), public_universities_path
+        %li= link_to t("honor_member.p"), public_honor_members_path
+        %li= link_to t("composer.p"), public_composers_path
+        %li= link_to t("url.p"), public_urls_path
+        %li= link_to t("url_category.p"), public_url_categories_path
+        %li= link_to t("function.p"), public_functions_path
 - content_for :sidebar, render(:partial => 'sidebar')
 

@@ -77,11 +77,6 @@
             #{t("contact.blz")}:
           %td
             = @advertiser.blz
-        %tr
-          %td.label
-            #{t("advertiser.advert_type")}:
-          %td
-            = @advertiser.advert_type
       .wat-cf
         = edit_button(edit_contact_path(@advertiser),@advertiser)
         = del_button(contact_path(@advertiser),@advertiser)

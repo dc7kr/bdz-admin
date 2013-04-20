@@ -82,4 +82,13 @@ class FunctionsController < AuthenticatedController
       format.json { head :ok }
     end
   end
+
+  def public 
+    @functions = Function.includes(:regional_organization,:contact)
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render :json => @functions }
+    end
+  end
 end
