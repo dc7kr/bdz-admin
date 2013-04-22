@@ -1,0 +1,22 @@
+.block
+  .secondary-navigation
+    = render :partial => 'nav'
+  .content
+    %h2.title
+      =t("regional_organization.p")
+    %h3.title
+      =t("regional_organization.share_overview")
+    .inner
+      %table
+        - @regional_organization_shares.each do |s|
+          %tr
+            %td=s[:regional_organization].name
+            %td.currency=format_currency s[:uv]
+            %td.currency=format_currency s[:lvpart]
+        %tr
+          %td
+            %b=t('common.sum')
+          %td.currency
+            %b=format_currency @uv_sum
+          %td.currency
+            %b=format_currency @part_sum

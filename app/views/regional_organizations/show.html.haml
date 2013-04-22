@@ -8,40 +8,41 @@
     .inner
       %p
         %b
-          = t("activerecord.attributes.regional_organization.nummer", :default => t("activerecord.labels.nummer", :default => "Nummer"))
+          = label :regional_organization, :nummer
           \:
         = @regional_organization.nummer
       %p
         %b
-          = t("activerecord.attributes.regional_organization.name", :default => t("activerecord.labels.name", :default => "Name"))
+          = label :regional_organization, :name
           \:
         = @regional_organization.name
       %p
         %b
-          = t("activerecord.attributes.regional_organization.subname", :default => t("activerecord.labels.subname", :default => "Subname"))
+          = label :regional_organization, :subname
           \:
         = @regional_organization.subname
       %p
         %b
-          = t("activerecord.attributes.regional_organization.homepage", :default => t("activerecord.labels.homepage", :default => "Homepage"))
+          = label :regional_organization, :homepage
           \:
         = link_to @regional_organization.homepage,@regional_organization.homepage
       %p
         %b
-          = t("regional_organization.jugend_url")
+          = label :regional_organization, :jugend_url
           \:
         = link_to @regional_organization.jugend_url,@regional_organization.jugend_url
       %p
         %b
-          = t("regional_organization.konto")
-          \:
+          #{label :regional_organization, :jugend_url}\:
         = @regional_organization.konto
       %p
         %b
-          = t("regional_organization.blz")
-          \:
+          #{label :regional_organization, :blz}\:
         = @regional_organization.blz
       .wat-cf
-        = link_to image_tag("web-app-theme/icons/application_edit.png", :alt => "#{t("web-app-theme.edit", :default=> "Edit")}") + " " + t("web-app-theme.edit", :default=> "Edit"), edit_regional_organization_path(@regional_organization), :class => "button"
-        = link_to image_tag("web-app-theme/icons/cross.png", :alt => "#{t("web-app-theme.delete", :default=> "Delete")}") + " " + t("web-app-theme.delete", :default => "Delete"), regional_organization_path(@regional_organization), :method => "delete", :class => "button", :confirm => "#{t("web-app-theme.confirm", :default => "Are you sure?")}"
+        = link_to_edit @regional_organization
+
+        = del_button @regional_organization,@regional_organization
+
+
 - content_for :sidebar, render(:partial => 'sidebar.show')

@@ -4,13 +4,13 @@
   .content
     %h2.title
       = t("common.all")
-      =t("regional_organization.title")
+      =t("regional_organization.p")
     .inner
       %table.table
         %tr
           %th.first ID
           %th
-            = t("activerecord.attributes.regional_organization.name", :default => t("activerecord.labels.nummer", :default => "Nummer"))
+            = t("activerecord.attributes.regional_organization.name")
           %th= t("regional_organization.homepage")
           %th.last &nbsp;
         = render @regional_organizations
