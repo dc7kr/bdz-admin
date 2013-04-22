@@ -142,4 +142,30 @@ class RegionalOrganizationsController < ApplicationController
 		@sums[:youth]+=r.children+r.teens+r.youth
 	end
   end
+
+  def share_overview
+    curYear = Time.now.year
+	@regional_organization_shares = Array.new
+	@uv_sum =0
+    @part_sum=0
+	@regional_organizations.each do |ro|
+		share = Hash.new
+  		share[:regional_organization]=ro
+       	share[:uv]= 0
+       	share[:lvpart]= 0
+
+		@sheets = ReportSheet.final(curYear).includes([:orchestra]).where("year = ? ",curYear)
+		@sheets.each do |s|
+			if s.orchestra.regional_organization_id == ro.id then
+	        	share[:uv]+= s.calcUV
+	        	share[:lvpart]+= s.calcLvPart
+			end
+		end
+	
+		@uv_sum+=share[:uv]
+		@part_sum+=share[:lvpart]
+
+		@regional_organization_shares << share
+	end
+  end
 end

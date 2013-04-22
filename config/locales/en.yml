@@ -3,6 +3,8 @@
 
 en:
   common:
+    delete: Delete
+    confirm: "Are you sure?"
     exchange: Exchange
     fullname: Name
     all: All
@@ -47,9 +49,19 @@ en:
       M: "Dear Mr."
       W: "Dear Mrs."
 
+  regional_organization:
+    p: Landesverbände
+    s: Landesverband
+    share_overview: Beitragsanteile
     
   helpers:
     label:
+      regional_organization:
+        nummer: Reg. Org. No.
+        homepage: Homepage
+        jugend_url: Youth homepage
+        konto: Account number
+        blz: BIC
       festival_piece: &festival_piece_labels
         composer: Composer
         title: Title
@@ -76,6 +88,7 @@ en:
           S: "Soloist"
           D: Duo 
           T: Trio
+    
       contact_person: &contact_person_labels
         salutation: Salutation
         first_name: First name

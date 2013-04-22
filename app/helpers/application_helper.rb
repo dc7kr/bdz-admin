@@ -94,9 +94,14 @@ end
 def cancel_button()
   link_to t("common.cancel"), url_for(:back), :class => "text_button_padding button"
 end
+
+def del_button(entity)
+  del_button(entity,entity)
+end
+
 def del_button(path,entity)
   if can? :destroy, entity  
-	link_to image_tag("/assets/icons/delete.png", :alt => "#{t("common.delete", :default=> "Delete")}") + " " + t("common.delete", :default => "Delete"), path, :method => "delete", :class => "button", :confirm => "#{t("common.confirm", :default => "Are you sure?")}"
+	link_to image_tag("/assets/icons/delete.png", :alt => t("common.delete")) + " " + t("common.delete"), path, :method => "delete", :class => "button", :confirm => t("common.confirm")
   end
 end
 def edit_button(path,entity) 
@@ -222,7 +227,7 @@ def format_time(time)
   return time.strftime '%H:%M'
 end
 
-def format_currency(val,cur)
+def format_currency(val,cur=nil)
   return number_to_currency(val,:precision => 2,:locale => :de)
 end
 

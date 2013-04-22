@@ -7,6 +7,8 @@ de:
     fullname: Name
     all: Alle
     links: Links
+    delete: Löschen
+    confirm: "Sind Sie sicher?"
     error_500: Interner Fehler
     public_data: Öffentliche Daten
     member_data: Mitgliedsdaten
@@ -457,6 +459,10 @@ de:
     analysis: "Auffällige Meldebögen"
     update_double_members: "Meldebogen anpassen"
     update_double_success: "Doppelmitglieder erfolgreich auf beitragsfrei gesetzt."
+  regional_organization:
+    p: Landesverbände
+    s: Landesverband
+    share_overview: Beitragsanteile
   regional_organization_booking:
     index: Landesverbandskonto
     booking_type_S: Sollstellung
@@ -536,7 +542,6 @@ de:
               blank: "E-Mail darf nicht leer sein!"
             phone:
               blank: "Telefon darf nicht leer sein!"
-
   attributes:
     member:
        za: Zahlungsart
@@ -545,6 +550,12 @@ de:
        lv: Landesverband
 
     role: Rolle
+    regional_organization:
+      nummer: LV-Nummer
+      homepage: Homepage
+      jugend_url: Jugend-Homepage
+      konto: Konto
+      blz: BLZ
   member_account:
     balance: Saldo
   advertiser:

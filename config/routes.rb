@@ -132,6 +132,7 @@ BDZAdmin::Application.routes.draw do
     end
 	collection do
 		get :create_annual_payment
+		get :share_overview
 	end
   	resources :regional_organization_bookings, :as => :acct_bookings do
 		member do 
