@@ -19,6 +19,7 @@ de:
     address: Adresse
     finalize: Verbindlich absenden
     yes: Ja
+    due_date: Stichtag
     no: Nein
     za_L: Lastschrift
     za_R: Rechnung

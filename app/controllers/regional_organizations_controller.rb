@@ -144,26 +144,36 @@ class RegionalOrganizationsController < ApplicationController
   end
 
   def share_overview
-    curYear = Time.now.year
+    @curYear = Time.now.year
+
+	if ( params[:before] != nil ) then
+		@before = Date.strptime(params[:before],"%d.%m.%Y")
+	else
+		@before = Time.new
+	end
 	@regional_organization_shares = Array.new
 	@uv_sum =0
-    @part_sum=0
+	@part_sum=0
+	@full_sum=0
 	@regional_organizations.each do |ro|
 		share = Hash.new
-  		share[:regional_organization]=ro
-       	share[:uv]= 0
-       	share[:lvpart]= 0
+		share[:regional_organization]=ro
+		share[:uv]= 0
+		share[:lvpart]= 0
+		share[:sum]= 0
 
-		@sheets = ReportSheet.final(curYear).includes([:orchestra]).where("year = ? ",curYear)
+		@sheets = ReportSheet.final(@curYear).includes([:orchestra]).where("year = ? and report_date < ? ",@curYear, @before)
 		@sheets.each do |s|
 			if s.orchestra.regional_organization_id == ro.id then
 	        	share[:uv]+= s.calcUV
 	        	share[:lvpart]+= s.calcLvPart
+				share[:sum]+= s.calcBeitrag
 			end
 		end
 	
 		@uv_sum+=share[:uv]
 		@part_sum+=share[:lvpart]
+		@full_sum+=share[:sum]
 
 		@regional_organization_shares << share
 	end
