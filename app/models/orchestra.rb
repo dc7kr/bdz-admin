@@ -117,6 +117,7 @@ class Orchestra < ActiveRecord::Base
 	strasse
 	plz
 	ort
+	email
   end
 
   def letterCountry

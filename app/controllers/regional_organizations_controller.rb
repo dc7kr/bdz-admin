@@ -95,7 +95,7 @@ class RegionalOrganizationsController < ApplicationController
   end
 
   def person
-	@person_members = PersonMember.includes(:member).where("members.regional_organization_id = ?", params[:id]).order("members.mglnr").to_comma(:lv)
+	@person_members = PersonMember.includes(:member).where("members.regional_organization_id = ?", params[:id]).order("members.mglnr")
 	respond_to do |format|
 		format.csv { render :csv => @person_members, :style=>:lv, :filename => "em_lv"+@regional_organization.nummer.to_s+"_"+Time.now.year.to_s }
 	end
