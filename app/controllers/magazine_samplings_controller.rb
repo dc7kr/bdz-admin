@@ -2,7 +2,7 @@ class MagazineSamplingsController < ApplicationController
   # GET /magazine_samplings
   # GET /magazine_samplings.json
   def index
-    @magazine_samplings = MagazineSampling.all
+    @magazine_samplings = MagazineSampling.includes(:contact).order('contacts.firma, contacts.name,contacts.vorname')
 
     respond_to do |format|
       format.html # index.html.erb

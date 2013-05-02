@@ -4,11 +4,14 @@
   .content
     %h2.title
       = t("common.all")
-      = t("magazine_sampling.title")
+      = t("magazine_sampling.p")
     .inner
       %table.table
         %thead
           %th.first=t('contact.company')
+          %th.first=t('contact.first_name')
+          %th.first=t('contact.last_name')
+          %th.first=t('contact.city')
           %th=t('magazine_sampling.count')
           %th.last
         = render @magazine_samplings

@@ -4,11 +4,11 @@
   .content
     %h2.title
       = t("common.all")
-      = t("magazine_issues.title")
+      = t("magazine_issue.p")
     .inner
       %table.table
         %thead
-          %th.first=t('magazine_issue.year')
-          %th=t('magazine_issue.number')
+          %th.first=t('common.year')
+          %th=t('magazine_issue.nummer')
           %th.last
         = render @magazine_issues

@@ -3,11 +3,11 @@
     %td= f.label :advertiser, t("magazine_advert.advertiser"), :class => :label
     %td= collection_select(:magazine_advert, :advertiser_id, Advertiser.all, :adv_id, :firma) 
   %tr
-    %td= f.label :magazine_issue, t("magazine_advert.magazine_issue"), :class => :label
+    %td= f.label :magazine_issue, t("magazine_issue.s"), :class => :label
     %td= collection_select(:magazine_advert, :magazine_issue_id, MagazineIssue.all, :id, :number) 
   %tr
     %td= f.label :advert_type, t("magazine_advert.advert_type"), :class => :label
-    %td= f.select :advert_type, options_for_select([[t('magazine_advert.advert_type.F'),"F"],[t('magazine_advert.advert_type.H'), "H"],[t('magazine_advert.advert_type.Q'), "Q"]],:selected=>@magazine_advert.advert_type)
+    %td= f.select :advert_type, options_for_select([[t('magazine_advert.advert_types.F'),"F"],[t('magazine_advert.advert_types.H'), "H"],[t('magazine_advert.advert_types.Q'), "Q"]],:selected=>@magazine_advert.advert_type)
 
 
 .group.navform.wat-cf

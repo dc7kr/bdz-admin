@@ -1,5 +1,8 @@
 BDZAdmin::Application.routes.draw do
 
+  resources :subscribers
+
+
   resources :magazine_samplings
   resources :magazine_adverts
   resources :magazine_issues
@@ -45,6 +48,9 @@ BDZAdmin::Application.routes.draw do
 
 
   resources :festival_applications do
+	collection do
+		get :list
+	end
 	resources :festival_pieces
   end
 

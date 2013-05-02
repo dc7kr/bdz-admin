@@ -3,10 +3,11 @@
     .link-group
       %h3 Daten
       %ul.navigation
-        %li= link_to "Ausgaben", magazine_issues_path 
-        %li= link_to "Werbekunden", advertisers_path 
-        %li= link_to "Werbebuchungen", magazine_adverts_path 
-        %li= link_to "Bemusterung", magazine_samplings_path 
+        %li= link_to t('magazine_issue.p'), magazine_issues_path 
+        %li= link_to t('advertiser.p'), advertisers_path 
+        %li= link_to t('magazine_advert.p'), magazine_adverts_path 
+        %li= link_to t('subscriber.p'), subscribers_path
+        %li= link_to t('magazine_sampling.p'), magazine_samplings_path 
     .link-group
       %h3 Berichte
       %ul.navigation

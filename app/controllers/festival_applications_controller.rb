@@ -11,6 +11,21 @@ class FestivalApplicationsController < AuthenticatedController
     end
   end
 
+
+  def list
+    @festival_applications = FestivalApplication.includes(:country).order([:group_type,:orch_name])
+    now = Time.new
+	currDate = now.strftime("%d.%m.%Y")
+
+	respond_to do |format|
+	  format.html { render}
+	  format.pdf do
+		pdf = FestivalApplicationsPdf.new(@festival_applications,view_context)
+		send_data pdf.render, filename: "festival_applications_#{currDate}.pdf", type: "application/pdf", disposition: "inline"
+	  end
+	end
+  end
+
   # GET /festival_applications/1
   # GET /festival_applications/1.json
   def show

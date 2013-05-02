@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130410135821) do
+ActiveRecord::Schema.define(:version => 20130430101044) do
 
   create_table "Inserenten", :id => false, :force => true do |t|
     t.string  "Firmenname",    :limit => 35
@@ -118,6 +118,7 @@ ActiveRecord::Schema.define(:version => 20130410135821) do
     t.integer  "owner",        :limit => 8,                                 :default => 1,                     :null => false
     t.integer  "visible",      :limit => 2,                                 :default => 1,                     :null => false
     t.integer  "orchestra_id"
+    t.string   "uid"
   end
 
   add_index "concerts", ["bland"], :name => "bland"
@@ -125,6 +126,7 @@ ActiveRecord::Schema.define(:version => 20130410135821) do
   add_index "concerts", ["datum", "zeit", "interpret"], :name => "unique_event", :unique => true, :length => {"datum"=>nil, "zeit"=>nil, "interpret"=>30}
   add_index "concerts", ["festival_id"], :name => "festival"
   add_index "concerts", ["owner"], :name => "fk_owner"
+  add_index "concerts", ["uid"], :name => "index_concerts_on_uid", :unique => true
 
   create_table "contact_people", :force => true do |t|
     t.string   "salutation"
@@ -3111,37 +3113,40 @@ ActiveRecord::Schema.define(:version => 20130410135821) do
   add_index "report_sheet_inputs", ["report_sheet_id"], :name => "index_report_sheet_inputs_on_report_sheet_id"
 
   create_table "report_sheets", :force => true do |t|
-    t.integer "year",                                         :null => false
-    t.integer "orchestra_id", :limit => 8
-    t.integer "children",                                     :null => false
-    t.integer "teens",                                        :null => false
-    t.integer "youth",                                        :null => false
-    t.integer "adult",                                        :null => false
-    t.integer "senior",                                       :null => false
-    t.boolean "uv",                        :default => false, :null => false
-    t.integer "zusatz_uv",                 :default => 0,     :null => false
-    t.integer "korr_ztg",                  :default => 0,     :null => false
-    t.integer "zusatz_ztg",                :default => 0,     :null => false
-    t.integer "gema"
-    t.integer "azubi",                                        :null => false
-    t.integer "passive",                   :default => 0,     :null => false
-    t.integer "child_ens"
-    t.integer "youth_ens"
-    t.integer "adult_ens"
-    t.integer "senior_ens"
-    t.integer "chamber_ens"
-    t.integer "other_ens"
-    t.string  "token"
-    t.integer "azubi_child"
-    t.integer "azubi_teens"
-    t.integer "azubi_youth"
-    t.integer "azubi_adult"
-    t.integer "azubi_senior"
-    t.integer "supporters"
-    t.boolean "zo"
-    t.boolean "zi_o"
-    t.boolean "go"
-    t.boolean "oz"
+    t.integer  "year",                                         :null => false
+    t.integer  "orchestra_id", :limit => 8
+    t.integer  "children",                                     :null => false
+    t.integer  "teens",                                        :null => false
+    t.integer  "youth",                                        :null => false
+    t.integer  "adult",                                        :null => false
+    t.integer  "senior",                                       :null => false
+    t.boolean  "uv",                        :default => false, :null => false
+    t.integer  "zusatz_uv",                 :default => 0,     :null => false
+    t.integer  "korr_ztg",                  :default => 0,     :null => false
+    t.integer  "zusatz_ztg",                :default => 0,     :null => false
+    t.integer  "gema"
+    t.integer  "azubi",                                        :null => false
+    t.integer  "passive",                   :default => 0,     :null => false
+    t.integer  "child_ens"
+    t.integer  "youth_ens"
+    t.integer  "adult_ens"
+    t.integer  "senior_ens"
+    t.integer  "chamber_ens"
+    t.integer  "other_ens"
+    t.string   "token"
+    t.integer  "azubi_child"
+    t.integer  "azubi_teens"
+    t.integer  "azubi_youth"
+    t.integer  "azubi_adult"
+    t.integer  "azubi_senior"
+    t.integer  "supporters"
+    t.boolean  "zo"
+    t.boolean  "zi_o"
+    t.boolean  "go"
+    t.boolean  "oz"
+    t.date     "report_date"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "report_sheets", ["year", "orchestra_id"], :name => "oneperyear", :unique => true
@@ -3156,6 +3161,14 @@ ActiveRecord::Schema.define(:version => 20130410135821) do
   end
 
   add_index "static_tsconfig_help", ["guide", "md5hash"], :name => "guide"
+
+  create_table "subscribers", :force => true do |t|
+    t.string   "account"
+    t.string   "bic"
+    t.integer  "contact_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "table_meta_data", :force => true do |t|
     t.string  "table_name",    :limit => 50,  :null => false

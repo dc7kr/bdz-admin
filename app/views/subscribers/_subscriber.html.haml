@@ -1,0 +1,9 @@
+%tr
+  %td= subscriber.vorname
+  %td= subscriber.name
+  %td= subscriber.telefon
+  %td= mail_to subscriber.email, subscriber.email
+  %td
+    = link_to_show subscriber
+    = link_to_edit subscriber
+    = link_to_delete subscriber

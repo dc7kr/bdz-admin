@@ -11,7 +11,7 @@
     %tr
     %tr
       %td= f.label :anrede, t("contact.anrede"), :class => :label
-      %td= f.select :anrede, options_for_select([[t('common.salutation_d.M'),"M"],[t('common.salutation_d.W'), "W"]],:selected=>@magazine_sampling.anrede)
+      %td= f.select :anrede, options_for_select([[t('common.salutation.M'),"M"],[t('common.salutation.W'), "W"]],:selected=>@subscriber.anrede)
     %tr
       %td= f.label :vorname, t("contact.vorname"), :class => :label
       %td= f.text_field :vorname, :class => 'text_field'
@@ -29,7 +29,7 @@
       %td= f.text_field :ort, :class => 'text_field'
     %tr
       %td= f.label :country, t("contact.country"), :class => :label
-      %td= collection_select(:magazine_sampling, :country_id, Country.all, :id, :name) 
+      %td= collection_select(:subscriber, :country_id, Country.all, :id, :name) 
     %tr
       %td= f.label :telefon, t("contact.phone"), :class => :label
       %td= f.text_field :telefon, :class => 'text_field'
@@ -39,10 +39,13 @@
     %tr
       %td= f.label :email, t("contact.email"), :class => :label
       %td= f.text_field :email, :class => 'text_field'
-    %tr
-      %td= f.label :count, t("magazine_sampling.count"), :class => :label
-      %td= f.text_field :count, :class => 'text_field'
       
+    %tr
+      %td= f.label :account, t("subscriber.account"), :class => :label
+      %td= f.text_field :account, :class => 'text_field'
+    %tr
+      %td= f.label :bic, t("subscriber.bic"), :class => :label
+      %td= f.text_field :bic, :class => 'text_field'
   %button.button{:type => "submit"}
     =submit_button(t("common.save", :default => "Save"))
   = cancel_button()

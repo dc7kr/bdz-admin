@@ -19,7 +19,7 @@
           %td.label
             #{t("contact.anrede")}:
           %td
-            = t("common.salutation."+@magazine_sampling.anrede)
+            = @magazine_sampling.anrede == "" ? "" :t("common.salutation_d.#{@magazine_sampling.anrede}")
         %tr
           %td.label
             #{t("contact.first_name")}:

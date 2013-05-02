@@ -18,6 +18,9 @@ de:
     cron: Tasks
     address: Adresse
     finalize: Verbindlich absenden
+    year: Jahr
+    month: Monat
+    day: Tag
     yes: Ja
     due_date: Stichtag
     no: Nein
@@ -560,10 +563,24 @@ de:
   member_account:
     balance: Saldo
   advertiser:
-    title: Werbekunde
-    title_p: Werbekunden
+    s: Werbekunde
+    p: Werbekunden
+  magazine_advert:
+    p: Werbebuchungen
+    s: Werbebuchung
+    advert_type: Typ
+    advert_types:
+     F: Ganze Seite
+     H: Halbe Seite
+     Q: Viertel Seite
+    
+  magazine_issue:
+    p: Ausgaben
+    s: Ausgabe
+    number: Nummer
   magazine_sampling:
-    title: Bemusterungen
+    p: Bemusterungen
+    s: Bemusterung
     count: Anzahl
   contact:
     company: Firma
@@ -579,6 +596,11 @@ de:
   function:
     p: Funktionen   
     s: Funktion
+  subscriber:
+    p: Abonnenten
+    s: Abonnent
+    account: Konto
+    bic: "BLZ"
   url:
     p: URLs
     s: URL

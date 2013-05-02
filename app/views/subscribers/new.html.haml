@@ -1,10 +1,11 @@
 .block
   .secondary-navigation
-    =render :partial=>'nav'
+    = render :partial =>'nav'
   .content
     %h2.title
-      = t("common.edit")
-      = t("advertiser.s")
+      = t("common.new")
+      = t("subscriber.s")
     .inner
-      = form_for @advertiser do |f|
+      = form_for @subscriber do |f|
         = render :partial => "form", :locals => {:f => f}
+

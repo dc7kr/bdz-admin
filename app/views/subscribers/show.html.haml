@@ -1,0 +1,15 @@
+%p#notice= notice
+
+%p
+  %b Account:
+  = @subscriber.account
+%p
+  %b Bic:
+  = @subscriber.bic
+%p
+  %b Contact:
+  = @subscriber.contact_id
+
+= link_to 'Edit', edit_subscriber_path(@subscriber)
+\|
+= link_to 'Back', subscribers_path

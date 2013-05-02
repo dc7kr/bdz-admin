@@ -1,7 +1,10 @@
 %tr
   %td= magazine_sampling.firma
+  %td= magazine_sampling.vorname
+  %td= magazine_sampling.name
+  %td= magazine_sampling.ort
   %td= magazine_sampling.count
-  %td{:width=>"60%"}
+  %td
     = link_to_show magazine_sampling
     = link_to_edit magazine_sampling
     = link_to_delete magazine_sampling, t("common.delete"), t("common.delete_confirm")

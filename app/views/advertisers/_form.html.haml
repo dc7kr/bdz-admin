@@ -11,7 +11,7 @@
     %tr
     %tr
       %td= f.label :anrede, t("contact.anrede"), :class => :label
-      %td= f.select :anrede, options_for_select([[t('common.anrede.M'),"M"],[t('common.anrede.W'), "W"]],:selected=>@advertiser.anrede)
+      %td= f.select :anrede, options_for_select([[t('common.salutation_d.M'),"M"],[t('common.salutation_d.W'), "W"]],:selected=>@advertiser.anrede)
     %tr
       %td= f.label :vorname, t("contact.vorname"), :class => :label
       %td= f.text_field :vorname, :class => 'text_field'
