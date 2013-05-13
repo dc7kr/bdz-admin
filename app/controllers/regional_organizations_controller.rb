@@ -155,12 +155,17 @@ class RegionalOrganizationsController < ApplicationController
 	@uv_sum =0
 	@part_sum=0
 	@full_sum=0
+	@dd_full_sum=0
+	@dd_part_sum=0
+
 	@regional_organizations.each do |ro|
 		share = Hash.new
 		share[:regional_organization]=ro
 		share[:uv]= 0
 		share[:lvpart]= 0
 		share[:sum]= 0
+		share[:dd_sum]= 0
+		share[:dd_part]= 0
 
 		@sheets = ReportSheet.final(@curYear).includes([:orchestra]).where("year = ? and report_date < ? ",@curYear, @before)
 		@sheets.each do |s|
@@ -168,12 +173,18 @@ class RegionalOrganizationsController < ApplicationController
 	        	share[:uv]+= s.calcUV
 	        	share[:lvpart]+= s.calcLvPart
 				share[:sum]+= s.calcBeitrag
+				if s.orchestra.is_direct_debit? then
+					share[:dd_sum]+=s.calcBeitrag
+					share[:dd_part]+=s.calcLvPart
+				end
 			end
 		end
 	
 		@uv_sum+=share[:uv]
 		@part_sum+=share[:lvpart]
 		@full_sum+=share[:sum]
+		@dd_full_sum+= share[:dd_sum] 
+		@dd_part_sum+= share[:dd_part] 
 
 		@regional_organization_shares << share
 	end
