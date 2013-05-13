@@ -15,12 +15,16 @@
           %th=t('report_sheet.lv_part')
           %th=t('report_sheet.sum')
           %th=t('report_sheet.uv')
+          %th=t('share_overview.dd_part')
+          %th=t('share_overview.dd_sum')
         - @regional_organization_shares.each do |s|
           %tr
             %td=s[:regional_organization].name
             %td.currency=format_currency s[:lvpart]
             %td.currency=format_currency s[:sum]
             %td.currency=format_currency s[:uv]
+            %td.currency=format_currency s[:dd_part]
+            %td.currency=format_currency s[:dd_sum]
         %tr
           %td
             %b=t('common.sum')
@@ -30,3 +34,7 @@
             %b=format_currency @part_sum
           %td.currency
             %b=format_currency @full_sum
+          %td.currency
+            %b=format_currency @dd_part_sum
+          %td.currency
+            %b=format_currency @dd_full_sum
