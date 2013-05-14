@@ -1,9 +1,16 @@
-= semantic_form_for @festival_piece do |f|
-  = f.inputs do
-    = f.input :festival_application
-    = f.input :composer
-    = f.input :title
-    = f.input :duration
+.block
+  = f.error_messages :message => "", :header_tag => :h3
+.group
+  %table
+    %tr
+      %td.label= f.label :composer
+      %td= f.text_field :composer
+    %tr
+      %td.label= f.label :title
+      %td= f.text_field :title
+    %tr
+      %td.label= f.label :duration
+      %td= f.text_field :duration
 
-  = f.actions do
-    = f.action :submit, :as => :input
+=submit_button
+=cancel_button
