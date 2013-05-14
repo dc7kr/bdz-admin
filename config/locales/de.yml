@@ -28,6 +28,7 @@ de:
     za_R: Rechnung
     back: Zurück
     save: Speichern
+    cancel: Abbrechen
     save_and_continue: "Speichern und weiter"
     about: Über
     new: Neu
@@ -247,6 +248,7 @@ de:
   concert:
     p: Konzerte
     s: Konzert
+    publish_success: "Konzert erfolgreich veröffentlicht"
   composer:
     p: Komponisten
     s: Komponist
@@ -293,7 +295,6 @@ de:
     iban: IBAN
     zahler: Konto-Inhaber
     email: E-Mail
-    mglnr: Mitgliedsnummer
     name: Name
     phone: Telefon
     fax: Fax
