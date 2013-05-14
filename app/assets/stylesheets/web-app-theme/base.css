@@ -277,7 +277,7 @@ input.checkbox {
   float: right;
 }
 
-.form label.label, .form input.text_field, .form textarea.text_area {
+.form label.label,.form td.label label, .form input.text_field, .form textarea.text_area {
   font-size: 1.2em;
   padding: 1px 0;
   margin: 0;
