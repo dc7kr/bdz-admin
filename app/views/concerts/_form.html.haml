@@ -13,15 +13,6 @@
       %td= f.label :zeit
       %td= f.text_field :zeit
     %tr
-      %td= f.label :reported
-      %td= f.text_field :reported
-    %tr
-      %td= f.label :confirmed
-      %td= f.text_field :confirmed
-    %tr
-      %td= f.label :token
-      %td= f.text_field :token
-    %tr
       %td= f.label :stadt
       %td= f.text_field :stadt
     %tr
@@ -40,8 +31,8 @@
       %td= f.label :url
       %td= f.text_field :url
     %tr
-      %td= f.label :bemerkung
-      %td= f.text_field :bemerkung
+      %td= f.label :comment
+      %td= f.text_field :comment
     %tr
       %td= f.label :bland
       %td= collection_select(:concert, :bland, State.all, :id, :name)
@@ -54,10 +45,23 @@
     %tr
       %td= f.label :eintritt
       %td= f.text_field :eintritt
+    %tr
+      %td= f.label :uid
+      %td= f.text_field :uid
     - if (isAdmin?)
       %tr
         %td= f.label :owner
         %td= f.text_field :owner
+    %tr
+      %td= f.label :reported
+      %td= f.text_field :reported
+    %tr
+      %td= f.label :confirmed
+      %td= f.text_field :confirmed
+    %tr
+      %td= f.label :token
+      %td= f.text_field :token
+
     %tr
       %td= f.label :visible
       %td= f.check_box :visible, :class => 'check_box'

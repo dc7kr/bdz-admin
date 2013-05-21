@@ -7,8 +7,8 @@
     %td= concert.interpret
     %td= link_to concert.url,concert.url
     %td
+      - if concert.visible == 0 then
+        = link_to_publish concert,  t("common.publish")
       = link_to_show concert, t('common.show')
       = link_to_edit concert, t('common.edit')
       = link_to_delete concert, t('common.delete'),t('common.delete_confirm')
-      - if concert.visible == 0 then
-        = icon_link("OK",'/icons/confirm.svg',confirm_concert_path(concert))
