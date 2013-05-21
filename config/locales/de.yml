@@ -1,13 +1,36 @@
 de:
+
+  country:
+    s: Land
+    p: Länder
   custom_info_mail:
     group: Zielgruppe
     datafile: Anhang
+  account:
+    logout: Abmelden
+    settings: Einstellungen
+    profile: Profil
   common:
+    yes: "Ja"
+    no: "Nein"
+    all: Alle
+    year: Jahr
+    month: Monat
+    day: Tag
+    created_at: Erzeugt
     exchange: Austauschen
     fullname: Name
-    all: Alle
     links: Links
     delete: Löschen
+    back: Zurück
+    save: Speichern
+    cancel: Abbrechen
+    save_and_continue: "Speichern und weiter"
+    about: Über
+    new: Neu
+    delete: Löschen
+    list: Liste
+    search: Suche
     confirm: "Sind Sie sicher?"
     error_500: Interner Fehler
     public_data: Öffentliche Daten
@@ -18,23 +41,9 @@ de:
     cron: Tasks
     address: Adresse
     finalize: Verbindlich absenden
-    year: Jahr
-    month: Monat
-    day: Tag
-    yes: Ja
     due_date: Stichtag
-    no: Nein
     za_L: Lastschrift
     za_R: Rechnung
-    back: Zurück
-    save: Speichern
-    cancel: Abbrechen
-    save_and_continue: "Speichern und weiter"
-    about: Über
-    new: Neu
-    delete: Löschen
-    list: Liste
-    search: Suche
     nopayment: Säumige Zahler
     delete_confirm: Wirlich löschen?
     show: Anzeigen
@@ -44,6 +53,8 @@ de:
     update_success: wurde erfolgreich aktualisiert.
     download: Download
     up: Eine Ebene höher
+    inactive: Inaktiv
+    reports: Berichte
     salutation:
       M: Herr
       W: Frau
@@ -249,6 +260,18 @@ de:
     p: Konzerte
     s: Konzert
     publish_success: "Konzert erfolgreich veröffentlicht"
+    datum: Datum
+    zeit: Zeit
+    interpret: Interpret
+    titel: Titel
+    ort: Veranstaltungsort
+    stadt: Stadt
+    state: Bundesland
+    festival: Festival
+    eintritt: Eintritt
+    url: Webseite
+    email: E-Mail
+    comment: Bemerkung
   composer:
     p: Komponisten
     s: Komponist
@@ -299,22 +322,18 @@ de:
     phone: Telefon
     fax: Fax
     vorname: Vorname
-    country: Land
     street: Straße
     city: Ort
     zip: PLZ
+    kuendigungErfasst: Kündigung erfasst
+    comment: Bemerkung
 
   person_member:
-    title: Einzelmitglied
-    fullname: Name
-    nachname: Name
-    vorname: Vorname
-    strasse: Straße
-    land: Land
-    plz: PLZ
-    ort: Wohnort
-    telefon: Telefon
-    fax: Fax 	
+    s: Einzelmitglied
+    p: Einzelmitglieder
+    telefonDienstl: Telefon (dienstl.)
+    birthday: Geburtstag
+    tarrif_id: Beitragstyp
   distinction:
     update_success: Ehrung erfolgreich aktualisiert
     dist_date: Datum
@@ -346,8 +365,6 @@ de:
     bemerkung: Bemerkung
     eMail: E-Mail
     url: Homepage
-    lastschriftErfasst: Lastschrift erfasst
-    kuendigungErfasst: Kündigung erfasst
     zweitanschrift: Zweitanschrift
     name2: Zweiter Name 	
     type_O: Vereinsorchester
@@ -378,7 +395,6 @@ de:
     street: Straße
     zip: PLZ
     city: Ort
-    country: Land
     email: E-Mail
     phone: Telefon
     role: Rolle
@@ -426,6 +442,8 @@ de:
     supporters: "Fördervereinmitglieder"
     year: Jahr
     gema: GEMA
+    report_date: Datum
+    invoiced: Abgerechnet
     azubi: Beitragsfrei
     uv: Unfallversicherung
     new: Neuer Meldebogen
@@ -464,10 +482,25 @@ de:
     analysis: "Auffällige Meldebögen"
     update_double_members: "Meldebogen anpassen"
     update_double_success: "Doppelmitglieder erfolgreich auf beitragsfrei gesetzt."
+    zusatz_uv: Zusätzl. UV
+    zeitungen: Zeitungen
   regional_organization:
     p: Landesverbände
     s: Landesverband
     share_overview: Beitragsanteile
+    name: LV-Name
+    homepage: Homepage
+  regional_organization_booking:
+    index: Landesverbandskonto
+    booking_type_S: Sollstellung
+    booking_type_G: Gutschrift
+  report_sheet_input:
+    login: Anmelden
+    login_title: Meldebogenerfassung
+    token: Passwort
+    save_success: "Daten erfolgreich gespeichert"
+    current_members: "Aktuelle Mitgliederliste"
+    page_1: "Mitgliedermeldung Schritt 1"
   regional_organization_booking:
     index: Landesverbandskonto
     booking_type_S: Sollstellung
@@ -511,8 +544,14 @@ de:
     invoice_orchestras: "Rechnungslauf Orchester"
     invoice_person_members: "Rechnungslauf EM"
   user:
-    title_p: Benutzer
-    title: Benutzer
+    p: Benutzer
+    s: Benutzer
+    email: E-Mail
+    last_sign_in_at: Letzer Login
+    last_sign_in_ip: Letze IP
+    sign_in_count: Anzahl Logins
+    auth_token: Auth-Token
+    
   users:
     profile:
       title: "Benutzerprofil"
@@ -547,20 +586,28 @@ de:
               blank: "E-Mail darf nicht leer sein!"
             phone:
               blank: "Telefon darf nicht leer sein!"
-  attributes:
-    member:
-       za: Zahlungsart
-       konto: Konto-Nr.
-       blz: Bankleitzahl
-       lv: Landesverband
-
-    role: Rolle
-    regional_organization:
-      nummer: LV-Nummer
-      homepage: Homepage
-      jugend_url: Jugend-Homepage
-      konto: Konto
-      blz: BLZ
+    attributes:
+      member:
+         za: Zahlungsart
+         konto: Konto-Nr.
+         blz: Bankleitzahl
+         lv: Landesverband
+         role: Rolle
+         regional_organization:
+         nummer: LV-Nummer
+         homepage: Homepage
+         jugend_url: Jugend-Homepage
+         konto: Konto
+         blz: BLZ
+      magazine_sampling:
+         firma: Firma
+      contact:
+         firma: Contact Firma ATTR
+      state: 
+         country_id: Land
+         name: Name
+      regional_organization:
+        name: LV-Name
   member_account:
     balance: Saldo
   advertiser:
@@ -589,6 +636,10 @@ de:
     title: Titel
     first_name: Vorname
     last_name: Nachname
+    city: Stadt
+    anrede: Anrede
+    vorname: Vorname
+    name: Name
     phone: Telefon
     fax: Fax
     email: E-Mail
@@ -609,9 +660,6 @@ de:
   url_category:
     p: URL Kategorien
     s: URL Kategorie
-  user:
-    title_p: Benutzer
-    title: Benutzer
   users:
     profile:
       title: "Benutzerprofil"
@@ -671,8 +719,8 @@ de:
         last_name: Name
         street: "Straße"
         zip: Postleitzahl
+        country_id: Land
         city: Stadt
-        country: Land
         phone: Telefon
         fax: Fax
         email: E-Mail
@@ -683,6 +731,20 @@ de:
         booking_txt: Buchungstext	
         amount: Betrag
         filename: "Dateiname"
+      contact:
+        firma: Contact Firma
+      magazine_sampling:
+        abteilung: 
+        anrede: Anrede
+        vorname: Vorname
+        name: Name
+        strasse: Strasse
+        plz: PLZ
+        ort: Ort
+        telefon: Telefon
+        fax: Fax
+        email: E-Mail
+        count: Anzahl
 
     page_entries_info:
       one_page:

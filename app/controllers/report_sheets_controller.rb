@@ -71,6 +71,7 @@ class ReportSheetsController < AuthenticatedController
     @report_sheet = ReportSheet.new
 	@report_sheet.orchestra = @orchestra
 	@report_sheet.year = Time.now.year
+	@report_sheet.report_date = Time.now
 
 
     respond_to do |format|

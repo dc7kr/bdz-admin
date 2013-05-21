@@ -8,6 +8,9 @@
   = f.hidden_field :orchestra_id, :value=>@orchestra.id
   %table
     %tr
+      %td= t("report_sheet.report_date")
+      %td= f.text_field :report_date_str
+    %tr
       %td= t("report_sheet.year")
       %td= f.text_field :year
     %tr
@@ -37,7 +40,9 @@
     %tr
       %td= t("report_sheet.korr_ztg")
       %td= f.number_field :korr_ztg
-
+    %tr
+      %td= f.label :invoiced, t("report_sheet.invoiced")
+      %td= f.check_box :invoiced,:disabled=>true
   %h3 Ensembles
   %table
     %tr

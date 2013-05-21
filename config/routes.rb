@@ -8,6 +8,12 @@ BDZAdmin::Application.routes.draw do
   resources :magazine_issues
   resources :advertisers
 
+  resources :calendar_sync do
+	collection do
+		get :upload
+	end
+  end
+
   # BEGIN member namespace
   namespace :mgl do
 	resources :orchestras
@@ -242,7 +248,7 @@ BDZAdmin::Application.routes.draw do
 		get :inactive
 	end
 	member do
-		get :confirm
+		get :publish
 	end
   end
 

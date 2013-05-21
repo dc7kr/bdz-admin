@@ -86,7 +86,7 @@ def wizard_del_button(path,txt,entity)
 end
 
 
-def submit_button(txt)
+def submit_button(txt=t('common.save'))
     button_tag(:type=>"submit",:class=>"button") do 
       image_tag("web-app-theme/icons/tick.png", :alt => txt)+" "+txt
     end

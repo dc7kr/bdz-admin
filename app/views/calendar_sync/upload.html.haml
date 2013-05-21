@@ -1,0 +1,26 @@
+%h3 Updated
+%table
+  - @existing.each  do |c|
+    %tr
+      %td=c.uid
+      %td=c.titel
+      %td=c.datum
+      %td=c.zeit
+ 
+
+%h3 Created
+%table
+  - @imported.each  do |c|
+    %tr
+      %td=c.uid
+      %td=c.titel
+      %td=c.datum
+      %td=c.zeit
+  
+%h3 Faulty 
+%table
+  - @faulty.each  do |e|
+    %tr
+      %td=e
+      %td=e.dtstart
+      %td=e.location

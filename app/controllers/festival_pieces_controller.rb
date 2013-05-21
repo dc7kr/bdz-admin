@@ -50,17 +50,18 @@ class FestivalPiecesController < AuthenticatedController
 
 	logger.debug("New piece: "+@festival_piece.id.to_s)
 
-    respond_with @festival_piece, :location => festival_application_festival_pieces_url(@festival_application,@festival_application.festival_pieces)
+    respond_with @festival_piece, :location => festival_application_festival_pieces_url(@festival_application)
   end
 
   # PUT /festival_pieces/1
   # PUT /festival_pieces/1.json
   def update
+	@festival_application = FestivalApplication.find(params[:festival_application_id])
     @festival_piece = FestivalPiece.find(params[:id])
 
     respond_to do |format|
       if @festival_piece.update_attributes(params[:festival_piece])
-        format.html { redirect_to @festival_piece, notice: 'Festival piece was successfully updated.' }
+        format.html { redirect_to festival_application_festival_piece_url(@festival_application,@festival_piece), notice: t('festival_piece.update_success') }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -76,6 +77,6 @@ class FestivalPiecesController < AuthenticatedController
     @festival_piece = FestivalPiece.find(params[:id])
     @festival_piece.destroy
 
-    respond_with @festival_piece, :location => festival_application_festival_pieces_url(@festival_application,@festival_application.festival_pieces)
+    respond_with @festival_piece, :location => festival_application_festival_pieces_url(@festival_application)
   end
 end

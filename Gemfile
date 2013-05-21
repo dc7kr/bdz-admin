@@ -8,6 +8,8 @@ gem 'haml-rails'
 gem 'fastercsv'
 gem 'paperclip'
 
+gem 'icalendar' 
+
 gem 'rbktoblzcheck'
 #gem 'konto_check'
 
@@ -19,7 +21,8 @@ gem 'jquery-ui-rails'
 gem "rodf", "~> 0.3"
 #gem "rodf", '= 0.3'
 
-gem 'roo', :git => 'git://github.com/dc7kr/roo.git'
+#gem 'roo', :git => 'git://github.com/dc7kr/roo.git'
+gem 'roo'
 
 #gem 'meta_where'
 gem 'meta_search'

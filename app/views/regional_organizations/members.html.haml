@@ -16,6 +16,7 @@
             %td Mitglieder
             %td GEMA 
             %td LV-Beitrag
+            %td Beitrag (+UV)
         %tbody
           = render :partial  => "orchestra", :collection => @orchestras
           %tr
@@ -24,6 +25,7 @@
             %td
             %td
             %td=format_currency(@orchSum,'EUR')
+            %td=format_currency(@orchFullSum,'EUR')
       %h3 Einzelmitglieder
       %table.table
         = render :partial => "person_member", :collection => @person_members

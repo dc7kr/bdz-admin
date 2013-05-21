@@ -1,11 +1,11 @@
 .block
   .secondary-navigation
-    =render :partial=>'nav'
+    = render :partial =>'nav'
   .content
     %h2.title
-      = t("common.edit")
-      = t('festival_piece.s')
+      = t("festival_application.new")
     .inner
-      = form_for [@festival_application,@festival_piece], :html => { :class => :form } do |f|
+      = form_for [:public,@festival_application], :html => { :class => :form } do |f|
         = render :partial => "form", :locals => {:f => f}
 - content_for :sidebar, render(:partial => 'sidebar')
+

@@ -9,8 +9,7 @@
   %td
     = link_to state.name, state_path(state)
   %td.last
-    = link_to "#{t("web-app-theme.show", :default => "Show")}", state_path(state)
-    |
-    \#{link_to "#{t("web-app-theme.edit", :default => "Edit")}", edit_state_path(state)} |
-    \#{link_to "#{t("web-app-theme.delete", :default => "Delete")}", state_path(state), :method => :delete, :confirm => "#{t("web-app-theme.confirm", :default => "Are you sure?")}"}
+    = link_to_show state
+    = link_to_edit state
+    = link_to_delete state
 

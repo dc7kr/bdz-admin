@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130430101044) do
+ActiveRecord::Schema.define(:version => 20130521124859) do
 
   create_table "Inserenten", :id => false, :force => true do |t|
     t.string  "Firmenname",    :limit => 35
@@ -119,6 +119,8 @@ ActiveRecord::Schema.define(:version => 20130430101044) do
     t.integer  "visible",      :limit => 2,                                 :default => 1,                     :null => false
     t.integer  "orchestra_id"
     t.string   "uid"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "concerts", ["bland"], :name => "bland"
@@ -3147,6 +3149,7 @@ ActiveRecord::Schema.define(:version => 20130430101044) do
     t.date     "report_date"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "invoiced"
   end
 
   add_index "report_sheets", ["year", "orchestra_id"], :name => "oneperyear", :unique => true

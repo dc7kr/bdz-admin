@@ -57,6 +57,11 @@ class ReportSheet < ActiveRecord::Base
 		return @report_sheet
 	end
 
+
+    def report_date_str
+      I18n.l(report_date)
+    end
+
 	def calcRawTariff
 		return children*Prices.childrenRate + 
 			youth*Prices.youthRate + 

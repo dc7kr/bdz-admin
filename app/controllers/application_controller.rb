@@ -41,7 +41,8 @@ class ApplicationController < ActionController::Base
 		"users" => "admin_data",
 		"magazine_issues" => "magazine_data",
 		"magazine_adverts" => "magazine_data",
-		"advertisers" => "magazine_data"
+		"advertisers" => "magazine_data",
+		"calendar_sync" => "admin_data"
 	}
 
   include SessionHelper

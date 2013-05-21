@@ -3,79 +3,79 @@
 .group
   %table
     %tr
-      %td= f.label :mglnr, t("member.mglnr"), :class => :label
+      %td.label= f.label :mglnr, t("member.mglnr")
       %td= f.number_field :mglnr, :class => 'number_field'
     %tr
-      %td= f.label :anrede, t("person_member.anrede"), :class => :label
+      %td.label= f.label :anrede, t("member.salutation")
       %td= f.select :anrede, options_for_select([[t('common.salutation.M'),"M"],[t('common.salutation.W'), "W"]],:selected=>@person_member.anrede)
     %tr
-      %td= f.label :vorname, t("member.vorname"), :class => :label
+      %td.label= f.label :vorname, t("member.vorname")
       %td= f.text_field :vorname, :class => 'text_field'
     %tr
-      %td= f.label :name, t("member.name"), :class => :label
+      %td.label= f.label :name, t("member.name")
       %td= f.text_field :name, :class => 'text_field'
     %tr
-      %td= f.label :strasse, t("member.strasse"), :class => :label
+      %td.label= f.label :strasse, t("member.street")
       %td= f.text_field :strasse, :class => 'text_field'
     %tr
-      %td= f.label :plz, t("person_member.plz"), :class => :label
+      %td.label= f.label :plz, t("member.zip")
       %td= f.text_field :plz, :class => 'text_field'
     %tr
-      %td= f.label :ort, t("person_member.Ort"), :class => :label
+      %td.label= f.label :ort, t("member.city")
       %td= f.text_field :ort, :class => 'text_field'
     %tr
-      %td= f.label :land, t("person_member.land"), :class => :label
+      %td.label= f.label :land, t("country.s")
       %td= collection_select(:person_member, :country_id, Country.all, :id, :name) 
     %tr
-      %td= f.label :telefon, t("member.phone"), :class => :label
+      %td.label= f.label :telefon, t("member.phone")
       %td= f.text_field :telefon, :class => 'text_field'
     %tr
-      %td= f.label :fax, t("member.fax"), :class => :label
+      %td.label= f.label :fax, t("member.fax")
       %td= f.text_field :fax, :class => 'text_field'
     %tr
-      %td= f.label :email, t("member.email"), :class => :label
+      %td.label= f.label :email, t("member.email")
       %td= f.text_field :email, :class => 'text_field'
     %tr
-      %td= f.label :geburtstag, t("person_member.geburtstag"), :class => :label
+      %td.label= f.label :geburtstag, t("person_member.birthday")
       %td= f.text_field :geburtstag, :class => 'datePicker'
     %tr
-      %td= f.label :telefonDienstl, t("person_member.telefonDienstl"), :class => :label
+      %td.label= f.label :telefonDienstl, t("person_member.telefonDienstl")
       %td= f.text_field :telefonDienstl, :class => 'text_field'
     %tr
-      %td= f.label :eintritt, t("person_member.eintritt"), :class => :label
+      %td.label= f.label :eintritt, t("member.eintritt")
       %td= f.text_field :eintritt, :class => 'datePicker'
     %tr
-      %td= f.label :za, :class => :label
+      %td.label= f.label :za
       %td= f.select :za, options_for_select([["Lastschrift", "L"], ["Rechnung", "R"]],:selected=>@person_member.za) 
     %tr
-      %td= f.label :konto, :class => :label
+      %td.label= f.label :konto
       %td= f.number_field :konto, :class => 'number_field'
     %tr
-      %td= f.label :blz, :class => :label
+      %td.label= f.label :blz
       %td= f.number_field :blz, :class => 'number_field'
     %tr
-      %td= f.label :zahler, :class => :label
+      %td.label= f.label :zahler
       %td= f.text_field :zahler, :class => 'text_field'
     %tr
-      %td= f.label :lv, t("member.lv"), :class => :label
+      %td.label= f.label :lv, t("member.lv")
       %td= collection_select(:person_member, :regional_organization_id, RegionalOrganization.all, :id, :name) 
     %tr
-      %td= f.label :tariff, t("person_member.beitragsart"), :class => :label
+      %td.label= f.label :tariff, t("person_member.tarrif_id")
       %td= collection_select(:person_member, :tariff_id, Tariff.all, :id, :description) 
     %tr
-      %td= f.label :zeitungen, t("person_member.zeitungen"), :class => :label
+      %td.label= f.label :zeitungen, t("person_member.zeitungen")
       %td= f.number_field :zeitungen, :class => 'number_field'
     %tr
-      %td= f.label :zusatzzeitung, t("person_member.zusatzzeitung"), :class => :label
+      %td.label= f.label :zusatzzeitung, t("person_member.zusatzzeitung")
       %td= f.check_box :zusatzzeitung, :class => 'number_field'
     %tr
-      %td= f.label :austrittZum, t("person_member.austrittZum"), :class => :label
+      %td.label= f.label :austrittZum, t("member.austritt_zum")
       %td= f.text_field :austritt_zum, :class => 'datePicker'
     %tr
-      %td= f.label :kuendigungVom, t("person_member.kuendigungVom"), :class => :label
+      %td.label= f.label :kuendigungVom, t("member.kuendigung_vom")
       %td= f.text_field :kuendigungVom, :class => 'datePicker'
     %tr
-      %td= f.label :bemerkung, t("person_member.bemerkung"), :class => :label
+      %td.label= f.label :bemerkung, t("member.comment")
       %td= f.text_area :bemerkung, :class => 'text_field'
       
       

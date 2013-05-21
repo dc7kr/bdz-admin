@@ -105,6 +105,7 @@ class RegionalOrganizationsController < ApplicationController
     @regional_organization = RegionalOrganization.find(params[:id])
 	@lvSum=0
 	@orchSum=0
+	@orchFullSum=0
 	@personSum=0
 	@orchestras =  Orchestra.includes([:member,:report_sheets]).where('members.regional_organization_id =?',params[:id]).order('members.mglnr')
 	@person_members = PersonMember.includes(:member,:tariff).where('members.regional_organization_id = ?',params[:id]).order('members.mglnr')
@@ -157,6 +158,7 @@ class RegionalOrganizationsController < ApplicationController
 	@full_sum=0
 	@dd_full_sum=0
 	@dd_part_sum=0
+	@dd_uv_sum=0
 
 	@regional_organizations.each do |ro|
 		share = Hash.new
@@ -166,6 +168,7 @@ class RegionalOrganizationsController < ApplicationController
 		share[:sum]= 0
 		share[:dd_sum]= 0
 		share[:dd_part]= 0
+		share[:dd_uv]= 0
 
 		@sheets = ReportSheet.final(@curYear).includes([:orchestra]).where("year = ? and report_date < ? ",@curYear, @before)
 		@sheets.each do |s|
@@ -174,6 +177,7 @@ class RegionalOrganizationsController < ApplicationController
 	        	share[:lvpart]+= s.calcLvPart
 				share[:sum]+= s.calcBeitrag
 				if s.orchestra.is_direct_debit? then
+					share[:dd_uv]+=s.calcUV
 					share[:dd_sum]+=s.calcBeitrag
 					share[:dd_part]+=s.calcLvPart
 				end
@@ -185,6 +189,7 @@ class RegionalOrganizationsController < ApplicationController
 		@full_sum+=share[:sum]
 		@dd_full_sum+= share[:dd_sum] 
 		@dd_part_sum+= share[:dd_part] 
+		@dd_uv_sum+= share[:dd_uv] 
 
 		@regional_organization_shares << share
 	end

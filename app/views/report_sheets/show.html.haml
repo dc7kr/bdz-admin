@@ -12,6 +12,11 @@
       %table
         %tr
           %td.label
+            = t("report_sheet.report_date")
+            \:
+          %td= l(@report_sheet.report_date)
+        %tr
+          %td.label
             = t("report_sheet.children")
             \:
           %td= @report_sheet.children

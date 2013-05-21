@@ -4,6 +4,6 @@
   -if (@festival_application)
     %li{ :class => tabActiveClass(@current_action,'show',nil)}= link_to t("common.show"), festival_application_path(@festival_application)
     %li{:class => tabActiveClass(@current_action,'edit',nil)}= link_to t("common.edit"), edit_festival_application_path(@festival_application)
-    %li{:class => tabActiveClass(@current_action,'edit',nil)}= link_to t("festival_piece.p"), festival_application_festival_pieces_path(@festival_application)
+    %li{:class => tabActiveClass(@current_action,'festival_pieces',nil)}= link_to t("festival_piece.p"), festival_application_festival_pieces_path(@festival_application)
   %li{:class => tabActiveClass(@current_action,'new',nil)}= link_to "#{t("common.new", :default => "New")}", new_festival_application_path(@festival_application)
 
