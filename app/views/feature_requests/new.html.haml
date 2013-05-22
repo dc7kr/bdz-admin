@@ -3,9 +3,10 @@
     = render :partial => 'nav'
   .content
     %h2.title
-      = t("common.edit")
-      = t('<%= singular_name %>.s')
+      = t("common.new")
+      = t('feature_request.s')
     .inner
-      = form_for @<%= singular_name %> do |f|
+      = form_for @feature_request do |f|
         = render :partial => "form", :locals => {:f => f}
 - content_for :sidebar, render(:partial => 'sidebar')
+

@@ -7,7 +7,7 @@
     %td= collection_select(:magazine_advert, :magazine_issue_id, MagazineIssue.all, :id, :number) 
   %tr
     %td= f.label :advert_type, t("magazine_advert.advert_type"), :class => :label
-    %td= f.select :advert_type, options_for_select([[t('magazine_advert.advert_types.F'),"F"],[t('magazine_advert.advert_types.H'), "H"],[t('magazine_advert.advert_types.Q'), "Q"]],:selected=>@magazine_advert.advert_type)
+    %td= f.select :advert_type, options_for_select([[t('magazine_advert.advert_types.F'),"F"],[t('magazine_advert.advert_types.H'), "H"],[t('magazine_advert.advert_types.T'),"T"],[t('magazine_advert.advert_types.Q'), "Q"]],:selected=>@magazine_advert.advert_type)
 
 
 .group.navform.wat-cf

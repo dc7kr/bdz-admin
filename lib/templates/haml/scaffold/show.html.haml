@@ -1,0 +1,12 @@
+.block
+  .secondary-navigation
+    = render :partial=>'nav'
+  .content
+    .inner
+      %table
+  <%- attributes.each do |attribute| -%>
+        %tr
+          %td=f.label :<%= attribute.name %>
+          %td=@<%= singular_name %>.<%= attribute.name %>
+  <%- end -%>
+

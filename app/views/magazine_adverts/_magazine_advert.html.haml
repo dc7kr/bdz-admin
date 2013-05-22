@@ -1,6 +1,7 @@
 %tr
-  %td= magazine_advert.advertiser
-  %td= magazine_advert.magazine_issue_id
+  %td= magazine_advert.advertiser.name
+  %td= magazine_advert.magazine_issue.number
+  %td= magazine_advert.magazine_issue.year
   %td= magazine_advert.advert_type
   %td
     = link_to_show magazine_advert

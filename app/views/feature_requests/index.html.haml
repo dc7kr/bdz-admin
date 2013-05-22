@@ -1,0 +1,16 @@
+.block
+  .secondary-navigation
+    = render :partial => 'nav'
+  .content
+    %h2.title
+      = t("common.all")
+      = t('feature_request.p')
+    .inner
+      %table
+        %tr
+          %th=t('feature_request.title')
+          %th=t('feature_request.description')
+          %th=t('feature_request.priority')
+          %th
+        = render @feature_requests
+

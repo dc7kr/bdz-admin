@@ -8,7 +8,9 @@
     .inner
       %table.table
         %thead
-          %th.first=t('common.year')
-          %th=t('magazine_advert.number')
+          %th.first=t('advertiser.s')
+          %th=t('magazine_issue.number')
+          %th=t('magazine_issue.year')
+          %th=t('magazine_advert.advert_type')
           %th.last
         = render @magazine_adverts

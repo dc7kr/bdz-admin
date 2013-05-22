@@ -6,7 +6,7 @@ module GitHelper
       		:environment => Rails.env,
       		:remote_url => `git remote -v`,
       		:remote_branch => `git branch -r`,
-      		:last_commit => `git log --max-count=1`
+      		:last_commit => `git log --max-count=5 `
     	}
   		rescue
     	{}

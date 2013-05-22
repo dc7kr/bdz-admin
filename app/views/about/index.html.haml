@@ -1,10 +1,13 @@
-.content
-  .inner
-    .block.notice
-      %h2=t('common.about')
-      .content
-        %p
-          %b Application:
-          =@git_info[:application].html_safe
-          %b Last commit: 
-          %pre=@git_info[:last_commit].html_safe
+.block
+  .secondary-navigation
+    =render :partial=>'nav'
+  .content
+    %h2.title
+      =t('common.about')
+      =@git_info[:application].html_safe
+    .inner
+      .block.notice
+        .content
+          %p
+            %b #{t('about.last_commits')}: 
+            %pre=@git_info[:last_commit].html_safe

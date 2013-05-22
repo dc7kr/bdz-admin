@@ -1,5 +1,14 @@
 de:
 
+  about:
+    last_commits: "Letzte Änderungen"
+  feature_request:
+    p: Feature Requests
+    s: Feature Request
+    title: Thema
+    description: Details
+    priority: Priorität
+
   country:
     s: Land
     p: Länder
@@ -36,6 +45,9 @@ de:
     public_data: Öffentliche Daten
     member_data: Mitgliedsdaten
     magazine_data: "Auftakt!"
+    tasks: "Aufträge"
+    events: "Ereignisse"
+    reminders: "Mahnungen"
     reference_data: Stammdaten
     admin_data: Administration
     cron: Tasks
@@ -253,6 +265,9 @@ de:
   university:
     p: Studienmöglichkeiten
     s: Studienmöglichkeit
+    name: Name
+    institut: Institut
+    dozent: Dozent 
   course:
     p: Kurse
     s: Kurs
@@ -619,13 +634,15 @@ de:
     advert_type: Typ
     advert_types:
      F: Ganze Seite
-     H: Halbe Seite
-     Q: Viertel Seite
+     H: 1/2 Seite
+     T: 1/3 Seite
+     Q: 1/4 Seite
     
   magazine_issue:
     p: Ausgaben
     s: Ausgabe
     number: Nummer
+    year: Jahr
   magazine_sampling:
     p: Bemusterungen
     s: Bemusterung
