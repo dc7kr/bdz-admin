@@ -14,7 +14,7 @@
           %td.label
             = t("report_sheet.report_date")
             \:
-          %td= l(@report_sheet.report_date)
+          %td= @report_sheet.report_date != nil ? l(@report_sheet.report_date) : "NIL"
         %tr
           %td.label
             = t("report_sheet.children")

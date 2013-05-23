@@ -58,8 +58,16 @@ class ReportSheet < ActiveRecord::Base
 	end
 
 
+    def report_date_str=(newval)
+		Date.parse(newval)
+    end
+
     def report_date_str
-      I18n.l(report_date)
+	  if report_date then
+	      I18n.l(report_date)
+	  else
+			""
+      end
     end
 
 	def calcRawTariff
