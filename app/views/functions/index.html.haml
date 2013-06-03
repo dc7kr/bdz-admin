@@ -1,33 +1,26 @@
-%h1 Funktionen
-
-%table
-  %tr
-    %th Eindeutiges Label
-    %th Landesverband
-    %th Address
-    %th Bund
-    %th Jugend
-    %th Nr
-    %th Funktion
-    %th Untertitel
-    %th
-    %th
-    %th
-
-  - @functions.each do |function|
-    %tr
-      %td= function.label
-      %td= function.regional_organization.name
-      %td
-        = function.contact.name
-        ,
-        = function.contact.vorname
-      %td= function.bund
-      %td= function.jugend
-      %td= function.nr
-      %td= function.funktion
-      %td= function.fkt_subtitle
-      %td= link_to_show(function,'Show')
-      %td= link_to_edit(edit_function_path(function),'Edit')
-      %td= link_to_delete(function, 'Del','Are you sure?')
-
+.block
+  .secondary-navigation
+    =render :partial=>'nav'
+  .content
+    %h2.title
+      = t("common.all")
+      = t('function.p')
+    .inner
+      #entry_info
+        = page_entries_info @functions
+      %table.table
+        %thead
+          %th.first= t("function.label")
+          %th=t("regional_organization.s")
+          %th=t("contact.s")
+          %th=t("function.bund")
+          %th=t("function.jugend")
+          %th=t("function.nr")
+          %th.last &nbsp;
+        %tbody#functions
+          =render @functions
+      #paginator
+        = paginate @functions, :remote=>true
+      .actions-bar.wat-cf
+        .actions
+- content_for :sidebar, render(:partial => 'sidebar')

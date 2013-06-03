@@ -1,5 +1,4 @@
 de:
-
   about:
     last_commits: "Letzte Änderungen"
   feature_request:
@@ -20,8 +19,8 @@ de:
     settings: Einstellungen
     profile: Profil
   common:
-    yes: "Ja"
-    no: "Nein"
+    yes: Ja
+    no: Nein
     all: Alle
     year: Jahr
     month: Monat
@@ -648,6 +647,7 @@ de:
     s: Bemusterung
     count: Anzahl
   contact:
+    s: Adresse
     company: Firma
     department: Abteilung
     title: Titel
@@ -665,6 +665,13 @@ de:
   function:
     p: Funktionen   
     s: Funktion
+    label: Eindeutiges Label
+    bund: Bund
+    jugend: Jugend
+    nr: Nr
+    funktion: Funktion
+    fkt_subtitle: Untertitel
+    untertitel: Untertitel
   subscriber:
     p: Abonnenten
     s: Abonnent

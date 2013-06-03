@@ -5,31 +5,31 @@
       %ul
         - @function.errors.full_messages.each do |msg|
           %li= msg
-
-  .field
-    = f.label :label
-    = f.text_field :label
-  .field
-    = f.label :regional_organization
-    = f.collection_select :regional_organization_id, RegionalOrganization.find(:all,:order => "name ASC"), :id, :name
-  .field
-    = f.label :contact
-    = f.collection_select :contact_id, Address.find(:all,:order => "name ASC, vorname ASC"), :id, :to_s
-  .field
-    = f.label :bund
-    = f.check_box :bund, :class => 'check_box'
-  .field
-    = f.label :jugend
-    = f.check_box :jugend, :class => 'check_box'
-  .field
-    = f.label :nr
-    = f.text_field :nr
-  .field
-    = f.label :funktion
-    = f.text_field :funktion
-  .field
-    = f.label :fkt_subtitle
-    = f.text_field :fkt_subtitle
+  %table
+    %tr
+      %td= f.label :label
+      %td=f.text_field :label
+    %tr
+      %td= t('regional_organization.s')
+      %td= f.collection_select :regional_organization_id, RegionalOrganization.find(:all,:order => "name ASC"), :id, :name
+    %tr
+      %td= t("contact.s")
+      %td= f.collection_select :contact_id, Contact.find(:all,:order => "name ASC, vorname ASC"), :id, :to_s
+    %tr
+      %td= f.label :bund
+      %td= f.check_box :bund, :class => 'check_box'
+    %tr
+      %td= f.label :jugend
+      %td= f.check_box :jugend, :class => 'check_box'
+    %tr
+      %td= f.label :nr
+      %td=f.text_field :nr
+    %tr
+      %td= f.label :funktion
+      %td=f.text_field :funktion
+    %tr
+      %td= f.label :fkt_subtitle
+      %td=f.text_field :fkt_subtitle
   .actions
-    = f.submit t("common.save")
+    = submit_button
     = cancel_button()

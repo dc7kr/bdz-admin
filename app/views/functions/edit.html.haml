@@ -1,7 +1,11 @@
-%h1 Editing function
-
-= render 'form'
-
-= link_to 'Show', @function
-\|
-= link_back( t('common.back'))
+.block
+  .secondary-navigation
+    = render :partial => 'nav'
+  .content
+    %h2.title
+      = t('function.s')
+      = t("common.edit")
+    .inner
+      = form_for @function, :url => function_path(@function), :html => { :class => :form } do |f|
+        = render :partial => "form", :locals => {:f => f}
+- content_for :sidebar, render(:partial => 'sidebar')

@@ -8,6 +8,10 @@ class FestivalApplicationsController < AuthenticatedController
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @festival_applications }
+	  format.ods { renderApplicationOds(@festival_applications,"/tmp/festival_applications.ods") 
+            send_file("/tmp/festival_applications.ods", :filename => "festival_applications"+Time.now.year.to_s+".ods", :type => "application/octet-stream")
+
+		}
     end
   end
 
@@ -95,6 +99,7 @@ class FestivalApplicationsController < AuthenticatedController
 
   # DELETE /festival_applications/1
   # DELETE /festival_applications/1.json
+
   def destroy
     @festival_application = FestivalApplication.find(params[:id])
     @festival_application.destroy
@@ -111,4 +116,82 @@ class FestivalApplicationsController < AuthenticatedController
 	@festival_pieces = @festival_application.festival_pieces
 
   end
+
+  def renderApplicationOds(applications,filename)
+	germany = Country.find_by_name("Deutschland")
+
+	
+
+	ODF::Spreadsheet.file(filename) do
+				table "Festival Anmeldungen"  do
+					row {
+						cell I18n.t("festival_application.group_type")
+						cell I18n.t("festival_application.orch_name")
+						cell I18n.t("festival_application.country_id")
+						cell I18n.t("festival_application.num_players")
+        				cell I18n.t("contact_person.salutation")
+				        cell I18n.t("contact_person.first_name")
+				        cell I18n.t("contact_person.last_name")
+				        cell I18n.t("contact_person.street")
+				        cell I18n.t("contact_person.zip")
+				        cell I18n.t("contact_person.city")
+				        cell I18n.t("contact_person.country_id")
+				        cell I18n.t("contact_person.email")
+						cell I18n.t("festival_application.special_cast")
+						cell I18n.t("festival_application.equipment")
+						cell I18n.t("festival_piece.composer")
+						cell I18n.t("festival_piece.title")
+						cell I18n.t("festival_piece.duration")
+						cell I18n.t("festival_piece.composer")
+						cell I18n.t("festival_piece.title")
+						cell I18n.t("festival_piece.duration")
+						cell I18n.t("festival_piece.composer")
+						cell I18n.t("festival_piece.title")
+						cell I18n.t("festival_piece.duration")
+						cell I18n.t("festival_piece.composer")
+						cell I18n.t("festival_piece.title")
+						cell I18n.t("festival_piece.duration")
+						cell I18n.t("festival_piece.composer")
+						cell I18n.t("festival_piece.title")
+						cell I18n.t("festival_piece.duration")
+					}
+
+	    			applications.each do |app|
+						if ( app.country_id != germany.id ) then 
+							grp_locale=:en
+						else
+							grp_locale=:de
+						end
+
+						row {
+							cell I18n.t("festival_application.group_types."+app.group_type)
+							cell app.orch_name
+							cell app.country.name
+							cell app.num_players
+							cell I18n.t("common.salutation."+app.contact_person.salutation,:locale=>grp_locale)
+							cell app.contact_person.first_name
+							cell app.contact_person.last_name
+							cell app.contact_person.street
+							cell app.contact_person.zip
+							cell app.contact_person.city
+							if (app.contact_person.country != nil ) then
+								cell app.contact_person.country.name
+							else
+								cell "NIL"
+							end
+							cell app.contact_person.email
+
+							cell app.special_cast
+							cell app.equipment
+
+							app.festival_pieces.each do |p|
+								cell p.composer
+								cell p.title
+								cell p.duration
+							end
+						}
+					end
+  				end
+			end
+	end
 end

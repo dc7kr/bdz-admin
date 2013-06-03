@@ -4,10 +4,11 @@ class FunctionsController < AuthenticatedController
   before_filter :authenticate_user!#, :except => [:index]
   load_and_authorize_resource
   def index
-    @functions = Function.includes(:regional_organization,:contact)
+    @functions = Function.includes(:regional_organization,:contact).page(params[:page])
 
     respond_to do |format|
       format.html # index.html.erb
+      format.js
       format.json { render :json => @functions }
     end
   end
