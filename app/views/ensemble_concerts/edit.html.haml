@@ -4,7 +4,7 @@
   .content
     %h2.title
       = t("common.edit")
-      = t('ensemble_concert.title')
+      = t('ensemble_concert.s')
     .inner
       = form_for @ensemble_concert, :url => ensemble_ensemble_concert_path(@ensemble,@ensemble_concert), :html => { :class => :form } do |f|
         = render :partial => "form", :locals => {:f => f}

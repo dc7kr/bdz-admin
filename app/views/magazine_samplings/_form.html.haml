@@ -3,36 +3,36 @@
 .group
   %table
     %tr
-      %td.label= f.label :firma
-      %td= f.text_field :firma, :class => 'text_field'
+      %td.label= f.label :company
+      %td= f.text_field :company, :class => 'text_field'
     %tr
-      %td.label= f.label :abteilung
-      %td= f.text_field :abteilung, :class => 'text_field'
+      %td.label= f.label :department
+      %td= f.text_field :department, :class => 'text_field'
     %tr
     %tr
-      %td.label= f.label :anrede
-      %td= f.select :anrede, options_for_select([[t('common.salutation_d.M'),"M"],[t('common.salutation_d.W'), "W"]],:selected=>@magazine_sampling.anrede)
+      %td.label= f.label :salutation
+      %td= f.select :salutation, options_for_select([[t('common.salutation_d.M'),"M"],[t('common.salutation_d.W'), "W"]],:selected=>@magazine_sampling.salutation)
     %tr
-      %td.label= f.label :vorname
-      %td= f.text_field :vorname, :class => 'text_field'
+      %td.label= f.label :first_name
+      %td= f.text_field :first_name, :class => 'text_field'
     %tr
-      %td.label= f.label :name
-      %td= f.text_field :name, :class => 'text_field'
+      %td.label= f.label :last_name
+      %td= f.text_field :last_name, :class => 'text_field'
     %tr
-      %td.label= f.label :strasse
-      %td= f.text_field :strasse, :class => 'text_field'
+      %td.label= f.label :street
+      %td= f.text_field :street, :class => 'text_field'
     %tr
-      %td.label= f.label :plz
-      %td= f.text_field :plz, :class => 'text_field'
+      %td.label= f.label :zip
+      %td= f.text_field :zip, :class => 'text_field'
     %tr
-      %td.label= f.label :ort
-      %td= f.text_field :ort, :class => 'text_field'
+      %td.label= f.label :city
+      %td= f.text_field :city, :class => 'text_field'
     %tr
       %td.label= f.label :country
       %td= collection_select(:magazine_sampling, :country_id, Country.all, :id, :name) 
     %tr
-      %td.label= f.label :telefon
-      %td= f.text_field :telefon, :class => 'text_field'
+      %td.label= f.label :phone
+      %td= f.text_field :phone, :class => 'text_field'
     %tr
       %td.label= f.label :fax
       %td= f.text_field :fax, :class => 'text_field'

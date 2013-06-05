@@ -14,7 +14,7 @@
       %td= f.collection_select :regional_organization_id, RegionalOrganization.find(:all,:order => "name ASC"), :id, :name
     %tr
       %td= t("contact.s")
-      %td= f.collection_select :contact_id, Contact.find(:all,:order => "name ASC, vorname ASC"), :id, :to_s
+      %td= f.collection_select :contact_id, Contact.find(:all,:order => "last_name ASC, first_name ASC"), :id, :to_s
     %tr
       %td= f.label :bund
       %td= f.check_box :bund, :class => 'check_box'

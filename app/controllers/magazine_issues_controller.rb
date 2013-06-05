@@ -21,6 +21,22 @@ class MagazineIssuesController < ApplicationController
     end
   end
 
+  def gen_advert_invoices
+    @magazine_issue = MagazineIssue.find(params[:id])
+
+    @adverts = @magazine_issue.magazine_adverts.includes(:advertiser)
+    pdf = AdvertInvoicesPdf.new(@adverts,Rails.root.join("templates","briefpapier.pdf"))
+		send_data pdf.render, filename: "advert_invoices_#{@magazine_issue.number}_#{@magazine_issue.year}.pdf", type: "application/pdf", disposition: "inline"
+  end
+
+  def gen_subscriber_invoices
+    @magazine_issue = MagazineIssue.find(params[:id])
+
+    @subscribers= Subscriber.includes(:contact).order("contacts.last_name,contacts.first_name")
+    pdf = MagazineSubscriberInvoicesPdf.new(@subscribers,Rails.root.join("templates","briefpapier.pdf"))
+		send_data pdf.render, filename: "subscriber_invoices_#{@magazine_issue.number}_#{@magazine_issue.year}.pdf", type: "application/pdf", disposition: "inline"
+  end
+
   # GET /magazine_issues/new
   # GET /magazine_issues/new.json
   def new

@@ -1,0 +1,38 @@
+class CompanyPaperDocument < Prawn::Document
+  def initialize(templateFile)
+    super(:template=>templateFile)
+    @left_margin = 25
+    @templateFile = templateFile
+    @addr_start = 123
+    @addr_xpos = 30  
+    @addr_rowskip = 12
+    @heading_pos = [20,500]
+    @datepos = [ 390, @heading_pos[1]+24 ]
+    font "Helvetica", :size => 10
+  end
+
+  def print_headline(txt)
+    text_box txt, :at => @heading_pos,:width => 300,:style=>:bold,:size=>12
+  end
+
+  def print_date(city,date)
+    datestr = city+", "+I18n.l(date,:format=>:date_only)
+    text_box datestr, :at => @datepos,:width => 100
+  end
+
+  def print_address(addressee)
+    rowpos = cursor-@addr_start
+    xpos = @addr_xpos
+    text_box addressee.company, :at => [ xpos,rowpos]
+    rowpos-=@addr_rowskip
+    text_box addressee.fullname, :at => [ xpos,rowpos]
+    rowpos-=@addr_rowskip
+    text_box addressee.street, :at => [ xpos,rowpos]
+    rowpos-=@addr_rowskip
+    text_box addressee.zip+" "+addressee.city, :at => [xpos,rowpos]
+    rowpos-=@addr_rowskip
+    rowpos-=@addr_rowskip
+    text_box addressee.country.name, :at => [xpos,rowpos]
+  end
+
+end

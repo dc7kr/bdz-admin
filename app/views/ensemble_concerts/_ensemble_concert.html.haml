@@ -3,7 +3,7 @@
     - if ensemble_concert.datum == nil
       ="---"
     - else
-      =l ensemble_concert.datum
+      =l ensemble_concert.datum,:format=>:short
   %td
     - if ensemble_concert.zeit== nil
       ="---"
@@ -18,8 +18,8 @@
     
   %td=ensemble_concert.visible
   %td
-    = link_to_show_path ensemble_ensemble_concert_path(@ensemble,ensemble_concert), t('common.show'),ensemble_concert
-    = link_to_edit_path edit_ensemble_ensemble_concert_path(@ensemble,ensemble_concert), t('common.edit'),ensemble_concert
-    = link_to_del_path ensemble_ensemble_concert_path(@ensemble,ensemble_concert), ensemble_concert
+    = link_to_show_path ensemble_ensemble_concert_path(ensemble_concert.ensemble,ensemble_concert), t('common.show'),ensemble_concert
+    = link_to_edit_path edit_ensemble_ensemble_concert_path(ensemble_concert.ensemble,ensemble_concert), t('common.edit'),ensemble_concert
+    = link_to_del_path ensemble_ensemble_concert_path(ensemble_concert.ensemble,ensemble_concert), ensemble_concert
     - if ensemble_concert.visible == 0 then
-      = icon_link("OK",'/icons/confirm.svg',publish_ensemble_ensemble_concert_path(@ensemble,ensemble_concert))
+      = icon_link("OK",'/icons/confirm.svg',publish_ensemble_ensemble_concert_path(ensemble_concert.ensemble,ensemble_concert))

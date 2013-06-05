@@ -1,7 +1,11 @@
-%h1 Editing magazine_issue
-
-= render 'form'
-
-= link_to 'Show', @magazine_issue
-\|
-= link_to 'Back', magazine_issues_path
+.block
+  .secondary-navigation
+    = render :partial => 'nav'
+  .content
+    %h2.title
+      =t("common.edit")
+      =t("magazine_issue.s")
+    .inner
+      = form_for @magazine_issue, :url => magazine_issue_path(@magazine), :html => { :class => :form } do |f|
+        = render :partial => "form", :locals => {:f => f}
+- content_for :sidebar, render(:partial => 'sidebar')

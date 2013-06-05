@@ -1,3 +1,4 @@
+-@contact = @function.contact
 .block
   .secondary-navigation
     = render :partial=>'nav'
@@ -10,9 +11,7 @@
         %tr
           %td.label #{t('contact.s')}:
           %td= @function.regional_organization
-        %tr
-          %td.label #{t('contact.s')}:
-          %td= @function.contact
+        = render @contact,:partial=>"contact"
         %tr
           %td.label #{t('function.bund')}:
           %td= @function.bund

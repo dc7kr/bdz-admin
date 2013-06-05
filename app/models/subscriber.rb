@@ -3,4 +3,7 @@ class Subscriber < ActiveRecord::Base
 
   inherits_from :contact
 
+  def fullname
+    contact.fullname
+  end
 end

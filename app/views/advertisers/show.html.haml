@@ -4,68 +4,7 @@
   .content
     .inner
       %table
-        %tr
-          %td.label
-            #{t("contact.firma")}:
-          %td
-            = @advertiser.firma
-        %tr
-          %td.label
-            #{t("contact.department")}:
-          %td
-            = @advertiser.abteilung
-        %tr
-        %tr
-          %td.label
-            #{t("contact.anrede")}:
-          %td
-            = @advertiser.anrede
-        %tr
-          %td.label
-            #{t("contact.vorname")}:
-          %td
-            = @advertiser.vorname
-        %tr
-          %td.label
-            #{t("contact.name")}:
-          %td
-            = @advertiser.name
-        %tr
-          %td.label
-            #{t("contact.strasse")}:
-          %td
-            = @advertiser.strasse
-        %tr
-          %td.label
-            #{t("contact.country")}:
-          %td
-            = @advertiser.country.name
-        %tr
-          %td.label
-            #{t("contact.plz")}:
-          %td
-            = @advertiser.plz
-        %tr
-          %td.label
-            #{t("contact.ort")}:
-          %td
-            = @advertiser.ort
-        %tr
-          %td.label
-            #{t("contact.email")}:
-          %td
-            = mail_to @advertiser.email, @advertiser.email
-
-        %tr
-          %td.label
-            #{t("contact.telefon")}:
-          %td
-            = @advertiser.telefon
-        %tr
-          %td.label
-            #{t("contact.telefax")}:
-          %td
-            = @advertiser.fax
+        = render @advertiser.contact,:partial=>"contact"
         %tr
           %td.label #{t("contact.konto")}:
           %td= @advertiser.konto
@@ -78,7 +17,7 @@
           %td
             = @advertiser.blz
       .wat-cf
-        = edit_button(edit_contact_path(@advertiser),@advertiser)
+        = edit_button edit_advertiser_path(@advertiser),@advertiser
         = del_button(contact_path(@advertiser),@advertiser)
 
 - content_for :sidebar, render(:partial => 'sidebar.show')

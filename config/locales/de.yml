@@ -100,6 +100,7 @@ de:
     formats:
       default: ! '%A, %d. %B %Y, %H:%M Uhr'
       long: ! '%A, %d. %B %Y, %H:%M Uhr'
+      date_only: ! '%d. %B %Y'
       short: ! '%d. %B, %H:%M Uhr'
     pm: nachmittags
     am: vormittags
@@ -295,6 +296,16 @@ de:
   ensemble:
     p: Ensembles
     s: Ensemble
+  ensemble_concert:
+    s: Ensemble Konzert
+    p: Ensemble Konzerte
+    datum: Datum
+    zeit: Zeit
+    stadt: Stadt
+    ort: Ort
+    interpret: Interpret
+    url: URL
+
   booking:
     title: Buchung
     title_p: Buchungen
@@ -642,6 +653,9 @@ de:
     s: Ausgabe
     number: Nummer
     year: Jahr
+    gen_advert_invoices: Inserenten-Rechnungen generieren
+    gen_subscriber_invoices: Abonnenten-Rechnungen generieren
+
   magazine_sampling:
     p: Bemusterungen
     s: Bemusterung
@@ -654,12 +668,14 @@ de:
     first_name: Vorname
     last_name: Nachname
     city: Stadt
-    anrede: Anrede
-    vorname: Vorname
-    name: Name
+    salutation: Anrede
+    first_name: Vorname
+    last_name: Name
     phone: Telefon
     fax: Fax
     email: E-Mail
+    street: "Straße"
+    zip: PLZ
     
     
   function:

@@ -1,5 +1,11 @@
-%h1 New magazine_issue
-
-= render 'form'
-
-= link_to 'Back', magazine_issues_path
+.block
+  .secondary-navigation
+    = render :partial =>'nav'
+  .content
+    %h2.title
+      = t("common.new")
+      = t("magazine_issue.s")
+    .inner
+      = form_for :magazine_issue, :url => magazine_issues_path, :html => { :class => :form } do |f|
+        = render :partial => "form", :locals => {:f => f}
+- content_for :sidebar, render(:partial => 'sidebar')

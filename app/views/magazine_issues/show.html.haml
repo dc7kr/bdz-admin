@@ -1,12 +1,15 @@
-%p#notice= notice
-
-%p
-  %b Year:
-  = @magazine_issue.year
-%p
-  %b Number:
-  = @magazine_issue.number
-
-= link_to 'Edit', edit_magazine_issue_path(@magazine_issue)
-\|
-= link_to 'Back', magazine_issues_path
+.block
+  .secondary-navigation
+    = render :partial=>'nav'
+  .content
+    .inner
+      %h3
+        #{t("magazine_issue.s")} #{@magazine_issue.number}/#{@magazine_issue.year}
+      %table
+        %tr
+          %td.label=t("magazine_issue.year")
+          %td= @magazine_issue.year
+        %tr
+          %td.label=t("magazine_issue.number")
+          %td= @magazine_issue.number
+- content_for :sidebar, render(:partial => 'sidebar.show')

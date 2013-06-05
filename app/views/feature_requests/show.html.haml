@@ -9,7 +9,8 @@
           %td=@feature_request.title
         %tr
           %td.label=t('feature_request.description')
-          %td=@feature_request.description
+          %td
+            %pre=@feature_request.description
         %tr
           %td.label=t('feature_request.priority')
           %td=@feature_request.priority

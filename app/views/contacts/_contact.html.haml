@@ -1,0 +1,40 @@
+%tr
+  %td.label #{t("contact.company")}:
+  %td= contact.company
+%tr
+  %td.label #{t("contact.department")}:
+  %td= contact.department
+%tr
+  %td.label #{t("contact.salutation")}:
+  %td= contact.salutation
+%tr
+  %td.label #{t("contact.title")}:
+  %td= contact.title
+%tr
+  %td.label #{t("contact.first_name")}:
+  %td= contact.first_name
+%tr
+  %td.label #{t("contact.last_name")}:
+  %td= contact.last_name
+%tr
+  %td.label #{t("contact.street")}:
+  %td= contact.street
+%tr
+  %td.label #{t("country.s")}:
+  %td= contact.country.name
+%tr
+  %td.label #{t("contact.zip")}:
+  %td= contact.zip
+%tr
+  %td.label #{t("contact.city")}:
+  %td= contact.city
+%tr
+  %td.label #{t("contact.email")}:
+  %td= mail_to contact.email, contact.email
+
+%tr
+  %td.label #{t("contact.phone")}:
+  %td=contact.phone
+%tr
+  %td.label #{t("contact.fax")}:
+  %td=contact.fax

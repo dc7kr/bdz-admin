@@ -1,15 +1,11 @@
+- @contact = @subscriber.contact
 %p#notice= notice
+%table
+  = render @contact,:partial=>"contact"
+  %tr
+    %td.label #{t("subscriber.account")}:
+    %td=@subscriber.account
+  %tr
+    %td.label #{t("subscriber.bic")}:
+    %td=@subscriber.bic
 
-%p
-  %b Account:
-  = @subscriber.account
-%p
-  %b Bic:
-  = @subscriber.bic
-%p
-  %b Contact:
-  = @subscriber.contact_id
-
-= link_to 'Edit', edit_subscriber_path(@subscriber)
-\|
-= link_to 'Back', subscribers_path

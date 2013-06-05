@@ -1,6 +1,11 @@
 %ul.wat-cf
-  %li{ :class => 'first'}= link_to_up_path t("common.up"), ensemble_path(@ensemble)
-  %li{ :class => tabActiveClass(@current_action,'index',nil)}= link_to t("common.list"), ensemble_ensemble_concerts_path(@ensemble)
-  %li{ :class => tabActiveClass(@current_action,'inactive',nil)}= link_to t("common.inactive"), inactive_ensemble_ensemble_concerts_path(@ensemble)
-  %li= link_to t("common.new"), new_ensemble_ensemble_concert_path(@ensemble)
+  - if @ensemble then
+    %li{ :class => 'first'}= link_to_up_path t("common.up"), ensemble_path(@ensemble)
+    %li{ :class => tabActiveClass(@current_action,'index',nil)}= link_to t("common.list"), ensemble_ensemble_concerts_path(@ensemble)
+    %li{ :class => tabActiveClass(@current_action,'inactive',nil)}= link_to t("common.inactive"), inactive_ensemble_ensemble_concerts_path(@ensemble)
+    %li= link_to t("common.new"), new_ensemble_ensemble_concert_path(@ensemble)
+  - else
+    %li{ :class => 'first'}= link_to_up_path t("common.up"), home_public_data_path
+    %li{ :class => tabActiveClass(@current_action,'index',nil)}= link_to t("common.list"), ensemble_concerts_path
+    %li{ :class => tabActiveClass(@current_action,'inactive',nil)}= link_to t("common.inactive"), inactive_ensemble_concerts_path
 

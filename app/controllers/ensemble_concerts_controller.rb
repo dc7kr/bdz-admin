@@ -9,7 +9,7 @@ class EnsembleConcertsController < AuthenticatedController
 
   def publish
 	@ensemble_concert = EnsembleConcert.find(params[:id])
-	@ensemble = Ensemble.find(params[:ensemble_id])
+	@ensemble = Ensemble.find(@ensemble_concert.ensemble_id)
 	@ensemble_concert.confirmed = Time.now
 	@ensemble_concert.visible = true
 	@ensemble_concert.save
@@ -36,9 +36,17 @@ class EnsembleConcertsController < AuthenticatedController
 
 
   def inactive
-	@ensemble = Ensemble.find(params[:ensemble_id])
 
-	@ensemble_concerts = EnsembleConcert.inactive.where("ensemble_id = ?",params[:ensemble_id]).page(params[:page]).per(20)
+	@ensemble=nil
+    if params[:ensemble_id] != nil then
+		@ensemble = Ensemble.find(params[:ensemble_id])
+    end
+
+    if ( @ensemble == nil ) then
+		@ensemble_concerts = EnsembleConcert.inactive.page(params[:page]).per(20)
+	else
+		@ensemble_concerts = EnsembleConcert.inactive.where("ensemble_id = ?",params[:ensemble_id]).page(params[:page]).per(20)
+	end
 
     respond_to do |format|
       format.html # index.html.erb
@@ -48,14 +56,19 @@ class EnsembleConcertsController < AuthenticatedController
   end
 
   def index
-
-	@ensemble = Ensemble.find(params[:ensemble_id])
+	@ensemble = nil
+	@ensemble_concerts = nil
 
 	if @namespace == "public" then
 		self.public
 		@method="public"
   	end
-	@ensemble_concerts = EnsembleConcert.where("ensemble_id = ?",params[:ensemble_id]).page(params[:page]).per(20)
+ 	if ( params[:ensemble_id] ) then
+		@ensemble = Ensemble.find(params[:ensemble_id])
+		@ensemble_concerts = EnsembleConcert.where("ensemble_id = ?",params[:ensemble_id]).page(params[:page]).per(20)
+	else
+		@ensemble_concerts = EnsembleConcert.page(params[:page]).per(20)
+	end
 
     respond_to do |format|
       format.html # index.html.erb

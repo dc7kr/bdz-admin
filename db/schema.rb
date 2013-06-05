@@ -33,6 +33,8 @@ ActiveRecord::Schema.define(:version => 20130521160720) do
     t.string   "blz"
   end
 
+  add_index "advertisers", ["contact_id"], :name => "contact_id"
+
   create_table "blacklist", :force => true do |t|
     t.string   "ip",          :limit => 16, :null => false
     t.datetime "blacklisted",               :null => false
@@ -145,22 +147,22 @@ ActiveRecord::Schema.define(:version => 20130521160720) do
   end
 
   create_table "contacts", :force => true do |t|
-    t.string  "subtype",            :limit => 50,  :null => false
-    t.string  "firma",              :limit => 100
-    t.string  "abteilung",          :limit => 100
-    t.string  "anrede",             :limit => 10,  :null => false
-    t.string  "titel",              :limit => 10
-    t.string  "vorname",            :limit => 50,  :null => false
-    t.string  "name",               :limit => 50,  :null => false
-    t.string  "strasse",            :limit => 50,  :null => false
-    t.string  "plz",                :limit => 10,  :null => false
-    t.string  "ort",                :limit => 50,  :null => false
-    t.integer "country_id",         :limit => 8,   :null => false
-    t.string  "telefon",            :limit => 50
-    t.string  "telefon_dienstlich", :limit => 100
-    t.string  "mobil",              :limit => 50
-    t.string  "fax",                :limit => 50
-    t.string  "email",              :limit => 50
+    t.string  "subtype",      :limit => 50,  :null => false
+    t.string  "company",      :limit => 100
+    t.string  "department",   :limit => 100
+    t.string  "salutation",   :limit => 10,  :null => false
+    t.string  "title",        :limit => 50
+    t.string  "first_name",   :limit => 50,  :null => false
+    t.string  "last_name",    :limit => 50,  :null => false
+    t.string  "street",       :limit => 50,  :null => false
+    t.string  "zip",          :limit => 10,  :null => false
+    t.string  "city",         :limit => 50,  :null => false
+    t.integer "country_id",   :limit => 8,   :null => false
+    t.string  "phone",        :limit => 50
+    t.string  "office_phone", :limit => 100
+    t.string  "mobile",       :limit => 50
+    t.string  "fax",          :limit => 50
+    t.string  "email",        :limit => 50
   end
 
   create_table "country", :force => true do |t|

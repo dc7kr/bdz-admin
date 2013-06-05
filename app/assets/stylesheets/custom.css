@@ -51,7 +51,8 @@ color:#ffffff;
 
 td.label {
   font-weight:bold;
-  text-align:right;
+  text-align:right;	
+  vertical-align:top;
 }
 
 td.label_l {

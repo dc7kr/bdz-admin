@@ -5,4 +5,7 @@ class Advertiser < ActiveRecord::Base
 	def adv_id
 		self.id
 	end
+  def fullname
+   contact.fullname
+  end
 end

@@ -8,60 +8,64 @@ BDZAdmin::Application.routes.draw do
 
   resources :magazine_samplings
   resources :magazine_adverts
-  resources :magazine_issues
+  resources :magazine_issues do
+    member do 
+      get :gen_advert_invoices
+      get :gen_subscriber_invoices
+    end
+  end
   resources :advertisers
 
   resources :calendar_sync do
-	collection do
-		get :upload
-	end
+    collection do
+      get :upload
+    end
   end
 
   # BEGIN member namespace
   namespace :mgl do
-	resources :orchestras
+    resources :orchestras
     resources :person_members
 
-	resources :report_sheet_inputs do
-		collection do 
-			get :login
-			post :submit_login
-		end
-		member do 
-			get :step1
-			get :step2
-			get :step3
-			get :step4
-			put :submit1
-			put :submit2
-			put :submit3
-			put :submit4
-			put :finalize
-			get :finalize
-			get :confirm
-			put :confirm
-			post 'upload'
-			get :delete_members
-		end
-	end
-
+    resources :report_sheet_inputs do
+      collection do 
+        get :login
+        post :submit_login
+      end
+      member do 
+        get :step1
+        get :step2
+        get :step3
+        get :step4
+        put :submit1
+        put :submit2
+        put :submit3
+        put :submit4
+        put :finalize
+        get :finalize
+        get :confirm
+        put :confirm
+        post 'upload'
+        get :delete_members
+      end
+    end
   end
 
   resources :report_sheet_inputs do
-	collection do 
-		get :lockdown
-	end
-	end
+    collection do 
+      get :lockdown
+    end
+  end
 
   resources :contact_people
 
 
   resources :festival_applications do
-	collection do
-		get :list
-	end
-	resources :festival_pieces
-  end
+    collection do
+      get :list
+    end
+    resources :festival_pieces
+    end
 
 
   resources :event_cards
@@ -84,18 +88,18 @@ BDZAdmin::Application.routes.draw do
   resources :member_events
 
   resources :distinctions do 
-	member do
-		get :gen_invoice
-	end
+  member do
+    get :gen_invoice
+  end
   end
 
   resources :countries do
     resources :states
   end
   resources :classifieds do
-	member do 
-		get :publish
-	end
+  member do 
+    get :publish
+  end
   end
 
   resources :advertisements
@@ -139,21 +143,21 @@ BDZAdmin::Application.routes.draw do
   end
   resources :states
   resources :regional_organizations  do 
-	member do
-		get :members
-		get :orch
-		get :person
+  member do
+    get :members
+    get :orch
+    get :person
         get :oddset_report
     end
-	collection do
-		get :create_annual_payment
-		get :share_overview
-	end
-  	resources :regional_organization_bookings, :as => :acct_bookings do
-		member do 
-			get 'download'
-		end
-	end
+  collection do
+    get :create_annual_payment
+    get :share_overview
+  end
+    resources :regional_organization_bookings, :as => :acct_bookings do
+    member do 
+      get 'download'
+    end
+  end
   end
   resources :tariffs
 
@@ -161,32 +165,32 @@ BDZAdmin::Application.routes.draw do
 #confidential
 #  resources :users
   resources :report_sheets do
-	collection do 
-		get 'payed'
-		get 'final'
-		get 'not_final'
-		get 'analysis'
-	end
+  collection do 
+    get 'payed'
+    get 'final'
+    get 'not_final'
+    get 'analysis'
+  end
   end
 
   resources :person_members do
-	resources :member_events do
-		member do
-			get 'download'
-		end
-	end
+  resources :member_events do
+    member do
+      get 'download'
+    end
+  end
 
     resources :member_account_bookings do
-		member do 
-			get 'download'
-		end
+    member do 
+      get 'download'
     end
-	collection do 
-		get :nopayment
-		get :notinvoiced
+    end
+  collection do 
+    get :nopayment
+    get :notinvoiced
         get :magazine
-		get :addresses
-	end
+    get :addresses
+  end
   end
   
   resources :orchestras do
@@ -198,224 +202,233 @@ BDZAdmin::Application.routes.draw do
     resources :uploaded_files
 
     resources :member_account_bookings do
-		member do 
-			get 'download'
-		end
+    member do 
+      get 'download'
     end
-	resources :member_events do
-		member do
-			get 'download'	
-		end
-	end
+    end
+  resources :member_events do
+    member do
+      get 'download'  
+    end
+  end
 
-	resources :orchestra_members do
-		collection do 
-			get 'delete_all'
-			get 'check_double'
-		end
-		member do
-			get 'exchange'
-		end
-	end
+  resources :orchestra_members do
+    collection do 
+      get 'delete_all'
+      get 'check_double'
+    end
+    member do
+      get 'exchange'
+    end
+  end
 
-	resources :orchestra_contacts
+  resources :orchestra_contacts
     resources :report_sheets do 
-		member do 
-			get :update_double_members
-		end
+    member do 
+      get :update_double_members
+    end
     end
     resources :distinctions do
-		member do
-			get :gen_invoice
-		end
-	end
-	collection do 
-		get :noreport
-		get :nopayment
-		get :notinvoiced
+    member do
+      get :gen_invoice
+    end
+  end
+  collection do 
+    get :noreport
+    get :nopayment
+    get :notinvoiced
         get :gema
         get :magazine
-		get :addresses
-		get :notyetemailed
-	end
+    get :addresses
+    get :notyetemailed
+  end
   end
 
   # reports
   namespace :reports do
     resources :gema
-	resources :member_account_bookings
+  resources :member_account_bookings
   end
 
   resources :concerts do
     collection do 
-		get :inactive
-	end
-	member do
-		get :publish
-	end
+    get :inactive
+  end
+  member do
+    get :publish
+  end
+  end
+
+  resources :ensemble_concerts do
+  collection do
+    get :inactive
+  end
+  member do
+    get :publish
+  end
   end
 
   resources :ensembles do
-		collection do 
-			get :inactive
-		end
-		resources :ensemble_concerts do
-			collection do
-				get :inactive
-			end
-			member do
-				get :publish
-			end
-		end
+    collection do 
+      get :inactive
+    end
+    resources :ensemble_concerts do
+      collection do
+        get :inactive
+      end
+      member do
+        get :publish
+      end
+    end
   end
 
 
   # BEGIN PUBLIC NAMESPACE
   namespace :public do 
     resources :festival_applications do
-	  member do 
-	  	get :step2
-		get :finalize
-	  end
-	  resources :festival_pieces 
+    member do 
+      get :step2
+    get :finalize
+    end
+    resources :festival_pieces 
     end
     resources :event_meals
     resources :event_cards
     resources :contacts
-  	resources :courses do
-		collection do 
-			get :inactive
-			get :public
-		end
-  	end
+    resources :courses do
+    collection do 
+      get :inactive
+      get :public
+    end
+    end
 
     resources :honor_members
-	resources :countries do
-		resources :states
-	end
+  resources :countries do
+    resources :states
+  end
 
-  	resources :ensembles do
-		resources :ensemble_concerts do
-			member do
-				get :publish
-			end
-		end
-  	end
+    resources :ensembles do
+    resources :ensemble_concerts do
+      member do
+        get :publish
+      end
+    end
+    end
 
-  	resources :concerts do
-		collection do 
-			get :inactive
-			get :public
-		end
-  	end
+    resources :concerts do
+    collection do 
+      get :inactive
+      get :public
+    end
+    end
 
-  	resources :composers do
-   		collection do
-      		get :public
-    	end
-  	end
+    resources :composers do
+       collection do
+          get :public
+      end
+    end
 
-  	resources :contests do
-		collection do
-			get :inactive
-        	get :public
-		end
-		member do 
-			get :publish
-		end
-  	end
+    resources :contests do
+    collection do
+      get :inactive
+          get :public
+    end
+    member do 
+      get :publish
+    end
+    end
 
-  	resources :festivals do
-		#    collection do 
-		#      get :public
-		#    end
-    	resources :concerts
- 	 end
-  	resources :composers
-  	resources :universities
+    resources :festivals do
+    #    collection do 
+    #      get :public
+    #    end
+      resources :concerts
+    end
+    resources :composers
+    resources :universities
 
-  	resources :urls 
-  	resources :url_categories do
-    	resources :urls
-  	end
-	resources :ensembles do
-		resources :ensemble_concerts
-		
-	end
+    resources :urls 
+    resources :url_categories do
+      resources :urls
+    end
+  resources :ensembles do
+    resources :ensemble_concerts
+    
+  end
   end # END NAMESPACE PUBLIC
 
 
   # the admin  equivalent of the public entities
     resources :addresses
-  	resources :courses do
-		member do 
-			get :publish
-		end
-		collection do 
-			get :inactive
-		end
-  	end
-
-    resources :honor_members
-	resources :countries do
-		resources :states
-	end
-
-  	resources :ensembles do
-		resources :ensemble_concerts
-  	end
-
-  	resources :concerts do
-		collection do 
-			get :inactive
-		end
-  	end
-
-  	resources :composers
-  	resources :contests do
-		collection do
-			get :inactive
-		end
-		member do
-			get :publish
-		end
-  	end
-
-  	resources :festivals do
-		#    collection do 
-		#      get :public
-		#    end
-    	resources :concerts
- 	 end
-  	resources :composers
-  	resources :universities
-  	resources :urls do
-		collection do
-			get :inactive
-		end
-	    member do
-			get :confirm
-		end
+    resources :courses do
+    member do 
+      get :publish
+    end
+    collection do 
+      get :inactive
+    end
     end
 
-  	resources :url_categories do
-    	resources :urls
-  	end
+    resources :honor_members
+  resources :countries do
+    resources :states
+  end
+
+    resources :ensembles do
+    resources :ensemble_concerts
+    end
+
+    resources :concerts do
+    collection do 
+      get :inactive
+    end
+    end
+
+    resources :composers
+    resources :contests do
+    collection do
+      get :inactive
+    end
+    member do
+      get :publish
+    end
+    end
+
+    resources :festivals do
+    #    collection do 
+    #      get :public
+    #    end
+      resources :concerts
+    end
+    resources :composers
+    resources :universities
+    resources :urls do
+    collection do
+      get :inactive
+    end
+      member do
+      get :confirm
+    end
+    end
+
+    resources :url_categories do
+      resources :urls
+    end
 
 
 # automated controllers 
   namespace :cron do
- 	match 'invoices/gen_all' => 'invoices#gen_all'
- 	match 'invoices/gen_orchestras' => 'invoices#gen_orchestras'
- 	match 'invoices/gen_persons' => 'invoices#gen_persons'
- 	match 'invoices/ping' => 'invoices#ping'
-	match 'lv_dtaus/index' => 'lv_dtaus#index'
+   match 'invoices/gen_all' => 'invoices#gen_all'
+   match 'invoices/gen_orchestras' => 'invoices#gen_orchestras'
+   match 'invoices/gen_persons' => 'invoices#gen_persons'
+   match 'invoices/ping' => 'invoices#ping'
+  match 'lv_dtaus/index' => 'lv_dtaus#index'
     match 'reminders/report_sheet' => 'reminders#report_sheet'
     match 'reminders/payment' => 'reminders#payment'
     match 'cancellations' => 'batch#cancellations'
-	# TODO: These aren't resources!
-	resources :mails
-	resources :downloads
+  # TODO: These aren't resources!
+  resources :mails
+  resources :downloads
   end
 
   get "home/index"
@@ -434,7 +447,7 @@ BDZAdmin::Application.routes.draw do
   devise_scope :user do
     get "/login" => "devise/sessions#new"
     get "/logout" => "devise/sessions#destroy"
-	get "/edit_password" => "devise/passwords#edit"
+  get "/edit_password" => "devise/passwords#edit"
   end
 
 end

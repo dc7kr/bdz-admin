@@ -2,21 +2,14 @@
 .block
   %h3 Links
   %ul.navigation
-    %li
-      = link_to( "Mitgliedskonto", orchestra_member_account_bookings_url(@orchestra)) 
-    %li
-      = link_to( "Events", orchestra_member_events_url(@orchestra)) 
-    %li
-      = link_to( "Kontakt-Adressen", orchestra_orchestra_contacts_url(@orchestra)) 
-    %li
-      = link_to( "Orchestermitglieder", orchestra_orchestra_members_url(@orchestra)) 
-    %li
-      = link_to( "Meldebögen", orchestra_report_sheets_url(@orchestra)) 
-    %li
-      = link_to( "Meldebogen-Eingabe", rsi_login_orchestra_url(@orchestra)) 
+    %li= link_to( "Mitgliedskonto", orchestra_member_account_bookings_url(@orchestra)) 
+    %li= link_to( "Events", orchestra_member_events_url(@orchestra)) 
+    %li= link_to( "Kontakt-Adressen", orchestra_orchestra_contacts_url(@orchestra)) 
+    %li= link_to( "Orchestermitglieder", orchestra_orchestra_members_url(@orchestra)) 
+    %li= link_to( "Meldebögen", orchestra_report_sheets_url(@orchestra)) 
+    %li= link_to( "Meldebogen-Eingabe", rsi_login_orchestra_url(@orchestra)) 
     - if @orchestra.is_regular?
-      %li
-        = link_to( "Ehrungen", orchestra_distinctions_url(@orchestra)) 
+      %li= link_to( "Ehrungen", orchestra_distinctions_url(@orchestra)) 
 
   %h3 Aktionen
   %ul.navigation

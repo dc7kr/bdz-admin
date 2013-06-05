@@ -5,40 +5,9 @@
       %ul
         - @address.errors.full_messages.each do |msg|
           %li= msg
+  %table
+    = render :partial => "contacts/contact_form", :locals => { :f => f,:entity=>@address}
 
-  .field
-    = f.label :anrede
-    = f.text_field :anrede
-  .field
-    = f.label :titel
-    = f.text_field :titel
-  .field
-    = f.label :vorname
-    = f.text_field :vorname
-  .field
-    = f.label :name
-    = f.text_field :name
-  .field
-    = f.label :strasse
-    = f.text_field :strasse
-  .field
-    = f.label :plz
-    = f.text_field :plz
-  .field
-    = f.label :ort
-    = f.text_field :ort
-  .field
-    = f.label :telefon
-    = f.text_field :telefon
-  .field
-    = f.label :mobil
-    = f.text_field :mobil
-  .field
-    = f.label :fax
-    = f.text_field :fax
-  .field
-    = f.label :email
-    = f.text_field :email
   .actions
     = f.submit t("common.save")
     = cancel_button()

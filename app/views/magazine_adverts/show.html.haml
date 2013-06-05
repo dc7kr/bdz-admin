@@ -1,12 +1,18 @@
-%p#notice= notice
+.block
+  .secondary-navigation
+    = render :partial=>'nav'
+  .content
+    %h2.title
+      =t("magazine_advert.s")
+    .inner
+      %table
+        %tr
+          %td.label=t("magazine_issue.s")
+          %td= @magazine_advert.magazine_issue.full_number
+        %tr
+          %td.label=t("advertiser.s")
+          %td= @magazine_advert.advertiser.company
+        %tr
+          %td.label=t("magazine_advert.advert_type")
+          %td=@magazine_advert.advert_type
 
-%p
-  %b Advertiser:
-  = @magazine_advert.advertiser_id
-%p
-  %b Magazine issue:
-  = @magazine_advert.magazine_issue_id
-
-= link_to 'Edit', edit_magazine_advert_path(@magazine_advert)
-\|
-= link_to 'Back', magazine_adverts_path
