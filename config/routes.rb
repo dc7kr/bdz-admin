@@ -6,7 +6,12 @@ BDZAdmin::Application.routes.draw do
   resources :subscribers
 
 
-  resources :magazine_samplings
+  resources :magazine_samplings do
+    collection do
+      get :print_list
+    end
+  end
+
   resources :magazine_adverts
   resources :magazine_issues do
     member do 

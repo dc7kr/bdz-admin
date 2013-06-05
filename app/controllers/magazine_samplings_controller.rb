@@ -1,6 +1,9 @@
 class MagazineSamplingsController < ApplicationController
   # GET /magazine_samplings
   # GET /magazine_samplings.json
+
+  include MagazineReportHelper
+
   def index
     @magazine_samplings = MagazineSampling.includes(:contact).order('contacts.company, contacts.last_name,contacts.first_name')
 
@@ -80,4 +83,14 @@ class MagazineSamplingsController < ApplicationController
       format.json { head :no_content }
     end
   end
+  def print_list
+    @samplings = MagazineSampling.order("count")
+
+    filename = "magazine_samplings.ods"
+    renderSamplingListOds("/tmp/"+filename,@samplings)
+    send_file("/tmp/"+filename, :filename => filename, :type => "application/octet-stream")
+
+  	flash[:notice] = "Export complete!"
+  end
+
 end

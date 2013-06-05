@@ -10,6 +10,7 @@ class OrchestrasController < AuthenticatedController
   include UploadHelper
   include ReportSheetUploadHelper
   include PDFHelper
+  include MagazineReportHelper
   #
   #  JSON ONLY 
   #
@@ -59,28 +60,28 @@ class OrchestrasController < AuthenticatedController
 
 
   def magazine 
+	  @accounts = MemberAccountBooking.where("booking_year < year(now())").sum(:amount,:group=>:member_id)
 
-	@accounts = MemberAccountBooking.where("booking_year < year(now())").sum(:amount,:group=>:member_id)
-
-	@ids = Set.new
-	@accounts.each do |account|
+	  @ids = Set.new
+	  @accounts.each do |account|
       if (account[1]<0) then
         @ids.add(account[0])
+	    end
 	  end
-	end
 	
-	@orchestras = Orchestra.includes([:member]).where("NOT (member_id  in (?) )",@ids)
+	  @result = Array.new
 
-	@result = Array.new
-	@orchestras.each do |orchestra|
-		if ( not @ids.include?(orchestra.id) && orchestra.lastReportSheet.calcZeitungen > 0) then
+	  @orchestras = Orchestra.includes([:member]).where("NOT (member_id  in (?) )",@ids)
 
-			mag_count=nil
-			if ( orchestra.is_regular? ) then
-				mag_count = orchestra.currentMagazines
-			else
-				mag_count = 2
-			end
+	  @orchestras.each do |orchestra|
+		  if ( not @ids.include?(orchestra.id) && orchestra.lastReportSheet.calcZeitungen > 0) then
+
+			  mag_count=nil
+			  if ( orchestra.is_regular? ) then
+				  mag_count = orchestra.currentMagazines
+			  else
+				  mag_count = 2
+			  end
 		  @csvrow = {:name=> orchestra.orchName,
 			:mglnr=>orchestra.mglnr,
 			:fullname=>orchestra.fullname,
@@ -90,49 +91,15 @@ class OrchestrasController < AuthenticatedController
 			:plz=>orchestra.plz,
 			:ort=>orchestra.ort,
 			:land=>orchestra.letterCountry,
-			:magazines=>mag_count
-
-		  }
-		  @result << @csvrow
-		end
-	end
-  	@outfile = "concertino.orchester." + Time.now.strftime("%m-%d-%Y") + ".csv"
+			:magazines=>mag_count }
+      @result << @csvrow
+		  end
+	  end
+  	filename = "magazine.orch." + Time.now.strftime("%m-%d-%Y") + ".ods"
   
-  csv_data = CSV.generate do |csv|
-    csv << [
-    "Lfd Nr",
-    "Mglnr",
-    "Orchester",
-    "Orchester2",
-    "Name",
-    "Strasse",
-	"Laendercode",
-    "PLZ",
-    "Ort",
-    "Land",
-    "Zeitungen"
-    ]
-	@nr=1
-    @result.sort_by { |item| [item[:magazines],item[:mglnr]]}.each do |data|
-		csv << [
-			@nr,
-            data[:mglnr],
-            data[:name],
-            data[:name2],
-            data[:fullname],
-            data[:strasse],
-			data[:countryCode],
-            data[:plz],
-            data[:ort],
-            data[:land],
-            data[:magazines]
-		]
-		@nr=@nr+1
-    end
-	end
-  	send_data csv_data,
-    	:type => 'text/csv; charset=iso-8859-1; header=present',
-    	:disposition => "attachment; filename=#{@outfile}"
+    renderOrchestraMagazineListOds("/tmp/"+filename,@result)
+  
+    send_file("/tmp/"+filename, :filename => filename, :type => "application/octet-stream")
 
   	flash[:notice] = "Export complete!"
   end
