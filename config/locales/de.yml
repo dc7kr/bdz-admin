@@ -7,6 +7,12 @@ de:
     title: Thema
     description: Details
     priority: Priorität
+    status:
+      title: Status
+      D: Erledigt
+      P: In Arbeit
+      O: Angehalten
+      N: Nicht begonnen
 
   country:
     s: Land
