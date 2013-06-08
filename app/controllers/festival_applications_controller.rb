@@ -8,10 +8,6 @@ class FestivalApplicationsController < AuthenticatedController
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @festival_applications }
-	  format.ods { renderApplicationOds(@festival_applications,"/tmp/festival_applications.ods") 
-            send_file("/tmp/festival_applications.ods", :filename => "festival_applications"+Time.now.year.to_s+".ods", :type => "application/octet-stream")
-
-		}
     end
   end
 
@@ -27,6 +23,11 @@ class FestivalApplicationsController < AuthenticatedController
 		pdf = FestivalApplicationsPdf.new(@festival_applications,view_context)
 		send_data pdf.render, filename: "festival_applications_#{currDate}.pdf", type: "application/pdf", disposition: "inline"
 	  end
+	  format.ods do renderApplicationOds(@festival_applications,"/tmp/festival_applications.ods") 
+            send_file("/tmp/festival_applications.ods", :filename => "festival_applications"+Time.now.year.to_s+".ods", :type => "application/octet-stream")
+
+		end
+
 	end
   end
 

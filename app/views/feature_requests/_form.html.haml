@@ -3,6 +3,9 @@
     %td=f.label :title
     %td=f.text_field :title
   %tr
+    %td= f.label :status,:class=>:label
+    %td= f.select :status, options_for_select([[t('feature_request.status.P'),"P"],[t('feature_request.status.O'), "O"],[t('feature_request.status.D'),'D'],[t('feature_request.status.N'),"N"]],:selected=>@feature_request.status)
+  %tr
     %td=f.label :description
     %td=f.text_area :description
   %tr

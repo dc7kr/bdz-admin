@@ -3,4 +3,5 @@
 *= require_tree ./web-app-theme
 *= require_tree ./smoothness
 *= require custom.css
+*= require feature_requests
 */

@@ -1,7 +1,7 @@
 %tr
-  %td= feature_request.title
-  %td= feature_request.description
   %td= feature_request.priority
+  %td{:class=>"status_"+feature_request.status}= t('feature_request.status.'+feature_request.status)
+  %td= feature_request.title
   %td
     = link_to_show feature_request
     = link_to_edit feature_request

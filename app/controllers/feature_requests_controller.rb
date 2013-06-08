@@ -1,8 +1,8 @@
-class FeatureRequestsController < ApplicationController
+class FeatureRequestsController < AuthenticatedController
   # GET /feature_requests
   # GET /feature_requests.json
   def index
-    @feature_requests = FeatureRequest.all
+    @feature_requests = FeatureRequest.order([:priority,:title])
 
     respond_to do |format|
       format.html # index.html.erb
