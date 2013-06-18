@@ -8,6 +8,8 @@
       = person_member.ort
     %td
       = mail_to person_member.email, person_member.email
+    %td
+      =format_date person_member.eintritt 
     %td.last
       = link_to_show(person_member, t("common.show"))
       |

@@ -14,6 +14,7 @@
             = sortable "name", t("member.fullname", :default => "Name")
           %th= t("member.city")
           %th= t("member.email")
+          %th=sortable "eintritt", t("member.eintritt")
           %th.last &nbsp;
         %tbody#person_members
           = render @person_members

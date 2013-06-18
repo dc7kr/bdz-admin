@@ -12,55 +12,13 @@
         %tr
           %td.label #{t("common.fullname")}:
           %td= @person_member.fullname
-        %tr
-          %td.label #{t("member.street")}:
-          %td= @person_member.strasse
-        %tr
-          %td.label #{t("member.country")}:
-          %td= @person_member.country.name
-        %tr
-          %td.label #{t("member.zip")}:
-          %td= @person_member.plz
-        %tr
-          %td.label #{t("member.city")}:
-          %td= @person_member.ort
-        %tr
-          %td.label #{t("member.email")}:
-          %td= mail_to @person_member.email, @person_member.email
-
+        = render @person_member.member,:partial=>"member"
         %tr
           %td.label #{t("person_member.birthday")}:
           %td= format_date(@person_member.geburtstag)
         %tr
-          %td.label #{t("member.phone")}:
-          %td= @person_member.telefon
-        %tr
           %td.label #{t("member.telefonDienstl")}:
           %td= @person_member.telefonDienstl
-        %tr
-          %td.label #{t("member.fax")}:
-          %td= @person_member.fax
-        %tr
-          %td.label #{t("member.eintritt")}:
-          %td= format_date(@person_member.eintritt)
-        %tr
-          %td.label #{t("member.za")}:
-          %td #{t("common.za_"+@person_member.za)}
-        %tr
-          %td.label #{t("member.konto")}:
-          %td= @person_member.konto
-        %tr
-          %td.label #{t("member.iban")}:
-          %td= @person_member.iban
-        %tr
-          %td.label #{t("member.blz")}:
-          %td= @person_member.blz
-        %tr
-          %td.label #{t("member.zahler")}:
-          %td= @person_member.zahler
-        %tr
-          %td.label #{t("member.lv")}:
-          %td= @person_member.regional_organization.name
         %tr
           %td.label #{t("person_member.tarrif_id")}:
           %td= @person_member.tariff.description
@@ -73,11 +31,6 @@
             #{t("person_member.zeitungen")}:
           %td
             = @person_member.zeitungen
-        %tr
-          %td.label
-            #{t("member.austritt_zum")}:
-          %td
-            = @person_member.austritt_zum
         %tr
           %td.label
             #{t("person_member.kuendigungVom")}:
