@@ -3,8 +3,12 @@ class FestivalPiecesController < AuthenticatedController
   # GET /festival_pieces
   # GET /festival_pieces.json
   def index
-	@festival_application = FestivalApplication.find(params[:festival_application_id])
-    @festival_pieces = @festival_application.festival_pieces
+    if ( params[:festival_application_id] != nil ) then
+	    @festival_application = FestivalApplication.find(params[:festival_application_id])
+      @festival_pieces = @festival_application.festival_pieces
+    else
+      @festival_pieces = FestivalPiece.all
+    end
 
     respond_to do |format|
       format.html # index.html.erb

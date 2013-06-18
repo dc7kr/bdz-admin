@@ -14,7 +14,7 @@ class ConcertsController < AuthenticatedController
 
     respond_to do |format|
       if @concert.save
-        format.html { redirect_to @concert, :notice => t('concert.publish_success') }
+        format.html { redirect_to inactive_concerts_path, :notice => t('concert.publish_success') }
         format.json { render :json => @concert, :status => :created, :location => @concert }
       else
         format.html { render :action => "new" }

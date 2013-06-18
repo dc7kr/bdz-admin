@@ -12,7 +12,7 @@ class Mgl::ReportSheetInputsController < ApplicationController
 	url_id = params[:id].to_i
 	
 	if ( @sess_token == nil or @input_id != url_id) then
-		redirect_to login_report_sheet_inputs_path, :flash => { :error => t('report_sheet_input.login_first') } 
+		redirect_to login_mgl_report_sheet_inputs_path, :flash => { :error => t('report_sheet_input.login_first') } 
 		return
 	end
 
@@ -21,11 +21,11 @@ class Mgl::ReportSheetInputsController < ApplicationController
 #		return
 #	end
 	if ( @report_sheet_input == nil ) then
-		redirect_to login_report_sheet_inputs_path, :flash => { :notice => t('report_sheet_input.not_found') }
+		redirect_to login_mgl_report_sheet_inputs_path, :flash => { :notice => t('report_sheet_input.not_found') }
 		return
 	end
 	if ( @report_sheet_input.token != @sess_token ) then
-		redirect_to login_report_sheet_inputs_path , :flash => { :error => t('report_sheet_input.not_authorized') } 
+		redirect_to login_mgl_report_sheet_inputs_path , :flash => { :error => t('report_sheet_input.not_authorized') } 
 		return
 	end
   end

@@ -199,9 +199,9 @@ end
 
 def format_date(date) 
   if ( date == nil ) 
-    return ""
+    "---"
   else
-    return date.strftime '%d.%m.%Y'
+    l date
   end
 end
 

@@ -9,7 +9,7 @@ class ClassifiedsController < ApplicationController
 
     respond_to do |format|
       if @classified.save
-        format.html { redirect_to @classified, :notice => t('classified.publish_success') }
+        format.html { redirect_to inactive_classifieds_path, :notice => t('classified.publish_success') }
         format.json { render :json => @classified, :status => :created, :location => @classified }
       else
         format.html { render :action => "edit" }
@@ -18,6 +18,16 @@ class ClassifiedsController < ApplicationController
     end
 
   end
+
+  def inactive 
+    @classifieds = Classified.inactive.search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render :json => @concerts }
+    end
+  end
+
   # GET /classifieds
   # GET /classifieds.json
   def index

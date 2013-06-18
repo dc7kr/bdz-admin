@@ -12,7 +12,6 @@ class Mgl::OrchestrasController < AuthenticatedController
   include PDFHelper
 
 #  def index
-asdf
 #	@orchestras = Orchestra.includes(:member).where("members.mglnr = ?",current_user.username)
 #   
 #	Rails.logger("current username: "+current_user.username) 
