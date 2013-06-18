@@ -1,0 +1,52 @@
+%tr
+  %td.label #{t("member.salutation")}:
+  %td= t("common.salutation."+member.anrede)
+%tr
+  %td.label #{t("common.fullname")}:
+  %td= member.fullname
+%tr
+  %td.label #{t("member.street")}:
+  %td= member.strasse
+%tr
+  %td.label #{t("country.s")}:
+  %td= member.country.name
+%tr
+  %td.label #{t("member.zip")}:
+  %td= member.plz
+%tr
+  %td.label #{t("member.city")}:
+  %td= member.ort
+%tr
+  %td.label #{t("member.email")}:
+  %td= mail_to member.email, member.email
+%tr
+  %td.label #{t("member.phone")}:
+  %td= member.telefon
+%tr
+  %td.label #{t("member.fax")}:
+  %td= member.fax
+%tr
+  %td.label #{t("member.za")}:
+  %td #{t("common.za_"+member.za)}
+%tr
+  %td.label #{t("member.konto")}:
+  %td= member.konto
+%tr
+  %td.label #{t("member.iban")}:
+  %td= member.iban
+%tr
+  %td.label #{t("member.blz")}:
+  %td= member.blz
+%tr
+  %td.label #{t("member.zahler")}:
+  %td= member.zahler
+%tr
+  %td.label #{t("member.lv")}:
+  %td= member.regional_organization.name
+%tr
+  %td.label #{t("member.eintritt")}:
+  %td= format_date(member.eintritt)
+
+%tr
+  %td.label #{t("member.austritt_zum")}:
+  %td= member.austritt_zum

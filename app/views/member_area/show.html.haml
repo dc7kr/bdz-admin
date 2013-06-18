@@ -1,0 +1,11 @@
+
+%table
+  - if @orchestra then
+    %h2 Orchester
+    = render @orchestra,:partial=>"xxw"
+  - elsif @person_member
+    %h2 Person
+    = render @person_member
+  - else
+    %h2 Not found.
+

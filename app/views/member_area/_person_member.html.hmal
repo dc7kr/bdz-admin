@@ -1,0 +1,48 @@
+.block
+  .secondary-navigation
+    = render :partial=>'nav'
+  .content
+    .inner
+      %h2= @person_member.mglnr
+      %h2=  @person_member.fullname
+      %table
+        %tr
+          %td.label #{t("member.salutation")}:
+          %td= t("common.salutation."+@person_member.anrede)
+        %tr
+          %td.label #{t("common.fullname")}:
+          %td= @person_member.fullname
+        = render @person_member.member,:partial=>"member"
+        %tr
+          %td.label #{t("person_member.birthday")}:
+          %td= format_date(@person_member.geburtstag)
+        %tr
+          %td.label #{t("member.telefonDienstl")}:
+          %td= @person_member.telefonDienstl
+        %tr
+          %td.label #{t("person_member.tarrif_id")}:
+          %td= @person_member.tariff.description
+        %tr
+          %td.label #{t("member.comment")}:
+          %td
+            = @person_member.bemerkung
+        %tr
+          %td.label
+            #{t("person_member.zeitungen")}:
+          %td
+            = @person_member.zeitungen
+        %tr
+          %td.label
+            #{t("person_member.kuendigungVom")}:
+          %td
+            = @person_member.kuendigungVom
+        %tr
+          %td.label
+            #{t("person_member.zusatzzeitung")}:
+          %td
+            = @person_member.zusatzzeitung
+      .wat-cf
+        = edit_button(edit_person_member_path(@person_member),@person_member)
+        = del_button(person_member_path(@person_member),@person_member)
+
+- content_for :sidebar, render(:partial => 'sidebar.show')

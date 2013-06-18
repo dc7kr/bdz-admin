@@ -71,6 +71,17 @@ class Orchestra < ActiveRecord::Base
 	end
   end
 
+  def currentAgeKeyStr
+    str = ""
+    if ( currentReportSheet ) then
+      str=currentReportSheet.ageKeyStr
+    else 
+     str=" kein Meldebogen"
+    end
+
+    str
+  end
+
   def currentLvRate
 	if ( currentReportSheet ) then
 		return currentReportSheet.lvRate
@@ -130,11 +141,11 @@ class Orchestra < ActiveRecord::Base
   end
 
   def fullname
-	if ( member.anrede != nil && member.anrede.length > 0 ) then
-		I18n.t("common.salutation_d."+member.anrede)+" "+member.fullname
-	else
-		member.fullname
-	end
+	  if ( member.anrede != nil && member.anrede.length > 0 ) then
+		  I18n.t("common.salutation_d."+member.anrede)+" "+member.fullname
+	  else
+		  member.fullname
+	  end
   end
 
   def address

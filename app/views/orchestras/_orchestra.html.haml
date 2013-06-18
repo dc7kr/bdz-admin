@@ -6,6 +6,8 @@
       = orchestra.orchName
     %td
       = mail_to orchestra.email, orchestra.email
+    %td
+      = format_date orchestra.eintritt
     %td.last
       = link_to_show orchestra, t("common.show")
       = link_to_edit orchestra,  t("common.edit")

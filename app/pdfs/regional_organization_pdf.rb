@@ -6,6 +6,7 @@ class RegionalOrganizationPdf < Prawn::Document
 		@orchestras = orchestras
 		@person_members = person_members
 		@view = view
+    @cur_year = Time.now.year
 
 		font "Helvetica", :size => 10
 		heading
@@ -30,7 +31,7 @@ class RegionalOrganizationPdf < Prawn::Document
 		[[ "Mitgl.Nr.","Name" ]]+
 		@person_members.map do |item|
 			[
-				item.mglnr,
+        mglnr(item),
 				item.address
 			]
 		end
@@ -39,12 +40,15 @@ class RegionalOrganizationPdf < Prawn::Document
 	def format_orchestras 
 		[[ "Mglnr","Orchester","Gesamt","GEMA" ]] +
 		@orchestras.map do |item|
-			[ item.mglnr,
+			[ mglnr(item),
 				item.address+ ", "+
 				(item.telefon ? item.telefon : "") +", "+
 				(item.email ? item.email : ""),
 				item.currentTotal,
-				item.currentGema ]
+				item.currentGema,
+        item.currentAgeKeyStr
+
+    ]
 		end
 	end
 	def orchestra_list
@@ -59,6 +63,17 @@ class RegionalOrganizationPdf < Prawn::Document
 			self.column_widths = { 0 => 50, 2=>50,3=>50 }
 		end
 	end
+
+  def mglnr(member) 
+    str = member.mglnr.to_s
+
+    if ( member.eintritt and member.eintritt.year == @cur_year) then
+      str+=" (N)"
+    elsif member.austritt_zum != nil then
+      str+=" (A)"
+    end
+    str
+  end
 
 	def heading
 		text "Landesverband #{@regional_organization.name}", :size => 30 , :style =>:bold

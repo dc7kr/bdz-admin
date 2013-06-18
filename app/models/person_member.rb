@@ -79,8 +79,8 @@ class PersonMember < ActiveRecord::Base
 
 
   def contact_info
-	(telefonPrivat && telefonPrivat.length >0 ? "Tel: "+ telefonPrivat+", " :"" )+
-	(telefax && telefax.length >0 ? "Fax: "+ telefax+", " :"" )+
+	(telefon && telefon.length >0 ? "Tel: "+ telefon+", " :"" )+
+	(fax && fax.length >0 ? "Fax: "+ fax+", " :"" )+
 	(member.email ? member.email+", " : "") 
   end
   def contact_info_block 
