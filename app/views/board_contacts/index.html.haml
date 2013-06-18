@@ -1,0 +1,24 @@
+.block
+  .secondary-navigation
+    =render :partial=>'nav'
+  .content
+    %h2.title
+      = t("common.all")
+      = t("board_contact.p")
+    .inner
+      #entry_info
+        = page_entries_info @board_contacts
+      %table.table
+        %thead
+          %th.first= t("contact.last_name")
+          %th= sortable "email", t("contact.email")
+          %th.last &nbsp;
+        %tbody#board_contacts
+          =render @board_contacts
+      #paginator
+        = paginate @board_contacts, :remote=>true
+      .actions-bar.wat-cf
+        .actions
+- content_for :sidebar, render(:partial => 'sidebar')
+
+

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130606153954) do
+ActiveRecord::Schema.define(:version => 20130618121709) do
 
   create_table "Inserenten", :id => false, :force => true do |t|
     t.string  "Firmenname",    :limit => 35
@@ -41,6 +41,12 @@ ActiveRecord::Schema.define(:version => 20130606153954) do
   end
 
   add_index "blacklist", ["ip"], :name => "ip", :unique => true
+
+  create_table "board_contacts", :force => true do |t|
+    t.integer  "contact_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "bundeslaender", :force => true do |t|
     t.integer  "country_id", :limit => 8, :default => 0, :null => false
@@ -408,7 +414,7 @@ ActiveRecord::Schema.define(:version => 20130606153954) do
     t.string  "name",    :limit => 128,                       :null => false
     t.string  "obj",     :limit => 32,                        :null => false
     t.integer "updated",                       :default => 0, :null => false
-    t.text    "data",    :limit => 2147483647
+    t.binary  "data",    :limit => 2147483647
   end
 
   add_index "d7_ctools_object_cache", ["updated"], :name => "updated"
@@ -1273,6 +1279,7 @@ ActiveRecord::Schema.define(:version => 20130606153954) do
     t.integer "timestamp",                       :default => 0,  :null => false
   end
 
+  add_index "d7_watchdog", ["severity"], :name => "severity"
   add_index "d7_watchdog", ["type"], :name => "type"
   add_index "d7_watchdog", ["uid"], :name => "uid"
 
@@ -1378,9 +1385,9 @@ ActiveRecord::Schema.define(:version => 20130606153954) do
     t.string   "title"
     t.string   "description"
     t.integer  "priority"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
-    t.string   "status"
+    t.datetime "created_at",                   :null => false
+    t.datetime "updated_at",                   :null => false
+    t.string   "status",      :default => "N"
   end
 
   create_table "festival_applications", :force => true do |t|
@@ -1395,6 +1402,7 @@ ActiveRecord::Schema.define(:version => 20130606153954) do
     t.datetime "created_at",        :null => false
     t.datetime "updated_at",        :null => false
     t.string   "group_type"
+    t.string   "uuid"
   end
 
   create_table "festival_pieces", :force => true do |t|
@@ -1428,7 +1436,7 @@ ActiveRecord::Schema.define(:version => 20130606153954) do
   create_table "functions", :force => true do |t|
     t.string  "label",                    :limit => 10
     t.integer "regional_organization_id", :limit => 8,                 :null => false
-    t.integer "contact_id",               :limit => 8,                 :null => false
+    t.integer "board_contact_id",         :limit => 8,                 :null => false
     t.boolean "bund",                                                  :null => false
     t.boolean "jugend",                                                :null => false
     t.integer "musik",                                  :default => 0, :null => false
@@ -1437,8 +1445,8 @@ ActiveRecord::Schema.define(:version => 20130606153954) do
     t.text    "fkt_subtitle",                                          :null => false
   end
 
-  add_index "functions", ["contact_id"], :name => "fk_addr_id"
-  add_index "functions", ["regional_organization_id", "contact_id"], :name => "fk_lv_id"
+  add_index "functions", ["board_contact_id"], :name => "fk_addr_id"
+  add_index "functions", ["regional_organization_id", "board_contact_id"], :name => "fk_lv_id"
 
   create_table "gallery2_AccessMap", :id => false, :force => true do |t|
     t.integer "g_accessListId",  :null => false

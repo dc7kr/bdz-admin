@@ -1,84 +1,84 @@
-class AddressesController < ApplicationController
-  # GET /addresses
-  # GET /addresses.json
+class ContactsController < ApplicationController
+  # GET /contacts
+  # GET /contacts.json
   before_filter :authenticate_user! #, :except => [:index]
   load_and_authorize_resource
   def index
-    @addresses = Address.all
+    @contacts = Contact.all
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render :json => @addresses }
+      format.json { render :json => @contacts }
     end
   end
 
-  # GET /addresses/1
-  # GET /addresses/1.json
+  # GET /contacts/1
+  # GET /contacts/1.json
   def show
-    @address = Address.find(params[:id])
+    @contact = Contact.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render :json => @address }
+      format.json { render :json => @contact }
     end
   end
 
-  # GET /addresses/new
-  # GET /addresses/new.json
+  # GET /contacts/new
+  # GET /contacts/new.json
   def new
-    @address = Address.new
+    @contact = Contact.new
 
     respond_to do |format|
       format.html # new.html.erb
-      format.json { render :json => @address }
+      format.json { render :json => @contact }
     end
   end
 
-  # GET /addresses/1/edit
+  # GET /contacts/1/edit
   def edit
-    @address = Address.find(params[:id])
+    @contact = Contact.find(params[:id])
   end
 
-  # POST /addresses
-  # POST /addresses.json
+  # POST /contacts
+  # POST /contacts.json
   def create
-    @address = Address.new(params[:address])
+    @contact = Contact.new(params[:contact])
 
     respond_to do |format|
-      if @address.save
-        format.html { redirect_to @address, :notice => 'Address was successfully created.' }
-        format.json { render :json => @address, :status => :created, :location => @address }
+      if @contact.save
+        format.html { redirect_to @contact, :notice => 'Contact was successfully created.' }
+        format.json { render :json => @contact, :status => :created, :location => @contact }
       else
         format.html { render :action => "new" }
-        format.json { render :json => @address.errors, :status => :unprocessable_entity }
+        format.json { render :json => @contact.errors, :status => :unprocessable_entity }
       end
     end
   end
 
-  # PUT /addresses/1
-  # PUT /addresses/1.json
+  # PUT /contacts/1
+  # PUT /contacts/1.json
   def update
-    @address = Address.find(params[:id])
+    @contact = Contact.find(params[:id])
 
     respond_to do |format|
-      if @address.update_attributes(params[:address])
-        format.html { redirect_to @address, :notice => 'Address was successfully updated.' }
+      if @contact.update_attributes(params[:contact])
+        format.html { redirect_to @contact, :notice => 'Contact was successfully updated.' }
         format.json { head :ok }
       else
         format.html { render :action => "edit" }
-        format.json { render :json => @address.errors, :status => :unprocessable_entity }
+        format.json { render :json => @contact.errors, :status => :unprocessable_entity }
       end
     end
   end
 
-  # DELETE /addresses/1
-  # DELETE /addresses/1.json
+  # DELETE /contacts/1
+  # DELETE /contacts/1.json
   def destroy
-    @address = Address.find(params[:id])
-    @address.destroy
+    @contact = Contact.find(params[:id])
+    @contact.destroy
 
     respond_to do |format|
-      format.html { redirect_to addresses_url }
+      format.html { redirect_to contacts_url }
       format.json { head :ok }
     end
   end

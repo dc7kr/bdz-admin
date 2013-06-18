@@ -1,0 +1,11 @@
+- @contact = @board_contact.contact
+
+.block
+  .secondary-navigation
+    = render :partial=>'nav'
+  .content
+    .inner
+      %p#notice= notice
+      %table
+        = render @contact,:partial=>"contact"
+

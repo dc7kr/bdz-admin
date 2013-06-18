@@ -11,7 +11,7 @@
         %tr
           %td.label #{t('contact.s')}:
           %td= @function.regional_organization
-        = render @contact,:partial=>"contact"
+        = render @function.board_contact.contact,:partial=>"contact"
         %tr
           %td.label #{t('function.bund')}:
           %td= @function.bund

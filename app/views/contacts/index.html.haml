@@ -4,7 +4,7 @@
   .content
     %h2.title
       = t("common.all", :default => "All")
-      = t("address.title")
+      = t("contact.title")
     .inner
       %table.table
         %thead
@@ -15,6 +15,6 @@
           %th Fax
           %th Email
           %th
-        %tbody#addresses
-          = render @addresses
+        %tbody#contacts
+          = render @contacts
 
