@@ -7,7 +7,7 @@ class ConcertsController < AuthenticatedController
   #skip_authorize_resource :only => :show
 
   def publish 
-	@concert = Contest.find(params[:id])
+	@concert = Concert.find(params[:id])
 	@concert.confirmed = Time.now
 	@concert.visible = true
 	@concert.save
