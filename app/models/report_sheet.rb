@@ -162,6 +162,17 @@ class ReportSheet < ActiveRecord::Base
      calcGemaCount
    end
 
+   def ageKeyStr
+    str ="|"
+    str+= children.to_s+"|"
+    str+= teens.to_s+"|"
+    str+= youth.to_s+"|"
+    str+= adult.to_s+"|"
+    str+= senior.to_s+"|"
+
+    str
+   end
+
 #	TODO: def scoped for easier retrieval!
 #   def orchestras 
 #    Orchestra.scoped(:joins => {:user => :memberships}, :conditions => { :memberships => { :group_id => id } })

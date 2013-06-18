@@ -666,8 +666,13 @@ de:
     p: Bemusterungen
     s: Bemusterung
     count: Anzahl
+  board_contact:
+    s: Vorstandskontakt
+    p: Vorstandskontakte
   contact:
     s: Adresse
+    p: Adressen
+    office_phone: Telefon dienstl.
     company: Firma
     department: Abteilung
     title: Titel

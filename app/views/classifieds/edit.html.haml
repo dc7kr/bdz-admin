@@ -1,7 +1,10 @@
-%h1 Editing classified
+.block
+  .secondary-navigation
+    =render :partial=>'nav'
+  .content
+    %h2.title
+      = t("common.edit")
+      = t("classified.s")
+    .inner
+      = render 'form'
 
-= render 'form'
-
-= link_to 'Show', @classified
-\|
-= link_to 'Back', classifieds_path

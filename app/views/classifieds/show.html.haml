@@ -4,36 +4,32 @@
   .content
     .inner
       %h2
-        = t("classified.title")
+        = t("classified.s")
         = @classified.object
       %table
-=@classified.name
-=@classified.email
-=@classified.url
-=@classified.object
-=@classified.description
-=@classified.validuntil
-=@classified.entrydate
-=@classified.visible
         %tr
-          %td.label
-            = t("classified.adv_type")
-            \:
-          %td= @classified.adv_type
-          %td à
-          %td.currency
-            =format_currency(Prices.childrenRate,'€')
-          %td.currency
-            = format_currency(@classified.children * Prices.childrenRate,'€')
+          %td.label #{t("classified.name")}:
+          %td=@classified.name
         %tr
-          %td.label
-            = t("classified.teens")
-            \:
-          %td= @classified.teens
-          %td à
-          %td.currency
-            =format_currency(Prices.teensRate,'€')
-          %td.currency
-            = format_currency(@classified.teens * Prices.teensRate,'€')
+          %td.label #{t("classified.email")}:
+          %td=@classified.email
+        %tr
+          %td.label #{t("classified.url")}:
+          %td=@classified.url
+        %tr
+          %td.label #{t("classified.object")}:
+          %td=@classified.object
+        %tr
+          %td.label #{t("classified.description")}:
+          %td=@classified.description
+        %tr
+          %td.label #{t("classified.validuntil")}:
+          %td=l @classified.validuntil
+        %tr
+          %td.label #{t("classified.entrydate")}:
+          %td=l @classified.entrydate
+        %tr
+          %td.label #{t("classified.visible")}:
+          %td=@classified.visible
 
 

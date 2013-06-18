@@ -2,8 +2,12 @@
   %td= classified.object
   %td= classified.name
   %td= classified.validuntil
-  %td= link_to 'Show', classified
-  %td= link_to 'Edit', edit_classified_path(classified)
-  %td= link_to 'Destroy', classified, :confirm => 'Are you sure?', :method => :delete
+  %td
+    - if not classified.visible then
+      = link_to_publish classified,  t("common.publish")
+    = link_to_show classified, t('common.show')
+    = link_to_edit classified, t('common.edit')
+    = link_to_delete classified, t('common.delete'),t('common.delete_confirm')
+
 
 

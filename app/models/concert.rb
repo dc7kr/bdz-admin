@@ -1,6 +1,6 @@
 class Concert < ActiveRecord::Base
 
-    scope :public, where('visible=1 and datum >= now()')
+  scope :public, where('visible=1 and datum >= now()')
 	scope :inactive, where('visible=0')
 
 	belongs_to :user , :foreign_key => "owner"

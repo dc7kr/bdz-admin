@@ -1,4 +1,5 @@
 %ul.wat-cf
-  %li{ :class => tabActiveClass(@current_action,'index','first')}= link_to "#{t("common.list", :default => "List")}", classifieds_path
+  %li{ :class => tabActiveClass(@current_action,'index','first')}= link_to t("common.list"), classifieds_path
+  %li{ :class => tabActiveClass(@current_action,'inactive','')}= link_to t("common.inactive"), inactive_classifieds_path
   %li{:class => tabActiveClass(@current_action,'new',nil)}= link_to "#{t("common.new", :default => "New")}", new_classified_path
 

@@ -1,5 +1,8 @@
 BDZAdmin::Application.routes.draw do
 
+  resources :board_contacts
+
+
   resources :feature_requests
 
 
@@ -27,6 +30,7 @@ BDZAdmin::Application.routes.draw do
     end
   end
 
+  resources :mgl, :controller => "member_area"
   # BEGIN member namespace
   namespace :mgl do
     resources :orchestras
@@ -65,6 +69,9 @@ BDZAdmin::Application.routes.draw do
   resources :contact_people
 
 
+  resources :festival_pieces do
+  
+  end
   resources :festival_applications do
     collection do
       get :list
@@ -78,6 +85,8 @@ BDZAdmin::Application.routes.draw do
 
 
   resources :uploaded_files
+
+  match 'magazine_reports/calendar' => 'magazine_reports#calendar'
 
   match 'api/rsm/gen_data' => 'report_sheet_mailings#gen_data'
   match 'api/rsm/gen_mailings' => 'report_sheet_mailings#gen_mailings'
@@ -102,9 +111,12 @@ BDZAdmin::Application.routes.draw do
     resources :states
   end
   resources :classifieds do
-  member do 
-    get :publish
-  end
+    collection do 
+      get :inactive
+    end
+    member do 
+      get :publish
+    end
   end
 
   resources :advertisements
