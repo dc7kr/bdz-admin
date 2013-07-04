@@ -13,7 +13,7 @@ class FeatureRequestsController < AuthenticatedController
   # GET /feature_requests/1
   # GET /feature_requests/1.json
   def show
-    @feature_request = FeatureRequest.find(params[:id])
+    @feature_request = FeatureRequest.includes(:user).find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -41,6 +41,7 @@ class FeatureRequestsController < AuthenticatedController
   # POST /feature_requests.json
   def create
     @feature_request = FeatureRequest.new(params[:feature_request])
+    @feature_request.user = current_user
 
     respond_to do |format|
       if @feature_request.save
@@ -58,9 +59,13 @@ class FeatureRequestsController < AuthenticatedController
   def update
     @feature_request = FeatureRequest.find(params[:id])
 
+    if not current_user.admin? and feature_request.user_id != user.id then
+        format.html { redirect_to @feature_request, error: 'Permission denied.' }
+    end
+
     respond_to do |format|
       if @feature_request.update_attributes(params[:feature_request])
-        format.html { redirect_to @feature_request, notice: 'Feature request was successfully updated.' }
+        format.html { redirect_to @feature_request, error: 'Feature request successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }

@@ -1,7 +1,7 @@
 %ul.wat-cf
   %li{ :class => 'first'}= link_to_up_path t("common.up"), home_magazine_data_path
   %li{ :class=> tabActiveClass(@current_action,'index','first')}= link_to t("common.list"), magazine_issues_path
-  - if (@magazine_issue)
-    %li{ :class => tabActiveClass(@current_action,'show',nil)}= link_to t("common.show"), '#'
+  - if (@magazine_issue and @magazine_issue.id!=nil )
+    %li{ :class => tabActiveClass(@current_action,'show',nil)}= link_to t("common.show"), magazine_issue_path(@magazine_issue)
   %li= link_to "#{t("common.new", :default => "New")}", new_magazine_issue_path
 

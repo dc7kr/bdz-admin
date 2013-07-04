@@ -48,15 +48,15 @@ class Orchestra < ActiveRecord::Base
 	return @reportSheets[0]
   end
   def currentMagazines
-	if ( orch_type=='K') then
-		return 2;
-	end
+	  if ( orch_type=='K') then
+		  return 2;
+	  end
 
-	if ( currentReportSheet ) then
-		return currentReportSheet.calcZeitungen
-	else 
-		return lastReportSheet.calcZeitungen	
-	end
+	  if ( currentReportSheet ) then
+		  return currentReportSheet.calcZeitungen
+	  else 
+		  return lastReportSheet.calcZeitungen	
+	  end
   end
 
   def currentGema
@@ -180,5 +180,18 @@ class Orchestra < ActiveRecord::Base
 
   def has_event?(event_type,event_id)
 	member.has_event?(event_type,event_id)
+  end
+
+  def self.with_zero_balance
+	  accounts = MemberAccountBooking.where("booking_year < year(now())").sum(:amount,:group=>:member_id)
+
+	  ids = Set.new
+	  accounts.each do |account|
+      if (account[1]<0) then
+        ids.add(account[0])
+	    end
+	  end
+	
+	  Orchestra.includes([:member]).where("NOT (member_id  in (?) )",ids)
   end
 end

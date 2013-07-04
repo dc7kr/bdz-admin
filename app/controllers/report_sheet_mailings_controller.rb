@@ -2,6 +2,7 @@ class ReportSheetMailingsController < AuthenticatedNonResourceController
 
 	include PDFHelper
 	include NotifyHelper
+  include BulkMailHelper
 
 	def gen_data
   		authorize! :index, Orchestra
@@ -110,16 +111,6 @@ class ReportSheetMailingsController < AuthenticatedNonResourceController
 		end
   end
 
-  def recordMailSuccess(event_id,id,subject,filename)
-	event = MemberEvent.newEmail(event_id,id,subject)
-	event.filename=filename
-	event.save
-  end
-
-  def recordMailFailure(event_id,id, email, result)
-	event = MemberEvent.newFailedEmail(event_id,id,result.to_s)
-	event.save
-  end
   def recordLetter(event_id,id,filename)
 	event = MemberEvent.newLetter(event_id,id,event_id)
 	event.filename=filename

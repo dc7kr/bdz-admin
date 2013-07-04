@@ -93,4 +93,16 @@ class PersonMember < ActiveRecord::Base
 	member.iban
   end
 
+  def self.with_zero_balance
+	  accounts = MemberAccountBooking.where("booking_year < year(now())").sum(:amount,:group=>:member_id)
+
+	  ids = Set.new
+	  accounts.each do |account|
+      if (account[1]<0) then
+        ids.add(account[0])
+	    end
+	  end
+	
+	  person_members = PersonMember.includes([:member]).where("NOT (member_id  in (?) )",ids)
+  end
 end

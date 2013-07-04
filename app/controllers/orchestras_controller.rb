@@ -60,18 +60,9 @@ class OrchestrasController < AuthenticatedController
 
 
   def magazine 
-	  @accounts = MemberAccountBooking.where("booking_year < year(now())").sum(:amount,:group=>:member_id)
 
-	  @ids = Set.new
-	  @accounts.each do |account|
-      if (account[1]<0) then
-        @ids.add(account[0])
-	    end
-	  end
-	
+    @orchestras = Orchestra.with_zero_balance
 	  @result = Array.new
-
-	  @orchestras = Orchestra.includes([:member]).where("NOT (member_id  in (?) )",@ids)
 
 	  @orchestras.each do |orchestra|
 		  if ( not @ids.include?(orchestra.id) && orchestra.lastReportSheet.calcZeitungen > 0) then

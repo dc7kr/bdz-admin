@@ -20,6 +20,7 @@ BDZAdmin::Application.routes.draw do
     member do 
       get :gen_advert_invoices
       get :gen_subscriber_invoices
+      get :counts
     end
   end
   resources :advertisers
@@ -87,6 +88,7 @@ BDZAdmin::Application.routes.draw do
   resources :uploaded_files
 
   match 'magazine_reports/calendar' => 'magazine_reports#calendar'
+  match 'magazine_reports/counts' => 'magazine_reports#counts'
 
   match 'api/rsm/gen_data' => 'report_sheet_mailings#gen_data'
   match 'api/rsm/gen_mailings' => 'report_sheet_mailings#gen_mailings'

@@ -5,6 +5,9 @@
     .inner
       %table
         %tr
+          %td.label=t('feature_request.owner')
+          %td=@feature_request.owner_s
+        %tr
           %td.label=t('feature_request.priority')
           %td=@feature_request.priority
         %tr

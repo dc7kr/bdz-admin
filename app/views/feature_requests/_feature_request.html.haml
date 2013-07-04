@@ -4,6 +4,7 @@
   %td= feature_request.title
   %td
     = link_to_show feature_request
-    = link_to_edit feature_request
-    = link_to_delete feature_request
+    - if feature_request.user_id == current_user.id or current_user.admin?
+      = link_to_edit feature_request
+      = link_to_delete feature_request
       

@@ -1,5 +1,11 @@
 %table
   %tr
+    -if current_user.admin? then
+      %td=f.label :user
+      %td=f.collection_select(:user_id, User.all, :id, :email, :selected=>@feature_request.user_id)
+    -else
+      %td=f.hidden_field :user_id
+  %tr
     %td=f.label :title
     %td=f.text_field :title
   %tr

@@ -4,6 +4,7 @@ de:
   feature_request:
     p: Feature Requests
     s: Feature Request
+    owner: Eigentümer
     title: Thema
     description: Details
     priority: Priorität
@@ -27,8 +28,10 @@ de:
   common:
     yes: Ja
     no: Nein
+    no_one: niemand
     all: Alle
     year: Jahr
+    sum: Summe
     month: Monat
     day: Tag
     created_at: Erzeugt
@@ -381,6 +384,8 @@ de:
     p: Ehrenmitglieder
     s: Ehrenmitglieder
   orchestra:
+    s: Orchester
+    p: Orchester
     title: Orchester
     noreport: Kein Meldebogen
     search: "Suche nach Mitgliedsnummer oder Teil des Orchesternamens"
@@ -661,6 +666,7 @@ de:
     year: Jahr
     gen_advert_invoices: Inserenten-Rechnungen generieren
     gen_subscriber_invoices: Abonnenten-Rechnungen generieren
+    counts: Auflage
 
   magazine_sampling:
     p: Bemusterungen

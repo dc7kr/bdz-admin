@@ -10,6 +10,7 @@ class Ability
 		can :read, State
 	 	can :update, Concert, :owner => user.id
 		can :delete, Concert, :owner => user.id
+    can :manage, FeatureRequest
 
 	  if ( user.admin? or user.national? ) 
 	  	can :manage, :all

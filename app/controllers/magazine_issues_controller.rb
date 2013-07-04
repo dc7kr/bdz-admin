@@ -96,4 +96,35 @@ class MagazineIssuesController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  def counts 
+
+    @overall = 0
+    @magazine_issue = MagazineIssue.find(params[:id])
+    @magazine_samplings = MagazineSampling.sum(:count)
+
+    @overall+=@magazine_samplings
+
+    @subscribers = Subscriber.all.count
+    @overall+=@subscribers
+
+    @adverts = @magazine_issue.magazine_adverts.count
+    @overall+=@adverts
+
+    @person_member_count=0
+    @person_members = PersonMember.with_zero_balance
+    @person_members.each do |p|
+      @person_member_count+=p.currentMagazines
+    end
+    @overall+=@person_member_count
+
+    @orchestra_count =0
+    @orchestras = Orchestra.with_zero_balance.includes(:report_sheets)
+    @orchestras.each do |o|
+      @orchestra_count+=o.currentMagazines
+    end
+
+
+    @overall+=@orchestra_count
+  end
 end

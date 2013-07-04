@@ -138,16 +138,7 @@ class PersonMembersController < AuthenticatedController
 
   def magazine 
 
-	@accounts = MemberAccountBooking.where("booking_year < year(now())").sum(:amount,:group=>:member_id)
-
-	@ids = Set.new
-	@accounts.each do |account|
-      if (account[1]<0) then
-        @ids.add(account[0])
-	  end
-	end
-	
-	@person_members = PersonMember.includes([:member]).where("NOT (member_id  in (?) )",@ids)
+  @person_members = PersonMember.with_zero_balance
 
 	@result = Array.new
 
