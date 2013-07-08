@@ -1,16 +1,15 @@
+require 'odf/spreadsheet'
+
 module MagazineReportHelper
   def renderSamplingListOds(filename,samplings)
     ODF::Spreadsheet.file(filename) do
       table "Samplings"  do |t|
         t.row {
           cell "Lfd Nr"
-          cell "---"
           cell I18n.t("contact.company")
           cell I18n.t("contact.department")
           cell I18n.t("contact.fullname")
           cell I18n.t("contact.street")
-          cell "Laendercode"
-          cell I18n.t("contact.zip")
           cell I18n.t("contact.city")
           cell I18n.t("country.s")
           cell "Zeitungen"
@@ -19,14 +18,13 @@ module MagazineReportHelper
         samplings.each do |s|
           row {
             cell rownr
-            cell ""
             cell s.company
             cell s.department
-            cell s.first_name+" "+s.last_name
+            cell s.fullname
             cell s.street
             cell s.zip+" "+s.city
             cell s.country.name
-            cell s.count
+            cell s.count , :type=> :float
           }
           rownr+=1
         end
