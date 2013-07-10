@@ -18,8 +18,8 @@ en:
     cron: Tasks
     finalize: Finalize
     address: Address
-    yes: Yes
-    no: No
+    yes_: Yes
+    no_: No
     za_L: Direct debit
     za_R: Invoice
     back: Back

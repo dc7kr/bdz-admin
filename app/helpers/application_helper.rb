@@ -237,9 +237,9 @@ end
 
 def format_bool(val) 
   if (val) 
-    return t("common.yes")
+    return t("common.yes_")
   else
-    return t("common.no")
+    return t("common.no_")
   end
 end
 
