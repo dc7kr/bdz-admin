@@ -146,7 +146,7 @@ class CustomInfoMailController < AuthenticatedNonResourceController
     end
 
     if ( festival ) then
-      @applicants = FestivalApplication.includes(:contact_person).where(:id=>154)
+      @applicants = FestivalApplication.includes(:contact_person)
       @applicants.each do |appl|
         contact = appl.contact_person
         begin 
