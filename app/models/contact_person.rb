@@ -1,5 +1,5 @@
 class ContactPerson < ActiveRecord::Base
-  attr_accessible :city, :country, :email, :first_name, :last_name, :phone, :salutation, :street, :zip
+  attr_accessible :city, :country, :email, :first_name, :last_name, :phone, :salutation, :street, :zip,:country_id
 
   belongs_to :country
 

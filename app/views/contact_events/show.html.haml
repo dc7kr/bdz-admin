@@ -1,0 +1,25 @@
+.block
+  .secondary-navigation
+    = render :partial=>'nav'
+  .content
+    .inner
+      %table
+        %tr
+          %td=f.label :event_type
+          %td=@contact_event.event_type
+        %tr
+          %td=f.label :event_date
+          %td=@contact_event.event_date
+        %tr
+          %td=f.label :event_id
+          %td=@contact_event.event_id
+        %tr
+          %td=f.label :contact_id
+          %td=@contact_event.contact_id
+        %tr
+          %td=f.label :comment
+          %td=@contact_event.comment
+        %tr
+          %td=f.label :filename
+          %td=@contact_event.filename
+

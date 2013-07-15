@@ -87,6 +87,8 @@ class FestivalApplicationsController < AuthenticatedController
   def update
     @festival_application = FestivalApplication.find(params[:id])
 
+    @festival_application.contact_person.update_attributes(params[:contact_person])
+
     respond_to do |format|
       if @festival_application.update_attributes(params[:festival_application])
         format.html { redirect_to @festival_application, notice: 'Festival application was successfully updated.' }

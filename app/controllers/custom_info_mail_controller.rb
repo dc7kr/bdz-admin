@@ -17,16 +17,15 @@ class CustomInfoMailController < AuthenticatedNonResourceController
     @orchFailCount=0
     @personCount=0
     @personFailCount=0
-    @festivalFailCount=0
     orchestra = Orchestra.find(420)
 
     @err = nil
     begin
       TestMail.notify("blah@tiscali.de",@mail_params).deliver
-      recordMailSuccess(mail_params[:event_id],orchestra.id, mail_params[:subject])
+      recordMailSuccess(mail_params[:event_id],orchestra, @mail_params[:subject])
       @orchCount=@orchCount+1
     rescue
-      recordMailFailure(mail_params[:event_id],orchestra.id, orchestra.email, $!.to_s)
+      recordMailFailure(mail_params[:event_id],orchestra, $!.to_s)
 
       @result = { :err=>$!, :entity=>orchestra,:type =>"O"}
       @results.push(@result)
@@ -65,6 +64,9 @@ class CustomInfoMailController < AuthenticatedNonResourceController
     @testFailCount=0;
     @orchCount =0;
     @orchFailCount=0;
+
+    @festivalCount=0
+    @festivalFailCount=0
     @personCount = 0;
     @personFailCount=0;
     @results =  Array.new
@@ -100,19 +102,19 @@ class CustomInfoMailController < AuthenticatedNonResourceController
 
       @orchestras.each do |orchestra| 
         begin 
-          if not is_mail_blacklisted(orchestra.email) then
+          if not is_mail_blacklisted?(orchestra.email) then
             CustomInfoMail.notify(orchestra.email,params[:email],@att_file,@att_data).deliver
-            recordMailSuccess(@mail_params,orchestra.id)
+            recordMailSuccess(params[:event_id],orchestra,@mail_params[:subject])
             @orchCount=@orchCount+1
           else 
-            recordMailFailure(params[:event_id],params[:email],orchestra.id,"blacklisted")
+            recordMailFailure(params[:event_id],orchestra,"blacklisted")
 
             @result = { :err=>"blacklisted", :entity=>orchestra,:type =>"O"}
             @results.push(@result)
             @orchFailCount=@orchFailCount+1;
           end
         rescue
-          recordMailFailure(params[:event_id],params[:email],orchestra.id,$!)
+          recordMailFailure(params[:event_id],orchestra,$!)
           @result = { :err=>$!, :entity=>orchestra,:type =>"O"}
           @results.push(@result)
           @orchFailCount=@orchFailCount+1;
@@ -124,18 +126,18 @@ class CustomInfoMailController < AuthenticatedNonResourceController
       @persons = PersonMember.mailForEvent(@event) 
       @persons.each do |person| 
         begin 
-          if not is_mail_blacklisted(orchestra.email) then
+          if not is_mail_blacklisted?(orchestra.email) then
             CustomInfoMail.notify(person.email,params[:email],@att_file,@att_data).deliver
-            recordMailSuccess(@mail_params,person.id)
+            recordMailSuccess(params[:event_id],person,@mail_params[:subject])
             @personCount=@personCount+1
           else 
-            recordMailFailure(params[:event_id],@mail_params,person.id,"blacklist")
+            recordMailFailure(params[:event_id],person,"blacklist")
             @result = { :err=>"blacklisted", :entity=>person,:type =>"P"}
             @results.push(@result)
             @personFailCount+=1;
           end
         rescue
-          recordMailFailure($!,@mail_params,person.id)
+          recordMailFailure(params[:event_id],person,$!)
           @result = { :err=>$!, :entity=>person,:type =>"P"}
           @results.push(@result)
           @personFailCount+=1;
@@ -144,22 +146,23 @@ class CustomInfoMailController < AuthenticatedNonResourceController
     end
 
     if ( festival ) then
-      @applicants = FestivalApplications.includes(:contact_person)
+      @applicants = FestivalApplication.includes(:contact_person).where(:id=>154)
       @applicants.each do |appl|
         contact = appl.contact_person
         begin 
-          if not is_mail_blacklisted(contact.email) then
+          if not is_mail_blacklisted?(contact.email) then
             CustomInfoMail.notify(contact.email,params[:email],@att_file,@att_data).deliver
-            recordMailSuccess(@mail_params,contact.id)
-            @personCount=@personCount+1
+
+            recordMailSuccess(params[:event_id],appl, @mail_params[:subject])
+            @festivalCount+=1
           else 
-            recordMailFailure(params[:event_id],@mail_params,contact.id,"blacklist")
+            recordMailFailure(params[:event_id],contact,"blacklist")
             @result = { :err=>"blacklisted", :entity=>appl,:type =>"F"}
             @results.push(@result)
             @festivalFailCount+=1;
           end
         rescue
-          recordMailFailure($!,@mail_params,contact.id)
+          recordMailFailure(params[:event_id],@mail_params,contact.id,$!)
           @result = { :err=>$!, :entity=>contact,:type =>"F"}
           @results.push(@result)
           @festivalFailCount+=1;

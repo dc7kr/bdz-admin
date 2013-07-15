@@ -1,0 +1,21 @@
+= form_for @contact_event do |f|
+  = f.inputs do
+    %tr
+      %td=f.label :event_type
+      %td=f.text_field :event_type
+    %tr
+      %td=f.label :event_date
+      %td=f.text_field :event_date
+    %tr
+      %td=f.label :event_id
+      %td=f.text_field :event_id
+    %tr
+      %td=f.label :contact_id
+      %td=f.text_field :contact_id
+    %tr
+      %td=f.label :comment
+      %td=f.text_field :comment
+    %tr
+      %td=f.label :filename
+      %td=f.text_field :filename
+

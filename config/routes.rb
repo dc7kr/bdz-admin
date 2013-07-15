@@ -1,5 +1,8 @@
 BDZAdmin::Application.routes.draw do
 
+  resources :contact_events
+
+
   resources :board_contacts
 
 

@@ -1,0 +1,11 @@
+.block
+  .secondary-navigation
+    = render :partial => 'nav'
+  .content
+    %h2.title
+      = t("common.edit")
+      = t('contact_event.s')
+    .inner
+      = form_for @contact_event do |f|
+        = render :partial => "form", :locals => {:f => f}
+- content_for :sidebar, render(:partial => 'sidebar')

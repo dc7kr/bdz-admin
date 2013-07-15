@@ -3,17 +3,17 @@
     %h2.title
       Mail "#{@mail_params[:subject]}" versandt. 
     .inner
-      Mail wurde erfolgreich an #{@orchCount} Orchester und #{@personCount} Einzelmitglieder gesendet.
+      Mail wurde erfolgreich an #{@orchCount} Orchester,  #{@personCount} Einzelmitglieder und #{@festivalCount} Festival-Bewerber gesendet.
 
       - if @results.size >0
         %h3 
-          Beim Versenden an #{@orchFailCount} Orchester und #{@personFailCount} Einzelmitglieder und #{@testFailCount} Test Adressen sind Fehler aufgetreten. 
+          Beim Versenden an #{@orchFailCount} Orchester, #{@personFailCount} Einzelmitglieder, #{@festivalFailCount} Festival-Bewerber und #{@testFailCount} Test Adressen sind Fehler aufgetreten. 
           %br
 
         %table.table
           %thead
             %th.first Typ
-            %th= t("orchestra.mglnr")
+            %th= t("orchestra.email")
             %th Fehler
           %tbody#results
             - @results.each do |result|
@@ -22,7 +22,7 @@
                 - if result[:type]== 'T' then
                   %td=result[:entity]
                 - else
-                  %td=link_to result[:entity].mglnr, result[:entity]
+                  %td=link_to result[:entity].email, result[:entity]
                 %td=result[:err]
       .actions-bar.wat-cf
         .actions
