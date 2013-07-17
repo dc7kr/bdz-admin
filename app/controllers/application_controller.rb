@@ -60,8 +60,9 @@ class ApplicationController < ActionController::Base
       end
 
 	  def log_error(exception)
-		message = "\n#{exception.class} (#{exception.message}):\n"
-		Rails.logger.warn(message)
+		  message = "\n#{exception.class} (#{exception.message}):\n"
+		  Rails.logger.warn(message)
+		  Rails.logger.warn(exception.to_s+"\n"+exception.backtrace.join("\n"))
 	  end
 
 
@@ -87,7 +88,7 @@ class ApplicationController < ActionController::Base
   end
 
   def render_error(exception)
-	@exception = exception
+    @exception = exception
     log_error(exception)
     respond_to do |format| 
       format.html { render :template => "/errors/error_500.html.erb", :layout => 'application', :status => 500 } 
