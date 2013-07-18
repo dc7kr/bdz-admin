@@ -1,6 +1,7 @@
 de:
   about:
     last_commits: "Letzte Änderungen"
+
   feature_request:
     p: Feature Requests
     s: Feature Request
@@ -741,6 +742,16 @@ de:
       truncate: "&hellip;"
   helpers:
     label:
+      member_event: &member_event_labels
+        event_type: Event-Typ
+        event_date: Event-Datum
+        event_types:
+          E: E-Mail
+          L: Brief
+          F: E-Mail-Fehler
+        filename: Dateiname
+      contact_event: 
+        <<: *member_event_labels
       festival_piece: &festival_piece_labels
         composer: Komponist
         title: Titel
@@ -822,3 +833,8 @@ de:
     create_festival_piece: "Stück hinzufügen"
   contact_person:
     <<: *contact_person_labels
+  contact_event: 
+    <<: *member_event_labels
+  member_event: 
+    <<: *member_event_labels
+

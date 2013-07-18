@@ -1,0 +1,11 @@
+%tr
+  %td= t("contact_event.event_types."+contact_event.event_type)
+  %td= l contact_event.event_date
+  %td= contact_event.event_id
+  %td= contact_event.contact_id
+  %td= contact_event.comment
+  %td= contact_event.filename
+  %td
+    = link_to_show contact_event
+    = link_to_edit contact_event
+    = link_to_delete contact_event

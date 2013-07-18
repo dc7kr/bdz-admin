@@ -2,28 +2,16 @@
 
 %table
   %tr
-    %th Event type
-    %th Event date
-    %th Event
-    %th Contact
-    %th Comment
-    %th Filename
+    %th=label :contact_event, :event_type
+    %th=label :contact_event, :event_date
+    %th=label :contact_event, :event
+    %th=label :contact, :s
+    %th=label :contact_event, :comment
+    %th=label :contact_event, :filename
     %th
     %th
     %th
 
-  - @contact_events.each do |contact_event|
-    %tr
-      %td= contact_event.event_type
-      %td= contact_event.event_date
-      %td= contact_event.event_id
-      %td= contact_event.contact_id
-      %td= contact_event.comment
-      %td= contact_event.filename
-      %td= link_to 'Show', contact_event
-      %td= link_to 'Edit', edit_contact_event_path(contact_event)
-      %td= link_to 'Destroy', contact_event, :method => :delete, :data => { :confirm => 'Are you sure?' }
+  = render @contact_events
 
-%br
 
-= link_to 'New Contact event', new_contact_event_path

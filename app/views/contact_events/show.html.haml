@@ -5,21 +5,21 @@
     .inner
       %table
         %tr
-          %td=f.label :event_type
-          %td=@contact_event.event_type
+          %td=label :member_event, :event_type
+          %td=t("member_event.event_types."+@contact_event.event_type)
         %tr
-          %td=f.label :event_date
+          %td=label :contact_event, :event_date
           %td=@contact_event.event_date
         %tr
-          %td=f.label :event_id
+          %td=label :contact_event, :event_id
           %td=@contact_event.event_id
         %tr
-          %td=f.label :contact_id
-          %td=@contact_event.contact_id
+          %td=label :contact, :p
+          %td=@contact_event.contact.fullname
         %tr
-          %td=f.label :comment
+          %td=label :contact_event, :comment
           %td=@contact_event.comment
         %tr
-          %td=f.label :filename
+          %td=label :contact_event, :filename
           %td=@contact_event.filename
 

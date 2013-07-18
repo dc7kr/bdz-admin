@@ -49,6 +49,13 @@ background-color:#ff0000;
 color:#ffffff;
 }*/
 
+td label {
+  font-weight:bold;
+  text-align:right;	
+  vertical-align:top;
+
+}
+
 td.label {
   font-weight:bold;
   text-align:right;	
