@@ -162,7 +162,7 @@ class CustomInfoMailController < AuthenticatedNonResourceController
             @festivalFailCount+=1;
           end
         rescue
-          recordMailFailure(params[:event_id],@mail_params,contact.id,$!)
+          recordMailFailure(params[:event_id],contact,$!)
           @result = { :err=>$!, :entity=>contact,:type =>"F"}
           @results.push(@result)
           @festivalFailCount+=1;
