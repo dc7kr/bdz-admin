@@ -18,7 +18,7 @@
           %tbody#results
             - @results.each do |result|
               %tr
-                %td=result[:type]
+                %td=t("member_event.event_types."+result[:type])
                 - if result[:type]== 'T' then
                   %td=result[:entity]
                 - else

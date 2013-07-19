@@ -153,11 +153,11 @@ class CustomInfoMailController < AuthenticatedNonResourceController
           if not is_mail_blacklisted?(contact.email) then
             CustomInfoMail.notify(contact.email,params[:email],@att_file,@att_data).deliver
 
-            recordMailSuccess(params[:event_id],appl, @mail_params[:subject])
+            recordMailSuccess(params[:event_id],contact, @mail_params[:subject])
             @festivalCount+=1
           else 
             recordMailFailure(params[:event_id],contact,"blacklist")
-            @result = { :err=>"blacklisted", :entity=>appl,:type =>"F"}
+            @result = { :err=>"blacklisted", :entity=>contact,:type =>"F"}
             @results.push(@result)
             @festivalFailCount+=1;
           end

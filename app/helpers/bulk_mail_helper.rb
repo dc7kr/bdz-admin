@@ -7,8 +7,8 @@ module BulkMailHelper
     Rails.logger.debug("Mail success  : "+entity.class.name )
     Rails.logger.debug("Festival class: "+FestivalApplication.class.name)
 
-    if ( entity.class.name == FestivalApplication.new.class.name ) then 
-      event = ContactEvent.newEmail(event_id,entity.contact_person.id,subject)
+    if ( entity.class.name == ContactPerson.new.class.name ) then 
+      event = ContactEvent.newEmail(event_id,entity.id,subject)
     else
       event = MemberEvent.newEmail(event_id,entity.id,subject)
     end
