@@ -10,22 +10,23 @@ class PersonMember < ActiveRecord::Base
   end
 
   def self.search(search)
-	if (search)
-		where('members.mglnr = ? or members.name like ?',"#{search}","%#{search}%")
-	else
-		scoped
-	end
+	  if (search)
+		  where('members.mglnr = ? or members.name like ?',"#{search}","%#{search}%")
+	  else
+		  scoped
+	  end
   end
 
   def fullname
-	member.fullname
+	  member.fullname
   end
+
   def letterCountry
-	member.letterCountry
+	  member.letterCountry
   end
 
   def countryCode
-	member.countryCode
+	  member.countryCode
   end
 
   def currentMagazines
@@ -33,38 +34,39 @@ class PersonMember < ActiveRecord::Base
   end
 
   comma :minimal do
-	mglnr
-	vorname
-	name
-	strasse
-	plz
-	ort
-	letterCountry
+	  mglnr
+	  vorname
+	  name
+	  strasse
+	  plz
+  	ort
+	  letterCountry
   end
+
   comma :magazine do
-	mglnr
-	vorname
-	name
+	  mglnr
+	  vorname
+	  name
     strasse
     plz
     ort
-	letterCountry
-	currentMagazines 'Zeitungen'
+	  letterCountry
+	  currentMagazines 'Zeitungen'
   end
 
   comma :lv do
-	mglnr
-	anrede
-	vorname
-	name
-	strasse
-	plz
-	ort
-	email
+	  mglnr
+	  anrede
+	  vorname
+	  name
+	  strasse
+	  plz
+	  ort
+	  email
   end
 
   def lvPart
-	tariff.amount*0.15
+	  tariff.amount*0.15
   end
 
   def address
@@ -72,25 +74,28 @@ class PersonMember < ActiveRecord::Base
   end
 
   def address_block
-	member.address_block+"\n"+
-	contact_info_block
-	
+	  member.address_block+"\n"+
+	  contact_info_block
   end
 
+  def is_direct_debit?
+    member.is_direct_debit?
+  end
 
   def contact_info
-	(telefon && telefon.length >0 ? "Tel: "+ telefon+", " :"" )+
-	(fax && fax.length >0 ? "Fax: "+ fax+", " :"" )+
-	(member.email ? member.email+", " : "") 
+	  (telefon && telefon.length >0 ? "Tel: "+ telefon+", " :"" )+
+	  (fax && fax.length >0 ? "Fax: "+ fax+", " :"" )+
+	  (member.email ? member.email+", " : "") 
   end
+
   def contact_info_block 
-	(telefonPrivat && telefonPrivat.length >0 ? "Tel: "+ telefonPrivat+", " :"" )+
-	(telefax && telefax.length >0 ? "Fax: "+ telefax+", " :"" )+
-	(member.email ? member.email+", " : "") 
+	  (telefonPrivat && telefonPrivat.length >0 ? "Tel: "+ telefonPrivat+", " :"" )+
+	  (telefax && telefax.length >0 ? "Fax: "+ telefax+", " :"" )+
+	  (member.email ? member.email+", " : "") 
   end
 
   def iban
-	member.iban
+	  member.iban
   end
 
   def self.with_zero_balance
