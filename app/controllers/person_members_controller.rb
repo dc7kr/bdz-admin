@@ -143,7 +143,7 @@ class PersonMembersController < AuthenticatedController
 	@result = Array.new
 
 	@person_members.each do |person_member|
-		if ( ! @ids.include?(person_member.member_id) && person_member.currentMagazines >0) then
+		if ( person_member.currentMagazines >0) then
 		  @csvrow = {
 			:mglnr=>person_member.mglnr,
 			:name=> '',

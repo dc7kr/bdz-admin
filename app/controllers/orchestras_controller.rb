@@ -60,12 +60,11 @@ class OrchestrasController < AuthenticatedController
 
 
   def magazine 
-
     @orchestras = Orchestra.with_zero_balance
 	  @result = Array.new
 
 	  @orchestras.each do |orchestra|
-		  if ( not @ids.include?(orchestra.id) && orchestra.lastReportSheet.calcZeitungen > 0) then
+		  if ( orchestra.lastReportSheet.calcZeitungen > 0) then
 
 			  mag_count=nil
 			  if ( orchestra.is_regular? ) then
