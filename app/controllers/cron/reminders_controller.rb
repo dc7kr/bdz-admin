@@ -55,11 +55,9 @@ class Cron::RemindersController < AuthenticatedNonResourceController
 
 	@users = User.where("role like ?", "%admin%")
     base_url = cron_downloads_url
-	invoices_url = base_url+"?year="+year+"&filename="+pdf_prefix+"-rechnung_merge.pdf"
-	dtaus_url = base_url+"?year="+year+"&filename="+dtausPrefix+"dtaus.zip"
-
+	  invoices_url = base_url+"?year="+year+"&filename="+pdf_prefix+"-mahnung_merge.pdf"
 	@users.each do |user| 
-		AdminNotifier.newinvoices_notification(user, invoices_url, dtaus_url).deliver
+		AdminNotifier.newreminders_notification(user, invoices_url, nil).deliver
    		puts 'sent to %s' % current_user.email
 	end
   end
