@@ -33,9 +33,9 @@ production:
 development:
   adapter: mysql2
   encoding: utf8
-  database: "***REMOVED***" #notenverzeichnis
+  database: "***REMOVED***_dev" #notenverzeichnis
   pool: 5
-  username: "***REMOVED***
+  username: "dbadm1802-46-dev"
   password: ***REMOVED***
 #  socket: /tmp/mysql.sock
   host: 88.198.56.112
