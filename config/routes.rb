@@ -79,6 +79,7 @@ BDZAdmin::Application.routes.draw do
   resources :festival_applications do
     collection do
       get :list
+      get :permitted
     end
     resources :festival_pieces
     end

@@ -18,6 +18,9 @@
       %td= f.label :num_players, :class => :label
       %td= f.number_field :num_players
     %tr
+      %td= f.label :permission, :class=> :label
+      %td= f.check_box :permission
+    %tr
       %td= f.label :contact_person, :class => :label
       %td
         =  fields_for(:contact_person, @festival_application.contact_person)  do |person_f|

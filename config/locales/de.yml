@@ -768,6 +768,8 @@ de:
         orchestra: Orchester
         orch_name: Name der Gruppe
         conductor: Dirigent
+        permission: "Zulassung zum Festival"
+        permission_granted: "zugelassen"
         num_players: "Anzahl Spieler"
         equipment: "Benötigte Ausrüstung"
         special_cast: "Spezielle Besetzung"

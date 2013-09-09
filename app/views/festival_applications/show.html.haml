@@ -4,6 +4,8 @@
   .content
     %h2.title
       = t("festival_application.s")
+      - if @festival_application.permission
+        (#{t('festival_application.permission_granted')})
     .inner
       %table
         %tr

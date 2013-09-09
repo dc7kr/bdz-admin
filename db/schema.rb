@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130715204312) do
+ActiveRecord::Schema.define(:version => 20130909144136) do
 
   create_table "Inserenten", :id => false, :force => true do |t|
     t.string  "Firmenname",    :limit => 35
@@ -142,11 +142,11 @@ ActiveRecord::Schema.define(:version => 20130715204312) do
     t.string   "event_type"
     t.datetime "event_date"
     t.string   "event_id"
-    t.integer  "contact_id"
+    t.integer  "contact_person_id"
     t.string   "comment"
     t.string   "filename"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
   end
 
   create_table "contact_people", :force => true do |t|
@@ -1415,6 +1415,7 @@ ActiveRecord::Schema.define(:version => 20130715204312) do
     t.datetime "updated_at",        :null => false
     t.string   "group_type"
     t.string   "uuid"
+    t.boolean  "permission"
   end
 
   create_table "festival_pieces", :force => true do |t|
