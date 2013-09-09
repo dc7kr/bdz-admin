@@ -12,6 +12,7 @@ class FestivalApplicationsPdf < Prawn::Document
   end
   
   def head(app)
+    text "#{@view.t('festival_application.s')} Nr. #{app.id}", size: 20, style: :bold
     text "#{app.orch_name} (#{@view.t('festival_application.group_types.'+app.group_type)})", size: 20, style: :bold
 	text "Herkunftsland: "+app.country.name, size:16
 	text "Dirigent: "+app.conductor

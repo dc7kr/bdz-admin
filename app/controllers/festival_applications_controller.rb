@@ -23,7 +23,7 @@ class FestivalApplicationsController < AuthenticatedController
 		send_data pdf.render, filename: "festival_applications_#{currDate}.pdf", type: "application/pdf", disposition: "inline"
 	  end
 	  format.ods do renderApplicationOds(@festival_applications,"/tmp/festival_applications.ods") 
-            send_file("/tmp/festival_applications.ods", :filename => "festival_applications"+Time.now.year.to_s+".ods", :type => "application/octet-stream")
+            send_file("/tmp/festival_applications.ods", :filename => "festival_permissions_"+Time.now.year.to_s+".ods", :type => "application/octet-stream")
 
 		end
 
@@ -42,7 +42,7 @@ class FestivalApplicationsController < AuthenticatedController
 		send_data pdf.render, filename: "festival_applications_#{currDate}.pdf", type: "application/pdf", disposition: "inline"
 	  end
 	  format.ods do renderApplicationOds(@festival_applications,"/tmp/festival_applications.ods") 
-            send_file("/tmp/festival_applications.ods", :filename => "festival_applications"+Time.now.year.to_s+".ods", :type => "application/octet-stream")
+            send_file("/tmp/festival_applications.ods", :filename => "festival_applications_"+Time.now.year.to_s+".ods", :type => "application/octet-stream")
 
 		end
 
@@ -139,25 +139,26 @@ class FestivalApplicationsController < AuthenticatedController
   end
 
   def renderApplicationOds(applications,filename)
-	germany = Country.find_by_name("Deutschland")
+	  germany = Country.find_by_name("Deutschland")
 
 	
 
 	ODF::Spreadsheet.file(filename) do
 				table "Festival Anmeldungen"  do
 					row {
+						cell I18n.t("common.number")
 						cell I18n.t("festival_application.group_type")
 						cell I18n.t("festival_application.orch_name")
 						cell I18n.t("festival_application.country_id")
 						cell I18n.t("festival_application.num_players")
-        				cell I18n.t("contact_person.salutation")
-				        cell I18n.t("contact_person.first_name")
-				        cell I18n.t("contact_person.last_name")
-				        cell I18n.t("contact_person.street")
-				        cell I18n.t("contact_person.zip")
-				        cell I18n.t("contact_person.city")
-				        cell I18n.t("contact_person.country_id")
-				        cell I18n.t("contact_person.email")
+        		cell I18n.t("contact_person.salutation")
+				    cell I18n.t("contact_person.first_name")
+				    cell I18n.t("contact_person.last_name")
+				    cell I18n.t("contact_person.street")
+				    cell I18n.t("contact_person.zip")
+				    cell I18n.t("contact_person.city")
+				    cell I18n.t("contact_person.country_id")
+				    cell I18n.t("contact_person.email")
 						cell I18n.t("festival_application.special_cast")
 						cell I18n.t("festival_application.equipment")
 						cell I18n.t("festival_piece.composer")
@@ -185,6 +186,7 @@ class FestivalApplicationsController < AuthenticatedController
 						end
 
 						row {
+							cell app.id
 							cell I18n.t("festival_application.group_types."+app.group_type)
 							cell app.orch_name
 							cell app.country.name
