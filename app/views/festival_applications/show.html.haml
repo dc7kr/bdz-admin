@@ -11,6 +11,10 @@
         %tr
           %td.label #{t("festival_application.country_id")}:
           %td= @festival_application.country ? @festival_application.country.name : t('common.none')
+        -if @festival_application.permission
+          %tr
+            %td.label=t("festival_application.festival_concert_id")
+            %td= @festival_application.festival_concert.label
         %tr
           %td.label #{t("festival_application.orch_name")}:
           %td= @festival_application.orch_name

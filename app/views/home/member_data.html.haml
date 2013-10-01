@@ -11,10 +11,4 @@
         %li= link_to "Mitgliederbericht", "/member_report"
         %li= link_to t('report_sheet.final'), final_report_sheets_path
         %li= link_to t('report_sheet.analysis'), analysis_report_sheets_path
-    .link-group
-      %h3 Festival
-      %ul.navigation
-        %li= link_to t('event_meal.title'), event_meals_path
-        %li= link_to t('event_card.title'), event_cards_path
-        %li= link_to t('festival_application.plural'), festival_applications_path
 - content_for :sidebar, render(:partial => 'sidebar')

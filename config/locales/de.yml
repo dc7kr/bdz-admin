@@ -54,6 +54,7 @@ de:
     public_data: Öffentliche Daten
     member_data: Mitgliedsdaten
     magazine_data: "Auftakt!"
+    festival_data: "Eurofestival"
     tasks: "Aufträge"
     events: "Ereignisse"
     reminders: "Mahnungen"
@@ -650,6 +651,7 @@ de:
   advertiser:
     s: Werbekunde
     p: Werbekunden
+    customer_number: Kundennummer
   magazine_advert:
     p: Werbebuchungen
     s: Werbebuchung
@@ -760,6 +762,8 @@ de:
         add_piece: "Stück hinzufügen"
         s: "Gemeldetes Stück"
         p: "Gemeldete Stücke"
+      advertiser:
+        customer_number: Kundennummer
       festival_application: &festival_app_labels
         plural: "Festival-Bewerbungen"
         singular: "Festival-Bewerbung"
@@ -770,6 +774,7 @@ de:
         orch_name: Name der Gruppe
         conductor: Dirigent
         permission: "Zulassung zum Festival"
+        festival_concert_id: "Konzert"
         permission_granted: "zugelassen"
         num_players: "Anzahl Spieler"
         equipment: "Benötigte Ausrüstung"
@@ -783,6 +788,11 @@ de:
           S: Solist
           D: Duo 
           T: Trio
+      festival_concert: &festival_concert_labels
+        p: Festival-Konzerte
+        s: Festival-Konzert
+        title: Titel
+        location: Veranstaltungsort
       contact_person: &contact_person_labels
         salutation: Anrede
         first_name: Vorname
@@ -831,6 +841,8 @@ de:
     step2_title: "Festival Bewerbung (Teil 2)"
     finalize_title: "Festival Bewerbung"
     confirm: "Vielen Dank für Ihre Festival-Bewerbung. Wir werden sie kontaktieren sobald Ihre Bewerbung ausgewertet wurde."
+  festival_concert: 
+    <<: *festival_concert_labels
   festival_piece:
     <<: *festival_piece_labels
     create_festival_piece: "Stück hinzufügen"

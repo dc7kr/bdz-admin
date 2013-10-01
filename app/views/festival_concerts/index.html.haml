@@ -1,0 +1,15 @@
+%h1 Listing festival_concerts
+
+%table
+  %tr
+    %th Location
+    %th Event time
+    %th Number
+    %th
+    %th
+    %th
+  = render @festival_concerts
+    
+%br
+
+= link_to 'New Festival concert', new_festival_concert_path

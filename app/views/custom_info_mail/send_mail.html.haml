@@ -3,11 +3,11 @@
     %h2.title
       Mail "#{@mail_params[:subject]}" versandt. 
     .inner
-      Mail wurde erfolgreich an #{@orchCount} Orchester,  #{@personCount} Einzelmitglieder und #{@festivalCount} Festival-Bewerber gesendet.
+      Mail wurde erfolgreich an #{@orchCount} Orchester,  #{@personCount} Einzelmitglieder, #{@festivalCount} Festival-Bewerber und #{@permittedCount} Festival-Teilnehmer gesendet.
 
       - if @results.size >0
         %h3 
-          Beim Versenden an #{@orchFailCount} Orchester, #{@personFailCount} Einzelmitglieder, #{@festivalFailCount} Festival-Bewerber und #{@testFailCount} Test Adressen sind Fehler aufgetreten. 
+          Beim Versenden an #{@orchFailCount} Orchester, #{@personFailCount} Einzelmitglieder, #{@festivalFailCount} Festival-Bewerber, #{@permittedFailCount} Festival-Teilnehmer und #{@testFailCount} Test Adressen sind Fehler aufgetreten. 
           %br
 
         %table.table

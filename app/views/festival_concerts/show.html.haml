@@ -1,0 +1,16 @@
+.block
+  .secondary-navigation
+    = render :partial=>'nav'
+  .content
+    .inner
+      %table
+        %tr
+          %td=t('festival_concert.number')
+          %td=@festival_concert.number
+        %tr
+          %td=t('festival_concert.location')
+          %td=@festival_concert.location
+        %tr
+          %td=t('festival_concert.event_time')
+          %td=@festival_concert.event_time
+

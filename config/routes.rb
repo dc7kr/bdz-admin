@@ -1,5 +1,8 @@
 BDZAdmin::Application.routes.draw do
 
+  resources :festival_concerts
+
+
   resources :contact_events
 
 
@@ -139,13 +142,13 @@ BDZAdmin::Application.routes.draw do
 
   match 'member_report' => 'member_report#index'
 
-  #entirely public 
   match 'home/member_data' => 'home#member_data'
   match 'home/reference_data' => 'home#reference_data'
   match 'home/admin_data' => 'home#admin_data'
   match 'home/public_data' => 'home#public_data'
   match 'home/landing_page' => 'home#landing_page'
   match 'home/magazine_data' => 'home#magazine_data'
+  match 'home/festival_data' => 'home#festival_data'
   match 'home/cron' => 'home#cron'
 
   match 'modify_pdf' => 'modify_pdf#index'

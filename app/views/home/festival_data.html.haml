@@ -1,0 +1,13 @@
+.content
+  .inner
+    .link-group
+      %h3 Musik
+      %ul.navigation
+        %li= link_to t('festival_application.p'), festival_applications_path
+        %li= link_to t('festival_concert.p'), festival_concerts_path
+    .link-group
+      %h3 Administration
+      %ul.navigation
+        %li= link_to t('event_meal.title'), event_meals_path
+        %li= link_to t('event_card.title'), event_cards_path
+- content_for :sidebar, render(:partial => 'sidebar.festival')

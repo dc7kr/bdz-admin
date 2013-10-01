@@ -21,6 +21,9 @@
       %td= f.label :permission, :class=> :label
       %td= f.check_box :permission
     %tr
+      %td= f.label :concert, :class => :label
+      %td= collection_select(:festival_application, :festival_concert_id, FestivalConcert.all, :id, :label) 
+    %tr
       %td= f.label :contact_person, :class => :label
       %td
         =  fields_for(:contact_person, @festival_application.contact_person)  do |person_f|

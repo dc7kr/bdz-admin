@@ -1,0 +1,18 @@
+= form_for @festival_concert do |f|
+  %table 
+    %tr
+      %td=f.label :number
+      %td=f.text_field :number
+    %tr
+      %td=f.label :title
+      %td=f.text_field :title
+    %tr
+      %td=f.label :location
+      %td=f.text_field :location
+    %tr
+      %td=f.label :event_time
+      %td=f.text_field :event_time
+
+  =submit_button()
+  %span.text_button_padding &nbsp;
+  = cancel_button()

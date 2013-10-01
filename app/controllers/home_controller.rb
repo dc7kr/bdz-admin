@@ -46,6 +46,14 @@ class HomeController < AuthenticatedNonResourceController
 	end
   end
 
+  def festival_data
+	@website_area = "festival_data"
+  	authorize! :index, FestivalConcert
+    respond_to do |format|
+      format.html
+	end
+  end
+
   def admin_data
   	authorize! :user, :destroy
     respond_to do |format|

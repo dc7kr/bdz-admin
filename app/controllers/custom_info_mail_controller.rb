@@ -1,6 +1,5 @@
 class CustomInfoMailController < AuthenticatedNonResourceController
 
-
   include BulkMailHelper
   include UploadHelper
 
@@ -58,6 +57,8 @@ class CustomInfoMailController < AuthenticatedNonResourceController
       test = true 
     elsif ( @grp == 'F') then
       festival = true
+    elsif ( @grp == 'P') then
+      permitted = true 
     end
 
     @testCount =0;
@@ -67,6 +68,8 @@ class CustomInfoMailController < AuthenticatedNonResourceController
 
     @festivalCount=0
     @festivalFailCount=0
+    @permittedCount=0
+    @permittedFailCount=0
     @personCount = 0;
     @personFailCount=0;
     @results =  Array.new
@@ -170,8 +173,33 @@ class CustomInfoMailController < AuthenticatedNonResourceController
       end
     end
 
+    if ( permitted ) then
+      @applicants = FestivalApplication.includes(:contact_person).where(:permission=>true)
+      @applicants.each do |appl|
+        contact = appl.contact_person
+        begin 
+          if not is_mail_blacklisted?(contact.email) then
+            CustomInfoMail.notify(contact.email,params[:email],@att_file,@att_data).deliver
+
+            recordMailSuccess(params[:event_id],contact, @mail_params[:subject])
+            @permittedCount+=1
+          else 
+            recordMailFailure(params[:event_id],contact,"blacklist")
+            @result = { :err=>"blacklisted", :entity=>contact,:type =>"F"}
+            @results.push(@result)
+            @permittedFailCount+=1;
+          end
+        rescue
+          recordMailFailure(params[:event_id],contact,$!)
+          @result = { :err=>$!, :entity=>contact,:type =>"F"}
+          @results.push(@result)
+          @permittedFailCount+=1;
+        end
+      end
+    end
+
     respond_to do |format|
      format.html
-  end
+    end
   end
 end

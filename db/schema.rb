@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130909144136) do
+ActiveRecord::Schema.define(:version => 20130924161508) do
 
   create_table "Inserenten", :id => false, :force => true do |t|
     t.string  "Firmenname",    :limit => 35
@@ -26,11 +26,12 @@ ActiveRecord::Schema.define(:version => 20130909144136) do
 
   create_table "advertisers", :force => true do |t|
     t.integer  "contact_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
     t.string   "konto"
     t.string   "iban"
     t.string   "blz"
+    t.string   "customer_number"
   end
 
   add_index "advertisers", ["contact_id"], :name => "contact_id"
@@ -1394,7 +1395,7 @@ ActiveRecord::Schema.define(:version => 20130909144136) do
 
   create_table "feature_requests", :force => true do |t|
     t.string   "title"
-    t.string   "description"
+    t.text     "description"
     t.integer  "priority"
     t.datetime "created_at",                   :null => false
     t.datetime "updated_at",                   :null => false
@@ -1411,11 +1412,21 @@ ActiveRecord::Schema.define(:version => 20130909144136) do
     t.text     "equipment"
     t.text     "special_cast"
     t.integer  "contact_person_id"
-    t.datetime "created_at",        :null => false
-    t.datetime "updated_at",        :null => false
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
     t.string   "group_type"
     t.string   "uuid"
     t.boolean  "permission"
+    t.integer  "festival_concert_id"
+  end
+
+  create_table "festival_concerts", :force => true do |t|
+    t.string   "location"
+    t.datetime "event_time"
+    t.integer  "number"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.string   "title"
   end
 
   create_table "festival_pieces", :force => true do |t|

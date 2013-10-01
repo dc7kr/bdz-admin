@@ -1,5 +1,5 @@
 class FestivalApplication < ActiveRecord::Base
-  attr_accessible :conductor, :contact_person, :equipment, :country_id, :num_players, :orch_name, :orchestra, :special_cast, :group_type,:permission
+  attr_accessible :conductor, :contact_person, :equipment, :country_id, :num_players, :orch_name, :orchestra, :special_cast, :group_type,:permission,:festival_concert_id
   has_many :festival_pieces
 
   accepts_nested_attributes_for :festival_pieces, :allow_destroy => :true
@@ -8,5 +8,6 @@ class FestivalApplication < ActiveRecord::Base
   belongs_to :contact_person
   belongs_to :country
   belongs_to :orchestra
+  belongs_to :festival_concert
 
 end
