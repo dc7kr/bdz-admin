@@ -14,7 +14,11 @@
         -if @festival_application.permission
           %tr
             %td.label=t("festival_application.festival_concert_id")
-            %td= @festival_application.festival_concert.label
+            %td
+              -if @festival_app.ication.festival_concert then
+                = @festival_application.festival_concert.label
+              -else
+                keine Zuweisung
         %tr
           %td.label #{t("festival_application.orch_name")}:
           %td= @festival_application.orch_name
