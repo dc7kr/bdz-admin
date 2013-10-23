@@ -1,8 +1,11 @@
 %tr
   %td= festival_concert.number
+  %td= festival_concert.title
   %td= festival_concert.location
-  %td= festival_concert.event_time
-  %td= link_to_show festival_concert
-  %td= link_to_edit festival_concert
-  %td= link_to_delete festival_concert
+  %td= l festival_concert.event_time
+  %td= format_bool(festival_concert.outdoor)
+  %td
+    = link_to_show festival_concert
+    = link_to_edit festival_concert
+    = link_to_delete festival_concert
 

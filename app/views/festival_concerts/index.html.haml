@@ -1,15 +1,21 @@
-%h1 Listing festival_concerts
+.block
+  .secondary-navigation
+    =render :partial=>'nav'
+  .content
+    %h2.title
+      = t("common.all")
+      = t("festival_concert.p")
+    .inner
+      %table
+        %tr
+          %th=t("common.number")
+          %th=t("festival_concert.title")
+          %th=t("festival_concert.location")
+          %th=t("festival_concert.event_time")
+          %th=t("festival_concert.outdoor")
+          %th
 
-%table
-  %tr
-    %th Location
-    %th Event time
-    %th Number
-    %th
-    %th
-    %th
-  = render @festival_concerts
-    
-%br
+        = render @festival_concerts
+- content_for :sidebar, render(:partial => 'sidebar')
 
-= link_to 'New Festival concert', new_festival_concert_path
+

@@ -788,11 +788,14 @@ de:
           S: Solist
           D: Duo 
           T: Trio
+        rehearsal_time: "Einspiel-Beginn"
       festival_concert: &festival_concert_labels
         p: Festival-Konzerte
         s: Festival-Konzert
         title: Titel
         location: Veranstaltungsort
+        event_time: Veranstaltungszeit
+        outdoor: "Open-Air Veranstaltung"
       contact_person: &contact_person_labels
         salutation: Anrede
         first_name: Vorname
