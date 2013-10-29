@@ -94,6 +94,6 @@ class Prices
 	end
 
   def self.loZtgCount
-		return  BDZ_SETTINGS['tariff']['loZtgCount'].to_f
+		return  BDZ_SETTINGS['tariff']['loZtgCount'].to_i
 	end
 end
