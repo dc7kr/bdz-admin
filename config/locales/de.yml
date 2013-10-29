@@ -77,6 +77,7 @@ de:
     up: Eine Ebene höher
     inactive: Inaktiv
     reports: Berichte
+    country_code: "Ländercode"
     salutation:
       M: Herr
       W: Frau
