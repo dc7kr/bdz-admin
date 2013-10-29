@@ -364,6 +364,7 @@ de:
     zip: PLZ
     kuendigungErfasst: Kündigung erfasst
     comment: Bemerkung
+    fullname: Name
 
   person_member:
     s: Einzelmitglied
@@ -394,6 +395,7 @@ de:
     search: "Suche nach Mitgliedsnummer oder Teil des Orchesternamens"
     update_success: "Orchester wurde erfolgreich aktualisiert."
     orchName: Orchestername
+    orch_name: Orchestername
     orch_type: Orchestertyp
     anrede: Anrede
     vorname: Vorname
