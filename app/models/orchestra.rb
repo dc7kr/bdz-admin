@@ -168,8 +168,9 @@ class Orchestra < ActiveRecord::Base
   end
 
   def is_direct_debit?
-	member.is_direct_debit?
+    member.is_direct_debit?
   end
+
   def has_notify_event?(event_id)
 	member.has_event?(['E','L'],event_id)
   end
@@ -192,6 +193,6 @@ class Orchestra < ActiveRecord::Base
 	    end
 	  end
 	
-	  Orchestra.includes([:member]).where("NOT (member_id  in (?) )",ids)
+	  Orchestra.includes([:member,:report_sheets]).where("NOT (member_id  in (?) )",ids)
   end
 end

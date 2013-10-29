@@ -67,10 +67,10 @@ class OrchestrasController < AuthenticatedController
 		  if ( orchestra.lastReportSheet.calcZeitungen > 0) then
 
 			  mag_count=nil
-			  if ( orchestra.is_regular? ) then
+			  if ( orchestra.is_regular? or orchestra.is_lorch? ) then
 				  mag_count = orchestra.currentMagazines
 			  else
-				  mag_count = 2
+				  mag_count = BDZ_SETTINGS["tariff"]["koopZtgCount"].to_i
 			  end
 		  @csvrow = {:name=> orchestra.orchName,
 			:mglnr=>orchestra.mglnr,

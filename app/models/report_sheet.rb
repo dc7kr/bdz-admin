@@ -1,5 +1,23 @@
 class ReportSheet < ActiveRecord::Base
 
+  validates :adult, presence: true
+  validates :adult_ens, presence: true
+  validates :azubi, presence: true
+  validates :chamber_ens, presence: true
+  validates :child_ens, presence: true
+  validates :children, presence: true
+  validates :passive, presence: true
+  validates :senior, presence: true
+  validates :senior_ens, presence: true
+  validates :teens, presence: true
+  validates :uv, presence: true
+  validates :youth, presence: true
+  validates :youth_ens, presence: true
+  validates :zusatz_uv, presence: true
+  validates :zusatz_ztg, presence: true
+
+
+
 	scope :final, lambda { |year| where('year = ? and orchestra_id is not null', year) }
 	scope :not_final, where(:orchestra_id=> nil)
 	belongs_to :orchestra
@@ -59,7 +77,7 @@ class ReportSheet < ActiveRecord::Base
 
 
     def report_date_str=(newval)
-		Date.parse(newval)
+  		Date.parse(newval)
     end
 
     def report_date_str
@@ -148,7 +166,7 @@ class ReportSheet < ActiveRecord::Base
 
 	def calcZeitungen
 		if (orchestra.orch_type == 'L' ) then
-			return 0
+			return Prices.loZtgCount
 		end
 		@ztg = (calcGemaCount*Prices.ztgRate).ceil
 		if ( korr_ztg != nil ) then

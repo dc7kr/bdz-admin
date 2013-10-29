@@ -92,4 +92,8 @@ class Prices
   	def self.ztgRate
 		return  BDZ_SETTINGS['tariff']['ztgRate'].to_f
 	end
+
+  def self.loZtgCount
+		return  BDZ_SETTINGS['tariff']['loZtgCount'].to_f
+	end
 end
