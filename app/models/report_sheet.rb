@@ -10,7 +10,7 @@ class ReportSheet < ActiveRecord::Base
   validates :senior, presence: true
   validates :senior_ens, presence: true
   validates :teens, presence: true
-  validates :uv, presence: true
+  validates_inclusion_of :uv, :in => [true,false]
   validates :youth, presence: true
   validates :youth_ens, presence: true
   validates :zusatz_uv, presence: true
@@ -30,26 +30,26 @@ class ReportSheet < ActiveRecord::Base
 	def self.age_categories
 		@@age_categories = ["C","T","Y","A","S"]
 	end
+
 	def init_empty
-		self.adult=0
-		self.adult_ens=0
-		self.azubi=0
-		self.chamber_ens=0
-		self.child_ens=0
-		self.children=0
-		self.korr_ztg=0
-		self.orchestra_id=0
-		self.other_ens=0
-		self.passive=0
-		self.senior=0
-		self.senior_ens=0
-		self.teens=0
-		self.token=0
-		self.uv=0
-		self.youth=0
-		self.youth_ens=0
-		self.zusatz_uv=0
-		self.zusatz_ztg=0
+		self.adult ||=0 
+		self.adult_ens ||=0
+		self.azubi ||=0
+		self.chamber_ens ||=0
+		self.child_ens ||=0
+		self.children ||=0
+		self.korr_ztg ||=0
+		self.other_ens ||=0
+		self.passive ||=0
+		self.senior ||=0
+		self.senior_ens ||=0
+		self.teens ||=0
+		self.token ||=0
+		if self.uv.nil? then self.uv=false else logger.debug "UV was not nil" end
+		self.youth ||=0
+		self.youth_ens ||=0
+		self.zusatz_uv ||=0
+		self.zusatz_ztg ||=0
 	end
 
 	def self.for_year(year)
@@ -190,6 +190,9 @@ class ReportSheet < ActiveRecord::Base
 
     str
    end
+
+
+
 
 #	TODO: def scoped for easier retrieval!
 #   def orchestras 

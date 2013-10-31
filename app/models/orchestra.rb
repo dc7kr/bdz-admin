@@ -44,9 +44,10 @@ class Orchestra < ActiveRecord::Base
   end
 
   def lastReportSheet
-	@reportSheets = ReportSheet.where('orchestra_id = ?',id).order("year desc")
-	return @reportSheets[0]
+	  @reportSheets = ReportSheet.where('orchestra_id = ?',id).order("year desc")
+	  return @reportSheets[0]
   end
+
   def currentMagazines
 	  if ( orch_type=='K') then
 		  return 2;

@@ -43,6 +43,9 @@
     %tr
       %td= f.label :invoiced, t("report_sheet.invoiced")
       %td= f.check_box :invoiced,:disabled=>true
+    %tr
+      %td= f.label :generated
+      %td= f.check_box :generated, :disabled=>true
   %h3 Ensembles
   %table
     %tr
@@ -63,6 +66,11 @@
     %tr
       %td= t("report_sheet.other_ens")
       %td= f.number_field :other_ens
+
+  %table
+    %tr
+      %td= f.label :comment
+      %td= f.text_area :comment
   .actions
     = f.submit t("common.save")
     = cancel_button()

@@ -104,5 +104,9 @@
         %tr
           %td{:class =>'label',:colspan=>4}=t("report_sheet.invsum")
           %td.sum= format_currency(@report_sheet.calcInvoice,'€')
+
+        %tr
+          %td=t("report_sheet.generated")
+          %td= @report_sheet.generated
   
 - content_for :sidebar, render(:partial => 'sidebar')

@@ -7,13 +7,19 @@ class ReportSheetsController < AuthenticatedController
   # GET /report_sheets.json
   def index
 
-	if (params[:orchestra_id]) then
+	  if (params[:orchestra_id]) then
 	    @report_sheets = ReportSheet.find_all_by_orchestra_id(params[:orchestra_id])
+      thisYear = Time.now.year
+      @report_sheets.each do |rs|
+          if rs.year == thisYear then
+            @has_current_report_sheet = true
+          end
+      end
     	@orchestra = Orchestra.find_by_member_id(params[:orchestra_id])
-	else 
-		@curYear = Time.now.year
-		@report_sheets = ReportSheet.joins(:orchestra => :member).order('members.mglnr').find_all_by_year(@curYear)
-	end
+	  else 
+		  @curYear = Time.now.year
+		  @report_sheets = ReportSheet.joins(:orchestra => :member).order('members.mglnr').find_all_by_year(@curYear)
+	  end
 
     respond_to do |format|
 	  format.js
@@ -22,8 +28,48 @@ class ReportSheetsController < AuthenticatedController
     end
   end
 
+  def copy_from_last_year
+    @orchestra = Orchestra.find_by_member_id(params[:orchestra_id])
+
+    @curYear = Time.now.year
+    @prevYear = @curYear-1
+
+    @prev = ReportSheet.where(:year=>@prevYear,:orchestra_id=>params[:orchestra_id]).first
+
+    logger.debug "PREV Sheet ID: "+@prev.id.to_s
+
+    @report_sheet = @prev.dup
+
+    @report_sheet.year = Time.now.year
+    @report_sheet.report_date = Time.now	
+    @report_sheet.id=nil
+    @report_sheet.init_empty
+    @report_sheet.generated=true
+    @report_sheet.comment= t("report_sheet.data_from_last_year")
+  
+
+    if  not @report_sheet.valid? then
+      @report_sheet.errors.each do |e|
+      logger.warn "Invalid: "+e.to_s+":"+@report_sheet.errors[e].to_s
+     end
+    end
+
+    logger.debug("UV: "+@report_sheet.uv.to_s)
+
+    respond_to do |format|
+        if @report_sheet.save
+          format.html { redirect_to orchestra_report_sheet_path(@report_sheet.orchestra,@report_sheet), :notice => t('report_sheet.create_success') }
+        else
+          logger.error("ERROR: could not save report sheet")
+        end
+        logger.info ("ID is: "+@report_sheet.id.to_s)
+    end
+          
+  end
+
   def final
-    @final = ReportSheet.final(2013)
+    @curYear = Time.now.year
+    @final = ReportSheet.final(@curYear)
 
     respond_to do |format|
 	  format.js
@@ -69,9 +115,10 @@ class ReportSheetsController < AuthenticatedController
   def new
     @orchestra = Orchestra.find_by_member_id(params[:orchestra_id])
     @report_sheet = ReportSheet.new
-	@report_sheet.orchestra = @orchestra
-	@report_sheet.year = Time.now.year
-	@report_sheet.report_date = Time.now
+    @report_sheet.init_empty
+	  @report_sheet.orchestra = @orchestra
+	  @report_sheet.year = Time.now.year
+	  @report_sheet.report_date = Time.now
 
 
     respond_to do |format|
