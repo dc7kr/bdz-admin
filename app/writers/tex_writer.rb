@@ -186,6 +186,10 @@ class TexWriter
 			if ( reportsheet.uv ) then
 				writeTariffComponent(f,reportsheet.calcUvCount,Prices.uvRate, 'Unfallversicherung')
 			end
+
+      if ( reportsheet.delayed? ) then
+        writeTariffComponent(f,1,Prices.delayFee, 'Säumniszuschlag')
+      end
 		}
 	end
 

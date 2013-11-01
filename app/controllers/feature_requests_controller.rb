@@ -10,6 +10,15 @@ class FeatureRequestsController < AuthenticatedController
     end
   end
 
+  def open
+    @feature_requests = FeatureRequest.order([:priority,:title]).where("status <> 'D'");
+
+    respond_to do |format|
+      format.html { render "index" }# index.html.erb
+      format.json { render json: @feature_requests }
+    end
+  end
+
   # GET /feature_requests/1
   # GET /feature_requests/1.json
   def show

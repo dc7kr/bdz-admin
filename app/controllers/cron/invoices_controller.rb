@@ -67,6 +67,8 @@ class Cron::InvoicesController < AuthenticatedNonResourceController
 		@dw.writeDtausHeader(true)
 
 		@person_members.each do |person|
+      next if ( person.tariff.amount == 0 )
+
 			@tw.write(person,year)
 			@tw.writePersonTariff(person)
 			@cur_year = Time.now.year
@@ -88,7 +90,7 @@ class Cron::InvoicesController < AuthenticatedNonResourceController
 	}
 
 	@invoice_type = "rechnung-em"
-	system("/opt/bdz-rechnung/bin/merge_pdfs.sh "+@invoice_type)
+	system("/opt/bdz-rechnung/bin/merge_pdfs.sh rechnung "+@invoice_type)
 	@dw.genDtaus()
 	@tw.moveGeneratedFiles(@dw.datePrefix)
     send_mail(@dw.datePrefix, @invoice_type)
@@ -131,7 +133,7 @@ class Cron::InvoicesController < AuthenticatedNonResourceController
 	}
 
 	@invoice_type = "rechnung"
-	system("/opt/bdz-rechnung/bin/merge_pdfs.sh "+@invoice_type)
+	system("/opt/bdz-rechnung/bin/merge_pdfs.sh rechnung "+@invoice_type)
 	@dw.genDtaus()
 	@tw.moveGeneratedFiles(@dw.datePrefix)
     send_mail(@dw.datePrefix, @invoice_type)
@@ -156,7 +158,7 @@ class Cron::InvoicesController < AuthenticatedNonResourceController
 
 	@users.each do |user| 
 		AdminNotifier.newinvoices_notification(user, invoices_url, dtaus_url,@current_user).deliver
-   		puts 'sent to %s' % current_user.email
+   		logger.info 'sent to %s' % user.email
 	end
   end
 

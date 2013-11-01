@@ -13,7 +13,7 @@ class Cron::RemindersController < AuthenticatedNonResourceController
 		system("/opt/bdz-rechnung/bin/mahnung.meldebogen.sh "+String(orch.mglnr))
 	end
 
-	system("/opt/bdz-rechnung/bin/merge_pdfs.sh mahnung-meldebogen")
+	system("/opt/bdz-rechnung/bin/merge_pdfs.sh mahnung mahnung-meldebogen")
 
 	render :text => " OK."
   end
@@ -42,7 +42,7 @@ class Cron::RemindersController < AuthenticatedNonResourceController
 		system("/opt/bdz-rechnung/bin/mahnung.sh "+String(person.mglnr))
 	end
 
-	system("/opt/bdz-rechnung/bin/merge_pdfs.sh mahnung")
+	system("/opt/bdz-rechnung/bin/merge_pdfs.sh mahnung mahnung")
 
 	send_mail
 
@@ -55,9 +55,9 @@ class Cron::RemindersController < AuthenticatedNonResourceController
 
 	@users = User.where("role like ?", "%admin%")
     base_url = cron_downloads_url
-	  invoices_url = base_url+"?year="+year+"&filename="+pdf_prefix+"-mahnung_merge.pdf"
+	  reminders_url = base_url+"?year="+year+"&filename="+pdf_prefix+"-mahnung_merge.pdf"
 	@users.each do |user| 
-		AdminNotifier.newreminders_notification(user, invoices_url, current_user).deliver
+		AdminNotifier.newreminders_notification(user, reminders_url, current_user).deliver
    		puts 'sent to %s' % current_user.email
 	end
   end

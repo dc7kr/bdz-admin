@@ -1,6 +1,7 @@
 %ul.wat-cf
-  %li{ :class => 'first'}= link_to_up_path t("common.up"), home_member_data_path
+  %li{ :class => 'first'}= link_to_up_path t("common.up"),about_path 
   %li{ :class => tabActiveClass(@current_action,'index','first')}= link_to "#{t("common.list", :default => "List")}", feature_requests_path
+  %li{ :class => tabActiveClass(@current_action,'open',nil)}= link_to t("feature_request.open"), feature_requests_path
   -if (@feature_request and @feature_request.id != nil ) then
     %li{ :class => tabActiveClass(@current_action,'show',nil)}= link_to t("common.show"), @feature_request
     %li{ :class => tabActiveClass(@current_action,'edit',nil)}= link_to t("common.edit"), edit_feature_request_path(@feature_request)
