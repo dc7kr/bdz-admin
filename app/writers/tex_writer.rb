@@ -188,7 +188,7 @@ class TexWriter
 			end
 
       if ( reportsheet.delayed? ) then
-        writeTariffComponent(f,1,Prices.delayFee, I18n.t('report_sheet.delay_fee')
+        writeTariffComponent(f,1,Prices.delayFee, I18n.t('report_sheet.delay_fee'))
       end
 		}
 	end
