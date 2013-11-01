@@ -469,6 +469,8 @@ de:
     title: Meldebogen
     title_p: Meldebögen
     create_success: Meldebogen erfolgreich angelegt
+    data_from_last_year: Automatische Datenübernahme aus Vorjahr
+    delay_fee: "Säumniszuschlag"
     children_col: "<14"
     teens_col: "15-18"
     youth_col: "19-27"
@@ -649,6 +651,9 @@ de:
          name: Name
       regional_organization:
         name: LV-Name
+      report_sheet:
+        generated: Generiert
+        comment: Kommentar
   member_account:
     balance: Saldo
   advertiser:
@@ -832,6 +837,8 @@ de:
         email: E-Mail
         count: Anzahl
 
+    report_sheet:
+      generated: Generiert2
     page_entries_info:
       one_page:
         display_entries:

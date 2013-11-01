@@ -34,7 +34,7 @@ BDZAdmin::Application.configure do
   config.assets.compress = false
 
   # Expands the lines which load the assets
-  #config.assets.debug = true
+  config.assets.debug = true
 
   config.action_mailer.default_url_options = { :host =>'admin-dev.bdz-online.de' }
   config.action_mailer.delivery_method = :smtp
@@ -46,8 +46,12 @@ BDZAdmin::Application.configure do
   :password             => '***REMOVED***',
   :authentication       => 'plain',
   :enable_starttls_auto => true  }
-config.action_mailer.raise_delivery_errors = true
-config.action_mailer.perform_deliveries = true
+
+  
+  #
+  # this disabled Mail sending entirely when set to false !!!
+  #
+  config.action_mailer.perform_deliveries = false
 
   #config.action_controller.relative_url_root = "/dev"
 

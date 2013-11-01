@@ -1,20 +1,24 @@
 BDZAdmin::Application.routes.draw do
 
   resources :festival_concerts
-
-
   resources :contact_events
-
-
   resources :board_contacts
-
-
-  resources :feature_requests
-
-
   resources :subscribers
 
+  resources :feature_requests do
+    collection do 
+      get :open
+    end
+  end
 
+  resources :calendar_sync do
+    collection do
+      get :upload
+    end
+  end
+
+
+  # MAGAZINE
   resources :magazine_samplings do
     collection do
       get :print_list
@@ -30,12 +34,6 @@ BDZAdmin::Application.routes.draw do
     end
   end
   resources :advertisers
-
-  resources :calendar_sync do
-    collection do
-      get :upload
-    end
-  end
 
   resources :mgl, :controller => "member_area"
   # BEGIN member namespace
@@ -191,32 +189,34 @@ BDZAdmin::Application.routes.draw do
 #confidential
 #  resources :users
   resources :report_sheets do
-  collection do 
-    get 'payed'
-    get 'final'
-    get 'not_final'
-    get 'analysis'
-  end
+    collection do 
+      get 'payed'
+      get 'final'
+      get 'not_final'
+      get 'analysis'
+    end
   end
 
   resources :person_members do
-  resources :member_events do
-    member do
-      get 'download'
+    resources :member_events do
+      member do
+        get 'download'
+      end
     end
-  end
 
     resources :member_account_bookings do
-    member do 
-      get 'download'
+      member do 
+        get 'download'
+      end
     end
+
+    # person member collections
+    collection do 
+      get :nopayment
+      get :notinvoiced
+      get :magazine
+      get :addresses
     end
-  collection do 
-    get :nopayment
-    get :notinvoiced
-        get :magazine
-    get :addresses
-  end
   end
   
   resources :orchestras do
@@ -227,48 +227,56 @@ BDZAdmin::Application.routes.draw do
 
     resources :uploaded_files
 
-    resources :member_account_bookings do
-    member do 
-      get 'download'
-    end
-    end
-  resources :member_events do
-    member do
-      get 'download'  
-    end
-  end
-
-  resources :orchestra_members do
-    collection do 
-      get 'delete_all'
-      get 'check_double'
-    end
-    member do
-      get 'exchange'
-    end
-  end
-
-  resources :orchestra_contacts
     resources :report_sheets do 
-    member do 
-      get :update_double_members
+      collection do
+        get :copy_from_last_year
+      end
     end
+
+    resources :member_account_bookings do
+      member do 
+        get 'download'
+      end
+    end
+    resources :member_events do
+      member do
+        get 'download'  
+      end
+    end
+
+    resources :orchestra_members do
+      collection do 
+        get 'delete_all'
+        get 'check_double'
+      end
+      member do
+        get 'exchange'
+      end
+    end
+
+    resources :orchestra_contacts
+    resources :report_sheets do 
+      member do 
+        get :update_double_members
+      end
     end
     resources :distinctions do
-    member do
-      get :gen_invoice
+      member do
+        get :gen_invoice
+      end
     end
+    collection do 
+      get :noreport
+      get :nopayment
+      get :notinvoiced
+      get :gema
+      get :magazine
+      get :addresses
+      get :notyetemailed
+    end
+    
   end
-  collection do 
-    get :noreport
-    get :nopayment
-    get :notinvoiced
-        get :gema
-        get :magazine
-    get :addresses
-    get :notyetemailed
-  end
-  end
+  # ORCHESTRA END
 
   # reports
   namespace :reports do
