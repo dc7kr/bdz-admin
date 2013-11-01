@@ -1,6 +1,10 @@
 %tr
   -if @orchestra
-    %td=report_sheet.year
+    %td
+      - if report_sheet.generated then
+        (#{report_sheet.year})
+      -else
+        =report_sheet.year
   -else
     %td=report_sheet.orchestra.mglnr
   %td=report_sheet.children 

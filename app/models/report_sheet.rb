@@ -1,5 +1,6 @@
 class ReportSheet < ActiveRecord::Base
 
+  validates :report_date, presence: true
   validates :adult, presence: true
   validates :adult_ens, presence: true
   validates :azubi, presence: true
@@ -75,16 +76,15 @@ class ReportSheet < ActiveRecord::Base
 		return @report_sheet
 	end
 
-
     def report_date_str=(newval)
-  		Date.parse(newval)
+  		self.report_date = Date.parse_with_i18n(newval)
     end
 
     def report_date_str
-	  if report_date then
+	    if report_date then
 	      I18n.l(report_date)
-	  else
-			""
+	    else
+			  ""
       end
     end
 
@@ -157,7 +157,13 @@ class ReportSheet < ActiveRecord::Base
 	end
 
 	def calcInvoice
-		return calcUV+calcBeitrag
+
+    sum = calcUV+calcBeitrag
+
+    if delayed?
+      sum+=Prices.delayFee
+    end
+    return sum
 	end
 
 	def calcLvPart
@@ -190,6 +196,10 @@ class ReportSheet < ActiveRecord::Base
 
     str
    end
+
+  def delayed?
+    return report_date.month > 1
+  end
 
 
 

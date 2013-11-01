@@ -10,8 +10,8 @@ class Prices
 		return BDZ_SETTINGS['fees']['mgebuehr2']
 	end
 
-	def self.vzuschlag
-		return BDZ_SETTINGS['fees']['mgebuehr2']
+	def self.delayFee
+		return BDZ_SETTINGS['fees']['saeumnis_zuschlag']
 	end
 
 	# distinctions

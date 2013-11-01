@@ -154,6 +154,7 @@ class ReportSheetsController < AuthenticatedController
   def update
     @report_sheet = ReportSheet.includes(:orchestra).find(params[:id])
 
+    logger.debug params[:report_sheet].to_s
     respond_to do |format|
       if @report_sheet.update_attributes(params[:report_sheet])
         format.html { redirect_to orchestra_report_sheet_path(@report_sheet.orchestra,@report_sheet), :notice => I18n.t('report_sheet.title')+' '+t('common.update_success') }

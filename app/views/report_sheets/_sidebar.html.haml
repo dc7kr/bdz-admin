@@ -1,7 +1,7 @@
 =render :partial=>'orchestras/search'
-.block
-  - if not @has_current_report_sheet then
+- if not @has_current_report_sheet then
+  .block
     %h3 Automatisierung
     %ul.navigation
       %li
-        =link_to "Datenübernahme as Vorjahr", copy_from_last_year_orchestra_report_sheets_path( @orchestra ) 
+        =link_to "Datenübernahme aus Vorjahr", copy_from_last_year_orchestra_report_sheets_path( @orchestra ) 
