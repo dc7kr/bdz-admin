@@ -1,6 +1,8 @@
 class OrchestraMembersController < AuthenticatedController
 
   helper_method :sort_column, :sort_direction
+  
+  include ReportSheetUploadHelper
 
   # GET /orchestra_members
   # GET /orchestra_members.json
@@ -144,6 +146,38 @@ class OrchestraMembersController < AuthenticatedController
     respond_to do |format|
       format.html { redirect_to orchestra_orchestra_members_url(params[:orchestra_id]) }
       format.json { head :no_content }
+    end
+  end
+
+  # POST
+  def upload
+    @orchestra = Orchestra.find(params[:orchestra_id])
+    datafile = params[:datafile]
+
+    prefix = @orchestra.mglnr.to_s+"_"+Time.now.year.to_s+"_"
+
+    if (datafile == nil ) then
+      redirect_to orchestra_orchestra_members_upload_path(@orchestra), :flash => { :error => t('upload.no_file_selected') }
+      return
+    end
+
+    uploaded_file = DataFile.save(prefix, "/tmp",params[:datafile])
+
+
+    if ( datafile != nil) then
+      @att_file = datafile.original_filename
+
+      doc = open_report_spreadsheet(@att_file,uploaded_file)
+      if ( doc == nil ) then
+        redirect_to orchestra_orchestra_members_path(@orchestra), :flash => { :error => t('upload.invalid_upload') }
+      else
+        read_report(doc,@orchestra)
+        if ( @error_count > 0 ) then
+          redirect_to orchestra_orchestra_members_path(@orchestra), :flash => { :warning=> t('orchestra.report_sheet_upload_warning',:error => @error_count,:success => @success_count) }
+        else
+          redirect_to orchestra_orchestra_members_path(@orchestra), :flash => { :notice=> t('orchestra.report_sheet_upload_success',:success => @success_count) }
+        end
+      end
     end
   end
 

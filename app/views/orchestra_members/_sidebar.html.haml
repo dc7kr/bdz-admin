@@ -1,0 +1,16 @@
+.block
+  %h3 Upload
+  %ul.navigation
+    %li
+      =link_to "Säumige GJ #{@previousYear}", nopayment_orchestras_path( :lastyear=> @previousYear)
+    %li= link_to "GEMA Zahlen", "/orchestras/gema.csv"
+
+
+.block
+  %h3 Mitgliedertabelle hochladen
+  %ul.navigation
+    %li
+      %p
+        = form_tag upload_orchestra_orchestra_members_path(@orchestra), :method => 'post', :multipart=>true do
+          = file_field_tag :datafile
+          = submit_tag "Hochladen", :name => nil

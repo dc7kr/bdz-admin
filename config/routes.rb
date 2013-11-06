@@ -157,6 +157,10 @@ BDZAdmin::Application.routes.draw do
   match 'custom_info_mail/kasitest' => 'custom_info_mail#kasitest'
   match 'custom_info_mail/send_mail' => 'custom_info_mail#send_mail'
 
+  match 'festival_mail' => 'festival_mail#index'
+  match 'festival_mail/kasitest' => 'festival_mail#kasitest'
+  match 'festival_mail/send_mail' => 'festival_mail#send_mail'
+
   # partly public (except for edit functions)
 
 
@@ -248,6 +252,8 @@ BDZAdmin::Application.routes.draw do
       collection do 
         get 'delete_all'
         get 'check_double'
+        get 'upload_report'
+        post 'upload'
       end
       member do
         get 'exchange'
