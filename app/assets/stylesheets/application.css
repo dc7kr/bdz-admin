@@ -1,10 +1,9 @@
 /* ...
 *= require_self
+*= require_tree ./admin
 *= require_tree ./smoothness
-*= require custom.css
-*= require timepicker.css
-*= require feature_requests
 
- *= require jquery.ui.core
- *= require jquery.ui.theme
+- *= require jquery.ui.core
+- *= require jquery.ui.theme
+
 */
