@@ -6,6 +6,11 @@
       = t("common.all")
       = t("festival_application.plural")
     .inner
+
+      %table
+        %tr 
+          %td Gesamtanzahl Spieler:
+          %td=@sum_players
       %table
         %tr
           %th=t("common.number")
