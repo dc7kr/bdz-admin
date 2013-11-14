@@ -4,10 +4,15 @@
   .content
     %h2.title
       = t("common.all")
-      = t("classifieds.label")
+      = t("classified.p")
     .inner
       %table.table
         %thead
+          %th.first= t("classified.adv_type")
+          %th= t("classified.object")
+          %th= t("classified.name")
+          %th= t("classified.validuntil")
+          %th.last &nbsp;
         %tbody#classifieds
           = render @classifieds
       #paginator

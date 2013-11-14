@@ -3,6 +3,7 @@
     .link-group
       %h3 Admin Ansichten
       %ul.navigation
+        %li= link_to t("classified.p"), classifieds_path
         %li= link_to t("concert.p"), concerts_path
         %li= link_to t("festival.p"), festivals_path
         %li= link_to t("ensemble.p"), ensembles_path
@@ -18,6 +19,7 @@
     .link-group
       %h3 Öffentliche Ansichten
       %ul.navigation
+        %li= link_to t("classified.p"), public_classifieds_path
         %li= link_to t("concert.p"), public_concerts_path
         %li= link_to t("festival.p"), public_festivals_path
         %li= link_to t("ensemble.p"), public_ensembles_path

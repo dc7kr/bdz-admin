@@ -1,5 +1,11 @@
-%h1 New concert
-
-= render 'form'
-
-= link_back( concerts_path,'Back')
+.block
+  .secondary-navigation
+    = render :partial =>'nav'
+  .content
+    %h2.title
+      = t("common.new")
+      = t("concert.p")
+    .inner
+      = form_for :concert, :url => concerts_path, :html => { :class => :form } do |f|
+        = render :partial => "form", :locals => {:f => f}
+- content_for :sidebar, render(:partial => 'sidebar')

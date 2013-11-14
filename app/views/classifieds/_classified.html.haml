@@ -1,7 +1,8 @@
 %tr
+  %td= classified.adv_type
   %td= classified.object
   %td= classified.name
-  %td= classified.validuntil
+  %td=l classified.validuntil
   %td
     - if not classified.visible then
       = link_to_publish classified,  t("common.publish")

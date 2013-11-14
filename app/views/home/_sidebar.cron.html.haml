@@ -1,11 +1,4 @@
 .block
-  %h3=t('common.tasks')
-  %ul.navigation
-    %li= link_to t('cron.invoice_person_members'), cron_invoices_gen_persons_path
-    %li= link_to t('cron.invoice_orchestras'), cron_invoices_gen_orchestras_path
-    %li= link_to t('cron.lv_bookings'), cron_lv_dtaus_index_path
-
-.block
   %h3=t('common.events')
   %ul.navigation
     %li= link_to "Rundschreiben", custom_info_mail_path
@@ -14,5 +7,4 @@
   %h3=t('common.reminders')
   %ul.navigation
     %li= link_to "Mahnungen Meldebogen", cron_reminders_report_sheet_path
-    %li= link_to "Mahnungen Beitrag", cron_reminders_payment_path
 
