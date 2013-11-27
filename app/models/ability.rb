@@ -21,23 +21,24 @@ class Ability
         can :read, Orchestra
 	  end
 
-      if ( user.accounting? ) 
-		can :read, MemberAccountBooking
-      end
+    if ( user.accounting? ) 
+		  can :read, MemberAccountBooking
+    end
 
-      if ( user.honor? )
-		can :manage, Distinction 
-		can :read, MemberAccountBooking
-        can :download, MemberAccountBooking
-        can :read, Country
-        can :read, RegionalOrganization
-        can :read, PersonMember
-        can :read, Orchestra
-      end
+    if ( user.honor? )
+      can :manage, Distinction 
+      can :read, MemberAccountBooking
+      can :download, MemberAccountBooking
+      can :read, Country
+      can :read, RegionalOrganization
+      can :read, PersonMember
+      can :read, Orchestra
+      can :read, OrchestraMember
+    end
 
-	  if ( user.is_member? )
-		can :manage, PersonMember, :mglnr =>user.username
-		can :manage, Orchestra, :member_id=>420
+    if ( user.is_member? )
+		  can :manage, PersonMember, :mglnr =>user.username
+		  can :manage, Orchestra, :member_id=>420
 	  end
 	end
     # Define abilities for the passed in user here. For example:
