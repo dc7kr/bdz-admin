@@ -1,5 +1,7 @@
 BDZAdmin::Application.routes.draw do
 
+
+
   resources :festival_concerts
   resources :contact_events
   resources :board_contacts
@@ -68,22 +70,28 @@ BDZAdmin::Application.routes.draw do
   resources :report_sheet_inputs do
     collection do 
       get :lockdown
+      get :generate
     end
   end
 
-  resources :contact_people
+  resources :contact_people do
+    resources :contact_events
+  
+  end
 
 
   resources :festival_pieces do
   
   end
+
   resources :festival_applications do
     collection do
       get :list
       get :permitted
     end
     resources :festival_pieces
-    end
+    resources :festival_application_attachments
+  end
 
 
   resources :event_cards
@@ -120,6 +128,7 @@ BDZAdmin::Application.routes.draw do
   resources :classifieds do
     collection do 
       get :inactive
+      get :public
     end
     member do 
       get :publish
@@ -157,9 +166,12 @@ BDZAdmin::Application.routes.draw do
   match 'custom_info_mail/kasitest' => 'custom_info_mail#kasitest'
   match 'custom_info_mail/send_mail' => 'custom_info_mail#send_mail'
 
-  match 'festival_mail' => 'festival_mail#index'
-  match 'festival_mail/kasitest' => 'festival_mail#kasitest'
-  match 'festival_mail/send_mail' => 'festival_mail#send_mail'
+  resources :festival_mails do
+    collection do 
+      get :index
+      post :send_mails
+    end
+  end
 
   # partly public (except for edit functions)
 
@@ -321,81 +333,6 @@ BDZAdmin::Application.routes.draw do
       end
     end
   end
-
-
-  # BEGIN PUBLIC NAMESPACE
-  namespace :public do 
-    resources :festival_applications do
-    member do 
-      get :step2
-    get :finalize
-    end
-    resources :festival_pieces 
-    end
-    resources :event_meals
-    resources :event_cards
-    resources :contacts
-    resources :courses do
-    collection do 
-      get :inactive
-      get :public
-    end
-    end
-
-    resources :honor_members
-  resources :countries do
-    resources :states
-  end
-
-    resources :ensembles do
-    resources :ensemble_concerts do
-      member do
-        get :publish
-      end
-    end
-    end
-
-    resources :concerts do
-    collection do 
-      get :inactive
-      get :public
-    end
-    end
-
-    resources :composers do
-       collection do
-          get :public
-      end
-    end
-
-    resources :contests do
-    collection do
-      get :inactive
-          get :public
-    end
-    member do 
-      get :publish
-    end
-    end
-
-    resources :festivals do
-    #    collection do 
-    #      get :public
-    #    end
-      resources :concerts
-    end
-    resources :composers
-    resources :universities
-
-    resources :urls 
-    resources :url_categories do
-      resources :urls
-    end
-  resources :ensembles do
-    resources :ensemble_concerts
-    
-  end
-  end # END NAMESPACE PUBLIC
 
 
   # the admin  equivalent of the public entities

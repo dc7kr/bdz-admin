@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130924161508) do
+ActiveRecord::Schema.define(:version => 20131118114702) do
 
   create_table "Inserenten", :id => false, :force => true do |t|
     t.string  "Firmenname",    :limit => 35
@@ -1403,6 +1403,17 @@ ActiveRecord::Schema.define(:version => 20130924161508) do
     t.integer  "user_id"
   end
 
+  create_table "festival_application_attachments", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at",                 :null => false
+    t.datetime "updated_at",                 :null => false
+    t.string   "attached_file_file_name"
+    t.string   "attached_file_content_type"
+    t.integer  "attached_file_file_size"
+    t.datetime "attached_file_updated_at"
+    t.integer  "festival_application_id"
+  end
+
   create_table "festival_applications", :force => true do |t|
     t.integer  "country_id"
     t.integer  "orchestra_id"
@@ -1418,6 +1429,8 @@ ActiveRecord::Schema.define(:version => 20130924161508) do
     t.string   "uuid"
     t.boolean  "permission"
     t.integer  "festival_concert_id"
+    t.datetime "rehearsal_time"
+    t.string   "visitor_type"
   end
 
   create_table "festival_concerts", :force => true do |t|
@@ -1427,6 +1440,7 @@ ActiveRecord::Schema.define(:version => 20130924161508) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
     t.string   "title"
+    t.boolean  "outdoor"
   end
 
   create_table "festival_pieces", :force => true do |t|
@@ -3193,6 +3207,8 @@ ActiveRecord::Schema.define(:version => 20130924161508) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "invoiced"
+    t.string   "comment"
+    t.boolean  "generated"
   end
 
   add_index "report_sheets", ["year", "orchestra_id"], :name => "oneperyear", :unique => true

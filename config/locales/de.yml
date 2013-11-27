@@ -5,6 +5,7 @@ de:
   feature_request:
     p: Feature Requests
     s: Feature Request
+    open: Offene
     owner: Eigentümer
     title: Thema
     description: Details
@@ -15,12 +16,20 @@ de:
       P: In Arbeit
       O: Angehalten
       N: Nicht begonnen
+  tariff:
+    s: Beitrag
+    p: Beiräge
   country:
     s: Land
     p: Länder
   custom_info_mail:
     group: Zielgruppe
     datafile: Anhang
+    groups:
+      A: "Alle Mitglieder"
+      O: "Orchester"
+      E: "Einzelmitglieder"
+      T: "Test"
   account:
     logout: Abmelden
     settings: Einstellungen
@@ -78,7 +87,7 @@ de:
     inactive: Inaktiv
     reports: Berichte
     country_code: "Ländercode"
-    salutation:
+    salutations:
       M: Herr
       W: Frau
     salutation_d:
@@ -89,13 +98,15 @@ de:
       W: "Sehr geehrte Frau"
 
   event_meal:
-    title: Essensmeldungen
+    s: Essensmeldung
+    p: Essensmeldungen
     tln: Teilnehmer
     veg: Vegetarisch
     name: Name
     email: E-Mail
   event_card:
-    title: Kartenbestellungen
+    s: Kartenbestellung
+    p: Kartenbestellungen
     nr_fest: Festivalkarten
     nr_fest_erm: "Festivalkarten ermäßigt"
     nr_fest_bdz: "Festivalkarten BDZ-Mitglieder ermäßigt"
@@ -283,6 +294,18 @@ de:
   course:
     p: Kurse
     s: Kurs
+  classified:
+    p: Kleinanzeigen
+    s: Kleinanzeige
+    adv_type: "Typ"
+    name: "Name"
+    email: "E-Mail"
+    url: "URL"
+    object: "Gegenstand"
+    description: "Beschreibung"
+    validuntil: "Gültig bis"
+    entrydate: Eingabe-Datum
+    visible: Sichtbar
   concert:
     p: Konzerte
     s: Konzert
@@ -319,8 +342,8 @@ de:
     url: URL
 
   booking:
-    title: Buchung
-    title_p: Buchungen
+    s: Buchung
+    p: Buchungen
     index: Mitgliedskonto
     create_success: Buchung wurde erfolgreich angelegt.
     update_success: Buchung wurde erfolgreich aktualisiert.
@@ -339,7 +362,7 @@ de:
     amount: Betrag
 
   address:
-    title: Adressen  
+    p: Adressen  
   member:
     nopayment: Säumige Zahler
     notinvoiced: Keine Rechnung
@@ -373,10 +396,10 @@ de:
     birthday: Geburtstag
     tarrif_id: Beitragstyp
   distinction:
+    s: Ehrung
+    p: Ehrungen
     update_success: Ehrung erfolgreich aktualisiert
     dist_date: Datum
-    title: Ehrung
-    title_p: Ehrungen
     generate_invoice: Rechnung generieren
     silver_needles: Silbernadeln
     gold_needles: Goldnadeln
@@ -390,7 +413,6 @@ de:
   orchestra:
     s: Orchester
     p: Orchester
-    title: Orchester
     noreport: Kein Meldebogen
     search: "Suche nach Mitgliedsnummer oder Teil des Orchesternamens"
     update_success: "Orchester wurde erfolgreich aktualisiert."
@@ -417,7 +439,8 @@ de:
     report_sheet_upload_success: "%{success} Mitgliedsdaten erfolgreich hochgeladen!"
     report_sheet_upload_warning: "%{success} Datensätze OK, %{error} Datensätze waren fehlerhaft!"
   orchestra_member:
-    title: Orchestermitglieder
+    p: Orchestermitglieder
+    s: Orchestermitglied
     first_name: Vorname
     last_name: Nachname
     date_of_birth: Geburtstag
@@ -429,8 +452,8 @@ de:
     exchange_success: "Vorname und Name erfolgreich ausgetauscht."
     check_double: "Doppel-Mitgliedschaft prüfen"
   orchestra_contact:
-    title: Kontakt-Adresse
-    title_p: Kontakt-Adressen
+    s: Kontakt-Adresse
+    p: Kontakt-Adressen
     first_name: Vorname
     last_name: Nachname
     street: Straße
@@ -466,8 +489,8 @@ de:
     publish_success: "Wettbewerb erfolgreich veröffentlicht"
 
   report_sheet:
-    title: Meldebogen
-    title_p: Meldebögen
+    s: Meldebogen
+    p: Meldebögen
     create_success: Meldebogen erfolgreich angelegt
     data_from_last_year: Automatische Datenübernahme aus Vorjahr
     delay_fee: "Säumniszuschlag"
@@ -515,6 +538,7 @@ de:
     zi_o: Zitherorchester
     go: Gitarrenorchester
     oz: "Sonstige Zupfinstrumente"
+    generated: Generiert
     age_category:
       C: "Kinder bis 14"
       T: "Jugendliche 15-19"
@@ -537,13 +561,6 @@ de:
     index: Landesverbandskonto
     booking_type_S: Sollstellung
     booking_type_G: Gutschrift
-  report_sheet_input:
-    login: Anmelden
-    login_title: Meldebogenerfassung
-    token: Passwort
-    save_success: "Daten erfolgreich gespeichert"
-    current_members: "Aktuelle Mitgliederliste"
-    page_1: "Mitgliedermeldung Schritt 1"
   regional_organization_booking:
     index: Landesverbandskonto
     booking_type_S: Sollstellung
@@ -563,9 +580,9 @@ de:
     login_first: "Bitte melden Sie sich an!"
     pdf_confirm: "PDF Bestätigung"
     member_delete_success: "Alle Orchestermitglieder wurden gelöscht."
-
+    generated: "%{count} Meldebogen-Eingabe-Vorlagen erzeugt."
   member_report:
-    title: Mitgliederbericht
+    s: Mitgliederbericht
     oddset_report: Oddset Zahlen
     orchestra_count: Anzahl Orchester
     active_sum: Summe Aktive
@@ -761,6 +778,7 @@ de:
           L: Brief
           F: E-Mail-Fehler
         filename: Dateiname
+        p: Kontakt-Events
       contact_event: 
         <<: *member_event_labels
       festival_piece: &festival_piece_labels
@@ -772,6 +790,23 @@ de:
         p: "Gemeldete Stücke"
       advertiser:
         customer_number: Kundennummer
+      festival_mail: &festival_mail_labels
+        p: Festival-Rundmails
+        s: Festival-Rundmail
+        event_id: Event ID
+        group: Gruppe
+        groups:
+          FG: "Festival-Gäste"
+          FA: "Festival-Bewerber"
+          FP: "Festival-Zulassungen"
+          FJ: "Jugend musiziert Ensembles"
+          FS: "Teilnehemer mit Sondervereinbarungen"
+        subject: Thema
+        body: Mail-Inhalt
+        datafile: Datei-Anhang
+      festival_participant: &festival_participant_labels
+        p: Festival-Teilnehmer
+        s: Festival-Teilnehmer
       festival_application: &festival_app_labels
         plural: "Festival-Bewerbungen"
         singular: "Festival-Bewerbung"
@@ -796,6 +831,12 @@ de:
           S: Solist
           D: Duo 
           T: Trio
+        visitor_type: "Besucher-Typ"
+        visitor_types:
+          R: "Regulärer Teilnehmer"
+          G: "Gast"
+          V: "Teilnehmer mit Sondervereinbarung"
+          Y: "Jugend musiziert Ensemble"
         rehearsal_time: "Einspiel-Beginn"
       festival_concert: &festival_concert_labels
         p: Festival-Konzerte
@@ -805,6 +846,8 @@ de:
         event_time: Veranstaltungszeit
         outdoor: "Open-Air Veranstaltung"
       contact_person: &contact_person_labels
+        p: Kontakt-Personen
+        s: Kontakt-Person
         salutation: Anrede
         first_name: Vorname
         last_name: Name
@@ -847,6 +890,8 @@ de:
           other: "Displaying <b>all %{count}</b> %{entry_name}"
       more_pages:
         display_entries: "Zeige Einträge <b>%{first}&nbsp;-&nbsp;%{last}</b> von <b>%{total}</b>"
+  festival_perticipant:
+    <<: *festival_participant_labels
   festival_application:
     <<: *festival_app_labels
     new: "Neue Festival-Bewerbung"
@@ -854,6 +899,8 @@ de:
     step2_title: "Festival Bewerbung (Teil 2)"
     finalize_title: "Festival Bewerbung"
     confirm: "Vielen Dank für Ihre Festival-Bewerbung. Wir werden sie kontaktieren sobald Ihre Bewerbung ausgewertet wurde."
+  festival_mail:
+    <<: *festival_mail_labels
   festival_concert: 
     <<: *festival_concert_labels
   festival_piece:
