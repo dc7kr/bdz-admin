@@ -9,6 +9,12 @@
     .inner
       %table
         %tr
+          %td.label #{t("festival_application.group_type")}:
+          %td= display_group_type(@festival_application.group_type)
+        %tr
+          %td.label #{t("festival_application.visitor_type")}:
+          %td= display_visitor_type(@festival_application.visitor_type)
+        %tr
           %td.label #{t("festival_application.country_id")}:
           %td= @festival_application.country ? @festival_application.country.name : t('common.none')
         -if @festival_application.permission
@@ -36,5 +42,6 @@
           %td= @festival_application.special_cast
         %tr
           %td.label #{t("festival_application.contact_person")}:
-          %td= render @festival_application.contact_person
+          %td= render(:partial =>  'contact_person.oneline') 
 
+- content_for :sidebar, render(:partial => 'sidebar.show')
