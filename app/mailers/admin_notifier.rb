@@ -27,7 +27,7 @@ class AdminNotifier < ActionMailer::Base
   
   def newreminders_notification(user, reminders, current_user)
 	 @recipient = user
-	 @reminder_url = reminders
+	 @reminders_url = reminders
 
 	 @current_user = current_user 
 	 mail(:to => user.email, :subject => "BDZ Mahnungslauf")

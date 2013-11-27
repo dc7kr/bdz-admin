@@ -1,0 +1,19 @@
+%h1 Listing festival_application_attachments
+
+%table
+  %tr
+    %th Name
+    %th
+    %th
+    %th
+
+  - @festival_application_attachments.each do |festival_application_attachment|
+    %tr
+      %td= festival_application_attachment.name
+      %td= link_to 'Show', festival_application_attachment
+      %td= link_to 'Edit', edit_festival_application_attachment_path(festival_application_attachment)
+      %td= link_to 'Destroy', festival_application_attachment, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Festival application attachment', new_festival_application_attachment_path

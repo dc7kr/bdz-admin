@@ -4,6 +4,8 @@ class ContactPeopleController < ApplicationController
   def index
     @contact_people = ContactPerson.all
 
+    @up_path = home_public_data_path
+
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @contact_people }
@@ -14,6 +16,8 @@ class ContactPeopleController < ApplicationController
   # GET /contact_people/1.json
   def show
     @contact_person = ContactPerson.find(params[:id])
+    
+    @up_path = contact_people_path
 
     respond_to do |format|
       format.html # show.html.erb

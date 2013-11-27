@@ -6,7 +6,7 @@
   %td= f.text_field :department, :class => 'text_field'
 %tr
   %td= f.label :salutation, t("contact.salutation"), :class => :label
-  %td= f.select :salutation, options_for_select([[t('common.salutation.M'),"M"],[t('common.salutation.W'), "W"]],:selected=>entity.salutation)
+  %td= f.select :salutation, get_salutation_options(entity.salutation)
 %tr
   %td=f.label :title, t("contact.title"),:class=>:label
   %td=f.text_field :title

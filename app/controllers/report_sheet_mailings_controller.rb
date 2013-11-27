@@ -4,32 +4,6 @@ class ReportSheetMailingsController < AuthenticatedNonResourceController
 	include NotifyHelper
   include BulkMailHelper
 
-	def gen_data
-  		authorize! :index, Orchestra
-		rs_year = params[:year].to_i
-
-		if params[:year]== nil then
-			rs_year = Time.now.year+1
-		end
-
-		@count = 0
-		@orchestras = Orchestra.includes(:member)
-		@orchestras.each do |o|
-			@rsi = ReportSheetInput.for_orchestra_and_year(o,rs_year)
-    		if ( @rsi == nil ) then
-        		@rsi = ReportSheetInput.new_for_orchestra(o,rs_year)
-    			@rsi.save
-				@count+=1
-    		end
-		end
-
-    	respond_to do |format|
-      		format.html {
-				render :text => "OK:Created "+@count.to_s+" Report sheet inputs."
-				return
-			}
-    	end
-	end
 
 	def gen_mailings
   		authorize! :index, Orchestra

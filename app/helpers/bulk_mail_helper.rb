@@ -28,4 +28,25 @@ module BulkMailHelper
     end
     event.save
   end
+
+  def deliver_mail(rcpt,type,mail_params,att_file,att_data,resultHash)
+    begin
+      if not is_mail_blacklisted?(rcpt.email) then
+        CustomInfoMail.notify(rcpt.email,mail_params,att_file,att_data).deliver
+        recordMailSuccess(mail_params[:event_id],rcpt, mail_params[:subject])
+        return true
+      else 
+        recordMailFailure(mail_params[:event_id],rcpt,"blacklist")
+        result = { :err=>"blacklisted", :entity=>contact,:type =>type}
+        resultHash.push(result)
+        return false
+       end
+    rescue
+      recordMailFailure(mail_params[:event_id],rcpt,$!)
+      result = { :err=>$!, :entity=>rcpt,:type =>type}
+      resultHash.push(result)
+      return false
+    end
+  end
+
 end

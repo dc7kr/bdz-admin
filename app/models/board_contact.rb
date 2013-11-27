@@ -9,4 +9,8 @@ class BoardContact < ActiveRecord::Base
     contact.to_s
   end
 
+  def id
+    contact.id
+  end
+
 end

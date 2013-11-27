@@ -1,0 +1,28 @@
+.block
+  .content
+    %h2.title
+      Mail "#{@mail_params[:subject]}" versandt. 
+    .inner
+      Mail wurde erfolgreich an #{@successCount} #{t("festival_mail.groups."+@group)} versendet.
+
+      - if @failCount > 0 
+        %h3 
+          Beim Versenden an #{@failCount} #{t("festival_mail.groups."+@group)} sind Fehler aufgetreten. 
+          %br
+
+        %table.table
+          %thead
+            %th.first Typ
+            %th= t("orchestra.email")
+            %th Fehler
+          %tbody#results
+            - @results.each do |result|
+              %tr
+                %td=t("member_event.event_types."+result[:type])
+                - if result[:type]== 'T' then
+                  %td=result[:entity]
+                - else
+                  %td=link_to result[:entity].email, result[:entity]
+                %td=result[:err]
+      .actions-bar.wat-cf
+        .actions

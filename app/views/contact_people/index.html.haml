@@ -1,35 +1,22 @@
-%h1 Listing contact_people
+.block
+  .secondary-navigation
+    =render :partial=>'nav'
+  .content
+    %h2.title
+      = t("common.all")
+      = t("contact_person.p")
+    .inner
+      %table.table
+        %thead
+          %th=label :contact_person, :salutation
+          %th=label :contact_person, :first_name
+          %th=label :contact_person, :last_name
+          %th=label :contact_person, :email
+          %th=label :contact_person, :phone
+          %th
+        = render @contact_people
 
-%table
-  %tr
-    %th Salutation
-    %th First name
-    %th Last name
-    %th Street
-    %th Zip
-    %th City
-    %th Country
-    %th Email
-    %th Phone
-    %th
-    %th
-    %th
 
-  - @contact_people.each do |contact_person|
-    %tr
-      %td= contact_person.salutation
-      %td= contact_person.first_name
-      %td= contact_person.last_name
-      %td= contact_person.street
-      %td= contact_person.zip
-      %td= contact_person.city
-      %td= contact_person.country
-      %td= contact_person.email
-      %td= contact_person.phone
-      %td= link_to 'Show', contact_person
-      %td= link_to 'Edit', edit_contact_person_path(contact_person)
-      %td= link_to 'Destroy', contact_person, method: :delete, data: { confirm: 'Are you sure?' }
 
-%br
 
-= link_to 'New Contact person', new_contact_person_path
+

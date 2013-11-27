@@ -1,9 +1,12 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.2.13'
+gem 'rails', '3.2.15'
 
 gem 'haml'
 gem 'haml-rails'
+
+gem 'coffee-rails', "~> 3.2.1"
+gem 'uglifier', ">= 1.3.0"
 
 gem 'fastercsv'
 gem 'paperclip'
@@ -15,6 +18,7 @@ gem 'rbktoblzcheck'
 
 gem 'jquery-rails' 	
 gem 'jquery-ui-rails'
+gem 'jquery-fileupload-rails'
 
 # 0.3.1 seems to be broken
 # 0.3.2 works fine :)
@@ -73,8 +77,6 @@ group :assets do
   gem 'sass-rails',   '~> 3.2.3'
 end
 
-gem 'coffee-rails', "~> 3.2.1"
-gem 'uglifier', ">= 1.0.3"
 
 
 #gem 'will_paginate'

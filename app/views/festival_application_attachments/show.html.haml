@@ -1,0 +1,10 @@
+.block
+  .secondary-navigation
+    = render :partial=>'nav'
+  .content
+    .inner
+      %table
+        %tr
+          %td=f.label :name
+          %td=@festival_application_attachment.name
+

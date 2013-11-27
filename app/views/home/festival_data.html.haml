@@ -4,10 +4,15 @@
       %h3 Musik
       %ul.navigation
         %li= link_to t('festival_application.p'), festival_applications_path
+        %li= link_to t('festival_perticipant.p'), permitted_festival_applications_path
         %li= link_to t('festival_concert.p'), festival_concerts_path
     .link-group
       %h3 Administration
       %ul.navigation
         %li= link_to t('event_meal.p'), event_meals_path
         %li= link_to t('event_card.p'), event_cards_path
+    .link-group
+      %h3 Tasks
+      %ul.navigation
+        %li= link_to t('festival_mail.p'), festival_mails_path
 - content_for :sidebar, render(:partial => 'sidebar.festival')

@@ -2,7 +2,10 @@
   %td= festival_concert.number
   %td= festival_concert.title
   %td= festival_concert.location
-  %td= l festival_concert.event_time
+  %td
+    - if festival_concert.event_time then
+      = l festival_concert.event_time 
+      
   %td= format_bool(festival_concert.outdoor)
   %td
     = link_to_show festival_concert

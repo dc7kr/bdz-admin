@@ -56,6 +56,8 @@ class FestivalApplicationsController < AuthenticatedController
   def show
     @festival_application = FestivalApplication.find(params[:id])
 
+    @contact_person = @festival_application.contact_person
+
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @festival_application }

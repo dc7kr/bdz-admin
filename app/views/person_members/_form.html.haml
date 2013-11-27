@@ -7,7 +7,7 @@
       %td= f.number_field :mglnr, :class => 'number_field'
     %tr
       %td.label= f.label :anrede, t("member.salutation")
-      %td= f.select :anrede, options_for_select([[t('common.salutation.M'),"M"],[t('common.salutation.W'), "W"]],:selected=>@person_member.anrede)
+      %td= f.select :anrede, get_salutation_options(@person_member.anrede)
     %tr
       %td.label= f.label :vorname, t("member.vorname")
       %td= f.text_field :vorname, :class => 'text_field'

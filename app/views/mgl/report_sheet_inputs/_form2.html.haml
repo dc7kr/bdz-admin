@@ -14,7 +14,7 @@
       %table
         %tr
           %td= t('orchestra_contact.salutation')
-          %td=cf.select :salutation, options_for_select([[t('common.salutation.M'),"M"],[t('common.salutation.W'), "W"]],:selected=>contact.salutation)
+          %td=cf.select :salutation, get_salutation_options(contact.salutation)
         %tr
           %td= t('orchestra_contact.first_name')
           %td=cf.text_field :first_name ,:size=>50

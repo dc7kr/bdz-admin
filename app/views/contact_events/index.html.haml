@@ -1,17 +1,20 @@
-%h1 Listing contact_events
-
-%table
-  %tr
-    %th=label :contact_event, :event_type
-    %th=label :contact_event, :event_date
-    %th=label :contact_event, :event
-    %th=label :contact, :s
-    %th=label :contact_event, :comment
-    %th=label :contact_event, :filename
-    %th
-    %th
-    %th
-
-  = render @contact_events
+.block
+  .secondary-navigation
+    =render :partial=>'nav'
+  .content
+    %h2.title
+      = t("common.all")
+      = t("contact_event.p")
+    .inner
+      %table.table
+        %thead
+          %th=label :contact_event, :event_type
+          %th=label :contact_event, :event_date
+          %th=label :contact_event, :event
+          %th=label :contact, :s
+          %th=label :contact_event, :comment
+          %th=label :contact_event, :filename
+          %th
+        = render @contact_events
 
 

@@ -2,6 +2,9 @@
   .secondary-navigation
     = render :partial=>'nav'
   .content
+    %h2.title
+      = @advertiser.contact.company
+      (#{t("advertiser.customer_number")} #{@advertiser.customer_number})
     .inner
       %table
         = render @advertiser.contact,:partial=>"contact"

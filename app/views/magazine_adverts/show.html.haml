@@ -11,8 +11,10 @@
           %td= @magazine_advert.magazine_issue.full_number
         %tr
           %td.label=t("advertiser.s")
-          %td= @magazine_advert.advertiser.company
+          %td
+            = @magazine_advert.advertiser.company
+            = t('advertiser.customer_nr')+" "+ @magazine_advert.advertiser.customer_id
         %tr
           %td.label=t("magazine_advert.advert_type")
-          %td=@magazine_advert.advert_type
+          %td=t("magazine_advert.advert_types."+@magazine_advert.advert_type)
 

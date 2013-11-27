@@ -126,25 +126,23 @@ class ApplicationController < ActionController::Base
   #end
 
   private
-  def render_error(status, exception)
-#	if ( current_user == nil or current_user.admin?)
-	begin 
-	Rails.logger.error("Encountered error status:"+status.to_s)
-    ErrorMailer.deliver_snapshot(
-        exception, 
-        Rails.env)
-    Rails.logger.error(exception)
-#    rescue => e
-#      	logger.error(e)
-    end
- # end
+    def render_error(status, exception)
+      #	if ( current_user == nil or current_user.admin?)
+	    begin 
+	      Rails.logger.error("Encountered error status:"+status.to_s)
+        ErrorMailer.deliver_snapshot( exception, Rails.env)
+        Rails.logger.error("ERROR: "+exception)
+      rescue => e
+        logger.error(e)
+      end
 
-	@exception = exception
-    respond_to do |format|
-      format.html { render template: "errors/error_#{status}", layout: 'layouts/application', status: status }
-      format.all { render nothing: true, status: status }
+	    @exception = exception
+        
+      respond_to do |format|
+        format.html { render template: "errors/error_#{status}", layout: 'layouts/application', status: status }
+        format.all { render nothing: true, status: status }
+      end
     end
-  end
 
   def is_production?
     ENV["RAILS_ENV"] == "production"

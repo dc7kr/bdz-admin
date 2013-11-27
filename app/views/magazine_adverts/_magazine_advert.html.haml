@@ -2,7 +2,7 @@
   %td= magazine_advert.advertiser.last_name
   %td= magazine_advert.magazine_issue.number
   %td= magazine_advert.magazine_issue.year
-  %td= magazine_advert.advert_type
+  %td= t("magazine_advert.advert_types."+magazine_advert.advert_type)
   %td
     = link_to_show magazine_advert
     = link_to_edit magazine_advert

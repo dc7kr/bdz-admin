@@ -1,21 +1,21 @@
 class ReportSheet < ActiveRecord::Base
 
-  validates :report_date, presence: true
-  validates :adult, presence: true
-  validates :adult_ens, presence: true
-  validates :azubi, presence: true
-  validates :chamber_ens, presence: true
-  validates :child_ens, presence: true
-  validates :children, presence: true
-  validates :passive, presence: true
-  validates :senior, presence: true
-  validates :senior_ens, presence: true
-  validates :teens, presence: true
+  validates_presence_of :report_date , :unless => lambda { self.orchestra.blank? }
+  validates_presence_of :adult
+  validates_presence_of :adult_ens
+  validates_presence_of :azubi
+  validates_presence_of :chamber_ens
+  validates_presence_of :child_ens
+  validates_presence_of :children
+  validates_presence_of :passive
+  validates_presence_of :senior
+  validates_presence_of :senior_ens
+  validates_presence_of :teens
   validates_inclusion_of :uv, :in => [true,false]
-  validates :youth, presence: true
-  validates :youth_ens, presence: true
-  validates :zusatz_uv, presence: true
-  validates :zusatz_ztg, presence: true
+  validates_presence_of :youth
+  validates_presence_of :youth_ens
+  validates_presence_of :zusatz_uv
+  validates_presence_of :zusatz_ztg
 
 
 
@@ -53,7 +53,7 @@ class ReportSheet < ActiveRecord::Base
 		self.zusatz_ztg ||=0
 	end
 
-	def self.for_year(year)
+	def self.new_for_year(year)
 		@report_sheet = ReportSheet.new
 		@report_sheet.init_empty
 		@report_sheet.orchestra=nil

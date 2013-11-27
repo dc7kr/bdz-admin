@@ -1,0 +1,2 @@
+module FestivalApplicationAttachmentsHelper
+end

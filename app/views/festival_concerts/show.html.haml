@@ -2,11 +2,10 @@
   .secondary-navigation
     = render :partial=>'nav'
   .content
+    %h2.title
+      #{t("festival_concert.s")} Nr. #{@festival_concert.number}
     .inner
       %table
-        %tr
-          %td=t('common.number')
-          %td=@festival_concert.number
         %tr
           %td=t('festival_concert.title')
           %td=@festival_concert.title
@@ -15,5 +14,10 @@
           %td=@festival_concert.location
         %tr
           %td=t('festival_concert.event_time')
-          %td=@festival_concert.event_time
+          %td=l @festival_concert.event_time
+
+      %h3 Teilnehmer
+
+      %table
+        = render @festival_concert.festival_applications
 

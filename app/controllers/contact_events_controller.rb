@@ -2,7 +2,17 @@ class ContactEventsController < ApplicationController
   # GET /contact_events
   # GET /contact_events.json
   def index
-    @contact_events = ContactEvent.all
+
+    @contact_events = nil
+    if params[:contact_person_id] != nil then
+      @contact_person = ContactPerson.find(params[:contact_person_id])
+      @contact_events = ContactEvent.where(:contact_person_id => @contact_person.id)
+      @up_path = contact_person_path(@contact_person)
+
+    else 
+      @up_path = home_public_data_path
+      @contact_events = ContactEvent.all
+    end
 
     respond_to do |format|
       format.html # index.html.erb

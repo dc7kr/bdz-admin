@@ -2,6 +2,9 @@
   = f.error_messages :message => "", :header_tag => :h3
 .group
   %table
+    %tr
+      %td=f.label :customer_number
+      %td=f.text_field :customer_number
     = render :partial => "contacts/contact_form", :locals => { :f => f,:entity=>@advertiser }
       
       

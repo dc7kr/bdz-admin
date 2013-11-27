@@ -30,10 +30,9 @@ class ReportSheetInputsController < AuthenticatedController
   def new
 	@year = Time.now.year+1
 
-	@orchestra = Orchestra.includes(:member).find(params[:orchestra_id])
+  	@orchestra = Orchestra.includes(:member).find(params[:orchestra_id])
     @report_sheet_input = ReportSheetInput.new_for_orchestra(@orchestra,@year)
-	@report_sheet_input.save
-
+ 
     respond_to do |format|
       format.html { redirect_to @report_sheet_input, notice: 'Report sheet input was successfully created.' }
       format.json { render json: @report_sheet_input, status: :created, location: @report_sheet_input }
@@ -90,13 +89,46 @@ class ReportSheetInputsController < AuthenticatedController
     end
   end
 
+	def generate
+    authorize! :index, Orchestra
+    rs_year = params[:year].to_i
+
+    if params[:year]== nil then
+      rs_year = Time.now.year+1
+    end
+
+    @count = 0
+    @orchestras = Orchestra.includes(:member)
+    
+    @orchestras.each do |o|
+      @rsi = ReportSheetInput.for_orchestra_and_year(o,rs_year)
+      if ( @rsi == nil ) then
+        @rsi = ReportSheetInput.new_for_orchestra(o,rs_year)
+      
+        if @rsi.report_sheet.save then
+  	      @rsi.save
+        else 
+          logger.warn(@rsi.report_sheet.errors.full_messages.join("\n"))
+          logger.warn("Something went wrong during save of report sheet!")
+        end
+
+        @count+=1
+      end
+    end
+
+    respond_to do |format|
+      format.html {
+        redirect_to  :back, notice: t('report_sheet_input.generated', count: @count ) 
+			}
+    end
+	end
+
   def lockdown
-	@report_sheet_inputs = ReportSheetInput.not_final
+  	@report_sheet_inputs = ReportSheetInput.not_final
 
     @report_sheet_inputs.each do |rs|
       rs.report_sheet.destroy
 	  rs.destroy
     end
-
   end
 end

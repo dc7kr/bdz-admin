@@ -185,7 +185,7 @@ def link_to_delete(entity, txt=nil, confirm=nil )
       txt = t('common.delete_confirm')
     end
     if can? :delete, entity
-		link_to image_tag('/assets/icons/delete.png', {:size=>'16x16',:alt=>txt,:title=>txt,:class=>'btn'} ),entity,:confirm => confirm, :method => :delete
+		link_to image_tag('/assets/icons/delete.png', {:size=>'16x16',:alt=>txt,:title=>txt,:class=>'btn'} ),entity,:confirm => confirm, :method => :delete, :remote=>true
     end
 end
 
@@ -416,8 +416,12 @@ JS1
     end
 
 
-def get_salutation_options
-	[[t('common.salutation.M'),"M"],[t('common.salutation.W'), "W"]]
+def get_salutation_options(selected)
+  options_for_select( [
+      [t('common.salutations.M'),"M"],  
+      [t('common.salutations.W'), "W"]
+    ],
+    :selected=>selected)
 end
 end
 

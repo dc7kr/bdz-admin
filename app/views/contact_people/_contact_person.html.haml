@@ -1,1 +1,11 @@
-#{contact_person.first_name} #{contact_person.last_name} (#{mail_to contact_person.email, contact_person.email})
+%tr
+  %td=t("common.salutations."+contact_person.salutation)
+  %td= contact_person.first_name
+  %td= contact_person.last_name
+  %td=mail_to contact_person.email, contact_person.email
+  %td= contact_person.phone
+  %td= link_to_show contact_person
+  %td= link_to_edit contact_person
+  %td= link_to_delete contact_person
+
+

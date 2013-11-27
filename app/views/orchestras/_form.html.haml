@@ -10,7 +10,7 @@
       %td= f.text_field :orchName, :class => 'text_field'
     %tr
       %td.label= f.label :anrede, t("orchestra.anrede")
-      %td= f.select :anrede, options_for_select([[t('common.salutation.M'),"M"],[t('common.salutation.W'), "W"]],:selected=>@orchestra.anrede)
+      %td= f.select :anrede, get_salutation_options(@orchestra.anrede)
     %tr
       %td.label= f.label :vorname, t("member.vorname")
       %td= f.text_field :vorname, :class => 'text_field'

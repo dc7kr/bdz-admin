@@ -5,7 +5,8 @@
   %br
   = f.label :group
   %br
-  = f.select :group, options_for_select([["Alle Mitglieder", "A"], ["Orchester", "O"],  ["Einzelmitglieder", "E"],["Test","T"],["Festival-Bewerber","F"],["Festival-Zulassungen","P"]],:selected=>"A") 
+  = f.select :group, group_options
+
   %br
   = f.label :subject 
   %br

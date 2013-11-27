@@ -17,7 +17,7 @@
         %td= orch.text_field :gruendung, :class => 'datePicker'
       %tr
         %td= orch.label :anrede, t('member.salutation'),:class => :label
-        %td=orch.select :anrede, options_for_select([[t('common.salutation.M'),"M"],[t('common.salutation.W'), "W"]],:selected=>@report_sheet_input.orchestra.anrede)
+        %td=orch.select :anrede, get_salutation_options(@report_sheet_input.orchestra.anrede)
       %tr
       %tr
         %td= orch.label :vorname, t('member.vorname'),:class => :label

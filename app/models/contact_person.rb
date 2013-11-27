@@ -7,6 +7,8 @@ class ContactPerson < ActiveRecord::Base
   validates :last_name, :first_name, :email, :phone, :presence => true
   validates :email, :email_format => true 
 
+  has_many :contact_events
+
   def to_s
     first_name+" "+last_name
   end

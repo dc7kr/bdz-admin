@@ -4,6 +4,6 @@ class FestivalConcert < ActiveRecord::Base
   has_many :festival_applications
 
   def label
-    return number.to_s+" "+title
+    return I18n.t("common.number")+" "+number.to_s+" "+title
   end
 end

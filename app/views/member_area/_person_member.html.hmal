@@ -8,7 +8,7 @@
       %table
         %tr
           %td.label #{t("member.salutation")}:
-          %td= t("common.salutation."+@person_member.anrede)
+          %td= t("common.salutations."+@person_member.anrede)
         %tr
           %td.label #{t("common.fullname")}:
           %td= @person_member.fullname
