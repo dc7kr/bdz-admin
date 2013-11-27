@@ -16,8 +16,14 @@
           %td=t('festival_concert.event_time')
           %td=l @festival_concert.event_time
 
-      %h3 Teilnehmer
+      %h3 Programm
 
-      %table
-        = render @festival_concert.festival_applications
-- content_for :sidebar, render(:partial => 'sidebar.show')
+      - @groups.each do |g|
+        %b=g.orch_name
+        %table 
+          - g.festival_pieces.each do |p|
+            %tr
+              %td=p.title
+              %td=p.composer
+              %td.right #{p.duration} min
+

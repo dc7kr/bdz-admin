@@ -2,7 +2,11 @@ BDZAdmin::Application.routes.draw do
 
 
 
-  resources :festival_concerts
+  resources :festival_concerts do 
+    member do
+      get :programme
+    end
+  end
   resources :contact_events
   resources :board_contacts
   resources :subscribers

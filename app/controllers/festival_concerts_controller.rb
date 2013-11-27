@@ -83,4 +83,18 @@ class FestivalConcertsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+
+
+  def programme
+
+    @festival_concert = FestivalConcert.find(params[:id])
+
+    @groups = FestivalApplication.where(:festival_concert_id => params[:id])
+
+    respond_to do |format|
+      format.html
+    end
+
+  end
 end
