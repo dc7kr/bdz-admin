@@ -143,7 +143,6 @@ class OrchestrasController < AuthenticatedController
 		return
   	end
 
-    @festival_id = params[:event_id]
 	@previousYear = (Time.now.year-1).to_s
     @orchestras = Orchestra.includes(:member).search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
 
