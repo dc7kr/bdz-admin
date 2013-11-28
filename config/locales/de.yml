@@ -800,6 +800,7 @@ de:
           FA: "Festival-Bewerber"
           FP: "Festival-Zulassungen"
           FJ: "Jugend musiziert Ensembles"
+          FO: "OpenAir Teilnehmer"
           FS: "Teilnehemer mit Sondervereinbarungen"
         subject: Thema
         body: Mail-Inhalt
@@ -837,6 +838,7 @@ de:
           G: "Gast"
           V: "Teilnehmer mit Sondervereinbarung"
           Y: "Jugend musiziert Ensemble"
+          O: "OpenAir Teilnehmer"
         rehearsal_time: "Einspiel-Beginn"
       festival_concert: &festival_concert_labels
         p: Festival-Konzerte
@@ -845,6 +847,7 @@ de:
         location: Veranstaltungsort
         event_time: Veranstaltungszeit
         outdoor: "Open-Air Veranstaltung"
+        programme: "Konzertprogramm"
       contact_person: &contact_person_labels
         p: Kontakt-Personen
         s: Kontakt-Person

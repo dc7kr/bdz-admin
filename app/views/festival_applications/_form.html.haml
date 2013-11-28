@@ -7,10 +7,10 @@
       %td= f.collection_select(:country_id, Country.all, :id, :name) 
     %tr
       %td= f.label :group_type, :class => :label
-      %td= f.select :group_type, options_for_select(get_group_type_options,:selected=>@festival_application.group_type)
+      %td= f.select :group_type, get_group_type_options(@festival_application.group_type)
     %tr
       %td= f.label :visitor_type, :class => :label
-      %td= f.select :visitor_type, options_for_select(get_visitor_type_options,:selected=>@festival_application.visitor_type)
+      %td= f.select :visitor_type, get_visitor_type_options(@festival_application.visitor_type)
     %tr
       %td= f.label :orch_name, :class => :label
       %td= f.text_field :orch_name

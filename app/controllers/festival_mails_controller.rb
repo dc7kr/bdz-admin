@@ -49,6 +49,8 @@ class FestivalMailsController < AuthenticatedNonResourceController
       @applicants = FestivalApplication.includes(:contact_person).where(:permission=>true,:visitor_type=>'Y')
     elsif ( @group == 'FG') then
       @applicants = FestivalApplication.includes(:contact_person).where(:permission=>true, :visitor_type=>'G')
+    elsif ( @group == 'FO') then
+      @applicants = FestivalApplication.includes(:contact_person).where(:permission=>true, :visitor_type=>'O')
     else 
       logger.error("NO GROUP identified: "+@group)
     end

@@ -1,6 +1,5 @@
 module FestivalApplicationsHelper
 
-
   def display_group_visitor_type(part)
    vtype = display_visitor_type(part.visitor_type)
 
@@ -9,22 +8,25 @@ module FestivalApplicationsHelper
    return vtype+" ("+gtype+")"
   end
 
-  def get_group_type_options 
-	  [
-		  [t('festival_application.group_types.O'),"O"],
-		  [t('festival_application.group_types.E'), "E"],
-		  [t('festival_application.group_types.S'),"S"], 
-		  [t('festival_application.group_types.D'),"D"],
-	  ]
+  def get_group_type_options(selection)
+    options_for_select(
+      [
+		    [t('festival_application.group_types.O'),"O"],
+		    [t('festival_application.group_types.E'), "E"],
+		    [t('festival_application.group_types.S'),"S"], 
+		    [t('festival_application.group_types.D'),"D"],
+	    ],:selected => selection)
   end
 
-  def get_visitor_type_options
-	  [
-		  [t('festival_application.visitor_types.R'),"R"],
-		  [t('festival_application.visitor_types.G'), "G"],
-		  [t('festival_application.visitor_types.Y'),"Y"], 
-		  [t('festival_application.visitor_types.V'),"V"],
-	  ]
+  def get_visitor_type_options(selection)
+    options_for_select(
+      [
+		    [t('festival_application.visitor_types.R'),"R"],
+		    [t('festival_application.visitor_types.G'),"G"],
+		    [t('festival_application.visitor_types.Y'),"Y"], 
+		    [t('festival_application.visitor_types.V'),"V"],
+		    [t('festival_application.visitor_types.O'),"O"],
+	    ], :selection=>selection)
   end
 
   def display_visitor_type(type)
