@@ -1,5 +1,6 @@
 class Public::FestivalApplicationsController < ApplicationController
   layout :choose_layout
+
   # GET /festival_applications
   # GET /festival_applications.json
   def index
@@ -30,11 +31,15 @@ class Public::FestivalApplicationsController < ApplicationController
   # GET /festival_applications/new.json
   def new
     @festival_application = FestivalApplication.new
-	@festival_application.group_type="O"
-	@festival_application.contact_person = ContactPerson.new
+	  @festival_application.group_type="O"
+	  @festival_application.contact_person = ContactPerson.new
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html { 
+        if not BDZ_SETTINGS["config"]["festival_application_open"] then
+          render :partial => "closed";
+        end
+      }
       format.json { render json: @festival_application }
     end
   end
