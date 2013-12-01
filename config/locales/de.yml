@@ -813,6 +813,7 @@ de:
         singular: "Festival-Bewerbung"
         p: "Festival-Bewerbungen"
         s: "Festival-Bewerbung"
+        closed: "Eine Anmeldung ist nicht mehr möglich. Wir bitten um Ihr Verständnis."
         country_id: "Herkunftsland"
         orchestra: Orchester
         orch_name: Name der Gruppe
