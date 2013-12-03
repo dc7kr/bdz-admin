@@ -6,7 +6,6 @@ class Ability
 		can :read, Concert
 		can :read, Course
 		can :read, Contest
-		can :read, Country
 		can :read, State
 	 	can :update, Concert, :owner => user.id
 		can :delete, Concert, :owner => user.id
@@ -15,7 +14,6 @@ class Ability
 	  if ( user.admin? or user.national? ) 
 	  	can :manage, :all
 	  elsif ( user.address? )
-        can :read, Country
         can :read, RegionalOrganization
         can :read, PersonMember
         can :read, Orchestra
@@ -29,7 +27,6 @@ class Ability
       can :manage, Distinction 
       can :read, MemberAccountBooking
       can :download, MemberAccountBooking
-      can :read, Country
       can :read, RegionalOrganization
       can :read, PersonMember
       can :read, Orchestra

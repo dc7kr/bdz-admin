@@ -2,9 +2,6 @@ class Contact < ActiveRecord::Base
 
   acts_as_superclass
 
-  belongs_to :country
-
-
   def to_s
     first_name+" "+last_name
   end

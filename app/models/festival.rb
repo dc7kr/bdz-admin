@@ -1,6 +1,5 @@
 class Festival < ActiveRecord::Base
 	belongs_to :state, :foreign_key => "bland"
-	belongs_to :country, :foreign_key => "land"
 
   scope :public, where('visible=1 and startdate >= now()')
 

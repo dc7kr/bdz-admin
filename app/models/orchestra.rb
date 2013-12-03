@@ -134,11 +134,11 @@ class Orchestra < ActiveRecord::Base
   end
 
   def letterCountry
-	member.letterCountry
+	  member.letterCountry
   end
 
   def countryCode
-	member.countryCode
+	  member.countryCode
   end
 
   def fullname

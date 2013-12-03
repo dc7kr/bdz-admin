@@ -8,7 +8,6 @@ class Member < ActiveRecord::Base
   validates :email, :email_format => true 
   validates :mglnr, :uniqueness => true
   belongs_to :regional_organization
-  belongs_to :country
 
   has_many :member_account_bookings
 
@@ -35,18 +34,18 @@ class Member < ActiveRecord::Base
   end
 
   def letterCountry
-	  if country == nil || country.id==81 
+	  if country_code == nil 
 		  return ""
 	  else
-		  return country.name.upcase
+		  return country_code.upcase
 	  end
   end
 
   def countryCode 
-	  if country == nil || country.id==81
+	  if country_code == nil 
 		  return ""
 	  else
-		  return country.ccode.upcase
+		  return country_code
 	  end
   end
 

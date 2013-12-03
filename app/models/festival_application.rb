@@ -1,5 +1,5 @@
 class FestivalApplication < ActiveRecord::Base
-  attr_accessible :conductor, :contact_person, :equipment, :country_id, :num_players, :orch_name, :orchestra, :special_cast, :group_type,:permission,:festival_concert_id, :visitor_type, :rehearsal_time
+  attr_accessible :conductor, :contact_person, :equipment, :country_code, :num_players, :orch_name, :orchestra, :special_cast, :group_type,:permission,:festival_concert_id, :visitor_type, :rehearsal_time
   has_many :festival_pieces
   has_many :festival_application_attachments
 
@@ -7,7 +7,6 @@ class FestivalApplication < ActiveRecord::Base
 
 
   belongs_to :contact_person
-  belongs_to :country
   belongs_to :orchestra
   belongs_to :festival_concert
 

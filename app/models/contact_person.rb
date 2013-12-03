@@ -1,8 +1,6 @@
 class ContactPerson < ActiveRecord::Base
 
-  attr_accessible :city, :country, :email, :first_name, :last_name, :phone, :salutation, :street, :zip,:country_id
-
-  belongs_to :country
+  attr_accessible :city, :country_code, :email, :first_name, :last_name, :phone, :salutation, :street, :zip,:country_code
 
   validates :last_name, :first_name, :email, :phone, :presence => true
   validates :email, :email_format => true 

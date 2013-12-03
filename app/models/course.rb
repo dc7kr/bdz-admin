@@ -1,7 +1,6 @@
 class Course < ActiveRecord::Base
 	belongs_to :user , :foreign_key => "fk_owner"
 	belongs_to :state, :foreign_key => "bland"
-	belongs_to :country, :foreign_key => "land"
 	belongs_to :festival, :foreign_key => "festival"
   
   scope :public, where('visible=1 and datum >= now()')
