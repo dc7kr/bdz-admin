@@ -1,6 +1,6 @@
 .group
-  = f.label :country, :class => :label
-  = collection_select(:state, :country_id, Country.order(:name), :id, :name) 
+  = f.label :country_code, :class => :label
+  = country_select(:state, :country_code)
 
 .group
   = f.label :name, :class => :label

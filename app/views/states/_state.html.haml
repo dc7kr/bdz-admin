@@ -2,10 +2,7 @@
   %td
     = state.id
   %td
-    - if ( state.country ) 
-      =  link_to state.country.name,country_path(state.country)
-    - else
-      keines
+    =  state.country_code
   %td
     = link_to state.name, state_path(state)
   %td.last

@@ -29,7 +29,7 @@
       %td= f.text_field :city, :class => 'text_field'
     %tr
       %td.label= f.label :country
-      %td= collection_select(:magazine_sampling, :country_id, Country.all, :id, :name) 
+      %td= country_select(:magazine_sampling, :country_code)
     %tr
       %td.label= f.label :phone
       %td= f.text_field :phone, :class => 'text_field'

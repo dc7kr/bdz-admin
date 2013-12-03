@@ -22,8 +22,8 @@
     = f.label :ort
     = f.text_field :ort
   .field
-    = f.label :country, corika_tr("university","country","Country"), :class => :label
-    = collection_select(:university, :country_id, Country.all, :id, :name) 
+    = f.label :country
+    = country_select(:university, :country_code)
   .field
     = f.label :telefon
     = f.text_field :telefon

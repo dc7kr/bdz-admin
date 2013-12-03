@@ -4,7 +4,7 @@
   %br
   Die hier gemeldeten Vorstandsmitglieder werden nicht automatisch in der Beitragsberechnung als aktive Mitglieder berücksichtigt. Bitte melden Sie die aktiven Vorstandsmitglieder im nächsten Schritt erneut als aktive Mitglieder.
   %br 
-= form_for @report_sheet_input, :url=> submit2_report_sheet_input_path(@report_sheet_input) do |f|
+= form_for @report_sheet_input, :url=> url_for(:action => :submit2, :id=> @report_sheet_input) do |f|
   -OrchestraContact.roles.each_with_index do |role,i|
     - contact = @contact_hash[role]
     = f.fields_for 'contact['+i.to_s+']',contact do |cf|
@@ -38,7 +38,7 @@
           %td=cf.text_field :phone ,:size=>50
   
   .group.navform.wat-cf
-    = back_button(step1_report_sheet_input_path(@report_sheet_input))
+    = back_button(url_for(:action=>:step1, :id=>@report_sheet_input))
     %button.button{:type => "submit"}
       = image_tag("web-app-theme/icons/tick.png", :alt => "#{t("common.save_and_continue")}")
       = t("common.save_and_continue")

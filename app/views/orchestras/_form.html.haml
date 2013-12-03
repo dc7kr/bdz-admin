@@ -28,7 +28,7 @@
       %td= f.text_field :ort, :class => 'text_field'
     %tr
       %td.label= f.label :land, t("member.country")
-      %td= collection_select(:orchestra, :country_id, Country.all, :id, :name) 
+      %td= country_select(:orchestra, :country_code, nil, iso_codes:true)
     %tr
       %td.label= f.label :telefon, t("member.phone")
       %td= f.telephone_field :telefon, :class => 'text_field'
@@ -57,6 +57,12 @@
     %tr
       %td.label= f.label :blz, t("member.blz")
       %td= f.number_field :blz, :class => 'number_field'
+    %tr
+      %td.label= f.label :konto, t("member.iban")
+      %td= f.number_field :iban, :class => 'iban_field'
+    %tr
+      %td.label= f.label :bic, t("member.bic")
+      %td= f.number_field :bic, :class => 'bic_field'
     %tr
       %td.label= f.label :regional_organization, t("regional_organization.s")
       %td= collection_select(:orchestra, :regional_organization_id, RegionalOrganization.all, :id, :name) 

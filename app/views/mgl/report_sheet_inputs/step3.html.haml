@@ -6,11 +6,11 @@
       = render 'form3'
 
       .wat-cf
-        = back_button(step2_report_sheet_input_path(@report_sheet_input))
+        = back_button(url_for(:action =>:step2,:id=>@report_sheet_input))
         - if (@members != nil and @members.count > 0)
-          = wizard_del_button(delete_members_report_sheet_input_path(@report_sheet_input), t('orchestra_member.delete_all'),@members[0]);
+          = wizard_del_button( url_for(:action=>:delete_members,:id=> @report_sheet_input), t('orchestra_member.delete_all'),@members[0]);
         - if (@members != nil and @members.count > 0) or @orchestra.is_coop?
-          = wizard_forward_button(t('common.save_and_continue'),step4_report_sheet_input_path(@report_sheet_input))
+          = wizard_forward_button(t('common.save_and_continue'),url_for(:action=>:step4,:id=> @report_sheet_input))
       -if @members != nil and @members.count >0
         %h3=t('report_sheet_input.current_members')
         %table.border

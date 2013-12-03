@@ -1,4 +1,4 @@
-= form_for @report_sheet_input, :url => submit1_report_sheet_input_path(@report_sheet_input) do |f|
+= form_for @report_sheet_input, :url => url_for(:action => :submit1, :id=> @report_sheet_input) do |f|
   %table.table
     = f.fields_for @report_sheet_input.report_sheet do |rs|
       %tr
@@ -48,11 +48,11 @@
           %td= orch.label :za, t('orchestra.za'), :class => :label
           %td= orch.select :za, options_for_select([["Lastschrift", "L"], ["Rechnung", "R"]],:selected=>@report_sheet_input.orchestra.za) 
       %tr
-        %td=t('member.konto')
-        %td= orch.text_field :konto
+        %td=t('member.iban')
+        %td= orch.text_field :iban
       %tr
-        %td=t('member.blz')
-        %td= orch.text_field :blz
+        %td=t('member.bic')
+        %td= orch.text_field :bic
 
   = submit_button(t("common.save_and_continue"))
   

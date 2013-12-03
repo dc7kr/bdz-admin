@@ -38,7 +38,7 @@
       %td= collection_select(:concert, :bland, State.all, :id, :name)
     %tr
       %td= f.label :country_id
-      %td= collection_select(:concert, :country_id, Country.all, :id, :name)
+      %td= country_select(:concert, :country_code)
     %tr
       %td= f.label :email
       %td= f.text_field :email

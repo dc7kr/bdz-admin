@@ -15,6 +15,6 @@
 
 
 
-  = form_tag upload_report_sheet_input_path(@report_sheet_input), :method => 'post', :multipart=>true do
+  = form_tag url_for(:action=> :upload, :id => @report_sheet_input), :method => 'post', :multipart=>true do
     = file_field_tag :datafile
     = submit_tag "Hochladen", :name => nil

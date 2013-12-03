@@ -1,6 +1,6 @@
 
 
-= form_for @report_sheet , :url=> submit4_report_sheet_input_path(@report_sheet_input) do |f|
+= form_for @report_sheet , :url=> url_for(:action=>:submit4,:id=>@report_sheet_input) do |f|
   
   %h3 1. Mitglieder in Ausbildung
   %table
@@ -67,6 +67,6 @@
       %td=f.check_box(:oz)
   
   .group.navform.wat-cf
-    = back_button( step3_report_sheet_input_path(@report_sheet_input))
+    = back_button( url_for(:action=>:step3, :id=>@report_sheet_input))
     = submit_button( t("common.save_and_continue"))
   
