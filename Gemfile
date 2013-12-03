@@ -6,8 +6,8 @@ gem 'haml'
 gem 'haml-rails'
 
 # DANGER: DONT OMIT iso otherwise it pollutes the default namespace
-#gem 'countries', :require => 'iso3166'
-#gem 'country_select'
+gem 'countries', :require => 'iso3166'
+gem 'country_select'
 
 #gem 'sepa'
 gem 'bankleitzahl'

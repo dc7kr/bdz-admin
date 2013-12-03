@@ -126,9 +126,6 @@ BDZAdmin::Application.routes.draw do
   end
   end
 
-  resources :countries do
-    resources :states
-  end
   resources :classifieds do
     collection do 
       get :inactive
@@ -351,9 +348,6 @@ BDZAdmin::Application.routes.draw do
     end
 
     resources :honor_members
-  resources :countries do
-    resources :states
-  end
 
     resources :ensembles do
     resources :ensemble_concerts
