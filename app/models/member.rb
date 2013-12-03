@@ -13,15 +13,15 @@ class Member < ActiveRecord::Base
   has_many :member_account_bookings
 
   def has_event?(event_type,event_id)
-	if event_type.kind_of?(Array) then
-		MemberEvent.where("member_id = :id and event_type in (:event_type) and event_id = :event_id",:event_id=>event_id,:event_type=>event_type,:id=>id).count > 0
-	else 
-		MemberEvent.where("member_id = :id and event_type = :event_type and event_id = :event_id",:event_id=>event_id,:event_type=>event_type,:id=>id).count > 0
-	end
+	  if event_type.kind_of?(Array) then
+		  MemberEvent.where("member_id = :id and event_type in (:event_type) and event_id = :event_id",:event_id=>event_id,:event_type=>event_type,:id=>id).count > 0
+	  else 
+		  MemberEvent.where("member_id = :id and event_type = :event_type and event_id = :event_id",:event_id=>event_id,:event_type=>event_type,:id=>id).count > 0
+	  end
   end
 
   def is_direct_debit?
-	za == 'L'
+	  za == 'L'
   end
   def fullname 
      result =''
@@ -35,30 +35,32 @@ class Member < ActiveRecord::Base
   end
 
   def letterCountry
-	if country == nil || country.id==81 
-		return ""
-	else
-		return country.name.upcase
-	end
+	  if country == nil || country.id==81 
+		  return ""
+	  else
+		  return country.name.upcase
+	  end
   end
 
   def countryCode 
-	if country == nil || country.id==81
-		return ""
-	else
-		return country.ccode.upcase
-	end
+	  if country == nil || country.id==81
+		  return ""
+	  else
+		  return country.ccode.upcase
+	  end
   end
 
-  def iban
-	if konto == nil or konto == 0 or blz ==nil 
-		return nil
-	end
+  def iban_calc
+	  if konto == nil or konto == 0 or blz ==nil 
+		  return nil
+	  end
   	de_suffix = "131400"
   	padded_kto =  "%010d" % konto
   	suffix = blz+ padded_kto+de_suffix
   	check_digits = 98- (suffix.to_i % 97)
   	iban = "DE"+ ("%02d" % check_digits) + blz+padded_kto
+
+    return iban
   end
 
   def address
@@ -66,8 +68,8 @@ class Member < ActiveRecord::Base
   end
 
   def address_block
-	fullname+"\n"+
-	strasse+"\n"+
-	plz+" "+ort
+	  fullname+"\n"+
+	  strasse+"\n"+
+	  plz+" "+ort
   end
 end

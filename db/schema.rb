@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131118114702) do
+ActiveRecord::Schema.define(:version => 20131203141800) do
 
   create_table "Inserenten", :id => false, :force => true do |t|
     t.string  "Firmenname",    :limit => 35
@@ -50,12 +50,13 @@ ActiveRecord::Schema.define(:version => 20131118114702) do
   end
 
   create_table "bundeslaender", :force => true do |t|
-    t.integer  "country_id", :limit => 8, :default => 0, :null => false
-    t.string   "name",                                   :null => false
-    t.date     "created_on",                             :null => false
-    t.datetime "created_at",                             :null => false
-    t.date     "updated_on",                             :null => false
-    t.datetime "updated_at",                             :null => false
+    t.integer  "country_id",   :limit => 8, :default => 0, :null => false
+    t.string   "name",                                     :null => false
+    t.date     "created_on",                               :null => false
+    t.datetime "created_at",                               :null => false
+    t.date     "updated_on",                               :null => false
+    t.datetime "updated_at",                               :null => false
+    t.string   "country_code", :limit => 2
   end
 
   add_index "bundeslaender", ["country_id"], :name => "country"
@@ -130,6 +131,7 @@ ActiveRecord::Schema.define(:version => 20131118114702) do
     t.string   "uid"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "country_code", :limit => 2
   end
 
   add_index "concerts", ["bland"], :name => "bland"
@@ -160,8 +162,9 @@ ActiveRecord::Schema.define(:version => 20131118114702) do
     t.integer  "country_id"
     t.string   "email"
     t.string   "phone"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",                :null => false
+    t.datetime "updated_at",                :null => false
+    t.string   "country_code", :limit => 2
   end
 
   create_table "contacts", :force => true do |t|
@@ -181,6 +184,9 @@ ActiveRecord::Schema.define(:version => 20131118114702) do
     t.string  "mobile",       :limit => 50
     t.string  "fax",          :limit => 50
     t.string  "email",        :limit => 50
+    t.string  "bic"
+    t.string  "iban"
+    t.string  "country_code", :limit => 2
   end
 
   create_table "country", :force => true do |t|
@@ -1453,19 +1459,20 @@ ActiveRecord::Schema.define(:version => 20131118114702) do
   end
 
   create_table "festivals", :force => true do |t|
-    t.date    "startdate",                                   :null => false
-    t.date    "enddate",                                     :null => false
-    t.integer "bland",       :limit => 8,                    :null => false
-    t.integer "land",        :limit => 8,                    :null => false
-    t.string  "name",                     :default => "",    :null => false
-    t.text    "description",                                 :null => false
-    t.text    "anmeldung",                                   :null => false
-    t.text    "gebuehren",                                   :null => false
-    t.string  "stadt",                    :default => "",    :null => false
-    t.string  "homepage",                 :default => "",    :null => false
-    t.string  "ort",                      :default => "",    :null => false
-    t.text    "ortdetails",                                  :null => false
-    t.boolean "visible",                  :default => false, :null => false
+    t.date    "startdate",                                    :null => false
+    t.date    "enddate",                                      :null => false
+    t.integer "bland",        :limit => 8,                    :null => false
+    t.integer "land",         :limit => 8,                    :null => false
+    t.string  "name",                      :default => "",    :null => false
+    t.text    "description",                                  :null => false
+    t.text    "anmeldung",                                    :null => false
+    t.text    "gebuehren",                                    :null => false
+    t.string  "stadt",                     :default => "",    :null => false
+    t.string  "homepage",                  :default => "",    :null => false
+    t.string  "ort",                       :default => "",    :null => false
+    t.text    "ortdetails",                                   :null => false
+    t.boolean "visible",                   :default => false, :null => false
+    t.string  "country_code", :limit => 2
   end
 
   add_index "festivals", ["bland"], :name => "bland"
@@ -1922,17 +1929,18 @@ ActiveRecord::Schema.define(:version => 20131118114702) do
   end
 
   create_table "hochschulen", :force => true do |t|
-    t.string  "name",                      :null => false
-    t.string  "institut",                  :null => false
-    t.string  "strasse",     :limit => 50, :null => false
-    t.string  "plz",         :limit => 10, :null => false
-    t.string  "ort",         :limit => 50, :null => false
-    t.integer "country_id",  :limit => 8,  :null => false
-    t.string  "telefon",     :limit => 50, :null => false
-    t.string  "studiengang",               :null => false
-    t.string  "dozent",      :limit => 50, :null => false
-    t.string  "email",       :limit => 50, :null => false
-    t.string  "homepage",                  :null => false
+    t.string  "name",                       :null => false
+    t.string  "institut",                   :null => false
+    t.string  "strasse",      :limit => 50, :null => false
+    t.string  "plz",          :limit => 10, :null => false
+    t.string  "ort",          :limit => 50, :null => false
+    t.integer "country_id",   :limit => 8,  :null => false
+    t.string  "telefon",      :limit => 50, :null => false
+    t.string  "studiengang",                :null => false
+    t.string  "dozent",       :limit => 50, :null => false
+    t.string  "email",        :limit => 50, :null => false
+    t.string  "homepage",                   :null => false
+    t.string  "country_code", :limit => 2
   end
 
   add_index "hochschulen", ["country_id"], :name => "land"
@@ -2121,6 +2129,9 @@ ActiveRecord::Schema.define(:version => 20131118114702) do
     t.datetime "update_at"
     t.string   "telefon"
     t.string   "fax"
+    t.string   "bic"
+    t.string   "iban"
+    t.string   "country_code"
   end
 
   add_index "members", ["mglnr"], :name => "mglnr", :unique => true
@@ -3281,19 +3292,20 @@ ActiveRecord::Schema.define(:version => 20131118114702) do
   end
 
   create_table "urls", :force => true do |t|
-    t.integer   "category",   :limit => 8,   :default => 0,  :null => false
-    t.string    "url",                       :default => "", :null => false
-    t.string    "titel",                                     :null => false
-    t.string    "descr",                     :default => "", :null => false
-    t.string    "sprache",                   :default => "", :null => false
-    t.integer   "country_id", :limit => 8,   :default => 0,  :null => false
-    t.integer   "bland",      :limit => 8,   :default => 0,  :null => false
-    t.string    "email",                     :default => "", :null => false
-    t.integer   "fk_user",    :limit => 8,   :default => 1,  :null => false
+    t.integer   "category",     :limit => 8,   :default => 0,  :null => false
+    t.string    "url",                         :default => "", :null => false
+    t.string    "titel",                                       :null => false
+    t.string    "descr",                       :default => "", :null => false
+    t.string    "sprache",                     :default => "", :null => false
+    t.integer   "country_id",   :limit => 8,   :default => 0,  :null => false
+    t.integer   "bland",        :limit => 8,   :default => 0,  :null => false
+    t.string    "email",                       :default => "", :null => false
+    t.integer   "fk_user",      :limit => 8,   :default => 1,  :null => false
     t.timestamp "lastchange"
-    t.datetime  "confirmed",                                 :null => false
-    t.string    "ip",         :limit => 100,                 :null => false
-    t.integer   "visible",                   :default => 0,  :null => false
+    t.datetime  "confirmed",                                   :null => false
+    t.string    "ip",           :limit => 100,                 :null => false
+    t.integer   "visible",                     :default => 0,  :null => false
+    t.string    "country_code", :limit => 2
   end
 
   add_index "urls", ["bland"], :name => "bland"
