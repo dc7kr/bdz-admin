@@ -801,6 +801,7 @@ de:
           FP: "Festival-Zulassungen"
           FJ: "Jugend musiziert Ensembles"
           FO: "OpenAir Teilnehmer"
+          FR: "Reguläre Teilnehmer"
           FS: "Teilnehemer mit Sondervereinbarungen"
         subject: Thema
         body: Mail-Inhalt
