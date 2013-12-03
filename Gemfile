@@ -5,6 +5,13 @@ gem 'rails', '3.2.15'
 gem 'haml'
 gem 'haml-rails'
 
+# DANGER: DONT OMIT iso otherwise it pollutes the default namespace
+#gem 'countries', :require => 'iso3166'
+#gem 'country_select'
+
+#gem 'sepa'
+gem 'bankleitzahl'
+
 gem 'coffee-rails', "~> 3.2.1"
 gem 'uglifier', ">= 1.3.0"
 
