@@ -4,6 +4,7 @@ class Mgl::ReportSheetInputsController < ApplicationController
   include NotifyHelper  
   include UploadHelper
   include ReportSheetUploadHelper
+  helper ReportSheetInputsHelper
 
   def authorize
 	@sess_token = session[:report_sheet_input_token]
@@ -12,7 +13,7 @@ class Mgl::ReportSheetInputsController < ApplicationController
 	url_id = params[:id].to_i
 	
 	if ( @sess_token == nil or @input_id != url_id) then
-		redirect_to login_mgl_report_sheet_inputs_path, :flash => { :error => t('report_sheet_input.login_first') } 
+		redirect_to url_for(:action=>:login), :flash => { :error => t('report_sheet_input.login_first') } 
 		return
 	end
 
@@ -21,11 +22,11 @@ class Mgl::ReportSheetInputsController < ApplicationController
 #		return
 #	end
 	if ( @report_sheet_input == nil ) then
-		redirect_to login_mgl_report_sheet_inputs_path, :flash => { :notice => t('report_sheet_input.not_found') }
+		redirect_to url_for(:action=>:login), :flash => { :notice => t('report_sheet_input.not_found') }
 		return
 	end
 	if ( @report_sheet_input.token != @sess_token ) then
-		redirect_to login_mgl_report_sheet_inputs_path , :flash => { :error => t('report_sheet_input.not_authorized') } 
+		redirect_to url_for(:action=>:login) , :flash => { :error => t('report_sheet_input.not_authorized') } 
 		return
 	end
   end
@@ -41,15 +42,14 @@ class Mgl::ReportSheetInputsController < ApplicationController
 
 		if ( @report_sheet_input == nil ) then
 			Rails.logger.warn('Invalid token: ')
-			redirect_to :action=>:login, notice: 'Invalid token'
+			redirect_to :action=>:login, notice: t('report_sheet_input.invalid_token')
 		else
 			@orchestra = @report_sheet_input.orchestra
 			session[:report_sheet_input_id]=@report_sheet_input.id
 			session[:report_sheet_input_token]=params[:token]
 
-			redirect_to step1_report_sheet_input_path(@report_sheet_input)
+			redirect_to :action=>:step1, :id=> @report_sheet_input
 		end
-			
   end
 
 
@@ -116,8 +116,8 @@ class Mgl::ReportSheetInputsController < ApplicationController
     
     respond_to do |format|
       if @report_sheet_input.orchestra.update_attributes(params[:report_sheet_input][:orchestra]) and @report_sheet_input.report_sheet.update_attributes(params[:report_sheet_input][:report_sheet]) then
-        format.html { redirect_to step2_report_sheet_input_path(@report_sheet_input), notice: t('report_sheet_input.save_success') }
-        format.json { render json: @report_sheet_input, status: :created, location: step2_report_sheet_input_path(@report_sheet_input) }
+        format.html { redirect_to :action => :step2, :id => @report_sheet_input, notice: t('report_sheet_input.save_success') }
+        format.json { render json: @report_sheet_input, status: :created, location: url_for(:action=>:step2,:id=>@report_sheet_input) }
       else
         format.html { render action: "step1" }
         format.json { render json: @report_sheet_input.errors, status: :unprocessable_entity }
@@ -150,7 +150,7 @@ class Mgl::ReportSheetInputsController < ApplicationController
 	end
 
     respond_to do |format|
-        format.html { redirect_to step3_report_sheet_input_path(@report_sheet_input), notice: t('report_sheet_input.save_success') }
+        format.html { redirect_to :action=>:step3, :id=> @report_sheet_input, notice: t('report_sheet_input.save_success') }
     end
   end
  
@@ -218,9 +218,9 @@ class Mgl::ReportSheetInputsController < ApplicationController
 			respond_to do |format|
 				format.html { 
 					if ( @rs.update_attributes(params[:report_sheet]) ) then 
-						redirect_to finalize_report_sheet_input_path(@report_sheet_input), notice: t('report_sheet_input.save_success') 
+						redirect_to url_for(:action=>:finalize,:id=>@report_sheet_input), notice: t('report_sheet_input.save_success') 
 					else 
-						redirect_to step4_report_sheet_input_path(@report_sheet_input), :flash => { :error => t('report_sheet_input.save_error') } 
+						redirect_to url_for(:action=>:step4,:id=>@report_sheet_input), :flash => { :error => t('report_sheet_input.save_error') } 
 					end
 				}
 			end
@@ -365,7 +365,7 @@ class Mgl::ReportSheetInputsController < ApplicationController
 			prefix = @orchestra.mglnr.to_s+"_"+Time.now.year.to_s+"_"
 
 			if (datafile == nil ) then
-      	  		redirect_to step3_report_sheet_input_path(@report_sheet_input), :flash => { :error => t('report_sheet_input.no_file_selected') } 
+      	  		redirect_to url_for(:action=>:step3,:id=>@report_sheet_input), :flash => { :error => t('report_sheet_input.no_file_selected') } 
 				return
 			end
 
@@ -377,13 +377,13 @@ class Mgl::ReportSheetInputsController < ApplicationController
 
 				doc = open_report_spreadsheet(@att_file,uploaded_file)
 				if ( doc == nil ) then
-      	  			redirect_to step3_report_sheet_input_path(@report_sheet_input), :flash => { :error => t('report_sheet_input.invalid_upload') } 
+      	  			redirect_to url_for(:action=>:step3,:id=>@report_sheet_input), :flash => { :error => t('report_sheet_input.invalid_upload') } 
 				else
 					read_report(doc,@orchestra)
 					if ( @error_count > 0 ) then 
-   	     				redirect_to step3_report_sheet_input_path(@report_sheet_input), :flash => { :warning=> t('orchestra.report_sheet_upload_warning',:error => @error_count,:success => @success_count) } 
+   	     				redirect_to url_for(:action=>:step3,:id=>@report_sheet_input), :flash => { :warning=> t('orchestra.report_sheet_upload_warning',:error => @error_count,:success => @success_count) } 
 					else
-   	     				redirect_to step3_report_sheet_input_path(@report_sheet_input), :flash => { :notice=> t('orchestra.report_sheet_upload_success',:success => @success_count) } 
+   	     				redirect_to url_for(:action=>:step3,:id=>@report_sheet_input), :flash => { :notice=> t('orchestra.report_sheet_upload_success',:success => @success_count) } 
 					end
 		end
 	end
@@ -394,7 +394,7 @@ class Mgl::ReportSheetInputsController < ApplicationController
 	@report_sheet_input = ReportSheetInput.find(params[:id])
 	@report_sheet_input.orchestra.orchestra_members.delete_all
     respond_to do |format|
-        format.html { redirect_to step3_report_sheet_input_path(@report_sheet_input), notice: t('report_sheet_input.member_delete_success') }
+        format.html { redirect_to url_for(:action=>:step3,:id=>@report_sheet_input), notice: t('report_sheet_input.member_delete_success') }
     end
   end
  
