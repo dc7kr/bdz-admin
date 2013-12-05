@@ -4,7 +4,7 @@
   %table
     %tr
       %td= f.label :country_code, :class=> :label
-      %td= country_select(:festival_application, :country_code)
+      %td= country_select(:festival_application, :country_code, nil, iso_codes:true)
     %tr
       %td= f.label :group_type, :class => :label
       %td= f.select :group_type, get_group_type_options(@festival_application.group_type)
@@ -51,7 +51,7 @@
               %td=person_f.text_field :city
             %tr
               %td=person_f.label :country_id
-              %td=person_f.collection_select(:country_id, Country.all, :id, :name, :selected=>@festival_application.contact_person.country_id) 
+              %td=person_f.country_select(:country_code, nil, :iso_codes=>true)
             %tr
               %td=person_f.label :phone
               %td=person_f.text_field :phone
