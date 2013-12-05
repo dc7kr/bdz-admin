@@ -16,9 +16,9 @@
     = orchestra.currentGema
   %td
     - if ( currentSheet ) then @orchSum= @orchSum + currentSheet.calcLvPart end
-    = if ( currentSheet and orchestra.is_direct_debit? ) then format_currency(currentSheet.calcLvPart,'EUR') end
+    = if ( currentSheet ) then format_currency(currentSheet.calcLvPart,'EUR') end
   %td
     - if ( currentSheet ) then @orchFullSum= @orchFullSum + currentSheet.calcInvoice end
-    = if ( currentSheet  and orchestra.is_direct_debit? ) then format_currency(currentSheet.calcInvoice,'EUR') end
+    = if ( currentSheet ) then format_currency(currentSheet.calcInvoice,'EUR') end
   %td.last
 
