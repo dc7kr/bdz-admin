@@ -27,7 +27,7 @@
   %td=f.text_field :city
 %tr
   %td= f.label :country, t("country.s"), :class => :label
-  %td= f.country_select(:contact, :country_code)
+  %td= country_select(:contact, :country_code, nil, iso_codes:true)
 %tr
   %td=f.label :phone, t("contact.phone"),:class=>:label
   %td=f.text_field :phone

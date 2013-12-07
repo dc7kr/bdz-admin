@@ -167,7 +167,7 @@ class ReportSheet < ActiveRecord::Base
 	end
 
 	def calcLvPart
-		return calcBeitrag*0.15
+		return calcBeitrag*BDZ_SETTINGS['tariff']['lvPart']
 	end
 
 	def calcZeitungen
@@ -198,11 +198,12 @@ class ReportSheet < ActiveRecord::Base
    end
 
   def delayed?
-    return report_date.month > 1
+    if report_date.nil? then
+      return false 
+    else 
+      return report_date.month > 1
+    end
   end
-
-
-
 
 #	TODO: def scoped for easier retrieval!
 #   def orchestras 

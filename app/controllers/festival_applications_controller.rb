@@ -13,7 +13,7 @@ class FestivalApplicationsController < AuthenticatedController
   end
 
   def permitted 
-    @festival_applications = FestivalApplication.includes(:country).where(:permission=>true).order([:group_type,:orch_name])
+    @festival_applications = FestivalApplication.where(:permission=>true).order([:group_type,:orch_name])
     @sum_players = FestivalApplication.where(:permission=>true).sum(:num_players)
     now = Time.new
 	currDate = now.strftime("%d.%m.%Y")
@@ -33,7 +33,7 @@ class FestivalApplicationsController < AuthenticatedController
   end
 
   def list
-    @festival_applications = FestivalApplication.includes(:country).order([:group_type,:orch_name])
+    @festival_applications = FestivalApplication.order([:group_type,:orch_name])
     now = Time.new
 	currDate = now.strftime("%d.%m.%Y")
 

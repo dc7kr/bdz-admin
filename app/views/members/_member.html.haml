@@ -8,14 +8,14 @@
   %td.label #{t("member.street")}:
   %td= member.strasse
 %tr
-  %td.label #{t("country.s")}:
-  %td= member.country_code
-%tr
   %td.label #{t("member.zip")}:
   %td= member.plz
 %tr
   %td.label #{t("member.city")}:
   %td= member.ort
+%tr
+  %td.label #{t("country.s")}:
+  %td= ISO3166::Country[member.country_code].translations["de"]
 %tr
   %td.label #{t("member.email")}:
   %td= mail_to member.email, member.email
@@ -29,14 +29,11 @@
   %td.label #{t("member.za")}:
   %td #{t("common.za_"+member.za)}
 %tr
-  %td.label #{t("member.konto")}:
-  %td= member.konto
-%tr
   %td.label #{t("member.iban")}:
   %td= member.iban
 %tr
-  %td.label #{t("member.blz")}:
-  %td= member.blz
+  %td.label #{t("member.bic")}:
+  %td= member.bic
 %tr
   %td.label #{t("member.zahler")}:
   %td= member.zahler

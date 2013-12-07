@@ -1,9 +1,11 @@
 require 'blz_validator'
+require 'iban_validator'
 
 class Member < ActiveRecord::Base
   acts_as_superclass
 
   validates :blz , :blz => true
+  validates :iban, :iban => true
   validates :konto, :konto => true
   validates :email, :email_format => true 
   validates :mglnr, :uniqueness => true

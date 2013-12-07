@@ -67,9 +67,15 @@ class Orchestra < ActiveRecord::Base
   end
 
   def currentTotal
-	if ( currentReportSheet ) then 
+	  if ( currentReportSheet ) then 
 	    return currentReportSheet.totalActiveMembers
-	end
+	  end
+  end
+
+  def currentLvShare  
+    if ( currentReportSheet ) then
+      return currentReportSheet.calcLvPart
+    end
   end
 
   def currentAgeKeyStr

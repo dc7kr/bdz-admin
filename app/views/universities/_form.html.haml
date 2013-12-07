@@ -23,7 +23,7 @@
     = f.text_field :ort
   .field
     = f.label :country
-    = country_select(:university, :country_code)
+    = country_select(:university, :country_code, nil, :iso_codes=>true)
   .field
     = f.label :telefon
     = f.text_field :telefon

@@ -163,6 +163,8 @@ Devise.setup do |config|
   # to be supplied on each request. Useful if you are using the token as API token.
   # config.stateless_token = false
 
+  config.authentication_keys = :login
+
   # ==> Scopes configuration
   # Turn scoped views on. Before rendering "sessions/new", it will first check for
   # "users/sessions/new". It's turned off by default because it's slower if you

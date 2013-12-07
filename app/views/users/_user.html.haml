@@ -1,4 +1,5 @@
 %tr{:class => cycle("odd", "even")}
+  %td= user.username
   %td= user.email
   %td= format_date_time(user.last_sign_in_at)
   %td= user.last_sign_in_ip

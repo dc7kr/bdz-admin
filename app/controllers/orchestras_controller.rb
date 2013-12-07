@@ -239,7 +239,7 @@ class OrchestrasController < AuthenticatedController
 
 		session[:report_sheet_input_id]=@rsi.id
 		session[:report_sheet_input_token]=@rsi.token
-		redirect_to step1_report_sheet_input_url(@rsi)
+		redirect_to polymorphic_url([:mgl, @rsi],:action=>:step1)
 	end
   end
 

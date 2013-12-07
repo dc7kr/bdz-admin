@@ -23,7 +23,7 @@
     = f.text_field :sprache
   .field
     = f.label :country
-    = country_select(:url, :country_code)
+    = country_select(:url, :country_code, nil, :iso_codes=>true)
   .field
     = f.label :bland, corika_tr("url","state","STATE")
     = collection_select(:url, :bland, State.all, :id, :name) 

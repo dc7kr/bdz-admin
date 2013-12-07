@@ -5,6 +5,9 @@
     .inner
       %table
         %tr
+          %td.label #{t("user.username")}:
+          %td= @user.username
+        %tr
           %td.label #{t("user.email")}:
           %td= @user.email
         %tr

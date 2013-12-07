@@ -59,10 +59,10 @@
       %td= f.number_field :blz, :class => 'number_field'
     %tr
       %td.label= f.label :konto, t("member.iban")
-      %td= f.number_field :iban, :class => 'iban_field'
+      %td= f.text_field :iban, :class => 'iban_field'
     %tr
       %td.label= f.label :bic, t("member.bic")
-      %td= f.number_field :bic, :class => 'bic_field'
+      %td= f.text_field :bic, :class => 'bic_field'
     %tr
       %td.label= f.label :regional_organization, t("regional_organization.s")
       %td= collection_select(:orchestra, :regional_organization_id, RegionalOrganization.all, :id, :name) 

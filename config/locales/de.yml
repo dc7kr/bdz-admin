@@ -376,6 +376,7 @@ de:
     konto: Konto-Nr.
     blz: BLZ
     iban: IBAN
+    bic: BIC
     zahler: Konto-Inhaber
     email: E-Mail
     name: Name
@@ -606,11 +607,13 @@ de:
   user:
     p: Benutzer
     s: Benutzer
+    username: Benutzername
     email: E-Mail
     last_sign_in_at: Letzer Login
     last_sign_in_ip: Letze IP
     sign_in_count: Anzahl Logins
     auth_token: Auth-Token
+    login: "Login ( Email oder Benutzername)"
     
   users:
     profile:

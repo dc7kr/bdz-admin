@@ -1,6 +1,6 @@
 .group
   = f.label :country_code, :class => :label
-  = country_select(:state, :country_code)
+  = country_select(:state, :country_code, nil, :iso_codes=>true)
 
 .group
   = f.label :name, :class => :label

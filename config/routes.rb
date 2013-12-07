@@ -186,6 +186,7 @@ BDZAdmin::Application.routes.draw do
   resources :regional_organizations  do 
   member do
     get :members
+    get :fee_shares
     get :orch
     get :person
         get :oddset_report
