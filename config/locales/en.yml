@@ -61,7 +61,7 @@ en:
     update_success: was successfully updated.
     download: Download
     up: One level up
-    salutation:
+    salutations:
       M: Mr.
       W: Mrs.
     salutation_d:

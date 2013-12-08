@@ -1,4 +1,8 @@
+require 'odf/spreadsheet'
 class FestivalApplicationsController < AuthenticatedController
+
+  include CountryHelper
+
   layout :choose_layout
   # GET /festival_applications
   # GET /festival_applications.json
@@ -16,7 +20,7 @@ class FestivalApplicationsController < AuthenticatedController
     @festival_applications = FestivalApplication.where(:permission=>true).order([:group_type,:orch_name])
     @sum_players = FestivalApplication.where(:permission=>true).sum(:num_players)
     now = Time.new
-	currDate = now.strftime("%d.%m.%Y")
+	  currDate = now.strftime("%d.%m.%Y")
 
 	respond_to do |format|
 	  format.html { render :index}
@@ -35,20 +39,36 @@ class FestivalApplicationsController < AuthenticatedController
   def list
     @festival_applications = FestivalApplication.order([:group_type,:orch_name])
     now = Time.new
-	currDate = now.strftime("%d.%m.%Y")
+	  currDate = now.strftime("%d.%m.%Y")
 
-	respond_to do |format|
-	  format.html { render}
-	  format.pdf do
-		pdf = FestivalApplicationsPdf.new(@festival_applications,view_context)
-		send_data pdf.render, filename: "festival_applications_#{currDate}.pdf", type: "application/pdf", disposition: "inline"
-	  end
-	  format.ods do renderApplicationOds(@festival_applications,"/tmp/festival_applications.ods") 
-            send_file("/tmp/festival_applications.ods", :filename => "festival_applications_"+Time.now.year.to_s+".ods", :type => "application/octet-stream")
+    respond_to do |format|
+      format.html { render}
+      format.pdf do
+      pdf = FestivalApplicationsPdf.new(@festival_applications,view_context)
+      send_data pdf.render, filename: "festival_applications_#{currDate}.pdf", type: "application/pdf", disposition: "inline"
+      end
+      format.ods do renderApplicationOds(@festival_applications,"/tmp/festival_applications.ods") 
+              send_file("/tmp/festival_applications.ods", :filename => "festival_applications_"+Time.now.year.to_s+".ods", :type => "application/octet-stream")
+      end
+    end
+  end
 
-		end
+  def grp_list
+    @festival_applications = FestivalApplication.where("visitor_type = ?",params[:visitor_type]).order([:group_type,:orch_name])
 
-	end
+    now = Time.new
+	  currDate = now.strftime("%d.%m.%Y")
+
+    respond_to do |format|
+      format.html { render}
+      format.pdf do
+      pdf = FestivalApplicationsPdf.new(@festival_applications,view_context)
+      send_data pdf.render, filename: "festival_applications_#{currDate}.pdf", type: "application/pdf", disposition: "inline"
+      end
+      format.ods do renderApplicationOds(@festival_applications,"/tmp/festival_applications.ods") 
+              send_file("/tmp/festival_applications.ods", :filename => "festival_applications_"+Time.now.year.to_s+".ods", :type => "application/octet-stream")
+      end
+    end
   end
 
   # GET /festival_applications/1
@@ -143,11 +163,8 @@ class FestivalApplicationsController < AuthenticatedController
   end
 
   def renderApplicationOds(applications,filename)
-	  germany = Country.find_by_name("Deutschland")
 
-	
-
-	ODF::Spreadsheet.file(filename) do
+	  ODF::Spreadsheet.file(filename) do
 				table "Festival Anmeldungen"  do
 					row {
 						cell I18n.t("common.number")
@@ -161,7 +178,7 @@ class FestivalApplicationsController < AuthenticatedController
 				    cell I18n.t("contact_person.street")
 				    cell I18n.t("contact_person.zip")
 				    cell I18n.t("contact_person.city")
-				    cell I18n.t("contact_person.country_id")
+				    cell I18n.t("contact_person.country_code")
 				    cell I18n.t("contact_person.email")
 						cell I18n.t("festival_application.special_cast")
 						cell I18n.t("festival_application.equipment")
@@ -183,7 +200,7 @@ class FestivalApplicationsController < AuthenticatedController
 					}
 
 	    			applications.each do |app|
-						if ( app.country_id != germany.id ) then 
+						if ( app.country_code != "de" ) then 
 							grp_locale=:en
 						else
 							grp_locale=:de
@@ -193,19 +210,15 @@ class FestivalApplicationsController < AuthenticatedController
 							cell app.id
 							cell I18n.t("festival_application.group_types."+app.group_type)
 							cell app.orch_name
-							cell app.country.name
+							cell app.t_country
 							cell app.num_players
-							cell I18n.t("common.salutation."+app.contact_person.salutation,:locale=>grp_locale)
+							cell I18n.t("common.salutations."+app.contact_person.salutation,:locale=>grp_locale)
 							cell app.contact_person.first_name
 							cell app.contact_person.last_name
 							cell app.contact_person.street
 							cell app.contact_person.zip
 							cell app.contact_person.city
-							if (app.contact_person.country != nil ) then
-								cell app.contact_person.country.name
-							else
-								cell "NIL"
-							end
+							cell app.contact_person.t_country
 							cell app.contact_person.email
 
 							cell app.special_cast

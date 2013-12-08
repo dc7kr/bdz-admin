@@ -1,4 +1,7 @@
 class FestivalApplication < ActiveRecord::Base
+
+  include CountryHelper
+
   attr_accessible :conductor, :contact_person, :equipment, :country_code, :num_players, :orch_name, :orchestra, :special_cast, :group_type,:permission,:festival_concert_id, :visitor_type, :rehearsal_time
   has_many :festival_pieces
   has_many :festival_application_attachments
@@ -10,6 +13,9 @@ class FestivalApplication < ActiveRecord::Base
   belongs_to :orchestra
   belongs_to :festival_concert
 
+  def t_country(locale="de")
+    translated_country(country_code,locale) 
+  end
 
 
 end

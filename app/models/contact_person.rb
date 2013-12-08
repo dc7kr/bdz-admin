@@ -1,4 +1,5 @@
 class ContactPerson < ActiveRecord::Base
+  include CountryHelper
 
   attr_accessible :city, :country_code, :email, :first_name, :last_name, :phone, :salutation, :street, :zip,:country_code
 
@@ -20,5 +21,9 @@ class ContactPerson < ActiveRecord::Base
       result = result + last_name
      end
      return result
+  end
+
+  def t_country(locale="de")
+    translated_country(country_code,locale)
   end
 end

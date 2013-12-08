@@ -90,6 +90,7 @@ BDZAdmin::Application.routes.draw do
 
   resources :festival_applications do
     collection do
+      post :grp_list
       get :list
       get :permitted
     end
