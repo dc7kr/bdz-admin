@@ -1,4 +1,7 @@
 class FestivalApplicationsPdf < Prawn::Document
+
+  include CountryHelper
+
   def initialize(applications, view)
     super(top_margin: 70)
     @applications = applications
@@ -14,7 +17,7 @@ class FestivalApplicationsPdf < Prawn::Document
   def head(app)
     text "#{@view.t('festival_application.s')} Nr. #{app.id}", size: 20, style: :bold
     text "#{app.orch_name} (#{@view.t('festival_application.group_types.'+app.group_type)})", size: 20, style: :bold
-	text "Herkunftsland: "+app.country.name, size:16
+	text "Herkunftsland: "+translated_country(app.country_code), size:16
 	text "Dirigent: "+app.conductor
   end
 
@@ -24,7 +27,7 @@ class FestivalApplicationsPdf < Prawn::Document
 	if contact == nil then
 		return
 	end
-	text @view.t('common.salutation.'+contact.salutation)+" "+ contact.first_name+" "+contact.last_name
+	text @view.t('common.salutations.'+contact.salutation)+" "+ contact.first_name+" "+contact.last_name
 	text contact.street
 	text contact.zip+" "+contact.city
 	text contact.phone

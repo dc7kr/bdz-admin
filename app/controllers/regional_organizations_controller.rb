@@ -88,47 +88,66 @@ class RegionalOrganizationsController < ApplicationController
   end
 
   def orch
-	@orchestras = Orchestra.includes(:member).where("members.regional_organization_id = ?", params[:id]).order("members.mglnr")
-	respond_to do |format|
-		format.csv { render :csv => @orchestras, :style=>:lv, :filename => "orch_lv"+@regional_organization.nummer.to_s+"_"+Time.now.year.to_s }
-	end
+  	@orchestras = Orchestra.includes(:member).where("members.regional_organization_id = ?", params[:id]).order("members.mglnr")
+	  respond_to do |format|
+		  format.csv { render :csv => @orchestras, :style=>:lv, :filename => "orch_lv"+@regional_organization.nummer.to_s+"_"+Time.now.year.to_s }
+	  end
   end
 
   def person
-	@person_members = PersonMember.includes(:member).where("members.regional_organization_id = ?", params[:id]).order("members.mglnr")
-	respond_to do |format|
-		format.csv { render :csv => @person_members, :style=>:lv, :filename => "em_lv"+@regional_organization.nummer.to_s+"_"+Time.now.year.to_s }
-	end
+	  @person_members = PersonMember.includes(:member).where("members.regional_organization_id = ?", params[:id]).order("members.mglnr")
+	  respond_to do |format|
+		  format.csv { render :csv => @person_members, :style=>:lv, :filename => "em_lv"+@regional_organization.nummer.to_s+"_"+Time.now.year.to_s }
+	  end
   end
  
   def members 
     @regional_organization = RegionalOrganization.find(params[:id])
-	@lvSum=0
-	@orchSum=0
-	@orchFullSum=0
-	@personSum=0
-	@orchestras =  Orchestra.includes([:member,:report_sheets]).where('members.regional_organization_id =?',params[:id]).order('members.mglnr')
-	@person_members = PersonMember.includes(:member,:tariff).where('members.regional_organization_id = ?',params[:id]).order('members.mglnr')
+	  @lvSum=0
+	  @orchSum=0
+	  @orchFullSum=0
+	  @personSum=0
+	  @orchestras =  Orchestra.includes([:member,:report_sheets]).where('members.regional_organization_id =?',params[:id]).order('members.mglnr')
+	  @person_members = PersonMember.includes(:member,:tariff).where('members.regional_organization_id = ?',params[:id]).order('members.mglnr')
 
-	respond_to do |format|
-		format.html 
-		format.pdf do
-			pdf = RegionalOrganizationPdf.new(@regional_organization,@orchestras,@person_members,view_context)
-			send_data pdf.render, filename: "lv_#{@regional_organization.id}.pdf",
-				type: "application/pdf",
-				disposition: "inline"
-		end
-		format.csv 
-	end
+	  respond_to do |format|
+		  format.html 
+		  format.pdf do
+			  pdf = RegionalOrganizationPdf.new(@regional_organization,@orchestras,@person_members,view_context)
+			  send_data pdf.render, filename: "lv_#{@regional_organization.id}.pdf",
+				  type: "application/pdf",
+			  	disposition: "inline"
+		  end
+		  format.csv 
+	  end
+  end
+
+  def fee_shares
+    @regional_organization = RegionalOrganization.find(params[:id])
+	  @lvSum=0
+	  @orchSum=0
+	  @orchFullSum=0
+	  @personSum=0
+	  @orchestras =  Orchestra.includes([:member,:report_sheets]).where('members.regional_organization_id =?',params[:id]).order('members.mglnr')
+	  @person_members = PersonMember.includes(:member,:tariff).where('members.regional_organization_id = ?',params[:id]).order('members.mglnr')
+
+	  respond_to do |format|
+		  format.pdf do
+			  pdf = RegionalOrganizationFeeSharePdf.new(@regional_organization,@orchestras,@person_members,view_context)
+			  send_data pdf.render, filename: "beitragsanteile_lv_#{@regional_organization.id}.pdf",
+				  type: "application/pdf",
+			  	disposition: "inline"
+		  end
+    end
   end
 
 
   def create_final_payment
-	lvs = @RegionalOrganization.all
+	  lvs = @RegionalOrganization.all
 
-	lvs.each do |lv|
+	  lvs.each do |lv|
 		
-	end
+	  end
   end
 
   def oddset_report

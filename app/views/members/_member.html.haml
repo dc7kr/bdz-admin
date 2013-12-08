@@ -15,7 +15,7 @@
   %td= member.ort
 %tr
   %td.label #{t("country.s")}:
-  %td= ISO3166::Country[member.country_code].translations["de"]
+  %td=translated_country(member.country_code)
 %tr
   %td.label #{t("member.email")}:
   %td= mail_to member.email, member.email

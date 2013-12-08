@@ -24,7 +24,7 @@
           %td= @contact_person.city
         %tr
           %td=label :contact_person, :country
-          %td= @contact_person.country_code
+          %td=translated_country(@contact_person.country_code)
         %tr
           %td=label :contact_person, :email
           %td= @contact_person.email

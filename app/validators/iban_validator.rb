@@ -1,6 +1,7 @@
 class IbanValidator < ActiveModel::EachValidator
   def validate_each(record,attribute,value)
-    record.errors.add attribute, I18n.t('errors.iban.required') if value.blank?
+    #record.errors.add attribute, I18n.t('errors.iban.required') if value.blank?
+    if value.blank? return
     # IBAN code should start with country code (2letters)
     record.errors.add attribute, I18n.t('errors.iban.cc_missing') unless value.to_s =~ /^[A-Z]{2}/i
     iban = value.gsub(/[A-Z]/) { |p| (p.respond_to?(:ord) ? p.ord : p[0]) - 55 }

@@ -1,5 +1,7 @@
 module ApplicationHelper
 
+  include CountryHelper
+
   def is_production?
 	ENV["RAILS_ENV"] == "production"
   end
@@ -31,6 +33,7 @@ module ApplicationHelper
   def subtitle
     ''
   end
+
 
 def c_t(entity,field)
 	c_t(entity,field,nil)

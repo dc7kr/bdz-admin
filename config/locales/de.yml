@@ -275,6 +275,10 @@ de:
       second: Sekunden
       year: Jahr
   errors:
+    iban:
+      required: "IBAN muss eingegeben werden"
+      iban_cc_missing: "Ungültige IBAN: kein Ländercode"
+      invalid_format: "Ungültiges IBAN-Format"
     format: "%{message}"  
     
     konto:

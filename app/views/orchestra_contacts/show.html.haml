@@ -27,7 +27,7 @@
           %td=@orchestra_contact.city
         %tr
           %td.label #{t("orchestra_contact.country")}:
-          %td=@orchestra_contact.country_code
+          %td=translated_country(@orchestra_contact.country_code)
         %tr
           %td.label #{t("orchestra_contact.email")}:
           %td=mail_to @orchestra_contact.email,@orchestra_contact.email

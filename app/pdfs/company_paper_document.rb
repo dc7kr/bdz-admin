@@ -1,4 +1,7 @@
 class CompanyPaperDocument < Prawn::Document
+
+  include CountryHelper
+
   def initialize(templateFile)
     super(:template=>templateFile)
     @left_margin = 25
@@ -32,7 +35,7 @@ class CompanyPaperDocument < Prawn::Document
     text_box addressee.zip+" "+addressee.city, :at => [xpos,rowpos]
     rowpos-=@addr_rowskip
     rowpos-=@addr_rowskip
-    text_box addressee.country.name, :at => [xpos,rowpos]
+    text_box translated_country(addressee.country_code), :at => [xpos,rowpos]
   end
 
 end
