@@ -4,6 +4,7 @@ class Mgl::ReportSheetInputsController < ApplicationController
   include NotifyHelper  
   include UploadHelper
   include ReportSheetUploadHelper
+  include CountryHelper
   helper ReportSheetInputsHelper
 
   def authorize

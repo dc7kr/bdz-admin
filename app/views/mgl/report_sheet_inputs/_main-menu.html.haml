@@ -1,5 +1,6 @@
 %ul.wat-cf
-  %li=link_to t('report_sheet_input.login_title'), url_for( :action=>"step1" , :id=>@report_sheet_input )
-  - if @report_sheet_input != nil && @report_sheet_input.report_sheet.orchestra != nil then
-    %li=link_to t('report_sheet_input.pdf_confirm'),url_for(:action=>"confirm", :format => :pdf , :id => @report_sheet_input )
+  - if not @report_sheet_input.nil? then
+    %li=link_to t('report_sheet_input.login_title'), url_for( :action=>"step1" , :id=>@report_sheet_input )
+    - if @report_sheet_input != nil && @report_sheet_input.report_sheet.orchestra != nil then
+      %li=link_to t('report_sheet_input.pdf_confirm'),url_for(:action=>"confirm", :format => :pdf , :id => @report_sheet_input )
 

@@ -41,8 +41,8 @@ BDZAdmin::Application.routes.draw do
   end
   resources :advertisers
 
-  resources :mgl, :controller => "member_area"
-  # BEGIN member namespace
+  #resources :mgl, :controller => "member_area"
+    # BEGIN member namespace
   namespace :mgl do
     resources :orchestras
     resources :person_members

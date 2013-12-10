@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131203141800) do
+ActiveRecord::Schema.define(:version => 20131203180100) do
 
   create_table "Inserenten", :id => false, :force => true do |t|
     t.string  "Firmenname",    :limit => 35
@@ -1429,14 +1429,15 @@ ActiveRecord::Schema.define(:version => 20131203141800) do
     t.text     "equipment"
     t.text     "special_cast"
     t.integer  "contact_person_id"
-    t.datetime "created_at",          :null => false
-    t.datetime "updated_at",          :null => false
+    t.datetime "created_at",                       :null => false
+    t.datetime "updated_at",                       :null => false
     t.string   "group_type"
     t.string   "uuid"
     t.boolean  "permission"
     t.integer  "festival_concert_id"
     t.datetime "rehearsal_time"
     t.string   "visitor_type"
+    t.string   "country_code",        :limit => 2
   end
 
   create_table "festival_concerts", :force => true do |t|
@@ -1987,23 +1988,24 @@ ActiveRecord::Schema.define(:version => 20131203141800) do
   end
 
   create_table "konz_ensemble", :force => true do |t|
-    t.datetime "datum",                                                                                      :null => false
-    t.time     "zeit",                                                    :default => '2000-01-01 00:00:00', :null => false
-    t.datetime "reported",                                                                                   :null => false
-    t.datetime "confirmed",                                                                                  :null => false
-    t.string   "stadt",                                                   :default => "",                    :null => false
-    t.string   "ort",                                                     :default => "",                    :null => false
-    t.integer  "festival_id", :limit => 8,                                :default => 0,                     :null => false
-    t.integer  "ensemble_id", :limit => 8,                                :default => 0,                     :null => false
-    t.text     "titel",                                                                                      :null => false
-    t.string   "comment",                                                 :default => "",                    :null => false
-    t.decimal  "eintritt",                 :precision => 10, :scale => 0,                                    :null => false
-    t.integer  "state_id",    :limit => 8,                                                                   :null => false
-    t.integer  "country_id",  :limit => 8,                                :default => 0,                     :null => false
-    t.string   "email",                                                   :default => "",                    :null => false
-    t.integer  "fk_owner",    :limit => 8,                                :default => 1,                     :null => false
-    t.integer  "visible",     :limit => 2,                                :default => 0,                     :null => false
-    t.text     "url",                                                                                        :null => false
+    t.datetime "datum",                                                                                       :null => false
+    t.time     "zeit",                                                     :default => '2000-01-01 00:00:00', :null => false
+    t.datetime "reported",                                                                                    :null => false
+    t.datetime "confirmed",                                                                                   :null => false
+    t.string   "stadt",                                                    :default => "",                    :null => false
+    t.string   "ort",                                                      :default => "",                    :null => false
+    t.integer  "festival_id",  :limit => 8,                                :default => 0,                     :null => false
+    t.integer  "ensemble_id",  :limit => 8,                                :default => 0,                     :null => false
+    t.text     "titel",                                                                                       :null => false
+    t.string   "comment",                                                  :default => "",                    :null => false
+    t.decimal  "eintritt",                  :precision => 10, :scale => 0,                                    :null => false
+    t.integer  "state_id",     :limit => 8,                                                                   :null => false
+    t.integer  "country_id",   :limit => 8,                                :default => 0,                     :null => false
+    t.string   "email",                                                    :default => "",                    :null => false
+    t.integer  "fk_owner",     :limit => 8,                                :default => 1,                     :null => false
+    t.integer  "visible",      :limit => 2,                                :default => 0,                     :null => false
+    t.text     "url",                                                                                         :null => false
+    t.string   "country_code", :limit => 2
   end
 
   add_index "konz_ensemble", ["country_id"], :name => "land"
@@ -2037,6 +2039,7 @@ ActiveRecord::Schema.define(:version => 20131203141800) do
     t.string   "email",                                     :null => false
     t.string   "token",        :limit => 40
     t.integer  "visible",                    :default => 0, :null => false
+    t.string   "country_code", :limit => 2
   end
 
   add_index "kurse", ["bland"], :name => "bland"

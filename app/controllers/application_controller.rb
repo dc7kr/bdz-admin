@@ -130,7 +130,7 @@ class ApplicationController < ActionController::Base
       #	if ( current_user == nil or current_user.admin?)
 	    begin 
 	      Rails.logger.error("Encountered error status:"+status.to_s)
-        ErrorMailer.deliver_snapshot( exception, Rails.env)
+        ErrorMailer.deliver_snapshot( exception, Rails.env, current_user)
         Rails.logger.error("ERROR: "+exception)
       rescue => e
         logger.error(e)

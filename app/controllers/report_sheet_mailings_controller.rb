@@ -50,7 +50,7 @@ class ReportSheetMailingsController < AuthenticatedNonResourceController
 						recordMailSuccess(event_id,orchestra.id, "Meldebogen Anschreiben",mailing_pdf)
 						@orchCount=@orchCount+1
 					rescue
-						recordMailFailure(event_id,orchestra.id,orchestra.email,$!)
+						recordMailFailure(event_id,orchestra,$!)
 						@result = { :err=>$!, :entity=>orchestra,:type =>"O"}
 						@results.push(@result)
 						@orchFailCount+=1

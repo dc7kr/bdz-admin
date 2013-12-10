@@ -64,6 +64,10 @@ class Member < ActiveRecord::Base
     return iban
   end
 
+  def mref
+    "BDZBEITRAG"+mglnr.to_s
+  end
+
   def address
     fullname + ", " +strasse + ", "+plz+ " "+ort
   end

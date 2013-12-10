@@ -13,7 +13,7 @@ module PDFHelper
     	url = BDZ_SETTINGS['meldebogen_url']
 		dateprefix = Time.now.strftime '%Y%m%d%H%M%S_'
 		target = BDZ_SETTINGS['invoice_archive_dir']+"/"+year.to_s+"/"+dateprefix+"_"+orchestra.mglnr.to_s+"_meldebogen_anschreiben.pdf"
-		template_file = BDZ_SETTINGS['invoice_archive_dir']+"/"+year.to_s+"/meldebogen_anschreiben.template.pdf"
+		template_file = BDZ_SETTINGS['template_dir']+"/meldebogen_anschreiben."+year.to_s+".template.pdf"
 		year = rsi.report_sheet.year
 		if ( orchestra.anrede != nil and orchestra.anrede.length > 0 ) then
 			anrede = t('common.salutation_d.'+orchestra.anrede)
@@ -21,30 +21,37 @@ module PDFHelper
 			anrede =""
 		end
   
-      Prawn::Document.generate(target, :template => template_file) do
-        bounding_box([35,400],:width=>500,:height => 50) do
-          font "Times-Roman"
-          font_size 11
-          text "Bitte melden Sie sich dazu unter #{url} mit Ihrer Mitgliedsnummer #{orchestra.mglnr} und dem Passwort #{rsi.token} an.", :align => :left
+    Prawn::Document.generate(target, :template => template_file) do
+      bounding_box([21,360],:width=>500,:height => 50) do
+        font "Times-Roman"
+        font_size 11
+        text "Bitte melden Sie sich dazu unter #{url} mit Ihrer Mitgliedsnummer #{orchestra.mglnr} und dem Passwort #{rsi.token} an.", :align => :left
+      end
+ 
+      bounding_box([40,650],:width=>250,:height=>100) do
+        text orchestra.orchName
+        text anrede+" "+orchestra.vorname+" "+orchestra.name
+        text orchestra.strasse
+        text " "
+        text "#{orchestra.plz} #{orchestra.ort}"
+        if ( orchestra.country_id != 81) then
+          text orchestra.country.name
         end
-  
-        bounding_box([40,650],:width=>250,:height=>100) do
-          text orchestra.orchName
-          text anrede+" "+orchestra.vorname+" "+orchestra.name
-          text orchestra.strasse
-          text " "
-          text "#{orchestra.plz} #{orchestra.ort}"
-          if ( orchestra.country_id != 81) then
-			text orchestra.country.name
+      end
+
+		  from = BDZ_SETTINGS['contacts']['gs']
+		  l_date = I18n.l Time.now.to_date, :format=>:long
+		  bounding_box([388,510],:width=>200,:height=>50) do
+			  text from['ort']+", "+l_date
 		  end
+      
+      if (orchestra.za == 'L') then 
+        bounding_box([21,100],:width=>500,:height=>50) do
+          text I18n.t('report_sheet_input.dd_to_sepa_valid', iban:orchestra.iban, bic:orchestra.bic, mref:orchestra.mref)
         end
 
-		from = BDZ_SETTINGS['contacts']['gs']
-		l_date = I18n.l Time.now.to_date, :format=>:long
-		bounding_box([393,540],:width=>200,:height=>50) do
-			text from['ort']+", "+l_date
-		end
       end
+    end
 	  # return filename
 	  target
     end

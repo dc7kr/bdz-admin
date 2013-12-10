@@ -381,6 +381,7 @@ de:
     blz: BLZ
     iban: IBAN
     bic: BIC
+    mref: SEPA-Mandatsreferenz
     zahler: Konto-Inhaber
     email: E-Mail
     name: Name
@@ -586,6 +587,7 @@ de:
     pdf_confirm: "PDF Bestätigung"
     member_delete_success: "Alle Orchestermitglieder wurden gelöscht."
     generated: "%{count} Meldebogen-Eingabe-Vorlagen erzeugt."
+    dd_to_sepa_valid: "Ihre bereits erteilte Lastschrifteinzugsermächtigung bleibt weiterhin gültig. Wir buchen von ihrem Konto mit der IBAN %{iban} und BIC %{bic} zukünftig mit der SEPA Mandatsreferenz %{mref} im SEPA Verfahren ab."
   member_report:
     s: Mitgliederbericht
     oddset_report: Oddset Zahlen

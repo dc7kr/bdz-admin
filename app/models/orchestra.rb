@@ -186,6 +186,10 @@ class Orchestra < ActiveRecord::Base
     member.iban
   end
 
+  def mref
+    member.mref
+  end
+
   def has_event?(event_type,event_id)
 	member.has_event?(event_type,event_id)
   end

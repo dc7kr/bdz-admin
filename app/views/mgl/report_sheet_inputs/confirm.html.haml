@@ -4,4 +4,4 @@
     .inner
       %h3 Vielen Dank!
       %p Der Meldebogen wurde in das System eingestellt. Die Beitragsrechnung erhalten Sie wie gewohnt auf dem Postweg.
-      = link_to "PDF Version für Ihre Unterlagen.", confirm_report_sheet_input_path(@rsi,:format=>"pdf")
+      = link_to "PDF Version für Ihre Unterlagen.", url_for(:action=> :confirm, :id=>@rsi,:format=>"pdf")

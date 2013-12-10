@@ -23,17 +23,17 @@
             =@report_sheet_input.orchestra.vorname
             =@report_sheet_input.orchestra.name
         %tr
-          %td.label_l=t('member.strasse')
+          %td.label_l=t('member.street')
           %td=@report_sheet_input.orchestra.strasse
         %tr
-          %td.label_l=t('orchestra.plz')
+          %td.label_l=t('member.zip')
           %td=@report_sheet_input.orchestra.plz
         %tr
-          %td.label_l=t('orchestra.ort')
+          %td.label_l=t('member.city')
           %td=@report_sheet_input.orchestra.ort
         %tr
-          %td.label_l=t('orchestra.country')
-          %td=@report_sheet_input.orchestra.country_code
+          %td.label_l=t('country.s')
+          %td=translated_country(@report_sheet_input.orchestra.country_code)
       %h3 Ansprechpartner
       %table
         -@roles.each do |r|
@@ -126,5 +126,5 @@
             =@orchestration.join(", ")
 
     .group.navform.wat-cf
-      =back_button(step4_report_sheet_input_path(@report_sheet_input))
-      =wizard_forward_button("Verbindlich absenden", confirm_report_sheet_input_path(@report_sheet_input))
+      = back_button( url_for(:action=>:step4, :id=>@report_sheet_input))
+      =wizard_forward_button("Verbindlich absenden", url_for(:action=>:confirm, :id=>@report_sheet_input))
