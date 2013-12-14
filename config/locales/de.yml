@@ -709,6 +709,7 @@ de:
     p: Bemusterungen
     s: Bemusterung
     count: Anzahl
+    print_list: "Liste für Druck"
   board_contact:
     s: Vorstandskontakt
     p: Vorstandskontakte
