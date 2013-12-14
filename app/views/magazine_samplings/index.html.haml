@@ -6,13 +6,18 @@
       = t("common.all")
       = t("magazine_sampling.p")
     .inner
+      #entry_info
+        = page_entries_info @magazine_samplings
       %table.table
         %thead
-          %th.first=t('contact.company')
+          %th.first{:style=>"width: 30%"}=t('contact.company')
           %th.first=t('contact.first_name')
           %th.first=t('contact.last_name')
           %th.first=t('contact.city')
           %th=t('magazine_sampling.count')
           %th.last
-        = render @magazine_samplings
+        %tbody#magazine_samplings
+          = render @magazine_samplings
+      #paginator
+        = paginate @magazine_samplings, :remote=>true
 - content_for :sidebar, render(:partial => 'sidebar')

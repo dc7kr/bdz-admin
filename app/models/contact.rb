@@ -1,5 +1,7 @@
 class Contact < ActiveRecord::Base
 
+  include CountryHelper
+
   acts_as_superclass
 
   def to_s
@@ -15,5 +17,9 @@ class Contact < ActiveRecord::Base
       result = result + last_name
      end
      return result
+  end
+
+  def t_country(locale=country_code)
+    translated_country(country_code,locale)
   end
 end

@@ -2,14 +2,17 @@ class MagazineSamplingsController < ApplicationController
   # GET /magazine_samplings
   # GET /magazine_samplings.json
 
+  include CountryHelper
   include MagazineReportHelper
 
+
   def index
-    @magazine_samplings = MagazineSampling.includes(:contact).order('contacts.company, contacts.last_name,contacts.first_name')
+    @magazine_samplings = MagazineSampling.includes(:contact).order('contacts.company, contacts.last_name,contacts.first_name').page(params[:page]).per(20)
 
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @magazine_samplings }
+      format.js 
     end
   end
 

@@ -1,6 +1,8 @@
 require 'odf/spreadsheet'
 
 module MagazineReportHelper
+
+
   def renderSamplingListOds(filename,samplings)
     ODF::Spreadsheet.file(filename) do
       table "Samplings"  do |t|
@@ -23,7 +25,7 @@ module MagazineReportHelper
             cell s.fullname
             cell s.street
             cell s.zip+" "+s.city
-            cell s.country.name
+            cell s.t_country
             cell s.count , :type=> :float
           }
           rownr+=1
@@ -60,7 +62,7 @@ module MagazineReportHelper
             cell data[:name2]
             cell data[:fullname]
             cell data[:strasse]
-			      cell data[:countryCode]
+			      cell data[:t_country]
             cell data[:plz]
             cell data[:ort]
             cell data[:land]
