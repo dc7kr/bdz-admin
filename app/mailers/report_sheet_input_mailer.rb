@@ -4,7 +4,7 @@ class ReportSheetInputMailer < ActionMailer::Base
   def notify(rsi,rs_year, attach_file, attach_data)
 	@rsi = rsi
 	@year = @rsi.report_sheet.year.to_s
-    @orchestra = rsi.orchestra
+  @orchestra = rsi.orchestra
 
 	@salutation = t('common.salutation_full.'+@orchestra.anrede)
 

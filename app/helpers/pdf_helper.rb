@@ -11,8 +11,9 @@ module PDFHelper
 	def gen_anschreiben(orchestra,rsi)
 		year = rsi.report_sheet.year
     	url = BDZ_SETTINGS['meldebogen_url']
-		dateprefix = Time.now.strftime '%Y%m%d%H%M%S_'
-		target = BDZ_SETTINGS['invoice_archive_dir']+"/"+year.to_s+"/"+dateprefix+"_"+orchestra.mglnr.to_s+"_meldebogen_anschreiben.pdf"
+		dateprefix = Time.now.strftime '%Y%m%d%H%M%S'
+    rel_target = year.to_s+"/"+dateprefix+"_"+orchestra.mglnr.to_s+"_meldebogen_anschreiben.pdf"
+		target = BDZ_SETTINGS['invoice_archive_dir']+"/"+rel_target
 		template_file = BDZ_SETTINGS['template_dir']+"/meldebogen_anschreiben."+year.to_s+".template.pdf"
 		year = rsi.report_sheet.year
 		if ( orchestra.anrede != nil and orchestra.anrede.length > 0 ) then
@@ -34,8 +35,8 @@ module PDFHelper
         text orchestra.strasse
         text " "
         text "#{orchestra.plz} #{orchestra.ort}"
-        if ( orchestra.country_id != 81) then
-          text orchestra.country.name
+        if ( orchestra.country_code != 'de' ) then
+          text orchestra.t_country
         end
       end
 
@@ -53,6 +54,6 @@ module PDFHelper
       end
     end
 	  # return filename
-	  target
+	  rel_target
     end
 end

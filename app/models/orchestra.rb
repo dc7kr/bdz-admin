@@ -194,6 +194,10 @@ class Orchestra < ActiveRecord::Base
 	member.has_event?(event_type,event_id)
   end
 
+  def t_country(locale=country_code)
+    member.t_country(locale)
+  end
+
   def self.with_zero_balance
 	  accounts = MemberAccountBooking.where("booking_year < year(now())").sum(:amount,:group=>:member_id)
 

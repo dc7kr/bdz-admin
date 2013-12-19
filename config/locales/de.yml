@@ -353,7 +353,7 @@ de:
     update_success: Buchung wurde erfolgreich aktualisiert.
     balance: Saldo
     booking_type: Buchungstyp
-    booking_type_A: Beitragseingang
+    booking_type_A: Beitragszahlung
     booking_type_B: Beitrag
     booking_type_L: Lastschrift
     booking_type_G: Gutschrift

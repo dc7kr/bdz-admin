@@ -4,6 +4,8 @@ require 'iban_validator'
 class Member < ActiveRecord::Base
   acts_as_superclass
 
+  include CountryHelper
+
   validates :blz , :blz => true
   validates :iban, :iban => true
   validates :konto, :konto => true
@@ -70,6 +72,11 @@ class Member < ActiveRecord::Base
 
   def address
     fullname + ", " +strasse + ", "+plz+ " "+ort
+  end
+
+
+  def t_country(locale=country_code)
+    translated_country(country_code,locale)
   end
 
   def address_block

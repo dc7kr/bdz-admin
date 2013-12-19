@@ -8,7 +8,11 @@ module CountryHelper
       if ctry.nil? then
         ""
       else
-        ctry.translations[locale] 
+        t_ctry = ctry.translations[locale]
+        if t_ctry.nil? then
+          t_ctry = ctry.translations['en']
+        end
+        return t_ctry
       end
   end
 end
