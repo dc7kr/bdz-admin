@@ -19,7 +19,7 @@ class SEPAWriter
 	end
 
   def gen_end_to_end_id(member)
-    "BDZ-Beitrag "+year.to_s+" "+member.mglnr.to_s)
+    "BDZ-Beitrag "+year.to_s+" "+member.mglnr.to_s
   end
 
   def dd_from_member(member) 
@@ -48,8 +48,8 @@ class SEPAWriter
     @direct_debits << dd
   end
 
-  def writeXml
-    sepaxml = SEPATool.create_sepa_direct_debit_order @direct_debits, message_id
+  def writeXml(collection_date, payment_id)
+    sepaxml = @tool.create_sepa_direct_debit_order(@direct_debits, message_id, payment_id, collection_date)
     xml = @tool.create_direct_debit(@direct_debits)
     sepaFile = File.open(sepaFileName,"w")
     sepaFile << xml
