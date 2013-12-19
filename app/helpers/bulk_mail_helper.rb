@@ -29,6 +29,12 @@ module BulkMailHelper
     event.save
   end
 
+  def recordLetter(event_id,entity,subject,filename)
+	  event = MemberEvent.newLetter(event_id,entity.id,subject)
+	  event.filename=filename
+	  event.save
+  end
+
   def deliver_mail(rcpt,type,mail_params,att_file,att_data,resultHash)
     begin
       if not is_mail_blacklisted?(rcpt.email) then
