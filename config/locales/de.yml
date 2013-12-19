@@ -372,6 +372,7 @@ de:
     p: Adressen  
   member:
     nopayment: Säumige Zahler
+    nonzero_balance: "Zahlungsrückstand im Beitragskonto!"
     notinvoiced: Keine Rechnung
     invalid_mail: Ungültige Mailadresse
     mglnr: Mitgl.-Nr.
