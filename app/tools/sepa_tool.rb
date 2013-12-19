@@ -1,4 +1,4 @@
-class SepaTool
+class SEPATool
 
   def create_party(contact) 
     Sepa::DirectDebitOrder::Party.new(
@@ -21,7 +21,7 @@ class SepaTool
       bank_account = Sepa::DirectDebitOrder::BankAccount.new dd.iban, dd.bic
       debtor = Sepa::DirectDebitOrder::Party.new dd.name, dd.addr, nil, dd.postcode, dd.town, dd.country, dd.contact, dd.phone, dd.email
       mandate = Sepa::DirectDebitOrder::MandateInformation.new dd.mandate_id, dd.sig_date, dd.sequence_type
-      dd_list << Sepa::DirectDebitOrder::DirectDebit.new debtor, bank_account, dd.end_to_end_id, dd.amount, "EUR", mandate
+      dd_list << Sepa::DirectDebitOrder::DirectDebit.new(debtor, bank_account, dd.end_to_end_id, dd.amount, "EUR", mandate)
     end
 
     bdz_contact = BDZ_SETTINGS["contacts"]["gs"]
