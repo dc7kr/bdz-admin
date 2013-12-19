@@ -177,3 +177,13 @@ td.warning {
 .translation_missing {
 	border: solid red 2px;
 }
+
+
+.entity_warning {
+  border: solid #ff0000 1px;
+  width:80%;
+
+  padding:10px;
+  font-size:14pt;
+  color: #ff0000;
+}

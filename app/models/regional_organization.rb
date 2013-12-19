@@ -8,10 +8,14 @@ class RegionalOrganization < ActiveRecord::Base
     name
   end
 
-  def member_fee_share_for_year(year,before = nil) 
+  def member_fee_share_for_year(year=nil,before = nil) 
 
-		if before == nil then
-      before = Time.new
+    if year.nil? then
+      year = Time.now.year
+    end
+
+		if before.nil? then
+      before = Time.now
     end
 
 		share = Hash.new
@@ -28,7 +32,8 @@ class RegionalOrganization < ActiveRecord::Base
 
 		@sheets = ReportSheet.final(year).includes([:orchestra]).where("year = ? and report_date < ? ",year, before)
 		@sheets.each do |s|
-			if s.orchestra.regional_organization_id == self.id then
+      orch = s.orchestra
+			if orch.regional_organization_id == self.id and orch.zero_member_fee_balance? then
 	      share[:uv]+= s.calcUV
 	      share[:orch_part]+= s.calcLvPart
 				share[:sum]+= s.calcBeitrag

@@ -198,6 +198,13 @@ class Orchestra < ActiveRecord::Base
     member.t_country(locale)
   end
 
+  def zero_member_fee_balance?
+    booking_sum = MemberAccountBooking.where("member_id = ? and booking_type in ('B','A','L')",member.id).sum(:amount)
+
+    return booking_sum >=0
+  end
+
+
   def self.with_zero_balance
 	  accounts = MemberAccountBooking.where("booking_year < year(now())").sum(:amount,:group=>:member_id)
 

@@ -2,14 +2,13 @@ class Cron::LvDtausController < AuthenticatedNonResourceController
 
 def index
   	authorize! :member, :edit
-	@bookings = MemberAccountBooking.includes(:member).group("members.regional_organization_id").where("booking_type in ('L','R','A') and booking_year=?",Time.now.year.to_s).sum(:amount)
 
 	@lvs = RegionalOrganization.all
-	@lvPercent = BDZ_SETTINGS['tariff']['lvPart'].to_f
 
 	@saldi = RegionalOrganizationBooking.where("booking_year = ?",Time.now.year.to_s).group(:regional_organization).sum(:amount)
 
 	@lvHash = Hash.new
+
 	@saldi.each do |s|
 		@lvHash[s[0].id]= s[1]
 		Rails.logger.debug "Saldo: "+s[0].id.to_s+"->"+s[1].to_s
@@ -17,14 +16,16 @@ def index
 
 	@dw = DtausWriter.new
 
-
 	File.open(@dw.ctlFile,"w") do |dtafile| 
 		@dw.outfile(dtafile)
 		@dw.writeDtausHeader(false)
 
 		year = Time.now.year.to_s
 		@lvs.each do |lv|
-			amount = @bookings[lv.id]
+			fee_shares = lv.member_fee_share_for_year
+
+      amount = fee_shares[:em_part]+fee_shares[:orch_part]
+      logger.debug "Amount: "+lv.id.to_s+"->"+amount.to_s
 			saldo = @lvHash[lv.id]
 			if saldo == nil then
 				saldo=0
@@ -32,7 +33,6 @@ def index
 
 			Rails.logger.debug "LV: "+lv.id.to_s+" AMOUNT:"+amount.to_s+" SALDO:"+saldo.to_s
 			if ( amount != nil ) then	
-				amount = amount*@lvPercent-saldo
 				if ( amount >0 ) then
 					@booking = RegionalOrganizationBooking.newCredit("Gutschrift Beitragsanteil "+year, amount)
 					@dw.writeLvEntry(lv,"LV-Beitragsanteil "+year,amount)
