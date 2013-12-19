@@ -98,8 +98,13 @@ class PersonMember < ActiveRecord::Base
 	  member.iban
   end
 
-  def self.with_zero_balance
-	  accounts = MemberAccountBooking.where("booking_year < year(now())").sum(:amount,:group=>:member_id)
+  def self.with_zero_balance(include_this_year=false)
+    accounts=nil
+    if include_this_year then
+	    accounts = MemberAccountBooking.where("booking_year < year(now())").sum(:amount,:group=>:member_id)
+    else
+	    accounts = MemberAccountBooking.where("booking_year < year(now())").sum(:amount,:group=>:member_id)
+    end
 
 	  ids = Set.new
 	  accounts.each do |account|
