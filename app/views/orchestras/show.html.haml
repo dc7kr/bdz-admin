@@ -3,14 +3,11 @@
     = render :partial=>'nav'
   .content
     .inner
+      %h2 #{@orchestra.mglnr} (#{t("orchestra.type_"+@orchestra.orch_type)})
+      %h3=  @orchestra.orchName
+      - if not @orchestra.zero_member_fee_balance?
+        %div.entity_warning=t("member.nonzero_balance")
       %table
-        %tr
-          %td.label
-            &nbsp;
-          %td #{@orchestra.mglnr} (#{t("orchestra.type_"+@orchestra.orch_type)})
-        %tr
-          %td.label #{t("orchestra.orchName")}:
-          %td= @orchestra.orchName
         = render @orchestra.member,:partial=>"member"
         %tr
           %td.label #{t("common.address")}:
