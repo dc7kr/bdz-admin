@@ -151,7 +151,7 @@ class RegionalOrganizationsController < ApplicationController
   end
 
   def oddset_report
-	@report_sheets = ReportSheet.find_by_sql(["SELECT rs.* FROM report_sheets rs, members m WHERE rs.orchestra_id=m.id AND m.regional_organization_id = ? AND year = ?",params[:id],params[:year]])
+  	@report_sheets = ReportSheet.find_by_sql(["SELECT rs.* FROM report_sheets rs, members m WHERE rs.orchestra_id=m.id AND m.regional_organization_id = ? AND year = ?",params[:id],params[:year]])
 
 
 	@sums = { :orchestras => 0, :passive =>0, :active => 0, :youth =>0 } 
@@ -171,46 +171,36 @@ class RegionalOrganizationsController < ApplicationController
 	else
 		@before = Time.new
 	end
+
 	@regional_organization_shares = Array.new
-	@uv_sum =0
-	@part_sum=0
-	@full_sum=0
-	@dd_full_sum=0
-	@dd_part_sum=0
-	@dd_uv_sum=0
+
+  @s = Hash.new
+
+  @s[:uv_sum]=0
+  @s[:dd_uv_sum]=0
+	@s[:lv_sum]=0
+	@s[:lv_em_sum]=0
+	@s[:lv_orch_sum]=0
+  @s[:dd_em_sum]= 0
+  @s[:dd_sum]= 0
+  @s[:dd_orch_sum]= 0
+  @s[:full_sum]= 0
 
 	@regional_organizations.each do |ro|
-		share = Hash.new
-		share[:regional_organization]=ro
-		share[:uv]= 0
-		share[:lvpart]= 0
-		share[:sum]= 0
-		share[:dd_sum]= 0
-		share[:dd_part]= 0
-		share[:dd_uv]= 0
 
-		@sheets = ReportSheet.final(@curYear).includes([:orchestra]).where("year = ? and report_date < ? ",@curYear, @before)
-		@sheets.each do |s|
-			if s.orchestra.regional_organization_id == ro.id then
-	        	share[:uv]+= s.calcUV
-	        	share[:lvpart]+= s.calcLvPart
-				share[:sum]+= s.calcBeitrag
-				if s.orchestra.is_direct_debit? then
-					share[:dd_uv]+=s.calcUV
-					share[:dd_sum]+=s.calcBeitrag
-					share[:dd_part]+=s.calcLvPart
-				end
-			end
-		end
-	
-		@uv_sum+=share[:uv]
-		@part_sum+=share[:lvpart]
-		@full_sum+=share[:sum]
-		@dd_full_sum+= share[:dd_sum] 
-		@dd_part_sum+= share[:dd_part] 
-		@dd_uv_sum+= share[:dd_uv] 
+    share = ro.member_fee_share_for_year(@curYear,@before)
+		@s[:uv_sum]+=share[:uv]
+		@s[:lv_sum]+=share[:orch_part]+share[:em_part]
+    @s[:lv_em_sum]+=share[:em_part]
+    @s[:lv_orch_sum]+=share[:orch_part]
+		@s[:full_sum]+=share[:sum]
+		@s[:dd_sum]+= share[:dd_em_part]+share[:dd_orch_part] 
+    @s[:dd_em_sum]+= share[:dd_em_part]
+    @s[:dd_orch_sum]+= share[:dd_orch_part]
+		@s[:dd_uv_sum]= share[:dd_uv] 
 
 		@regional_organization_shares << share
+
 	end
   end
 end

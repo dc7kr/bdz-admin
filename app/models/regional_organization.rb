@@ -15,16 +15,18 @@ class RegionalOrganization < ActiveRecord::Base
     end
 
 		share = Hash.new
-		share[:regional_organization]=this
+		share[:regional_organization]=self
 		share[:uv]= 0
 		share[:orch_part]= 0
 		share[:em_part]= 0
 		share[:sum]= 0
-		share[:dd_sum]= 0
-		share[:dd_part]= 0
+		share[:dd_orch_sum]= 0
+		share[:dd_em_sum]= 0
+		share[:dd_em_part]= 0
+		share[:dd_orch_part]= 0
 		share[:dd_uv]= 0
 
-		@sheets = ReportSheet.final(@curYear).includes([:orchestra]).where("year = ? and report_date < ? ",@curYear, @before)
+		@sheets = ReportSheet.final(year).includes([:orchestra]).where("year = ? and report_date < ? ",year, before)
 		@sheets.each do |s|
 			if s.orchestra.regional_organization_id == self.id then
 	      share[:uv]+= s.calcUV
@@ -33,18 +35,17 @@ class RegionalOrganization < ActiveRecord::Base
 
 				if s.orchestra.is_direct_debit? then
 					share[:dd_uv]+=s.calcUV
-					share[:dd_sum]+=s.calcBeitrag
-					share[:dd_part]+=s.calcLvPart
+					share[:dd_orch_sum]+=s.calcBeitrag
+					share[:dd_orch_part]+=s.calcLvPart
 				end
 			end
 		end
 
-    PersonMember.with_zero_balance(true).whereere("regional_organization_id = ?",self.id.to_s).each do |p|
-      share[:em_part]+=p.tariff.amount
-      share[:em_part]+=p.tariff.amount
+    PersonMember.with_zero_balance(true).includes(:member).where("members.regional_organization_id = ?",self.id.to_s).each do |p|
+      share[:em_part]+=p.tariff.calcLvPart
 
       if p.is_direct_debit? then
-        share[:dd_part]+=p.tariff.amount
+        share[:dd_em_part]+=p.tariff.calcLvPart
       end
     end
     return share
