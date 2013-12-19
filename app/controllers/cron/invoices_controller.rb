@@ -73,10 +73,11 @@ class Cron::InvoicesController < AuthenticatedNonResourceController
 
 
     if sepa then
-      Logger.i("SEPA mode detected!")
-      @sw = SEPAWriter.new
+      logger.info("SEPA mode detected!")
+      # TODO!! MESSAGE ID!!!
+      @sw = SEPAWriter.new("MSGID")
     else    
-      Logger.i("Legacy DTAUS mode detected!")
+      logger.info("Legacy DTAUS mode detected!")
   	  @dw = DtausWriter.new
 	    dtaFile = File.open(@dw.ctlFile,"w") 
       @dw.outfile(dtafile)
@@ -116,7 +117,7 @@ class Cron::InvoicesController < AuthenticatedNonResourceController
 
 
     if sepa then 
-      @sw.writeXml 
+      @sw.writeXml(Date.new, "BDZ Beitrag "+Date.new.year.to_s)
     else
   		dtaFile.close
 	    @dw.genDtaus()
@@ -148,6 +149,7 @@ class Cron::InvoicesController < AuthenticatedNonResourceController
 			@booking.member_id = orch.id
 			@booking.save
     end
+  end
   end
 
   def orchestraInvoices(year)
