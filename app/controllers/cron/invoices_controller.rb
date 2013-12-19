@@ -64,53 +64,52 @@ class Cron::InvoicesController < AuthenticatedNonResourceController
 
     @person_members = PersonMember.includes([:tariff,:member]).joins("LEFT JOIN member_account_bookings mb ON person_members.member_id=mb.member_id AND mb.booking_type='B' and YEAR(mb.booking_date) = YEAR(NOW())").where("mb.id IS NULL").order("members.mglnr")
 
-  @direct_debits = Array.new
+    @direct_debits = Array.new
 
-	@tw = TexWriter.new
+	  @tw = TexWriter.new
 
-  dtaFile = nil
-  sepa = not BDZ_SETTINGS["sepa"].nil? and BDZ_SETTINGS["sepa"]==true
-
-
-  if sepa then
-    Logger.i("SEPA mode detected!")
-    @sw = SEPAWriter.new
-  else    
-    Logger.i("Legacy DTAUS mode detected!")
-  	@dw = DtausWriter.new
-	  dtaFile = File.open(@dw.ctlFile,"w") 
-    @dw.outfile(dtafile)
-	  @dw.writeDtausHeader(true)
-  end
-
-	@person_members.each do |person|
-    next if ( person.tariff.amount == 0 )
+    dtaFile = nil
+    sepa = (not BDZ_SETTINGS["sepa"].nil? and BDZ_SETTINGS["sepa"]==true)
 
 
-		@tw.write(person,year)
-		@tw.writePersonTariff(person)
+    if sepa then
+      Logger.i("SEPA mode detected!")
+      @sw = SEPAWriter.new
+    else    
+      Logger.i("Legacy DTAUS mode detected!")
+  	  @dw = DtausWriter.new
+	    dtaFile = File.open(@dw.ctlFile,"w") 
+      @dw.outfile(dtafile)
+	    @dw.writeDtausHeader(true)
+    end
 
-		@cur_year = Time.now.year
-		@booking_txt = 'Beitrag '+person.tariff.description+' '+String(@cur_year)
-		@booking =  MemberAccountBooking.newInvoice(@booking_txt,-1*person.tariff.amount,String(person.mglnr))
-		@booking.member_id = person.id
-    @booking.save
+	  @person_members.each do |person|
+      next if ( person.tariff.amount == 0 )
 
-		system("/opt/bdz-rechnung/bin/rechnung.sh "+String(person.mglnr))
+
+		  @tw.write(person,year)
+		  @tw.writePersonTariff(person)
+
+		  @cur_year = Time.now.year
+		  @booking_txt = 'Beitrag '+person.tariff.description+' '+String(@cur_year)
+		  @booking =  MemberAccountBooking.newInvoice(@booking_txt,-1*person.tariff.amount,String(person.mglnr))
+		  @booking.member_id = person.id
+      @booking.save
+
+		  system("/opt/bdz-rechnung/bin/rechnung.sh "+String(person.mglnr))
 			
-		if (person.is_direct_debit?) then
+		  if (person.is_direct_debit?) then
+        if sepa then 
+          @sw.addPersonTariff(person)
+        else 
+			    @dw.writeDtausPersonEntry(person,"BDZ-Beitrag "+year.to_s+" "+person.mglnr.to_s)  
+        end
 
-      if sepa then 
-        @sw.addPersonTariff(person)
-      else 
-			  @dw.writeDtausPersonEntry(person,"BDZ-Beitrag "+year.to_s+" "+person.mglnr.to_s)  
-      end
-
-			@booking = MemberAccountBooking.newWithdrawal("Lastschrift "+@booking_txt,person.tariff.amount)
-			@booking.member_id = person.id
-			@booking.save
-		end
-
+			  @booking = MemberAccountBooking.newWithdrawal("Lastschrift "+@booking_txt,person.tariff.amount)
+			  @booking.member_id = person.id
+			  @booking.save
+		  end
+    end
 
 	  @invoice_type = "rechnung-em"
 	  system("/opt/bdz-rechnung/bin/merge_pdfs.sh rechnung "+@invoice_type)
