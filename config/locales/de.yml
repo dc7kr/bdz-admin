@@ -90,12 +90,15 @@ de:
     salutations:
       M: Herr
       W: Frau
+      F: Firma
     salutation_d:
       M: Herrn
       W: Frau
+      F: ""
     salutation_full:
       M: "Sehr geehrter Herr"
       W: "Sehr geehrte Frau"
+      F: "Sehr geehrte Damen und Herren"
 
   event_meal:
     s: Essensmeldung
