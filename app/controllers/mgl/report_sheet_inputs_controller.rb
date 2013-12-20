@@ -295,7 +295,15 @@ class Mgl::ReportSheetInputsController < ApplicationController
 			@rs = @rsi.report_sheet
 			if ( @rs.orchestra == nil ) then
 				@rs.orchestra = @rsi.orchestra
+        @rs.report_date = Time.now
 				@rs.save
+
+        if @rs.errors.any? then
+            @rs.errors.each do |attr,msg|
+            logger.error("#{attr} - #{msg}")
+          end
+        end
+
 
 				# admin notify about new RS
 				@users = admin_notify_users
