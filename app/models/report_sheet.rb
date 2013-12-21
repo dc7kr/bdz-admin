@@ -201,7 +201,7 @@ class ReportSheet < ActiveRecord::Base
     if report_date.nil? then
       return false 
     else 
-      return report_date.month > 1
+      return report_date > Date.new(year,1,31)
     end
   end
 
