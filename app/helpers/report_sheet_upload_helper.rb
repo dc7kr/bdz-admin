@@ -65,16 +65,16 @@ def read_members(doc,orchestra)
 			instrument = ''
       end
 
-      Rails.logger.info i.to_s+":"+first_name+" "+last_name+"###"+date_of_birth.to_s+"###"+instrument
-	  c = OrchestraMember.new
-	  c.first_name = first_name
-	  c.last_name = last_name
-	  c.date_of_birth = date_of_birth
+      Rails.logger.info i.to_s+":"+first_name.to_s+" "+last_name.to_s+"###"+date_of_birth.to_s+"###"+instrument.to_s
+	    c = OrchestraMember.new
+	    c.first_name = first_name
+	    c.last_name = last_name
+	    c.date_of_birth = date_of_birth
       if member_id != nil then
-		c.mglnr = member_id
+  		  c.mglnr = member_id
       end
-	  c.instrument = instrument
-	  c.orchestra = orchestra
+	    c.instrument = instrument
+	    c.orchestra = orchestra
 
       begin 
       	c.save
