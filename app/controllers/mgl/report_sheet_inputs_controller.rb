@@ -388,14 +388,20 @@ class Mgl::ReportSheetInputsController < ApplicationController
 				if ( doc == nil ) then
       	  			redirect_to url_for(:action=>:step3,:id=>@report_sheet_input), :flash => { :error => t('report_sheet_input.invalid_upload') } 
 				else
+          if not verify_report(doc) then
+            redirect_to url_for(:action=>:step3,:id=>@report_sheet_input), :flash => { :error => t('orchestra.invalid_report_sheet_upload')} 
+            return
+          end
+
 					read_report(doc,@orchestra)
+
 					if ( @error_count > 0 ) then 
    	     				redirect_to url_for(:action=>:step3,:id=>@report_sheet_input), :flash => { :warning=> t('orchestra.report_sheet_upload_warning',:error => @error_count,:success => @success_count) } 
 					else
    	     				redirect_to url_for(:action=>:step3,:id=>@report_sheet_input), :flash => { :notice=> t('orchestra.report_sheet_upload_success',:success => @success_count) } 
 					end
-		end
-	end
+		  end
+	  end
   end
 
 
