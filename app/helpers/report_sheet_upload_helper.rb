@@ -3,7 +3,7 @@ require 'roo'
 
 module ReportSheetUploadHelper
 
-ROLES = ['','','V','S','G','D','J','O' ]
+  ROLES = ['','','V','S','G','D','J','O' ]
 
   def read_report(doc,orchestra)
 	  #read_contacts(doc,orchestra)
@@ -129,6 +129,14 @@ ROLES = ['','','V','S','G','D','J','O' ]
 
         contact.save
       end
+    end
+  end
+  
+  def verify_report(doc)
+    if not doc.sheets.include? 'Mitglieder' then
+      false
+    else
+      true
     end
   end
 end

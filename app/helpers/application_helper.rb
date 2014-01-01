@@ -176,7 +176,7 @@ end
 
 def link_to_publish(entity,txt) 
 	if can? :update, entity then
-		link_to image_tag('/assets/icons/publish.png', {:size=>'16x16',:alt=>txt,:title=>txt,:class=>'btn'}),{ :id=>entity, :action=>'publish'}
+		link_to image_tag('/assets/icons/publish.png', {:size=>'16x16',:alt=>txt,:title=>txt,:class=>'btn'}),{ :id=>entity, :action=>'publish'},{ "data-type"=> :json, :remote => true}
 	end
 end
 
@@ -188,7 +188,7 @@ def link_to_delete(entity, txt=nil, confirm=nil )
       txt = t('common.delete_confirm')
     end
     if can? :delete, entity
-		link_to image_tag('/assets/icons/delete.png', {:size=>'16x16',:alt=>txt,:title=>txt,:class=>'btn'} ),entity,:confirm => confirm, :method => :delete, :remote=>true
+		link_to image_tag('/assets/icons/delete.png', {:size=>'16x16',:alt=>txt,:title=>txt,:class=>'btn'} ),entity,:confirm => confirm, :method => :delete, :remote=>true,  "data-type" => :json
     end
 end
 
