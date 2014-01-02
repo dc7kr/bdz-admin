@@ -8,4 +8,14 @@ class AboutController < ApplicationController
 		end
 	end
 
+	def settings
+    @config = Rails.application.config
+    @sepa = sepa?
+    
+    @deliver_mails = @config.action_mailer.perform_deliveries 
+
+		respond_to do |format|
+			format.html 
+		end
+	end
 end

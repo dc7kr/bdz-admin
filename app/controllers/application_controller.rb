@@ -3,6 +3,9 @@ class ApplicationController < ActionController::Base
 
   before_filter :set_locale
 
+  after_filter :flash_to_headers
+
+
   layout :choose_layout
 
   @@web_area = {
@@ -48,6 +51,34 @@ class ApplicationController < ActionController::Base
   include SessionHelper
 
 	helper_method :current_area
+
+
+
+ private
+  def flash_to_headers
+    return unless request.xhr?
+    response.headers['X-Message'] = flash_message
+    response.headers["X-Message-Type"] = flash_type.to_s
+
+    # Prevents flash from appearing after page reload.
+    # Side-effect: flash won't appear after a redirect.
+    # Comment-out if you use redirects.
+    flash.discard
+  end
+
+  def flash_message
+    [:error, :warning, :notice].each do |type|
+      return flash[type] unless flash[type].blank?
+    end
+    return ''
+  end
+
+  def flash_type
+    [:error, :warning, :notice].each do |type|
+      return type unless flash[type].blank?
+    end
+  end
+
 
 	protected
       before_filter :instantiate_controller_and_action_names
@@ -174,6 +205,12 @@ class ApplicationController < ActionController::Base
     else
       accept.scan(/^[a-z]{2}/).first
     end
+  end
+
+
+  protected
+  def sepa?
+    not BDZ_SETTINGS["sepa"].nil? and BDZ_SETTINGS["sepa"]==true
   end
 
 end

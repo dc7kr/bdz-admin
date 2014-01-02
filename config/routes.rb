@@ -1,7 +1,6 @@
 BDZAdmin::Application.routes.draw do
 
 
-
   resources :festival_concerts do 
     member do
       get :programme
@@ -163,6 +162,7 @@ BDZAdmin::Application.routes.draw do
   match 'modify_pdf' => 'modify_pdf#index'
 
   match 'about' => 'about#index'
+  match 'config' => 'about#settings'
 
   match 'custom_info_mail' => 'custom_info_mail#index'
   match 'custom_info_mail/kasitest' => 'custom_info_mail#kasitest'

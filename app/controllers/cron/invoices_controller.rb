@@ -69,10 +69,9 @@ class Cron::InvoicesController < AuthenticatedNonResourceController
 	  @tw = TexWriter.new
 
     dtaFile = nil
-    sepa = (not BDZ_SETTINGS["sepa"].nil? and BDZ_SETTINGS["sepa"]==true)
 
 
-    if sepa then
+    if sepa? then
       logger.info("SEPA mode detected!")
       # TODO!! MESSAGE ID!!!
       @sw = SEPAWriter.new("MSGID")
@@ -80,7 +79,7 @@ class Cron::InvoicesController < AuthenticatedNonResourceController
       logger.info("Legacy DTAUS mode detected!")
   	  @dw = DtausWriter.new
 	    dtaFile = File.open(@dw.ctlFile,"w") 
-      @dw.outfile(dtafile)
+      @dw.outfile(dtaFile)
 	    @dw.writeDtausHeader(true)
     end
 
@@ -100,7 +99,7 @@ class Cron::InvoicesController < AuthenticatedNonResourceController
 		  system("/opt/bdz-rechnung/bin/rechnung.sh "+String(person.mglnr))
 			
 		  if (person.is_direct_debit?) then
-        if sepa then 
+        if sepa? then 
           @sw.addPersonTariff(person)
         else 
 			    @dw.writeDtausPersonEntry(person,"BDZ-Beitrag "+year.to_s+" "+person.mglnr.to_s)  
@@ -116,7 +115,7 @@ class Cron::InvoicesController < AuthenticatedNonResourceController
 	  system("/opt/bdz-rechnung/bin/merge_pdfs.sh rechnung "+@invoice_type)
 
 
-    if sepa then 
+    if sepa? then 
       @sw.writeXml(Date.new, "BDZ Beitrag "+Date.new.year.to_s)
     else
   		dtaFile.close
@@ -138,7 +137,7 @@ class Cron::InvoicesController < AuthenticatedNonResourceController
 		@booking.save
 
 		if ( orch.is_direct_debit? ) then
-      if sepa then
+      if sepa? then
 			  sw.addBooking(orch,@booking_txt+" "+orch.mglnr.to_s,@currentSheet.calcInvoice)
       else
         if (dw != nil ) then
@@ -161,7 +160,7 @@ class Cron::InvoicesController < AuthenticatedNonResourceController
 
 
     dtafile = nil
-    if not sepa then 
+    if not sepa? then 
       dtafile = File.open(@dw.ctlFile,"w") 
 	    @dw.outfile(dtafile)
 	    @dw.writeDtausHeader(true)
@@ -174,7 +173,7 @@ class Cron::InvoicesController < AuthenticatedNonResourceController
 	  @invoice_type = "rechnung"
 	  system("/opt/bdz-rechnung/bin/merge_pdfs.sh rechnung "+@invoice_type)
 
-    if not sepa then 
+    if not sepa? then 
       dtafile.close
       @dw.genDtaus()
     else
@@ -197,11 +196,13 @@ class Cron::InvoicesController < AuthenticatedNonResourceController
     year = Time.now.strftime('%Y')
     pdf_prefix= Time.now.strftime '%Y%m%d'
 
+    sepa = (not BDZ_SETTINGS["sepa"].nil? and BDZ_SETTINGS["sepa"]==true)
+
     @users = User.where("role like ? or role like ?", "%accounting%", "%admin%")
     base_url = cron_downloads_url
     invoices_url = base_url+"?year="+year+"&filename="+pdf_prefix+"-"+invoice_type+"_merge.pdf"
     dd_url=nil
-    if sepa then
+    if sepa? then
       dd_url = base_url+"?year="+year+"&filename="+dtausPrefix+"sepa.xml"
     else 
       dd_url = base_url+"?year="+year+"&filename="+dtausPrefix+"dtaus.zip"
