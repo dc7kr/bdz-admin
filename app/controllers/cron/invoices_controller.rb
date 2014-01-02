@@ -196,8 +196,6 @@ class Cron::InvoicesController < AuthenticatedNonResourceController
     year = Time.now.strftime('%Y')
     pdf_prefix= Time.now.strftime '%Y%m%d'
 
-    sepa = (not BDZ_SETTINGS["sepa"].nil? and BDZ_SETTINGS["sepa"]==true)
-
     @users = User.where("role like ? or role like ?", "%accounting%", "%admin%")
     base_url = cron_downloads_url
     invoices_url = base_url+"?year="+year+"&filename="+pdf_prefix+"-"+invoice_type+"_merge.pdf"
