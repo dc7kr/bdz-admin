@@ -104,7 +104,7 @@ class OrchestrasController < AuthenticatedController
 
 	@ids = Set.new
 	@accounts.each do |account|
-      if (account[1]<0) then
+      if account[1].round(2) <0 then
         @ids.add(account[0])
 	  end
 	end
@@ -284,6 +284,7 @@ class OrchestrasController < AuthenticatedController
     Member.column_names.include?(params[:sort]) ? "members."+params[:sort] :
     Orchestra.column_names.include?(params[:sort]) ? params[:sort] : "members.mglnr"
   end
+
   private
   def renderNoPayOds(filename,accounts,orchestras)
 			ODF::Spreadsheet.file(filename) do
@@ -293,7 +294,7 @@ class OrchestrasController < AuthenticatedController
 							cell o.mglnr.to_s
 							cell o.orchName
 							cell o.email
-							cell accounts[o.member_id],:type=>:float
+							cell accounts[o.member_id].round(2),:type=>:float
 						}
 					end
       end
