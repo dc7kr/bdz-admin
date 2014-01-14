@@ -162,7 +162,7 @@ class ApplicationController < ActionController::Base
 	    begin 
 	      Rails.logger.error("Encountered error status:"+status.to_s)
         ErrorMailer.deliver_snapshot( exception, Rails.env, current_user)
-        Rails.logger.error("ERROR: "+exception)
+        Rails.logger.error("ERROR: "+exception.to_s)
       rescue => e
         logger.error(e)
       end
