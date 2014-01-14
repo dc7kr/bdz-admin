@@ -9,9 +9,9 @@ class TexWriter
 	end
 
 
-  def writeInvoice(invoice,invoice_type) 
+  def writeInvoice(invoice,contact) 
 		File.open(TexWriter.workdir+"/variables.tex", 'w') do |f| 
-			writeOurData(f,invoice_type)
+			writeOurData(f,contact)
 			writeCommon(f,invoice.member)
 			f.write('\newcommand{\renummer}{'+invoice.invoice_number+"}\n")
 			f.write('\newcommand{\zweck}{'+invoice.invoice_number+"}\n")
@@ -160,23 +160,21 @@ class TexWriter
 	end
 
   def moveGeneratedFiles(datePrefix)
+	  workDir = BDZ_SETTINGS['invoice_workdir']
+	  archiveDir= BDZ_SETTINGS['invoice_archive_dir']
+	  tgtDir= archiveDir +"/"+String(Time.now.year)
 
-	workDir = BDZ_SETTINGS['invoice_workdir']
-	archiveDir= BDZ_SETTINGS['invoice_archive_dir']
-	tgtDir= archiveDir +"/"+String(Time.now.year)
+	  shortprefix = Time.now.strftime("%Y%m%d-")
 
-	shortprefix = Time.now.strftime("%Y%m%d-")
-
-	if ( ! Dir.exists? tgtDir) then
+	  if ( ! Dir.exists? tgtDir) then
     	FileUtils.mkdir tgtDir
-	end
+	  end
 
-	Dir.chdir(workDir)
-	Dir.entries(workDir).each { |file|
-		if file.start_with? datePrefix or file.start_with? shortprefix then
-			FileUtils.mv file, tgtDir+"/"
-		end
-	}
+	  Dir.chdir(workDir)
+	  Dir.entries(workDir).each { |file|
+		  if file.start_with? datePrefix or file.start_with? shortprefix then
+			  FileUtils.mv file, tgtDir+"/"
+		  end
+	  }
   end
-
 end

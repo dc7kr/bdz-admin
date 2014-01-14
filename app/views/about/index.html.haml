@@ -8,6 +8,11 @@
     .inner
       .block.notice
         .content
+          %b Config
+          %table
+            %tr
+              %td.label SEPA-Mode
+              %td= @sepa
           %p
             %b #{t('about.last_commits')}: 
             %pre=@git_info[:last_commit].html_safe

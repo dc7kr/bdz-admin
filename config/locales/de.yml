@@ -398,11 +398,14 @@ de:
     kuendigungErfasst: Kündigung erfasst
     comment: Bemerkung
     fullname: Name
+    kuendigung_vom: Kündigung vom
 
   person_member:
     s: Einzelmitglied
     p: Einzelmitglieder
     telefonDienstl: Telefon (dienstl.)
+    zeitungen: Zeitungen
+    zusatzzeitung: Zusatz-Zeitung
     birthday: Geburtstag
     tarrif_id: Beitragstyp
   distinction:
@@ -417,6 +420,7 @@ de:
     certificates: Urkunden
     honorletters: Ehrenbriefe
     medals: BDZ-Medaillen
+    postage: Porto
   honor_member:
     p: Ehrenmitglieder
     s: Ehrenmitglieder
@@ -505,6 +509,8 @@ de:
     create_success: Meldebogen erfolgreich angelegt
     data_from_last_year: Automatische Datenübernahme aus Vorjahr
     delay_fee: "Säumniszuschlag"
+    tariff:
+######## TARIFF
     children_col: "<14"
     teens_col: "15-18"
     youth_col: "19-27"
@@ -932,4 +938,17 @@ de:
     <<: *member_event_labels
   member_event: 
     <<: *member_event_labels
+
+  activemodel:
+    errors:
+      models:
+        sepa/direct_debit_transaction:
+          attributes:
+            amount:
+              greater_than: "Der Buchungsbetrag muss größer als 0 sein"
+        sepa/direct_debit:
+          attributes:
+            transactions:
+              blank: "No transactions to generate."
+
 

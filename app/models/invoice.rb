@@ -21,6 +21,8 @@ class Invoice
     @items.each do  |item|
       sum+=item.count*item.price
     end
+
+    sum
   end
 
   def <<(item)

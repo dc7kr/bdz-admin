@@ -207,6 +207,7 @@ class ReportSheet < ActiveRecord::Base
 
   def gen_invoice
     @invoice = Invoice.new("Beitragsrechnung "+Time.now.year.to_s)
+    @invoice.member = orchestra
 
 		if ( orchestra.is_coop? ) then
 			@invoice << InvoiceItem.new(1,Prices.lvOrchRate,'Beitrag kooperativ')

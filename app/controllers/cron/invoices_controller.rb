@@ -60,6 +60,7 @@ class Cron::InvoicesController < AuthenticatedNonResourceController
 
   # query for already existing bookings
   # SELECT m.id, m.strasse, mb.id FROM person_members m LEFT JOIN member_account_bookings mb ON m.member_id = mb.member_id AND mb.booking_type = 'B' WHERE mb.id IS NOT NULL AND year( mb.booking_date ) = year( now( ) )
+
   def personMemberInvoices(year)
     @person_members = PersonMember.includes([:tariff,:member]).joins("LEFT JOIN member_account_bookings mb ON person_members.member_id=mb.member_id AND mb.booking_type='B' and YEAR(mb.booking_date) = YEAR(NOW())").where("mb.id IS NULL").order("members.mglnr")
 
@@ -102,7 +103,7 @@ class Cron::InvoicesController < AuthenticatedNonResourceController
     @date_prefix=@sw.datePrefix
 
 	  @tw.moveGeneratedFiles(@date_prefix)
-    send_mail(@date_prefix, @invoice_type)
+    send_mail(@ddFile, @invoice_type)
   end
 
   def orchestraInvoice(orch,year,tw,sw)
@@ -113,19 +114,19 @@ class Cron::InvoicesController < AuthenticatedNonResourceController
 
     invoice = @currentSheet.gen_invoice
 
-		tw.writeInvoice(invoice)
+		tw.writeInvoice(invoice, 'gs')
 
 		system("/opt/bdz-rechnung/bin/rechnung.sh "+String(orch.mglnr))
-		@booking = MemberAccountBooking.newInvoice(@booking_txt,-1*@currentSheet.calcInvoice,orch.mglnr.to_s)
+		@booking = MemberAccountBooking.newInvoice(@booking_txt,-1*invoice.sum,orch.mglnr.to_s)
 		@booking.member_id = orch.id
-		@booking.save
+		#@booking.save
 
 		if ( orch.is_direct_debit? ) then
-			sw.addBooking(orch,@booking_txt+" "+orch.mglnr.to_s,@currentSheet.calcInvoice)
+			sw.addBooking(orch,invoice.sum,@booking_txt+" "+orch.mglnr.to_s)
 
 			@booking = MemberAccountBooking.newWithdrawal("Lastschrift "+@booking_txt,@currentSheet.calcInvoice)
 			@booking.member_id = orch.id
-			@booking.save
+			#@booking.save
     end
 
     invoice
@@ -149,7 +150,7 @@ class Cron::InvoicesController < AuthenticatedNonResourceController
 
     @ddFile = @sw.generateFile
 
-    @tw.moveGeneratedFiles(@dw.datePrefix)
+    @tw.moveGeneratedFiles(@sw.datePrefix)
     send_mail(@ddFile, @invoice_type)
   end
 
@@ -157,7 +158,7 @@ class Cron::InvoicesController < AuthenticatedNonResourceController
 	  @dw = DtausWriter.new
 	  @dw.overrideDate(datepref)
     @dw.genDtaus()
-	  @tw.moveGeneratedFiles(@dw.datePrefix)
+	  @tw.moveGeneratedFiles(@sw.datePrefix)
   end
 
   def send_mail(ddFile,invoice_type)

@@ -32,6 +32,8 @@ class SEPAWriter < DirectDebitWriter
     dd = dd_from_member(member,sequence_type)
     dd.remittance_txt = remittance_txt
     dd.amount = amount 
+
+    Rails.logger.debug("New booking: "+member.mglnr.to_s+": "+dd.sequence_type.to_s+": "+amount.to_s)
     @direct_debits << dd
   end
 

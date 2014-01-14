@@ -4,7 +4,7 @@
   .content
     .inner
       %h3
-        #{t("distinction.title")}
+        #{t("distinction.s")}
         &nbsp;
         #{@distinction.orchestra.orchName} (#{@distinction.orchestra.mglnr.to_s})
       %table
@@ -30,7 +30,7 @@
           %td.label #{t("distinction.medals")}:
           %td= @distinction.medals
         %tr
-          %td.label #{t("distinction.porto")}:
+          %td.label #{t("distinction.postage")}:
           %td=format_currency @distinction.porto,"EUR"
   
       .actions-bar.wat-cf

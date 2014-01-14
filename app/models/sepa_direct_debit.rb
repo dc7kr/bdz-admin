@@ -4,7 +4,12 @@ class SepaDirectDebit  < SepaContactFacade
 
   def initialize(member, seq_type="RCUR")
     super(member)
-    sequence_type=seq_type
+
+    if (seq_type.nil?) then
+      seq_type = "RCUR"
+    end
+
+    @sequence_type=seq_type
   end
 
   def iban
