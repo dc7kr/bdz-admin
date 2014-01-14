@@ -23,9 +23,8 @@ class DistinctionsController < AuthenticatedController
 
     @invoice = @distinction.gen_invoice(@invoiceNumber)
     @tw.writeInvoice(@invoice, 'distinction')
-    @tw.moveGeneratedFiles(@ddWriter.datePrefix)
-
     system("/opt/bdz-rechnung/bin/ehrungsrechnung.sh "+String(@orchestra.mglnr))
+    @tw.moveGeneratedFiles(@ddWriter.datePrefix)
 
     if ( @distinction.orchestra.is_direct_debit?) then
       @ddFileName = @ddWriter.generateFile
