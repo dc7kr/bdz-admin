@@ -1,58 +1,56 @@
 require 'sepa_tool'
 
-class SEPAWriter
-  attr_accessor :datePrefix,:message_id
-
-  def initialize(msg_id)
-		datePrefix=Time.now.strftime '%Y%m%d%H%M%S_'
-    message_id = msg_id
+class SEPAWriter < DirectDebitWriter
+  
+  def initialize(datePrefix=nil)
+    super(datePrefix)
     @tool = SEPATool.new
     @direct_debits = Array.new
-	end
-
-	def self.workdir
-		BDZ_SETTINGS['invoice_workdir']+"/"
-	end
-
-	def sepaFileName
-		SEPAWriter.workdir+datePrefix+".sepa.xml"
-	end
-
-  def gen_end_to_end_id(member)
-    "BDZ-Beitrag "+year.to_s+" "+member.mglnr.to_s
   end
 
-  def dd_from_member(member) 
-    SepaDirectDebit.new
-    dd.iban = person.iban
-    dd.bic = person.bic
+  def output_dir
+    year = Time.now.year.to_s
+	  BDZ_SETTINGS['invoice_archive_dir']+"/"+year+"/"
+  end
 
-    dd.mandate_id = person.mandate_id
-    dd.sig_date = person.sig_date
-    dd.sequence_type = "RCUR" # we directly use Recurring payment - if not accepted we have to change it to FRST
-    dd.end_to_end_id = gen_end_to_end_id(person)
+  def output_file
+	  @datePrefix+"_sepa.xml"
+  end
+    
+	def full_filename
+	  output_dir+output_file
+	end
 
+  private
+  def dd_from_member(member,seq_type=nil) 
+    dd = SepaDirectDebit.new(member,seq_type)
     return dd
   end
 
-  def addOrchestraTariff(orch)
-    dd = dd_from_member(orch)
-    dd.amount = orchestra.currentReportSheet.calcInvoice
-
+  public
+  def addBooking(member, amount, remittance_txt,sequence_type=nil)
+    dd = dd_from_member(member,sequence_type)
+    dd.remittance_txt = remittance_txt
+    dd.amount = amount 
     @direct_debits << dd
   end
 
-  def addPersonTariff(person)
-    dd = dd_from_member(person)
-    dd.amount = person.tariff.amount
-    @direct_debits << dd
+  def generateFile
+    writeXml
+    # must be without PATH!!!
+    output_file
   end
 
-  def writeXml(collection_date, payment_id)
-    sepaxml = @tool.create_sepa_direct_debit_order(@direct_debits, message_id, payment_id, collection_date)
-    xml = @tool.create_direct_debit(@direct_debits)
-    sepaFile = File.open(sepaFileName,"w")
-    sepaFile << xml
+  def addOrchestraTariff(orch,remittance_txt)
+    addBooking(orch, currentReportSheet.calcInvoice, remittance_txt)
+  end
+
+  private
+  def writeXml
+    sepaxml = @tool.create_sepa_direct_debit_order(@direct_debits)
+    sepaFile = File.open(full_filename,"w")
+    sepaFile << sepaxml
     sepaFile.close
   end
+
 end

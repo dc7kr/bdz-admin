@@ -54,16 +54,8 @@ class Member < ActiveRecord::Base
   end
 
   def iban_calc
-	  if konto == nil or konto == 0 or blz ==nil 
-		  return nil
-	  end
-  	de_suffix = "131400"
-  	padded_kto =  "%010d" % konto
-  	suffix = blz+ padded_kto+de_suffix
-  	check_digits = 98- (suffix.to_i % 97)
-  	iban = "DE"+ ("%02d" % check_digits) + blz+padded_kto
+    compute_iban(konto,blz)
 
-    return iban
   end
 
   def mref
@@ -83,5 +75,14 @@ class Member < ActiveRecord::Base
 	  fullname+"\n"+
 	  strasse+"\n"+
 	  plz+" "+ort
+  end
+
+  def mandate_id
+    "BDZBEITRAG"+mglnr.to_s
+  end
+
+  def sig_date
+    # TODO
+    return Date.new(2014,1,1)
   end
 end

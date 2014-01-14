@@ -68,7 +68,12 @@ class ReportSheetsController < AuthenticatedController
   end
 
   def final
-    @curYear = Time.now.year
+
+    if params[:year] then 
+      @curYear = params[:year]
+    else
+      @curYear = Time.now.year
+    end
     @final = ReportSheet.final(@curYear)
 
     respond_to do |format|

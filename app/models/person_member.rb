@@ -98,6 +98,14 @@ class PersonMember < ActiveRecord::Base
 	  member.iban
   end
 
+  def mandate_id
+    member.mandate_id
+  end
+
+  def sig_date
+    member.sig_date
+  end
+
   def self.with_zero_balance(include_this_year=false)
     accounts=nil
     if include_this_year then

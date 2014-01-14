@@ -4,49 +4,52 @@ class DistinctionsController < AuthenticatedController
   helper_method :sort_column, :sort_direction
 
   def gen_invoice
-	@distinction = Distinction.find(params[:id])
-	@tw = TexWriter.new
-    @dw = DtausWriter.new
-	@orchestra = @distinction.orchestra 
+    @cur_year = Time.now.year
+    @distinction = Distinction.find(params[:id])
 
-	@invoiceNumber = "E-"+Time.now.strftime("%Y%m%d-")+@orchestra.mglnr.to_s
+    datePrefix = Time.now.strftime '%Y%m%d%H%M%S'
 
-	if (@distinction.orchestra.za =='L') then
-		File.open(@dw.ctlFile,"w") {|dtafile|
-        	@dw.outfile(dtafile)
-        	@dw.writeDtausHeader(true)
-			amount = "%.2f" % @distinction.calcSum
-			@dw.writeDtausEntry(@orchestra.cleanOrchName,String(@orchestra.konto),@orchestra.blz,amount, @invoiceNumber)
-		}
-	end
+    @tw = TexWriter.new
+    @ddWriter = SEPAWriter.new(datePrefix)
 
-	@tw.writeDistinction(@distinction,@invoiceNumber)
-	system("/opt/bdz-rechnung/bin/ehrungsrechnung.sh "+String(@orchestra.mglnr))
+    @orchestra = @distinction.orchestra 
 
-	if ( @distinction.orchestra.is_direct_debit?) then
-		@zipName = @dw.genDtaus()
-	end
+    @invoiceNumber = "E-"+Time.now.strftime("%Y%m%d-")+@orchestra.mglnr.to_s
 
-    @tw.moveGeneratedFiles(@dw.datePrefix)
-	@cur_year = Time.now.year
-	@booking_txt = 'Ehrungsrechung '+@invoiceNumber
+    if (@distinction.orchestra.is_direct_debit?) then
+       remittance_txt = "Ehrungsrechnung #{@invoiceNumber}" 
+       @ddWriter.addBooking(@orchestra, @distinction.calcSum, remittance_txt,"OOFF")
+    end
+
+    @invoice = @distinction.gen_invoice(@invoiceNumber)
+    @tw.writeInvoice(@invoice, 'distinction')
+    @tw.moveGeneratedFiles(@ddWriter.datePrefix)
+
+    system("/opt/bdz-rechnung/bin/ehrungsrechnung.sh "+String(@orchestra.mglnr))
+
+    if ( @distinction.orchestra.is_direct_debit?) then
+      @ddFileName = @ddWriter.generateFile
+    end
+
+
+    @booking_txt = 'Ehrungsrechung '+@invoiceNumber
     @booking =  MemberAccountBooking.newDistinctionInvoice(@booking_txt,-1*@distinction.calcSum,String(@orchestra.mglnr))
     @booking.member_id = @orchestra.id
-	@booking.save
+    @booking.save
 
-	if (@distinction.orchestra.is_direct_debit?) then
-		@wdbooking = MemberAccountBooking.newWithdrawal("Lastschrift "+@booking_txt,@distinction.calcSum)
-		@wdbooking.member_id = @orchestra.id
-		@wdbooking.save
-	end
+    if (@distinction.orchestra.is_direct_debit?) then
+      @wdbooking = MemberAccountBooking.newWithdrawal("Lastschrift "+@booking_txt,@distinction.calcSum)
+      @wdbooking.member_id = @orchestra.id
+      @wdbooking.save
+    end
 
-	@distinction.member_account_booking = @booking
-	@distinction.save
+    @distinction.member_account_booking = @booking
+    @distinction.save
 
-	send_mail(@dw.datePrefix, @invoiceNumber, @distinction.orchestra)
-	shortprefix = Time.now.strftime("%Y%m%d-")
+    send_mail(@ddFileName, @invoiceNumber, @distinction.orchestra)
+    shortprefix = Time.now.strftime("%Y%m%d-")
 
-	redirect_to(download_orchestra_member_account_booking_path(@orchestra,@booking))
+    redirect_to(download_orchestra_member_account_booking_path(@orchestra,@booking))
   end
 
   # GET /distinctions
@@ -54,7 +57,7 @@ class DistinctionsController < AuthenticatedController
   def index
     @distinctions = Distinction.where("orchestra_id = ?",params[:orchestra_id]).search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
 
-	@orchestra = Orchestra.find_by_member_id(params[:orchestra_id])
+	  @orchestra = Orchestra.find_by_member_id(params[:orchestra_id])
 
     respond_to do |format|
       format.html # index.html.erb
@@ -144,17 +147,14 @@ class DistinctionsController < AuthenticatedController
     Orchestra.column_names.include?(params[:sort]) ? params[:sort] : "distinctions.dist_date"
   end
 
+  def send_mail(ddFile, invoiceNr, orch )
+	  year = Time.now.strftime('%Y')
+	  pdf_prefix= Time.now.strftime '%Y%m%d'
 
-  def send_mail(dtausPrefix, invoiceNr, orch )
-
-	year = Time.now.strftime('%Y')
-	pdf_prefix= Time.now.strftime '%Y%m%d'
-
-	@users = User.where("role like ?", "%admin%")
+	  @users = User.where("role like ?", "%admin%")
     base_url = cron_downloads_url
-	dtaus_url = base_url+"?year="+year+"&filename="+dtausPrefix+"dtaus.zip"
+	  dd_url = base_url+"?year="+year+"&filename="+ddFile
 
-	AdminNotifier.newdistinction_notification(dtaus_url,invoiceNr,orch).deliver
+	  AdminNotifier.newdistinction_notification(dd_url,invoiceNr,orch).deliver
   end
-  
 end

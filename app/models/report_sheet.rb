@@ -99,10 +99,10 @@ class ReportSheet < ActiveRecord::Base
 
 	def calcBeitrag
 
-		if (orchestra.orch_type == 'K' )
+		if (orchestra.is_coop? )
         then
            return Prices.koopRate
-		elsif (orchestra.orch_type == 'L')
+		elsif (orchestra.is_lorch? )
         then
             return Prices.lvOrchRate+(calcGemaCount)*Prices.lvMember
 		end
@@ -128,7 +128,7 @@ class ReportSheet < ActiveRecord::Base
 
 	def totalActiveMembers
 		# TODO: need a clean solution for the double members
-		if orchestra.orch_type =='L' then
+		if orchestra.is_lorch? then
 			return youth+teens+adult+senior
 		else
 			return youth+teens+adult+senior+azubi
@@ -137,7 +137,7 @@ class ReportSheet < ActiveRecord::Base
 
 	def calcGemaCount
 		# TODO: need a clean solution for the double members
-		if orchestra.orch_type =='L' then
+		if orchestra.is_lorch? then
 			return youth+teens+adult+senior-azubi
 		else
 			return youth+teens+adult+senior
@@ -145,7 +145,7 @@ class ReportSheet < ActiveRecord::Base
 	end
 
 	def calcUvCount
-		if (uv && orchestra.orch_type !='K') 
+		if (uv and not orchestra.is_coop? ) 
 			return children+teens+youth+adult+senior+zusatz_uv
 		else
 			return 0
@@ -171,7 +171,7 @@ class ReportSheet < ActiveRecord::Base
 	end
 
 	def calcZeitungen
-		if (orchestra.orch_type == 'L' ) then
+		if (orchestra.is_lorch? ) then
 			return Prices.loZtgCount
 		end
 		@ztg = (calcGemaCount*Prices.ztgRate).ceil
@@ -204,6 +204,51 @@ class ReportSheet < ActiveRecord::Base
       return report_date > Date.new(year,1,31)
     end
   end
+
+  def gen_invoice
+    @invoice = Invoice.new("Beitragsrechnung "+Time.now.year.to_s)
+
+		if ( orchestra.is_coop? ) then
+			@invoice << InvoiceItem.new(1,Prices.lvOrchRate,'Beitrag kooperativ')
+		elsif (orchestra.is_lorch? ) then
+			@invoice << InvoiceItem.new(1,Prices.lvOrchRate,'Landesorchesterbeitrag')
+			count = calcGemaCount
+			if ( count > 0 ) then
+				@invoice << InvoiceItem.new(count,Prices.lvMember,'GEMA+Haftpflichtbeitrag je Mitglied')
+			end
+		else
+			if ( isMinTariff? or isMaxTariff? ) then
+				@invoice << InvoiceItem.new(children,0, 'Beitrag Kinder')
+				@invoice << InvoiceItem.new(teens,0, 'Beitrag Jugendliche 15-18')
+				@invoice << InvoiceItem.new(youth,0, 'Beitrag Erwachsene 19-27')
+				@invoice << InvoiceItem.new(adult,0, 'Beitrag Erwachsene')
+				@invoice << InvoiceItem.new(senior,0, 'Beitrag Erwachsene 55+')
+			else
+				@invoice << InvoiceItem.new(children,Prices.childrenRate, 'Beitrag Kinder')
+				@invoice << InvoiceItem.new(teens,Prices.teensRate, 'Beitrag Jugendliche 15-18')
+				@invoice << InvoiceItem.new(youth,Prices.youthRate, 'Beitrag Erwachsene 19-27')
+				@invoice << InvoiceItem.new(adult,Prices.adultRate, 'Beitrag Erwachsene')
+				@invoice << InvoiceItem.new(senior,Prices.seniorRate, 'Beitrag Erwachsene 55+')
+			end
+
+			if ( isMinTariff? ) then
+				@invoice << InvoiceItem.new(1,Prices.minTariff,'Mindestbeitrag')
+			elsif ( isMaxTariff? ) 
+				@invoice << InvoiceItem.new(1,Prices.maxTariff,'H{"o}chstbeitrag')
+			end
+		end
+
+		if ( uv ) then
+			@invoice << InvoiceItem.new(calcUvCount,Prices.uvRate, 'Unfallversicherung')
+		end
+
+    if ( delayed? ) then
+      @invoice << InvoiceItem.new(1,Prices.delayFee, I18n.t('report_sheet.delay_fee'))
+    end
+
+    @invoice
+  end
+
 
 #	TODO: def scoped for easier retrieval!
 #   def orchestras 

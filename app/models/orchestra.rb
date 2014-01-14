@@ -61,9 +61,9 @@ class Orchestra < ActiveRecord::Base
   end
 
   def currentGema
-	if ( currentReportSheet ) then 
-	    return currentReportSheet.calcGemaCount
-	end
+    if ( currentReportSheet ) then 
+        return currentReportSheet.calcGemaCount
+    end
   end
 
   def currentTotal
@@ -90,13 +90,14 @@ class Orchestra < ActiveRecord::Base
   end
 
   def currentLvRate
-	if ( currentReportSheet ) then
-		return currentReportSheet.lvRate
-	end
+    if ( currentReportSheet ) then
+      return currentReportSheet.lvRate
+    end
   end
+
   def currentReportSheet
-#	ReportSheet.scoped(:conditions=> { :year => @currentYear })
-# TODO:
+    #	ReportSheet.scoped(:conditions=> { :year => @currentYear })
+    # TODO:
     currentYear = Time.new.year
     report_sheets.each do |sheet|
       if (sheet.year == currentYear) then
@@ -107,36 +108,37 @@ class Orchestra < ActiveRecord::Base
   end
 
   comma :minimal do
-	mglnr 'Mitgliedsnummer'
-	orchName 'Orchestername'
-	inlineFullAddress 'Adresse'
+	  mglnr 'Mitgliedsnummer'
+    orchName 'Orchestername'
+	  inlineFullAddress 'Adresse'
   end
+
   # CSV
   comma :gema do
-	mglnr 'Mitgliedsnummer'
-	orchName  'Orchestername'
+	  mglnr 'Mitgliedsnummer'
+	  orchName  'Orchestername'
     inlineFullAddress 'Adresse'
     currentGema 'Mitglieder'
   end
 
   comma :magazine do
-	currentMagazines 'Zeitungen'
-	cleanOrchName
-	fullname
+	  currentMagazines 'Zeitungen'
+	  cleanOrchName
+	  fullname
     strasse
     plz
     ort
-	letterCountry
+	  letterCountry
   end
   
   comma :lv do
-	mglnr
-	cleanOrchName
-	fullname
-	strasse
-	plz
-	ort
-	email
+	  mglnr
+	  cleanOrchName
+	  fullname
+	  strasse
+	  plz
+	  ort
+	  email
   end
 
   def letterCountry
@@ -160,18 +162,19 @@ class Orchestra < ActiveRecord::Base
   end
 
   def address_block
-	orchName+"\n"+member.address_block
+	  orchName+"\n"+member.address_block
   end
 
   def is_coop?
-	orch_type == 'K'
+	  orch_type == 'K'
   end
 
   def is_lorch?
-	orch_type == 'L'
+	  orch_type == 'L'
   end
+
   def is_regular?
-	orch_type == 'O'
+	  orch_type == 'O'
   end
 
   def is_direct_debit?
@@ -179,7 +182,7 @@ class Orchestra < ActiveRecord::Base
   end
 
   def has_notify_event?(event_id)
-	member.has_event?(['E','L'],event_id)
+	  member.has_event?(['E','L'],event_id)
   end
 
   def iban
@@ -191,7 +194,7 @@ class Orchestra < ActiveRecord::Base
   end
 
   def has_event?(event_type,event_id)
-	member.has_event?(event_type,event_id)
+	  member.has_event?(event_type,event_id)
   end
 
   def t_country(locale=country_code)
@@ -216,5 +219,13 @@ class Orchestra < ActiveRecord::Base
 	  end
 	
 	  Orchestra.includes([:member,:report_sheets]).where("NOT (member_id  in (?) )",ids)
+  end
+
+  def mandate_id
+    member.mandate_id
+  end
+
+  def sig_date
+    member.sig_date
   end
 end

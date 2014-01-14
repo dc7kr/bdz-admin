@@ -1,50 +1,84 @@
 class SEPATool
 
-  def create_party(contact) 
-    Sepa::DirectDebitOrder::Party.new(
-      BDZ_SETTINGS["company"], 
-      contact["street"] , 
-      nil, 
-      contact["plz"], 
-      contact["ort"], 
-      "Deutschland", 
-      contact["name"], 
-      contact["phone"],
-      contact["email"] 
-    )
-  end
+  def create_sepa_direct_debit_order direct_debits
+    dd_list = Array.new
 
-  def create_sepa_direct_debit_order direct_debits, message_id, payment_identifier, collection_date
-    dd_list = []
+    sdd = SEPA::DirectDebit.new(
+      name:       BDZ_SETTINGS["company"],
+      bic:        BDZ_SETTINGS["bic"],
+      iban:       BDZ_SETTINGS["iban"].gsub(/ /,""),
+      creditor_identifier: BDZ_SETTINGS["creditor_id"]
+    )
+
+    # REQUIRES sepa_king > 0.1.0 
+    sdd.message_identification = "BDZ/#{Time.now.to_i}"
 
     direct_debits.each do |dd|
-      bank_account = Sepa::DirectDebitOrder::BankAccount.new dd.iban, dd.bic
-      debtor = Sepa::DirectDebitOrder::Party.new dd.name, dd.addr, nil, dd.postcode, dd.town, dd.country, dd.contact, dd.phone, dd.email
-      mandate = Sepa::DirectDebitOrder::MandateInformation.new dd.mandate_id, dd.sig_date, dd.sequence_type
-      dd_list << Sepa::DirectDebitOrder::DirectDebit.new(debtor, bank_account, dd.end_to_end_id, dd.amount, "EUR", mandate)
+      sdd.add_transaction(
+        name:                      dd.name,
+        bic:                       dd.bic,
+        iban:                      dd.iban,
+        amount:                    dd.amount,
+
+        # OPTIONAL: End-To-End-Identification, will be submitted to the debtor
+        # String, max. 35 char
+        #reference:                 'XYZ/2013-08-ABO/6789',
+
+        remittance_information:    dd.remittance_txt,
+        mandate_id:                dd.mandate_id,
+        mandate_date_of_signature: dd.sig_date,
+
+        local_instrument: 'CORE',
+        sequence_type: dd.sequence_type
+
+        #requested_date: Date.new(2013,9,5),
+
+        # OPTIONAL: Enables or disables batch booking, in German "Sammelbuchung / Einzelbuchung"
+        #batch_booking: true
+      )
     end
 
-    bdz_contact = BDZ_SETTINGS["contacts"]["gs"]
+    sdd.to_xml 
+  end
 
-    creditor = create_party(bdz_contact)
-    creditor_account = Sepa::DirectDebitOrder::BankAccount.new BDZ_SETTINGS["iban"], BDZ_SETTINGS["bic"]
-    sepa_identifier = Sepa::DirectDebitOrder::PrivateSepaIdentifier.new BDZ_SETTINGS["creditor_id"]
-
-    payment = Sepa::DirectDebitOrder::CreditorPayment.new(
-      creditor, 
-      creditor_account,  
-      payment_identifier,  # TODO! 
-      collection_date,      
-      sepa_identifier, 
-      dd_list
+  def create_credit_transfer credit_transfers
+    # First: Create the main object
+    sct = SEPA::CreditTransfer.new(
+      name:       BDZ_SETTINGS["company"],
+      bic:        BDZ_SETTINGS["bic"],
+      iban:       BDZ_SETTINGS["iban"],
+      creditor_identifier: BDZ_SETTINGS["creditor_id"]
     )
 
-    bdz_contact = BDZ_SETTINGS["contacts"]["gs"]
+    credit_transfers.each do |c|
+      # Second: Add transactions
+      sct.add_transaction(
+        name:                   c.name,
+        bic:                    c.bic,
+        iban:                   c.iban,
+        amount:                 c.amount,
 
-    initiator = create_party(bdz_contact)
+        # OPTIONAL: End-To-End-Identification, will be submitted to the creditor
+        # String, max. 35 char
+        #reference:              'XYZ-1234/123',
 
-    order = Sepa::DirectDebitOrder::Order.new message_id, initiator, [payment]
+        # OPTIONAL: Unstructured remittance information, in German "Verwendungszweck"
+        # String, max. 140 char
+        remittance_information: c.remittance_txt,
 
-    order.to_xml pain_008_001_version: "04"
+        # OPTIONAL: Requested execution date, in German "Ausführungstermin"
+        # Date
+        #requested_date: Date.new(2013,9,5),
+
+        # OPTIONAL: Enables or disables batch booking, in German "Sammelbuchung / Einzelbuchung"
+        # True or False
+        #batch_booking: true,
+
+        #service_level: 'URGP'
+      )
+    end
+
+    sct.to_xml # Use latest schema pain.001.003.03
+    # old FORMAT: xml_string = sct.to_xml('pain.001.002.03') 
   end
 end

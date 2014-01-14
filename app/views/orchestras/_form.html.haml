@@ -53,10 +53,10 @@
       %td= f.select :za, options_for_select([["Lastschrift", "L"], ["Rechnung", "R"]],:selected=>@orchestra.za) 
     %tr
       %td.label= f.label :konto, t("member.konto")
-      %td= f.number_field :konto, :class => 'number_field'
+      %td= @orchestra.konto
     %tr
       %td.label= f.label :blz, t("member.blz")
-      %td= f.number_field :blz, :class => 'number_field'
+      %td= @orchestra.blz
     %tr
       %td.label= f.label :konto, t("member.iban")
       %td= f.text_field :iban, :class => 'iban_field'
