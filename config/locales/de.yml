@@ -23,13 +23,16 @@ de:
     s: Land
     p: Länder
   custom_info_mail:
+    s: Rundschreiben
+    p: Rundschreiben
+    submit: Rundschreiben absenden
     group: Zielgruppe
-    datafile: Anhang
     groups:
       A: "Alle Mitglieder"
       O: "Orchester"
       E: "Einzelmitglieder"
       T: "Test"
+    
   account:
     logout: Abmelden
     settings: Einstellungen
@@ -791,6 +794,13 @@ de:
       truncate: "&hellip;"
   helpers:
     label:
+      email:
+        event_id: Event
+        group: Zielgruppe
+        subject: Betreffzeile
+        body: Inhalt
+        via_paper: auch per Post verschicken?
+        datafile: Dateianhang
       member_event: &member_event_labels
         event_type: Event-Typ
         event_date: Event-Datum

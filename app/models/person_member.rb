@@ -5,8 +5,12 @@ class PersonMember < ActiveRecord::Base
   scope :cancelled, includes(:member).where("members.austritt_zum is not null and members.austritt_zum != '0000-00-00' and austritt_zum < now()")
   scope :nomail,includes(:member).where('members.email IS NULL')
 
-  def self.mailForEvent(event)
-		includes([:member]).joins("LEFT JOIN member_events e ON person_members.member_id=e.member_id AND e.event_type='E' and e.event_id='"+event+"'").where("members.email IS NOT NULL and length(members.email) >3 and e.id IS NULL")
+  def self.mailForEvent(event,via_paper)
+    if ( via_paper ) then
+      includes([:member]).joins("LEFT JOIN member_events e ON person_members.member_id=e.member_id AND e.event_id='"+event+"'").where("e.id IS NULL")
+    else
+		  includes([:member]).joins("LEFT JOIN member_events e ON person_members.member_id=e.member_id AND e.event_type='E' and e.event_id='"+event+"'").where("members.email IS NOT NULL and length(members.email) >3 and e.id IS NULL")
+    end
   end
 
   def self.search(search)
@@ -106,6 +110,10 @@ class PersonMember < ActiveRecord::Base
     member.sig_date
   end
 
+  def has_email? 
+    member.has_email?
+  end
+
   def self.with_zero_balance(include_this_year=false)
     accounts=nil
     if include_this_year then
@@ -122,5 +130,22 @@ class PersonMember < ActiveRecord::Base
 	  end
 	
 	  person_members = PersonMember.includes([:member]).where("NOT (member_id  in (?) )",ids)
+  end
+
+  # address interface
+  def company
+    ""
+  end
+
+  def street
+    member.strasse
+  end
+
+  def zip 
+    member.plz
+  end
+
+  def city
+    member.ort
   end
 end

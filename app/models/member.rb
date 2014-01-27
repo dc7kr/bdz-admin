@@ -77,6 +77,10 @@ class Member < ActiveRecord::Base
 	  plz+" "+ort
   end
 
+  def has_email?
+    not email.nil? and email.length > 3
+  end
+
   def mandate_id
     "BDZBEITRAG"+mglnr.to_s
   end

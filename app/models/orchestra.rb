@@ -13,15 +13,19 @@ class Orchestra < ActiveRecord::Base
 
   validates :mglnr, :orch_mglnr => true
 
-  def self.mailForEvent(event)
+  def self.mailForEvent(event,via_paper)
+    if (via_paper) then
+			includes([:member]).joins("LEFT JOIN member_events e ON orchestras.member_id=e.member_id AND e.event_id='"+event+"'").where("e.id IS NULL")
+    else
 			includes([:member]).joins("LEFT JOIN member_events e ON orchestras.member_id=e.member_id AND e.event_type='E' and e.event_id='"+event+"'").where("members.email IS NOT NULL and length(members.email) >3 and e.id IS NULL")
+    end
   end
 
   def self.mail
-	where('members.email IS NOT NULL and length(members.email) >3')
+	  where('members.email IS NOT NULL and length(members.email) >3')
   end
   def self.nomail
-	where('members.email IS NULL or length(members.email) <3')
+	  where('members.email IS NULL or length(members.email) <3')
   end
 
   def self.search(search)
@@ -221,8 +225,28 @@ class Orchestra < ActiveRecord::Base
 	  Orchestra.includes([:member,:report_sheets]).where("NOT (member_id  in (?) )",ids)
   end
 
+  #for address interface
+  def company
+    orchName
+  end
+
+  def street
+    member.strasse
+  end
+  def zip
+    plz
+  end
+  def city
+    ort
+  end
+
+  # for SEPA
   def mandate_id
     member.mandate_id
+  end
+
+  def has_email? 
+    member.has_email?
   end
 
   def sig_date

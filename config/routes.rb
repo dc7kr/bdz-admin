@@ -1,6 +1,9 @@
 BDZAdmin::Application.routes.draw do
 
 
+  resources :homepages
+
+
   resources :festival_concerts do 
     member do
       get :programme
@@ -148,7 +151,8 @@ BDZAdmin::Application.routes.draw do
 
 
 
-  match 'member_report' => 'member_report#index'
+  get 'member_report' => 'member_report#index'
+  get 'member_report/by_lv' => 'member_report#by_lv'
 
   match 'home/member_data' => 'home#member_data'
   match 'home/reference_data' => 'home#reference_data'
@@ -399,15 +403,20 @@ BDZAdmin::Application.routes.draw do
    match 'invoices/gen_orchestras' => 'invoices#gen_orchestras'
    match 'invoices/gen_persons' => 'invoices#gen_persons'
    match 'invoices/ping' => 'invoices#ping'
-  match 'lv_dtaus/index' => 'lv_dtaus#index'
+    match 'lv_dtaus/index' => 'lv_dtaus#index'
     match 'reminders/report_sheet' => 'reminders#report_sheet'
     match 'reminders/payment' => 'reminders#payment'
     match 'cancellations' => 'batch#cancellations'
+
+    get 'cleanup/remove_resigned' => 'cleanup#remove_resigned'
   # TODO: These aren't resources!
-  resources :mails
-  resources :downloads
+    resources :mails
+    resources :downloads
   end
 
+
+  match 'member_tools/kto_blz_to_iban_bic' => 'member_tools#kto_blz_to_iban'
+  match 'member_tools/iban_calculator' => 'member_tools#iban_calculator'
   get "home/index"
 
   # You can have the root of your site routed with "root"

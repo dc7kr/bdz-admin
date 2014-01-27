@@ -1,0 +1,24 @@
+.block
+  .secondary-navigation
+  .content
+    %h2.title
+      = t("cron.cleanup.remove_resigned")
+    .inner
+      %table.table
+        %thead
+          %th.first= t("member.mglnr")
+          %th= t("common.name")
+          %th.last &nbsp;
+        %tbody
+          - @resigned_orchestras.each do |o| 
+            %tr
+              %td #{o[:mglnr]}
+              %td #{o[:name]}
+              %td #{l o[:resigned]}
+          - @resigned_persons.each do |p| 
+            %tr
+              %td #{p[:mglnr]}
+              %td #{p[:name]}
+              %td #{l p[:resigned]}
+      .actions-bar.wat-cf
+        .actions
