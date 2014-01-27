@@ -1,11 +1,13 @@
 class CustomInfoMailController < AuthenticatedNonResourceController
 
+  include PDFHelper
   include BulkMailHelper
   include UploadHelper
 
   def index
     authorize! :member, :edit
   end
+
 
   def kasitest
     authorize! :member, :edit
@@ -38,10 +40,16 @@ class CustomInfoMailController < AuthenticatedNonResourceController
     
   def send_mail
     authorize! :member, :edit
+
+    datePrefix = Time.now.strftime '%Y%m%d_'
     @mail_params = params[:email]
 
-    datafile = @mail_params[:datafile]
+    letterfile = @mail_params[:datafile]
+    attachment = @mail_params[:attachment]
+
     @grp = @mail_params[:group]
+
+    @via_paper= @mail_params[:via_paper]
 
     orchestra=false
     em=false
@@ -61,6 +69,9 @@ class CustomInfoMailController < AuthenticatedNonResourceController
       festival = true
     end
 
+    cur_year = Time.now.year
+    date_prefix =  Time.now.strftime("%Y%d%m%H%M_")
+
     @testCount =0;
     @testFailCount=0;
     @orchCount =0;
@@ -75,14 +86,16 @@ class CustomInfoMailController < AuthenticatedNonResourceController
 
     @event = @mail_params[:event_id]
 
-    if ( datafile != nil) then
-      @att_file = datafile.original_filename
-      @att_data = readDataFile(@mail_params)
+    if ( letterfile != nil) then
+      @letter_file = storeUploadedFile(cur_year.to_s, letterfile.original_filename, letterfile)
+    end
+
+    if ( attachment != nil) then
+      @attachment = storeUploadedFile(cur_year.to_s, attachment.original_filename, attachment)
     end
 
     if ( test ) then
       @emails = [ 'thomas.kronenberger@bdz-online.de', 'someone@gibtsnicht.kasi-net.org', 'eckhard.richter@bdz-online.de', 'theresa.brandt@bdz-online.de', 'dominik.hackner@bdz-online.de','karsten.richter@bdz-online.de']
-      #@emails = [ 'karsten.richter@gmail.com', 'someone@gibtsnicht.kasi-net.org', 'karsten.richter@bdz-online.de']
       @emails.each do |email|
         begin
           CustomInfoMail.notify(email,params[:email],@att_file,@att_data).deliver
@@ -95,33 +108,38 @@ class CustomInfoMailController < AuthenticatedNonResourceController
       end
     end
 
+
+    letterArray = Array.new 
     if ( orchestra ) then
-      @orchestras = Orchestra.mailForEvent(@event)
+      @orchestras = Orchestra.mailForEvent(@event,@via_paper)
 
       @orchestras.each do |orchestra| 
-        if deliver_mail(orchestra,"O",@mail_params,@att_file,@att_data,@results) then
-            @orchCount+=1
-        else
-            @orchFailCount+=1
-        end
+        o_result = deliver_mailing(date_prefix, cur_year.to_s,"gs", orchestra,@mail_params, @letter_file, @attachment, letterArray)
+        @results.push(o_result) 
       end
     end
 
     if ( em ) then
-      @persons = PersonMember.mailForEvent(@event) 
+      @persons = PersonMember.mailForEvent(@event, @via_paper) 
+
       @persons.each do |person| 
-        if deliver_mail(person,"P",@mail_params,@att_file,@att_data,@results) then
-            @personCount=@personCount+1
-        else 
-            @personFailCount+=1;
-        end
+        o_result = deliver_mailing(date_prefix, cur_year.to_s,"gs",person,@mail_params,@letter_file, @attachment, letterArray)
+        @results.push(o_result) 
       end
     end
 
+
+    pdf_filename = date_prefix+@mail_params[:event_id]+"_letters.pdf"
+
+    output = File.join(cur_year.to_s,pdf_filename)
+
+    storage_dir = BDZ_SETTINGS["invoice_archive_dir"]
+    merge_pdfs(storage_dir, letterArray, output)
+
+    @pdf_link = "#{cron_downloads_url}?year=#{cur_year}&filename=#{pdf_filename}"
 
     respond_to do |format|
      format.html
     end
   end
-
 end
