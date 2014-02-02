@@ -9,8 +9,15 @@ gem 'haml-rails'
 gem 'countries', :require => 'iso3166'
 gem 'country_select'
 
-#gem 'sepa'
+
+#ASYNC Execution 
+#gem 'sidekiq'
+
+gem 'sepa_king', :git => 'https://github.com/salesking/sepa_king.git'
 gem 'bankleitzahl'
+
+
+#gem 'gritter'  # for shiny notifies
 
 gem 'coffee-rails', "~> 3.2.1"
 gem 'uglifier', ">= 1.3.0"
@@ -68,6 +75,7 @@ gem 'rails-asset-jqueryui'
 
 # authenticate
 gem 'devise'
+#gem 'devise-async'
 # authorize
 gem 'cancan'
 #paginator
