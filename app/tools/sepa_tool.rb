@@ -1,3 +1,5 @@
+require "sepa_king" 
+
 class SEPATool
 
   def create_sepa_direct_debit_order direct_debits
