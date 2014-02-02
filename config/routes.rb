@@ -419,6 +419,9 @@ BDZAdmin::Application.routes.draw do
   match 'member_tools/iban_calculator' => 'member_tools#iban_calculator'
   get "home/index"
 
+  get 'reports/youth_addresses', to: 'reports/youth_addresses#index', defaults: { format: 'ods' }
+
+
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
   root :to => "home#landing_page"
