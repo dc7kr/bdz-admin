@@ -36,6 +36,7 @@ module FestivalMailsHelper
     substitutes = {
       "%konzert%" => @festival_concert.label.to_s,
       "%konzert_zeit%" => I18n.l(@festival_concert.event_time),
+      "%konzert_ort%" => @festival_concert.location,
       "%probenzeit%" => appl.rehearsal_time.to_s
     }
 
