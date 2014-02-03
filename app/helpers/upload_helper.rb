@@ -15,7 +15,7 @@ module UploadHelper
 
   def readDataFile(datafile)
 	  if ( datafile ) then 
-		  return dataFile.read
+		  return datafile.read
 	  else
 		  return nil
 	  end

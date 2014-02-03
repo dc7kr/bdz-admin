@@ -29,7 +29,7 @@ module FestivalMailsHelper
     return substed_params
   end
 
-  def deliver_festival_mail(appl,type,mail_params,att_file,att_data,resultArray)
+  def deliver_festival_mail(appl,mail_params,event_id,att_file,resultArray)
     @festival_concert = appl.festival_concert
 
 
@@ -41,6 +41,10 @@ module FestivalMailsHelper
 
     this_mail_params = replace_body(mail_params,substitutes)
 
-    return deliver_mail(appl.contact_person,type,this_mail_params,att_file,att_data,resultArray)
+    body = this_mail_params[:body]
+    subject = this_mail_params[:subject]
+    letter = att_file
+
+    return deliver_email(appl.contact_person,subject,body,event_id,att_file,nil)
   end
 end

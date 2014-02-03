@@ -23,6 +23,8 @@ class FestivalMailsController < AuthenticatedNonResourceController
     datafile = @mail_params[:datafile]
 
 
+    cur_year = Time.now.year
+
     @att_file=nil
     @att_data=nil
 
@@ -32,7 +34,8 @@ class FestivalMailsController < AuthenticatedNonResourceController
 
     if ( datafile != nil) then
       @att_file = datafile.original_filename
-      @att_data = readDataFile(@mail_params)
+
+      @letterfile = storeUploadedFile(cur_year.to_s, datafile.original_filename, datafile)
     end
 
     @applicants = nil
@@ -57,7 +60,7 @@ class FestivalMailsController < AuthenticatedNonResourceController
 
     @applicants.each do |appl|
       contact = appl.contact_person
-      if deliver_festival_mail(appl,"F",@mail_params,@att_file,@att_data,@results) then
+      if deliver_festival_mail(appl,@mail_params,@event,@letterfile,@results) then
           @successCount+=1;
       else 
           @failCount+=1;
