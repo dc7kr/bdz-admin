@@ -37,6 +37,7 @@ module FestivalMailsHelper
       "%konzert%" => @festival_concert.label.to_s,
       "%konzert_zeit%" => I18n.l(@festival_concert.event_time),
       "%konzert_ort%" => @festival_concert.location,
+      "%teilnehmer_name%" => appl.orch_name,
       "%probenzeit%" => appl.rehearsal_time.to_s
     }
 
