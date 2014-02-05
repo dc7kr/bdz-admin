@@ -512,8 +512,8 @@ de:
     create_success: Meldebogen erfolgreich angelegt
     data_from_last_year: Automatische Datenübernahme aus Vorjahr
     delay_fee: "Säumniszuschlag"
-    tariff:
-######## TARIFF
+    tariff: Tarif
+    distribution: Mitglieder
     children_col: "<14"
     teens_col: "15-18"
     youth_col: "19-27"
@@ -846,6 +846,13 @@ de:
         p: "Festival-Bewerbungen"
         s: "Festival-Bewerbung"
         closed: "Eine Anmeldung ist nicht mehr möglich. Wir bitten um Ihr Verständnis."
+        group_list: Gruppen-Liste
+        payment_status: Zahlungsstatus
+        payment_states:
+          N: "Nicht bezahlt"
+          P: "Anzahlung erhalten"
+          F: "Volle Zahlung erhalten"
+          S: "Sondervereinbarung"
         country_id: "Herkunftsland"
         orchestra: Orchester
         orch_name: Name der Gruppe
