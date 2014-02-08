@@ -27,7 +27,7 @@ class SepaContactFacade
   end
 
   def name 
-    @member.fullname
+    @member.account_owner
   end
 
   def addr

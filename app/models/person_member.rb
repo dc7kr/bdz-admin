@@ -109,6 +109,9 @@ class PersonMember < ActiveRecord::Base
   def sig_date
     member.sig_date
   end
+  def account_owner
+    return full_name
+  end
 
   def has_email? 
     member.has_email?

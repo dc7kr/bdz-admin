@@ -245,6 +245,10 @@ class Orchestra < ActiveRecord::Base
     member.mandate_id
   end
 
+  def account_owner
+    orchName
+  end
+
   def has_email? 
     member.has_email?
   end
