@@ -8,6 +8,14 @@ module FestivalApplicationsHelper
    return vtype+" ("+gtype+")"
   end
 
+  def get_payment_status_options(selection)
+    options_for_select([
+      [t('festival_application.payment_states.N'),"N"],
+      [t('festival_application.payment_states.P'),"P"],
+      [t('festival_application.payment_states.F'),"F"],
+      [t('festival_application.payment_states.S'),"S"],
+    ],:selected=>selection)
+  end
   def get_group_type_options(selection)
     options_for_select(
       [
