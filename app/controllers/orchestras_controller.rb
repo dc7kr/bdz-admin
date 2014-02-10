@@ -232,7 +232,9 @@ class OrchestrasController < AuthenticatedController
   def rsi_login
 	@orchestra = Orchestra.find(params[:id])
 
-	@rsi = ReportSheetInput.find_by_orchestra_id(@orchestra)	
+  cur_year = Time.now.year
+  last_year = cur_year -1 
+	@rsi = ReportSheetInput.for_orchestra_and_year(@orchestra, last_year)	
 
 	
 	if ( @rsi != nil ) then
