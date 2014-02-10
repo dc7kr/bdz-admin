@@ -1,7 +1,7 @@
 .block
   .content
     %h2.title
-      = t("report_sheet_input.page_1")
+      = t("report_sheet_input.page_1", :year => @report_sheet_input.report_sheet.year.to_s)
     .inner
       = render 'form'
 
