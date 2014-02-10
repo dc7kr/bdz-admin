@@ -24,6 +24,9 @@
       %td= f.label :permission, :class=> :label
       %td= f.check_box :permission
     %tr
+      %td= f.label :payment_status, :class=> :label
+      %td= f.select :payment_status, get_payment_status_options(@festival_application.payment_status)
+    %tr
       %td= f.label :concert, :class => :label
       %td= collection_select(:festival_application, :festival_concert_id, FestivalConcert.all, :id, :label) 
     %tr
@@ -50,7 +53,7 @@
               %td=person_f.label :city
               %td=person_f.text_field :city
             %tr
-              %td=person_f.label :country_id
+              %td=person_f.label :country_code
               %td=person_f.country_select(:country_code, nil, :iso_codes=>true)
             %tr
               %td=person_f.label :phone
