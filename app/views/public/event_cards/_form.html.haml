@@ -1,0 +1,47 @@
+.block
+  = f.error_messages :message => "", :header_tag => :h3
+.group
+  %table
+    %tr
+      %td Name
+      %td{:colspan=>2}=f.text_field :name
+    %tr
+      %td Emailadresse:
+      %td{:colspan=>2}= f.text_field :email
+    %tr
+      %td &nbsp;
+      %td 
+      %table
+        %tr
+          %td &nbsp;
+          %td=t('event_card.regular')
+          %td=t('event_card.reduced')
+          %td &nbsp;
+        %tr
+          %td= f.label :nr_fest, t('event_card.nr_fest'),:class=>'label'
+          %td= f.number_field :nr_fest
+          %td= f.number_field :nr_fest_erm 
+          %td#fest_sum
+        %tr
+          %td= f.label :nr_fest_bdz, t('event_card.nr_bdz'),:class=>'label'
+          %td= f.number_field :nr_fest_bdz 
+          %td= f.number_field :nr_fest_bdz_erm
+          %td#fest_sum_bdz
+        %tr
+          %td= f.label :nr_do, t('event_card.nr_do'),:class=>'label'
+          %td= f.number_field :nr_do 
+          %td= f.number_field :nr_do_erm
+          %td#sum_do
+        %tr
+          %td= f.label :nr_fr, t('event_card.nr_fr'),:class=>'label'
+          %td= f.number_field :nr_fr 
+          %td= f.number_field :nr_fr_erm
+          %td#sum_fr
+        %tr
+          %td= f.label :nr_sa, t('event_card.nr_sa'),:class=>'label'
+          %td= f.number_field :nr_sa 
+          %td= f.number_field :nr_sa_erm
+          %td#sum_sa
+  %button.button{:type => "submit"}
+    = image_tag("web-app-theme/icons/tick.png", :alt => t("common.save"))
+    = t("common.save")
