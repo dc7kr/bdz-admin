@@ -1,4 +1,4 @@
-class MagazineAdvertsController < ApplicationController
+class MagazineAdvertsController < AuthenticatedController
   # GET /magazine_adverts
   # GET /magazine_adverts.json
   def index

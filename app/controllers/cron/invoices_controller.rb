@@ -32,9 +32,8 @@ class Cron::InvoicesController < AuthenticatedNonResourceController
 	  else
 		  year = Time.now.year
 	  end
-  
-	  orchestraInvoices(year)
-	  render :text => "Generation OK."
+    OrchestraInvoicesWorker.perform_async(year,@current_user.id)  
+	  render :text => "Rechnungslauf gestartet."
   end
 
   def gen_persons
@@ -106,76 +105,10 @@ class Cron::InvoicesController < AuthenticatedNonResourceController
     send_mail(@ddFile, @invoice_type)
   end
 
-  def orchestraInvoice(orch,year,tw,sw)
-		@booking_txt = "BDZ-Beitrag "+String(year)
-		tw.write(orch,year)
-
-		@currentSheet = orch.currentReportSheet
-
-    invoice = @currentSheet.gen_invoice
-
-		tw.writeInvoice(invoice, 'gs')
-
-		system("/opt/bdz-rechnung/bin/rechnung.sh "+String(orch.mglnr))
-		@booking = MemberAccountBooking.newInvoice(@booking_txt,-1*invoice.sum,orch.mglnr.to_s)
-		@booking.member_id = orch.id
-		#@booking.save
-
-		if ( orch.is_direct_debit? ) then
-			sw.addBooking(orch,invoice.sum,@booking_txt+" "+orch.mglnr.to_s)
-
-			@booking = MemberAccountBooking.newWithdrawal("Lastschrift "+@booking_txt,@currentSheet.calcInvoice)
-			@booking.member_id = orch.id
-			#@booking.save
-    end
-
-    invoice
-  end
-
-  def orchestraInvoices(year)
-	  @tw = TexWriter.new
-    datePrefix = Time.now.strftime '%Y%m%d%H%M%S'
-    @sw = SEPAWriter.new(datePrefix)
-
-	  @orchestras = Orchestra.includes([:report_sheets,:member]).joins("LEFT JOIN member_account_bookings mb ON orchestras.member_id=mb.member_id AND mb.booking_type='B' and YEAR(mb.booking_date) = YEAR(NOW())").where("mb.id IS NULL and report_sheets.year= ?",year).order("members.mglnr")
-
-
-    invoices = Array.new
-	  @orchestras.each do |orch|
-        	invoices << orchestraInvoice(orch,year,@tw,@sw)
-		end
-
-	  @invoice_type = "rechnung"
-	  system("/opt/bdz-rechnung/bin/merge_pdfs.sh rechnung "+@invoice_type)
-
-    @ddFile = @sw.generateFile
-
-    @tw.moveGeneratedFiles(@sw.datePrefix)
-    send_mail(@ddFile, @invoice_type)
-  end
-
   def testGen(datepref)
 	  @dw = DtausWriter.new
 	  @dw.overrideDate(datepref)
     @dw.genDtaus()
 	  @tw.moveGeneratedFiles(@sw.datePrefix)
-  end
-
-  def send_mail(ddFile,invoice_type)
-
-    year = Time.now.strftime('%Y')
-    pdf_prefix= Time.now.strftime '%Y%m%d'
-
-    @users = User.where("role like ? or role like ?", "%accounting%", "%admin%")
-    base_url = cron_downloads_url
-    invoices_url = base_url+"?year="+year+"&filename="+pdf_prefix+"-"+invoice_type+"_merge.pdf"
-    dd_url=nil
-
-    dd_url = base_url+"?year="+year+"&filename="+ddFile
-
-    @users.each do |user| 
-		  AdminNotifier.newinvoices_notification(user, invoices_url, dd_url,@current_user).deliver
-   		logger.info 'sent to %s' % user.email
-	  end
   end
 end

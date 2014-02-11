@@ -39,6 +39,7 @@ BDZAdmin::Application.configure do
   # Use a different logger for distributed setups
   # config.logger = ActiveSupport::TaggedLogging.new(SyslogLogger.new)
 
+
   # Use a different cache store in production
   # config.cache_store = :mem_cache_store
 
@@ -72,4 +73,5 @@ BDZAdmin::Application.configure do
   :authentication       => 'plain',
   :enable_starttls_auto => true  }
   config.action_mailer.perform_deliveries = true
+  config.action_mailer.logger = nil
 end

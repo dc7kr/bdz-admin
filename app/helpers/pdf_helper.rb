@@ -2,12 +2,6 @@ require 'prawn'
 
 module PDFHelper
 
-	def merge_pdfs(dir,to_merge,out_file)
-		Dir.chdir(dir)
-		cmd = "/usr/bin/pdftk "+to_merge.join(" ")+" output "+out_file
-		system(cmd)
-	end
-
 	def gen_anschreiben(orchestra,rsi)
 		year = rsi.report_sheet.year
     	url = BDZ_SETTINGS['meldebogen_url']

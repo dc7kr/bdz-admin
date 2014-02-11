@@ -113,7 +113,10 @@ de:
   event_card:
     s: Kartenbestellung
     p: Kartenbestellungen
+    regular: "Regulär:"
+    reduced: "Ermäßigt:"
     nr_fest: Festivalkarten
+    nr_bdz: "Festival-Karte (BDZ-Mitgleder)"
     nr_fest_erm: "Festivalkarten ermäßigt"
     nr_fest_bdz: "Festivalkarten BDZ-Mitglieder ermäßigt"
     nr_fest_bdz_erm: "Festivalkarten BDZ-Mitglieder ermäßigt"
@@ -652,6 +655,14 @@ de:
         header: Fehler im Formular
         body: Betroffene Felder 
       models:
+        event_card:
+          attributes:
+            name:
+              blank: "Bitte geben Sie einen Namen ein"
+            email:
+              blank: "Bitte geben Sie eine E-Mail ein"
+            total_card_count:
+              zero: "Bitte bestellen Sie mindestens eine Karte."
         user:
           attributes:
             email:

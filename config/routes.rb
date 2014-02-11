@@ -1,3 +1,5 @@
+require 'sidekiq/web'
+
 BDZAdmin::Application.routes.draw do
 
 
@@ -101,7 +103,8 @@ BDZAdmin::Application.routes.draw do
   end
 
 
-  resources :event_cards
+  resources :event_cards 
+
   resources :event_meals
 
 
@@ -189,17 +192,19 @@ BDZAdmin::Application.routes.draw do
   end
   resources :states
   resources :regional_organizations  do 
-  member do
-    get :members
-    get :fee_shares
-    get :orch
-    get :person
-        get :oddset_report
+    resources :functions do
     end
-  collection do
-    get :create_annual_payment
-    get :share_overview
-  end
+    member do
+      get :members
+      get :fee_shares
+      get :orch
+      get :person
+          get :oddset_report
+      end
+    collection do
+      get :create_annual_payment
+      get :share_overview
+    end
     resources :regional_organization_bookings, :as => :acct_bookings do
     member do 
       get 'download'
@@ -426,6 +431,16 @@ BDZAdmin::Application.routes.draw do
   # just remember to delete public/index.html.
   root :to => "home#landing_page"
 
+
+  namespace :public do 
+    resources :event_cards do 
+      collection do 
+        get :order_form
+        post :order_success
+      end
+    end
+  end
+
   # See how all your routes lay out with "rake routes"
 
   # This is a legacy wild controller route that's not recommended for RESTful applications.
@@ -437,6 +452,10 @@ BDZAdmin::Application.routes.draw do
     get "/login" => "devise/sessions#new"
     get "/logout" => "devise/sessions#destroy"
   get "/edit_password" => "devise/passwords#edit"
+  end
+
+  authenticate :user, lambda { |u| u.admin? } do
+    mount Sidekiq::Web, at: '/sidekiq'
   end
 
 end

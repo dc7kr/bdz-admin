@@ -1,4 +1,4 @@
-class ContactsController < ApplicationController
+class ContactsController < AuthenticatedController
   # GET /contacts
   # GET /contacts.json
   before_filter :authenticate_user! #, :except => [:index]

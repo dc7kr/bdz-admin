@@ -1,10 +1,9 @@
-require 'rubygems' # Unless you install from the tarball or zip.
 require 'icalendar'
 require 'date'
 require 'open-uri'
 
 
-class CalendarSyncController < ApplicationController
+class CalendarSyncController < AuthenticatedController
 	@@bw_url="https://www.google.com/calendar/ical/redaktion%40zupfer-kurier.de/public/basic.ics"
 
 	include Icalendar # Probably do this in your class to limit namespace overlap

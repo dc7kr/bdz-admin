@@ -9,10 +9,11 @@ class TexWriter
 	end
 
 
-  def writeInvoice(invoice,contact) 
+  def writeInvoice(invoice,contact,year) 
 		File.open(TexWriter.workdir+"/variables.tex", 'w') do |f| 
 			writeOurData(f,contact)
 			writeCommon(f,invoice.member)
+      f.write('\newcommand{\jahr}{'+year.to_s+"}\n")
 			f.write('\newcommand{\renummer}{'+invoice.invoice_number+"}\n")
 			f.write('\newcommand{\zweck}{'+invoice.invoice_number+"}\n")
 		end
@@ -77,21 +78,22 @@ class TexWriter
 	def write(member,year) 
 		File.open(TexWriter.workdir+"/variables.tex", 'w') do |f| 
       writeOurData(f,'gs');
+      f.write('\newcommand{\jahr}{'+year.to_s+"}\n")
       writeCommon(f,member)
-      if ( year ) then 
-        f.write('\newcommand{\jahr}{'+String(year)+"}\n")
-      end
     end
 	end 
 
 	def writeCommon(f,member)
 		f.write('\newcommand{\mglnr}{'+member.mglnr.to_s+"}\n")
 		if ( member.is_direct_debit? ) then
-			f.write('\newcommand{\konto}{'+member.iban.to_s+"}\n")
-			f.write('\newcommand{\blz}{'+member.bic.to_s+"}\n")
+			f.write('\newcommand{\directDebit}{1}'+"\n")
+			f.write('\newcommand{\iban}{'+member.iban.to_s+"}\n")
+			f.write('\newcommand{\bic}{'+member.bic.to_s+"}\n")
+
+			f.write('\newcommand{\mandateRef}{'+member.mandate_id.to_s+"}\n")
+			f.write('\newcommand{\glaeubigerId}{'+BDZ_SETTINGS["creditor_id"]+"}\n")
 		else
-			f.write('\newcommand{\konto}{0}'+"\n")
-			f.write('\newcommand{\blz}{0}'+"\n")
+			f.write('\newcommand{\directDebit}{0}'+"\n")
 		end
 		if ( member.instance_of?(Orchestra)) 
 			f.write('\newcommand{\firma}{'+breakName(member.orchName)+'}'+"\n")
@@ -176,5 +178,13 @@ class TexWriter
 			  FileUtils.mv file, tgtDir+"/"
 		  end
 	  }
+  end
+
+
+  def gen_pdf(invoice_type, datePrefix, mglnr)
+    out_file = "#{datePrefix}-#{mglnr}-#{invoice_type}.pdf"
+		system("/opt/bdz-rechnung/bin/rechnung.sh #{invoice_type} #{datePrefix} #{mglnr}")
+
+    out_file
   end
 end

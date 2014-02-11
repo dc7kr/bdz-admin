@@ -1,4 +1,4 @@
-class SubscribersController < ApplicationController
+class SubscribersController < AuthenticatedController
   # GET /subscribers
   # GET /subscribers.json
   def index

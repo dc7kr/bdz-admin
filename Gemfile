@@ -5,19 +5,23 @@ gem 'rails', '3.2.15'
 gem 'haml'
 gem 'haml-rails'
 
+gem 'quiet_assets', :group => :development
+
 # DANGER: DONT OMIT iso otherwise it pollutes the default namespace
 gem 'countries', :require => 'iso3166'
 gem 'country_select'
 
 
 #ASYNC Execution 
-#gem 'sidekiq'
+gem 'sidekiq'
+gem 'sinatra', require: false
+gem 'slim'
 
 gem 'sepa_king', :git => 'https://github.com/salesking/sepa_king.git'
 gem 'bankleitzahl'
 
 
-#gem 'gritter'  # for shiny notifies
+gem 'gritter'  # for shiny notifies
 
 gem 'coffee-rails', "~> 3.2.1"
 gem 'uglifier', ">= 1.3.0"

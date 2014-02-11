@@ -1,4 +1,4 @@
-class HonorMembersController < ApplicationController
+class HonorMembersController < AuthenticatedController
   load_and_authorize_resource
   # GET /honor_members
   # GET /honor_members.json

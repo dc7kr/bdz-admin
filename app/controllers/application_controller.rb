@@ -142,13 +142,13 @@ class ApplicationController < ActionController::Base
   end
 
   def choose_layout
-	path = request.fullpath.split('/')
-	namespace = path.second if  path.first
-	if namespace == "public" then
-		"public"
-	else 
-		"application"
-	end
+	  path = request.fullpath.split('/')
+	  namespace = path.second if  path.first
+	  if namespace == "public" then
+		  "public"
+	  else 
+		  "application"
+	  end
   end
 
   #unless Rails.application.config.consider_all_requests_local

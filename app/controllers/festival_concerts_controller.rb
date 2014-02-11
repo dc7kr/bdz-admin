@@ -1,4 +1,4 @@
-class FestivalConcertsController < ApplicationController
+class FestivalConcertsController < AuthenticatedController
   # GET /festival_concerts
   # GET /festival_concerts.json
 

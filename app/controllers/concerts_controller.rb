@@ -7,15 +7,17 @@ class ConcertsController < AuthenticatedController
   #skip_authorize_resource :only => :show
 
   def publish 
-	@concert = Concert.find(params[:id])
-	@concert.confirmed = Time.now
-	@concert.visible = true
-	@concert.save
+	  @concert = Concert.find(params[:id])
+	  @concert.confirmed = Time.now
+	  @concert.visible = true
+	  @concert.save
 
     respond_to do |format|
       if @concert.save
+  	    flash[:notice] = t('concert.publish_success')
         format.html { redirect_to inactive_concerts_path, :notice => t('concert.publish_success') }
-        format.json { render :json => @concert, :status => :created, :location => @concert }
+        format.js {} 
+        format.json { render :json=>{ :status=>"ok", :entityId=>@concert.id } }
       else
         format.html { render :action => "new" }
         format.json { render :json => @concert.errors, :status => :unprocessable_entity }
@@ -79,7 +81,6 @@ class ConcertsController < AuthenticatedController
     @concert = Concert.new
     @lvs = RegionalOrganization.all
     @states = State.all
-    @countries = Country.all
 
     respond_to do |format|
       format.html # new.html.erb
@@ -92,7 +93,6 @@ class ConcertsController < AuthenticatedController
     @concert = Concert.find(params[:id])
     @lvs = RegionalOrganization.all
     @states = State.all
-    @countries = Country.all
   end
 
   # POST /concerts

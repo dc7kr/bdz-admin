@@ -1,4 +1,4 @@
-class CoursesController < ApplicationController
+class CoursesController < AuthenticatedController
   layout :choose_layout
   helper_method :sort_column, :sort_direction
   before_filter :authenticate_user!, :except => [:index,:show,:public]
@@ -82,10 +82,10 @@ class CoursesController < ApplicationController
   end
 
   def publish 
-	@course = Course.find(params[:id])
-	@course.confirmed = Time.now
-	@course.visible = true
-	@course.save
+	  @course = Course.find(params[:id])
+	  @course.confirmed = Time.now
+	  @course.visible = true
+  	@course.save
 
     respond_to do |format|
       if @course.save

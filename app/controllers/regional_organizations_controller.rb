@@ -1,5 +1,5 @@
 
-class RegionalOrganizationsController < ApplicationController
+class RegionalOrganizationsController < AuthenticatedController
   # GET /regional_organizations
   # GET /regional_organizations.json
   before_filter :authenticate_user!#, :except => [:index]

@@ -1,4 +1,4 @@
-class ContactPeopleController < ApplicationController
+class ContactPeopleController < AuthenticatedController
   # GET /contact_people
   # GET /contact_people.json
   def index

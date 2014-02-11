@@ -1,4 +1,4 @@
-class FestivalsController < ApplicationController
+class FestivalsController < AuthenticatedController
   # GET /festivals
   # GET /festivals.json
   before_filter :authenticate_user!#, :except => [:index]

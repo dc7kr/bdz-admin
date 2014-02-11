@@ -1,4 +1,4 @@
-class EventMealsController < ApplicationController
+class EventMealsController < AuthenticatedController
   # GET /event_meals
   # GET /event_meals.json
   def index

@@ -1,4 +1,4 @@
-class MagazineIssuesController < ApplicationController
+class MagazineIssuesController < AuthenticatedController
   # GET /magazine_issues
   # GET /magazine_issues.json
   def index

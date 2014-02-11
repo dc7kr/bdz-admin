@@ -1,23 +1,10 @@
 require 'zip/zip'
 
-class DtausWriter 
+class DtausWriter  < DirectDebitWriter 
 
-
-	def outfile(pFile)
-		@file = pFile
-	end
-
-	def initialize
-		@datePrefix=Time.now.strftime '%Y%m%d%H%M%S_'
-	end
-
-	def overrideDate(pref)
-		@datePrefix=pref+"_"
-	end
-
-	def datePrefix
-		@datePrefix
-	end
+  def initialize(datePrefix=nil)
+    super(datePrefix)
+  end
 
 	def ctlFile
 		DtausWriter.workdir+@datePrefix+"dta.ctl"
@@ -77,6 +64,7 @@ class DtausWriter
 		@file.write("}\n")
 	end
 
+  private
 	def genDtaus()
 		workdir = BDZ_SETTINGS['invoice_workdir']+"/"
 		dtaFName = workdir+@datePrefix+"dtaus0.txt"
@@ -100,19 +88,24 @@ class DtausWriter
 	end
 
   def moveGeneratedFiles()
-	workDir = BDZ_SETTINGS['invoice_workdir']
-	archiveDir= BDZ_SETTINGS['invoice_archive_dir']
-	tgtDir= archiveDir +"/"+String(Time.now.year)
+	  workDir = BDZ_SETTINGS['invoice_workdir']
+	  archiveDir= BDZ_SETTINGS['invoice_archive_dir']
+	  tgtDir= archiveDir +"/"+String(Time.now.year)
 
-	if ( ! Dir.exists? tgtDir) then
-    	FileUtils.mkdir tgtDir
-	end
+	  if ( ! Dir.exists? tgtDir) then
+      	FileUtils.mkdir tgtDir
+	  end
 
-	Dir.chdir(workDir)
-	Dir.entries(workDir).each { |file|
-		if file.start_with? @datePrefix then
-			FileUtils.mv file, tgtDir+"/"
-		end
-	}
+	  Dir.chdir(workDir)
+	  Dir.entries(workDir).each { |file|
+		  if file.start_with? @datePrefix then
+			  FileUtils.mv file, tgtDir+"/"
+		  end
+	  }
+  end
+
+  def generateFile
+    genDtaus
+    moveGeneratedFiles
   end
 end

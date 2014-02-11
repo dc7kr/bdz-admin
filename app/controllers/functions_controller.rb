@@ -4,7 +4,15 @@ class FunctionsController < AuthenticatedController
   before_filter :authenticate_user!#, :except => [:index]
   load_and_authorize_resource
   def index
-    @functions = Function.includes(:regional_organization,:board_contact).page(params[:page])
+
+    ro_id = params[:regional_organization_id]
+
+    if ( ro_id ) then
+      @regional_organization = RegionalOrganization.find(params[:regional_organization_id])
+      @functions = Function.includes(:regional_organization,:board_contact).where("functions.regional_organization_id=?", ro_id).page(params[:page])
+    else
+      @functions = Function.includes(:regional_organization,:board_contact).page(params[:page])
+    end
 
     respond_to do |format|
       format.html # index.html.erb

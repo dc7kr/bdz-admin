@@ -1,4 +1,4 @@
-class ClassifiedsController < ApplicationController
+class ClassifiedsController < AuthenticatedController
   helper_method :sort_column, :sort_direction
 
   def publish 
@@ -6,11 +6,12 @@ class ClassifiedsController < ApplicationController
 	@classified.confirmed = Time.now
 	@classified.visible = true
 	@classified.save
+  flash[:notice]= t('classified.publish_success')
 
     respond_to do |format|
       if @classified.save
         format.html { redirect_to inactive_classifieds_path, :notice => t('classified.publish_success') }
-        format.json { render :json => @classified, :status => :created, :location => @classified }
+        format.json { render :json=>{ :status=>"ok", :entityId=>@classified.id } }
       else
         format.html { render :action => "edit" }
         format.json { render :json => @classified.errors, :status => :unprocessable_entity }
@@ -105,10 +106,12 @@ class ClassifiedsController < ApplicationController
   def destroy
     @classified = Classified.find(params[:id])
     @classified.destroy
+    flash[:notice]= t('classified.delete_success')
 
     respond_to do |format|
       format.html { redirect_to classifieds_url }
       format.json { head :no_content }
+      format.json { render :json=>{ :status=>"ok", :entityId=>@classified.id } }
     end
   end
   private 

@@ -8,7 +8,6 @@ class CustomInfoMailController < AuthenticatedNonResourceController
     authorize! :member, :edit
   end
 
-
   def kasitest
     authorize! :member, :edit
     @mail_params =  { :subject => "Testsubj", :body=> "This is a shiny testbody", :event_id => "TEST_EVENT" }
@@ -108,13 +107,23 @@ class CustomInfoMailController < AuthenticatedNonResourceController
       end
     end
 
+    event_id = @mail_params[:event_id]
+    subject = @mail_params[:subject]
+    body = @mail_params[:body]
+
+    tool = MailingTool.new(cur_year.to_s,"gs",event_id,subject);
+    mailer = CustomInfoMail.new
 
     letterArray = Array.new 
     if ( orchestra ) then
       @orchestras = Orchestra.mailForEvent(@event,@via_paper)
 
+
       @orchestras.each do |orchestra| 
-        o_result = deliver_mailing(date_prefix, cur_year.to_s,"gs", orchestra,@mail_params, @letter_file, @attachment, letterArray)
+        mailer.prepare(subject,body)
+
+        filled_template = customize_letter(date_prefix, cur_year.to_s,"gs", orchestra,event_id, @letter_file)
+        o_result = tool.deliver_mailing(orchestra, filled_template, @attachment , letterArray)  
         @results.push(o_result) 
       end
     end
@@ -123,7 +132,10 @@ class CustomInfoMailController < AuthenticatedNonResourceController
       @persons = PersonMember.mailForEvent(@event, @via_paper) 
 
       @persons.each do |person| 
-        o_result = deliver_mailing(date_prefix, cur_year.to_s,"gs",person,@mail_params,@letter_file, @attachment, letterArray)
+        filled_template = customize_letter(date_prefix, cur_year.to_s,"gs", person,event_id, @letter_file)
+        mailer.prepare(subject,body)
+
+        o_result = tool.deliver_mailing(orchestra, filled_template, @attachment , letterArray)  
         @results.push(o_result) 
       end
     end
@@ -142,4 +154,5 @@ class CustomInfoMailController < AuthenticatedNonResourceController
      format.html
     end
   end
+
 end

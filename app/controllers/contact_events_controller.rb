@@ -1,4 +1,4 @@
-class ContactEventsController < ApplicationController
+class ContactEventsController < AuthenticatedController
   # GET /contact_events
   # GET /contact_events.json
   def index

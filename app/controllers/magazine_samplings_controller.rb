@@ -1,4 +1,4 @@
-class MagazineSamplingsController < ApplicationController
+class MagazineSamplingsController < AuthenticatedController
   # GET /magazine_samplings
   # GET /magazine_samplings.json
 

@@ -1,4 +1,4 @@
-class BatchController < ApplicationController
+class BatchController < AuthenticatedController
 
 def check_token(token)
 	expected="4f70968b8cffde36c5c9f1cc7183edcf4bc2f752"
