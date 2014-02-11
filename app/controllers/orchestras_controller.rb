@@ -234,7 +234,7 @@ class OrchestrasController < AuthenticatedController
 
   cur_year = Time.now.year
   last_year = cur_year -1 
-	@rsi = ReportSheetInput.for_orchestra_and_year(@orchestra, last_year)	
+	@rsi = ReportSheetInput.for_orchestra_and_year(@orchestra, cur_year)	
 
 	
 	if ( @rsi != nil ) then
