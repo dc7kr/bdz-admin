@@ -177,21 +177,33 @@ class Mgl::ReportSheetInputsController < ApplicationController
 
 
   def step3
-	@report_sheet_input = ReportSheetInput.includes([:orchestra]).find(params[:id])
+	  @report_sheet_input = ReportSheetInput.includes([:orchestra]).find(params[:id])
 
-	@orchestra = @report_sheet_input.orchestra
+	  @orchestra = @report_sheet_input.orchestra
 
-	@members = @orchestra.orchestra_members.order(["last_name, first_name"])
+	  @members = @orchestra.orchestra_members.order(["last_name, first_name"])
 
-	@year = @report_sheet_input.report_sheet.year
+	  @year = @report_sheet_input.report_sheet.year
+
+
+    @faultyMembers = 0 
+    @validMembers = 0
+
+    @members.each do |m|
+      if m.valid? then
+        @validMembers += 1 
+      else
+        @faultyMembers += 1
+      end    
+    end
 
   end
 
-		  def step4 
+  def step4 
 			@report_sheet_input = ReportSheetInput.includes([:orchestra]).find(params[:id])
 			@report_sheet = @report_sheet_input.report_sheet
 
-		  end
+	end
 
 		  def submit4
 			@report_sheet_input = ReportSheetInput.find(params[:id])
@@ -364,50 +376,52 @@ class Mgl::ReportSheetInputsController < ApplicationController
 			end
 		  end
 
-		  # POST
-		  def upload
-			@report_sheet_input = ReportSheetInput.find(params[:id])
-			@orchestra = @report_sheet_input.orchestra
+  # POST
+  def upload
+    @report_sheet_input = ReportSheetInput.find(params[:id])
+    @orchestra = @report_sheet_input.orchestra
 
-			datafile = params[:datafile]
+    datafile = params[:datafile]
 
-			prefix = @orchestra.mglnr.to_s+"_"+Time.now.year.to_s+"_"
+    prefix = @orchestra.mglnr.to_s+"_"+Time.now.year.to_s+"_"
 
-			if (datafile == nil ) then
-      	  		redirect_to url_for(:action=>:step3,:id=>@report_sheet_input), :flash => { :error => t('report_sheet_input.no_file_selected') } 
-				return
-			end
+    if (datafile == nil ) then
+          redirect_to url_for(:action=>:step3,:id=>@report_sheet_input), :flash => { :error => t('report_sheet_input.no_file_selected') } 
+      return
+    end
 
-			uploaded_file = DataFile.save(prefix, "/tmp",params[:datafile]) 
+    uploaded_file = DataFile.save(prefix, "/tmp",params[:datafile]) 
 
 
-			if ( datafile != nil) then
-				@att_file = datafile.original_filename
+    if ( datafile != nil) then
+      @att_file = datafile.original_filename
 
-				doc = open_report_spreadsheet(@att_file,uploaded_file)
-				if ( doc == nil ) then
-      	  			redirect_to url_for(:action=>:step3,:id=>@report_sheet_input), :flash => { :error => t('report_sheet_input.invalid_upload') } 
-				else
-          if not verify_report(doc) then
-            redirect_to url_for(:action=>:step3,:id=>@report_sheet_input), :flash => { :error => t('orchestra.invalid_report_sheet_upload')} 
-            return
-          end
+      doc = open_report_spreadsheet(@att_file,uploaded_file)
 
-					read_report(doc,@orchestra)
+      if ( doc == nil ) then
+            redirect_to url_for(:action=>:step3,:id=>@report_sheet_input), :flash => { :error => t('report_sheet_input.invalid_upload') } 
+      else
+        if not verify_report(doc) then
+          redirect_to url_for(:action=>:step3,:id=>@report_sheet_input), :flash => { :error => t('orchestra.invalid_report_sheet_upload')} 
+          return
+        end
 
-					if ( @error_count > 0 ) then 
-   	     				redirect_to url_for(:action=>:step3,:id=>@report_sheet_input), :flash => { :warning=> t('orchestra.report_sheet_upload_warning',:error => @error_count,:success => @success_count) } 
-					else
-   	     				redirect_to url_for(:action=>:step3,:id=>@report_sheet_input), :flash => { :notice=> t('orchestra.report_sheet_upload_success',:success => @success_count) } 
-					end
-		  end
-	  end
+        read_report(doc,@orchestra)
+
+        if ( @error_count > 0 ) then 
+            redirect_to url_for(:action=>:step3,:id=>@report_sheet_input), :flash => { :warning=> t('orchestra.report_sheet_upload_warning',:error => @error_count,:success => @success_count) } 
+        else
+            redirect_to url_for(:action=>:step3,:id=>@report_sheet_input), :flash => { :notice=> t('orchestra.report_sheet_upload_success',:success => @success_count) } 
+        end
+      end
+    end
   end
 
 
   def delete_members
-	@report_sheet_input = ReportSheetInput.find(params[:id])
-	@report_sheet_input.orchestra.orchestra_members.delete_all
+	  @report_sheet_input = ReportSheetInput.find(params[:id])
+	  @report_sheet_input.orchestra.orchestra_members.delete_all
+
     respond_to do |format|
         format.html { redirect_to url_for(:action=>:step3,:id=>@report_sheet_input), notice: t('report_sheet_input.member_delete_success') }
     end
