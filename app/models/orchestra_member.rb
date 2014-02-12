@@ -1,20 +1,22 @@
 class OrchestraMember < ActiveRecord::Base
   belongs_to :orchestra
 
+  validates_presence_of :date_of_birth
+
   def age(year)
 	year - date_of_birth.year
   end
 
   def is_dummy_birthday?
-	if ( date_of_birth == nil ) then
-		true
-	elsif ( date_of_birth.day == 1 and date_of_birth.month == 2 and date_of_birth.year == 1960 ) then
-		true
-	else
-		false
-	end
-
+    if ( date_of_birth == nil ) then
+      true
+    elsif ( date_of_birth.day == 1 and date_of_birth.month == 2 and date_of_birth.year == 1960 ) then
+      true
+    else
+      false
+    end
   end
+
   def year_of_birth
 	if (date_of_birth != nil ) then
 		date_of_birth.year
