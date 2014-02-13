@@ -2,6 +2,7 @@
 *= require_self
 *= require_tree ./admin
 *= require_tree ./smoothness
+*= require gritter
 
 - *= require jquery.ui.core
 - *= require jquery.ui.theme

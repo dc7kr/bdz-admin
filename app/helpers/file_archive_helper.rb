@@ -2,18 +2,19 @@ require "fileutils"
 
 module FileArchiveHelper
   def archive_file(srcdir, filename, year)
-    archive_dir = BDZ_SETTINGS["invoice_archive_dir"]
 
-    target = "#{archive_dir}/#{year}/#{filename}"
+    target = MailingFile.new(filename,filename,year)
 
-    FileUtils.mv(srcdir+"/"+filename,target)
+    FileUtils.mv(File.join(srcdir, filename), target.full_path)
 
-    MailingFile.new(filename,target)
+    return target
   end
 
-	def merge_pdfs(dir,to_merge,out_file)
-		Dir.chdir(dir)
-		cmd = "/usr/bin/pdftk "+to_merge.join(" ")+" output "+out_file
+  # all parameters are MailingFile instances!
+	def merge_pdfs(to_merge,out_file)
+
+		Dir.chdir(out_file.full_dir)
+		cmd = "/usr/bin/pdftk "+to_merge.join(" ")+" output "+out_file.full_path
 		system(cmd)
 	end
 end

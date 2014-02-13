@@ -17,7 +17,7 @@ class ConcertsController < AuthenticatedController
   	    flash[:notice] = t('concert.publish_success')
         format.html { redirect_to inactive_concerts_path, :notice => t('concert.publish_success') }
         format.js {} 
-        format.json { render :json=>{ :status=>"ok", :entityId=>@concert.id } }
+        format.json { render :json=>{ :status=>"ok", :op=> 'delete', :entityId=>@concert.id } }
       else
         format.html { render :action => "new" }
         format.json { render :json => @concert.errors, :status => :unprocessable_entity }

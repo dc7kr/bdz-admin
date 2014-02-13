@@ -10,7 +10,7 @@ class InvoiceMail < ActionMailer::Base
 
     storage_dir = BDZ_SETTINGS["invoice_archive_dir"]
 
-    attachment_data = File.new(File.join(storage_dir,invoice_file.filename)).read
+    attachment_data = File.new(invoice_file.full_path).read
 		attachments[invoice_file.orig_filename ] = attachment_data
 
 	  @recipient= recipient

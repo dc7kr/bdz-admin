@@ -33,7 +33,10 @@ class Cron::InvoicesController < AuthenticatedNonResourceController
 		  year = Time.now.year
 	  end
     OrchestraInvoicesWorker.perform_async(year,@current_user.id)  
-	  render :text => "Rechnungslauf gestartet."
+
+    respond_to do |format|
+        format.html { redirect_to home_cron_path, :notice => t('cron.invoice_orchestras_success') }
+    end
   end
 
   def gen_persons

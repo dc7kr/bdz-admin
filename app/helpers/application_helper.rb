@@ -164,9 +164,9 @@ def label_or_default(txt, key)
 	txt
 end
 
-def link_to_del_path(path, entity, remote=false, authorize=true, cfm=false,txt=nil, confirm=nil )
+def link_to_del_path(path, entity, remote=false, authorize=true, cfm=true,txt=nil, confirm=nil )
 	txt=label_or_default(txt,'common.delete')
-	confirm=label_or_default(txt,'common.confirm_delete')
+	confirm=label_or_default(confirm,'common.confirm_delete')
     if can? :delete, entity or not authorize
       img = '/assets/icons/delete.png'
       img_hash = {:size=>'16x16',:alt=>txt,:title=>txt,:class=>'btn'}

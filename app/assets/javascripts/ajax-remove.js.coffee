@@ -1,9 +1,14 @@
 $ ->
   $("a[data-remote]").on "ajax:success", (e, data, status, xhr) ->
-    if data. type == 'data' 
+    if data.type == 'data' 
     else if data.status=='ok' 
       target = $('#row'+data.entityId)
-      target.fadeOut(300, -> $(this).remove() )
+
+      if data.op == 'delete' 
+        target.fadeOut(500, -> target.remove())
+      end
     else 
-      alert "Something went wrong."
-    
+      console.log("Event:")
+      console.log(e) 
+      console.log(status) 
+      console.log(xhr)

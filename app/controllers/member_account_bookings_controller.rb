@@ -138,7 +138,7 @@ class MemberAccountBookingsController < AuthenticatedController
       				redirect_to person_member_member_account_bookings_path(params[:person_member_id])
 				end
 			}
-      format.json { head :ok }
+      format.json { render :json=>{ :status=>"ok", :op=>"delete", :entityId=>@booking.id } }
     end
   end
 

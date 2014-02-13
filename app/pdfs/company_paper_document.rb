@@ -20,7 +20,7 @@ class CompanyPaperDocument < Prawn::Document
 
   def print_date(city,date)
     datestr = city+", "+I18n.l(date,:format=>:date_only)
-    text_box datestr, :at => @datepos,:width => 100
+    text_box datestr, :at => @datepos,:width => 130
   end
 
   def print_address(addressee)
@@ -37,5 +37,4 @@ class CompanyPaperDocument < Prawn::Document
     rowpos-=@addr_rowskip
     text_box translated_country(addressee.country_code), :at => [xpos,rowpos]
   end
-
 end

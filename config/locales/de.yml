@@ -62,6 +62,7 @@ de:
     list: Liste
     search: Suche
     confirm: "Sind Sie sicher?"
+    confirm_delete: "Wollen Sie diesen Eintrag wirklich löschen?"
     error_500: Interner Fehler
     public_data: Öffentliche Daten
     member_data: Mitgliedsdaten
@@ -90,6 +91,7 @@ de:
     inactive: Inaktiv
     reports: Berichte
     country_code: "Ländercode"
+    comment: Bemerkung
     salutations:
       M: Herr
       W: Frau
@@ -126,6 +128,7 @@ de:
     nr_do_erm: "Tageskarte Donnerstag ermäßigt"
     nr_fr_erm: "Tageskarte Freitag ermäßigt"
     nr_sa_erm: "Tageskarte Samstag ermäßigt"
+    each_price: "à %{price} €"
 
 
   time:
@@ -625,8 +628,9 @@ de:
 
   cron:
     lv_bookings: "LV Beitragsanteile buchen"
-    invoice_orchestras: "Rechnungslauf Orchester"
-    invoice_person_members: "Rechnungslauf EM"
+    invoice_orchestras: "Rechnungslauf Orchester starten"
+    invoice_person_members: "Rechnungslauf EM starten"
+    invoice_orchestras_success: "Rechnungslauf Orchester gestartet. Sie erhalten nach Fertigstellung eine E-Mail."
   user:
     p: Benutzer
     s: Benutzer
@@ -815,6 +819,7 @@ de:
       member_event: &member_event_labels
         event_type: Event-Typ
         event_date: Event-Datum
+        event: Event-ID
         event_types:
           E: E-Mail
           L: Brief

@@ -2,12 +2,12 @@ Hallo <%= @recipient.name %>, <br/>
 <br/>
 ein neuer Rechnungslauf wurde von <%= @current_user.name %> (<%= @current_user.email %>) durchgefuehrt. 
 <br>
-Die Dateien sind unter <br/>
 
-<a href="<%= @invoice_url %>"><%= @invoice_url %></a>
-und 
+Die Rechnungen wurden per E-Mail versandt - verbleibende Papier-Rechnungen koennen unter
+<a href="<%= @invoice_url %>"><%= @invoice_url %></a> heruntergeladen werden.
 
-<a href="<%= @dtaus_url %>"><%= @dtaus_url %></a><br/>
+<%- if @dd_url != nil then -%> 
+Es wurden Lastschriften erstellt - die zugehoerige SEPA Datei kann unter <a href="<%= @dd_url %>"><%= @dd_url %></a> heruntergeladen werden.
+<%- end -%>
 
-verfuegbar.
 

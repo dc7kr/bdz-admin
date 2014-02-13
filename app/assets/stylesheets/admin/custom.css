@@ -3,6 +3,10 @@ table.bordered {
 	border-style: collapse;
 }
 
+th a {
+  color: #ffffff;
+}
+
 table.bordered td {
 	border:solid black 1px;
 	border-style: collapse;

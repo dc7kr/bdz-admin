@@ -18,7 +18,7 @@ class AdminNotifier < ActionMailer::Base
   def newinvoices_notification(user, invoices, dtaus, current_user)
 	 @recipient = user
 	 @invoice_url = invoices
-     @dtaus_url = dtaus		 
+   @dd_url = dtaus		 
 
 	 @current_user = current_user 
 	 mail(:to => user.email, :subject => "BDZ Rechnungslauf")

@@ -50,15 +50,14 @@ class OrchestraInvoicesWorker
 
     pdf_filename = "#{datePrefix}-orch-beitragsrechnungen.pdf"
 
-    output = File.join(year.to_s,pdf_filename)
+    pdf_merged_file = MailingFile.new(pdf_filename,pdf_filename,year.to_s)
 
-    storage_dir = BDZ_SETTINGS["invoice_archive_dir"]
-    merge_pdfs(storage_dir, letters, output)
+    merge_pdfs(letters, pdf_merged_file)
 
     ddFile = sw.generateFile
 
-    tw.moveGeneratedFiles(sw.datePrefix)
-    send_mail(ddFile, pdf_filename,triggered_by)
+#    tw.moveGeneratedFiles(sw.datePrefix)
+    send_mail(ddFile, pdf_merged_file,triggered_by)
   end
 
   private
@@ -81,6 +80,7 @@ class OrchestraInvoicesWorker
 
 		booking = MemberAccountBooking.newInvoice(booking_txt,-1*invoice.sum,orch.mglnr.to_s)
 		booking.member_id = orch.id
+    booking.filename = invoice_file.orig_filename
 		booking.save
 
 		if ( orch.is_direct_debit? ) then
@@ -102,10 +102,12 @@ class OrchestraInvoicesWorker
     users = User.where("role like ? or role like ?", "%accounting%", "%admin%")
 
     base_url = cron_downloads_url
-    invoices_url = base_url+"?year="+year+"&filename="+letterFile
+    invoices_url = base_url+"?year="+year+"&filename="+letterFile.orig_filename
     dd_url=nil
 
-    dd_url = base_url+"?year="+year+"&filename="+ddFile
+    if ( ddFile != nil ) then
+      dd_url = base_url+"?year="+year+"&filename="+ddFile.orig_filename
+    end
 
     users.each do |user| 
 		  AdminNotifier.newinvoices_notification(user, invoices_url, dd_url,triggered_by).deliver

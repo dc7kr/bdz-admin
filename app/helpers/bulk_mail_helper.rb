@@ -7,9 +7,13 @@ module BulkMailHelper
 
     doc = prepare_pdf(rcpt,our_contact,File.join(BDZ_SETTINGS["invoice_archive_dir"],template.filename))
     suffix=event_id+"_"+rcpt.mglnr.to_s
-    rel_path = store_pdf(datePrefix, year, suffix, doc)
 
-    MailingFile.new(rel_path,template.filename)
+    filled_filename = date_prefix+suffix+".pdf"
+
+    file = MailingFile.new(filled_filename, filled_filename, year.to_s)
+    doc.render_file(file.full_path)
+
+    return file
   end
 
 
@@ -22,14 +26,6 @@ module BulkMailHelper
   end
 
   def store_pdf(date_prefix, year, suffix,doc)
-    year = Time.now.year.to_s
-    arch_dir = path = File.join(BDZ_SETTINGS['invoice_archive_dir'],year)
-
-    filename = date_prefix+suffix+".pdf"
-    filled_template_file = File.join(arch_dir,filename)
-
-    doc.render_file(filled_template_file)
-    
-    return File.join(year,filename)
+    arch_dir = File.join(BDZ_SETTINGS['invoice_archive_dir'],year.to_s)
   end
 end

@@ -4,25 +4,26 @@ class MemberEventsController < AuthenticatedController
   # GET /member_events
   # GET /member_events.json
   def index
-	@isOrchestra
-	@member
-	@name=nil
-	@mglnr=nil
-	if ( params[:orchestra_id]) then
-		@member = Orchestra.includes(:member).find(params[:orchestra_id])
-		@name = @member.orchName
-		@isOrchestra=true
-	elsif (params[:person_member_id]) then
-		@member= PersonMember.includes(:member).find(params[:person_member_id])
-		@name = @member.fullname
-		@isOrchestra=false
-	end
+    @isOrchestra
+    @member
+    @name=nil
+    @mglnr=nil
+    if ( params[:orchestra_id]) then
+      @member = Orchestra.includes(:member).find(params[:orchestra_id])
+      @orchestra = @member
+      @name = @member.orchName
+      @isOrchestra=true
+    elsif (params[:person_member_id]) then
+      @member= PersonMember.includes(:member).find(params[:person_member_id])
+      @name = @member.fullname
+      @isOrchestra=false
+    end
 
-	if (@member) then
-    @member_events= MemberEvent.where("member_id=?",@member.member_id)
-	else 
-	@member_events= MemberEvent.all
-	end
+    if (@member) then
+      @member_events= MemberEvent.where("member_id=?",@member.member_id)
+    else 
+    @member_events= MemberEvent.all
+    end
 
     respond_to do |format|
       format.html # index.html.erb
@@ -102,9 +103,8 @@ class MemberEventsController < AuthenticatedController
   # DELETE /member_events/1
   # DELETE /member_events/1.json
   def destroy
-
-	@return_path="";
-	if ( params[:orchestra_id]) then
+	  @return_path="";
+	  if ( params[:orchestra_id]) then
         @return_path = orchestra_member_events_path(params[:orchestra_id])
     elsif (params[:person_member_id]) then
         @return_path = person_member_member_events_path(params[:person_member_id])
@@ -115,7 +115,7 @@ class MemberEventsController < AuthenticatedController
 
     respond_to do |format|
       format.html { redirect_to @return_path }
-      format.json { head :no_content }
+      format.json { render :json=>{ :status=>"ok", :op=>"delete", :entityId=>@member_event.id } }
     end
   end
 

@@ -2,8 +2,12 @@ require "sepa_king"
 
 class SEPATool
 
-  def create_sepa_direct_debit_order direct_debits
+  def create_sepa_direct_debit_order direct_debits, requested_date=nil
     dd_list = Array.new
+
+    if requested_date.nil? 
+      requested_date = 14.day.from_now
+    end
 
     sdd = SEPA::DirectDebit.new(
       name:       BDZ_SETTINGS["company"],
@@ -33,7 +37,7 @@ class SEPATool
         local_instrument: 'CORE',
         sequence_type: dd.sequence_type
 
-        #requested_date: Date.new(2013,9,5),
+        requested_date: requested_date
 
         # OPTIONAL: Enables or disables batch booking, in German "Sammelbuchung / Einzelbuchung"
         #batch_booking: true

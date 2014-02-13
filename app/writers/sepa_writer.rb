@@ -8,19 +8,6 @@ class SEPAWriter < DirectDebitWriter
     @direct_debits = Array.new
   end
 
-  def output_dir
-    year = Time.now.year.to_s
-	  BDZ_SETTINGS['invoice_archive_dir']+"/"+year+"/"
-  end
-
-  def output_file
-	  @datePrefix+"_sepa.xml"
-  end
-    
-	def full_filename
-	  output_dir+output_file
-	end
-
   private
   def dd_from_member(member,seq_type=nil) 
     dd = SepaDirectDebit.new(member,seq_type)
@@ -39,8 +26,6 @@ class SEPAWriter < DirectDebitWriter
 
   def generateFile
     writeXml
-    # must be without PATH!!!
-    output_file
   end
 
   def addOrchestraTariff(orch,remittance_txt)
@@ -49,10 +34,18 @@ class SEPAWriter < DirectDebitWriter
 
   private
   def writeXml
+    if @direct_debits.count == 0 
+      return nil
+    end
+    
     sepaxml = @tool.create_sepa_direct_debit_order(@direct_debits)
-    sepaFile = File.open(full_filename,"w")
+
+    filename = @datePrefix+"_sepa.xml"
+    outfile = MailingFile.new(filename,filename,Time.now.year.to_s)
+    sepaFile = File.open(outfile.full_path,"w")
     sepaFile << sepaxml
     sepaFile.close
-  end
 
+    outfile
+  end
 end

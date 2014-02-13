@@ -10,7 +10,7 @@ class MailingTool
   def deliver_mailing(mailer, rcpt, letterFile, attachment, letterArray, additionalMailerParams=nil)  
     if not rcpt.has_email? then
       result = deliver_letter(rcpt,letterFile)
-      letterArray << letterFile.filename
+      letterArray << letterFile
       Rails.logger.info("Created letter for " << rcpt.mglnr.to_s)
       return result
     else 
@@ -18,7 +18,7 @@ class MailingTool
       if o_result[:success]!= true then
         Rails.logger.info("Mail delivery failed: "+rcpt.email)
         result = deliver_letter(rcpt, letterFile)
-        letterArray << letterFile.filename
+        letterArray << letterFile
         return result
       else
         return o_result
@@ -37,7 +37,7 @@ class MailingTool
       #FileUtils.cp(att_file,
   end
  
-  def recordMailSuccess(entity,subject,filename=nil)
+  def recordMailSuccess(entity,subject,letterFile=nil)
     Rails.logger.debug("Mail success  : "+entity.class.name )
     Rails.logger.debug("Festival class: "+FestivalApplication.class.name)
 
@@ -47,8 +47,8 @@ class MailingTool
       event = MemberEvent.newEmail(@event_id,entity.id,subject)
     end
 
-    if filename then
-      event.filename=filename
+    if not letterFile.nil? then
+      event.filename=letterFile.relative_filename
     end
     event.save
   end
@@ -63,16 +63,18 @@ class MailingTool
     event.save
   end
 
-  def recordLetter(entity,subject,filename)
+  def recordLetter(entity,subject,letterFile)
 	  event = MemberEvent.newLetter(@event_id,entity.id,subject)
-	  event.filename=filename
-	  event.save
+    if not letterFile.nil? then
+  	  event.filename=letterFile.relative_filename
+    end
+    event.save
 
     { :success=>true, :mode => "L" ,:entity=>entity}
   end
 
   def deliver_letter(rcpt,letter)
-    recordLetter(rcpt, @event_title, letter.filename)
+    recordLetter(rcpt, @event_title, letter)
   end
 
   def deliver_email(mailer, rcpt, letter,attachment,additionalMailerParams)
@@ -80,7 +82,7 @@ class MailingTool
       type = rcpt.class
       if not is_mail_blacklisted?(rcpt.email) then
         mailer.notify(rcpt.email, letter,attachment,additionalMailerParams).deliver
-        recordMailSuccess(rcpt, @event_title,letter.orig_filename)
+        recordMailSuccess(rcpt, @event_title,letter)
         result = { :success=>true, :mode => "E" ,:entity=>rcpt}
         return result
       else 

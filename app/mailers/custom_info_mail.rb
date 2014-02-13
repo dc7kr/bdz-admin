@@ -1,7 +1,16 @@
 class CustomInfoMail < ActionMailer::Base
   default from: "geschaeftsstelle@bdz-online.de"
 
-  def notify(recipient, subject, body, letter, attachment) 
+
+  def initialize
+  end
+  
+  def prepare(subject,body)
+    @subject= subject
+    @body = body
+  end
+
+  def notify(recipient, letter, attachment, params) 
 
     storage_dir = BDZ_SETTINGS["invoice_archive_dir"]
 
@@ -17,8 +26,6 @@ class CustomInfoMail < ActionMailer::Base
       Rails.logger.info("No additional attachment")
     end
 
-	  @body = body
-
-   	mail(:to => recipient, :subject => subject)
+   	mail(:to => recipient, :subject => @subject)
   end
 end
