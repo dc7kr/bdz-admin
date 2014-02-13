@@ -4,7 +4,7 @@ module FileArchiveHelper
   def archive_file(srcdir, filename, year)
     archive_dir = BDZ_SETTINGS["invoice_archive_dir"]
 
-    target = archive_dir+"/"+filename
+    target = "#{archive_dir}/#{year}/#{filename}"
 
     FileUtils.mv(srcdir+"/"+filename,target)
 
