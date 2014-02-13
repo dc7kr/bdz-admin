@@ -1,5 +1,5 @@
 - if readable? member_account_booking
-  %tr
+  %tr{:id=>"row#{member_account_booking.id}"}
     %td=l member_account_booking.booking_date.to_date, :format => :long
     %td=t('booking.booking_type_'+member_account_booking.booking_type)
     %td=member_account_booking.booking_year
@@ -14,9 +14,8 @@
       -if ( member_account_booking.booking_mode=='M' or isAdmin?) then
         -if (@isOrchestra) then 
           = link_to_edit_path( edit_orchestra_member_account_booking_path(@member,member_account_booking),'Edit',member_account_booking)
-          = link_to_del_path orchestra_member_account_booking_path(@member,member_account_booking), member_account_booking
+          = link_to_del_path orchestra_member_account_booking_path(@member,member_account_booking), member_account_booking,true
         -else
           = link_to_edit_path( edit_person_member_member_account_booking_path(@member,member_account_booking),'Edit',member_account_booking)
-          = link_to_del_path( person_member_member_account_booking_path(@member,member_account_booking), 'Del',t('common.delete_confirm'),member_account_booking)
-
+          = link_to_del_path( person_member_member_account_booking_path(@member,member_account_booking), member_account_booking)
 

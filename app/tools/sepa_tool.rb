@@ -6,7 +6,7 @@ class SEPATool
     dd_list = Array.new
 
     if requested_date.nil? 
-      requested_date = 14.day.from_now
+      requested_date = 11.day.from_now.to_date
     end
 
     sdd = SEPA::DirectDebit.new(
@@ -35,8 +35,7 @@ class SEPATool
         mandate_date_of_signature: dd.sig_date,
 
         local_instrument: 'CORE',
-        sequence_type: dd.sequence_type
-
+        sequence_type: dd.sequence_type,
         requested_date: requested_date
 
         # OPTIONAL: Enables or disables batch booking, in German "Sammelbuchung / Einzelbuchung"

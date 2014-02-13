@@ -4,15 +4,16 @@
   .content
     %h2.title
       = t("common.all")
-      = t('member_events.title')
+      = t('member_event.p')
     .inner
       %table.table
         %thead
           %th.first= sortable "event_date", t("member_event.event_date")
           %th= sortable "event_type", t("member_event.event_type")
           %th= sortable "event", t("member_event.event")
-          %th= sortable "comment", t("member_event.comment")
+          %th= sortable "comment", t("common.comment")
           %th.last &nbsp;
         %tbody#member_events
           =render @member_events
  
+- content_for :sidebar, render(:partial => 'sidebar')

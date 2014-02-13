@@ -34,12 +34,12 @@ BDZAdmin::Application.configure do
   config.assets.compress = false
 
   # silence assets logging (Served asset...)
-  config.assets.logger = false
+  config.assets.logger = nil
 
   # Expands the lines which load the assets
   config.assets.debug = true
 
-  config.action_mailer.default_url_options = { :host =>'admin-dev.bdz-online.de' }
+  config.action_mailer.default_url_options = { :host =>'admin-dev.bdz-online.de', :protocol => 'https' }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
   :address              => "mail.corika.com",
@@ -55,7 +55,7 @@ BDZAdmin::Application.configure do
   # this disabled Mail sending entirely when set to false !!!
   #
   config.action_mailer.perform_deliveries = false
-
+#  config.action_mailer.logger = nil
   #config.action_controller.relative_url_root = "/dev"
 
 end

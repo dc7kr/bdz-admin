@@ -1,4 +1,4 @@
-%tr
+%tr{:id=>"row#{member_event.id}"}
   %td=l member_event.event_date.to_date, :format => :long
   %td=member_event.event_type
   %td=member_event.event_id
