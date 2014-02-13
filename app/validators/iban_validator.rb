@@ -3,7 +3,12 @@ class IbanValidator < ActiveModel::EachValidator
     #record.errors.add attribute, I18n.t('errors.iban.required') if value.blank?
 
     if value.blank? then 
-      return
+      if record.za=='L' then
+        record.errors.add attribute, I18n.t('errors.iban.required_for_dd')
+        return
+      else
+        return
+      end
     end
 
     # IBAN code should start with country code (2letters)
