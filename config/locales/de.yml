@@ -292,8 +292,10 @@ de:
       required: "IBAN muss eingegeben werden"
       iban_cc_missing: "Ungültige IBAN: kein Ländercode"
       invalid_format: "Ungültiges IBAN-Format"
+      required_for_dd: "IBAN ist für Zahlungsart Lastschrift erforderlich!"
     bic:
       unknown: "BIC ist unbekannt!"
+      required_for_dd: "BIC ist für Zahlungsart Lastschrift erforderlich!"
     format: "%{message}"  
     
     konto:
