@@ -3,6 +3,12 @@ require 'sidekiq/web'
 BDZAdmin::Application.routes.draw do
 
 
+  resources :sepa_regeneration do
+    collection do
+      post :regenerate
+    end
+  end
+
   resources :homepages
 
 
@@ -74,6 +80,7 @@ BDZAdmin::Application.routes.draw do
       end
     end
   end
+
 
   resources :report_sheet_inputs do
     collection do 

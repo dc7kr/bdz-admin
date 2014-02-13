@@ -1,0 +1,13 @@
+.block
+  .secondary-navigation
+    
+  .content
+    .inner
+      %h2=t('sepa_regeneration.s')
+      = form_for :sepa, :url => { :controller => 'sepa_regeneration', :action => 'regenerate' } do |f|
+        %table
+          %tr
+            %td= f.label t('member_account_booking.booking_txt')
+            %td= f.text_field :booking_txt, :size => 60 
+        = submit_tag t('common.send')
+
