@@ -1,6 +1,7 @@
 require 'bankleitzahl' 
 
 class BicFinder
+
   @parser
   def initialize
     blzfile = Rails.root.join('data','blz.txt')
@@ -10,12 +11,23 @@ class BicFinder
     banks = parser.all_banks
 
     @bankhash = Hash.new
+    @bichash = Hash.new
 
     banks.each do |b|
       if not b.bic.empty? and not b.bic.strip.empty? 
         @bankhash[b.blz]=b
+        @bichash[b.bic] = b
       end
     end
+  end
+
+  def exists?(bic)
+    not @bichash[bic].nil?
+  end
+
+
+  def get_bank(bic)
+    @bichash[bic] 
   end
 
   def bic_for_blz(blz)
