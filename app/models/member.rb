@@ -7,6 +7,7 @@ class Member < ActiveRecord::Base
   include CountryHelper
 
   validates :iban, :iban => true
+  validates :bic, :bic => true
   validates :email, :email_format => true 
   validates :mglnr, :uniqueness => true
   belongs_to :regional_organization

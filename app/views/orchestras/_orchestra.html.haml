@@ -3,6 +3,8 @@
     %td
       = link_to orchestra.mglnr, orchestra_path(orchestra)
     %td
+      - if not orchestra.valid? 
+        = image_tag('/assets/icons/warning.svg', {:size=>'16x16',:title=>orchestra.errors.to_a.join("\n")} )
       = orchestra.orchName
     %td
       = mail_to orchestra.email, orchestra.email
