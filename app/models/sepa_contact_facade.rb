@@ -9,7 +9,7 @@ class SepaContactFacade
   end
 
   def city
-    @member.member.ort
+    @member.member.ort[0..65]
   end
 
   def country
@@ -17,24 +17,24 @@ class SepaContactFacade
   end
 
   def phone
-    #@member.member.telefon
+    #@member.member.telefon[0..65]
     nil
   end
 
   def email
-    #@member.member.email
+    #@member.member.email[0..65]
     nil
   end
 
   def name 
-    @member.account_owner
+    @member.account_owner[0..65]
   end
 
   def addr
-    @member.member.strasse
+    @member.member.strasse[0..65]
   end
 
   def contact
-    @member.fullname
+    @member.fullname[0..65]
   end
 end
