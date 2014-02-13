@@ -18,6 +18,7 @@ class SepaRegenerationController < AuthenticatedNonResourceController
       currentSheet = orch.currentReportSheet
       invoice = currentSheet.gen_invoice
 
+      logger.debug("Booking: #{orch.account_owner} #{orch.mglnr} #{orch.iban} #{orch.bic}")
       if ( orch.is_direct_debit? ) then
         sw.addBooking(orch,invoice.sum,booking_txt+" "+orch.mglnr.to_s,"RCUR")
       end
