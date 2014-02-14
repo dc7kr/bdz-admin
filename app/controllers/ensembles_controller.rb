@@ -44,6 +44,8 @@ class EnsemblesController < AuthenticatedController
   def new
     @ensemble = Ensemble.new
 
+    @ensemble.owner = @current_user
+
     respond_to do |format|
       format.html # new.html.erb
       format.json { render :json => @ensemble }

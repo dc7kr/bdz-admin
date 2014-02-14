@@ -2,6 +2,8 @@ class Public::EventCardsController < Public::ApplicationController
 
   def order_form
     @event_card = EventCard.new
+
+    @prices = BDZ_SETTINGS["festival_prices"]
   end
 
   def order_success
