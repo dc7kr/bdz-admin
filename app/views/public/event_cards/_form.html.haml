@@ -20,28 +20,42 @@
         %tr
           %td= f.label :nr_fest, t('event_card.nr_fest'),:class=>'label'
           %td= f.number_field :nr_fest
+          %td=t('event_card.each_price', { :price => @prices["fest"]})
           %td= f.number_field :nr_fest_erm 
+          %td=t('event_card.each_price', { :price => @prices["fest_erm"]})
           %td#fest_sum
         %tr
           %td= f.label :nr_fest_bdz, t('event_card.nr_bdz'),:class=>'label'
           %td= f.number_field :nr_fest_bdz 
+          %td=t('event_card.each_price', { :price => @prices["fest_bdz"]})
           %td= f.number_field :nr_fest_bdz_erm
+          %td=t('event_card.each_price', { :price => @prices["fest_bdz_erm"]})
           %td#fest_sum_bdz
         %tr
           %td= f.label :nr_do, t('event_card.nr_do'),:class=>'label'
           %td= f.number_field :nr_do 
+          %td=t('event_card.each_price', { :price => @prices["tageskarte"]})
           %td= f.number_field :nr_do_erm
+          %td=t('event_card.each_price', { :price => @prices["tageskarte_erm"]})
           %td#sum_do
         %tr
           %td= f.label :nr_fr, t('event_card.nr_fr'),:class=>'label'
           %td= f.number_field :nr_fr 
+          %td=t('event_card.each_price', { :price => @prices["tageskarte"]})
           %td= f.number_field :nr_fr_erm
+          %td=t('event_card.each_price', { :price => @prices["tageskarte_erm"]})
           %td#sum_fr
         %tr
           %td= f.label :nr_sa, t('event_card.nr_sa'),:class=>'label'
           %td= f.number_field :nr_sa 
+          %td=t('event_card.each_price', { :price => @prices["tageskarte"]})
           %td= f.number_field :nr_sa_erm
+          %td=t('event_card.each_price', { :price => @prices["tageskarte_erm"]})
           %td#sum_sa
+
+  %p.formHint
+    Die Tageskarten enthalten keine Verpflegung. Essensbons können an der Getränkeausgabe des Cateringzelts vor Ort erworben werden. Bestellte Karten werden für Sie unter dem angegebenen Namen an der Infotheke im Bürgerzentrum zurückgelegt.
+
   %button.button{:type => "submit"}
     = image_tag("web-app-theme/icons/tick.png", :alt => t("common.save"))
     = t("common.save")

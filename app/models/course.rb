@@ -5,7 +5,6 @@ class Course < ActiveRecord::Base
   
   scope :public, where('visible=1 and datum >= now()')
 	#belongs_to :regional_organization, foreign_key => "lv"
-	self.table_name = 'kurse'
 
   def zeit_formatted 
      zeit.strftime '%H:%M Uhr'

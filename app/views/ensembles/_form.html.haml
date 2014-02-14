@@ -1,4 +1,5 @@
 = form_for @ensemble do |f|
+  = f.hidden_field :owner
   -if @ensemble.errors.any?
     #error_explanation
       %h2= "#{pluralize(@ensemble.errors.count, "error")} prohibited this ensemble from being saved:"
@@ -18,9 +19,6 @@
   .field
     = f.label :email
     = f.text_field :email
-  .field
-    = f.label :owner
-    = f.text_field :owner
   .field
     = f.label :visible
     = f.check_box :visible, :class => 'check_box'

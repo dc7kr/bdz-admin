@@ -4,9 +4,9 @@
   .content
     %h2.title
       = t("common.new")
-      = t("ensemble.s")
+      = t("ensemble_concert.s")
     .inner
-      = form_for :ensemble, :url => ensembles_path, :html => { :class => :form } do |f|
+      = form_for :ensemble_concerts, :url => ensemble_ensemble_concerts_path, :html => { :class => :form } do |f|
         = render :partial => "form", :locals => {:f => f}
 - content_for :sidebar, render(:partial => 'sidebar')
 

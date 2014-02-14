@@ -1,5 +1,4 @@
 class EnsembleConcert < ActiveRecord::Base
-    self.table_name = 'konz_ensemble'
 	belongs_to :festival
 	belongs_to :ensemble
 	belongs_to :bundesland

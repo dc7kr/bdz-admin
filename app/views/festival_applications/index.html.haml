@@ -11,15 +11,17 @@
         %tr 
           %td Gesamtanzahl Spieler:
           %td=@sum_players
-      %table
-        %tr
+      %table.table#festival_applications
+        %thead
           %th=t("common.number")
           %th=t("festival_application.group_type")
           %th=t("festival_application.orch_name")
-          %th=t("festival_application.conductor")
           %th=t("festival_application.num_players")
-          %th=t("festival_application.contact_person")
+          %th=t("festival_application.payment_status")
           %th
 
-        = render @festival_applications
+        %tbody.page 
+          =render @festival_applications
+      #paginator{:"data-table"=>"festival_applications"}
+        = paginate @festival_applications, :remote=>true
 - content_for :sidebar, render(:partial => 'sidebar')

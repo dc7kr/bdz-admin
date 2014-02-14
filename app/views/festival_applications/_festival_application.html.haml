@@ -1,10 +1,14 @@
-%tr
+%tr{:class => cycle("f_appl odd", "f_appl even")}
   %td= festival_application.id
   %td= display_group_visitor_type(festival_application)
-  %td= festival_application.orch_name
-  %td= festival_application.conductor
+  %td
+    = festival_application.orch_name
+    %br
+    #{t('festival_application.conductor')}: #{festival_application.conductor}
+    %br
+    = mail_to festival_application.contact_person.email, festival_application.contact_person.email
   %td= festival_application.num_players
-  %td= mail_to festival_application.contact_person.email, festival_application.contact_person.email
+  %td= t("festival_application.payment_states.#{festival_application.payment_status}")
   %td
     =link_to_show festival_application
     =link_to_edit festival_application
