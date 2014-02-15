@@ -22,7 +22,7 @@ class DistinctionsController < AuthenticatedController
     end
 
     @invoice = @distinction.gen_invoice(@invoiceNumber)
-    @tw.writeInvoice(@invoice, 'distinction')
+    @tw.writeInvoice(@invoice, 'distinction',Time.now.year)
     system("/opt/bdz-rechnung/bin/ehrungsrechnung.sh "+String(@orchestra.mglnr))
     @tw.moveGeneratedFiles(@ddWriter.datePrefix)
 
@@ -152,7 +152,7 @@ class DistinctionsController < AuthenticatedController
 
 	  @users = User.where("role like ?", "%admin%")
     base_url = cron_downloads_url
-	  dd_url = base_url+"?year="+year+"&filename="+ddFile
+	  dd_url = base_url+"?year="+year+"&filename="+ddFile.orig_filename
 
 	  AdminNotifier.newdistinction_notification(dd_url,invoiceNr,orch).deliver
   end
