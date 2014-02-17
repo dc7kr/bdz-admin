@@ -17,7 +17,7 @@ class FestivalApplicationsController < AuthenticatedController
   end
 
   def permitted 
-    @festival_applications = FestivalApplication.where(:permission=>true).order([:group_type,:orch_name])
+    @festival_applications = FestivalApplication.where(:permission=>true).order([:group_type,:orch_name]).page(params[:page]).per(20)
     @sum_players = FestivalApplication.where(:permission=>true).sum(:num_players)
     now = Time.new
 	  currDate = now.strftime("%d.%m.%Y")
