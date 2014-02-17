@@ -11,6 +11,7 @@ class FestivalApplicationsController < AuthenticatedController
     @sum_players = FestivalApplication.sum(:num_players)
 
     respond_to do |format|
+	 		format.js
       format.html # index.html.erb
       format.json { render json: @festival_applications }
     end
@@ -23,6 +24,7 @@ class FestivalApplicationsController < AuthenticatedController
 	  currDate = now.strftime("%d.%m.%Y")
 
 	respond_to do |format|
+	 		format.js
 	  format.html { render :index}
       format.json { render json: @festival_applications }
 	  format.pdf do
@@ -31,7 +33,6 @@ class FestivalApplicationsController < AuthenticatedController
 	  end
 	  format.ods do renderApplicationOds(@festival_applications,"/tmp/festival_applications.ods") 
             send_file("/tmp/festival_applications.ods", :filename => "festival_permissions_"+Time.now.year.to_s+".ods", :type => "application/octet-stream")
-
 		end
 
 	end
