@@ -16,20 +16,16 @@
               %li.username
                 Angemeldet als: #{current_user.email} 
               %li
-                =link_to t("account.profile"), edit_user_registration_path
-              %li
-                = link_to t("account.settings"), edit_user_registration_path
-              %li
                 %a.logout{:href => "/logout"}= t("account.logout")
             %li
               %a{:href => "/about"}= t("common.about", :default => "About")
         #main-navigation
           = render :partial => "main-menu"
       #wrapper.wat-cf
-        .flash
+        #flash-message
           - flash.each do |type, message|
-            %div{:class => "message #{type}"}
-              %p= message
+            %div{:class => "message #{type}", :id => "flash_#{type}"}
+              %p=message
         #main
           .block#mainblock
             = yield
