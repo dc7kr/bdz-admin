@@ -24,6 +24,7 @@ class FestivalApplicationsController < AuthenticatedController
 
 	respond_to do |format|
 	  format.html { render :index}
+      format.json { render json: @festival_applications }
 	  format.pdf do
 		pdf = FestivalApplicationsPdf.new(@festival_applications,view_context)
 		send_data pdf.render, filename: "festival_applications_#{currDate}.pdf", type: "application/pdf", disposition: "inline"
