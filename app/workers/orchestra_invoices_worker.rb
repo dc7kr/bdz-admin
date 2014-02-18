@@ -15,7 +15,8 @@ class OrchestraInvoicesWorker
 
   def default_url_options
     {
-      :host =>  ActionMailer::Base.default_url_options[:host]
+      :host =>  ActionMailer::Base.default_url_options[:host],
+      :protocol => ActionMailer::Base.default_url_options[:protocol]
     }
   end
 
