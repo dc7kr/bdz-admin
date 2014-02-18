@@ -1,4 +1,4 @@
-class EventCardsController < ApplicationController
+class EventCardsController < AuthenticatedController
   # GET /event_cards
   # GET /event_cards.json
   def index
@@ -77,7 +77,7 @@ class EventCardsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to event_cards_url }
-      format.json { head :no_content }
+      format.json { render :json=>{ :status=>"ok", :op=>"delete", :entityId=>@event_card.id } }
     end
   end
 end

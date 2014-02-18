@@ -3,30 +3,28 @@
     =render :partial=>'nav'
   .content
     %h2.title
-      = t("event_card.title")
+      #{t("event_card.s")} Nr. #{@event_card.id}
     .inner
-      %table
+      %h3=mail_to @event_card.email, @event_card.name
+      %h4 #{t('event_card.orderdate')}:  #{format_date @event_card.orderdate}
+      %table 
         %tr
-          %td.label #{t('event_card.nr_fest')}/#{t('event_card.erm')}
-          %td #{@event_card.nr_fest}/#{@event_card.nr_fest_erm}
+          %th=t('common.count')
+          %th=t('event_card.card_type')
+          %th=t('event_card.single_price')
+          %th=t('event_card.total_price')
+        - @event_card.ordered_cards.each do |c|
+          %tr
+            %td.number=c.count
+            %td=t('event_card.'+c.key)
+            %td=t('event_card.each_price', { :price => c.price})
+            %td.number="%.2f EUR" % c.total
+
         %tr
-          %td.label #{t('event_card.nr_fest_bdz')}/#{t('event_card.nr_fest_bdz_erm')}
-          %td #{@event_card.nr_fest}/#{@event_card.nr_fest_erm}
-        %tr
-          %td.label #{t('event_card.nr_do')}/#{t('event_card.nr_do_erm')}
-          %td #{@event_card.nr_fest}/#{@event_card.nr_fest_erm}
-        %tr
-          %td.label #{t('event_card.nr_fr')}/#{t('event_card.nr_fr_erm')}
-          %td #{@event_card.nr_fest}/#{@event_card.nr_fest_erm}
-        %tr
-          %td.label #{t('event_card.nr_sa')}/#{t('event_card.nr_sa_erm')}
-          %td #{@event_card.nr_sa}/#{@event_card.nr_sa_erm}
-        %tr
-          %td.label=t('event_card.name')
-          %td=@event_card.name
-        %tr
-          %td.label=t('event_card.email')
-          %td=mail_to @event_card.email,@event_card.email
-        %tr
-          %td.label=t('event_card.orderdate')
-          %td=format_date @event_card.orderdate
+          %td &nbsp;
+          %td.sum=t('common.sum')
+          %td &nbsp;
+          %td{:class=> "sum number"}="%.2f EUR" % @event_card.sum
+
+
+        

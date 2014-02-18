@@ -4,16 +4,16 @@
   .content
     %h2.title
       = t("common.all")
-      = t("event_card.title")
+      = t("event_card.p")
     .inner
       %table.table
         %thead
           %tr
-            %th=t('event_card.nr_fest')
-            %th=t('event_card.nr_fest_bdz')
-            %th=t('event_card.nr_do')
-            %th=t('event_card.nr_fr')
-            %th=t('event_card.nr_sa')
+            %th=t('event_card.fest')
+            %th=t('event_card.fest_bdz')
+            %th=t('event_card.do')
+            %th=t('event_card.fr')
+            %th=t('event_card.sa')
             %th=t('event_cards.name')
             %th &nbsp;
         = render @event_cards
