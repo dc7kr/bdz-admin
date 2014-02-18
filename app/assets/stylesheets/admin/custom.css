@@ -17,19 +17,6 @@ table.bordered th {
 	border-style: collapse;
 }
 
-td.number, th.number {
-	text-align:right;
-}
-
-td.sum {
-	text-align:right;
-	font-weight:bold;
-}
-
-td.currency {
-	text-align:right;
-}
-
 li.username {
 color:#d0d0d0;
 }
