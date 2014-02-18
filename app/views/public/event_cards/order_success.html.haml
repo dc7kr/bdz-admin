@@ -1,5 +1,21 @@
-.heading 
-  Kartenbestellung für das eurofestival Zupfmusik Bruchsal 2014
 
 %p 
   Vielen Dank für Ihre Kartenbestellung. Sie erhalten in Kürze eine Bestätigungs-Email an #{@event_card.email}. Ihre Bestellung wird bei uns unter der Nummer #{@event_card.id} geführt.
+
+.heading 
+  Kartenbestellung Nr. #{@event_card.id} für das eurofestival Zupfmusik Bruchsal 2014 
+%table 
+
+  - @event_card.ordered_cards.each do |c|
+    %tr
+      %td.number=c.count
+      %td=t('event_card.'+c.key)
+      %td=t('event_card.each_price', { :price => c.price})
+      %td.number="%.2f EUR" % c.total
+
+  %tr
+    %td &nbsp;
+    %td.sum=t('common.sum')
+    %td &nbsp;
+    %td{:class=> "sum number"}="%.2f EUR" % @event_card.sum
+
