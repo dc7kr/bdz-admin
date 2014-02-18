@@ -12,6 +12,8 @@ class Public::EventCardsController < Public::ApplicationController
     @event_card.orderdate = Time.now
     respond_to do |format|
       if @event_card.save
+
+        EventCardsMailer.notify(@event_card,"kartenbestellung@bdz-online.de").deliver
         format.html 
         format.json { render json: @event_card, status: :created, location: @event_card }
       else

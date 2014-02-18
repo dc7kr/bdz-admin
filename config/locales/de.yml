@@ -118,17 +118,17 @@ de:
     p: Kartenbestellungen
     regular: "Regulär:"
     reduced: "Ermäßigt:"
-    nr_fest: Festivalkarten
-    nr_bdz: "Festival-Karte (BDZ-Mitgleder)"
-    nr_fest_erm: "Festivalkarten ermäßigt"
-    nr_fest_bdz: "Festivalkarten BDZ-Mitglieder ermäßigt"
-    nr_fest_bdz_erm: "Festivalkarten BDZ-Mitglieder ermäßigt"
-    nr_do: "Tageskarte Donnerstag"
-    nr_fr: "Tageskarte Freitag"
-    nr_sa: "Tageskarte Samstag"
-    nr_do_erm: "Tageskarte Donnerstag ermäßigt"
-    nr_fr_erm: "Tageskarte Freitag ermäßigt"
-    nr_sa_erm: "Tageskarte Samstag ermäßigt"
+    fest: Festivalkarten
+    fest_bdz: "Festival-Karte (BDZ-Mitgleder)"
+    fest_erm: "Festivalkarten ermäßigt"
+    fest_bdz: "Festivalkarten BDZ-Mitglieder ermäßigt"
+    fest_bdz_erm: "Festivalkarten BDZ-Mitglieder ermäßigt"
+    do: "Tageskarte Donnerstag"
+    fr: "Tageskarte Freitag"
+    sa: "Tageskarte Samstag"
+    do_erm: "Tageskarte Donnerstag ermäßigt"
+    fr_erm: "Tageskarte Freitag ermäßigt"
+    sa_erm: "Tageskarte Samstag ermäßigt"
     each_price: "à %{price} €"
 
 
