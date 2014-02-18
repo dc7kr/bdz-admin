@@ -38,6 +38,7 @@ de:
     settings: Einstellungen
     profile: Profil
   common:
+    count: "Anzahl"
     yes_: "Ja"
     no_: "Nein"
     no_one: niemand
@@ -120,6 +121,7 @@ de:
     s: Kartenbestellung
     p: Kartenbestellungen
     regular: "Regulär:"
+    orderdate: Bestelldatum
     reduced: "Ermäßigt:"
     fest: Festivalkarten
     fest_bdz: "Festival-Karte (BDZ-Mitgleder)"
@@ -132,6 +134,9 @@ de:
     fr_erm: "Tageskarte Freitag ermäßigt"
     sa_erm: "Tageskarte Samstag ermäßigt"
     each_price: "à %{price} €"
+    card_type: "Kartentyp"
+    single_price: "Einzelpreis"
+    total_price: "Gesamtpreis"
 
 
   time:
