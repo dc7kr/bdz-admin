@@ -30,20 +30,6 @@ td.currency {
 	text-align:right;
 }
 
-.field_with_errors input {
-	border: solid red 1px;
-}
-
-#errorExplanation {
-	background-color:white;
-	padding: 5px;
-	border: 2px solid red;
-}
-
-#errorExplanation ul {
-	margin-left:20px;
-}
-
 li.username {
 color:#d0d0d0;
 }
@@ -134,20 +120,6 @@ table.short {
 	padding-bottom:10px;
 }
 
-.infobox {
-	min-height: 50px;
-	border: solid silver 1px;
-	padding: 5px;
-	padding-left: 50px;
-	background-image: url("/assets/icons/info.png"); 
-	background-repeat: no-repeat;
-	background-position: 5px center;
-}
-
-.infobox .title {
-	font-weight:bold;
-	font-size:14pt;
-}
 
 td.invalid {
         background-color:#ff0000;

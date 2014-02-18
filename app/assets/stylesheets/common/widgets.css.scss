@@ -1,0 +1,15 @@
+.infobox {
+	min-height: 50px;
+	border: solid silver 1px;
+	padding: 5px;
+	padding-left: 50px;
+	background-image: url("/assets/icons/info.png"); 
+	background-repeat: no-repeat;
+	background-position: 5px center;
+
+  .title {
+	  font-weight:bold;
+	  font-size:14pt;
+  }
+}
+
