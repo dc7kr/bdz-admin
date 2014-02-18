@@ -21,12 +21,12 @@ class EventCard < ActiveRecord::Base
     end
 
     if ( nr_fest_bdz > 0) then
-      c = OrderedCard.new(nr_fest,prices["fest_bdz"],"fest_bdz")
+      c = OrderedCard.new(nr_fest_bdz,prices["fest_bdz"],"fest_bdz")
       ordered << c
     end
 
     if ( nr_fest_bdz_erm > 0) then
-      c = OrderedCard.new(nr_fest,prices["fest_bdz_erm"],"fest_bdz_erm")
+      c = OrderedCard.new(nr_fest_bdz_erm,prices["fest_bdz_erm"],"fest_bdz_erm")
       ordered << c
     end
 
