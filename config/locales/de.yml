@@ -114,6 +114,9 @@ de:
     name: Name
     email: E-Mail
   event_card:
+    order_form:
+        title: "Kartenbestellung für das eurofestival 2014"
+        submit: "Bestellen"
     s: Kartenbestellung
     p: Kartenbestellungen
     regular: "Regulär:"
