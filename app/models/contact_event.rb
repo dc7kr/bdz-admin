@@ -24,4 +24,17 @@ class ContactEvent < ActiveRecord::Base
 
     retval
   end
+
+
+	def self.newLetter(eventId,contact,subject)
+		retval = ContactEvent.new
+    retval.contact_person_id=contact
+		retval.event_type="L"
+		retval.event_id=eventId
+		retval.event_date=Time.now
+		retval.comment=subject
+
+		retval
+	end
+
 end

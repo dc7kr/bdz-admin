@@ -3,7 +3,7 @@
     %h2.title
       Mail "#{@mail_params[:subject]}" versandt. 
     .inner
-      Mail wurde erfolgreich an #{@successCount} #{t("festival_mail.groups."+@group)} versendet.
+      Rundschreiben wurde erfolgreich an #{@successCount} #{t("festival_mail.groups."+@group)} versendet.
 
       - if @failCount > 0 
         %h3 
@@ -18,11 +18,12 @@
           %tbody#results
             - @results.each do |result|
               %tr
-                %td=t("member_event.event_types."+result[:type])
-                - if result[:type]== 'T' then
-                  %td=result[:entity]
-                - else
-                  %td=link_to result[:entity].email, result[:entity]
-                %td=result[:err]
+                %td=t("member_event.event_types.#{result[:mode]}")
+
+                %td
+                  -if result[:success] == true then
+                    OK
+                  -else 
+                    Fehler: #{result[:err]}
       .actions-bar.wat-cf
         .actions

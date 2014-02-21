@@ -10,6 +10,7 @@ class Member < ActiveRecord::Base
   validates :bic, :bic => true
   validates :email, :email_format => true 
   validates :mglnr, :uniqueness => true
+
   belongs_to :regional_organization
 
   has_many :member_account_bookings
@@ -87,5 +88,9 @@ class Member < ActiveRecord::Base
   def sig_date
     # TODO
     return Date.new(2014,1,1)
+  end
+
+  def event_class
+    MemberEvent
   end
 end

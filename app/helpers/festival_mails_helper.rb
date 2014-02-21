@@ -13,27 +13,21 @@ module FestivalMailsHelper
     :selected=>"FP") 
   end
 
-  def replace_body(orig_params, subst) 
-
-    substed_params = orig_params.clone
-
-    body = substed_params["body"]
-
+  def replace_body(orig_body, subst) 
+    body = orig_body
     subst.each do |s|
       logger.debug("Subst-Pattern:"+s[0])
       body = body.gsub(s[0],s[1])
     end
 
-    substed_params["body"]=body
-
-    return substed_params
+    return body
   end
 
-  def deliver_festival_mail(appl,mail_params,event_id,att_file,resultArray)
+  def prepare_body(appl,body)
     @festival_concert = appl.festival_concert
 
-
     substitutes = {
+      "%id%" => appl.id.to_s,
       "%konzert%" => @festival_concert.label.to_s,
       "%konzert_zeit%" => I18n.l(@festival_concert.event_time),
       "%konzert_ort%" => @festival_concert.location,
@@ -41,12 +35,6 @@ module FestivalMailsHelper
       "%probenzeit%" => appl.rehearsal_time.to_s
     }
 
-    this_mail_params = replace_body(mail_params,substitutes)
-
-    body = this_mail_params[:body]
-    subject = this_mail_params[:subject]
-    letter = att_file
-
-    return deliver_email(appl.contact_person,subject,body,event_id,att_file,nil)
+    return replace_body(body,substitutes)
   end
 end

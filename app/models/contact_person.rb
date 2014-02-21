@@ -26,4 +26,13 @@ class ContactPerson < ActiveRecord::Base
   def t_country(locale="de")
     translated_country(country_code,locale)
   end
+
+  def has_email? 
+    not email.nil?
+  end
+
+
+  def event_class
+    ContactEvent
+  end
 end

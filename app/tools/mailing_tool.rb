@@ -41,11 +41,7 @@ class MailingTool
     Rails.logger.debug("Mail success  : "+entity.class.name )
     Rails.logger.debug("Festival class: "+FestivalApplication.class.name)
 
-    if ( entity.class.name == ContactPerson.new.class.name ) then 
-      event = ContactEvent.newEmail(@event_id,entity.id,subject)
-    else
-      event = MemberEvent.newEmail(@event_id,entity.id,subject)
-    end
+    event = entity.event_class.newEmail(@event_id,entity.id,subject)
 
     if not letterFile.nil? then
       event.filename=letterFile.relative_filename
@@ -54,17 +50,12 @@ class MailingTool
   end
 
   def recordMailFailure(entity, result)
-    event = nil
-    if (entity.class.name == ContactPerson.new.class.name ) then
-      event = ContactEvent.newFailedEmail(@event_id,entity.id,result.to_s)
-    else
-      event = MemberEvent.newFailedEmail(@event_id,entity.id,result.to_s)
-    end
+    event = entity.event_class.newEmail(@event_id,entity.id,result.to_s)
     event.save
   end
 
   def recordLetter(entity,subject,letterFile)
-	  event = MemberEvent.newLetter(@event_id,entity.id,subject)
+    event = entity.event_class.newLetter(@event_id,entity.id,subject.to_s)
     if not letterFile.nil? then
   	  event.filename=letterFile.relative_filename
     end

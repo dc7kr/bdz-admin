@@ -33,8 +33,6 @@ class FestivalMailsController < AuthenticatedNonResourceController
     @event = @mail_params[:event_id]
 
     if ( datafile != nil) then
-      @att_file = datafile.original_filename
-
       @letterfile = storeUploadedFile(cur_year.to_s, datafile.original_filename, datafile)
     end
 
@@ -58,9 +56,22 @@ class FestivalMailsController < AuthenticatedNonResourceController
       logger.error("NO GROUP identified: "+@group)
     end
 
+    subject = @mail_params[:subject]
+
+    tool = MailingTool.new(cur_year.to_s,"gs",@event,subject);
+
+    letterArray = Array.new
+
     @applicants.each do |appl|
       contact = appl.contact_person
-      if deliver_festival_mail(appl,@mail_params,@event,@letterfile,@results) then
+
+      body = @mail_params[:body]
+      mailer_params = { :body => prepare_body(appl,@mail_params[:body]) ,:subject => subject }
+
+      result = tool.deliver_mailing(FestivalMail, appl.contact_person, nil, @letterfile,  letterArray, mailer_params)  
+      @results << result
+
+      if result[:success]==true then
           @successCount+=1;
       else 
           @failCount+=1;
