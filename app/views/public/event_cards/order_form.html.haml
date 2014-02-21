@@ -4,12 +4,12 @@
       = t("event_card.order_form.title")
     .inner
       %div.infobox
-        %span.title
-          Hinweis
+        %span.title=t('common.info')
         %br
         %ul
-          %li Die Tageskarten enthalten keine Verpflegung. Essensbons können an der Getränkeausgabe des Cateringzelts vor Ort erworben werden. 
-          %li Bestellte Karten werden für Sie unter dem angegebenen Namen an der Infotheke im Bürgerzentrum zurückgelegt.
+          %li=t('event_card.order_form.info1')
+          %li=t('event_card.order_form.info2')
+          %li=t('event_card.order_form.info3')
 
       = form_for :event_card, :url => order_success_public_event_cards_path, :html => { :class => :form } do |f|
         = render :partial => "form", :locals => {:f => f}

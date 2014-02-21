@@ -118,6 +118,12 @@ de:
     order_form:
         title: "Kartenbestellung für das eurofestival 2014"
         submit: "Bestellen"
+        info1: "Die Tageskarten enthalten keine Verpflegung. Essensbons können an der Getränkeausgabe des Cateringzelts vor Ort erworben werden. "
+        info2: "Bestellte Karten werden für Sie unter dem angegebenen Namen an der Infotheke im Bürgerzentrum zurückgelegt."
+        info3: "Die Bezahlung der Karten erfolgt in bar bei Abholung an der Infotheke"
+    order_confirm:
+      thanks: "Vielen Dank für Ihre Kartenbestellung. Sie erhalten in Kürze eine Bestätigungs-Email an %{email}. Ihre Bestellung wird bei uns unter der Nummer %{nr} geführt."
+      heading: "Kartenbestellung Nr. %{nr} für das eurofestival Zupfmusik 2014 in Bruchsal"
     s: Kartenbestellung
     p: Kartenbestellungen
     regular: "Regulär:"
