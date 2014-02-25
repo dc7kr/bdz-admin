@@ -65,8 +65,9 @@ class FestivalMailsController < AuthenticatedNonResourceController
     @applicants.each do |appl|
       contact = appl.contact_person
 
-      body = @mail_params[:body]
-      mailer_params = { :body => prepare_body(appl,@mail_params[:body]) ,:subject => subject }
+      body = prepare_body(appl,@mail_params[:body])
+      logger.debug("Result: "+body)
+      mailer_params = { :body => body ,:subject => subject }
 
       result = tool.deliver_mailing(FestivalMail, appl.contact_person, nil, @letterfile,  letterArray, mailer_params)  
       @results << result

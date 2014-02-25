@@ -3,6 +3,8 @@ require 'sidekiq/web'
 BDZAdmin::Application.routes.draw do
 
 
+
+
   resources :sepa_regeneration do
     collection do
       post :regenerate
@@ -438,15 +440,6 @@ BDZAdmin::Application.routes.draw do
   # just remember to delete public/index.html.
   root :to => "home#landing_page"
 
-
-  namespace :public do 
-    resources :event_cards do 
-      collection do 
-        get :order_form
-        post :order_success
-      end
-    end
-  end
 
   # See how all your routes lay out with "rake routes"
 

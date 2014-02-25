@@ -24,6 +24,14 @@ class AdminNotifier < ActionMailer::Base
 	 mail(:to => user.email, :subject => "BDZ Rechnungslauf")
 
   end
+
+  def new_custom_info_mail_notification(user, letters_url, results, triggered_by)
+    @results = results
+    @letterUrl = letters_url
+    @triggeredBy = triggered_by
+
+    mail(:to => user.email, :subject => "Rundschreiben wurde erstellt")
+  end
   
   def newreminders_notification(user, reminders, current_user)
 	 @recipient = user

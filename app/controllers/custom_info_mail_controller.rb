@@ -39,120 +39,31 @@ class CustomInfoMailController < AuthenticatedNonResourceController
     
   def send_mail
     authorize! :member, :edit
+    form_params = params[:email]
 
-    datePrefix = Time.now.strftime '%Y%m%d_'
-    @mail_params = params[:email]
+    letterfile = form_params[:datafile]
+    attachment = form_params[:attachment]
+    grp = form_params[:group]
+    via_paper= form_params[:via_paper]
 
-    letterfile = @mail_params[:datafile]
-    attachment = @mail_params[:attachment]
+    event_id = params[:event_id]
+    subject = params[:subject]
+    body = params[:body]
 
-    @grp = @mail_params[:group]
 
-    @via_paper= @mail_params[:via_paper]
-
-    orchestra=false
-    em=false
-    test=false
-    festival=false
-  
-    if ( @grp == 'A') then
-      orchestra = true
-      em = true
-    elsif ( @grp =='O') then
-      orchestra = true
-    elsif ( @grp == 'E') then 
-      em = true
-    elsif ( @grp == 'T') then
-      test = true 
-    elsif ( @grp == 'F') then
-      festival = true
-    end
-
-    cur_year = Time.now.year
-    date_prefix =  Time.now.strftime("%Y%d%m%H%M_")
-
-    @testCount =0;
-    @testFailCount=0;
-    @orchCount =0;
-    @orchFailCount=0;
-
-    @personCount = 0;
-    @personFailCount=0;
-    @results =  Array.new
-
-    @att_file=nil
-    @att_data=nil
-
-    @event = @mail_params[:event_id]
 
     if ( letterfile != nil) then
-      @letter_file = storeUploadedFile(cur_year.to_s, letterfile.original_filename, letterfile)
+      letter_file = storeUploadedFile(cur_year.to_s, letterfile.original_filename, letterfile)
     end
 
     if ( attachment != nil) then
-      @attachment = storeUploadedFile(cur_year.to_s, attachment.original_filename, attachment)
+      attachment = storeUploadedFile(cur_year.to_s, attachment.original_filename, attachment)
     end
 
-    if ( test ) then
-      @emails = [ 'thomas.kronenberger@bdz-online.de', 'someone@gibtsnicht.kasi-net.org', 'eckhard.richter@bdz-online.de', 'theresa.brandt@bdz-online.de', 'dominik.hackner@bdz-online.de','karsten.richter@bdz-online.de']
-      @emails.each do |email|
-        begin
-          CustomInfoMail.notify(email,params[:email],@att_file,@att_data).deliver
-          @testCount=@testCount+1;
-        rescue
-          @result = { :err=>$!, :entity=>email,:type=>"T"}
-          @results.push(@result)
-          @testFailCount=@testFailCount+1;
-        end
-      end
-    end
-
-    event_id = @mail_params[:event_id]
-    subject = @mail_params[:subject]
-    body = @mail_params[:body]
-
-    tool = MailingTool.new(cur_year.to_s,"gs",event_id,subject);
-    mailer = CustomInfoMail.new
-
-    letterArray = Array.new 
-    if ( orchestra ) then
-      @orchestras = Orchestra.mailForEvent(@event,@via_paper)
-
-
-      @orchestras.each do |orchestra| 
-        mailer.prepare(subject,body)
-
-        filled_template = customize_letter(date_prefix, cur_year.to_s,"gs", orchestra,event_id, @letter_file)
-        o_result = tool.deliver_mailing(orchestra, filled_template, @attachment , letterArray)  
-        @results.push(o_result) 
-      end
-    end
-
-    if ( em ) then
-      @persons = PersonMember.mailForEvent(@event, @via_paper) 
-
-      @persons.each do |person| 
-        filled_template = customize_letter(date_prefix, cur_year.to_s,"gs", person,event_id, @letter_file)
-        mailer.prepare(subject,body)
-
-        o_result = tool.deliver_mailing(orchestra, filled_template, @attachment , letterArray)  
-        @results.push(o_result) 
-      end
-    end
-
-
-    pdf_filename = date_prefix+@mail_params[:event_id]+"_letters.pdf"
-
-    output = File.join(cur_year.to_s,pdf_filename)
-
-    storage_dir = BDZ_SETTINGS["invoice_archive_dir"]
-    merge_pdfs(storage_dir, letterArray, output)
-
-    @pdf_link = "#{cron_downloads_url}?year=#{cur_year}&filename=#{pdf_filename}"
+    CustomInfoMailWorker.perform_async(@current_user.id,letterfile,attachment, subject, body, event_id grp, via_paper)
 
     respond_to do |format|
-     format.html
+        format.html { redirect_to home_cron_path, :notice => t('cron.custom_info_mail_success') }
     end
   end
-
 end

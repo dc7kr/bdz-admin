@@ -2,6 +2,21 @@ BDZAdmin::Application.routes.draw do
 
   # BEGIN PUBLIC NAMESPACE
   namespace :public do 
+    resources :competition_entries
+
+    resources :event_cards do 
+      collection do 
+        get :order_form
+        post :order_success
+      end
+    end
+    resources :event_meals do 
+      collection do 
+        get :order_form
+        post :order_success
+      end
+    end
+
     resources :festival_applications do
       member do 
         get :step2
@@ -9,8 +24,6 @@ BDZAdmin::Application.routes.draw do
       end
       resources :festival_pieces 
     end
-    resources :event_meals
-    resources :event_cards
     resources :contacts
     resources :courses do
       collection do 
@@ -36,6 +49,7 @@ BDZAdmin::Application.routes.draw do
       collection do 
         get :inactive
         get :public
+        get :magazine
       end
     end
 
