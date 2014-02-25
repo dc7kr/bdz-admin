@@ -1,0 +1,9 @@
+-@concerts.each do |c|
+  %p
+    %b #{c.datum.strftime("%d.%m.%Y")}, #{magazine_time_format(c.zeit)}#{c.stadt}
+    %br
+    - if not c.ort.nil? and c.ort.length>0
+      %b #{c.ort}
+      %br
+    #{c.interpret}
+

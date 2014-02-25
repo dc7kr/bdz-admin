@@ -1,4 +1,4 @@
-class Public::ConcertsController < ConcertsController
+class Public::ConcertsController < ApplicationController 
   # GET /concerts
   # GET /concerts.json
   helper_method :sort_column, :sort_direction
@@ -32,6 +32,11 @@ class Public::ConcertsController < ConcertsController
       format.html { render :partial=>"festivals" }
       format.json { render :json => @concerts }
     end
+  end
+
+
+  def magazine
+    @concerts = Concert.public.order([:datum,:zeit])
   end
 
   def renderConcerts
