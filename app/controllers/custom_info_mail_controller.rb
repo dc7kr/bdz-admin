@@ -46,10 +46,11 @@ class CustomInfoMailController < AuthenticatedNonResourceController
     grp = form_params[:group]
     via_paper= form_params[:via_paper]
 
-    event_id = params[:event_id]
-    subject = params[:subject]
-    body = params[:body]
+    event_id = form_params[:event_id]
+    subject = form_params[:subject]
+    body = form_params[:body]
 
+    cur_year = Time.now.year
 
 
     if ( letterfile != nil) then
@@ -60,7 +61,7 @@ class CustomInfoMailController < AuthenticatedNonResourceController
       attachment = storeUploadedFile(cur_year.to_s, attachment.original_filename, attachment)
     end
 
-    CustomInfoMailWorker.perform_async(@current_user.id,letterfile,attachment, subject, body, event_id grp, via_paper)
+    CustomInfoMailWorker.perform_async(@current_user.id,letter_file,attachment, subject, body, event_id, grp, via_paper)
 
     respond_to do |format|
         format.html { redirect_to home_cron_path, :notice => t('cron.custom_info_mail_success') }
