@@ -71,5 +71,4 @@ class FestivalMailsWorker
 
     send_admin_mail(pdf_merged_file,triggered_by,results)
   end
-  end
 end
