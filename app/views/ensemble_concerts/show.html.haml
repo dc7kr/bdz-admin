@@ -33,7 +33,7 @@
           %td=@ensemble_concert.bundesland
         %tr
           %td.label=t("ensemble_concert.land")
-          %td=@ensemble_concert.land
+          %td=translated_country(@ensemble_concert.country_code)
         %tr
           %td.label=t("ensemble_concert.email")
           %td=@ensemble_concert.email

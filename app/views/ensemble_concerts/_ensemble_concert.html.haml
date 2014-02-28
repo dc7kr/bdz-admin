@@ -18,6 +18,8 @@
     
   %td=ensemble_concert.visible
   %td
+    - if concert.visible == 0 then
+      = link_to_publish ensemble_concert,  t("common.publish")
     = link_to_show_path ensemble_ensemble_concert_path(ensemble_concert.ensemble,ensemble_concert), t('common.show'),ensemble_concert
     = link_to_edit_path edit_ensemble_ensemble_concert_path(ensemble_concert.ensemble,ensemble_concert), t('common.edit'),ensemble_concert
     = link_to_del_path ensemble_ensemble_concert_path(ensemble_concert.ensemble,ensemble_concert), ensemble_concert
