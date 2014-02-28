@@ -1,27 +1,16 @@
-%tr
-  %td
-    - if ensemble_concert.datum == nil
-      ="---"
-    - else
-      =l ensemble_concert.datum,:format=>:short
-  %td
-    - if ensemble_concert.zeit== nil
-      ="---"
-    - else
-      =l ensemble_concert.zeit
-  %td=ensemble_concert.stadt
-  %td
-    - if ( ensemble_concert.url != nil and ensemble_concert.url.length > 0) then
-      =link_to ensemble_concert.ort, ensemble_concert.url
-    -else
-      = ensemble_concert.ort
+- if can? :read, ensemble_concert
+  %tr{:class => cycle("odd", "even"), :id=>"row#{ensemble_concert.id}"}
+    %td= format_date(ensemble_concert.datum)
+    %td= format_time(ensemble_concert.zeit)
+    %td= ensemble_concert.stadt
+    %td= ensemble_concert.ort
+    %td= ensemble_concert.interpret
+    %td= link_to ensemble_concert.url,ensemble_concert.url
+    %td
+      - if ensemble_concert.visible == 0 then
+        = link_to_publish ensemble_concert,  t("common.publish")
+      = link_to_show ensemble_concert, t('common.show')
+      = link_to_edit ensemble_concert, t('common.edit')
+      = link_to_delete ensemble_concert, t('common.delete'),t('common.delete_confirm')
     
-  %td=ensemble_concert.visible
-  %td
-    - if concert.visible == 0 then
-      = link_to_publish ensemble_concert,  t("common.publish")
-    = link_to_show_path ensemble_ensemble_concert_path(ensemble_concert.ensemble,ensemble_concert), t('common.show'),ensemble_concert
-    = link_to_edit_path edit_ensemble_ensemble_concert_path(ensemble_concert.ensemble,ensemble_concert), t('common.edit'),ensemble_concert
-    = link_to_del_path ensemble_ensemble_concert_path(ensemble_concert.ensemble,ensemble_concert), ensemble_concert
-    - if ensemble_concert.visible == 0 then
-      = icon_link("OK",'/icons/confirm.svg',publish_ensemble_ensemble_concert_path(ensemble_concert.ensemble,ensemble_concert))
+    %td=ensemble_concert.visible
