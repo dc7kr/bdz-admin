@@ -4,7 +4,6 @@
     %td= format_time(ensemble_concert.zeit)
     %td= ensemble_concert.stadt
     %td= ensemble_concert.ort
-    %td= ensemble_concert.interpret
     %td= link_to ensemble_concert.url,ensemble_concert.url
     %td
       - if ensemble_concert.visible == 0 then
