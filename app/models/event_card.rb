@@ -75,7 +75,7 @@ class EventCard < ActiveRecord::Base
     sum += nr_fest*prices["fest"]
     sum += nr_fest_erm*prices["fest_erm"]
     sum += nr_fest_bdz*prices["fest_bdz"]
-    sum += nr_fest_erm*prices["fest_erm"]
+    sum += nr_fest_bdz_erm*prices["fest_bdz_erm"]
     sum += (nr_do+nr_fr+nr_sa)*prices["tageskarte"]
     sum += (nr_do_erm+nr_fr_erm+nr_sa_erm)*prices["tageskarte_erm"]
   end
