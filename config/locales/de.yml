@@ -107,6 +107,8 @@ de:
       W: "Sehr geehrte Frau"
       F: "Sehr geehrte Damen und Herren"
 
+  event_cards_mailer:
+    subject: "Ihre Kartenbestellung Nr. %{id} fuer das Eurofestival 2014"
   event_meal:
     s: Essensmeldung
     p: Essensmeldungen
@@ -136,6 +138,8 @@ de:
     do: "Tageskarte Donnerstag"
     fr: "Tageskarte Freitag"
     sa: "Tageskarte Samstag"
+    concert_so: "Konzertkarte Schneerunzel Sonntag 1.6."
+    concert_so_erm: "Konzertkarte Schneerunzel Sonntag 1.6. (ermößigt)"
     do_erm: "Tageskarte Donnerstag ermäßigt"
     fr_erm: "Tageskarte Freitag ermäßigt"
     sa_erm: "Tageskarte Samstag ermäßigt"

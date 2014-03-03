@@ -278,6 +278,8 @@ en:
     exchange_success: "Vorname und Name erfolgreich ausgetauscht."
     check_double: "Doppel-Mitgliedschaft prüfen"
     
+  event_cards_mailer:
+    subject: "Your ticket order Nr. %{id} for the eurofestival 2014"
   event_card:
     order_form:
         title: "Ticket order for the eurofestival 2014"
@@ -301,9 +303,11 @@ en:
     do: "day pass Thursday"
     fr: "day pass Friday"
     sa: "day pass Saturday"
-    do_erm: "day pass Donnerstag ermäßigt"
-    fr_erm: "day pass Freitag ermäßigt"
-    sa_erm: "day pass Samstag ermäßigt"
+    do_erm: "day pass Donnerstag (reduced)"
+    fr_erm: "day pass Freitag (reduced)"
+    sa_erm: "day pass Samstag (reduced)"
+    concert_so: "concert 'Schneerunzel' Sunday 1.6. "
+    concert_so_erm: "concert 'Schneerunzel' Sunday 1.6. (reduced)"
     each_price: "à %{price} €"
     card_type: "Ticket type"
     single_price: "unit price"

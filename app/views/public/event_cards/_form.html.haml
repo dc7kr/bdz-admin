@@ -72,6 +72,17 @@
             &nbsp;
             =t('event_card.each_price', { :price => @prices["tageskarte_erm"]})
           %td#sum_sa
+        %tr
+          %td= f.label :nr_concert_so, t('event_card.concert_so'),:class=>'label'
+          %td
+            = f.number_field :nr_concert_so
+            &nbsp;
+            =t('event_card.each_price', { :price => @prices["concert_so"]})
+          %td
+            = f.number_field :nr_concert_so_erm
+            &nbsp;
+            =t('event_card.each_price', { :price => @prices["concert_so_erm"]})
+          %td#sum_sa
 
 
   %button.button{:type => "submit"}

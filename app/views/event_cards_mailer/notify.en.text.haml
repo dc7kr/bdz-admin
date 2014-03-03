@@ -1,0 +1,11 @@
+Thank you for your ticket order on eurofestival-zupfmusik.de
+
+We hereby confirm your order no. #{@card_data.id} as follows: 
+
+-@card_data.ordered_cards.each do |cards|
+  #{cards.count} #{I18n.t("event_card."+cards.key)} à #{"%.2f EUR" % cards.price}    = #{"%.2f EUR" % cards.total}
+=============================
+Sum: #{ "%4.2f EUR" % @card_data.sum}
+
+
+The cards are reserved for you at the info desk in the "Buergerzentrum" to the name #{@card_data.name} and number #{@card_data.id}.

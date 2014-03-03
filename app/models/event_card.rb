@@ -61,12 +61,22 @@ class EventCard < ActiveRecord::Base
     end
 
 
+    if ( nr_concert_so > 0 ) then
+      c = OrderedCard.new(nr_concert_so,prices["concert"],"concert_so")
+      ordered << c
+    end
+    
+    if ( nr_concert_so_erm > 0 ) then
+      c = OrderedCard.new(nr_concert_so_erm,prices["concert_erm"],"concert_so_erm")
+      ordered << c
+    end
+
     ordered
   end
 
 
   def total_card_count
-    nr_fest+nr_fest_bdz+nr_do+nr_fr+nr_sa+nr_do_erm+nr_fr_erm+nr_sa_erm+nr_fest_erm+nr_fest_bdz_erm
+    nr_fest+nr_fest_bdz+nr_do+nr_fr+nr_sa+nr_do_erm+nr_fr_erm+nr_sa_erm+nr_fest_erm+nr_fest_bdz_erm+nr_concert_so+nr_concert_so_erm
   end
 
   def sum
@@ -78,5 +88,7 @@ class EventCard < ActiveRecord::Base
     sum += nr_fest_bdz_erm*prices["fest_bdz_erm"]
     sum += (nr_do+nr_fr+nr_sa)*prices["tageskarte"]
     sum += (nr_do_erm+nr_fr_erm+nr_sa_erm)*prices["tageskarte_erm"]
+    sum += nr_concert_so*prices["concert"]
+    sum += nr_concert_so_erm*prices["concert_erm"]
   end
 end
