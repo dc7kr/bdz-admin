@@ -102,6 +102,10 @@ table.short {
   width: 70%;
 }
 
+#flash-message {
+  width: 70%;
+}
+
 #main .content {
 	padding-left: 10px;
 	padding-bottom:10px;

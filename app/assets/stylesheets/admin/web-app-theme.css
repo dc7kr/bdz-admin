@@ -107,6 +107,7 @@ body {
 .link-group ul.navigation li a:link, #sidebar ul.navigation li a:visited {
   display: block;
   padding: 5px 5px;
+  color: #202020;
 }
 
 #sidebar ul.navigation li a:link, #sidebar ul.navigation li a:visited {

@@ -179,6 +179,7 @@ hr {
   background: #FFF;
   border-bottom: 1px solid #F0F0EE;
   text-decoration: none;
+  color: #202020;
 }
 
 #sidebar ul li a:hover, #sidebar ul li a:active, .link-group ul li a:hover, .link-group ul li a:active {
@@ -287,7 +288,8 @@ hr {
 /* flash-messages */
 #flash-message .message {
   -moz-border-radius: 3px;
-  border-radius: 3px;
+  border-radius: 10px;
+  width: 80%;
   -webkit-border-radius: 3px;
   text-align:center;
   margin: 0 auto 15px;
@@ -328,6 +330,7 @@ hr {
 #flash-message .notice {
   border: 1px solid #1FDF00;
   background-color: #BBFFB6;
+  box-shadow: 3px 3px #a9a9a9;
 }
 
 /* lists */
