@@ -2,7 +2,7 @@ class FestivalApplication < ActiveRecord::Base
 
   include CountryHelper
 
-  attr_accessible :conductor, :contact_person, :equipment, :country_code, :num_players, :orch_name, :orchestra, :special_cast, :group_type,:permission,:festival_concert_id, :visitor_type, :rehearsal_time
+  attr_accessible :conductor, :contact_person, :equipment, :country_code, :num_players, :orch_name, :orchestra, :special_cast, :group_type,:permission,:festival_concert_id, :visitor_type, :rehearsal_time, :payment_status
   has_many :festival_pieces
   has_many :festival_application_attachments
 
