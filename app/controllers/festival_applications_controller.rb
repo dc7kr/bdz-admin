@@ -3,11 +3,13 @@ class FestivalApplicationsController < AuthenticatedController
 
   include CountryHelper
 
+  helper_method :sort_column, :sort_direction
+
   layout :choose_layout
   # GET /festival_applications
   # GET /festival_applications.json
   def index
-    @festival_applications = FestivalApplication.page(params[:page]).per(20)
+    @festival_applications = FestivalApplication.order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
     @sum_players = FestivalApplication.sum(:num_players)
 
     respond_to do |format|
@@ -18,7 +20,7 @@ class FestivalApplicationsController < AuthenticatedController
   end
 
   def permitted 
-    @festival_applications = FestivalApplication.where(:permission=>true).order([:group_type,:orch_name]).page(params[:page]).per(20)
+    @festival_applications = FestivalApplication.where(:permission=>true).order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
     @sum_players = FestivalApplication.where(:permission=>true).sum(:num_players)
     now = Time.new
 	  currDate = now.strftime("%d.%m.%Y")
@@ -236,4 +238,10 @@ class FestivalApplicationsController < AuthenticatedController
   				end
 			end
 	end
+
+
+  def sort_column
+    FestivalApplication.column_names.include?(params[:sort]) ? params[:sort] : "id"
+  #group_type [:group_type,:orch_name])
+  end
 end

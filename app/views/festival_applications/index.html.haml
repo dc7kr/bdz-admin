@@ -13,12 +13,13 @@
           %td=@sum_players
       %table.table#festival_applications
         %thead
-          %th=t("common.number")
-          %th=t("festival_application.group_type")
-          %th=t("festival_application.orch_name")
-          %th=t("festival_application.num_players")
-          %th=t("festival_application.payment_status")
-          %th
+          %tr
+            %th=t("common.number")
+            %th=t("festival_application.group_type")
+            %th=sortable :orch_name, t("festival_application.orch_name")
+            %th=t("festival_application.num_players")
+            %th=t("festival_application.payment_status")
+            %th
 
         %tbody.page 
           =render @festival_applications
