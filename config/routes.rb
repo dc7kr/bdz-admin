@@ -112,7 +112,11 @@ BDZAdmin::Application.routes.draw do
   end
 
 
-  resources :event_cards 
+  resources :event_cards  do
+    collection do 
+      get :gen_invoices
+    end
+  end
 
   resources :event_meals
 
@@ -320,7 +324,8 @@ BDZAdmin::Application.routes.draw do
   # reports
   namespace :reports do
     resources :gema
-  resources :member_account_bookings
+    resources :member_account_bookings
+    resources :new_members
   end
 
   resources :concerts do
