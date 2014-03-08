@@ -152,7 +152,9 @@ class DistinctionsController < AuthenticatedController
 
 	  @users = User.where("role like ?", "%admin%")
     base_url = cron_downloads_url
-	  dd_url = base_url+"?year="+year+"&filename="+ddFile.orig_filename
+    if not ddFile.nil?
+  	  dd_url = base_url+"?year="+year+"&filename="+ddFile.orig_filename
+    end
 
 	  AdminNotifier.newdistinction_notification(dd_url,invoiceNr,orch).deliver
   end
