@@ -34,7 +34,7 @@ module FestivalApplicationsHelper
 		    [t('festival_application.visitor_types.Y'),"Y"], 
 		    [t('festival_application.visitor_types.V'),"V"],
 		    [t('festival_application.visitor_types.O'),"O"],
-	    ], :selection=>selection)
+	    ], :selected=>selection)
   end
 
   def display_visitor_type(type)
