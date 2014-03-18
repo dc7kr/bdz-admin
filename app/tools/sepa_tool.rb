@@ -1,23 +1,35 @@
 require "sepa_king" 
 
 class SEPATool
+  attr_accessor :company,:bic,:iban,:creditor_id,:message_prefix
 
+  def initialize(settings)
+    @company = settings["company"]
+    @bic = settings["bic"]
+    @iban = settings["iban"].gsub(/ /,"")
+    @creditor_id = settings["creditor_id"]
+    @message_prefix = settings["message_prefix"]
+    if @message_prefix.nil? then
+      @message_prefix="KRI"
+    end
+  end
+  
   def create_sepa_direct_debit_order direct_debits, requested_date=nil
     dd_list = Array.new
 
     if requested_date.nil? 
-      requested_date = 11.day.from_now.to_date
+      requested_date = 5.day.from_now.to_date
     end
 
     sdd = SEPA::DirectDebit.new(
-      name:       BDZ_SETTINGS["company"],
-      bic:        BDZ_SETTINGS["bic"],
-      iban:       BDZ_SETTINGS["iban"].gsub(/ /,""),
-      creditor_identifier: BDZ_SETTINGS["creditor_id"]
+      name:       @company,
+      bic:        @bic,
+      iban:       @iban,
+      creditor_identifier: @creditor_id
     )
 
     # REQUIRES sepa_king > 0.1.0 
-    sdd.message_identification = "BDZ/#{Time.now.to_i}"
+    sdd.message_identification = "#{@message_prefix}/#{Time.now.to_i}"
 
     direct_debits.each do |dd|
       sdd.add_transaction(
@@ -49,10 +61,10 @@ class SEPATool
   def create_credit_transfer credit_transfers
     # First: Create the main object
     sct = SEPA::CreditTransfer.new(
-      name:       BDZ_SETTINGS["company"],
-      bic:        BDZ_SETTINGS["bic"],
-      iban:       BDZ_SETTINGS["iban"],
-      creditor_identifier: BDZ_SETTINGS["creditor_id"]
+      name:       @company,
+      bic:        @bic,
+      iban:       @iban,
+      creditor_identifier: @creditor_id
     )
 
     credit_transfers.each do |c|
