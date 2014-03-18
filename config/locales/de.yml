@@ -2,6 +2,16 @@ de:
   about:
     last_commits: "Letzte Änderungen"
 
+  competition_entry:
+    questions:
+      title: "Wer ist aktuell BDZ"
+    feedback:
+      title: "Festival-Feedback"
+      hint: "Bitte schreiben Sie uns jeweils einen Satz"
+      like: "Was hat Ihnen am besten im Festival gefallen?"
+      missing: "Was sollte auf dem „BDZ eurofestival zupfmusik“ noch angeboten werden?"
+      improve: "Was ist verbesserungsfähig aus Ihrer Sicht?"
+
   feature_request:
     p: Feature Requests
     s: Feature Request
@@ -65,7 +75,8 @@ de:
     search: Suche
     confirm: "Sind Sie sicher?"
     confirm_delete: "Wollen Sie diesen Eintrag wirklich löschen?"
-    error_500: Interner Fehler
+    error_500: "Interner Fehler"
+    error_404: "Seite nicht gefunden"
     public_data: Öffentliche Daten
     member_data: Mitgliedsdaten
     magazine_data: "Auftakt!"
@@ -707,6 +718,10 @@ de:
               blank: "E-Mail darf nicht leer sein!"
             phone:
               blank: "Telefon darf nicht leer sein!"
+        member:
+          attributes:
+            eintritt:
+              blank: "Eintrittsdatum darf nicht leer sein"
     attributes:
       member:
          za: Zahlungsart
@@ -896,6 +911,9 @@ de:
         orchestra: Orchester
         orch_name: Name der Gruppe
         conductor: Dirigent
+        bdz_member: BDZ Mitglied
+        tickets: Festivalkarten
+        tickets_red: "Festivalkarten (ermäßigt)"
         permission: "Zulassung zum Festival"
         festival_concert_id: "Konzert"
         permission_granted: "zugelassen"
