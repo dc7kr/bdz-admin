@@ -914,6 +914,8 @@ de:
         bdz_member: BDZ Mitglied
         tickets: Festivalkarten
         tickets_red: "Festivalkarten (ermäßigt)"
+        bdz_tickets: "Festivalkarten (BDZ-Mitglied)"
+        bdz_tickets_red: "Festivalkarten (BDZ-Mitglied), ermäßigt"
         permission: "Zulassung zum Festival"
         festival_concert_id: "Konzert"
         permission_granted: "zugelassen"

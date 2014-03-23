@@ -24,8 +24,11 @@
       %td= f.label :permission, :class=> :label
       %td= f.check_box :permission
     %tr
-      %td= f.label :bdz_member, :class=> :label
-      %td= f.check_box :bdz_member
+      %td= f.label :bdz_tickets, :class=> :label
+      %td= f.number_field :bdz_tickets
+    %tr
+      %td= f.label :bdz_tickets_red, :class=> :label
+      %td= f.number_field :bdz_tickets_red
     %tr
       %td= f.label :tickets, :class=> :label
       %td= f.number_field :tickets
