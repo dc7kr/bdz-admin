@@ -10,7 +10,7 @@ class DistinctionsController < AuthenticatedController
     datePrefix = Time.now.strftime '%Y%m%d%H%M%S'
 
     @tw = TexWriter.new
-    @ddWriter = SEPAWriter.new(datePrefix)
+    @ddWriter = SEPAWriter.new(datePrefix, BDZ_SETTINGS)
 
     @orchestra = @distinction.orchestra 
 
