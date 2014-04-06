@@ -10,8 +10,14 @@
       %td.label= f.label :username
       %td= f.text_field :username
     %tr
+      %td.label= f.label :name
+      %td= f.text_field :name
+    %tr
       %td.label= f.label :email
       %td= f.text_field :email
+    %tr
+      %td.label= f.label :password
+      %td= f.password_field :password
     %tr
       %td.label= f.label :role
       %td= f.collection_select :role, User::ROLES, :to_s, :humanize 
