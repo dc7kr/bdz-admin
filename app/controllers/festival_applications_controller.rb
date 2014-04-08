@@ -23,24 +23,32 @@ class FestivalApplicationsController < AuthenticatedController
     now = Time.new
 	  currDate = now.strftime("%d.%m.%Y")
 
-	respond_to do |format|
-	 		format.js
-	  format.html { 
+    respond_to do |format|
       @festival_applications = FestivalApplication.where(:permission=>true).order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
-      render :index}
-      format.json { render json: @festival_applications }
-	  format.pdf do
-		pdf = FestivalApplicationsPdf.new(@festival_applications,view_context)
-		send_data pdf.render, filename: "festival_applications_#{currDate}.pdf", type: "application/pdf", disposition: "inline"
-	  end
-	  format.ods do 
-      @festival_applications = FestivalApplication.where(:permission=>true).order(sort_column+ " "+ sort_direction)
-      @sum_players = FestivalApplication.where(:permission=>true).sum(:num_players)
-      renderApplicationOds(@festival_applications,"/tmp/festival_applications.ods") 
-            send_file("/tmp/festival_applications.ods", :filename => "festival_permissions_"+Time.now.year.to_s+".ods", :type => "application/octet-stream")
-		end
 
-	end
+      format.js
+
+      format.html { 
+        render :index
+      }
+
+      format.json { 
+        render json: @festival_applications 
+      }
+
+      format.pdf do
+        pdf = FestivalApplicationsPdf.new(@festival_applications,view_context)
+        send_data pdf.render, filename: "festival_applications_#{currDate}.pdf", type: "application/pdf", disposition: "inline"
+      end
+
+      format.ods do 
+        @festival_applications = FestivalApplication.where(:permission=>true).order(sort_column+ " "+ sort_direction)
+        @sum_players = FestivalApplication.where(:permission=>true).sum(:num_players)
+        renderApplicationOds(@festival_applications,"/tmp/festival_applications.ods") 
+              send_file("/tmp/festival_applications.ods", :filename => "festival_permissions_"+Time.now.year.to_s+".ods", :type => "application/octet-stream")
+      end
+
+    end
   end
 
   def list
