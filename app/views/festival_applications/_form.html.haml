@@ -39,6 +39,9 @@
       %td= f.label :payment_status, :class=> :label
       %td= f.select :payment_status, get_payment_status_options(@festival_application.payment_status)
     %tr
+      %td= f.label :amount, :class=> :label
+      %td= f.number_field :amount
+    %tr
       %td= f.label :concert, :class => :label
       %td= collection_select(:festival_application, :festival_concert_id, FestivalConcert.all, :id, :label) 
     %tr

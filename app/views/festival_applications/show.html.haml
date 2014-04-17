@@ -43,5 +43,34 @@
         %tr
           %td.label #{t("festival_application.contact_person")}:
           %td= render(:partial =>  'contact_person.oneline') 
+        %tr
+          %td.label #{t("festival_application.payment_status")}
+          %td= t("festival_application.payment_states.#{@festival_application.payment_status}")
+        %tr
+          %td.label #{t("festival_application.amount")}
+          %td= @festival_application.amount
+        %tr
+          %td.label #{t("festival_application.invoice")}
+          %td
+            %table
+              %tr
+                %th Anzahl
+                %th Bezeichung
+                %th Einzelpreis
+                %th Gesamt
+              -invoice = @festival_application.invoice
+              -invoice.items.each do |i|
+                %tr
+                  %td=i.count
+                  %td=i.label
+                  %td.currency=format_currency(i.price,'€')
+                  %td.currency=format_currency(i.count*i.price,'€')
+              %tr
+                %td
+                %td #{t("common.sum")}
+                %td 
+                %td.sum= format_currency(invoice.sum,'€')
+          
+          
 
 - content_for :sidebar, render(:partial => 'sidebar.show')
