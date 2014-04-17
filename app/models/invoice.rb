@@ -1,6 +1,6 @@
 class Invoice
     attr_accessor :invoice_number
-    attr_accessor :member
+    attr_accessor :customer
 
   def initialize(number)
     @invoice_number = number
@@ -14,6 +14,14 @@ class Invoice
 
   def addItem(item)
     @items << item
+  end
+
+  def considerItem(count, price,label)
+    if count.nil? or count == 0 then
+      return false
+    end
+
+    addItem(InvoiceItem.new(count,price,label))
   end
 
   def sum
