@@ -107,6 +107,9 @@ BDZAdmin::Application.routes.draw do
       get :list
       get :permitted
     end
+    member do 
+      get :gen_invoice
+    end
     resources :festival_pieces
     resources :festival_application_attachments
   end
@@ -191,7 +194,9 @@ BDZAdmin::Application.routes.draw do
   resources :festival_mails do
     collection do 
       get :index
+      get :invoices
       post :send_mails
+      post :send_invoices
     end
   end
 

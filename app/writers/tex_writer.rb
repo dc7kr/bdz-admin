@@ -12,7 +12,7 @@ class TexWriter
   def writeInvoice(invoice,contact,year) 
 		File.open(TexWriter.workdir+"/variables.tex", 'w') do |f| 
 			writeOurData(f,contact)
-			writeCommon(f,invoice.member)
+			writeCommon(f,invoice.customer)
       f.write('\newcommand{\jahr}{'+year.to_s+"}\n")
 			f.write('\newcommand{\renummer}{'+invoice.invoice_number+"}\n")
 			f.write('\newcommand{\zweck}{'+invoice.invoice_number+"}\n")
@@ -83,42 +83,42 @@ class TexWriter
     end
 	end 
 
-	def writeCommon(f,member)
-		f.write('\newcommand{\mglnr}{'+member.mglnr.to_s+"}\n")
-		if ( member.is_direct_debit? ) then
+	def writeCommon(f,customer)
+		f.write('\newcommand{\mglnr}{'+customer.customer_id.to_s+"}\n")
+		if ( customer.is_direct_debit? ) then
 			f.write('\newcommand{\directDebit}{1}'+"\n")
-			f.write('\newcommand{\iban}{'+member.iban.to_s+"}\n")
-			f.write('\newcommand{\bic}{'+member.bic.to_s+"}\n")
+			f.write('\newcommand{\iban}{'+customer.iban.to_s+"}\n")
+			f.write('\newcommand{\bic}{'+customer.bic.to_s+"}\n")
 
-			f.write('\newcommand{\mandateRef}{'+member.mandate_id.to_s+"}\n")
+			f.write('\newcommand{\mandateRef}{'+customer.mandate_id.to_s+"}\n")
 			f.write('\newcommand{\glaeubigerId}{'+BDZ_SETTINGS["creditor_id"]+"}\n")
 		else
 			f.write('\newcommand{\directDebit}{0}'+"\n")
 		end
-		if ( member.instance_of?(Orchestra)) 
-			f.write('\newcommand{\firma}{'+breakName(member.orchName)+'}'+"\n")
-		else
+		if ( customer.company.nil?)
 			f.write('\newcommand{\firma}{}'+"\n")
+		else
+			f.write('\newcommand{\firma}{'+breakName(customer.company)+'}'+"\n")
 		end
-		f.write('\newcommand{\name}{'+member.fullname+"}\n")
-		f.write('\newcommand{\strasse}{'+member.strasse+"}\n")
+		f.write('\newcommand{\name}{'+"#{customer.fullname}}\n")
+		f.write('\newcommand{\strasse}{'+"#{customer.street}}\n")
 		full_ort=""
-		if ( member.plz ) then 
-			full_ort += member.plz 
+		if ( customer.zip) then 
+			full_ort += customer.zip
 			full_ort += ' '
 		end
-		if ( member.ort ) then
-			full_ort += member.ort
+		if ( customer.city ) then
+			full_ort += customer.city
 		end
 
 		f.write('\newcommand{\ort}{'+full_ort+"}\n")
 
 		lastname=""
-		if (member.name) 
-				if ( member.anrede == 'Herr' ) then
-					f.write('\newcommand{\anredetxt}{r Herr '+member.name+"}\n")
-				elsif ( member.anrede == 'Frau' ) then
-					f.write('\newcommand{\anredetxt}{ Frau '+member.name+"}\n")
+		if (customer.name) 
+				if ( customer.salutation == 'Herr' ) then
+					f.write('\newcommand{\anredetxt}{r Herr '+customer.name+"}\n")
+				elsif ( customer.salutation == 'Frau' ) then
+					f.write('\newcommand{\anredetxt}{ Frau '+customer.name+"}\n")
 				else
 					f.write('\newcommand{\anredetxt}{ Damen und Herren}'+"\n")
 				end
@@ -130,22 +130,31 @@ class TexWriter
 	end
 
 	def writeOurData(f,contact) 
+    our_contact = BDZ_SETTINGS['contacts'][contact]
+
 		f.write('\newcommand{\myFirma}{'+BDZ_SETTINGS['company']+"}\n")
 		f.write('\newcommand{\myFirmaShort}{'+BDZ_SETTINGS['companyShort']+"}\n")
 		f.write('\newcommand{\myKonto}{'+BDZ_SETTINGS['konto']+"}\n")
 		f.write('\newcommand{\myBLZ}{'+BDZ_SETTINGS['blz']+"}\n")
-		f.write('\newcommand{\myBank}{'+BDZ_SETTINGS['bank']+"}\n")
-		f.write('\newcommand{\myIBAN}{'+BDZ_SETTINGS['iban']+"}\n")
-		f.write('\newcommand{\myBIC}{'+BDZ_SETTINGS['bic']+"}\n")
-		f.write('\newcommand{\myPhone}{'+BDZ_SETTINGS['contacts'][contact]['phone']+"}\n")
-		f.write('\newcommand{\myFax}{'+BDZ_SETTINGS['contacts'][contact]['fax']+"}\n")
-		f.write('\newcommand{\myMail}{'+BDZ_SETTINGS['contacts'][contact]['mail']+"}\n")
-		f.write('\newcommand{\myName}{'+BDZ_SETTINGS['contacts'][contact]['name']+"}\n")
-		f.write('\newcommand{\myDept}{'+BDZ_SETTINGS['contacts'][contact]['dept']+"}\n")
-		f.write('\newcommand{\myStreet}{'+BDZ_SETTINGS['contacts'][contact]['street']+"}\n")
-		f.write('\newcommand{\myPLZ}{'+BDZ_SETTINGS['contacts'][contact]['plz']+"}\n")
-		f.write('\newcommand{\myOrt}{'+BDZ_SETTINGS['contacts'][contact]['ort']+"}\n")
-		f.write('\newcommand{\myJob}{'+BDZ_SETTINGS['contacts'][contact]['job']+"}\n")
+    if ( our_contact['iban'].nil? ) then
+		  f.write('\newcommand{\myBank}{'+BDZ_SETTINGS['bank']+"}\n")
+		  f.write('\newcommand{\myIBAN}{'+BDZ_SETTINGS['iban']+"}\n")
+		  f.write('\newcommand{\myBIC}{'+BDZ_SETTINGS['bic']+"}\n")
+    else
+		  f.write('\newcommand{\myIBAN}{'+our_contact['iban']+"}\n")
+		  f.write('\newcommand{\myBIC}{'+our_contact['bic']+"}\n")
+		  f.write('\newcommand{\myBank}{'+our_contact['bank']+"}\n")
+    end
+
+		f.write('\newcommand{\myPhone}{'+our_contact['phone']+"}\n")
+		f.write('\newcommand{\myFax}{'+our_contact['fax']+"}\n")
+		f.write('\newcommand{\myMail}{'+our_contact['mail']+"}\n")
+		f.write('\newcommand{\myName}{'+our_contact['name']+"}\n")
+		f.write('\newcommand{\myDept}{'+our_contact['dept']+"}\n")
+		f.write('\newcommand{\myStreet}{'+our_contact['street']+"}\n")
+		f.write('\newcommand{\myPLZ}{'+our_contact['plz']+"}\n")
+		f.write('\newcommand{\myOrt}{'+our_contact['ort']+"}\n")
+		f.write('\newcommand{\myJob}{'+our_contact['job']+"}\n")
 	end
 
 
@@ -181,9 +190,9 @@ class TexWriter
   end
 
 
-  def gen_pdf(invoice_type, datePrefix, mglnr)
-    out_file = "#{datePrefix}-#{mglnr}-#{invoice_type}.pdf"
-		system("/opt/bdz-rechnung/bin/rechnung.sh #{invoice_type} #{datePrefix} #{mglnr}")
+  def gen_pdf(invoice_type, datePrefix, customer_id)
+    out_file = "#{datePrefix}-#{customer_id}-#{invoice_type}.pdf"
+		system("/opt/bdz-rechnung/bin/rechnung.sh #{invoice_type} #{datePrefix} #{customer_id}")
 
     out_file
   end

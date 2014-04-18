@@ -38,6 +38,7 @@ en:
     reference_data: Reference data
     festival_data: Eurofestival
     admin_data: Administration
+    advance_payment: advance payment
     cron: Tasks
     finalize: Finalize
     address: Address

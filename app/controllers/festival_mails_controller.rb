@@ -11,6 +11,23 @@ class FestivalMailsController < AuthenticatedNonResourceController
     end
   end
 
+  def invoices
+    authorize! :member, :edit
+    respond_to do |format|
+      format.html
+    end
+  end
+
+  def send_invoices
+    authorize! :member, :edit
+
+    FestivalInvoiceMailsWorker.perform_async(@current_user.id, "TLNINVOICE")
+
+    respond_to do |format|
+        format.html { redirect_to home_festival_data_path, :notice => t('festival_mail.invoice_success') }
+    end
+  end
+
   def send_mails
     authorize! :member, :edit
     @mail_params = params["festival_mail"] 

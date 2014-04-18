@@ -18,6 +18,29 @@ class FestivalApplication < ActiveRecord::Base
   end
 
 
+  def to_customer
+    cust = Customer.new(id, contact_person.fullname)
+    cust.id = id
+    cust.entity = self
+
+    # currently no DD
+    cust.mandate_id = nil
+    cust.iban = nil
+    cust.bic=nil
+    cust.sig_date = nil
+
+    cust.salutation = contact_person.salutation
+
+    cust.company = orch_name
+    cust.name = contact_person.fullname
+    cust.street = contact_person.street
+    cust.zip = contact_person.zip
+    cust.city = contact_person.city
+    cust.country = contact_person.country_code
+
+    cust
+  end
+
   def invoice
     prices = BDZ_SETTINGS["festival_prices"]
     ts = Time.now.strftime "%Y%m%d"
@@ -25,6 +48,7 @@ class FestivalApplication < ActiveRecord::Base
     renr = ts+"-TLN#{id}"
 
     inv = Invoice.new(renr)
+    inv.customer = to_customer
 
     inv.considerItem(tickets,prices["fest"],"Festivalticket")
     inv.considerItem(tickets_red,prices["fest_erm"],"Festivalticket ermaessigt")

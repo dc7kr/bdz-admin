@@ -2,6 +2,7 @@ require 'odf/spreadsheet'
 class FestivalApplicationsController < AuthenticatedController
 
   include CountryHelper
+  include FileArchiveHelper
 
   helper_method :sort_column, :sort_direction
 
@@ -249,6 +250,30 @@ class FestivalApplicationsController < AuthenticatedController
   				end
 			end
 	end
+
+
+  def gen_invoice
+    @festival_application = FestivalApplication.find(params[:id])
+    tw = TexWriter.new
+
+    prefix = Time.now.strftime("%Y%m%d%H%M%S_")
+    year = Time.now.year
+    invoice = @festival_application.invoice 
+    tw.writeInvoice(invoice,'festival',year)
+
+    inv_type = "festival.en"
+    if invoice.customer.country == 'de' or invoice.customer.country=='at' then
+      inv_type = "festival.de"
+    end
+
+    work_pdf_file = tw.gen_pdf(inv_type,prefix,invoice.customer.id)
+
+    workdir = BDZ_SETTINGS["invoice_workdir"]
+    invoice_file = archive_file(workdir,work_pdf_file,year)  
+
+    send_file(invoice_file.full_path, :filename => invoice_file.orig_filename, :type => "application/octet-stream")
+
+  end
 
 
   def sort_column

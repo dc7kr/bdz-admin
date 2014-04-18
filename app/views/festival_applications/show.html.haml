@@ -70,6 +70,7 @@
                 %td #{t("common.sum")}
                 %td 
                 %td.sum= format_currency(invoice.sum,'€')
+            =link_to "PDF", gen_invoice_festival_application_path(@festival_application)
           
           
 

@@ -56,6 +56,7 @@ de:
     number: Nr.
     year: Jahr
     sum: Summe
+    advance_payment: Anzahlung
     month: Monat
     day: Tag
     created_at: Erzeugt
@@ -127,6 +128,8 @@ de:
     veg: Vegetarisch
     name: Name
     email: E-Mail
+    order_form:
+      title: Essenbestellung
   event_card:
     order_form:
         title: "Kartenbestellung für das eurofestival 2014"
@@ -708,6 +711,7 @@ de:
             password:
               confirmation: Passwörter stimmen nicht überein.
               too_short: Passwort zu kurz.
+              blank: Passwort darf nicht leer sein!
         contact_person:
           attributes:
             first_name:
@@ -901,12 +905,15 @@ de:
         s: "Festival-Bewerbung"
         closed: "Eine Anmeldung ist nicht mehr möglich. Wir bitten um Ihr Verständnis."
         group_list: Gruppen-Liste
+
+        invoice: Rechnung
         payment_status: Zahlungsstatus
         payment_states:
           N: "Nicht bezahlt"
           P: "Anzahlung erhalten"
           F: "Volle Zahlung erhalten"
           S: "Sondervereinbarung"
+        amount: "Bisherige Zahlung"
         country_id: "Herkunftsland"
         orchestra: Orchester
         orch_name: Name der Gruppe
