@@ -34,34 +34,40 @@ class FestivalInvoiceMailsWorker
     applicants.each do |appl|
 
       invoice = appl.invoice 
-      tw.writeInvoice(invoice,'festival',cur_year)
 
-      inv_type = "festival.en"
-      locale = :en
-      subject = "eurofestival zupfmusik 2014 ticket invoice no. #{invoice.invoice_number} for participant no. #{appl.id}"
 
-      if invoice.customer.country == 'de' or invoice.customer.country=='at' then
-        inv_type = "festival.de"
-        subject = "eurofestival zupfmusik 2014 - Ticket Rechnung Nr. #{invoice.invoice_number} fuer Teilnehmer Nr. #{appl.id}"
-        locale = :de
-      end
+      if ( invoice.sum <= 0) then
+        Rails.logger.info("Skipped invoice for TLN #{invoice.customer.id} because of zero or negative invoice.")
+      else
+        tw.writeInvoice(invoice,'festival',cur_year)
 
-      work_pdf_file = tw.gen_pdf(inv_type,prefix,invoice.customer.id)
+        inv_type = "festival.en"
+        locale = :en
+        subject = "eurofestival zupfmusik 2014 ticket invoice no. #{invoice.invoice_number} for participant no. #{appl.id}"
 
-      workdir = BDZ_SETTINGS["invoice_workdir"]
-      invoice_file = archive_file(workdir,work_pdf_file,cur_year)  
+        if invoice.customer.country == 'de' or invoice.customer.country=='at' then
+          inv_type = "festival.de"
+          subject = "eurofestival zupfmusik 2014 - Ticket Rechnung Nr. #{invoice.invoice_number} fuer Teilnehmer Nr. #{appl.id}"
+          locale = :de
+        end
 
-      contact = appl.contact_person
+        work_pdf_file = tw.gen_pdf(inv_type,prefix,invoice.customer.id)
 
-      mailer_params = { :subject => subject , :cc => BDZ_SETTINGS["contacts"]["treasurer"]["mail"], :bcc => "webmaster@bdz-online.de", :invoice => invoice, :locale => locale }
+        workdir = BDZ_SETTINGS["invoice_workdir"]
+        invoice_file = archive_file(workdir,work_pdf_file,cur_year)  
 
-      result = tool.deliver_mailing(FestivalInvoiceMail, contact, invoice_file,  nil, letterArray, mailer_params)  
-      results << result
+        contact = appl.contact_person
 
-      if result[:success]==true then
-          successCount+=1;
-      else 
-          failCount+=1;
+        mailer_params = { :subject => subject , :cc => BDZ_SETTINGS["contacts"]["treasurer"]["mail"], :bcc => "webmaster@bdz-online.de", :invoice => invoice, :locale => locale }
+
+        result = tool.deliver_mailing(FestivalInvoiceMail, contact, invoice_file,  nil, letterArray, mailer_params)  
+        results << result
+
+        if result[:success]==true then
+            successCount+=1;
+        else 
+            failCount+=1;
+        end
       end
     end
   end
