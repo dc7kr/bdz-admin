@@ -1,6 +1,14 @@
 class MailingFile
   attr_accessor :visible_filename, :orig_filename,:archive_folder
 
+  def self.fromHash(hash)
+    if hash.nil?
+      nil
+    else
+      MailingFile.new(hash["visible_filename"],hash["orig_filename"],hash["archive_folder"])
+    end
+  end
+
   def initialize(filename,orig_filename,archive_folder=nil)
     @visible_filename = filename
     @orig_filename = orig_filename

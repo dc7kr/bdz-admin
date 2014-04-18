@@ -46,15 +46,19 @@ class FestivalApplication < ActiveRecord::Base
     ts = Time.now.strftime "%Y%m%d"
 
     renr = ts+"-TLN#{id}"
+    if (contact_person.country_code == 'de' or country_code == 'at') then 
+      locale = :de
+    else 
+      locale = :en
+    end
 
     inv = Invoice.new(renr)
     inv.customer = to_customer
-
-    inv.considerItem(tickets,prices["fest"],"Festivalticket")
-    inv.considerItem(tickets_red,prices["fest_erm"],"Festivalticket ermaessigt")
-    inv.considerItem(bdz_tickets,prices["fest_bdz"],"Festivalticket BDZ")
-    inv.considerItem(bdz_tickets_red,prices["fest_bdz_erm"],"Festivalticket BDZ ermaessigt")
-    inv.addItem(InvoiceItem.new(1, -1*amount, "erhaltene Anzahlung"))
+    inv.considerItem(tickets,prices["fest"],I18n.t("event_card.fest", :locale=>locale))
+    inv.considerItem(tickets_red,prices["fest_erm"],I18n.t("event_card.fest_erm",:locale=>locale))
+    inv.considerItem(bdz_tickets,prices["fest_bdz"],I18n.t("event_card.fest_bdz",:locale=>locale))
+    inv.considerItem(bdz_tickets_red,prices["fest_bdz_erm"],I18n.t("event_card.fest_bdz_erm",:locale=>locale))
+    inv.addItem(InvoiceItem.new(1, -1*amount, I18n.t("common.advance_payment",:locale=>locale)))
 
     inv
   end
