@@ -1,14 +1,15 @@
 class MailingTool
 
-  def initialize(year, our_contact,event_id, event_title)
+  def initialize(year, our_contact,event_id, event_title,via_paper=true)
     @year = year
     @our_contact = our_contact
     @event_title = event_title
     @event_id = event_id
+    @via_paper = via_paper
   end
 
   def deliver_mailing(mailer, rcpt, letterFile, attachment, letterArray, additionalMailerParams=nil)  
-    if not rcpt.has_email? then
+    if not rcpt.has_email? and @via_paper then
       result = deliver_letter(rcpt,letterFile)
       letterArray << letterFile
       Rails.logger.info("Created letter for " << rcpt.mglnr.to_s)
@@ -17,9 +18,14 @@ class MailingTool
       o_result = deliver_email(mailer, rcpt,letterFile,attachment, additionalMailerParams)
       if o_result[:success]!= true then
         Rails.logger.info("Mail delivery failed: "+rcpt.email)
-        result = deliver_letter(rcpt, letterFile)
-        letterArray << letterFile
-        return result
+
+        if @via_paper then
+          result = deliver_letter(rcpt, letterFile)
+          letterArray << letterFile
+          return result
+        else
+          return o_result
+        end
       else
         return o_result
       end
@@ -81,9 +87,10 @@ class MailingTool
         result = { :err=>"blacklisted", :entity=>rcpt,:type =>type, :mode => "E"}
         return result
        end
-    rescue
-      recordMailFailure(rcpt,$!)
-      return { :err=>$!, :entity=>rcpt,:type =>type, :mode=> "E"}
+    rescue => e 
+      recordMailFailure(rcpt,e.message)
+       Rails.logger.warn e.backtrace.join("\n")
+      return { :err=>e.message, :entity=>rcpt,:type =>type, :mode=> "E"}
     end
   end
 end
