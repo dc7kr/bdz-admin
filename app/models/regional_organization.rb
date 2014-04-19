@@ -1,6 +1,7 @@
 class RegionalOrganization < ActiveRecord::Base
 
-	self.table_name = 'landesverband'
+  has_many :functions
+
   #//validates :blz , :blz => true
   #validates :konto, :konto => true
 
