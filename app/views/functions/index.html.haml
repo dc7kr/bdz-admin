@@ -11,11 +11,12 @@
       %table.table
         %thead
           %th.first= t("function.label")
-          %th=t("regional_organization.s")
+          %th= sortable "regional_organization_id", t("regional_organization.s")
           %th=t("contact.s")
           %th=t("function.bund")
           %th=t("function.jugend")
           %th=t("function.nr")
+          %th=sortable "funktion", t("function.funktion")
           %th.last &nbsp;
         %tbody#functions
           =render @functions

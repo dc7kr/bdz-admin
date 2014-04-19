@@ -3,6 +3,7 @@ class FunctionsController < AuthenticatedController
   # GET /functions.json
   before_filter :authenticate_user!#, :except => [:index]
   load_and_authorize_resource
+  helper_method :sort_column, :sort_direction
   def index
 
     ro_id = params[:regional_organization_id]
@@ -11,7 +12,7 @@ class FunctionsController < AuthenticatedController
       @regional_organization = RegionalOrganization.find(params[:regional_organization_id])
       @functions = Function.includes(:regional_organization,:board_contact).where("functions.regional_organization_id=?", ro_id).page(params[:page])
     else
-      @functions = Function.includes(:regional_organization,:board_contact).page(params[:page])
+      @functions = Function.includes(:regional_organization,:board_contact).order(sort_column+ " "+ sort_direction).page(params[:page])
     end
 
     respond_to do |format|
@@ -99,5 +100,10 @@ class FunctionsController < AuthenticatedController
       format.html # index.html.erb
       format.json { render :json => @functions }
     end
+  end 
+
+  private
+  def sort_column
+    Function.column_names.include?(params[:sort]) ? "functions."+params[:sort] : "functions.id"
   end
 end
