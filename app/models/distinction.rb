@@ -34,7 +34,7 @@ class Distinction < ActiveRecord::Base
 
   def gen_invoice(number)
     @invoice = Invoice.new(number)
-    @invoice.member = orchestra
+    @invoice.customer = orchestra.to_customer
     @invoice << InvoiceItem.new(certificates,Prices.certificate,"Urkunden")
     @invoice << InvoiceItem.new(silver_needles,Prices.silverNeedle, 'Silbernadel')
     @invoice << InvoiceItem.new(gold_needles,Prices.goldenNeedle, 'Goldnadel')

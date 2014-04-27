@@ -1,5 +1,5 @@
 class Customer
-  attr_accessor :id, :company, :name, :street, :zip, :city, :country, :iban, :bic, :salutation, :mandate_id, :entity, :sig_date
+  attr_accessor :id, :company, :name, :street, :zip, :city, :country, :iban, :bic, :salutation, :mandate_id, :entity, :sig_date,:account_owner
 
   def initialize(id,name)
     @id=id

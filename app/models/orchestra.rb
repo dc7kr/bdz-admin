@@ -240,7 +240,6 @@ class Orchestra < ActiveRecord::Base
     ort
   end
 
-  # for SEPA
   def mandate_id
     member.mandate_id
   end
@@ -255,5 +254,22 @@ class Orchestra < ActiveRecord::Base
 
   def sig_date
     member.sig_date
+  end
+
+  def to_customer
+    cust = member.to_customer
+    cust.entity = self
+
+    cust.name= fullname
+    cust.company = orchName
+    cust.account_owner = orchName
+
+    cust
+  end
+
+  # for member event handling
+
+  def event_class
+    MemberEvent
   end
 end

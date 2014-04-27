@@ -6,6 +6,7 @@ class Member < ActiveRecord::Base
 
   include CountryHelper
 
+  validates_presence_of :eintritt 
   validates :iban, :iban => true
   validates :bic, :bic => true
   validates :email, :email_format => true 
@@ -81,16 +82,28 @@ class Member < ActiveRecord::Base
     not email.nil? and email.length > 3
   end
 
-  def mandate_id
+  def event_class
+    MemberEvent
+  end
+
+  def to_customer
+    c = Customer.new(id, name)
+    c.entity = self
+    c.street = strasse
+    c.zip = plz
+    c.city = ort
+    c.country = country_code
+    c.sig_date = sig_date 
+    c.mandate_id =  mandate_id 
+
+    c
+  end
+
+  def mandate_id 
     "BDZBEITRAG"+mglnr.to_s
   end
 
   def sig_date
-    # TODO
-    return Date.new(2014,1,1)
-  end
-
-  def event_class
-    MemberEvent
+    Date.new(2014,1,1)
   end
 end

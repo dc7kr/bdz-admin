@@ -151,4 +151,9 @@ class PersonMember < ActiveRecord::Base
   def city
     member.ort
   end
+
+  # for event handling
+  def event_class
+    MemberEvent
+  end
 end
