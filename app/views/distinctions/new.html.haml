@@ -4,9 +4,9 @@
   .content
     %h2.title
       = t("common.new")
-      = t("distinction.s")
+      = t("distinction.s")  
     .inner
-      = @orchestra.name
+      %h3= @orchestra.orchName
       = form_for ([@orchestra,@distinction]) do |f|
         = render :partial => "form", :locals => {:f => f}
 - content_for :sidebar, render(:partial => 'sidebar')
