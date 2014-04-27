@@ -5,7 +5,7 @@
   .content
     %h2.title
       = t("web-app-theme.edit", :default => "Edit")
-      = t("distinction.title")
+      = t("distinction.s")
     .inner
       = form_for [@orchestra,@distinction], :url => orchestra_distinction_path(@orchestra,@distinction), :html => { :class => :form } do |f|
         = render :partial => "form", :locals => {:f => f}
