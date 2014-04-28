@@ -67,9 +67,7 @@ class OrchestrasController < AuthenticatedController
       last_report = orchestra.lastReportSheet
       if last_report.nil? then
         logger.warn("Last Report sheet is NIL: #{orchestra.mglnr} #{orchestra.orchName}")
-      else 
-		  if ( last_reportcalcZeitungen > 0) then
-
+      elsif ( last_report.calcZeitungen > 0) then
 			  mag_count=nil
 			  if ( orchestra.is_regular? or orchestra.is_lorch? ) then
 				  mag_count = orchestra.currentMagazines
