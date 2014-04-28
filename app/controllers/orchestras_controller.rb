@@ -64,7 +64,11 @@ class OrchestrasController < AuthenticatedController
 	  @result = Array.new
 
 	  @orchestras.each do |orchestra|
-		  if ( orchestra.lastReportSheet.calcZeitungen > 0) then
+      last_report = orchestra.lastReportSheet
+      if last_report.nil? then
+        logger.warn("Last Report sheet is NIL: #{orchestra.mglnr} #{orchestra.orchName}")
+      else 
+		  if ( last_reportcalcZeitungen > 0) then
 
 			  mag_count=nil
 			  if ( orchestra.is_regular? or orchestra.is_lorch? ) then
