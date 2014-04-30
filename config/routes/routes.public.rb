@@ -2,7 +2,18 @@ BDZAdmin::Application.routes.draw do
 
   # BEGIN PUBLIC NAMESPACE
   namespace :public do 
-    resources :competition_entries
+    resources :functions do
+      collection do 
+        get :federal
+        get :states
+        get :youth
+      end
+    end
+    resources :competition_entries do
+      collection do 
+        get :participate
+      end
+    end
 
     resources :event_cards do 
       collection do 

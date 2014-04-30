@@ -1,4 +1,4 @@
-class Public::EventMealsController < ApplicationController
+class Public::EventMealsController < Public::ApplicationController
   # GET /event_meals
   # GET /event_meals.json
   def index
@@ -78,6 +78,24 @@ class Public::EventMealsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to event_meals_url }
       format.json { head :no_content }
+    end
+  end
+
+  def order_success
+    @event_meal = EventMeal.new(params[:event_meal])
+
+    @event_meal.orderdate = Time.now
+
+    respond_to do |format|
+      if @event_meal.save
+
+        EventMealsMailer.notify(@event_meal,"essensmeldung@bdz-online.de").deliver
+        format.html 
+        format.json { render json: @event_meal, status: :created, location: @event_meal }
+      else
+        format.html { render action: "order_form" }
+        format.json { render json: @event_meal.errors, status: :unprocessable_entity }
+      end
     end
   end
 end

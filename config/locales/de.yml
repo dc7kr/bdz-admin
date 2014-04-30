@@ -53,6 +53,7 @@ de:
     no_: "Nein"
     no_one: niemand
     all: Alle
+    submit: Absenden
     number: Nr.
     year: Jahr
     sum: Summe
@@ -121,15 +122,22 @@ de:
 
   event_cards_mailer:
     subject: "Ihre Kartenbestellung Nr. %{id} fuer das Eurofestival 2014"
+  event_meals_mailer: 
+    subject: "Ihre Essensmeldung Nr. %{id} fuer das Eurofestival 2014"
   event_meal:
     s: Essensmeldung
     p: Essensmeldungen
-    tln: Teilnehmer
-    veg: Vegetarisch
-    name: Name
+    meals: "Teilnehmer"
+    veg: "- davon Vegetarier"
+    name: Teilnehmer-Name
     email: E-Mail
+    arrival_time: "Ankunft in Bruchsal"
+    participant_id: Teilnehmernummer
+
     order_form:
       title: Essenbestellung
+    binding_note: Bitte beachten Sie, dass aus organisatorischen Gründen eine Entscheidung für vegetarisches Essen bindend ist.
+    additional_note: Zusätzliche Essen können an der Getränkeausgabe des Cateringzelts vor Ort erworben werden.
   event_card:
     order_form:
         title: "Kartenbestellung für das eurofestival 2014"
@@ -696,6 +704,22 @@ de:
         header: Fehler im Formular
         body: Betroffene Felder 
       models:
+        event_meal:
+          attributes:
+            participant_id: 
+              blank: "Teilnehmernummer darf nicht leer sein"
+            veg:
+              blank: "Bitte geben Sie die Anzahl der Vegatrier ein."
+              must_be_less_tln: "Die Vegetarieranzahl muss kleiner als die Gesamtzahl sein!"
+            tln:
+              blank: "Bitte geben Sie die Gesamt-Teilnehmerzahl ein."
+              at_least_one: "Bitte bestellen Sie mindestens ein Essen."
+            email:
+              blank: "Bitte geben Sie eine E-Mail Adresse an."
+            name:
+              blank: "Bitte geben Sie den Teilnehmer-Namen an."
+            arrival_time:
+              blank: "Bitte geben Sie die ungefähre Ankunftszeit an."
         event_card:
           attributes:
             name:
@@ -727,6 +751,20 @@ de:
             eintritt:
               blank: "Eintrittsdatum darf nicht leer sein"
     attributes:
+      event_meal:
+        participant_id: 
+          one: "Telinehmer-Nr."
+        tln: 
+          one: "Gesamt-Anzahl Essen"
+        arrival_time:
+          one: "Ankunft in Bruchsal"
+        veg:
+          one: "- davon Vegetarier"
+        email:
+          one: E-Mail
+        name:
+          one: Teilnehmer-Name
+
       member:
          za: Zahlungsart
          konto: Konto-Nr.

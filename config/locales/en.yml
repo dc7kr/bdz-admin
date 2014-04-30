@@ -25,6 +25,7 @@ en:
     delete: Delete
     cancel: Cancel
     info: Info
+    submit: Submit
     confirm: "Are you sure?"
     exchange: Exchange
     fullname: Name
@@ -280,7 +281,9 @@ en:
     check_double: "Doppel-Mitgliedschaft prüfen"
     
   event_cards_mailer:
-    subject: "Your ticket order Nr. %{id} for the eurofestival 2014"
+    subject: "Your ticket order no. %{id} for the eurofestival 2014"
+  event_meals_mailer: 
+    subject: "Yoiur meal order no. %{id} fuer das Eurofestival 2014"
   event_card:
     order_form:
         title: "Ticket order for the eurofestival 2014"
@@ -313,7 +316,20 @@ en:
     card_type: "Ticket type"
     single_price: "unit price"
     total_price: "all round price"
+  event_meal:
+    s: Meal report
+    p: Meal reports
 
+    participant_id: participant number
+    meals: Overall Meals
+    veg: "- thereof vegetarian"
+    name: name
+    email: e-mail
+    arrival_time: Estimated arrival time
+    order_form:
+      title: Meal order 
+    binding_note: Please note that for organisational reasons the decision for a vegetarian meal is binding.
+    additional_note: You can purchase additional meal vouchers at the drink dispensers in the catering tent.
 
   helpers:
     label:
@@ -362,11 +378,35 @@ en:
         fax: Fax
         email: E-Mail
 
-  activerecord: 
+  activerecord:
+    attributes:
+      event_meal:
+        participant_id: 
+          one: "Participant No."
+          other: "{{count}} Participant IDs"
+        tln: 
+          one: "Overall meals"
+        arrival_time:
+          one: "Estimated Arrival Time"
+        veg:
+          one: "- thereof vegetarian"
+        email:
+          one: E-Mail
+        name:
+          one: "Participant name"
     errors:
       template:
         header: Errors in form 
         body: Affected fields
+      models:
+        event_meal:
+          attributes:
+            veg:
+              must_be_less_tln: " must be less or equal overall meals!"
+            tln:
+              at_least_one: "Please order at least one meal."
+            arrival_time:
+              blank: "Please enter your estimated arrival time."
   festival_application:
     <<: *festival_app_labels
     new: "New festival application"

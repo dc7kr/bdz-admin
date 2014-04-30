@@ -1,0 +1,15 @@
+%p 
+  Vielen Dank für Ihre Essenmeldung. Sie erhalten in Kürze eine Bestätigungs-Email an #{@event_meal.email}. Ihre Meldung wird bei uns unter der Nummer #{@event_meal.id} geführt.
+
+.heading
+  Essenmeldung Nr. #{@event_meal.id} für das eurofestival Zupfmusik Bruchsal 2014
+  %h3 #{@event_meal.participant_id} #{@event_meal.name}
+  %h4=@event_meal.email
+
+  %p
+    Teilnehmer:
+    = @event_meal.tln 
+    %br
+    davon Vegetarier:
+    = @event_meal.veg
+

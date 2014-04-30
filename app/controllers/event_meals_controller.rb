@@ -77,7 +77,7 @@ class EventMealsController < AuthenticatedController
 
     respond_to do |format|
       format.html { redirect_to event_meals_url }
-      format.json { head :no_content }
+      format.json { render :json=>{ :status=>"ok", :op=>"delete", :entityId=>@event_meal.id } }
     end
   end
 end
