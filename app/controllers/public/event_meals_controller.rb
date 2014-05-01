@@ -81,6 +81,9 @@ class Public::EventMealsController < Public::ApplicationController
     end
   end
 
+  def order_form 
+   @event_meal = EventMeal.new 
+  end
   def order_success
     @event_meal = EventMeal.new(params[:event_meal])
 

@@ -11,6 +11,7 @@
           %li=t('event_meal.binding_note')
           %li=t('event_meal.additional_note')
 
+
       %div 
-      = form_for :event_meal, :url => order_success_public_event_meals_path, :html => { :class => :form } do |f|
+      = form_for @event_meal, :url => order_success_public_event_meals_path, :html => { :class => :form } do |f|
         = render :partial => "form", :locals => {:f => f}
