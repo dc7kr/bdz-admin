@@ -321,7 +321,7 @@ en:
     p: Meal reports
 
     participant_id: participant number
-    meals: Overall Meals
+    meals: Overall festival tickets
     veg: "- thereof vegetarian"
     name: name
     email: e-mail
@@ -329,7 +329,7 @@ en:
     order_form:
       title: Meal order 
     binding_note: Please note that for organisational reasons the decision for a vegetarian meal is binding.
-    additional_note: You can purchase additional meal vouchers at the drink dispensers in the catering tent.
+    additional_note: You can purchase additional meal vouchers at the info desk.
 
   helpers:
     label:
@@ -385,7 +385,7 @@ en:
           one: "Participant No."
           other: "{{count}} Participant IDs"
         tln: 
-          one: "Overall meals"
+          one: "Overall festival tickets"
         arrival_time:
           one: "Estimated Arrival Time"
         veg:

@@ -2,6 +2,8 @@ de:
   about:
     last_commits: "Letzte Änderungen"
 
+  festival_mails:
+    send_invoices_button: "Rechnungen generieren"
   competition_entry:
     questions:
       title: "Wer ist aktuell BDZ"
@@ -163,7 +165,7 @@ de:
     fr: "Tageskarte Freitag"
     sa: "Tageskarte Samstag"
     concert_so: "Konzertkarte Schneerunzel Sonntag 1.6."
-    concert_so_erm: "Konzertkarte Schneerunzel Sonntag 1.6. (ermößigt)"
+    concert_so_erm: "Konzertkarte Schneerunzel Sonntag 1.6. (ermäßigt)"
     do_erm: "Tageskarte Donnerstag ermäßigt"
     fr_erm: "Tageskarte Freitag ermäßigt"
     sa_erm: "Tageskarte Samstag ermäßigt"
@@ -921,6 +923,9 @@ de:
       advertiser:
         customer_number: Kundennummer
       festival_mail: &festival_mail_labels
+        reservation_invoice_success: "Rechnungslauf für Kartenreservierungen wurde gestartet."
+        reservation_invoices: "Reservierungs-Rechnungen versenden"
+        gen_invoices: "Teilnehmer Rechnungen versenden"
         p: Festival-Rundmails
         s: Festival-Rundmail
         event_id: Event ID
