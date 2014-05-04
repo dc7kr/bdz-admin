@@ -1,11 +1,10 @@
 %tr{:class => cycle("odd", "even"), :id=>"row#{event_card.id}"}
   %td #{event_card.nr_fest}/#{event_card.nr_fest_erm}
   %td #{event_card.nr_fest_bdz}/#{event_card.nr_fest_bdz_erm}
-  %td #{event_card.nr_do}/#{event_card.nr_do_erm}
-  %td #{event_card.nr_fr}/#{event_card.nr_fr_erm}
-  %td #{event_card.nr_sa}/#{event_card.nr_sa_erm}
+  %td #{event_card.nr_do},#{event_card.nr_fr},#{event_card.nr_sa}
+  %td #{event_card.nr_do_erm},#{event_card.nr_fr_erm},#{event_card.nr_sa_erm}
   %td=mail_to event_card.email,event_card.name
   %td
     = link_to_show event_card
-    = link_to_edit edit_event_card_path(event_card)
+    = link_to_edit event_card
     = link_to_delete event_card, t('common.delete'),t('common.delete_confirm')

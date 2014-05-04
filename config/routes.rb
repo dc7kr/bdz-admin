@@ -116,8 +116,8 @@ BDZAdmin::Application.routes.draw do
 
 
   resources :event_cards  do
-    collection do 
-      get :gen_invoices
+    member do 
+      get :gen_invoice
     end
   end
 
@@ -195,8 +195,10 @@ BDZAdmin::Application.routes.draw do
     collection do 
       get :index
       get :invoices
+      get :reservation_invoices
       post :send_mails
       post :send_invoices
+      post :send_reservation_invoices
     end
   end
 

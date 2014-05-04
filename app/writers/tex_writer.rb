@@ -32,7 +32,12 @@ class TexWriter
 		end
 		amount = '%.2f' % tariff;
 		amount = amount.gsub('.',',')
-		file.write('\Artikel{'+String(count)+'}{'+label+'}{'+amount+"}\n")
+
+    if tariff < 0 then
+		  file.write('\Anzahlung{'+amount+"}\n")
+    else
+		  file.write('\Artikel{'+String(count)+'}{'+label+'}{'+amount+"}\n")
+    end
 	end
 
 

@@ -10,10 +10,6 @@ class Customer
     name
   end
 
-  def self.fromEventCard(ec)
-    Customer.new(ec.id,ec.name)
-  end
-
   def is_direct_debit?
     not iban.nil?  and not bic.nil?
   end
