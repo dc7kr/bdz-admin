@@ -84,14 +84,22 @@ class Public::EventMealsController < Public::ApplicationController
   def order_form 
    @event_meal = EventMeal.new 
   end
+
   def order_success
     @event_meal = EventMeal.new(params[:event_meal])
 
     @event_meal.orderdate = Time.now
 
+    timestr = params[:event_meal][:arrival_time]
+
+    arrival = Time.parse(timestr)
+
+    @event_meal.arrival_time = arrival
+
     respond_to do |format|
       if @event_meal.save
 
+        Rails.logger.debug("#{@event_meal.participant_id} #{timestr}")
         EventMealsMailer.notify(@event_meal,"essensmeldung@bdz-online.de").deliver
         format.html 
         format.json { render json: @event_meal, status: :created, location: @event_meal }
