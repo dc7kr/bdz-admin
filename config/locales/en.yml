@@ -283,7 +283,7 @@ en:
   event_cards_mailer:
     subject: "Your ticket order no. %{id} for the eurofestival 2014"
   event_meals_mailer: 
-    subject: "Yoiur meal order no. %{id} fuer das Eurofestival 2014"
+    subject: "Your meal order no. %{id} fuer das Eurofestival 2014"
   event_card:
     order_form:
         title: "Ticket order for the eurofestival 2014"
