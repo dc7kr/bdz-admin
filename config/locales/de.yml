@@ -704,6 +704,17 @@ de:
       cancel_account: "Benutzeraccount löschen"
   activerecord: 
     attributes:
+      event_card:
+        company: "Firma/Gruppe"
+        name: Name
+        email: Emailadresse
+        invoiced: Rechnung erstellt
+        preferred_lang: Sprache
+        country_code: Land
+        city: Stadt
+        zip: PLZ
+        street: "Straße"
+        payment_received: Bezahlt
       event_meal:
         participant_id: 
           one: "Teilnehmer Nr."

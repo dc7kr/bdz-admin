@@ -3,6 +3,9 @@
 .group
   %table
     %tr
+      %td=f.label :company
+      %td{:colspan=>2}=f.text_field :company
+    %tr
       %td=f.label :name
       %td{:colspan=>2}=f.text_field :name
     %tr
@@ -20,6 +23,10 @@
     %tr
       %td= f.label :country_code
       %td= country_select(:event_cards, :country_code, nil, iso_codes:true)
+
+    %tr
+      %td= f.label :preferred_lang
+      %td=f.select(:preferred_lang, options_for_select([['Deutsch','de'],['Englisch','en']],:selected=> @event_card.preferred_lang))
     %tr
       %td=f.label :invoiced
       %td{:colspan=>2}= f.check_box :invoiced

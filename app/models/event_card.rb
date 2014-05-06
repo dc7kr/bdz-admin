@@ -125,6 +125,11 @@ class EventCard < ActiveRecord::Base
     ivoice
   end
 
+
+  def has_email? 
+    not email.nil?
+  end
+
   def to_customer
     cust = Customer.new(id,name)  
     if street.nil? then
@@ -139,10 +144,15 @@ class EventCard < ActiveRecord::Base
 
     if email.end_with? ".de" or email.end_with? ".at" then
       cust.country = "de"
+      cust.preferred_language="de"
     end
 
     cust
   end
 
+  def event_class
+   # ContactEvent
+    nil
+  end
 
 end

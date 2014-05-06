@@ -47,20 +47,38 @@ class MailingTool
     Rails.logger.debug("Mail success  : "+entity.class.name )
     Rails.logger.debug("Festival class: "+FestivalApplication.class.name)
 
+    if ( entity.event_class.nil?) then
+      Rails.logger.info("Event class is nil. Mail successfully sent to : #{entity.email}")
+      return
+    end
+
     event = entity.event_class.newEmail(@event_id,entity.id,subject)
 
     if not letterFile.nil? then
       event.filename=letterFile.relative_filename
     end
+
     event.save
   end
 
   def recordMailFailure(entity, result)
+
+    if ( entity.event_class.nil?) then
+      Rails.logger.info("Event class is nil. Mail sending failed.")
+      return
+    end
+
     event = entity.event_class.newEmail(@event_id,entity.id,result.to_s)
     event.save
   end
 
   def recordLetter(entity,subject,letterFile)
+
+    if ( entity.event_class.nil?) then
+      Rails.logger.info("Event class is nil. Letter success: #{entity.email}.")
+      return
+    end
+
     event = entity.event_class.newLetter(@event_id,entity.id,subject.to_s)
     if not letterFile.nil? then
   	  event.filename=letterFile.relative_filename

@@ -3,11 +3,26 @@
 .group
   %table
     %tr
-      %td Name
+      %td=f.label :name
       %td{:colspan=>2}=f.text_field :name
     %tr
-      %td Emailadresse:
+      %td=f.label :email
       %td{:colspan=>2}= f.text_field :email
+    %tr
+      %td=f.label :street
+      %td{:colspan=>2}=f.text_field :street
+    %tr
+      %td=f.label :zip
+      %td{:colspan=>2}=f.text_field :zip
+    %tr
+      %td=f.label :city
+      %td{:colspan=>2}=f.text_field :city
+    %tr
+      %td= f.label :country_code
+      %td= f.country_select :country_code, ["de"] , iso_codes:true 
+    %tr
+      %td= f.label :preferred_lang
+      %td=f.select(:preferred_lang, options_for_select([['Deutsch','de'],['Englisch','en']],:selected=>@event_card.preferred_lang))
     %tr
       %td &nbsp;
       %td 

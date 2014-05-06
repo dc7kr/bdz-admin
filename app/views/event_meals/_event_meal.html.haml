@@ -1,4 +1,4 @@
-%tr
+%tr{:class => cycle("odd", "even"), :id=>"row#{event_meal.id}"}
   %td=event_meal.veg
   %td=event_meal.tln
   %td=event_meal.name
@@ -10,5 +10,5 @@
   %td
     = link_to_show event_meal
     = link_to_edit_path edit_event_meal_path(event_meal),t('common.edit'),event_meal
-    = link_to_delete event_meal
+    = link_to_delete event_meal, t('common.delete'),t('common.delete_confirm')
 

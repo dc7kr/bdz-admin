@@ -44,7 +44,7 @@ class EventCardInvoiceMailsWorker
         locale = :en
         subject = "eurofestival zupfmusik 2014 ticket invoice no. #{invoice.invoice_number} for reservation no. #{rsrv.id}"
 
-        if invoice.customer.country == 'de' or invoice.customer.country=='at' then
+        if invoice.customer.preferred_lang == 'de' then
           inv_type = "event_card.de"
           subject = "eurofestival zupfmusik 2014 - Ticket Rechnung Nr. #{invoice.invoice_number} fuer Reservierung Nr. #{rsrv.id}"
           locale = :de

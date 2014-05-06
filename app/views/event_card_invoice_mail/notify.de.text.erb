@@ -1,0 +1,15 @@
+Sehr geehrte Damen und Herren,
+
+als Anlage erhalten Sie die Rechnung Nr. <%= @inv.invoice_number %> über Ihre vorbestellten Tickets für das eurofestival Zupfmusik 2014.
+
+Bitte überweisen Sie den Rechnungsbetrag auf unser Festivalkonto IBAN <%= @iban %> BIC <%= @bic %> bei der 
+<%= @bank %> unter Angabe der Rechnungsnummer <%= @inv.invoice_number %> und Reservierungsnummer <%= @inv.customer.id %>
+
+Die Tickets werden für Sie an der Infotheke im Bürgerzentrum hinterlegt. Bitte halten Sie ihre Reservierungsnummer <%= @inv.customer.id %> bereit.
+
+Wir freuen uns, sie schon bald beim Festival begrüßen zu dürfen.
+
+Mit freundlichen Grüßen
+
+Bund Deutscher Zupfmusiker e.V.
+
