@@ -9,6 +9,15 @@ class EventCard < ActiveRecord::Base
     where(:invoiced => 0 ) 
   end
 
+  def self.search(search)
+    if (search)
+      where('name like ? or id = ?',"%#{search}%",search);
+    else
+      scoped
+    end
+  end
+
+
 
   def ordered_cards
     ordered = Array.new
@@ -141,10 +150,11 @@ class EventCard < ActiveRecord::Base
     cust.zip = zip
     cust.city=city
     cust.country = country_code
+    
+    cust.preferred_lang = preferred_lang
 
     if email.end_with? ".de" or email.end_with? ".at" then
       cust.country = "de"
-      cust.preferred_language="de"
     end
 
     cust

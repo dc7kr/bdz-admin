@@ -3,7 +3,7 @@ class EventCardsController < AuthenticatedController
   # GET /event_cards
   # GET /event_cards.json
   def index
-    @event_cards = EventCard.all
+    @event_cards = EventCard.search(params[:search])
 
     respond_to do |format|
       format.html # index.html.erb

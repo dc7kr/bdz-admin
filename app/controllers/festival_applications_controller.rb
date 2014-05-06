@@ -10,7 +10,7 @@ class FestivalApplicationsController < AuthenticatedController
   # GET /festival_applications
   # GET /festival_applications.json
   def index
-    @festival_applications = FestivalApplication.order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
+    @festival_applications = FestivalApplication.order(sort_column+ " "+ sort_direction).search(params[:search]).page(params[:page]).per(20)
     @sum_players = FestivalApplication.sum(:num_players)
 
     respond_to do |format|

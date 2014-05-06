@@ -17,6 +17,15 @@ class FestivalApplication < ActiveRecord::Base
     translated_country(country_code,locale) 
   end
 
+  def self.search(search)
+    if (search)
+      where('orch_name like ? or id = ?',"%#{search}%",search);
+    else
+      scoped
+    end
+  end
+
+
 
   def to_customer
     cust = Customer.new(id, contact_person.fullname)
