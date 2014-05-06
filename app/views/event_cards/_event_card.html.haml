@@ -1,8 +1,13 @@
 %tr{:class => cycle("odd", "even"), :id=>"row#{event_card.id}"}
-  %td #{event_card.nr_fest}/#{event_card.nr_fest_erm}
-  %td #{event_card.nr_fest_bdz}/#{event_card.nr_fest_bdz_erm}
-  %td #{event_card.nr_do},#{event_card.nr_fr},#{event_card.nr_sa}
-  %td #{event_card.nr_do_erm},#{event_card.nr_fr_erm},#{event_card.nr_sa_erm}
+  %td #{event_card.id}
+  %td 
+    Normal: #{event_card.nr_fest}/#{event_card.nr_fest_erm}
+    %br
+    BDZ: #{event_card.nr_fest_bdz}/#{event_card.nr_fest_bdz_erm}
+  %td 
+    Normal: #{event_card.nr_do},#{event_card.nr_fr},#{event_card.nr_sa}
+    %br
+    Erm.: #{event_card.nr_do_erm},#{event_card.nr_fr_erm},#{event_card.nr_sa_erm}
   %td=mail_to event_card.email,event_card.name
   %td
     = link_to_show event_card
