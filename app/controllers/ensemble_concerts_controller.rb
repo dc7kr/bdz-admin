@@ -1,5 +1,8 @@
 class EnsembleConcertsController < AuthenticatedController
   # for table sort by column click
+
+  include CountryHelper
+
   helper_method :sort_column, :sort_direction
 
   # GET /ensembles
@@ -95,11 +98,10 @@ class EnsembleConcertsController < AuthenticatedController
 
   # GET /ensemble_concerts/1/edit
   def edit
-	@ensemble = Ensemble.find(params[:ensemble_id])
+	  @ensemble = Ensemble.find(params[:ensemble_id])
     @ensemble_concert = EnsembleConcert.find(params[:id])
-	@countries = Country.all
-	@festivals = Festival.all
-	@states = State.all
+  	@festivals = Festival.all
+	  @states = State.all
   end
 
 
