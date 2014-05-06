@@ -92,9 +92,11 @@ class Public::EventMealsController < Public::ApplicationController
 
     timestr = params[:event_meal][:arrival_time]
 
-    arrival = Time.parse(timestr)
+    if not timestr.empty? then 
+      arrival = Time.parse(timestr)
 
-    @event_meal.arrival_time = arrival
+      @event_meal.arrival_time = arrival
+    end
 
     respond_to do |format|
       if @event_meal.save
