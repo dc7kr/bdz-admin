@@ -22,7 +22,7 @@
       %td{:colspan=>2}= f.text_field :city
     %tr
       %td= f.label :country_code
-      %td= country_select(:event_cards, :country_code, nil, iso_codes:true)
+      %td= f.country_select :country_code, ["de"], iso_codes:true
 
     %tr
       %td= f.label :preferred_lang
