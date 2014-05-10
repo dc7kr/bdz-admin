@@ -5,6 +5,17 @@ class EventCardsController < AuthenticatedController
   def index
     @event_cards = EventCard.search(params[:search])
 
+
+    @sum=0
+    @payed=0
+    @event_cards.each do |e|
+      iv = e.invoice
+      @sum+=iv.sum
+      if e.payment_received then
+        @payed+=iv.sum
+      end
+    end
+
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @event_cards }

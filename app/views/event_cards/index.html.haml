@@ -6,6 +6,12 @@
       = t("common.all")
       = t("event_card.p")
     .inner
+      %p 
+        %b Bezahlt 
+        #{format_currency(@payed)}
+        %br
+        %b Gesamtsumme 
+        #{format_currency(@sum)}
       %table.table
         %thead
           %tr
