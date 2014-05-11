@@ -121,7 +121,11 @@ BDZAdmin::Application.routes.draw do
     end
   end
 
-  resources :event_meals
+  resources :event_meals do 
+    collection do 
+      get :arrival_overview
+    end
+  end
 
 
   resources :uploaded_files

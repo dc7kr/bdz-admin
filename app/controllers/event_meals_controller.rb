@@ -10,6 +10,35 @@ class EventMealsController < AuthenticatedController
     end
   end
 
+  def update_hash(day,hash,e)
+      mittag_seconds = 12*3600
+      abend_seconds = 17*3600
+
+      if e.arrival_time.nil?
+        return
+      end
+
+      if e.arrival_time.day < day then
+          hash[:mittag][:veg]+=e.veg
+          hash[:mittag][:tln]+=e.tln
+          hash[:abend][:veg]+=e.veg 
+          hash[:abend][:tln]+=e.tln
+      end
+
+      if e.arrival_time.day == day then
+
+        if e.arrival_time.seconds_since_midnight < mittag_seconds then
+          hash[:mittag][:veg]+=e.veg
+          hash[:mittag][:tln]+=e.tln
+        end
+
+        if e.arrival_time.seconds_since_midnight < abend_seconds then
+          hash[:abend][:veg]+=e.veg 
+          hash[:abend][:tln]+=e.tln
+        end
+      end
+  end
+
   # GET /event_meals/1
   # GET /event_meals/1.json
   def show
@@ -79,5 +108,21 @@ class EventMealsController < AuthenticatedController
       format.html { redirect_to event_meals_url }
       format.json { render :json=>{ :status=>"ok", :op=>"delete", :entityId=>@event_meal.id } }
     end
+  end
+
+
+  def arrival_overview
+    @event_meals = EventMeal.order(:arrival_time)
+
+    @counts = Hash.new
+    @counts[:do] = { :mittag=>{:tln=>0,:veg=>0}, :abend => {:tln=>0,:veg=>0} }
+    @counts[:fr] = { :mittag=>{:tln=>0,:veg=>0}, :abend => {:tln=>0,:veg=>0} }
+    @counts[:sa] = { :mittag=>{:tln=>0,:veg=>0}, :abend => {:tln=>0,:veg=>0} }
+
+    @event_meals.each do |e|
+      update_hash(29,@counts[:do],e)
+      update_hash(30,@counts[:fr],e)
+      update_hash(31,@counts[:sa],e)
+    end  
   end
 end
