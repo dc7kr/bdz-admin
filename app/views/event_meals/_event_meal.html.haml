@@ -1,12 +1,12 @@
 %tr{:class => cycle("odd", "even"), :id=>"row#{event_meal.id}"}
-  %td=event_meal.veg
   %td=event_meal.tln
+  %td=event_meal.veg
   %td=event_meal.name
   %td=mail_to event_meal.email,event_meal.email
-  - if event_meal.orderdate == nil then
+  - if event_meal.arrival_time == nil then
     %td ---
   - else
-    %td=l event_meal.orderdate
+    %td=l event_meal.arrival_time
   %td
     = link_to_show event_meal
     = link_to_edit_path edit_event_meal_path(event_meal),t('common.edit'),event_meal

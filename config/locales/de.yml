@@ -134,6 +134,7 @@ de:
     name: Name
     email: "E-Mail Adresse"
     arrival_time: "Ankunft in Bruchsal"
+    arrival_overview: "Essen-Übersicht"
     participant_id: "Teilnehmer Nr."
 
 
