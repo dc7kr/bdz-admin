@@ -36,6 +36,9 @@
       %td= f.label :tickets_red, :class=> :label
       %td= f.number_field :tickets_red
     %tr
+      %td= f.label :soloist_tickets, :class=> :label
+      %td= f.number_field :soloist_tickets
+    %tr
       %td= f.label :payment_status, :class=> :label
       %td= f.select :payment_status, get_payment_status_options(@festival_application.payment_status)
     %tr

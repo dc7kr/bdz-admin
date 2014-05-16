@@ -6,6 +6,6 @@
       = t("common.edit")
       = t("event_meal.s")
     .inner
-      = form_for :event_meal, :url => event_meals_path, :html => { :class => :form } do |f|
+      = form_for @event_meal, :url => event_meal_path(@event_meal), :html => { :class => :form } do |f|
         = render :partial => "form", :locals => {:f => f}
 - content_for :sidebar, render(:partial => 'sidebar')

@@ -47,6 +47,9 @@
           %td.label #{t("festival_application.payment_status")}
           %td= t("festival_application.payment_states.#{@festival_application.payment_status}")
         %tr
+          %td.label #{t("festival_application.soloist_tickets")}
+          %td= @festival_application.soloist_tickets
+        %tr
           %td.label #{t("festival_application.amount")}
           %td= @festival_application.amount
         %tr
