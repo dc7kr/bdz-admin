@@ -3,17 +3,27 @@
 .group
   %table
     %tr
-      %td= f.label :tln, t('event_meal.tln'),:class=>'label'
-      %td= f.text_field :tln, :class => 'number_field'
+      %td= f.label :participant_id
+      %td= f.text_field :participant_id
     %tr
-      %td= f.label :veg, t('event_meal.veg'),:class=>'label'
-      %td= f.text_field :veg, :class => 'number_field'
+      %td=f.label :name
+      %td=f.text_field :name
     %tr
-      %td= f.label :name, t('event_meal.name'),:class=>'label'
-      %td= f.text_field :name, :class => 'number_field'
+      %td=f.label :email
+      %td=f.text_field :email
+
+    %tr 
+      %td=f.label :arrival_time
+      %td=f.text_field :arrival_time, :id => 'festival_arrival_time'
     %tr
-      %td= f.label :email, t('event_meal.veg'),:class=>'label'
-      %td= f.text_field :email
+      %td=f.label :tln
+      %td=f.number_field :tln 
+    %tr
+      %td=f.label :veg
+      %td=f.number_field :veg
+    %tr
+      %td=f.label :orderdate
+      %td=f.text_field :orderdate
   %button.button{:type => "submit"}
     = image_tag("web-app-theme/icons/tick.png", :alt => "#{t("web-app-theme.save", :default => "Save")}")
     = t("web-app-theme.save", :default => "Save")

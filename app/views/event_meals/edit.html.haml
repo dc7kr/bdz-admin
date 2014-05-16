@@ -4,7 +4,7 @@
   .content
     %h2.title
       = t("common.edit")
-      = t("event_meal.title")
+      = t("event_meal.s")
     .inner
       = form_for :event_meal, :url => event_meals_path, :html => { :class => :form } do |f|
         = render :partial => "form", :locals => {:f => f}

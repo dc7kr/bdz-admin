@@ -70,6 +70,7 @@ class EventMealsController < AuthenticatedController
   # POST /event_meals.json
   def create
     @event_meal = EventMeal.new(params[:event_meal])
+    @event_meal.orderdate = Time.now
 
     respond_to do |format|
       if @event_meal.save
