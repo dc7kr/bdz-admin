@@ -55,9 +55,9 @@ class ParticipantSheetPdf < Prawn::Document
 	  rows = Array.new
 
     @invoice.items.each do |i|
-      rows << [ i.count, i.label, @view.format_currency(i.price,'€'), @view.format_currency(i.count*i.price,'€')]
+      rows << [ i.count, i.label, @view.format_currency(i.price,'EUR'), @view.format_currency(i.count*i.price,'EUR')]
     end
-    rows << [ "", @view.t("common.sum"),"",@view.format_currency(@invoice.sum,'€') ]
+    rows << [ "", @view.t("common.sum"),"",@view.format_currency(@invoice.sum,'EUR') ]
 
     table rows do
       cells.borders=[]
