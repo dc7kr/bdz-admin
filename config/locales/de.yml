@@ -969,6 +969,7 @@ de:
         s: "Festival-Bewerbung"
         closed: "Eine Anmeldung ist nicht mehr möglich. Wir bitten um Ihr Verständnis."
         group_list: Gruppen-Liste
+        soloist_tickets: Solisten-Tageskarten
 
         invoice: Rechnung
         payment_status: Zahlungsstatus
