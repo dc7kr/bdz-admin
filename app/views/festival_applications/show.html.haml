@@ -71,7 +71,17 @@
                 %td 
                 %td.sum= format_currency(invoice.sum,'€')
             =link_to "PDF", gen_invoice_festival_application_path(@festival_application)
-          
-          
+        - if not @festival_application.event_meal.nil?
+          -@event_meal = @festival_application.event_meal
+          %tr
+            %td.label=t('event_meal.tln')
+            %td=@event_meal.tln          
+          %tr
+            %td.label=t('event_meal.veg')
+            %td=@event_meal.veg
+          %tr
+            %td.label=t('event_meal.arrival_time')
+            %td=@event_meal.arrival_time
+            
 
 - content_for :sidebar, render(:partial => 'sidebar.show')
