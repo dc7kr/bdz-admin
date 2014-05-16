@@ -9,10 +9,11 @@
       %table.table
         %thead
           %tr
-            %th=t('event_meal.tln')
+            %th=t('event_meal.participant_id')
+            %th=t('event_meal.meals')
             %th=t('event_meal.veg')
             %th=t('event_meal.name')
             %th=t('event_meal.email')
-            %th=t('event_meal.orderdate')
-            %th &nbsp;
+            %th=t('event_meal.arrival_time')
+            %th.last &nbsp;
         = render @event_meals

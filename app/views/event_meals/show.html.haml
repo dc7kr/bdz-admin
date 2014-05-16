@@ -8,7 +8,7 @@
       %table
         %tr
           %td.label=t('event_meal.participant_id')
-          %td=@event_meal.participant_id
+          %td=link_to @event_meal.participant_id , festival_application_path(@event_meal.participant_id)
         %tr
           %td.label=t('event_meal.meals')
           %td=@event_meal.tln

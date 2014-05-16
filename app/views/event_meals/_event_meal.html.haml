@@ -1,4 +1,9 @@
 %tr{:class => cycle("odd", "even"), :id=>"row#{event_meal.id}"}
+  %td
+    - if event_meal.participant_id.nil? then
+      NIL
+    -else
+      = link_to event_meal.participant_id, festival_application_path(event_meal.participant_id)
   %td=event_meal.tln
   %td=event_meal.veg
   %td=event_meal.name
