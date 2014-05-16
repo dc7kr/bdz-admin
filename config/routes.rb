@@ -109,6 +109,7 @@ BDZAdmin::Application.routes.draw do
     end
     member do 
       get :gen_invoice
+      get :gen_participant_sheet
     end
     resources :festival_pieces
     resources :festival_application_attachments

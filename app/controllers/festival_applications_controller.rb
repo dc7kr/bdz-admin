@@ -275,6 +275,13 @@ class FestivalApplicationsController < AuthenticatedController
 
   end
 
+  def gen_participant_sheet
+    @appl = FestivalApplication.find(params[:id])    
+
+    pdf = ParticipantSheetPdf.new(@appl,view_context)
+    send_data pdf.render, filename: "participant_sheet_#{@appl.id}.pdf", type: "application/pdf", disposition: "inline"
+  end
+
 
   def sort_column
     FestivalApplication.column_names.include?(params[:sort]) ? params[:sort] : "id"

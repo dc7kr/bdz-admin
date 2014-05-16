@@ -14,6 +14,12 @@ de:
       missing: "Was sollte auf dem „BDZ eurofestival zupfmusik“ noch angeboten werden?"
       improve: "Was ist verbesserungsfähig aus Ihrer Sicht?"
 
+  participant_sheet:
+    performance: Auftritt
+    meals: "Essensmarken"
+    tickets: "Tickets"
+    food: "Essen"
+
   feature_request:
     p: Feature Requests
     s: Feature Request

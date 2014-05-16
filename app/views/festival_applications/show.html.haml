@@ -82,6 +82,7 @@
           %tr
             %td.label=t('event_meal.arrival_time')
             %td=@event_meal.arrival_time
+      =link_to "Datenblatt", gen_participant_sheet_festival_application_path(@festival_application)
             
 
 - content_for :sidebar, render(:partial => 'sidebar.show')
