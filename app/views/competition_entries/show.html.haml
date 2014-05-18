@@ -1,0 +1,35 @@
+.block
+  .secondary-navigation
+    = render :partial=>'nav'
+  .content
+    .inner
+      %table
+        %tr
+          %td=t('contact.fullname')
+          %td=@competition_entry.fullname
+        %tr
+          %td=label :competition_entry, :street
+          %td=@competition_entry.street
+        %tr
+          %td=label :competition_entry, :date_of_birth
+          %td=@competition_entry.date_of_birth
+        %tr
+          %td=label :competition_entry, :response1
+          %td=@competition_entry.response1
+        %tr
+          %td=label :competition_entry, :response2
+          %td=@competition_entry.response2
+        %tr
+          %td=label :competition_entry, :response3
+          %td=@competition_entry.response3
+        %tr
+          %td=label :competition_entry, :response4
+          %td=@competition_entry.response4
+
+        %tr
+          %td=label :competition_entry, :correct
+          %td #{@competition_entry.correct} #{@competition_entry.check_responses}
+
+
+
+

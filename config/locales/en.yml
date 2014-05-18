@@ -6,6 +6,18 @@ en:
     profile: Profile
     settings: Settings
     logout: Logout
+  competition_entry:
+    question1: "Who is currently president of the BDZ?"
+    question2: "Who is currently vice president of the BDZ?"
+    question3: "Who is currently national youth leader of the BDZ?"
+    question4: "Who is currently national musical leader of the BDZ?"
+
+    feedback:
+      title: "Festival-Feedback"
+      hint: "Please leave some feedback"
+      like: "What did you like on the festival?"
+      missing: "What should the „BDZ eurofestival zupfmusik“ offer in addition?"
+      improve: "What needs to be improved from your perspective?"
 
   feature_request:
     p: Feature Requests

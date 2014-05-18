@@ -25,6 +25,13 @@
                 = @festival_application.festival_concert.label
               -else
                 keine Zuweisung
+
+        %tr
+          %td.label #{label :festival_application, :stage_time}:
+          %td= @festival_application.stage_time
+        %tr
+          %td.label #{label :festival_application, :rehearsal_time}:
+          %td= @festival_application.rehearsal_time
         %tr
           %td.label #{t("festival_application.orch_name")}:
           %td= @festival_application.orch_name

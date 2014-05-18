@@ -13,6 +13,9 @@ BDZAdmin::Application.routes.draw do
       collection do 
         get :participate
       end
+      member do   
+        get :success
+      end
     end
 
     resources :event_cards do 

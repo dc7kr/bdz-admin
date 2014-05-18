@@ -2,7 +2,7 @@ class FestivalApplication < ActiveRecord::Base
 
   include CountryHelper
 
-  attr_accessible :conductor, :contact_person, :equipment, :country_code, :num_players, :orch_name, :orchestra, :special_cast, :group_type,:permission,:festival_concert_id, :visitor_type, :rehearsal_time, :payment_status, :tickets, :tickets_red, :bdz_tickets_red, :bdz_tickets, :amount, :soloist_tickets
+  attr_accessible :conductor, :contact_person, :equipment, :country_code, :num_players, :orch_name, :orchestra, :special_cast, :group_type,:permission,:festival_concert_id, :visitor_type, :rehearsal_time, :stage_time, :payment_status, :tickets, :tickets_red, :bdz_tickets_red, :bdz_tickets, :amount, :soloist_tickets
   has_many :festival_pieces
   has_many :festival_application_attachments
   has_one :event_meal, :foreign_key => 'participant_id'

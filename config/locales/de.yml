@@ -5,8 +5,16 @@ de:
   festival_mails:
     send_invoices_button: "Rechnungen generieren"
   competition_entry:
-    questions:
-      title: "Wer ist aktuell BDZ"
+
+    success:
+      title: "Danke für Deine Teilnahme am Gewinnspiel"
+      text: "Wir freuen uns, dass Du an unserem Gewinnspiel teilgenommen hast und wünschen Dir viel Glück für die Ziehung."
+      winner_id_is: "Deine Gewinn-Nummer lautet:"
+    question1: "Wer ist aktuell Präsident des BDZ?"
+    question2: "Wer ist aktuell Vizepräsident des BDZ?"
+    question3: "Wer ist aktuell Bundesjugendleiter des BDZ?"
+    question4: "Wer ist aktuell Bundesmusikleiter des BDZ?"
+
     feedback:
       title: "Festival-Feedback"
       hint: "Bitte schreiben Sie uns jeweils einen Satz"
@@ -711,6 +719,19 @@ de:
       cancel_account: "Benutzeraccount löschen"
   activerecord: 
     attributes:
+      competition_entry:
+        response1: "Antwort 1:" 
+        response2: "Antwort 2:"
+        response3: "Antwort 3:"
+        response4: "Antwort 4:"
+        first_name: Vorname
+        last_name: Nachname
+        street: Straße
+        zip: PLZ
+        city: Ort
+        country_code: Land
+        date_of_birth: Geburtsdatum
+        email: E-Mail Adresse
       event_card:
         company: "Firma/Gruppe"
         name: Name

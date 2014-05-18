@@ -3,7 +3,14 @@ require 'sidekiq/web'
 BDZAdmin::Application.routes.draw do
 
 
+  resources :competition_entries do
 
+    collection do 
+      get :drawable
+      get :drawing
+    end
+
+  end
 
   resources :sepa_regeneration do
     collection do

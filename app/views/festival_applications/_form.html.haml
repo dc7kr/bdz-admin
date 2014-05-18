@@ -48,6 +48,12 @@
       %td= f.label :concert, :class => :label
       %td= collection_select(:festival_application, :festival_concert_id, FestivalConcert.all, :id, :label) 
     %tr
+      %td= f.label :rehearsal_time, :class => :label
+      %td= f.text_field :rehearsal_time
+    %tr
+      %td= f.label :stage_time, :class => :label
+      %td= f.text_field :stage_time
+    %tr
       %td= f.label :contact_person, :class => :label
       %td
         =  fields_for(:contact_person, @festival_application.contact_person)  do |person_f|
@@ -85,9 +91,6 @@
     %tr
       %td= f.label :special_cast, :class => :label
       %td= f.text_field :special_cast
-    %tr
-      %td= f.label :rehearsal_time, :class => :label
-      %td= f.text_field :rehearsal_time
 
   %button.button{:type => "submit"}
     = image_tag("web-app-theme/icons/tick.png", :alt => t("common.save"))
