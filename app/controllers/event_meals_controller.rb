@@ -1,3 +1,4 @@
+require 'odf/spreadsheet'
 class EventMealsController < AuthenticatedController
   # GET /event_meals
   # GET /event_meals.json
@@ -7,6 +8,11 @@ class EventMealsController < AuthenticatedController
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @event_meals }
+      format.ods {
+        prefix = Time.new.strftime("%Y%m%d%H%M_")
+        renderOds(@event_meals,"/tmp/event_meals.ods") 
+        send_file("/tmp/event_meals.ods", :filename => prefix+"event_meals.ods", :type => "application/octet-stream")
+      }
     end
   end
 
@@ -126,4 +132,41 @@ class EventMealsController < AuthenticatedController
       update_hash(31,@counts[:sa],e)
     end  
   end
+
+ def renderOds(meals,filename)
+
+    ODF::Spreadsheet.file(filename) do
+      table "Essensmeldungen"  do
+        row {
+            cell I18n.t("common.number")
+            cell I18n.t("festival_application.orch_name")
+            cell I18n.t("event_meal.arrival_time")
+            cell ""
+            cell I18n.t("event_meal.meals")
+            cell I18n.t("event_meal.veg")
+				}
+
+	    	meals.each do |meal|
+          row {
+            cell meal.participant_id
+            if meal.festival_application.nil? then
+              cell "---"
+            else
+              cell meal.festival_application.orch_name
+            end
+            if meal.arrival_time.nil?  then
+              cell "---"
+              cell "---"
+            else
+              cell meal.arrival_time.strftime("%d.%m.%Y")
+              cell meal.arrival_time.strftime("%H:%M")
+            end
+            cell meal.tln,:type => :float
+            cell meal.veg,:type => :float
+          }
+        end
+      end
+    end
+  end
+
 end
