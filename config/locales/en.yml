@@ -14,10 +14,23 @@ en:
 
     feedback:
       title: "Festival-Feedback"
-      hint: "Please leave some feedback"
+      hint: "The feedback is entirely voluntary. We are happy to receive your feedback."
       like: "What did you like on the festival?"
       missing: "What should the „BDZ eurofestival zupfmusik“ offer in addition?"
       improve: "What needs to be improved from your perspective?"
+
+
+    questions:
+      title: "Questions"
+    personal_data:
+      title: "Personal Data"
+    success:
+      title: "Thanks for your participation."
+      text: "We are happy that you participated with our competition and wish you good luck for the drawing."
+      winner_id_is: "Your lucky number is: "
+
+    submit: "Submit response"
+
 
   feature_request:
     p: Feature Requests

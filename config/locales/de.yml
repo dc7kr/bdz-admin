@@ -6,6 +6,10 @@ de:
     send_invoices_button: "Rechnungen generieren"
   competition_entry:
 
+    questions:
+      title: "Quizfragen"
+    personal_data:
+      title: "Persönliche Daten"
     success:
       title: "Danke für Deine Teilnahme am Gewinnspiel"
       text: "Wir freuen uns, dass Du an unserem Gewinnspiel teilgenommen hast und wünschen Dir viel Glück für die Ziehung."
@@ -17,10 +21,12 @@ de:
 
     feedback:
       title: "Festival-Feedback"
-      hint: "Bitte schreiben Sie uns jeweils einen Satz"
+      voluntary: "Diese Angaben sind freiwillig, wür würden uns aber sehr über Euer Feedback freuen."
+      hint: "Diese Angaben sind freiwillig, wir würden uns aber sehr über Feedback freuen. Schreibe uns jeweils einen Satz."
       like: "Was hat Ihnen am besten im Festival gefallen?"
       missing: "Was sollte auf dem „BDZ eurofestival zupfmusik“ noch angeboten werden?"
       improve: "Was ist verbesserungsfähig aus Ihrer Sicht?"
+    submit: "Eintrag absenden"
 
   participant_sheet:
     performance: Auftritt
