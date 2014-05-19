@@ -5,7 +5,6 @@ de:
   festival_mails:
     send_invoices_button: "Rechnungen generieren"
   competition_entry:
-
     questions:
       title: "Quizfragen"
     personal_data:
@@ -179,7 +178,7 @@ de:
     orderdate: Bestelldatum
     reduced: "Ermäßigt:"
     fest: Festivalkarten
-    fest_bdz: "Festival-Karte (BDZ-Mitgleder)"
+    fest_bdz: "Festival-Karte (BDZ-Mitglieder)"
     fest_erm: "Festivalkarten ermäßigt"
     fest_bdz_erm: "Festivalkarten (BDZ-Mitglieder) ermäßigt"
     do: "Tageskarte Donnerstag"
