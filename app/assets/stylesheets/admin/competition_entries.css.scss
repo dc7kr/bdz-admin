@@ -1,0 +1,30 @@
+.win_nr {
+  font-size:200px;
+  font-weight:bold;
+  font-family:Arial,Helvetica,sans-serif;
+  min-width:240px;
+  height:240px;
+  padding:10px;
+  max-width:240px;
+  display:block;
+  border:solid silver 1px;
+  text-align:right;
+  margin-left: auto;
+  margin-right:auto;
+  margin-top: 40px;
+}
+
+#winner {
+  display:block;
+  font-weight:bold;
+  font-size: 20px;
+  text-shadow: 1px 1px #C0C0C0;
+  margin-left: auto;
+  margin-right: auto;
+  text-align:center;
+  width:300px;
+}
+
+#comp_draw_area {
+  min-height:500px;
+}

@@ -33,6 +33,11 @@ td label {
 
 }
 
+td.label_required label:after {
+  content: " *";
+  color:#ff0000;
+}
+
 td.label {
   font-weight:bold;
   text-align:right;	

@@ -27,3 +27,48 @@ $(document).ajaxComplete(function(event,xhr,settings)  {
     show_ajax_message(msg, type);
 }
 );
+
+var counter=0;
+var drawable;
+var maxIdx=0;
+
+function startTimer() {
+
+  var nr = random(maxIdx);
+  $('.win_nr').text(drawable[nr]);
+  setTimeout(stopTimer,100);
+}
+
+function stopTimer() {
+  counter--;
+  if (counter >0) {
+  startTimer();
+  } else {
+    var nr = $('.win_nr').text();
+    retrieve_details(nr);
+  }
+}
+
+function retrieve_details(nr) {
+  $.getJSON( "https://admin-dev.bdz-online.de/competition_entries/"+nr+".json", function( data ) {
+  $('#winner').text(data.first_name+" "+data.last_name);
+  $('#winner').fadeIn(1000);
+  
+});
+}
+
+
+function random(max) {
+
+  return Math.floor(Math.random() * max);
+}
+
+function startZiehung() {
+  $.getJSON("https://admin-dev.bdz-online.de/competition_entries/drawable.json", function (data) {
+    drawable = data;
+    maxIdx=drawable.length;
+    counter=50;
+    $('#winner').fadeOut();
+    startTimer();
+  });
+}

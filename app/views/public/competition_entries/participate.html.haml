@@ -1,0 +1,6 @@
+.block
+  .content
+    .inner
+      = form_for :competition_entry, :url => public_competition_entries_path, :html => { :class => :form } do |f|
+        = render :partial => "form", :locals => {:f => f}
+

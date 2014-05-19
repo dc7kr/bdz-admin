@@ -1,0 +1,64 @@
+.block
+  = f.error_messages :message => "", :header_tag => :h3
+.group
+  %h2=t('competition_entry.questions.title')
+  %table
+    %tr
+      %td.label_required=f.label :response1, t('competition_entry.question1')
+      %td=f.text_field :response1
+    %tr
+      %td.label_required=f.label :response2, t('competition_entry.question2')
+      %td=f.text_field :response2
+    %tr
+      %td.label_required=f.label :response3, t('competition_entry.question3')
+      %td=f.text_field :response3
+    %tr
+      %td.label_required=f.label :response4, t('competition_entry.question4')
+      %td=f.text_field :response4
+
+  %h2=t('competition_entry.personal_data.title')
+  
+  %table
+    %tr
+      %td.label_required=f.label :first_name
+      %td=f.text_field :first_name
+    %tr
+      %td.label_required=f.label :last_name
+      %td=f.text_field :last_name
+    %tr
+      %td.label_required=f.label :date_of_birth
+      %td=f.text_field :date_of_birth
+    %tr
+      %td=f.label :street
+      %td=f.text_field :street
+    %tr
+      %td=f.label :zip
+      %td=f.text_field :zip
+    %tr
+      %td=f.label :city
+      %td=f.text_field :city
+    %tr
+      %td=f.label :country_code
+      %td=f.text_field :country_code
+
+    %tr
+      %td=f.label :email
+      %td=f.text_field :email
+
+  %h2=t("competition_entry.feedback.title")
+  %h3=t("competition_entry.feedback.hint")
+
+  %table
+    %tr
+      %td=t('competition_entry.feedback.like')
+      %td=f.text_area :like
+    %tr
+      %td=t('competition_entry.feedback.missing')
+      %td=f.text_area :missing
+    %tr
+      %td=t('competition_entry.feedback.improve')
+      %td=f.text_area :improve
+
+  =f.submit t("competition_entry.submit")
+    
+

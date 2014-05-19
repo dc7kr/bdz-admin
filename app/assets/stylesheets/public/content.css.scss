@@ -428,3 +428,9 @@ button.button {
 
 }
 
+td.label_required {
+  label:after {
+    content: " *";
+    color:#ff0000;
+  }
+}
