@@ -21,6 +21,20 @@ class CompetitionEntriesController < AuthenticatedController
     end
   end
 
+  def winner
+    @competition_entry = CompetitionEntry.find(params[:id])
+
+    @competition_entry.winner = true
+    respond_to do |format|
+      if @competition_entry.save
+        format.json { render json: @competition_entry }
+      else 
+        format.json { render json: @competition_entry.errors, status: :unprocessable_entity }
+      end
+    end
+
+  end
+
   def drawable 
     @drawable = CompetitionEntry.where("winner = false and correct=true")
 
@@ -95,7 +109,7 @@ class CompetitionEntriesController < AuthenticatedController
 
     respond_to do |format|
       format.html { redirect_to competition_entries_url }
-      format.json { head :no_content }
+      format.json { render :json=>{ :status=>"ok", :op=> 'delete', :entityId=>@competition_entry.id } }
     end
   end
 end

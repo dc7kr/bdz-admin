@@ -10,6 +10,10 @@ BDZAdmin::Application.routes.draw do
       get :drawing
     end
 
+    member do 
+      get :winner
+    end
+
   end
 
   resources :sepa_regeneration do
@@ -126,6 +130,9 @@ BDZAdmin::Application.routes.draw do
   resources :event_cards  do
     member do 
       get :gen_invoice
+    end
+    collection do 
+      get :overview
     end
   end
 

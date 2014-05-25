@@ -1,13 +1,19 @@
-%h1 Listing competition_entries
-
-%table
-  %tr
-    %th Date of birth
-    %th Contact
-    %th
-    %th
-    %th
-
-  = render @competition_entries
-%br
+.block
+  .secondary-navigation
+    = render :partial=>'nav'
+  .content
+    %h2.title
+      = t("common.all")
+      = t("competition_entry.p")
+    .inner
+    .inner
+      %table
+        %tr
+          %th=label :competition_entry, :date_of_birth
+          %th=label :competition_entry, :first_name
+          %th=label :competition_entry, :last_name
+          %th=label :competition_entry, :correct
+          %th=label :competition_entry, :winner
+          %th.last
+        = render @competition_entries
 

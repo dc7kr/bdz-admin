@@ -5,6 +5,8 @@ de:
   festival_mails:
     send_invoices_button: "Rechnungen generieren"
   competition_entry:
+    p: "Gewinnspiel-Teilnehmer"
+    s: "Gewinnspiel-Teilnehmer"
     questions:
       title: "Quizfragen"
     personal_data:

@@ -26,7 +26,8 @@ module BDZAdmin
     # config.active_record.observers = :cacher, :garbage_collector, :forum_observer
 
 
-    config.paths["config/routes"] << Rails.root.join('config/routes/routes.public.rb')
+    config.paths["config/routes"] << Rails.root.join('config/routes.d/routes.public.rb')
+    config.paths["config/routes"] << Rails.root.join('config/routes.d/routes.infodesk.rb')
 
 
 

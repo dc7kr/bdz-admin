@@ -152,3 +152,24 @@ td.warning {
   font-size:14pt;
   color: #ff0000;
 }
+
+input.quickaccess {
+  font-size:24pt;
+}
+
+span.payed {
+  margin-top:10px;
+  background:green;
+  color:white;
+  font-size:20pt;
+  padding:3px;
+}
+
+span.not_payed { 
+  margin-top:10px;
+  background:red;
+  color:white;
+  font-size:20pt;
+  padding:3px;
+
+}

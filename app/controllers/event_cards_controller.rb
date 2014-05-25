@@ -133,8 +133,17 @@ class EventCardsController < AuthenticatedController
       system("/opt/bdz-rechnung/bin/ehrungsrechnung.sh #{o.id}")
 #      tw.moveGeneratedFiles(date_prefix.datePrefix)
     end
+  end
 
-    
+  def overview
+    datePrefix = Time.now.strftime '%Y%m%d%H%M%s'
+    @event_cards = EventCard.order(:id)
+    respond_to do |format|
+      format.pdf do
+        pdf = TicketOrderOverviewPdf.new(@event_cards,view_context)
+        send_data pdf.render, filename: datePrefix+"_ticket_orders.pdf", type: "application/pdf", disposition: "inline"
+      end
+    end
   end
 
   private
@@ -156,5 +165,7 @@ class EventCardsController < AuthenticatedController
 
     invoice_file
   end
+
+  
 
 end

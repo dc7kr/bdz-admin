@@ -1,0 +1,7 @@
+%tr
+  %td=event_meal.participant_id
+  %td=event_meal.name
+  %td=format_date event_meal.arrival_time
+  %td= event_meal.tln
+  %td= event_meal.veg
+  %td=mail_to event_meal.email, event_meal.email

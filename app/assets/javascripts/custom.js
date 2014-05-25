@@ -50,7 +50,7 @@ function stopTimer() {
 }
 
 function retrieve_details(nr) {
-  $.getJSON( "https://admin-dev.bdz-online.de/competition_entries/"+nr+".json", function( data ) {
+  $.getJSON( "https://"+window.location.host+"/competition_entries/"+nr+"/winner.json", function( data ) {
   $('#winner').text(data.first_name+" "+data.last_name);
   $('#winner').fadeIn(1000);
   
@@ -64,7 +64,7 @@ function random(max) {
 }
 
 function startZiehung() {
-  $.getJSON("https://admin-dev.bdz-online.de/competition_entries/drawable.json", function (data) {
+  $.getJSON("https://"+window.location.host+"/competition_entries/drawable.json", function (data) {
     drawable = data;
     maxIdx=drawable.length;
     counter=50;
