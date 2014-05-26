@@ -251,6 +251,15 @@ class FestivalApplicationsController < AuthenticatedController
 			end
 	end
 
+  def participant_overview
+    datePrefix = Time.now.strftime("%Y%m%d%H%M%S_")
+    @participants = FestivalApplication.where("permission = 1").order(:id)
+
+    pdf= ParticipantOverviewPdf.new(@participants,view_context)
+    send_data pdf.render, filename: "participant_overview_#{datePrefix}.pdf", type: "application/pdf", disposition: "inline"
+
+
+  end
 
   def gen_invoice
     @festival_application = FestivalApplication.find(params[:id])
