@@ -60,21 +60,26 @@ class ParticipantSheetPdf < Prawn::Document
     text @view.t('participant_sheet.tickets') , style: :bold,:size=>14
 	  rows = Array.new
     count = 0
+
     @invoice.items.each do |i|
 
-      if i.price >0 then
+      if i.price > 0 then
         count+=i.count
       end
 
       if appl.payment_status == 'S' then 
-        rows << [ i.count, i.label, "","" ]
+        if i.price > 0 then
+          rows << [ i.count, i.label, "","" ]
+        end
       else
         rows << [ i.count, i.label, @view.format_currency(i.price,'EUR'), @view.format_currency(i.count*i.price,'EUR')]
       end
     end
 
-    if appl.payment_status != 'S' then
-    rows << [ count, @view.t("common.sum"),"",@view.format_currency(@invoice.sum,'EUR') ]
+    if appl.payment_status == 'S' then
+      rows << [ count, @view.t("common.sum"),"","" ]
+    else
+      rows << [ count, @view.t("common.sum"),"",@view.format_currency(@invoice.sum,'EUR') ]
     end
 
     table rows do
