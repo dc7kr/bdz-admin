@@ -13,10 +13,17 @@ class ParticipantOverviewPdf < Prawn::Document
   def format_ticket_list(event_card)
     invoice = event_card.invoice
 
+    count = 0
+
     retval = ""
     invoice.items.each do |item|
+      if item.price >0 then 
+        count+=item.count
+      end
       retval+="#{item.count} #{item.label}\n"
+
     end
+    retval+="GESAMT: #{count}"
 
     retval 
   end
