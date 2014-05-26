@@ -118,6 +118,7 @@ BDZAdmin::Application.routes.draw do
       get :list
       get :permitted
       get :participant_overview
+      get :gen_participant_sheets
     end
     member do 
       get :gen_invoice

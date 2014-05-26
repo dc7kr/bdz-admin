@@ -1,7 +1,7 @@
 class ParticipantSheetPdf < Prawn::Document
 
   def initialize(appl, view)
-    super(top_margin: 70)
+    super(top_margin: 70, left_margin:70)
     @appl = appl
     @invoice = appl.invoice
 
@@ -23,11 +23,15 @@ class ParticipantSheetPdf < Prawn::Document
   def head(app)
     text "#{@view.t('event_meal.participant_id')} #{app.id}", size: 20, style: :bold
     text "#{app.orch_name} (#{@view.t('festival_application.group_types.'+app.group_type)})", size: 20, style: :bold
+
     if app.event_meal.nil? or app.event_meal.arrival_time.nil? then
       text "Unknown arrival time."
     else
       text "#{@view.t('event_meal.arrival_time')} #{@view.l app.event_meal.arrival_time}"
     end
+
+    move_down 20
+    text "#{@view.t('contact_person.phone')}:", size:14, style: :bold
 
     if (@invoice.sum < 0 ) then
       save_stroke_and_fill 
@@ -57,7 +61,7 @@ class ParticipantSheetPdf < Prawn::Document
     @invoice.items.each do |i|
 
       if i.price >0 then
-        count+=i.price
+        count+=i.count
       end
 
       rows << [ i.count, i.label, @view.format_currency(i.price,'EUR'), @view.format_currency(i.count*i.price,'EUR')]
@@ -73,6 +77,9 @@ class ParticipantSheetPdf < Prawn::Document
       columns(2).align = :right
       columns(3).align = :right
     end
+
+    move_down 20
+    text "#{@appl.soloist_tickets} #{@view.t("festival_application.soloist_tickets")}"
   end
 
   def performance(app)
@@ -82,7 +89,7 @@ class ParticipantSheetPdf < Prawn::Document
     text "#{@view.t('festival_application.num_players')} #{app.num_players}" 
     text "#{@view.t('festival_application.festival_concert_id')} #{app.festival_concert.title} #{@view.l app.festival_concert.event_time}" 
     if not app.rehearsal_time.nil? 
-      text "#{@view.t('festival_application.rehearsal_time')} #{@view.l app.rehearsal_time}" 
+      text "#{@view.t('festival_application.rehearsal_time')} #{app.rehearsal_time.localtime.strftime("%H:%M")}" 
     end
     if not app.stage_time.nil?
       text "#{@view.t('festival_application.stage_time')} #{app.stage_time.strftime("%H:%M")}"

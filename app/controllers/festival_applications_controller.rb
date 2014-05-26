@@ -284,6 +284,16 @@ class FestivalApplicationsController < AuthenticatedController
 
   end
 
+  def gen_participant_sheets
+    @appl = FestivalApplication.order(params[:id])
+
+    @appl.each do |a|
+      pdf = ParticipantSheetPdf.new(a,view_context)
+      
+      pdf.render_file(BDZ_SETTINGS["invoice_workdir"]+"/participant_sheet_#{a.id}.pdf")
+    end
+  end
+
   def gen_participant_sheet
     @appl = FestivalApplication.find(params[:id])    
 
