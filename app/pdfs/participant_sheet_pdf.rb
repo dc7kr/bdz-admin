@@ -79,6 +79,9 @@ class ParticipantSheetPdf < Prawn::Document
     if not app.rehearsal_time.nil? 
       text "#{@view.t('festival_application.rehearsal_time')} #{@view.l app.rehearsal_time}" 
     end
+    if not app.stage_time.nil?
+      text "#{@view.t('festival_application.stage_time')} #{app.stage_time.strftime("%H:%M")}"
+    end
   end
   def food(app)
     move_down 20

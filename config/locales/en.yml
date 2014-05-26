@@ -384,6 +384,8 @@ en:
         contact_person: "Contact person"
         add_piece: "Add piece"
         group_type: "Group type"
+        stage_time: Stage time
+        rehearsal_time: Rehearsal time
         group_types:
           O: Orchestra
           E: Ensemble

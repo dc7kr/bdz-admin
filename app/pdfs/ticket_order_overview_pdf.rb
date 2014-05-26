@@ -21,16 +21,25 @@ class TicketOrderOverviewPdf < Prawn::Document
     retval 
   end
 
+  def render_payed(item)
+    if item.payment_received then
+      "x"
+    else 
+      ""
+    end
+  end
+
 	def format_orders
     @result = Array.new
 
-    @result << [ "Nr.","Name","Tickets" , "Summe"] 
+    @result << [ "Nr.","Name","Tickets" , "Summe", "Bezahlt"] 
 
     @result += @event_cards.map do |item|
 			[ item.id, 
 				item.name,
         format_ticket_list(item),
-				@view.format_currency(item.invoice.sum)
+				@view.format_currency(item.invoice.sum),
+				render_payed(item)
       ]
     end
 

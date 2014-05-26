@@ -998,6 +998,7 @@ de:
         closed: "Eine Anmeldung ist nicht mehr möglich. Wir bitten um Ihr Verständnis."
         group_list: Gruppen-Liste
         soloist_tickets: Solisten-Tageskarten
+        stage_time: Auftrittszeit
 
         invoice: Rechnung
         payment_status: Zahlungsstatus
