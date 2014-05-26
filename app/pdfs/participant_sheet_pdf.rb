@@ -33,23 +33,25 @@ class ParticipantSheetPdf < Prawn::Document
     move_down 20
     text "#{@view.t('contact_person.phone')}:", size:14, style: :bold
 
-    if (@invoice.sum < 0 ) then
-      save_stroke_and_fill 
-      fill_color "00ff00"
-      fill_and_stroke_rounded_rectangle([400,700], 100,25,5)
-      stroke_color "000000"
-      fill_color "000000"
-      draw_text @view.format_currency(@invoice.sum,"EUR"), :at => [ 420,685]
-      restore_stroke_and_fill
-    elsif  (@invoice.sum > 0 ) then
-      save_stroke_and_fill 
-      fill_color "ff0000"
-      stroke_color "ff0000"
-      fill_and_stroke_rounded_rectangle([400,700], 100,25,5)
-      stroke_color "ffffff"
-      fill_color "ffffff"
-      draw_text @view.format_currency(@invoice.sum,"EUR"), :at => [ 420,685]
-      restore_stroke_and_fill
+    if app.payment_status !=  'S' then
+      if (@invoice.sum < 0 ) then
+        save_stroke_and_fill 
+        fill_color "00ff00"
+        fill_and_stroke_rounded_rectangle([400,700], 100,25,5)
+        stroke_color "000000"
+        fill_color "000000"
+        draw_text @view.format_currency(@invoice.sum,"EUR"), :at => [ 420,685]
+        restore_stroke_and_fill
+      elsif  (@invoice.sum > 0 ) then
+        save_stroke_and_fill 
+        fill_color "ff0000"
+        stroke_color "ff0000"
+        fill_and_stroke_rounded_rectangle([400,700], 100,25,5)
+        stroke_color "ffffff"
+        fill_color "ffffff"
+        draw_text @view.format_currency(@invoice.sum,"EUR"), :at => [ 420,685]
+        restore_stroke_and_fill
+      end
     end
   end
 
@@ -64,9 +66,16 @@ class ParticipantSheetPdf < Prawn::Document
         count+=i.count
       end
 
-      rows << [ i.count, i.label, @view.format_currency(i.price,'EUR'), @view.format_currency(i.count*i.price,'EUR')]
+      if appl.payment_status == 'S' then 
+        rows << [ i.count, i.label, "","" ]
+      else
+        rows << [ i.count, i.label, @view.format_currency(i.price,'EUR'), @view.format_currency(i.count*i.price,'EUR')]
+      end
     end
+
+    if appl.payment_status != 'S' then
     rows << [ count, @view.t("common.sum"),"",@view.format_currency(@invoice.sum,'EUR') ]
+    end
 
     table rows do
       cells.borders=[]
