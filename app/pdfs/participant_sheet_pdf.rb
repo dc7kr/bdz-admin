@@ -79,7 +79,9 @@ class ParticipantSheetPdf < Prawn::Document
     end
 
     move_down 20
-    text "#{@appl.soloist_tickets} #{@view.t("festival_application.soloist_tickets")}"
+    if not @appl.soloist_tickets.nil? and @appl.soloist_tickets > 0 then
+      text "#{@appl.soloist_tickets} #{@view.t("festival_application.soloist_tickets")}"
+    end
   end
 
   def performance(app)
