@@ -301,6 +301,12 @@ class FestivalApplicationsController < AuthenticatedController
     send_data pdf.render, filename: "participant_sheet_#{@appl.id}.pdf", type: "application/pdf", disposition: "inline"
   end
 
+  def open_issues
+    @appl = FestivalApplication.order(:id)
+
+
+  end
+
 
   def sort_column
     FestivalApplication.column_names.include?(params[:sort]) ? params[:sort] : "id"
