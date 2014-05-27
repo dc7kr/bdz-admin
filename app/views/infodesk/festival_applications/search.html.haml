@@ -3,11 +3,11 @@
     =render :partial=>'nav'
   .content
     - invoice = @festival_application.invoice
-    - if invoice.sum > 0 then
+    - if invoice.sum < 0 then
       %span.payed 
         = format_currency(invoice.sum,'€')
         &nbsp; Gutschrift
-    - elsif invoice.sum < 0 then 
+    - elsif invoice.sum > 0 then 
       %span.not_payed 
         = format_currency(-1*invoice.sum,'€')
         &nbsp; offen
