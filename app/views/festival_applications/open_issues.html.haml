@@ -21,7 +21,7 @@
 
         %tbody.page 
           - @festival_applications.each do |app|
-            -if app.invoice.sum != 0 then
+            -if app.invoice.sum != 0 and app.payment_status != 'S' then
               %tr
                 %td=app.id
                 %td=app.orch_name
