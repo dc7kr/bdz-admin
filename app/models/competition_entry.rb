@@ -32,7 +32,7 @@ class CompetitionEntry < ActiveRecord::Base
       correct =false
     end
 
-    if "Dominik Hackner".casecmp(resp2) != 0  then
+    if "Nikolaus Neuroth".casecmp(resp2) != 0  then
       correct=false
     end
 
