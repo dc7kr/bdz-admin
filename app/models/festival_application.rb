@@ -2,7 +2,7 @@ class FestivalApplication < ActiveRecord::Base
 
   include CountryHelper
 
-  attr_accessible :conductor, :contact_person, :equipment, :country_code, :num_players, :orch_name, :orchestra, :special_cast, :group_type,:permission,:festival_concert_id, :visitor_type, :rehearsal_time, :stage_time, :payment_status, :tickets, :tickets_red, :bdz_tickets_red, :bdz_tickets, :amount, :soloist_tickets
+  attr_accessible :conductor, :contact_person, :equipment, :country_code, :num_players, :orch_name, :orchestra, :special_cast, :group_type,:permission,:festival_concert_id, :visitor_type, :rehearsal_time, :stage_time, :payment_status, :tickets, :tickets_red, :bdz_tickets_red, :bdz_tickets, :amount, :soloist_tickets, :contact_phone
   has_many :festival_pieces
   has_many :festival_application_attachments
   has_one :event_meal, :foreign_key => 'participant_id'
@@ -68,7 +68,9 @@ class FestivalApplication < ActiveRecord::Base
     inv.considerItem(tickets_red,prices["fest_erm"],I18n.t("event_card.fest_erm",:locale=>locale))
     inv.considerItem(bdz_tickets,prices["fest_bdz"],I18n.t("event_card.fest_bdz",:locale=>locale))
     inv.considerItem(bdz_tickets_red,prices["fest_bdz_erm"],I18n.t("event_card.fest_bdz_erm",:locale=>locale))
-    inv.addItem(InvoiceItem.new(1, -1*amount, I18n.t("common.advance_payment",:locale=>locale)))
+    if not amount.nil? then
+      inv.addItem(InvoiceItem.new(1, -1*amount, I18n.t("common.advance_payment",:locale=>locale)))
+    end
 
     inv
   end

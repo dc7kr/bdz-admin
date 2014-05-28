@@ -999,6 +999,8 @@ de:
         group_list: Gruppen-Liste
         soloist_tickets: Solisten-Tageskarten
         stage_time: Auftrittszeit
+        contact_phone: Kontakt-Telefon
+        open_issues: Offene Posten
 
         invoice: Rechnung
         payment_status: Zahlungsstatus

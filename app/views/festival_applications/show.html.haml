@@ -6,6 +6,8 @@
       #{t("festival_application.s")} Nr. #{@festival_application.id}
       - if @festival_application.permission
         (#{t('festival_application.permission_granted')})
+      %br
+      =@festival_application.orch_name
     .inner
       %table
         %tr
@@ -14,6 +16,9 @@
         %tr
           %td.label #{t("festival_application.visitor_type")}:
           %td= display_visitor_type(@festival_application.visitor_type)
+        %tr
+          %td.label #{t("festival_application.contact_phone")}:
+          %td= @festival_application.contact_phone
         %tr
           %td.label #{t("festival_application.country_id")}:
           %td= @festival_application.country_code 

@@ -12,9 +12,11 @@
         = format_currency(-1*invoice.sum,'€')
         &nbsp; offen
     %h2.title
-      Teilnehmer Nr. #{@festival_application.id}
-      %br
+      Nr. #{@festival_application.id}
       = @festival_application.orch_name
+      %br
+      #{t('festival_application.contact_phone')}:
+      = @festival_application.contact_phone
       %br
       = display_visitor_type(@festival_application.visitor_type)
     .inner
