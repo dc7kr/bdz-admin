@@ -57,7 +57,7 @@ class ParticipantOverviewPdf < Prawn::Document
 	end
 
 	def heading
-		text "Kartenbestellungen", :size => 30 , :style =>:bold
+		text "Festival-Teilnehmer", :size => 30 , :style =>:bold
     text "Stand: #{Time.now.strftime "%d.%m.%Y %H:%M Uhr"}", :size=> 20
 	end
 	
