@@ -253,7 +253,12 @@ class FestivalApplicationsController < AuthenticatedController
 
   def participant_overview
     datePrefix = Time.now.strftime("%Y%m%d%H%M%S_")
-    @participants = FestivalApplication.where("permission = 1").order(:id)
+
+    if (params[:alpha] ) then
+      @participants = FestivalApplication.where("permission = 1").order(:orch_name)
+    else
+      @participants = FestivalApplication.where("permission = 1").order(:id)
+    end
 
     pdf= ParticipantOverviewPdf.new(@participants,view_context)
     send_data pdf.render, filename: "participant_overview_#{datePrefix}.pdf", type: "application/pdf", disposition: "inline"
@@ -303,10 +308,7 @@ class FestivalApplicationsController < AuthenticatedController
 
   def open_issues
     @appl = FestivalApplication.order(:id)
-
-
   end
-
 
   def sort_column
     FestivalApplication.column_names.include?(params[:sort]) ? params[:sort] : "id"
