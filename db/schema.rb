@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131203180100) do
+ActiveRecord::Schema.define(:version => 20140528130439) do
 
   create_table "Inserenten", :id => false, :force => true do |t|
     t.string  "Firmenname",    :limit => 35
@@ -50,16 +50,13 @@ ActiveRecord::Schema.define(:version => 20131203180100) do
   end
 
   create_table "bundeslaender", :force => true do |t|
-    t.integer  "country_id",   :limit => 8, :default => 0, :null => false
-    t.string   "name",                                     :null => false
-    t.date     "created_on",                               :null => false
-    t.datetime "created_at",                               :null => false
-    t.date     "updated_on",                               :null => false
-    t.datetime "updated_at",                               :null => false
+    t.string   "name",                      :null => false
+    t.date     "created_on",                :null => false
+    t.datetime "created_at",                :null => false
+    t.date     "updated_on",                :null => false
+    t.datetime "updated_at",                :null => false
     t.string   "country_code", :limit => 2
   end
-
-  add_index "bundeslaender", ["country_id"], :name => "country"
 
   create_table "classifieds", :force => true do |t|
     t.integer  "adv_type",                  :default => 0,     :null => false
@@ -70,9 +67,32 @@ ActiveRecord::Schema.define(:version => 20131203180100) do
     t.text     "description",                                  :null => false
     t.date     "validuntil",                                   :null => false
     t.datetime "entrydate",                                    :null => false
-    t.datetime "confirmed",                                    :null => false
+    t.datetime "confirmed"
     t.string   "ip",          :limit => 20,                    :null => false
     t.boolean  "visible",                   :default => false, :null => false
+  end
+
+  create_table "competition_entries", :force => true do |t|
+    t.date     "date_of_birth"
+    t.integer  "contact_id"
+    t.datetime "created_at",                       :null => false
+    t.datetime "updated_at",                       :null => false
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "street"
+    t.string   "city"
+    t.string   "zip"
+    t.string   "country_code"
+    t.string   "email"
+    t.string   "like"
+    t.string   "missing"
+    t.string   "improve"
+    t.boolean  "correct"
+    t.string   "response1"
+    t.string   "response2"
+    t.string   "response3"
+    t.string   "response4"
+    t.boolean  "winner",        :default => false
   end
 
   create_table "composers", :force => true do |t|
@@ -112,7 +132,7 @@ ActiveRecord::Schema.define(:version => 20131203180100) do
     t.time     "zeit",                                                      :default => '2000-01-01 00:00:00', :null => false
     t.decimal  "eintritt",                   :precision => 10, :scale => 0,                                    :null => false
     t.datetime "reported",                                                                                     :null => false
-    t.datetime "confirmed",                                                                                    :null => false
+    t.datetime "confirmed"
     t.string   "token",        :limit => 32,                                                                   :null => false
     t.string   "stadt",                                                                                        :null => false
     t.text     "titel",                                                                                        :null => false
@@ -123,7 +143,6 @@ ActiveRecord::Schema.define(:version => 20131203180100) do
     t.string   "comment",                                                                                      :null => false
     t.string   "bundesland",                                                :default => "",                    :null => false
     t.integer  "bland",        :limit => 8,                                 :default => 0
-    t.integer  "country_id",   :limit => 8,                                                                    :null => false
     t.string   "email",                                                     :default => "",                    :null => false
     t.integer  "owner",        :limit => 8,                                 :default => 1,                     :null => false
     t.integer  "visible",      :limit => 2,                                 :default => 1,                     :null => false
@@ -135,7 +154,6 @@ ActiveRecord::Schema.define(:version => 20131203180100) do
   end
 
   add_index "concerts", ["bland"], :name => "bland"
-  add_index "concerts", ["country_id"], :name => "land"
   add_index "concerts", ["datum", "zeit", "interpret"], :name => "unique_event", :unique => true, :length => {"datum"=>nil, "zeit"=>nil, "interpret"=>30}
   add_index "concerts", ["festival_id"], :name => "festival"
   add_index "concerts", ["owner"], :name => "fk_owner"
@@ -159,7 +177,6 @@ ActiveRecord::Schema.define(:version => 20131203180100) do
     t.string   "street"
     t.string   "zip"
     t.string   "city"
-    t.integer  "country_id"
     t.string   "email"
     t.string   "phone"
     t.datetime "created_at",                :null => false
@@ -168,25 +185,24 @@ ActiveRecord::Schema.define(:version => 20131203180100) do
   end
 
   create_table "contacts", :force => true do |t|
-    t.string  "subtype",      :limit => 50,  :null => false
-    t.string  "company",      :limit => 100
-    t.string  "department",   :limit => 100
-    t.string  "salutation",   :limit => 10,  :null => false
-    t.string  "title",        :limit => 50
-    t.string  "first_name",   :limit => 50,  :null => false
-    t.string  "last_name",    :limit => 50,  :null => false
-    t.string  "street",       :limit => 50,  :null => false
-    t.string  "zip",          :limit => 10,  :null => false
-    t.string  "city",         :limit => 50,  :null => false
-    t.integer "country_id",   :limit => 8,   :null => false
-    t.string  "phone",        :limit => 50
-    t.string  "office_phone", :limit => 100
-    t.string  "mobile",       :limit => 50
-    t.string  "fax",          :limit => 50
-    t.string  "email",        :limit => 50
-    t.string  "bic"
-    t.string  "iban"
-    t.string  "country_code", :limit => 2
+    t.string "subtype",      :limit => 50,  :null => false
+    t.string "company",      :limit => 100
+    t.string "department",   :limit => 100
+    t.string "salutation",   :limit => 10,  :null => false
+    t.string "title",        :limit => 50
+    t.string "first_name",   :limit => 50,  :null => false
+    t.string "last_name",    :limit => 50,  :null => false
+    t.string "street",       :limit => 50,  :null => false
+    t.string "zip",          :limit => 10,  :null => false
+    t.string "city",         :limit => 50,  :null => false
+    t.string "phone",        :limit => 50
+    t.string "office_phone", :limit => 100
+    t.string "mobile",       :limit => 50
+    t.string "fax",          :limit => 50
+    t.string "email",        :limit => 50
+    t.string "bic"
+    t.string "iban"
+    t.string "country_code", :limit => 2
   end
 
   create_table "country", :force => true do |t|
@@ -199,6 +215,32 @@ ActiveRecord::Schema.define(:version => 20131203180100) do
   end
 
   add_index "country", ["name"], :name => "name", :unique => true
+
+  create_table "courses", :force => true do |t|
+    t.datetime "startdate",                                 :null => false
+    t.datetime "enddate",                                   :null => false
+    t.datetime "reported",                                  :null => false
+    t.datetime "confirmed"
+    t.integer  "bland",        :limit => 8,                 :null => false
+    t.integer  "fk_festival",  :limit => 8,  :default => 0
+    t.text     "more_dates",                                :null => false
+    t.text     "titel",                                     :null => false
+    t.string   "ort",                                       :null => false
+    t.text     "beschreibung",                              :null => false
+    t.text     "inhalt",                                    :null => false
+    t.text     "gebuehr",                                   :null => false
+    t.text     "zielgruppe",                                :null => false
+    t.text     "dozenten",                                  :null => false
+    t.text     "anmeldung",                                 :null => false
+    t.date     "deadline",                                  :null => false
+    t.string   "email",                                     :null => false
+    t.string   "token",        :limit => 40
+    t.integer  "visible",                    :default => 0, :null => false
+    t.string   "country_code", :limit => 2
+  end
+
+  add_index "courses", ["bland"], :name => "bland"
+  add_index "courses", ["fk_festival"], :name => "fk_festival"
 
   create_table "d7_actions", :primary_key => "aid", :force => true do |t|
     t.string "type",       :limit => 32,         :default => "",  :null => false
@@ -1363,6 +1405,33 @@ ActiveRecord::Schema.define(:version => 20131203180100) do
   add_index "distinctions", ["member_account_booking_id"], :name => "index_distinctions_on_member_account_booking_id"
   add_index "distinctions", ["orchestra_id"], :name => "index_distinctions_on_orchestra_id"
 
+  create_table "ensemble_concerts", :force => true do |t|
+    t.datetime "datum",                                                                                       :null => false
+    t.time     "zeit",                                                     :default => '2000-01-01 00:00:00', :null => false
+    t.datetime "reported",                                                                                    :null => false
+    t.datetime "confirmed"
+    t.string   "stadt",                                                    :default => "",                    :null => false
+    t.string   "ort",                                                      :default => "",                    :null => false
+    t.integer  "festival_id",  :limit => 8,                                :default => 0,                     :null => false
+    t.integer  "ensemble_id",  :limit => 8,                                :default => 0,                     :null => false
+    t.text     "titel",                                                                                       :null => false
+    t.string   "comment",                                                  :default => "",                    :null => false
+    t.decimal  "eintritt",                  :precision => 10, :scale => 0,                                    :null => false
+    t.integer  "state_id",     :limit => 8,                                                                   :null => false
+    t.integer  "country_id",   :limit => 8,                                :default => 0,                     :null => false
+    t.string   "email",                                                    :default => "",                    :null => false
+    t.integer  "fk_owner",     :limit => 8,                                :default => 1,                     :null => false
+    t.integer  "visible",      :limit => 2,                                :default => 0,                     :null => false
+    t.text     "url",                                                                                         :null => false
+    t.string   "country_code", :limit => 2
+  end
+
+  add_index "ensemble_concerts", ["country_id"], :name => "land"
+  add_index "ensemble_concerts", ["datum", "zeit", "ensemble_id"], :name => "unique_event", :unique => true
+  add_index "ensemble_concerts", ["ensemble_id"], :name => "ensemble_id"
+  add_index "ensemble_concerts", ["fk_owner"], :name => "fk_owner"
+  add_index "ensemble_concerts", ["state_id"], :name => "bundesland"
+
   create_table "ensembles", :force => true do |t|
     t.string  "name",                      :default => "", :null => false
     t.string  "homepage",                  :default => "", :null => false
@@ -1375,28 +1444,40 @@ ActiveRecord::Schema.define(:version => 20131203180100) do
   add_index "ensembles", ["owner"], :name => "owner"
 
   create_table "event_cards", :force => true do |t|
-    t.datetime "orderdate",                                     :null => false
-    t.string   "name",            :limit => 100,                :null => false
-    t.string   "email",           :limit => 100,                :null => false
-    t.string   "carddata",                                      :null => false
-    t.integer  "nr_fest",                        :default => 0, :null => false
-    t.integer  "nr_fest_erm",                    :default => 0, :null => false
-    t.integer  "nr_fest_bdz",                    :default => 0, :null => false
-    t.integer  "nr_fest_bdz_erm",                :default => 0, :null => false
-    t.integer  "nr_do",                          :default => 0, :null => false
-    t.integer  "nr_do_erm",                      :default => 0, :null => false
-    t.integer  "nr_fr",                          :default => 0, :null => false
-    t.integer  "nr_fr_erm",                      :default => 0, :null => false
-    t.integer  "nr_sa",                          :default => 0, :null => false
-    t.integer  "nr_sa_erm",                      :default => 0, :null => false
+    t.datetime "orderdate",                                           :null => false
+    t.string   "name",              :limit => 100,                    :null => false
+    t.string   "email",             :limit => 100,                    :null => false
+    t.integer  "nr_fest",                          :default => 0,     :null => false
+    t.integer  "nr_fest_erm",                      :default => 0,     :null => false
+    t.integer  "nr_fest_bdz",                      :default => 0,     :null => false
+    t.integer  "nr_fest_bdz_erm",                  :default => 0,     :null => false
+    t.integer  "nr_do",                            :default => 0,     :null => false
+    t.integer  "nr_do_erm",                        :default => 0,     :null => false
+    t.integer  "nr_fr",                            :default => 0,     :null => false
+    t.integer  "nr_fr_erm",                        :default => 0,     :null => false
+    t.integer  "nr_sa",                            :default => 0,     :null => false
+    t.integer  "nr_sa_erm",                        :default => 0,     :null => false
+    t.integer  "nr_concert_so",                    :default => 0,     :null => false
+    t.integer  "nr_concert_so_erm",                :default => 0,     :null => false
+    t.boolean  "invoiced",                         :default => false
+    t.boolean  "payment_received",                 :default => false
+    t.string   "street"
+    t.string   "city"
+    t.string   "country_code"
+    t.string   "company"
+    t.string   "preferred_lang"
+    t.string   "zip"
+    t.boolean  "pickup"
   end
 
   create_table "event_food", :force => true do |t|
-    t.integer  "tln",       :null => false
-    t.integer  "veg",       :null => false
-    t.string   "name",      :null => false
-    t.string   "email",     :null => false
-    t.datetime "orderdate", :null => false
+    t.integer  "tln",            :null => false
+    t.integer  "veg",            :null => false
+    t.string   "name",           :null => false
+    t.string   "email",          :null => false
+    t.datetime "orderdate",      :null => false
+    t.integer  "participant_id"
+    t.datetime "arrival_time"
   end
 
   create_table "feature_requests", :force => true do |t|
@@ -1421,7 +1502,6 @@ ActiveRecord::Schema.define(:version => 20131203180100) do
   end
 
   create_table "festival_applications", :force => true do |t|
-    t.integer  "country_id"
     t.integer  "orchestra_id"
     t.text     "orch_name"
     t.text     "conductor"
@@ -1429,8 +1509,8 @@ ActiveRecord::Schema.define(:version => 20131203180100) do
     t.text     "equipment"
     t.text     "special_cast"
     t.integer  "contact_person_id"
-    t.datetime "created_at",                       :null => false
-    t.datetime "updated_at",                       :null => false
+    t.datetime "created_at",                                        :null => false
+    t.datetime "updated_at",                                        :null => false
     t.string   "group_type"
     t.string   "uuid"
     t.boolean  "permission"
@@ -1438,6 +1518,16 @@ ActiveRecord::Schema.define(:version => 20131203180100) do
     t.datetime "rehearsal_time"
     t.string   "visitor_type"
     t.string   "country_code",        :limit => 2
+    t.string   "payment_status",      :limit => 1, :default => "N"
+    t.integer  "tickets"
+    t.integer  "tickets_red"
+    t.integer  "bdz_tickets"
+    t.integer  "bdz_tickets_red"
+    t.float    "amount"
+    t.integer  "soloist_tickets"
+    t.time     "stage_time"
+    t.string   "contact_phone"
+    t.boolean  "pickup"
   end
 
   create_table "festival_concerts", :force => true do |t|
@@ -1930,21 +2020,18 @@ ActiveRecord::Schema.define(:version => 20131203180100) do
   end
 
   create_table "hochschulen", :force => true do |t|
-    t.string  "name",                       :null => false
-    t.string  "institut",                   :null => false
-    t.string  "strasse",      :limit => 50, :null => false
-    t.string  "plz",          :limit => 10, :null => false
-    t.string  "ort",          :limit => 50, :null => false
-    t.integer "country_id",   :limit => 8,  :null => false
-    t.string  "telefon",      :limit => 50, :null => false
-    t.string  "studiengang",                :null => false
-    t.string  "dozent",       :limit => 50, :null => false
-    t.string  "email",        :limit => 50, :null => false
-    t.string  "homepage",                   :null => false
-    t.string  "country_code", :limit => 2
+    t.string "name",                       :null => false
+    t.string "institut",                   :null => false
+    t.string "strasse",      :limit => 50, :null => false
+    t.string "plz",          :limit => 10, :null => false
+    t.string "ort",          :limit => 50, :null => false
+    t.string "telefon",      :limit => 50, :null => false
+    t.string "studiengang",                :null => false
+    t.string "dozent",       :limit => 50, :null => false
+    t.string "email",        :limit => 50, :null => false
+    t.string "homepage",                   :null => false
+    t.string "country_code", :limit => 2
   end
-
-  add_index "hochschulen", ["country_id"], :name => "land"
 
   create_table "homepages", :force => true do |t|
     t.string   "abbrev",     :limit => 20,  :null => false
@@ -1987,74 +2074,9 @@ ActiveRecord::Schema.define(:version => 20131203180100) do
     t.string  "comment",     :limit => 200, :null => false
   end
 
-  create_table "konz_ensemble", :force => true do |t|
-    t.datetime "datum",                                                                                       :null => false
-    t.time     "zeit",                                                     :default => '2000-01-01 00:00:00', :null => false
-    t.datetime "reported",                                                                                    :null => false
-    t.datetime "confirmed",                                                                                   :null => false
-    t.string   "stadt",                                                    :default => "",                    :null => false
-    t.string   "ort",                                                      :default => "",                    :null => false
-    t.integer  "festival_id",  :limit => 8,                                :default => 0,                     :null => false
-    t.integer  "ensemble_id",  :limit => 8,                                :default => 0,                     :null => false
-    t.text     "titel",                                                                                       :null => false
-    t.string   "comment",                                                  :default => "",                    :null => false
-    t.decimal  "eintritt",                  :precision => 10, :scale => 0,                                    :null => false
-    t.integer  "state_id",     :limit => 8,                                                                   :null => false
-    t.integer  "country_id",   :limit => 8,                                :default => 0,                     :null => false
-    t.string   "email",                                                    :default => "",                    :null => false
-    t.integer  "fk_owner",     :limit => 8,                                :default => 1,                     :null => false
-    t.integer  "visible",      :limit => 2,                                :default => 0,                     :null => false
-    t.text     "url",                                                                                         :null => false
-    t.string   "country_code", :limit => 2
-  end
-
-  add_index "konz_ensemble", ["country_id"], :name => "land"
-  add_index "konz_ensemble", ["datum", "zeit", "ensemble_id"], :name => "unique_event", :unique => true
-  add_index "konz_ensemble", ["ensemble_id"], :name => "ensemble_id"
-  add_index "konz_ensemble", ["fk_owner"], :name => "fk_owner"
-  add_index "konz_ensemble", ["state_id"], :name => "bundesland"
-
   create_table "konzert2ensemble", :id => false, :force => true do |t|
     t.integer "fk_konz_id", :limit => 8, :null => false
     t.integer "fk_ens_id",  :limit => 8, :null => false
-  end
-
-  create_table "kurse", :force => true do |t|
-    t.datetime "startdate",                                 :null => false
-    t.datetime "enddate",                                   :null => false
-    t.datetime "reported",                                  :null => false
-    t.datetime "confirmed"
-    t.integer  "bland",        :limit => 8,                 :null => false
-    t.integer  "fk_festival",  :limit => 8,  :default => 0
-    t.text     "more_dates",                                :null => false
-    t.text     "titel",                                     :null => false
-    t.string   "ort",                                       :null => false
-    t.text     "beschreibung",                              :null => false
-    t.text     "inhalt",                                    :null => false
-    t.text     "gebuehr",                                   :null => false
-    t.text     "zielgruppe",                                :null => false
-    t.text     "dozenten",                                  :null => false
-    t.text     "anmeldung",                                 :null => false
-    t.date     "deadline",                                  :null => false
-    t.string   "email",                                     :null => false
-    t.string   "token",        :limit => 40
-    t.integer  "visible",                    :default => 0, :null => false
-    t.string   "country_code", :limit => 2
-  end
-
-  add_index "kurse", ["bland"], :name => "bland"
-  add_index "kurse", ["fk_festival"], :name => "fk_festival"
-
-  create_table "landesverband", :force => true do |t|
-    t.integer  "nummer",                   :null => false
-    t.string   "name",       :limit => 40, :null => false
-    t.string   "subname",    :limit => 50, :null => false
-    t.string   "homepage",   :limit => 50, :null => false
-    t.string   "jugend_url", :limit => 50, :null => false
-    t.integer  "konto",      :limit => 8,  :null => false
-    t.integer  "blz",        :limit => 8,  :null => false
-    t.datetime "created_at",               :null => false
-    t.datetime "updated_at"
   end
 
   create_table "magazine_adverts", :force => true do |t|
@@ -2147,12 +2169,12 @@ ActiveRecord::Schema.define(:version => 20131203180100) do
     t.string   "street"
     t.string   "zip"
     t.string   "city"
-    t.string   "country"
     t.string   "role"
     t.string   "email"
     t.string   "phone"
     t.datetime "created_at",                :null => false
     t.datetime "updated_at",                :null => false
+    t.string   "country_code"
   end
 
   add_index "orchestra_contacts", ["orchestra_id"], :name => "index_orchestra_contacts_on_orchestra_id"
@@ -3172,6 +3194,18 @@ ActiveRecord::Schema.define(:version => 20131203180100) do
   end
 
   add_index "regional_organization_bookings", ["regional_organization_id"], :name => "index_regional_organization_bookings_on_regional_organization_id"
+
+  create_table "regional_organizations", :force => true do |t|
+    t.integer  "nummer",                   :null => false
+    t.string   "name",       :limit => 40, :null => false
+    t.string   "subname",    :limit => 50, :null => false
+    t.string   "homepage",   :limit => 50, :null => false
+    t.string   "jugend_url", :limit => 50, :null => false
+    t.integer  "konto",      :limit => 8,  :null => false
+    t.integer  "blz",        :limit => 8,  :null => false
+    t.datetime "created_at",               :null => false
+    t.datetime "updated_at"
+  end
 
   create_table "report_sheet_inputs", :force => true do |t|
     t.integer  "report_sheet_id"

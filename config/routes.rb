@@ -133,6 +133,7 @@ BDZAdmin::Application.routes.draw do
   resources :event_cards  do
     member do 
       get :gen_invoice
+      get :pickup
     end
     collection do 
       get :overview
