@@ -3,6 +3,9 @@
 .group
   %table
     %tr
+      %td= f.label :pickup, :class=> :label
+      %td= f.check_box :pickup
+    %tr
       %td=f.label :company
       %td{:colspan=>2}=f.text_field :company
     %tr

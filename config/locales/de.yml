@@ -178,6 +178,7 @@ de:
     p: Kartenbestellungen
     regular: "Regulär:"
     orderdate: Bestelldatum
+    pickup_success: "Abholung erfolgreich eingetragen"
     reduced: "Ermäßigt:"
     fest: Festivalkarten
     fest_bdz: "Festival-Karte (BDZ-Mitglieder)"
@@ -741,6 +742,7 @@ de:
         email: E-Mail Adresse
       event_card:
         company: "Firma/Gruppe"
+        pickup_success: "Abholung erfolgreich eingetragen."
         name: Name
         email: Emailadresse
         invoiced: Rechnung erstellt

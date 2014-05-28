@@ -12,4 +12,5 @@
   %td
     = link_to_show event_card
     = link_to_edit event_card
+    = link_to image_tag('/assets/icons/publish.png', {:size=>'16x16',:alt=>"PICKUP",:title=>"PICKUP",:class=>'btn'}),{ :id=>event_card, :action=>'pickup'},{ "data-type"=> :json, :remote => true}
     = link_to_delete event_card, t('common.delete'),t('common.delete_confirm')

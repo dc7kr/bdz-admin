@@ -3,6 +3,7 @@
     =render :partial=>'nav'
   .content
     - invoice = @event_card.invoice
+      
     - if @event_card.payment_received
       %span.not_payed 
         = format_currency(invoice.sum,'€')
@@ -13,6 +14,8 @@
         &nbsp; Bereits bezahlt 
     %h2.title
       #{t("event_card.s")} Nr. #{@event_card.id} #{@event_card.name}
+      - if @event_card.pickup
+        (bereits abgeholt)
     .inner
       %h3=mail_to @event_card.email, @event_card.name
 

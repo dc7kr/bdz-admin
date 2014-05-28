@@ -22,6 +22,25 @@ class EventCardsController < AuthenticatedController
     end
   end
 
+  def pickup
+	  @event_card = EventCard.find(params[:id])
+	  @event_card.pickup = true
+
+    respond_to do |format|
+      if @event_card.save
+  	    flash[:notice] = t('event_card.pickup_success')
+        format.html { redirect_to event_cards_path, :notice => t('event_card.pickup_success') }
+        format.js {} 
+        format.json { render :json=>{ :status=>"ok", :op=> 'delete', :entityId=>@event_card.id } }
+      else
+        format.html { render :action => "new" }
+        format.json { render :json => @event_card.errors, :status => :unprocessable_entity }
+      end
+    end
+
+  end
+
+
   # GET /event_cards/1
   # GET /event_cards/1.json
   def show
@@ -137,7 +156,7 @@ class EventCardsController < AuthenticatedController
 
   def overview
     datePrefix = Time.now.strftime '%Y%m%d%H%M%s'
-    @event_cards = EventCard.order(:id)
+    @event_cards = EventCard.where("pickup=0").order(:id)
     respond_to do |format|
       format.pdf do
         pdf = TicketOrderOverviewPdf.new(@event_cards,view_context)
