@@ -1,0 +1,24 @@
+.block
+  .secondary-navigation
+    =render :partial=>'nav'
+  .content
+    %h2.title
+      = t("common.all")
+      = t("event_card.p")
+    .inner
+      %p 
+        %b Bezahlt 
+        #{format_currency(@payed)}
+        %br
+        %b Gesamtsumme 
+        #{format_currency(@sum)}
+      %table.table
+        %thead
+          %tr
+            %th=t('event_card.id')
+            %th=t('event_card.fest')
+            %th Tageskarten |Do|Fr|Sa|
+            %th=t('event_card.name')
+            %th &nbsp;
+        = render @event_cards
+- content_for :sidebar, render(:partial => 'sidebar')

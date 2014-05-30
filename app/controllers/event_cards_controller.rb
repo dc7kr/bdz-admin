@@ -22,9 +22,15 @@ class EventCardsController < AuthenticatedController
     end
   end
 
+  def open_orders
+    @event_cards = EventCard.where("pickup = 0")
+    
+  end
+
   def pickup
 	  @event_card = EventCard.find(params[:id])
 	  @event_card.pickup = true
+    @event_card.save
 
     respond_to do |format|
       if @event_card.save

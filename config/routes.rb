@@ -137,6 +137,7 @@ BDZAdmin::Application.routes.draw do
     end
     collection do 
       get :overview
+      get :open_orders
     end
   end
 
