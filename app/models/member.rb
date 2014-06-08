@@ -95,6 +95,8 @@ class Member < ActiveRecord::Base
     c.country = country_code
     c.sig_date = sig_date 
     c.mandate_id =  mandate_id 
+    c.iban = iban
+    c.bic = bic
 
     c
   end
