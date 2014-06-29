@@ -156,4 +156,14 @@ class PersonMember < ActiveRecord::Base
   def event_class
     MemberEvent
   end
+
+  def to_customer
+    cust = member.to_customer
+    cust.entity = self
+
+    cust.name= fullname
+    cust.account_owner = fullname
+
+    cust
+  end
 end

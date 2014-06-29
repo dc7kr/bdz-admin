@@ -7,15 +7,15 @@ class Cron::RemindersController < AuthenticatedNonResourceController
   	authorize! :member, :edit
     @orchestras = Orchestra.includes([:member]).joins('LEFT JOIN report_sheets ON report_sheets.orchestra_id = orchestras.member_id AND report_sheets.year='+String(Time.now.year)).where(['report_sheets.id IS NULL'])
 
-	@tw = TexWriter.new 
-	@orchestras.each do |orch|
-		@tw.writeReportSheetReminderData(orch)
-		system("/opt/bdz-rechnung/bin/mahnung.meldebogen.sh "+String(orch.mglnr))
-	end
+    @tw = TexWriter.new 
+    @orchestras.each do |orch|
+      @tw.writeReportSheetReminderData(orch.to_customer)
+      system("/opt/bdz-rechnung/bin/mahnung.meldebogen.sh "+String(orch.mglnr))
+    end
 
-	system("/opt/bdz-rechnung/bin/merge_pdfs.sh mahnung mahnung-meldebogen")
+    system("/opt/bdz-rechnung/bin/merge_pdfs.sh mahnung mahnung-meldebogen")
 
-	render :text => " OK."
+    render :text => " OK."
   end
 
  def payment
@@ -30,23 +30,23 @@ class Cron::RemindersController < AuthenticatedNonResourceController
     end
 
     @persons = PersonMember.includes(:member).order("members.mglnr").find(:all, :conditions=> ["member_id in (?)",@ids])
-	@orchestras = Orchestra.includes(:member).order("members.mglnr").find(:all, :conditions=> ["member_id in (?)",@ids])
+    @orchestras = Orchestra.includes(:member).order("members.mglnr").find(:all, :conditions=> ["member_id in (?)",@ids])
 
-	@tw = TexWriter.new 
-	@orchestras.each do |orch|
-		@tw.writeReminderData(orch)
-		system("/opt/bdz-rechnung/bin/mahnung.sh "+String(orch.mglnr))
-	end
-	@persons.each do |person|
-		@tw.writeReminderData(person)
-		system("/opt/bdz-rechnung/bin/mahnung.sh "+String(person.mglnr))
-	end
+    @tw = TexWriter.new 
+    @orchestras.each do |orch|
+      @tw.writeReminderData(orch)
+      system("/opt/bdz-rechnung/bin/mahnung.sh "+String(orch.mglnr))
+    end
+    @persons.each do |person|
+      @tw.writeReminderData(person)
+      system("/opt/bdz-rechnung/bin/mahnung.sh "+String(person.mglnr))
+    end
 
-	system("/opt/bdz-rechnung/bin/merge_pdfs.sh mahnung mahnung")
+    system("/opt/bdz-rechnung/bin/merge_pdfs.sh mahnung mahnung")
 
-	send_mail
+    send_mail
 
-	render :text => " OK."
+    render :text => " OK."
   end
 
   def send_mail()
@@ -61,6 +61,5 @@ class Cron::RemindersController < AuthenticatedNonResourceController
    		puts 'sent to %s' % current_user.email
 	end
   end
-
 end
 

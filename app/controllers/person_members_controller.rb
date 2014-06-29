@@ -79,7 +79,8 @@ class PersonMembersController < AuthenticatedController
   # GET /person_members/new.json
   def new
     @person_member = PersonMember.new
-	@person_member.zeitungen=1
+    @person_member.zeitungen=1
+    @person_member.country_code = "de"
 
     respond_to do |format|
       format.html # new.html.erb

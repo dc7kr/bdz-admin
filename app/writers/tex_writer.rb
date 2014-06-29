@@ -54,13 +54,13 @@ class TexWriter
 			intwo= I18n.l(14.days.from_now.to_date , :format => :long)
 			f.write('\newcommand{\inTwoWeeks}{'+intwo+"}\n")
 		}
-    end
+  end
 
 	def writeReminderData(member)
 
 		File.open(TexWriter.workdir+"/variables.tex", 'w') {|f| 
 			writeOurData(f,'treasurer')
-			writeCommon(f,member)
+			writeCommon(f,member.to_customer)
 			intwo= I18n.l(14.days.from_now.to_date , :format => :long)
 			f.write('\newcommand{\inTwoWeeks}{'+intwo+"}\n")
 		}
