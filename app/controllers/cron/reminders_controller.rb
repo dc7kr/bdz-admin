@@ -53,7 +53,7 @@ class Cron::RemindersController < AuthenticatedNonResourceController
 	year = Time.now.strftime('%Y')
 	pdf_prefix= Time.now.strftime '%Y%m%d'
 
-	@users = User.where("role like ?", "%admin%")
+	@users = User.where("role like ? or role like ?", "%admin%","%gs")
     base_url = cron_downloads_url
 	  reminders_url = base_url+"?year="+year+"&filename="+pdf_prefix+"-mahnung_merge.pdf"
 	@users.each do |user| 
