@@ -59,7 +59,10 @@ class Cron::RemindersController < AuthenticatedNonResourceController
 
     @tw = TexWriter.new 
     @orchestras.each do |orch|
-      @tw.writeReminderData(orch)
+      
+		  filtered_bookings = orch.get_unbalanced_bookings
+     
+      @tw.writeReminderData(orch,filtered_bookings)
       filename = `/opt/bdz-rechnung/bin/create_pdf.sh #{orch.mglnr} mahnung-beitrag`
       filename = filename.chomp
       out_file = archive_file(tmpdir,filename, year);
@@ -67,7 +70,8 @@ class Cron::RemindersController < AuthenticatedNonResourceController
     end
 
     @persons.each do |person|
-      @tw.writeReminderData(person)
+		  filtered_bookings = person.get_unbalanced_bookings
+      @tw.writeReminderData(person,filtered_bookings)
       filename = `/opt/bdz-rechnung/bin/create_pdf.sh #{person.mglnr} mahnung-beitrag`
       filename = filename.chomp
       out_file = archive_file(tmpdir,filename, year);

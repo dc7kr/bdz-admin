@@ -152,6 +152,10 @@ class PersonMember < ActiveRecord::Base
     member.ort
   end
 
+  def get_unbalanced_bookings
+    member.get_unbalanced_bookings
+  end
+
   # for event handling
   def event_class
     MemberEvent

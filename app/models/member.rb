@@ -108,4 +108,18 @@ class Member < ActiveRecord::Base
   def sig_date
     Date.new(2014,1,1)
   end
+
+  def get_unbalanced_bookings
+      result = Array.new
+      bookings = MemberAccountBooking.where("member_id = ?",id).order(:booking_date)
+      sum =0 
+      bookings.each do |booking|
+        result << booking
+        sum += booking.amount
+        if (sum ==0 ) then
+          result.clear
+        end
+      end
+      return result
+  end
 end

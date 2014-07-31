@@ -269,6 +269,10 @@ class Orchestra < ActiveRecord::Base
 
   # for member event handling
 
+  def get_unbalanced_bookings
+    member.get_unbalanced_bookings
+  end
+
   def event_class
     MemberEvent
   end

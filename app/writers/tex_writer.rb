@@ -56,7 +56,7 @@ class TexWriter
 		}
   end
 
-	def writeReminderData(member)
+	def writeReminderData(member,bookings)
 
 		File.open(TexWriter.workdir+"/variables.tex", 'w') {|f| 
 			writeOurData(f,'treasurer')
@@ -65,11 +65,10 @@ class TexWriter
 			f.write('\newcommand{\inTwoWeeks}{'+intwo+"}\n")
 		}
 
-		@bookings = MemberAccountBooking.where("member_id = ?",member.member_id).order(:booking_date)
 		File.open(TexWriter.workdir+"/bookings.tex",'w') {|f|
 			@last = nil		
 			sum=0
-			@bookings.each do |booking|
+			bookings.each do |booking|
 				f.write(format_date(booking.booking_date)+ "&"+booking.booking_txt+" &  "+format_currency(booking.amount,'EUR')+"\\\\\n")
 				if ( booking.amount != nil ) then
 					sum=sum+booking.amount
