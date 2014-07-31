@@ -87,7 +87,7 @@ class Member < ActiveRecord::Base
   end
 
   def to_customer
-    c = Customer.new(id, name)
+    c = Customer.new(mglnr, name)
     c.entity = self
     c.street = strasse
     c.zip = plz
