@@ -1,0 +1,134 @@
+defaults: &DEFAULTS
+
+  config:
+    festival_application_open: false
+  contacts:
+    admin:
+      name: "BDZ Admin Webmaster"
+      mail: "webmaster@bdz-online.de"
+    treasurer:
+      name: "Eckhard Richter"
+      street: "Turmstr. 65"
+      plz: "46539"
+      ort: "Dinslaken"
+      dept: ""
+      phone: "02064-49400"
+      fax: "02064-49402"
+      mail: "schatzmeister@bdz-online.de"
+      job: "Schatzmeister"
+    gs:
+      name: "Theresa Brandt"
+      dept: "Bundesgeschäftsstelle"
+      street: "Postfach 13 20"
+      plz: "55003"
+      ort: "Mainz"
+      phone: "06131-327211-0"
+      fax: "06131-327211-9"
+      job: "Bundesgeschäftsstelle"
+      mail: "geschaeftsstelle@bdz-online.de"
+    festival:
+      name: "Theresa Brandt"
+      dept: "Bundesgeschäftsstelle"
+      street: "Postfach 13 20"
+      plz: "55003"
+      ort: "Mainz"
+      phone: "06131-327211-0"
+      fax: "06131-327211-9"
+      job: "Bundesgeschäftsstelle"
+      mail: "geschaeftsstelle@bdz-online.de"
+      bank: "Sparkasse Dinslaken-Voerde-Hünxe"
+      iban: "DE83 3525 1000 0670 0480 73"
+      bic: "WELADED1DIN"
+    distinction:
+      name: "Katja Ruhrberg"
+      dept: "Ehrungen"
+      street: "Am Rollefer Berg 49"
+      plz: "52078"
+      ort: "Aachen"
+      phone: "0241-92042598"
+      fax: "06131-327211-9"
+      job: "Ehrungen"
+      mail: "ehrungen@bdz-online.de"
+
+  company: "Bund Deutscher Zupfmusiker e.V."
+  companyShort: "BDZ"
+  konto: "430121129"
+  blz: "35251000"
+  bank: "Sparkasse Dinslaken-Voerde-Hünxe"
+  iban: "DE38 3525 1000 0430 1211 29"
+  bic: "WELADED1DIN"
+  creditor_id: "DE79ZZZ00000155881"
+  sepa: true
+
+  invoice_workdir: "/srv/httpd/bdz-online.de/tmp"
+  invoice_archive_dir: "/srv/httpd/bdz-online.de/documents"
+  template_dir: "/srv/httpd/bdz-online.de/documents/templates"
+  docs_archive_dir: "/srv/httpd/bdz-online.de/documents"
+  docs_work_dir: "/srv/httpd/bdz-online.de/tmp"
+  meldebogen_url: "http://www.bdz-online.de/meldebogen/"
+  mb_form_url_l: "http://www.bdz-online.de/formulare/meldebogen_landesorchester.pdf"
+  mb_form_url_v: "http://www.bdz-online.de/formulare/meldebogen.pdf"
+
+  fees:
+    mgebuehr1: 10
+    vzuschlag: 30
+    mgebuehr2: 20
+    saeumnis_zuschlag: 30
+
+  distinction_prices:
+    certificate: '4.5'
+    silverneedle: 7
+    goldenneedle: 7
+    medal: 28
+    honorletter: 19
+    nationalneedle: 6
+    porto: '1.45'
+
+  tariff:
+    koop: 50
+    lvOrch: 50
+    lvMember: 8
+    maxBeitrag: 950
+    minBeitrag: 160
+    zeitung: 16
+    uv: '1.2'
+    hvgebuehrLv: 8
+    childrenRate: '2.5'
+    teensRate: 11
+    youthRate: 16
+    adultRate: 16
+    uvRate: '1.20'
+    ztgRate: '0.25'
+    lvPart: 0.15
+    loZtgCount: 10
+    koopZtgCount: 2
+  report_sheet:
+    threshold: 0.3
+  magazine:
+    subscription:
+      A: 123.0
+      B: 234.0
+    advert:
+      F: 1000
+      H: 500
+      Q: 250
+      T: 333
+
+  festival_prices:
+    fest: 150
+    fest_erm: 100
+    fest_bdz: 140
+    fest_bdz_erm: 90
+    tageskarte: 30
+    tageskarte_erm: 20
+    concert: 10
+    concert_erm: 7
+
+development:
+  <<: *DEFAULTS
+
+test:
+  <<: *DEFAULTS
+
+production:
+  <<: *DEFAULTS
