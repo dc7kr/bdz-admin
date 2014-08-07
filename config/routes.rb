@@ -99,6 +99,10 @@ BDZAdmin::Application.routes.draw do
     collection do 
       get :lockdown
       get :generate
+      get :search
+    end
+    member do
+      get :metadata
     end
   end
 

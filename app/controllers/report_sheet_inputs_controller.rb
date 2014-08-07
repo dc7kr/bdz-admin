@@ -7,7 +7,12 @@ class ReportSheetInputsController < AuthenticatedController
   # GET /report_sheet_inputs
   # GET /report_sheet_inputs.json
   def index
-    @report_sheet_inputs = ReportSheetInput.all
+
+    if not params[:orch].nil? 
+      @report_sheet_inputs = ReportSheetInput.includes(:orchestra).where(:orchestra_id=>params[:orch])
+    else
+      @report_sheet_inputs = ReportSheetInput.includes(:orchestra)
+    end
 
     respond_to do |format|
       format.html # index.html.erb
@@ -122,6 +127,10 @@ class ReportSheetInputsController < AuthenticatedController
 			}
     end
 	end
+
+  def metadata
+    @report_sheet_input = ReportSheetInput.find(params[:id])
+  end
 
   def lockdown
   	@report_sheet_inputs = ReportSheetInput.not_final

@@ -4,13 +4,13 @@
   .content
     %h2.title
       = t("common.all")
-      = t("report_sheet_inputs.title")
+      = t("report_sheet_input.p")
     .inner
       %table.table
         %thead
-          %th A
-          %th B
-          %th C
+          %th=t("common.year")
+          %th=t("orchestra.orch_name") 
+          %th=t("common.updated_at") 
           %th.last &nbsp;
         %tbody#orchestras
           =render @report_sheet_inputs

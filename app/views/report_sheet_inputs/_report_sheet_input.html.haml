@@ -1,7 +1,9 @@
 %tr
+  %td=report_sheet_input.report_sheet.year
   %td
     -if report_sheet_input.orchestra != nil then
       =report_sheet_input.orchestra.orchName
     -else
       NIL 
-  %td=report_sheet_input.report_sheet.orchestra_id !=nil
+  %td=report_sheet_input.report_sheet.updated_at
+  %td=link_to t("report_sheet_input.s")+" "+report_sheet_input.report_sheet.year.to_s, metadata_report_sheet_input_path(report_sheet_input)

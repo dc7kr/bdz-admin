@@ -81,6 +81,7 @@ de:
     year: Jahr
     sum: Summe
     advance_payment: Anzahlung
+    updated_at: Zuletzt geändert
     month: Monat
     day: Tag
     created_at: Erzeugt
@@ -663,6 +664,8 @@ de:
     booking_type_S: Sollstellung
     booking_type_G: Gutschrift
   report_sheet_input:
+    s: "Meldebogeneingabe"
+    p: "Meldebogeneingabe-Objekte"
     login: Anmelden
     login_title: Meldebogenerfassung
     token: Passwort
