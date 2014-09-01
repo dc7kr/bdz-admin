@@ -250,6 +250,21 @@ class ReportSheet < ActiveRecord::Base
     @invoice
   end
 
+  def total_ensembles
+    sum=0;
+    data = [ child_ens,youth_ens,adult_ens,senior_ens,chamber_ens]
+
+    data.compact.sum
+  end
+
+
+  def ens_key_string
+    data = [ child_ens,youth_ens,adult_ens,senior_ens,chamber_ens]
+    data.map! { |x| x.to_i }
+    "|"+data.join("|")+"|"
+
+  end
+
 
 #	TODO: def scoped for easier retrieval!
 #   def orchestras 

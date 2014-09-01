@@ -240,6 +240,7 @@ BDZAdmin::Application.routes.draw do
   end
   resources :states
   resources :regional_organizations  do 
+    resources :regional_organization_reports
     resources :functions do
     end
     member do
