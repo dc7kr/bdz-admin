@@ -273,6 +273,36 @@ class Orchestra < ActiveRecord::Base
     member.get_unbalanced_bookings
   end
 
+  def self.for_user(user)
+    if (not user.is_restricted_role?) then
+      return scoped
+    end
+
+    restr = user.restricting_entity
+
+    if restr.nil? then
+      Rails.logger.warning("User "+current_user.email+" has no restriction entity configured - SAFETY NET!")
+      return where ("1=0") 
+      # safety net
+    end
+
+    if restr.class == RegionalOrganization then
+      where("members.regional_organization_id = ?",restr.id)
+    elsif restr.class == Orchestra then
+      where("id = ?", restr.id)
+    elsif restr.class == PersonMember then
+      where("1=0")
+    end
+  end
+
+  def contacts_by_role
+    result = Hash.new
+    orchestra_contacts.each do |oc|
+      result[oc.role]= oc
+    end
+    result
+  end
+
   def event_class
     MemberEvent
   end
