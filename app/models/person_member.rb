@@ -5,6 +5,29 @@ class PersonMember < ActiveRecord::Base
   scope :cancelled, includes(:member).where("members.austritt_zum is not null and members.austritt_zum != '0000-00-00' and austritt_zum < now()")
   scope :nomail,includes(:member).where('members.email IS NULL')
 
+
+  def self.for_user(user)
+    if (not user.is_restricted_role?) then
+      return scoped
+    end
+
+    restr = user.restricting_entity
+
+    if restr.nil? then
+      Rails.logger.warning("User "+current_user.email+" has no restriction entity configured - SAFETY NET!")
+      return where ("1=0") 
+      # safety net
+    end
+
+    if restr.class == RegionalOrganization then
+      where("members.regional_organization_id = ?",restr.id)
+    elsif restr.class == Orchestra then
+      where("id = ?", restr.id)
+    elsif restr.class == PersonMember then
+      where("1=0")
+    end
+  end
+
   def self.mailForEvent(event,via_paper)
     if ( via_paper ) then
       includes([:member]).joins("LEFT JOIN member_events e ON person_members.member_id=e.member_id AND e.event_id='"+event+"'").where("e.id IS NULL")
@@ -109,8 +132,9 @@ class PersonMember < ActiveRecord::Base
   def sig_date
     member.sig_date
   end
+
   def account_owner
-    return full_name
+    return fullname
   end
 
   def has_email? 
