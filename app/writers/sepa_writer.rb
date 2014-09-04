@@ -2,7 +2,7 @@ require 'sepa_tool'
 
 class SEPAWriter < DirectDebitWriter
   
-  def initialize(datePrefix=nil,settings)
+  def initialize(datePrefix,settings)
     super(datePrefix)
     @tool = SEPATool.new(settings)
     @direct_debits = Array.new

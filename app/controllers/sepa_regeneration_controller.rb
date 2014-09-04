@@ -9,7 +9,7 @@ class SepaRegenerationController < AuthenticatedNonResourceController
       @bookings = MemberAccountBooking.includes(:member).where('booking_txt = ?',params[:sepa][:booking_txt])
 
       datePrefix = Time.now.strftime '%Y%m%d%H%M%S'
-      sw = SEPAWriter.new(datePrefix)
+      sw = SEPAWriter.new(datePrefix,BDZ_SETTINGS)
 
      @bookings.each do |b|
 

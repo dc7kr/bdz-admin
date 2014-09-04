@@ -73,7 +73,7 @@ class Cron::InvoicesController < AuthenticatedNonResourceController
     dtaFile = nil
 
     datePrefix = Time.now.strftime '%Y%m%d%H%M%S'
-    @sw = SEPAWriter.new(datePrefix)
+    @sw = SEPAWriter.new(datePrefix,BDZ_SETTINGS)
 
 	  @person_members.each do |person|
       next if ( person.tariff.amount == 0 )
