@@ -83,7 +83,7 @@ class TexWriter
 		File.open(TexWriter.workdir+"/variables.tex", 'w') do |f| 
       writeOurData(f,'gs');
       f.write('\newcommand{\jahr}{'+year.to_s+"}\n")
-      writeCommon(f,member)
+      writeCommon(f,member.to_customer)
     end
 	end 
 
