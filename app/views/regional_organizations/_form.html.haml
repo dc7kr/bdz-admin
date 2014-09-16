@@ -14,11 +14,11 @@
   = f.label :jugend_url, t("regional_organization.jugend_url", :default => "Jugend url"), :class => :label
   = f.text_field :jugend_url, :class => 'text_field'
 .group
-  = f.label :konto, t("regional_organization.konto"), :class => :label
-  = f.number_field :konto, :class => 'number_field'
+  = f.label :iban, t("regional_organization.iban"), :class => :label
+  = f.text_field :iban, :class => 'text_field'
 .group
-  = f.label :blz, t("regional_organization.blz"), :class => :label
-  = f.number_field :blz, :class => 'number_field'
+  = f.label :bic, t("regional_organization.bic"), :class => :label
+  = f.text_field :bic, :class => 'text_field'
 .group.navform.wat-cf
   %button.button{:type => "submit"}
     = image_tag("web-app-theme/icons/tick.png", :alt => "#{t("web-app-theme.save", :default => "Save")}")

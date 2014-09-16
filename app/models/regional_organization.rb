@@ -1,6 +1,11 @@
 class RegionalOrganization < ActiveRecord::Base
 
+  validates :iban, :iban => true
+  validates :bic, :bic => true
+
   has_many :functions
+
+  include IbanHelper
 
   #//validates :blz , :blz => true
   #validates :konto, :konto => true
@@ -55,5 +60,9 @@ class RegionalOrganization < ActiveRecord::Base
       end
     end
     return share
+  end
+
+  def iban_calc
+      compute_iban(konto,blz)
   end
 end

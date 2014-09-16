@@ -3,7 +3,7 @@ class IbanValidator < ActiveModel::EachValidator
     #record.errors.add attribute, I18n.t('errors.iban.required') if value.blank?
 
     if value.blank? then 
-      if record.za=='L' then
+      if record.has_attribute?(:za) and  record.za=='L' then
         record.errors.add attribute, I18n.t('errors.iban.required_for_dd')
         return
       else

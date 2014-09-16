@@ -6,43 +6,31 @@
       %li.active= link_to "#{t("web-app-theme.show", :default => "Show")}", regional_organization_path
   .content
     .inner
-      %p
-        %b
-          = label :regional_organization, :nummer
-          \:
-        = @regional_organization.nummer
-      %p
-        %b
-          = label :regional_organization, :name
-          \:
-        = @regional_organization.name
-      %p
-        %b
-          = label :regional_organization, :subname
-          \:
-        = @regional_organization.subname
-      %p
-        %b
-          = label :regional_organization, :homepage
-          \:
-        = link_to @regional_organization.homepage,@regional_organization.homepage
-      %p
-        %b
-          = label :regional_organization, :jugend_url
-          \:
-        = link_to @regional_organization.jugend_url,@regional_organization.jugend_url
-      %p
-        %b
-          #{label :regional_organization, :jugend_url}\:
-        = @regional_organization.konto
-      %p
-        %b
-          #{label :regional_organization, :blz}\:
-        = @regional_organization.blz
+      %h2= @regional_organization.nummer
+      %h2= @regional_organization.name
+      %table
+        %tr
+          %td.label= label :regional_organization, :subname
+          %td= @regional_organization.subname
+        %tr
+          %td.label=label :regional_organization,:homepage
+          %td= link_to @regional_organization.homepage,@regional_organization.homepage
+        %tr
+          %td.label=label :regional_organization,:jugend_url
+          %td= link_to @regional_organization.jugend_url,@regional_organization.jugend_url
+        %tr
+          %td.label= label :regional_organization, :iban
+          %td= @regional_organization.iban
+        %tr
+          %td.label= label :regional_organization,:bic
+          %td= @regional_organization.bic
+
       .wat-cf
         = link_to_edit @regional_organization
-
         = del_button @regional_organization,@regional_organization
+
+    %table
+      = render @functions
 
 
 - content_for :sidebar, render(:partial => 'sidebar.show')
