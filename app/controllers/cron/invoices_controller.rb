@@ -40,15 +40,15 @@ class Cron::InvoicesController < AuthenticatedNonResourceController
   end
 
   def gen_persons
-  	authorize! :member, :edit
-	  if (params[:year]) then
-		  year = params[:year].to_i
-	  else
-		  year = Time.now.year
-	  end
+    authorize! :member, :edit
 
-	  personMemberInvoices(year)
-	  render :text => "Generation OK."
+    current_year = Time.now.year
+
+    PersonMemberInvoicesWorker.perform_async(current_year, @current_user.id)
+
+    respond_to do |format|
+        format.html { redirect_to home_cron_path, :notice => t('cron.person_member_invoice_success') }
+    end
   end
 
   def test_gen
