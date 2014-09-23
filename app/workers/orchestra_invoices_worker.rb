@@ -4,7 +4,7 @@ require 'dtaus_writer'
 require 'invoice_helper'
 require 'fileutils.rb'
 
-class OrchestraInvoicesWorker
+class OrchestraInvoicesWorker < AbstractInvoicesWorker
   include Sidekiq::Worker
   include BulkMailHelper
   include FileArchiveHelper
@@ -20,13 +20,11 @@ class OrchestraInvoicesWorker
     }
   end
 
-
-
   def perform(year,user_id)
 
 	  tw = TexWriter.new
     datePrefix = Time.now.strftime '%Y%m%d%H%M%S'
-    sw = SEPAWriter.new(datePrefix)
+    sw = SEPAWriter.new(datePrefix, BDZ_SETTINGS)
 
     triggered_by = User.find(user_id)
 
@@ -64,7 +62,6 @@ class OrchestraInvoicesWorker
   private
   def orchestraInvoice(datePrefix, orch, year, tw, sw)
 		booking_txt = "BDZ-Beitrag "+String(year)
-		tw.write(orch,year)
 
     invoice_type = "beitragsrechnung"
 
@@ -72,6 +69,7 @@ class OrchestraInvoicesWorker
 
     invoice = currentSheet.gen_invoice
 
+		tw.write(invoice.customer,year)
 		tw.writeInvoice(invoice, 'gs',year)
 
     work_pdf_file = tw.gen_pdf(invoice_type,datePrefix, orch.mglnr)
@@ -84,36 +82,9 @@ class OrchestraInvoicesWorker
     booking.filename = invoice_file.orig_filename
 		booking.save
 
-		if ( orch.is_direct_debit? ) then
-			sw.addBooking(orch,invoice.sum,booking_txt+" "+orch.mglnr.to_s,"RCUR")
-
-			booking = MemberAccountBooking.newWithdrawal("Lastschrift "+booking_txt,currentSheet.calcInvoice)
-			booking.member_id = orch.id
-			booking.save
-    end
+    gen_dd_booking(orch, invoice, sw, year)
 
     invoice_file
-  end
-
-  def send_mail(ddFile,letterFile,triggered_by)
-
-    year = Time.now.strftime('%Y')
-    pdf_prefix= Time.now.strftime '%Y%m%d'
-
-    users = User.where("role like ? or role like ?", "%accounting%", "%admin%")
-
-    base_url = cron_downloads_url
-    invoices_url = base_url+"?year="+year+"&filename="+letterFile.orig_filename
-    dd_url=nil
-
-    if ( ddFile != nil ) then
-      dd_url = base_url+"?year="+year+"&filename="+ddFile.orig_filename
-    end
-
-    users.each do |user| 
-		  AdminNotifier.newinvoices_notification(user, invoices_url, dd_url,triggered_by).deliver
-   		logger.info 'sent to %s' % user.email
-	  end
   end
 
 end

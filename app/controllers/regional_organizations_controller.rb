@@ -21,6 +21,9 @@ class RegionalOrganizationsController < AuthenticatedController
 	@lastYear = Time.now.year-1
     @regional_organization = RegionalOrganization.find(params[:id])
 
+
+    @functions = Function.includes(:board_contact).where(:regional_organization_id=>@regional_organization.id)
+
     respond_to do |format|
       format.html # show.html.erb
       format.json { render :json => @regional_organization }
