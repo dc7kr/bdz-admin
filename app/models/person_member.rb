@@ -194,4 +194,13 @@ class PersonMember < ActiveRecord::Base
 
     cust
   end
+
+  def gen_invoice 
+    invoice = Invoice.new("Beitragsrechnung "+Time.now.year.to_s)
+    invoice.customer = to_customer
+
+    invoice << InvoiceItem.new(1,tariff.amount, 'Beitrag'+ tariff.description)
+
+    invoice
+  end
 end
