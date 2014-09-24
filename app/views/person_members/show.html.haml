@@ -6,12 +6,6 @@
       %h2= @person_member.mglnr
       %h2=  @person_member.fullname
       %table
-        %tr
-          %td.label #{t("member.salutation")}:
-          %td= t("common.salutations."+@person_member.anrede)
-        %tr
-          %td.label #{t("common.fullname")}:
-          %td= @person_member.fullname
         = render @person_member.member,:partial=>"member"
         %tr
           %td.label #{t("person_member.birthday")}:
