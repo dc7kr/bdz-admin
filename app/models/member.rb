@@ -25,8 +25,9 @@ class Member < ActiveRecord::Base
   end
 
   def is_direct_debit?
-	  za == 'L'
+	  za == 'L' and valid?
   end
+
   def fullname 
      result =''
      if ( vorname ) 
@@ -87,7 +88,8 @@ class Member < ActiveRecord::Base
   end
 
   def to_customer
-    c = Customer.new(mglnr, name)
+    dd = is_direct_debit? 
+    c = Customer.new(mglnr, name, dd)
     c.entity = self
     c.street = strasse
     c.zip = plz
@@ -95,8 +97,10 @@ class Member < ActiveRecord::Base
     c.country = country_code
     c.sig_date = sig_date 
     c.mandate_id =  mandate_id 
-    c.iban = iban
-    c.bic = bic
+    if dd then
+      c.iban = iban
+      c.bic = bic
+    end
 
     c
   end

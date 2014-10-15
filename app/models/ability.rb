@@ -33,6 +33,27 @@ class Ability
       can :read, OrchestraMember
     end
 
+    restr = user.restricting_entity
+
+    if ( not restr.nil? and restr.class == RegionalOrganization ) then
+
+        can :read, MemberAccountBooking do |mb|
+          mb.member.regional_organization == restr
+        end
+
+        can :read, Orchestra do |o|
+          o.member.regional_organization == restr
+        end
+
+        can :read, PersonMember do |p|
+          p.member.regional_organization == restr
+        end
+
+        can :read, OrchestraMember do |om|
+          om.orchestra.member.regional_organization == restr
+        end
+    end
+
     if ( user.is_member? )
 		  can :manage, PersonMember, :mglnr =>user.username
 		  can :manage, Orchestra, :member_id=>420

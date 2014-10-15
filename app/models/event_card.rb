@@ -140,7 +140,7 @@ class EventCard < ActiveRecord::Base
   end
 
   def to_customer
-    cust = Customer.new(id,name)  
+    cust = Customer.new(id,name, false)  
     if street.nil? then
       cust.street = "- via mail -"
     else

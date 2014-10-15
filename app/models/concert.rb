@@ -1,5 +1,7 @@
 class Concert < ActiveRecord::Base
 
+  validates_presence_of :eintritt
+
   scope :public, where('visible=1 and datum >= now()')
 	scope :inactive, where('visible=0')
 
