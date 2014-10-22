@@ -1,0 +1,24 @@
+%h1 Listing homepages
+.block
+  .secondary-navigation
+    =render :partial=>'nav'
+  .content
+    %h2.title
+      = t("common.all")
+      Orchester
+    .inner
+      #entry_info
+        = page_entries_info @homepages
+      %table.table
+        %tr
+          %th Abbrev
+          %th Mitglnr
+          %th Name
+          %th Created
+          %th Lastchange
+          %th Redir url
+          %th
+        = render @homepages
+    %br
+
+= link_to 'New Homepage', new_homepage_path

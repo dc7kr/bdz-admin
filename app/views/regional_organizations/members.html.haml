@@ -38,4 +38,26 @@
           %td
           %td=format_currency(@personSum,'EUR')
       %b Summe: #{format_currency(@personSum+@orchSum,'EUR')}
+
+    %h3 Ensembles
+    %table.table
+      %tr
+        %td
+          %tr=t("member.mglnr")
+          %tr=t("report_sheet.child_ens")
+          %tr=t("report_sheet.youth_ens")
+          %tr=t("report_sheet.adult_ens")
+          %tr=t("report_sheet.senior_ens")
+          %tr=t("report_sheet.chamber_ens")
+          %tr=t("report_sheet.total_ensembles")
+      = render :partial => "ensemble", :collection => @ensembles
+      %tr
+        %td=t("common.sum")
+        %td=@ens_sum[:child_ens]
+        %td=@ens_sum[:youth_ens]
+        %td=@ens_sum[:adult_ens]
+        %td=@ens_sum[:senior_ens]
+        %td=@ens_sum[:chamber_ens]
+        %td=@ens_sum[:total]
+
 - content_for :sidebar, render(:partial => 'sidebar')

@@ -11,6 +11,20 @@
           %td.label #{t("user.email")}:
           %td= @user.email
         %tr
+          %td.label #{t("user.roles")}:
+          %td= @user.roles.join(", ")
+        %tr
+          %td.label #{t("user.entity_class")}:
+          %td= @user.entity_class
+        %tr
+          %td.label #{t("user.entity_id")}:
+          %td= @user.entity_id
+        %tr
+          %td.label #{t("user.restricting_entity")}:
+          %td= @user.restricting_entity
+
+      
+        %tr
           %td.label #{t("user.auth_token")}:
           %td= @user.authentication_token
 
