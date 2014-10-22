@@ -113,6 +113,30 @@ class RegionalOrganizationsController < AuthenticatedController
 	  @orchestras =  Orchestra.includes([:member,:report_sheets]).where('members.regional_organization_id =?',params[:id]).order('members.mglnr')
 	  @person_members = PersonMember.includes(:member,:tariff).where('members.regional_organization_id = ?',params[:id]).order('members.mglnr')
 
+    @ensembles = Array.new
+
+    @ens_sum = Hash.new 
+    @ens_sum[:child_ens ] =  0 
+    @ens_sum[:youth_ens] = 0
+		@ens_sum[:adult_ens] = 0
+    @ens_sum[:senior_ens] = 0
+    @ens_sum[:chamber_ens] = 0
+    @ens_sum[:total] = 0 
+  
+    @orchestras.each do |o|
+      lr = o.lastReportSheet
+      ensemble = Hash.new 
+      ensemble[:mglnr] =o.mglnr
+      ensemble[:rs] = lr 
+      @ensembles << ensemble
+      @ens_sum[:child_ens]+=lr.child_ens unless lr.child_ens.nil?
+      @ens_sum[:youth_ens]+=lr.youth_ens unless lr.youth_ens.nil?
+      @ens_sum[:adult_ens]+=lr.adult_ens unless lr.adult_ens.nil?
+      @ens_sum[:senior_ens]+=lr.senior_ens unless lr.senior_ens.nil?
+      @ens_sum[:chamber_ens]+=lr.chamber_ens unless lr.chamber_ens.nil?
+      @ens_sum[:total]+=lr.total_ensembles
+    end
+      
 	  respond_to do |format|
 		  format.html 
 		  format.pdf do
