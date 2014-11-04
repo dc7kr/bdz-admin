@@ -1,0 +1,34 @@
+.block
+  .secondary-navigation
+    = render :partial=>'nav'
+  .content
+    .inner
+      %table
+        %tr
+          %td=f.label :abbrev
+          %td=@homepage.abbrev
+        %tr
+          %td=f.label :mitglnr
+          %td=@homepage.mitglnr
+        %tr
+          %td=f.label :name
+          %td=@homepage.name
+        %tr
+          %td=f.label :kontakt
+          %td=@homepage.kontakt
+        %tr
+          %td=f.label :proben
+          %td=@homepage.proben
+        %tr
+          %td=f.label :descr
+          %td=@homepage.descr
+        %tr
+          %td=f.label :created
+          %td=@homepage.created
+        %tr
+          %td=f.label :lastchange
+          %td=@homepage.lastchange
+        %tr
+          %td=f.label :redir_url
+          %td=@homepage.redir_url
+

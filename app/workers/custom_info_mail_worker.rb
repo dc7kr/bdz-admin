@@ -9,6 +9,15 @@ class CustomInfoMailWorker
   include BulkMailHelper
   include UploadHelper
 
+
+  def default_url_options
+    {
+      :host =>  ActionMailer::Base.default_url_options[:host],
+      :protocol => ActionMailer::Base.default_url_options[:protocol]
+    }
+  end
+
+
   def perform(user_id,letterfile_hash, attachment_hash, subject, body, event_id, grp, via_paper)
 
     triggered_by = User.find(user_id)
@@ -77,11 +86,11 @@ class CustomInfoMailWorker
       end
     end
 
-    pdf_filename = "#{date_prefix}#{event_id}_letters.pdf"
-
-    pdf_merged_file = MailingFile.new(pdf_filename,pdf_filename,attachment.archive_folder)
-
-    merge_pdfs(letterArray, pdf_merged_file)
+    if via_paper then
+      pdf_filename = "#{date_prefix}#{event_id}_letters.pdf"
+      pdf_merged_file = MailingFile.new(pdf_filename,pdf_filename,attachment.archive_folder)
+      merge_pdfs(letterArray, pdf_merged_file)
+    end
 
     send_admin_mail(pdf_merged_file,triggered_by,results)
   end

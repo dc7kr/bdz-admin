@@ -22,7 +22,7 @@ class AbstractInvoicesWorker
     }
   end
 
-  def gen_dd_booking(member, sw, invoice, year)
+  def gen_dd_booking(sw, member, invoice, year)
 
     booking_txt = "Rechnung Nr. #{invoice.invoice_number} #{member.mglnr}"
 		if (member.is_direct_debit?) then

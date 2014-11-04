@@ -69,7 +69,6 @@ class OrchestraInvoicesWorker < AbstractInvoicesWorker
 
     invoice = currentSheet.gen_invoice
 
-		tw.write(invoice.customer,year)
 		tw.writeInvoice(invoice, 'gs',year)
 
     work_pdf_file = tw.gen_pdf(invoice_type,datePrefix, orch.mglnr)
@@ -82,7 +81,7 @@ class OrchestraInvoicesWorker < AbstractInvoicesWorker
     booking.filename = invoice_file.orig_filename
 		booking.save
 
-    gen_dd_booking(orch, invoice, sw, year)
+    gen_dd_booking(sw, orch, invoice, year)
 
     invoice_file
   end

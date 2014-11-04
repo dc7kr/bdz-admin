@@ -4,4 +4,10 @@
   .inner
     .block
       .block-content
-        %h3 Willkommen.
+        %h3 Willkommen, #{current_user.name}.
+        - restr = current_user.restricting_entity
+        - if not restr.nil?  then
+          Sie haben Zugriff auf die Daten 
+          -if restr.class == RegionalOrganization then
+            des Landesverbandes #{restr} (LV Nr. #{restr.nummer})
+        

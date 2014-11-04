@@ -1,0 +1,35 @@
+.block
+  = f.error_messages :message => "", :header_tag => :h3
+.group
+  %table
+    %tr
+      %td=f.label :abbrev
+      %td=f.text_field :abbrev
+    %tr
+      %td=f.label :mitglnr
+      %td=f.text_field :mitglnr
+    %tr
+      %td=f.label :name
+      %td=f.text_field :name
+    %tr
+      %td=f.label :kontakt
+      %td=f.text_field :kontakt
+    %tr
+      %td=f.label :proben
+      %td=f.text_field :proben
+    %tr
+      %td=f.label :descr
+      %td=f.text_area :descr
+    %tr
+      %td=f.label :created
+      %td=f.text_field :created
+    %tr
+      %td=f.label :lastchange
+      %td=f.text_field :lastchange
+    %tr
+      %td=f.label :redir_url
+      %td=f.text_field :redir_url
+
+  =submit_button()
+  %span.text_button_padding &nbsp;
+  = cancel_button()

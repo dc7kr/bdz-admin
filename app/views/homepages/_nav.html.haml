@@ -1,0 +1,8 @@
+%ul.wat-cf
+  %li{ :class => 'first'}= link_to_up_path t("common.up"), home_member_data_path
+  %li{ :class => tabActiveClass(@current_action,'index','first')}= link_to t("common.list"), homepages_path
+  -if (@homepage)
+    %li{ :class => tabActiveClass(@current_action,'show',nil)}= link_to t("common.show"), '#'
+    %li{ :class => tabActiveClass(@current_action,'edit',nil)}= link_to t("common.show"), edit_homepage_path(@homepage)
+  %li{:class => tabActiveClass(@current_action,'new',nil)}= link_to "#{t("common.new", :default => "New")}", new_homepage_path
+

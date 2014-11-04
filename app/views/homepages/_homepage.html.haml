@@ -1,0 +1,13 @@
+%tr
+  %td.first= homepage.abbrev
+  %td= homepage.mitglnr
+  %td= homepage.name
+  %td= l homepage.created unless homepage.created.nil?
+  %td= l homepage.lastchange unless homepage.lastchange.nil?
+  %td= homepage.redir_url
+  %td
+    = link_to_show homepage
+    = link_to_edit homepage
+    = link_to_delete homepage
+
+

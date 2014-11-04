@@ -59,7 +59,7 @@ class PersonMemberInvoicesWorker  < AbstractInvoicesWorker
     booking.filename = invoice_file.orig_filename
 		booking.save
 
-    gen_dd_booking(person, sw, invoice, year)
+    gen_dd_booking(sw, person, invoice, year)
 
     invoice_file
   end

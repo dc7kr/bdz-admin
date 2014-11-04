@@ -60,6 +60,7 @@
     %tr
       %td.label= f.label :konto, t("member.iban")
       %td= f.text_field :iban, :class => 'iban_field'
+      %td= link_to "Calculate", member_tools_iban_calculator_path({ :konto => @orchestra.konto, :blz => @orchestra.blz,:entity=>"orchestra"}),'data-popup' => true
     %tr
       %td.label= f.label :bic, t("member.bic")
       %td= f.text_field :bic, :class => 'bic_field'
