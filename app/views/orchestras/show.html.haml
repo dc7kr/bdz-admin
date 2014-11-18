@@ -7,6 +7,8 @@
       %h3=  @orchestra.orchName
       - if not @orchestra.zero_member_fee_balance?
         %div.entity_warning=t("member.nonzero_balance")
+      - if @orchestra.is_direct_debit? then
+        %div.entity_info=t("member.is_direct_debit")
       %table
         = render @orchestra.member,:partial=>"member"
         %tr
