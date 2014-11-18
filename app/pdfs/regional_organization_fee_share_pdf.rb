@@ -57,7 +57,8 @@ class RegionalOrganizationFeeSharePdf < Prawn::Document
 
 
     @result += @orchestras.map do |item|
-      if item.nil? next
+      if item.nil? then next
+      end
 
       @count+=item.currentTotal unless item.currentTotal.nil?
       @sum+=item.currentLvShare unless item.currentLvShare.nil?
