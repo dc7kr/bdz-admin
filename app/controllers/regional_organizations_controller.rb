@@ -129,12 +129,14 @@ class RegionalOrganizationsController < AuthenticatedController
       ensemble[:mglnr] =o.mglnr
       ensemble[:rs] = lr 
       @ensembles << ensemble
-      @ens_sum[:child_ens]+=lr.child_ens unless lr.child_ens.nil?
-      @ens_sum[:youth_ens]+=lr.youth_ens unless lr.youth_ens.nil?
-      @ens_sum[:adult_ens]+=lr.adult_ens unless lr.adult_ens.nil?
-      @ens_sum[:senior_ens]+=lr.senior_ens unless lr.senior_ens.nil?
-      @ens_sum[:chamber_ens]+=lr.chamber_ens unless lr.chamber_ens.nil?
-      @ens_sum[:total]+=lr.total_ensembles
+      if not lr.nil? then
+        @ens_sum[:child_ens]+=lr.child_ens unless lr.child_ens.nil?
+        @ens_sum[:youth_ens]+=lr.youth_ens unless lr.youth_ens.nil?
+        @ens_sum[:adult_ens]+=lr.adult_ens unless lr.adult_ens.nil?
+        @ens_sum[:senior_ens]+=lr.senior_ens unless lr.senior_ens.nil?
+        @ens_sum[:chamber_ens]+=lr.chamber_ens unless lr.chamber_ens.nil?
+        @ens_sum[:total]+=lr.total_ensembles
+      end
     end
       
 	  respond_to do |format|
