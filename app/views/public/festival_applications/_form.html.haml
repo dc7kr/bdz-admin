@@ -51,7 +51,7 @@
               %td=person_f.text_field :city
             %tr
               %td=person_f.label :country
-              %td=person_f.country_select( :contact_person, :country_code ) 
+              %td=person_f.country_select( :contact_person, :country_code ,nil, :iso_codes=>true) 
             %tr
               %td=person_f.label :phone
               %td=person_f.text_field :phone
