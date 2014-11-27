@@ -1,6 +1,6 @@
 require 'zip/zip'
 
-class DtausWriter  < DirectDebitWriter 
+class DtausWriter  < BankTransferWriter
 
   def initialize(datePrefix=nil)
     super(datePrefix)

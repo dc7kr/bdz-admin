@@ -17,14 +17,17 @@ var fade_flash = function() {
 fade_flash();
 
 var show_ajax_message = function(msg, type) {
-    $("#flash-message").html('<div class="message '+type+'" id="flash_'+type+'"><p>'+msg+'</p></div>')
-    fade_flash()
+    $("#flash-message").html('<div class="message '+type+'" id="flash_'+type+'"><p>BLABLA'+msg+'</p></div>');
+    fade_flash();
 }
 
 $(document).ajaxComplete(function(event,xhr,settings)  {
     msg = xhr.getResponseHeader('X-Message');
     type = xhr.getResponseHeader('X-Message-Type');
-    show_ajax_message(msg, type);
+
+    if (msg != null) {
+      show_ajax_message(msg, type);
+    }
 }
 );
 

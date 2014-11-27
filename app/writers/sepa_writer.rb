@@ -1,6 +1,6 @@
 require 'sepa_tool'
 
-class SEPAWriter < DirectDebitWriter
+class SEPAWriter < BankTransferWriter
   
   def initialize(datePrefix,settings)
     super(datePrefix)

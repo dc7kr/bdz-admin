@@ -70,12 +70,12 @@ class RegionalOrganizationBookingsController < AuthenticatedController
   # DELETE /regional_organization_bookings/1.json
   def destroy
     @booking = RegionalOrganizationBooking.find(params[:id])
-	@lv = @booking.regional_organization_id
+  	@lv = @booking.regional_organization_id
     @booking.destroy
 
     respond_to do |format|
       format.html { redirect_to regional_organization_acct_bookings_path(@lv) }
-      format.json { head :no_content }
+      format.json { render :json=>{ :status=>"ok", :op=> 'delete', :entityId=>@booking.id } }
     end
   end
 

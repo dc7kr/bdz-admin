@@ -254,7 +254,7 @@ BDZAdmin::Application.routes.draw do
       get :create_annual_payment
       get :share_overview
     end
-    resources :regional_organization_bookings, :as => :acct_bookings do
+    resources :regional_organization_bookings, :shallow=>true do
     member do 
       get 'download'
     end
@@ -458,7 +458,7 @@ BDZAdmin::Application.routes.draw do
    match 'invoices/gen_orchestras' => 'invoices#gen_orchestras'
    match 'invoices/gen_persons' => 'invoices#gen_persons'
    match 'invoices/ping' => 'invoices#ping'
-    match 'lv_dtaus/index' => 'lv_dtaus#index'
+    match 'lv_fee_bookings/index' => 'lv_fee_bookings#index'
     match 'reminders/report_sheet' => 'reminders#report_sheet'
     match 'reminders/payment' => 'reminders#payment'
     match 'cancellations' => 'batch#cancellations'

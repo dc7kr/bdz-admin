@@ -1,4 +1,4 @@
-class DirectDebitWriter
+class BankTransferWriter
   attr_accessor :datePrefix, :outfile
 
 	def self.workdir

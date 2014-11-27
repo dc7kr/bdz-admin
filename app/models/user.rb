@@ -37,6 +37,10 @@ class User < ActiveRecord::Base
     end
   end
 
+  def self.for_admin_notify
+    where("role like ? or role like ?", "%accounting%", "%admin%")
+  end
+
   def first_role
     if (roles.empty?)
 		  return 'personal'

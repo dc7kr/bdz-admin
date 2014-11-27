@@ -65,4 +65,10 @@ class RegionalOrganization < ActiveRecord::Base
   def iban_calc
       compute_iban(konto,blz)
   end
+
+  def to_customer
+    customer = Customer.new("LV#{nummer}",name, true)
+    customer.iban= iban
+    customer.bic = bic
+  end
 end
