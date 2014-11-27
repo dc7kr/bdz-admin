@@ -6,7 +6,7 @@ eine neue Ehrungsrechnung für Mitgliedsnummer <%= @mglnr %> wurde erstellt.
 
 <%- if @is_direct_debit then %>
 Die zugehörige DTAUS-Datei ist unter <br/>
-<a href="<%= @dtaus_url %>"><%= @dtaus_url %></a><br/>
+<a href="<%= @sepafile_url %>"><%= @sepafile_url %></a><br/>
 verfuegbar.
 <%- else %>
 <br/>
