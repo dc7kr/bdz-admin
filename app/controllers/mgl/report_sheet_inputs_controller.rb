@@ -305,6 +305,15 @@ class Mgl::ReportSheetInputsController < ApplicationController
 	  def confirm 
 			@rsi = ReportSheetInput.includes(:orchestra).find(params[:id])
 			@rs = @rsi.report_sheet
+
+      cur_year = Time.now.strftime '%Y'
+      event_id = "MB_#{cur_year}_CONFIRM"
+
+      tool = MailingTool.new(cur_year.to_s,"gs",event_id,"Bestaetigung Meldebogeneingabe",false);
+
+      letterArray = Array.new
+      mailer_params = { :rsi => @rsi }
+
 			if ( @rs.orchestra == nil ) then
 				@rs.orchestra = @rsi.orchestra
         @rs.report_date = Time.now
@@ -322,15 +331,23 @@ class Mgl::ReportSheetInputsController < ApplicationController
 
    				@users.each do |user|
 					AdminNotifier.new_report_sheet(user,@rs).deliver
-       				Rails.logger.info 'sent to %s' % user.email
+       		Rails.logger.info 'sent to %s' % user.email
    				end
 			end
+
+      datePrefix = Time.now.strftime("%Y%m%d%H%M%S")
+      filename = "#{datePrefix}_meldebogen_#{@rsi.report_sheet.year}_#{@rsi.orchestra.mglnr}.pdf"
+		  pdf = ReportSheetInputPdf.new(@rsi, view_context)
+      pdf_file = MailingFile.new(filename, filename, Time.now.strftime("%Y"))
+      pdf.render_file pdf_file.full_path
+      result = tool.deliver_mailing(ReportSheetConfirmationMail, @rsi.orchestra,  pdf_file,  nil, nil, mailer_params)
 
 			respond_to do |format|
 				format.html
 				format.pdf do
-				pdf = ReportSheetInputPdf.new(@rsi, view_context)
-				send_data pdf.render, filename: "meldebogen_#{@rsi.report_sheet.year}_#{@rsi.orchestra.mglnr}.pdf",
+  
+
+				send_data File.new(pdf_file.full_path), filename: "meldebogen_#{@rsi.report_sheet.year}_#{@rsi.orchestra.mglnr}.pdf",
 									  type: "application/pdf",
 									  disposition: "inline"
 				end
