@@ -29,7 +29,7 @@ class FestivalApplication < ActiveRecord::Base
 
 
   def to_customer
-    cust = Customer.new(id, contact_person.fullname)
+    cust = Customer.new(id, contact_person.fullname, false)
     cust.id = id
     cust.entity = self
 
