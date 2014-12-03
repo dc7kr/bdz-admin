@@ -4,19 +4,21 @@ module PDFHelper
 
 	def gen_anschreiben(orchestra,rsi)
 		year = rsi.report_sheet.year
-    	url = BDZ_SETTINGS['meldebogen_url']
+    url = BDZ_SETTINGS['meldebogen_url']
 		dateprefix = Time.now.strftime '%Y%m%d%H%M%S'
-    rel_target = year.to_s+"/"+dateprefix+"_"+orchestra.mglnr.to_s+"_meldebogen_anschreiben.pdf"
-		target = BDZ_SETTINGS['invoice_archive_dir']+"/"+rel_target
+
+    filename = dateprefix+"_"+orchestra.mglnr.to_s+"_meldebogen_anschreiben.pdf"
+    file = MailingFile.new("meldebogen_anschreiben.pdf", filename, Time.now.strftime("%Y"))
+
 		template_file = BDZ_SETTINGS['template_dir']+"/meldebogen_anschreiben."+year.to_s+".template.pdf"
-		year = rsi.report_sheet.year
+
 		if ( orchestra.anrede != nil and orchestra.anrede.length > 0 ) then
 			anrede = t('common.salutation_d.'+orchestra.anrede)
 		else
 			anrede =""
 		end
   
-    Prawn::Document.generate(target, :template => template_file) do
+    Prawn::Document.generate(file.full_path, :template => template_file) do
       bounding_box([21,360],:width=>500,:height => 50) do
         font "Times-Roman"
         font_size 11
@@ -40,14 +42,15 @@ module PDFHelper
 			  text from['ort']+", "+l_date
 		  end
       
-      if (orchestra.za == 'L') then 
-        bounding_box([21,100],:width=>500,:height=>50) do
+      if (orchestra.is_direct_debit?) then 
+        bounding_box([21,330],:width=>500,:height=>50) do
           text I18n.t('report_sheet_input.dd_to_sepa_valid', iban:orchestra.iban, bic:orchestra.bic, mref:orchestra.mref)
         end
 
       end
     end
+
 	  # return filename
-	  rel_target
-    end
+    return file
+ end
 end

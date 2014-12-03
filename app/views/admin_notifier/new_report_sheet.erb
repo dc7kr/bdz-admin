@@ -1,6 +1,6 @@
 Hallo <%= @recipient.name %>, <br/>
 <br/>
-der Meldebogen für Mitgliedsnummer <% @rs.orchestra.mglnr %> wurde eingereicht.<br/>
+der Meldebogen für Mitgliedsnummer <%= @rs.orchestra.mglnr %> wurde eingereicht.<br/>
 <br/>
 Direkter Link zum <%= link_to "Meldebogen", orchestra_report_sheet_url(@rs.orchestra,@rs) %>.<br/>
 

@@ -3,6 +3,7 @@ class ReportSheetMailingsController < AuthenticatedNonResourceController
 	include PDFHelper
 	include NotifyHelper
   include BulkMailHelper
+  include FileArchiveHelper
 
 
 	def gen_mailings
@@ -14,20 +15,26 @@ class ReportSheetMailingsController < AuthenticatedNonResourceController
 		@letterCount = 0;
 		@results =  Array.new
 
+    date_prefix = Time.now.strftime '%Y%m%d'
+    cur_year = Time.now.strftime "%Y"
+
 		rs_year = nil
-		if params[:year]==nil then
+		if params[:year].nil? then
 			rs_year = Time.now.year+1
 		else
 			rs_year = params[:year].to_i
 		end
 
 		event_id = "MB_"+rs_year.to_s
+    subject="Meldebogen Anschreiben "+rs_year.to_s
+
+    tool = MailingTool.new(cur_year.to_s,"gs",event_id,subject);
 
     @orchestras = Orchestra.includes(:member)
 
-		to_merge = Array.new
+    results = Array.new
 
-    subject="Meldebogen Anschreiben "+rs_year.to_s
+    letterArray = Array.new
 
 		@orchestras.each do |orchestra|
 			if ( orchestra.has_notify_event?(event_id))
@@ -39,51 +46,42 @@ class ReportSheetMailingsController < AuthenticatedNonResourceController
 
         doc_dir = BDZ_SETTINGS["invoice_archive_dir"]+"/"
 
-	   			@att_file = "Anschreiben_Meldebogen_"+rs_year.to_s+".pdf"
-				pdf = File.new(doc_dir+mailing_pdf)
-				@att_data = pdf.read
-				pdf.close
+        mailer_params = { :rsi => @rsi }
 
-				if (orchestra.email != nil and orchestra.email.length > 0 ) then
-					begin 
-						ReportSheetInputMailer.notify(@rsi,rs_year,@att_file,@att_data).deliver
+        result = tool.deliver_mailing(ReportSheetInputMailer, orchestra,  mailing_pdf,  nil, letterArray, mailer_params)  
 
-						recordMailSuccess(event_id,orchestra, subject, mailing_pdf)
-						@orchCount=@orchCount+1
-					rescue
-						recordMailFailure(event_id,orchestra,$!)
-						@result = { :err=>$!, :entity=>orchestra,:type =>"O"}
-						@results.push(@result)
-						@orchFailCount+=1
-						# if mail fails we send a PDF via snail mail ;)
-						to_merge << mailing_pdf
-						@letterCount+=1
-						recordLetter(event_id,orchestra, subject,mailing_pdf)
-					end
-				else
-					@letterCount+=1
-					recordLetter(event_id,orchestra, subject, mailing_pdf)
-					to_merge << mailing_pdf
-				end # has email 
+        results << result
+
+        if result[:success]==true then
+            @orchCount+=1;
+        else 
+            @orchFailCount+=1;
+        end
 			end # not yet handled
 		end # orchestras.each 
-		# POST loop
-		if ( to_merge.size > 0 ) then
-			docs_dir = BDZ_SETTINGS['docs_archive_dir']+"/"+rs_year.to_s
-			date_prefix = Time.now.strftime '%Y%m%d%H%M%S_'
-			out_file = date_prefix+"anschreiben_merge.pdf"
 
-    		merge_pdfs(docs_dir, to_merge,out_file)
-   			base_url = cron_downloads_url
-   			doc_url = base_url+"?year="+rs_year.to_s+"&filename="+out_file
 
-			@users = admin_notify_users
+    pdf_merged_file = nil
+    doc_url=nil
 
-   			@users.each do |user|
-       			AdminNotifier.report_sheet_notification(user, doc_url,@current_user).deliver
-       			Rails.logger.info 'sent to %s' % user.email
-   			end
-		end
+    if letterArray.size > 0 then 
+      pdf_filename = "#{date_prefix}#{event_id}_meldebogen_anschreiben.pdf"
+      pdf_merged_file = MailingFile.new(pdf_filename,pdf_filename,cur_year)
+      merge_pdfs(letterArray, pdf_merged_file)
+    end
+
+
+    if not pdf_merged_file.nil? then
+   	  base_url = cron_downloads_url
+   	  doc_url = base_url+"?year="+cur_year.to_s+"&filename="+pdf_merged_file.orig_filename
+    end
+
+		@users = admin_notify_users
+
+   	@users.each do |user|
+      AdminNotifier.report_sheet_notification(user, doc_url,@current_user).deliver
+      Rails.logger.info 'sent to %s' % user.email
+   	end
   end
 
 end

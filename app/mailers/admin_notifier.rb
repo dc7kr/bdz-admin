@@ -15,10 +15,10 @@ class AdminNotifier < ActionMailer::Base
 	 mail(:to => user.email, :subject => "Meldebogen Anschreiben")
   end
 
-  def newinvoices_notification(user, invoices, dtaus, current_user)
+  def newinvoices_notification(user, invoices, sepafile, current_user)
 	 @recipient = user
 	 @invoice_url = invoices
-   @dd_url = dtaus		 
+   @dd_url = sepafile		 
 
 	 @current_user = current_user 
 	 mail(:to => user.email, :subject => "BDZ Rechnungslauf")
@@ -41,31 +41,31 @@ class AdminNotifier < ActionMailer::Base
 	 mail(:to => user.email, :subject => "BDZ Mahnungslauf")
   end
   
-  def new_lv_dtaus_notification(user, dtaus, current_user)
-	 @recipient = user
-     @dtaus_url = dtaus		 
+  def new_lv_ct_notification(user, sepafile, current_user)
+    @recipient = user
+    @sepafile_url = sepafile		 
 
-	 @current_user = current_user 
-	 mail(:to => user.email, :subject => "BDZ LV Beitragsanteile DTAUS")
+    @current_user = current_user 
+    mail(:to => user.email, :subject => "BDZ LV Beitragsanteile SEPA CT")
   end
   
-  def newdistinction_notification(dtaus, invnr, orch)
-     @dtaus_url = dtaus
-	 @is_direct_debit = orch.is_direct_debit?
+  def newdistinction_notification(sepafile, invnr, orch)
+    @sepafile_url = sepafile
+	  @is_direct_debit = orch.is_direct_debit?
 
-	 @invoice_number = invnr
-	 @mglnr = orch.mglnr
+	  @invoice_number = invnr
+	  @mglnr = orch.mglnr
 
-	if ENV["RAILS_ENV"] == "production" 
-		@name = BDZ_SETTINGS['contacts']['treasurer']['name']
- 		@user =	BDZ_SETTINGS['contacts']['treasurer']['mail'] 
-	else
-		@name = BDZ_SETTINGS['contacts']['admin']['name']
-		@user = BDZ_SETTINGS['contacts']['admin']['mail']
-	end
-	
-	@cc = BDZ_SETTINGS['contacts']['admin']['mail']
+    if ENV["RAILS_ENV"] == "production" 
+      @name = BDZ_SETTINGS['contacts']['treasurer']['name']
+      @user =	BDZ_SETTINGS['contacts']['treasurer']['mail'] 
+    else
+      @name = BDZ_SETTINGS['contacts']['admin']['name']
+      @user = BDZ_SETTINGS['contacts']['admin']['mail']
+    end
+    
+    @cc = BDZ_SETTINGS['contacts']['admin']['mail']
 
-	mail(:to => @user, :cc => @cc, :subject => "Neue Ehrungsrechnung Nr. "+invnr);
+    mail(:to => @user, :cc => @cc, :subject => "Neue Ehrungsrechnung Nr. "+invnr);
   end
 end

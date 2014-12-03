@@ -5,7 +5,7 @@ module BulkMailHelper
     doc=nil
     filled_template = nil 
 
-    doc = prepare_pdf(rcpt,our_contact,File.join(BDZ_SETTINGS["invoice_archive_dir"],template.filename))
+    doc = prepare_pdf(rcpt,our_contact,template.full_path)
     suffix=event_id+"_"+rcpt.mglnr.to_s
 
     filled_filename = date_prefix+suffix+".pdf"
@@ -17,15 +17,34 @@ module BulkMailHelper
   end
 
 
-  def prepare_pdf(rcpt,our_contact, att_file)
+  def prepare_pdf(rcpt,our_contact, att_file, print_date = true)
     doc = CompanyPaperDocument.new(att_file)
     doc.print_address(rcpt)
-    doc.print_date(BDZ_SETTINGS["contacts"][our_contact]["ort"],Time.now)
+    if print_date then 
+      doc.print_date(BDZ_SETTINGS["contacts"][our_contact]["ort"],Time.now)
+    end
 
     doc
   end
 
   def store_pdf(date_prefix, year, suffix,doc)
     arch_dir = File.join(BDZ_SETTINGS['invoice_archive_dir'],year.to_s)
+  end
+
+
+  def send_admin_mail(letterFile,triggered_by,results)
+    year = Time.now.strftime('%Y')
+    pdf_prefix= Time.now.strftime '%Y%m%d'
+
+    users = User.where("role like ? or role like ?", "%accounting%", "%admin%")
+
+    base_url = cron_downloads_url
+    letters_url = base_url+"?year="+year+"&filename="+letterFile.orig_filename
+    dd_url=nil
+
+    users.each do |user| 
+		  AdminNotifier.new_custom_info_mail_notification(user, letters_url, results, triggered_by).deliver
+   		logger.info 'sent to %s' % user.email
+	  end
   end
 end

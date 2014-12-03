@@ -16,6 +16,7 @@
             %th= t('booking.amount')
             %th= t('booking.has_reference')
             %th.last
-        = render @bookings
+        %tbody#member_account_bookings
+          = render @bookings
 
 - content_for :sidebar, render(:partial => 'sidebar')

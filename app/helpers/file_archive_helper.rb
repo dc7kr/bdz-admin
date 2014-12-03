@@ -15,6 +15,7 @@ module FileArchiveHelper
 
 		Dir.chdir(out_file.full_dir)
 		cmd = "/usr/bin/pdftk "+to_merge.join(" ")+" output "+out_file.full_path
+    Rails.logger.debug("exec: #{cmd}")
 		system(cmd)
 	end
 end
