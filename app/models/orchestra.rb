@@ -217,7 +217,7 @@ class Orchestra < ActiveRecord::Base
 
 	  ids = Set.new
 	  accounts.each do |account|
-      if (account[1]<-0,1) then
+      if (account[1]<-0.1) then
         ids.add(account[0])
 	    end
 	  end
