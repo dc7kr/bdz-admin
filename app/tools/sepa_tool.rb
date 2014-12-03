@@ -64,13 +64,12 @@ class SEPATool
       name:       @company,
       bic:        @bic,
       iban:       @iban,
-      creditor_identifier: @creditor_id
     )
 
     credit_transfers.each do |c|
       # Second: Add transactions
       sct.add_transaction(
-        name:                   c.name,
+        name:                   c.customer.name,
         bic:                    c.bic,
         iban:                   c.iban,
         amount:                 c.amount,

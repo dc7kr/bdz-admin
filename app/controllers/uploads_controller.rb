@@ -1,4 +1,4 @@
-class UploadsController < ApplicationController
+class UploadsController < AuthenticatedController
   # GET /uploads
   # GET /uploads.json
   def index
