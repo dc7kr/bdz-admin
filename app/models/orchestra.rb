@@ -208,7 +208,7 @@ class Orchestra < ActiveRecord::Base
   def zero_member_fee_balance?
     booking_sum = MemberAccountBooking.where("member_id = ? and booking_type in ('B','A','L')",member.id).sum(:amount)
 
-    return booking_sum >=0
+    return booking_sum >-0.1
   end
 
 
