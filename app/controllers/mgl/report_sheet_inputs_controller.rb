@@ -340,14 +340,13 @@ class Mgl::ReportSheetInputsController < ApplicationController
 		  pdf = ReportSheetInputPdf.new(@rsi, view_context)
       pdf_file = MailingFile.new(filename, filename, Time.now.strftime("%Y"))
       pdf.render_file pdf_file.full_path
-      result = tool.deliver_mailing(ReportSheetConfirmationMail, @rsi.orchestra,  pdf_file,  nil, nil, mailer_params)
 
 			respond_to do |format|
-				format.html
+				format.html do
+          result = tool.deliver_mailing(ReportSheetConfirmationMail, @rsi.orchestra,  pdf_file,  nil, nil, mailer_params)
+        end
 				format.pdf do
-  
-
-				send_data File.new(pdf_file.full_path), filename: "meldebogen_#{@rsi.report_sheet.year}_#{@rsi.orchestra.mglnr}.pdf",
+				  send_data File.new(pdf_file.full_path), filename: "meldebogen_#{@rsi.report_sheet.year}_#{@rsi.orchestra.mglnr}.pdf",
 									  type: "application/pdf",
 									  disposition: "inline"
 				end
