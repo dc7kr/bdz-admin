@@ -7,7 +7,14 @@ class CreditTransferWriter < BankTransferWriter
   end
 
   def addCreditTransfer(regional_organization,remittance_txt, amount) 
-    ct = SEPACreditTransfer.new(regional_organization.to_customer,amount) 
+    customer = regional_organization.to_customer
+
+    if not customer.is_direct_debit? then
+      Rails.logger.info("LV #{regional_organization.name} is not considered for CreditTransfer!")
+      return
+    end
+
+    ct = SEPACreditTransfer.new(customer,amount) 
     ct.remittance_txt = remittance_txt
 
     @credit_transfers << ct

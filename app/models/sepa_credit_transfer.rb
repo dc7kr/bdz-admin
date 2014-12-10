@@ -12,11 +12,19 @@ class SEPACreditTransfer
   end
 
   def iban
-    @customer.iban
+    if @customer.is_direct_debit? then
+      @customer.iban
+    else
+      nil
+    end
   end
 
   def bic
-    @customer.bic
+    if @customer.is_direct_debit? then
+      @customer.bic
+    else
+      nil
+    end
   end
 
   def end_to_end_id(prefix)
