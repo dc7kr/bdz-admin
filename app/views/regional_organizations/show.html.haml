@@ -8,6 +8,11 @@
     .inner
       %h2= @regional_organization.nummer
       %h2= @regional_organization.name
+      -if not @regional_organization.valid?
+        %h3
+          - regional_organization.errors.each do |e|
+            = e.message
+            
       %table
         %tr
           %td.label= label :regional_organization, :subname
