@@ -12,7 +12,7 @@ class Customer
   end
 
   def is_direct_debit?
-    @direct_debit and not iban.nil?  and not bic.nil?
+    @direct_debit and not iban.blank?  and not bic.blank?
   end
 
   def customer_id 
