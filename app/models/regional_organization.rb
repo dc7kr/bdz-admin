@@ -70,5 +70,7 @@ class RegionalOrganization < ActiveRecord::Base
     customer = Customer.new("LV#{nummer}",name, true)
     customer.iban= iban
     customer.bic = bic
+    
+    customer
   end
 end
