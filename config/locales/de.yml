@@ -1124,6 +1124,12 @@ de:
   activemodel:
     errors:
       models:
+        sepa/credit_transfer_transaction:
+          attributes:
+            iban:
+              invalid: "IBAN ist ungültig."
+            bic:
+              invalid: "BIC ist ungültig."
         sepa/direct_debit_transaction:
           attributes:
             amount:
