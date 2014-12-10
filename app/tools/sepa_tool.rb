@@ -67,6 +67,8 @@ class SEPATool
     )
 
     credit_transfers.each do |c|
+
+      Rails.logger.debug("Credit Transfer: #{c.iban} BIC: #{c.bic}")
       # Second: Add transactions
       sct.add_transaction(
         name:                   c.customer.name,
