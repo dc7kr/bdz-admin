@@ -36,7 +36,7 @@ class RegionalOrganization < ActiveRecord::Base
 		share[:dd_orch_part]= 0
 		share[:dd_uv]= 0
 
-		@sheets = ReportSheet.final(year).includes([:orchestra]).where("year = ? and report_date < ? ",year, before)
+		@sheets = ReportSheet.final(year).includes(orchestra: [ :member ]).where("year = ? and report_date < ? ",year, before)
 		@sheets.each do |s|
       orch = s.orchestra
 			if orch.regional_organization_id == self.id and orch.zero_member_fee_balance? then
