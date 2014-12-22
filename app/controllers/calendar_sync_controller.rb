@@ -40,6 +40,7 @@ class CalendarSyncController < AuthenticatedNonResourceController
 
 	def upload
 
+    authorize! :member, :edit
 		cal_file = open(@@bw_url)
 
 		cals = Icalendar.parse(cal_file)
