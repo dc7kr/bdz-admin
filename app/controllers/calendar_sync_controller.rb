@@ -29,7 +29,7 @@ class CalendarSyncController < AuthenticatedNonResourceController
 				conc.comment =""
 				conc.url=""
 				conc.confirmed=1
-				conc.country_id=81
+				conc.country_code="de"
 				conc.eintritt=0
 				conc.token=conc.uid
 			true
