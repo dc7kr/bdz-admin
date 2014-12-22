@@ -31,7 +31,7 @@ class CalendarSyncController < AuthenticatedNonResourceController
 				conc.confirmed=1
 				conc.country_id=81
 				conc.eintritt=0
-				conc.token=conc.uid
+				conc.token=event.uid
 			true
 		else 
 			false
