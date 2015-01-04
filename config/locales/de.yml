@@ -800,6 +800,8 @@ de:
               zero: "Bitte bestellen Sie mindestens eine Karte."
         user:
           attributes:
+            reset_password_token:
+              invalid: "Passwort-Token ist ungültig"
             email:
               taken: Diese E-Mailadresse wird bereits verwendet.
             password:
