@@ -1,6 +1,7 @@
 %ul.wat-cf
   %li.first= link_to_up_path(t('common.up'),home_public_data_path);
   %li{ :class => tabActiveClass(@current_action,'index',nil)}= link_to t("common.list"), concerts_path
+  %li{ :class => tabActiveClass(@current_action,'future',nil)}= link_to t("concert.future"), future_concerts_path
   %li{:class => tabActiveClass(@current_action,'inactive',nil)}= link_to t("common.inactive"), inactive_concerts_path
   -if (@concert) then 
     %li{:class => tabActiveClass(@current_action,'edit',nil)}= link_to t("common.edit"), edit_concert_path(@concert)

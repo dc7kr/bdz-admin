@@ -1,0 +1,30 @@
+.block
+  .secondary-navigation
+    %ul.wat-cf
+      =render :partial=>'nav'
+  .content
+    %h2.title
+      = t("common.all", :default => "All")
+      Konzerte
+    .inner
+      %table.table
+        %tr
+          %th.first 
+            = sortable "datum", t("concert.datum", :default =>"#datum#")
+          %th
+            = c_t("concert","zeit",nil)
+          %th
+            = sortable "stadt", c_t("concert","stadt","Stadt")
+          %th
+            = sortable "ort", c_t("concert","ort","Ort")
+          %th
+            = c_t("concert","interpret","Interpret")
+          %th
+            = c_t("concert","url","Url")
+          %th
+            = c_t("concert","eintritt","Eintritt")
+          %th.last &nbsp;
+          = render @concerts
+          
+%br
+= paginate @concerts

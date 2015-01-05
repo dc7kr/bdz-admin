@@ -4,6 +4,7 @@ class Concert < ActiveRecord::Base
 
   scope :public, where('visible=1 and datum >= now()')
 	scope :inactive, where('visible=0')
+  scope :future, where('datum >= now()');
 
 	belongs_to :user , :foreign_key => "owner"
 	belongs_to :state, :foreign_key => "bland"
