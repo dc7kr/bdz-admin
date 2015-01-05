@@ -366,11 +366,12 @@ BDZAdmin::Application.routes.draw do
 
   resources :concerts do
     collection do 
-    get :inactive
-  end
-  member do
-    get :publish
-  end
+      get :inactive
+      get :future
+    end
+    member do
+      get :publish
+    end
   end
 
   resources :ensemble_concerts do
