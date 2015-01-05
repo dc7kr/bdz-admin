@@ -716,6 +716,9 @@ de:
     sign_in_count: Anzahl Logins
     auth_token: Auth-Token
     login: "Login ( Email oder Benutzername)"
+    change_password: "Passwort ändern"
+    new_password: "Neues Passwort"
+    confirm_new_password: "Neues Passwort bestätigen"
     
   users:
     profile:

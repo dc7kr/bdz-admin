@@ -19,6 +19,7 @@ de:
     email: "E-Mail"
     name: "Name"
     send_reset_instructions: "Informationen senden"
+    change_pw: "Passwort ändern"
 
     failure:
       already_authenticated: 'Sie sind bereits angemeldet.'
