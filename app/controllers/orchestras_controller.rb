@@ -46,7 +46,13 @@ class OrchestrasController < AuthenticatedController
   # GET /orchestras.json
 #sample  before_filter :authenticate_user!, :except => [:some_action_without_auth]
   def notinvoiced 
-     @orchestras = Orchestra.includes([:member,:report_sheets]).joins("LEFT JOIN member_account_bookings mb ON orchestras.member_id=mb.member_id AND mb.booking_type='B' and YEAR(mb.booking_date) = YEAR(NOW())").where("mb.id IS NULL and report_sheets.year= YEAR(NOW())").search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
+    year = params[:year]
+
+    if year.nil? then
+     year = Time.now.year
+    end
+
+    @orchestras = Orchestra.includes([:member,:report_sheets]).joins("LEFT JOIN member_account_bookings mb ON orchestras.member_id=mb.member_id AND mb.booking_type='B' and YEAR(mb.booking_date) = #{year}").where("mb.id IS NULL and report_sheets.year= #{year}").search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
 
 
     respond_to do |format|
