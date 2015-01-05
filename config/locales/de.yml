@@ -805,6 +805,8 @@ de:
           attributes:
             reset_password_token:
               invalid: "Passwort-Token ist ungültig"
+            username:
+              taken: "Der angegebene Benutzername wird bereits verwendet."
             email:
               taken: Diese E-Mailadresse wird bereits verwendet.
             password:
