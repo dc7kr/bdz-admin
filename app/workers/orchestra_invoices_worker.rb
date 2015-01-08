@@ -46,11 +46,13 @@ class OrchestraInvoicesWorker < AbstractInvoicesWorker
       tool.deliver_mailing(InvoiceMail, orch, invoice_file,nil, letters, add_mailer_params)  
 		end
 
-    pdf_filename = "#{datePrefix}-orch-beitragsrechnungen.pdf"
+    pdf_merged_file = nil
 
-    pdf_merged_file = MailingFile.new(pdf_filename,pdf_filename,year.to_s)
-
-    merge_pdfs(letters, pdf_merged_file)
+    if letters.size > 0 then
+      pdf_filename = "#{datePrefix}-orch-beitragsrechnungen.pdf"
+      pdf_merged_file = MailingFile.new(pdf_filename,pdf_filename,year.to_s)
+      merge_pdfs(letters, pdf_merged_file)
+    end
 
     ddFile = sw.generateFile
 
