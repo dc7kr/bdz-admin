@@ -10,7 +10,7 @@ class PersonMemberInvoicesWorker  < AbstractInvoicesWorker
     letters = Array.new
     triggered_by = User.find(user_id)
 
-    @person_members = PersonMember.includes([:tariff,:member]).joins("LEFT JOIN member_account_bookings mb ON person_members.member_id=mb.member_id AND mb.booking_type='B' and YEAR(mb.booking_date) = YEAR(NOW())").where("mb.id IS NULL").order("members.mglnr")
+    @person_members = PersonMember.includes([:tariff,:member]).joins("LEFT JOIN member_account_bookings mb ON person_members.member_id=mb.member_id AND mb.booking_type='B' and YEAR(mb.booking_date) = :year", year: year ).where("mb.id IS NULL").order("members.mglnr")
 
     tool =  MailingTool.new(year, "gs", "RECHNUNG#{year}", "Beitragsrechnung #{year}")
 

@@ -28,8 +28,7 @@ class OrchestraInvoicesWorker < AbstractInvoicesWorker
 
     triggered_by = User.find(user_id)
 
-	  @orchestras = Orchestra.includes([:report_sheets,:member]).joins("LEFT JOIN member_account_bookings mb ON orchestras.member_id=mb.member_id AND mb.booking_type='B' and YEAR(mb.booking_date) = YEAR(NOW())").where("mb.id IS NULL and report_sheets.year= ?",year).order("members.mglnr")
-
+	  @orchestras = Orchestra.includes([:report_sheets,:member]).joins("LEFT JOIN member_account_bookings mb ON orchestras.member_id=mb.member_id AND mb.booking_type='B' and YEAR(mb.booking_date) = :year", year: year).where("mb.id IS NULL and report_sheets.year= ?",year).order("members.mglnr")
 
     invoices = Array.new
 
