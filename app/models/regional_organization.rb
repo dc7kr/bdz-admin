@@ -67,10 +67,9 @@ class RegionalOrganization < ActiveRecord::Base
   end
 
   def to_customer
-    customer = Customer.new("LV#{nummer}",name, true)
+    customer = Customer.new("LV#{nummer}","Bund Deutscher Zupfmusiker e.V. LV #{name}", true)
     customer.iban= iban
     customer.bic = bic
-    
     customer
   end
 end
