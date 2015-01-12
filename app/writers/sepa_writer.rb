@@ -2,8 +2,14 @@ require 'sepa_tool'
 
 class SEPAWriter < BankTransferWriter
   
-  def initialize(datePrefix,settings)
+  def initialize(datePrefix,settings,year=nil)
     super(datePrefix)
+    if year.nil? then
+      @year = Time.now.year
+    else
+      @year = year
+    end
+
     @tool = SEPATool.new(settings)
     @direct_debits = Array.new
   end
@@ -41,7 +47,7 @@ class SEPAWriter < BankTransferWriter
     sepaxml = @tool.create_sepa_direct_debit_order(@direct_debits)
 
     filename = @datePrefix+"_sepa.xml"
-    outfile = MailingFile.new(filename,filename,Time.now.year.to_s)
+    outfile = MailingFile.new(filename,filename,@year.to_s)
     sepaFile = File.open(outfile.full_path,"w")
     sepaFile << sepaxml
     sepaFile.close
