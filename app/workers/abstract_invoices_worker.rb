@@ -33,19 +33,18 @@ class AbstractInvoicesWorker
     end
   end
 
-  def send_mail(year,ddFile,letterFile,triggered_by)
+  def send_mail(ddFile,letterFile,triggered_by)
 
-    year = Time.now.strftime('%Y')
     pdf_prefix= Time.now.strftime '%Y%m%d'
 
     users = User.where("role like ? or role like ?", "%accounting%", "%admin%")
 
     base_url = cron_downloads_url
-    invoices_url = "#{base_url}?year=#{year}&filename=#{letterFile.orig_filename}"
+    invoices_url = "#{base_url}?year=#{letterFile.archive_folder}&filename=#{letterFile.orig_filename}"
     dd_url=nil
 
     if ( ddFile != nil ) then
-      dd_url = base_url+"?year="+year+"&filename="+ddFile.orig_filename
+      dd_url = "#{base_url}?year=#{ddFile.archive_folder}&filename=#{ddFile.orig_filename}"
     end
 
     users.each do |user| 
