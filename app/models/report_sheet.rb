@@ -206,7 +206,7 @@ class ReportSheet < ActiveRecord::Base
   end
 
   def gen_invoice
-    @invoice = Invoice.new("Beitragsrechnung "+Time.now.year.to_s)
+    @invoice = Invoice.new("#{orchestra.mglnr}-BEITRAG#{year}")
     @invoice.customer = orchestra.to_customer
 
 		if ( orchestra.is_coop? ) then
