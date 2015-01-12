@@ -66,9 +66,14 @@ class OrchestraInvoicesWorker < AbstractInvoicesWorker
 
     invoice_type = "beitragsrechnung"
 
-		currentSheet = orch.currentReportSheet
+		sheet = orch.sheet_for_year(year)
 
-    invoice = currentSheet.gen_invoice
+    if sheet.nil? then
+      Rails.logger.info("No Sheet for orchestra #{orch} and year#{year}")
+      return
+    end
+
+    invoice = sheet.gen_invoice
 
 		tw.writeInvoice(invoice, 'gs',year)
 
@@ -79,6 +84,7 @@ class OrchestraInvoicesWorker < AbstractInvoicesWorker
 
 		booking = MemberAccountBooking.newInvoice(booking_txt,-1*invoice.sum,orch.mglnr.to_s)
 		booking.member_id = orch.id
+    booking.year=year
     booking.filename = invoice_file.orig_filename
 		booking.save
 

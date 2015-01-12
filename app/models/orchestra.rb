@@ -99,6 +99,15 @@ class Orchestra < ActiveRecord::Base
     end
   end
 
+  def sheet_for_year(year) 
+    report_sheets.each do |sheet|
+      if sheet.year == year then
+        return sheet
+      end
+    end
+    return nil
+  end
+
   def currentReportSheet
     #	ReportSheet.scoped(:conditions=> { :year => @currentYear })
     # TODO:

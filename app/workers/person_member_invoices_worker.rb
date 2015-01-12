@@ -44,7 +44,7 @@ class PersonMemberInvoicesWorker  < AbstractInvoicesWorker
 
     invoice_type = "beitragsrechnung"
 
-    invoice = person.gen_invoice
+    invoice = person.gen_invoice(year)
 
 		tw.writeInvoice(invoice, 'gs',year)
 
@@ -56,6 +56,7 @@ class PersonMemberInvoicesWorker  < AbstractInvoicesWorker
 		booking_txt = 'Beitrag '+person.tariff.description+' '+String(year)
 		booking = MemberAccountBooking.newInvoice(booking_txt,-1*invoice.sum,person.mglnr.to_s)
 		booking.member_id = person.id
+    booking.year=year
     booking.filename = invoice_file.orig_filename
 		booking.save
 
