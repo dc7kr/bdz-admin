@@ -19,7 +19,7 @@ class PersonMemberInvoicesWorker  < AbstractInvoicesWorker
       invoice_file = personMemberInvoice(datePrefix, pm,year,tw,sw)
 
       if (invoice_file.nil?) then
-        Rails.logger.info("No invoice generated for: #{pm.mglnr} tariff: #{pm.tariff}")
+        Rails.logger.info("No invoice generated for: #{pm.mglnr} tariff: #{pm.tariff.description}")
         next
       end
 
