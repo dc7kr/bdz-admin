@@ -84,7 +84,7 @@ class OrchestraInvoicesWorker < AbstractInvoicesWorker
 
 		booking = MemberAccountBooking.newInvoice(booking_txt,-1*invoice.sum,orch.mglnr.to_s)
 		booking.member_id = orch.id
-    booking.year=year
+    booking.booking_year=year
     booking.filename = invoice_file.orig_filename
 		booking.save
 
