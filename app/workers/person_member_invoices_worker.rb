@@ -17,6 +17,12 @@ class PersonMemberInvoicesWorker  < AbstractInvoicesWorker
 	  @person_members.each do |pm|
       Rails.logger.debug("Gen invoice for: #{pm.mglnr}")
       invoice_file = personMemberInvoice(datePrefix, pm,year,tw,sw)
+
+      if (invoice_file.nil?) then
+        Rails.logger.info("No invoice generated for: #{pm.mglnr} tariff: #{pm.tariff}")
+        next
+      end
+
       logger.debug("PDF File archived as #{invoice_file}")
 
       add_mailer_params = { :year => year, :mglnr=>pm.mglnr }
