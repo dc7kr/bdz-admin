@@ -706,6 +706,7 @@ de:
     invoice_person_members: "Rechnungslauf EM starten"
     invoice_orchestras_success: "Rechnungslauf Orchester gestartet. Sie erhalten nach Fertigstellung eine E-Mail."
     custom_info_mail_success: "Rundschreiben werden erstellt. Sie erhalten nach Fertigstellung eine E-Mail."
+    remove_resigned: "Ausgetretene Mitglieder löschen"
   user:
     p: Benutzer
     s: Benutzer

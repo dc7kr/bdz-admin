@@ -16,5 +16,9 @@
           %li= link_to "Mahnungen Beitrag", cron_reminders_payment_path
           %li= link_to t('cron.lv_fee_bookings'), cron_lv_fee_bookings_index_path
 
+      .link-group
+        %h3=t('member.p')
+        %ul.navigation
+          %li=link_to t('cron.remove_resigned'), cron_cleanup_remove_resigned_path
 - content_for :sidebar, render(:partial => 'sidebar.cron')
 
