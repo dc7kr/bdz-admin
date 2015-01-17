@@ -134,6 +134,6 @@ class User < ActiveRecord::Base
   def generate_api_token
     begin
       self.authentication_token = SecureRandom.hex
-    end while self.class.exists?(authentication_token: authentia)
+    end while self.class.exists?(authentication_token: self.authentication_token)
   end
 end
