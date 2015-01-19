@@ -1,6 +1,6 @@
 class CreateUniversities < ActiveRecord::Migration
   def change
-    create_table :universities do |t|
+    create_table :hochschulen do |t|
       t.string :name
       t.string :institut
       t.string :strasse
