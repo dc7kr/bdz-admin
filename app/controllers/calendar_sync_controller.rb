@@ -20,8 +20,8 @@ class CalendarSyncController < AuthenticatedNonResourceController
 					conc.titel = summ[1]
 				end
 				conc.interpret = summ[0]
-				conc.datum = event.dtstart
-				conc.zeit = event.dtstart.strftime("%H:%M")
+				conc.datum = event.dtstart.localtime
+				conc.zeit = event.dtstart.localtime.strftime("%H:%M")
 				loc = event.location.split(",")
 				conc.ort = loc[0]
 				conc.stadt = loc[1]
