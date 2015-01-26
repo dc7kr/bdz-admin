@@ -1,6 +1,6 @@
 class CreateCourses < ActiveRecord::Migration 
   def change
-   create_table "courses", :force => true do |t|
+   create_table "courses" do |t|
       t.datetime "startdate",                                 :null => false
       t.datetime "enddate",                                   :null => false
       t.datetime "reported",                                  :null => false

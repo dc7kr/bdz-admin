@@ -1,7 +1,7 @@
 class CreateContacts <  ActiveRecord::Migration
 
   def change
-    create_table "contacts", :force => true do |t|
+    create_table "contacts" do |t|
       t.string "subtype",      :limit => 50,  :null => false
       t.string "company",      :limit => 100
       t.string "department",   :limit => 100
