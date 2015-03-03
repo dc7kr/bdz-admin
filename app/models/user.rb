@@ -1,6 +1,7 @@
 require 'set'
 
 class User < ActiveRecord::Base
+  rolify
 
   before_create :generate_api_token
 

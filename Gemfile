@@ -81,9 +81,10 @@ gem 'rails-asset-jqueryui'
 gem 'devise'
 #gem 'devise-async'
 # authorize
-gem 'cancan'
+gem 'cancancan' ,'~> 1.10'
 #paginator
 gem 'kaminari'
+gem 'rolify'
 
 gem 'ruby_parser'
 gem 'hpricot'
@@ -102,9 +103,6 @@ end
 # testing
 gem 'capybara'
 gem 'rspec-rails'
-gem 'haml-rails'
-gem 'hpricot'
-gem 'ruby_parser'
 #gem 'web-app-theme', '~> 0.8.0'
 #gem 'web-app-theme', :git => "git://github.com/pilu/web-app-theme.git"
 
