@@ -385,6 +385,7 @@ de:
   classified:
     p: Kleinanzeigen
     s: Kleinanzeige
+    publish_success: "Kleinanzeige erfolgreich veröffentlicht"
     adv_type: "Typ"
     name: "Name"
     email: "E-Mail"
