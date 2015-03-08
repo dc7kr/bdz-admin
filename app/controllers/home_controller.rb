@@ -8,7 +8,7 @@ class HomeController < AuthenticatedNonResourceController
 	end
 
     if (current_user.authentication_token==nil) then
-		current_user.api_token= User.api_token
+		current_user.api_token= User.gen_api_token
 		current_user.save
 	end
     respond_to do |format|
