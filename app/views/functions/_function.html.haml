@@ -2,9 +2,13 @@
   %td= function.label
   %td= function.regional_organization.name
   %td
-    = function.board_contact.last_name
-    ,
-    = function.board_contact.first_name
+    - if function.board_contact.nil? then
+      .error NIL
+
+    -else 
+      = function.board_contact.last_name
+      ,
+      = function.board_contact.first_name
   %td= format_bool function.bund
   %td= format_bool function.jugend
   %td= function.nr
