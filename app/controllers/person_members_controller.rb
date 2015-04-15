@@ -9,7 +9,7 @@ class PersonMembersController < AuthenticatedController
   # GET /person_members.json
 # TODO: inherited sort!!!
   def index
-    @person_members = PersonMember.includes(:member).search(params[:search]).order(sort_column+" "+sort_direction).page(params[:page]).per(20)
+    @person_members = @person_members.includes(:member).search(params[:search]).order(sort_column+" "+sort_direction).page(params[:page]).per(20)
 
 
     respond_to do |format|

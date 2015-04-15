@@ -61,9 +61,9 @@ class Public::ConcertsController < ApplicationController
   # GET /concerts/new.json
   def new
     @concert = Concert.new
+    @concert.country_code='de'
     @lvs = RegionalOrganization.all
     @states = State.all
-    @countries = Country.all
     @festivals = Festival.where("startdate > ? or id=0",Time.now)
 
     respond_to do |format|
@@ -75,6 +75,7 @@ class Public::ConcertsController < ApplicationController
   # POST /concerts.json
   def create
     @concert = Concert.new(params[:concert])
+    @concert.reported=Time.now
 
     respond_to do |format|
       if @concert.save

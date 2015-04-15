@@ -10,7 +10,7 @@ class OrchestraMembersController < AuthenticatedController
     @orchestra_members = OrchestraMember.where("orchestra_id = ?", params[:orchestra_id]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
 
 
-	@orchestra = Orchestra.find(params[:orchestra_id])
+	  @orchestra = Orchestra.find(params[:orchestra_id])
 
     respond_to do |format|
       format.html # index.html.erb
@@ -30,14 +30,18 @@ class OrchestraMembersController < AuthenticatedController
   # GET /orchestra_members/1
   # GET /orchestra_members/1.json
   def show
-    @orchestra_member = OrchestraMember.find(params[:id])
-	
-	@orchestra = Orchestra.find(params[:orchestra_id])
+
+	  @orchestra = @orchestra_member.orchestra
 
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @orchestra_member }
     end
+  end
+
+
+  def search
+    @orchestra_members = OrchestraMember.where("first_name like ? and last_name like ?", params[:first_name]+"%",params[:last_name]+"%")
   end
 
   # GET /orchestra_members/new

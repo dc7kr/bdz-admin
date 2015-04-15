@@ -27,8 +27,7 @@
             %div{:class => "message #{type}", :id => "flash_#{type}"}
               %p=message
         #main
-          .block#mainblock
-            = yield
+          = yield
         #sidebar
           = yield :sidebar
         #footer

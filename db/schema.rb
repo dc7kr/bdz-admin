@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140528130439) do
+ActiveRecord::Schema.define(:version => 20140916110902) do
 
   create_table "Inserenten", :id => false, :force => true do |t|
     t.string  "Firmenname",    :limit => 35
@@ -1467,7 +1467,7 @@ ActiveRecord::Schema.define(:version => 20140528130439) do
     t.string   "company"
     t.string   "preferred_lang"
     t.string   "zip"
-    t.boolean  "pickup"
+    t.boolean  "pickup",                           :default => false, :null => false
   end
 
   create_table "event_food", :force => true do |t|
@@ -1527,7 +1527,6 @@ ActiveRecord::Schema.define(:version => 20140528130439) do
     t.integer  "soloist_tickets"
     t.time     "stage_time"
     t.string   "contact_phone"
-    t.boolean  "pickup"
   end
 
   create_table "festival_concerts", :force => true do |t|
@@ -3205,6 +3204,8 @@ ActiveRecord::Schema.define(:version => 20140528130439) do
     t.integer  "blz",        :limit => 8,  :null => false
     t.datetime "created_at",               :null => false
     t.datetime "updated_at"
+    t.string   "iban"
+    t.string   "bic"
   end
 
   create_table "report_sheet_inputs", :force => true do |t|
@@ -3376,6 +3377,8 @@ ActiveRecord::Schema.define(:version => 20140528130439) do
     t.string   "role",                                  :default => "", :null => false
     t.string   "authentication_token"
     t.string   "username"
+    t.string   "entity_class"
+    t.integer  "entity_id"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

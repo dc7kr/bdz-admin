@@ -55,8 +55,12 @@ body {
 #main {  
   width: 70%;
   float: left;    
-  box-shadow: 10px 10px 5px #888;
+  box-shadow: 5px 5px 5px #888;
   background: #ffffff;
+  border-radius: 10px;
+  .content {
+    padding: 10px;
+  }
 }
 
 .actions-bar {
@@ -75,16 +79,61 @@ body {
 
 #sidebar {
   width: 25%;
-  float: right;      
+  float: right;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+
+  .block { 
+    border-radius: 10px 10px 5px 5px;
+    box-shadow: 5px 5px 5px #888;
+    
+    ul.navigation {
+      ul {
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+      }
+
+      li { 
+        a:visited {
+          display: block;
+          padding: 5px 5px;
+          color: #202020;
+        }
+        a:link {
+          display: block;
+          padding: 5px 5px;
+        }
+      }
+    }
+
+    .sidebar-block {
+      padding: 10px;
+    }
+
+    .notice {
+      padding:5px 10px;
+      font-size: 8pt;
+      border-radius: 10px;
+      margin: 10px 0;
+    }
+
+
+    .content {
+      padding: 0 15px;
+    }
+
+    h3 {  
+      padding: 10px 15px;
+      margin: 0;
+      font-size: 13px;
+      border-radius: 10px 10px 0 0;
+    }
+  }
 }
+
 
 .link-group h3 {  
-  padding: 10px 15px;
-  margin: 0;
-  font-size: 13px;
-}
-
-#sidebar h3 {  
   padding: 10px 15px;
   margin: 0;
   font-size: 13px;
@@ -95,28 +144,11 @@ body {
   padding-bottom: 10px;
 }
 
-#sidebar .block {
-  margin-bottom: 20px;
-  padding-bottom: 10px;
-}
 
-#sidebar .block .content {
-  padding: 0 15px;
-}
-
-.link-group ul.navigation li a:link, #sidebar ul.navigation li a:visited {
+.link-group ul.navigation li a:link {
   display: block;
   padding: 5px 5px;
   color: #202020;
-}
-
-#sidebar ul.navigation li a:link, #sidebar ul.navigation li a:visited {
-  display: block;
-  padding: 5px 5px;
-}
-
-#sidebar .block .sidebar-block, #sidebar .notice {
-  padding:10px;
 }
 
 #wrapper {
@@ -154,7 +186,7 @@ body {
   width: 100%;
 }
 
-#user-navigation ul, #main-navigation ul, .secondary-navigation ul, #sidebar ul.navigation, .link-group ul { 
+#user-navigation ul, #main-navigation ul, .secondary-navigation ul .link-group ul { 
   margin: 0;
   padding: 0;
   list-style-type: none;
@@ -189,6 +221,8 @@ body {
   font-size: 13px;  
   border-bottom-width: 10px;
   border-bottom-style: solid;
+  border-radius: 10px 10px 0 0;
+  
 }
 
 .secondary-navigation ul li a {

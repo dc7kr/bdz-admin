@@ -140,19 +140,10 @@ class OrchestrasController < AuthenticatedController
   end
 
   def index
-	if @namespace == "mgl" then
-		Rails.logger.info("MEMBER NAMESPACE DETECTED");
-		@orchestra = Orchestra.includes(:member).where("members.mglnr = ?",user.username)
-		respond_to do |format|
-			format.html {
-				redirect_to @orchestra
-			}
-		end
-		return
-  	end
 
-	@previousYear = (Time.now.year-1).to_s
-    @orchestras = Orchestra.includes(:member).search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
+    @orchestras = Orchestra.includes(:member).for_user(current_user).search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
+
+	  @previousYear = (Time.now.year-1).to_s
 
     respond_to do |format|
       format.html {

@@ -66,7 +66,11 @@
       %td= f.text_field :bic, :class => 'bic_field'
     %tr
       %td.label= f.label :regional_organization, t("regional_organization.s")
-      %td= collection_select(:orchestra, :regional_organization_id, RegionalOrganization.all, :id, :name) 
+      - if current_user.national_permission? then
+        %td= collection_select(:orchestra, :regional_organization_id, RegionalOrganization.all, :id, :name) 
+      - else
+        %td=@orchestra.regional_organization.name
+      
     %tr
       %td.label= f.label :orch_type, t("orchestra.orch_type")
       %td= f.select :orch_type, options_for_select([["Vereinsorchester", "O"], ["Kooperativ", "K"],  ["Landesorchester", "L"]],:selected=>@orchestra.orch_type) 

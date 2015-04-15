@@ -16,7 +16,7 @@ module FestivalMailsHelper
   def replace_body(orig_body, subst) 
     body = orig_body
     subst.each do |s|
-      logger.debug("Subst-Pattern:"+s[0])
+      #logger.debug("Subst-Pattern:"+s[0])
       body = body.gsub(s[0],s[1])
     end
 

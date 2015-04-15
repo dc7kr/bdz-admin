@@ -12,7 +12,10 @@
           %td= @user.email
         %tr
           %td.label #{t("user.roles")}:
-          %td= @user.roles.join(", ")
+          %td
+            -@user.roles.each do |r|
+              =r.name
+              %br
         %tr
           %td.label #{t("user.entity_class")}:
           %td= @user.entity_class

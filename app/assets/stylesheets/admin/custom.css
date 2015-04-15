@@ -59,10 +59,6 @@ td.label_l {
 	margin-top:25px;	
 }
 
-#mainblock {
-	padding: 10px;
-}
-
 a.sort {
 	color: #ffffff;
 }
@@ -110,12 +106,6 @@ table.short {
 #flash-message {
   width: 70%;
 }
-
-#main .content {
-	padding-left: 10px;
-	padding-bottom:10px;
-}
-
 
 td.invalid {
         background-color:#ff0000;
