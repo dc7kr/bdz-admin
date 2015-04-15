@@ -141,7 +141,7 @@ class OrchestrasController < AuthenticatedController
 
   def index
 
-    @orchestras = Orchestra.includes(:member).for_user(current_user).search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
+    @orchestras = @orchestras.includes(:member).search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
 
 	  @previousYear = (Time.now.year-1).to_s
 
