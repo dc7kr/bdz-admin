@@ -538,6 +538,8 @@ de:
   orchestra_member:
     p: Orchestermitglieder
     s: Orchestermitglied
+    search: "Orchestermitglieder suchen"
+    search_txt: "Anfänge der Namen werden ebenfalls gefunden"
     first_name: Vorname
     last_name: Nachname
     date_of_birth: Geburtstag
@@ -735,6 +737,18 @@ de:
       cancel_account: "Benutzeraccount löschen"
   activerecord: 
     attributes:
+      festival:
+        bland: Bundesland
+        startdate: "Beginn-Datum"
+        name: "Name"
+        description: "Beschreibung"
+        anmeldung: Anmeldung
+        gebuehren: "Gebühren"
+        stadt: "Stadt"
+        homepage: "Homepage des Festivals"
+        ort: "Stadt"
+        ortdetails: "Veranstaltungsort"
+        visible: "Freigegeben"
       competition_entry:
         response1: "Antwort 1:" 
         response2: "Antwort 2:"
