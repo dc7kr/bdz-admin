@@ -5,6 +5,8 @@ class User < ActiveRecord::Base
 
   before_create :generate_api_token
 
+  has_many :concerts
+
   # Include default devise modules. Others available are:
   # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable
   # FUTURE: async mailers !
@@ -39,7 +41,7 @@ class User < ActiveRecord::Base
   end
 
   def self.for_admin_notify
-    where("role like ? or role like ?", "%accounting%", "%admin%")
+    User.with_any_role(:admin, :accounting)
   end
 
   def first_role
@@ -50,64 +52,57 @@ class User < ActiveRecord::Base
 	  end
   end
 
-  def roles
-	if ( self.role == nil ) 
-		[]
-	else
-		self.role.split(' ')
-	end
-  end
- 
   def address?
-	  return roles.include?('address')
-  end
-
-  def has_role?(role)
-	  return roles.include?(role)
+	  return has_role? :address
   end
 
   def admin?
-	  return roles.include?('admin')
+	  return has_role? :admin
   end
 
   def cron_permission?
-	  return (roles.include?('admin') or roles.include?('national'))
+	  val = (has_role? :admin) or (has_role? :cron)
+    return val
+  end
+
+  def national_permission? 
+    admin? or national?
   end
 
   def reference_data_permission?
-    return (admin? or national?)
+    return national_permission?
   end
 
   def festival_permission?
-    return (admin? or national?)
+    return national_permission?
   end
 
   def magazine_permission?
-    return (admin? or national?)
+    return national_permission?
   end
 
   def accounting?
-	  return roles.include?('accounting')
+	  return has_role? :accounting
   end
 
   def gema?
- 	  return roles.include?('gema')
+ 	  return has_role? :gema
   end
 
   def national?
-	  return roles.include?('national')
+	  return has_role? :national
   end
 
   def honor?
-	  return roles.include?('distinction')
+	  return has_role? :distinction
   end
 
   def is_restricted_role?
-	  return roles.include?('restricted')
+	  return has_role? :restricted
   end
 
   def is_member?
-	  return roles.include?('member')
+	  return has_role? :member
   end
 
   def self.gen_api_token
@@ -119,16 +114,14 @@ class User < ActiveRecord::Base
   end
 
   def restricting_entity
-    if entity_class.nil? then
-      return nil
+    if has_role? :regional 
+      return RegionalOrganization.with_role(:regional, self).first
+    elsif has_role? :member 
+        member = PersonMember.with_role(:member, self).first
+      if member.nil? then
+        member = Orchestra.with_role(:member,self).first
+      end 
     end
-
-    entityClass = Object.const_get(entity_class) 
-
-    restricting_entity = entityClass.find(entity_id)
-    Rails.logger.info("Entity Class for User: "+entityClass.to_s+" Object: "+restricting_entity.to_s)
-
-    return restricting_entity
   end
 
   private 
