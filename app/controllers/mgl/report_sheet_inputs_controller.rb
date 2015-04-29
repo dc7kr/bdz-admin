@@ -327,7 +327,7 @@ class Mgl::ReportSheetInputsController < ApplicationController
 
 
 				# admin notify about new RS
-				@users = admin_notify_users
+				@users = User.for_admin_notify
 
    				@users.each do |user|
 					AdminNotifier.new_report_sheet(user,@rs).deliver
