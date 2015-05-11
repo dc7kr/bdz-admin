@@ -1,9 +1,12 @@
-%ul.wat-cf
-  %li{ :class => 'first'}= link_to_up_path t("common.up"),  orchestra_path(@orchestra)
+%ul
+  -if not @orchestra.nil? then
+    %li{ :class => 'first'}= link_to_up_path t("common.up"),  orchestra_path(@orchestra)
+
 
   -if @orchestra_member and @orchestra_member.id != nil then
     %li{ :class => tabActiveClass(@current_action,'index',nil)}= link_to t("common.list"), orchestra_orchestra_members_path(@orchestra_member.orchestra)
     %li{ :class => tabActiveClass(@current_action,'show',nil)}= link_to t("common.show"), orchestra_orchestra_member_path(@orchestra_member.orchestra,@orchestra_member)
     %li{ :class => tabActiveClass(@current_action,'edit',nil)}= link_to t("common.edit"), edit_orchestra_orchestra_member_path(@orchestra_member.orchestra,@orchestra_member)
   -else
-    %li{:class => tabActiveClass(@current_action,'new',nil)}= link_to t("common.new"), new_orchestra_orchestra_member_path(@orchestra)
+    - if not @orchestra.nil? then
+      %li{:class => tabActiveClass(@current_action,'new',nil)}= link_to t("common.new"), new_orchestra_orchestra_member_path(@orchestra)

@@ -1,0 +1,28 @@
+.block
+  .secondary-navigation
+    =render :partial=>'nav'
+  .content
+    %h2.title
+      = t("common.all")
+      = t("orchestra_member.p")
+    .inner
+
+      %table.table
+        %thead
+          %th.first= sortable "first_name", t("orchestra_member.first_name")
+          %th= sortable "last_name", t("orchestra_member.last_name")
+          %th=t("orchestra_member.date_of_birth")
+          %th= t("orchestra.orch_name")
+          %th= t("member.mglnr")
+          %th.last &nbsp;
+        %tbody#orchestra_members
+          - @orchestra_members.each do |om|
+            %tr
+              %td=om.first_name
+              %td=om.last_name
+              %td=om.date_of_birth.year
+              %td=om.orchestra.orchName 
+              %td=om.orchestra.mglnr
+      .actions-bar.wat-cf
+        .actions
+
