@@ -1,6 +1,6 @@
 class RemoveRolesFromUsers < ActiveRecord::Migration
   def up
-    remove_column :users, :roles
+    remove_column :users, :role
   end
 
 end

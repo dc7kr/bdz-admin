@@ -1,7 +1,11 @@
 require 'sidekiq/web'
 
 BDZAdmin::Application.routes.draw do
-
+  resources :orchestra_members do
+    collection do
+      get :search
+    end
+  end
 
   resources :competition_entries do
 
