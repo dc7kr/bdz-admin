@@ -7,15 +7,20 @@ class OrchestraMembersController < AuthenticatedController
   # GET /orchestra_members
   # GET /orchestra_members.json
   def index
-    @orchestra_members = OrchestraMember.where("orchestra_id = ?", params[:orchestra_id]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
 
+    @orchestra = nil
 
-	  @orchestra = Orchestra.find(params[:orchestra_id])
+    if not params[:orchestra_id].nil? then
+      @orchestra = Orchestra.find(params[:orchestra_id])
+      @orchestra_members = @orchestra_members.where("orchestra_id = ?", params[:orchestra_id])
+    end
+
+    @orchestra_members = @orchestra_members.order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
 
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @orchestra_members }
-	  format.js
+	    format.js
     end
   end
 
