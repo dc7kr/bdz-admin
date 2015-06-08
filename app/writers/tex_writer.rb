@@ -117,6 +117,10 @@ class TexWriter
 
 		f.write('\newcommand{\ort}{'+full_ort+"}\n")
 
+    if (customer.country.country_code != "DE") then
+      f.write('\newcommand{\country}{'+country.name+"}\n")
+    end
+
 		lastname=""
 		if (customer.name) 
 				if ( customer.salutation == 'Herr' ) then
