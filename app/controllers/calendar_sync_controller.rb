@@ -21,7 +21,7 @@ class CalendarSyncController < AuthenticatedNonResourceController
 				end
 				conc.interpret = summ[0]
 				conc.datum = event.dtstart
-				conc.zeit = event.dtstart.strftime("%H:%M")
+				conc.zeit = event.dtstart.localtime.strftime("%H:%M")
 				loc = event.location.split(",")
 				conc.ort = loc[0]
 
@@ -34,6 +34,7 @@ class CalendarSyncController < AuthenticatedNonResourceController
 				conc.comment =""
 				conc.url=""
 				conc.confirmed=1
+        conc.bland=nil
 				conc.country_code="de"
 				conc.eintritt=0
 				conc.token=event.uid.to_s
