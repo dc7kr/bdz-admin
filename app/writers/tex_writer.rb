@@ -117,8 +117,9 @@ class TexWriter
 
 		f.write('\newcommand{\ort}{'+full_ort+"}\n")
 
-    if (customer.country.country_code != "DE") then
-      f.write('\newcommand{\country}{'+country.name+"}\n")
+    country = ISO3166::Country[customer.country]
+    if (customer.country != "DE") then
+      f.write('\newcommand{\country}{'+country.translations['en']+"}\n")
     end
 
 		lastname=""

@@ -40,8 +40,12 @@ class AbstractInvoicesWorker
     users = User.where("role like ? or role like ?", "%accounting%", "%admin%")
 
     base_url = cron_downloads_url
-    invoices_url = "#{base_url}?year=#{letterFile.archive_folder}&filename=#{letterFile.orig_filename}"
     dd_url=nil
+    invoices_url = nil
+
+    if ( not letterFile.nil?) then
+      invoices_url = "#{base_url}?year=#{letterFile.archive_folder}&filename=#{letterFile.orig_filename}"
+    end
 
     if ( ddFile != nil ) then
       dd_url = "#{base_url}?year=#{ddFile.archive_folder}&filename=#{ddFile.orig_filename}"

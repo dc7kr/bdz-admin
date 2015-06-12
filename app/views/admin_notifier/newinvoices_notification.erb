@@ -8,6 +8,8 @@ Die Rechnungen wurden per E-Mail versandt.
 <%- if not @invoice_url.nil? -%>
 Verbleibende Papier-Rechnungen koennen unter
 <a href="<%= @invoice_url %>"><%= @invoice_url %></a> heruntergeladen werden.
+<%- else -%>
+Alle Rechnungen wurden per E-Mail verschickt.
 <%- end -%>
 
 <%- if @dd_url != nil then -%> 
