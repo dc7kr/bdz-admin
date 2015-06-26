@@ -29,6 +29,7 @@ class AbstractInvoicesWorker
 			sw.addBooking(member,invoice.sum,booking_txt,"RCUR")
 			booking = MemberAccountBooking.newWithdrawal("Lastschrift "+booking_txt,invoice.sum)
 			booking.member_id = member.id
+      booking.year = year
 			booking.save
     end
   end
@@ -36,8 +37,6 @@ class AbstractInvoicesWorker
   def send_mail(ddFile,letterFile,triggered_by)
 
     pdf_prefix= Time.now.strftime '%Y%m%d'
-
-    users = User.where("role like ? or role like ?", "%accounting%", "%admin%")
 
     base_url = cron_downloads_url
     dd_url=nil
@@ -51,9 +50,9 @@ class AbstractInvoicesWorker
       dd_url = "#{base_url}?year=#{ddFile.archive_folder}&filename=#{ddFile.orig_filename}"
     end
 
-    users.each do |user| 
-		  AdminNotifier.newinvoices_notification(user, invoices_url, dd_url,triggered_by).deliver
-   		logger.info 'sent to %s' % user.email
-	  end
+    User.for_admin_notify.each do |user|
+      AdminNotifier.newinvoices_notification(user, invoices_url, dd_url,triggered_by).deliver
+      logger.info 'sent to %s' % user.email
+    end
   end
 end
