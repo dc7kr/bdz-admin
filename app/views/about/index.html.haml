@@ -20,5 +20,6 @@
                 %td=commit[:id]
                 %td=commit[:date]
                 %td
-                  %pre=commit[:lines].html_safe
-                  
+                  %pre
+                    -commit[:lines].each do |line|
+                      =line.html_safe
