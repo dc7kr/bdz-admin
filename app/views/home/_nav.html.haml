@@ -4,5 +4,5 @@
   %li{ :class => tabActiveClass(@current_action,'reference_data',nil)}= link_to "#{t("common.reference_data")}", :controller=>"home",:action=>"reference_data"
   -if current_user.admin? then
     %li{ :class => tabActiveClass(@current_action,'admin_data','last')}= link_to "#{t("common.admin_data")}", :controller=>"home",:action=>"admin_data"
-  -if current_user.cron_permission? then
+  -if current_user.bulk_permission? then
     %li{ :class => tabActiveClass(@current_action,'cron','last')}= link_to "#{t("common.cron")}", :controller=>"home",:action=>"cron"

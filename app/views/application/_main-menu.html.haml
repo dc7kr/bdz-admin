@@ -11,5 +11,5 @@
       %li{ :class => tabActiveClass(current_area,'festival_data',nil)}= link_to "#{t("common.festival_data")}", home_festival_data_path 
     -if current_user and current_user.admin? then
       %li{ :class => tabActiveClass(current_area,'admin_data','last')}= link_to "#{t("common.admin_data")}", home_admin_data_path
-    -if current_user and current_user.cron_permission? then
+    -if current_user and current_user.bulk_permission? then
       %li{ :class => tabActiveClass(current_area,'cron','last')}= link_to "#{t("common.cron")}", home_cron_path

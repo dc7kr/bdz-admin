@@ -29,8 +29,6 @@ class User < ActiveRecord::Base
   attr_accessor :login
   attr_accessible :login
 
-  ROLES = %w[admin gs distinction ]
-
   def self.find_first_by_auth_conditions(warden_conditions)
     conditions = warden_conditions.dup
     if login = conditions.delete(:login)
@@ -60,8 +58,8 @@ class User < ActiveRecord::Base
 	  return has_role? :admin
   end
 
-  def cron_permission?
-	  val = (has_role? :admin) or (has_role? :cron)
+  def bulk_permission?
+	  val = (has_role? :admin) or (has_role? :bulk)
     return val
   end
 
