@@ -1,20 +1,28 @@
 module GitHelper
-	def git_info
+	def git_info(commit_count)
  		 @@info ||= begin
     	{
       		:application => app_name = (Rails.application.class.to_s.split('::').first rescue ""),
       		:environment => Rails.env,
       		:remote_url => `git remote -v`,
       		:remote_branch => `git branch -r`,
-      		:last_commits => gitparse(`git log --max-count=5 `)
+      		:last_commits => gitparse(commit_count)
     	}
   		rescue
     	{}
   		end
 	end
   private 
-  def gitparse(gitlines) 
-    commit_lines = gitlines.split("\n")
+  def gitparse(commit_count) 
+    cmd = "git log --abrev-commit --max-count=#{commit_count}" 
+
+    result = IO.popen(cmd, 'r+') {|io| 
+        io.close_write
+        io.read
+    }
+
+
+    commit_lines = result.split("\n")
     commit=nil
 
     commits = Array.new
