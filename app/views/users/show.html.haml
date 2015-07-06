@@ -8,8 +8,11 @@
           %td.label #{t("user.username")}:
           %td= @user.username
         %tr
+          %td.label #{t("user.name")}:
+          %td= @user.name
+        %tr
           %td.label #{t("user.email")}:
-          %td= @user.email
+          %td=mail_to @user.email
         %tr
           %td.label #{t("user.roles")}:
           %td
