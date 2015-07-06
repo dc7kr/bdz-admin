@@ -58,4 +58,5 @@ BDZAdmin::Application.configure do
 #  config.action_mailer.logger = nil
   #config.action_controller.relative_url_root = "/dev"
 
+ config.time_zone = 'Berlin'
 end
