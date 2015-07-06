@@ -29,7 +29,7 @@ class AbstractInvoicesWorker
 			sw.addBooking(member,invoice.sum,booking_txt,"RCUR")
 			booking = MemberAccountBooking.newWithdrawal("Lastschrift "+booking_txt,invoice.sum)
 			booking.member_id = member.id
-      booking.year = year
+      booking.booking_year = year
 			booking.save
     end
   end
