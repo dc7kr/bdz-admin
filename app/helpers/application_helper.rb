@@ -227,7 +227,11 @@ def format_date_interval(startDate,endDate)
 end
 
 def format_time(time) 
-  return time.strftime '%H:%M'
+  if (time.nil?) then
+    return "---"
+  else
+    return time.strftime '%H:%M'
+  end
 end
 
 def format_currency(val,cur=nil)
