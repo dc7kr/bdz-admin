@@ -20,9 +20,13 @@
             %tr
               %td=om.first_name
               %td=om.last_name
-              %td=om.date_of_birth.year
-              %td=om.orchestra.orchName 
-              %td=om.orchestra.mglnr
+              %td=om.year_of_birth
+              - if om.orchestra.nil? then
+                %td NIL
+                %td NIL
+              - else
+                %td=om.orchestra.orchName 
+                %td=om.orchestra.mglnr
       .actions-bar.wat-cf
         .actions
 
