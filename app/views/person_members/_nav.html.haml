@@ -1,9 +1,11 @@
 %ul.wat-cf
   %li{ :class => 'first'}= link_to_up_path t("common.up"), home_member_data_path
-  %li{ :class=> tabActiveClass(@current_action,'index','first')}= link_to "#{t("common.list", :default => "List")}", person_members_path
+  %li{ :class=> tabActiveClass(@current_action,'index','first')}= link_to t("common.list"), person_members_path
   - if (@person_member)
     %li{ :class => tabActiveClass(@current_action,'show',nil)}= link_to t("common.show"), '#'
   - else 
-    %li{ :class=> tabActiveClass(@current_action,'nopayment',nil)}= link_to "#{t("member.nopayment", :default => "#no payment#")}", nopayment_person_members_path
-  %li= link_to "#{t("common.new", :default => "New")}", new_person_member_path
+    -if current_user.national_permission? 
+      %li{ :class=> tabActiveClass(@current_action,'nopayment',nil)}= link_to t("member.nopayment"), nopayment_person_members_path
+  - if can? :create, PersonMember
+    %li= link_to "#{t("common.new", :default => "New")}", new_person_member_path
 

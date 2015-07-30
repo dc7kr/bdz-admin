@@ -15,11 +15,12 @@
               %td= @sepa
           %p
             %b #{t('about.last_commits')}: 
-            - @git_info[:last_commits].each do |commit|
-              %tr
-                %td=commit[:id]
-                %td=commit[:date]
-                %td
-                  %pre
-                    -commit[:lines].each do |line|
-                      =line.html_safe
+            %table
+              - @git_info[:last_commits].each do |commit|
+                %tr
+                  %td=commit[:id]
+                  %td=commit[:date]
+                  %td
+                    %pre
+                      -commit[:lines].each do |line|
+                        =line.html_safe

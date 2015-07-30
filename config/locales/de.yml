@@ -70,6 +70,15 @@ de:
     logout: Abmelden
     settings: Einstellungen
     profile: Profil
+  main_menu:
+    public_data: Öffentliche Daten
+    member_data: Mitgliedsdaten
+    magazine_data: "Auftakt!"
+    festival_data: "Eurofestival"
+    regional: "Landesverband"
+    reference_data: Stammdaten
+    admin_data: Administration
+    cron: Tasks
   common:
     count: "Anzahl"
     yes_: "Ja"
@@ -103,16 +112,9 @@ de:
     confirm_delete: "Wollen Sie diesen Eintrag wirklich löschen?"
     error_500: "Interner Fehler"
     error_404: "Seite nicht gefunden"
-    public_data: Öffentliche Daten
-    member_data: Mitgliedsdaten
-    magazine_data: "Auftakt!"
-    festival_data: "Eurofestival"
     tasks: "Aufträge"
     events: "Ereignisse"
     reminders: "Mahnungen"
-    reference_data: Stammdaten
-    admin_data: Administration
-    cron: Tasks
     address: Adresse
     finalize: Verbindlich absenden
     due_date: Stichtag
@@ -205,6 +207,7 @@ de:
       long: ! '%A, %d. %B %Y, %H:%M Uhr'
       date_only: ! '%d. %B %Y'
       short: ! '%d. %B, %H:%M Uhr'
+      time_only: ! '%H:%M Uhr'
     pm: nachmittags
     am: vormittags
   number:
@@ -509,6 +512,9 @@ de:
   orchestra:
     s: Orchester
     p: Orchester
+    regional_orchestra:
+      p: Landesorchester
+      s: Landesorchester      
     noreport: Kein Meldebogen
     search: "Suche nach Mitgliedsnummer oder Teil des Orchesternamens"
     update_success: "Orchester wurde erfolgreich aktualisiert."
@@ -706,14 +712,21 @@ de:
   cron:
     lv_bookings: "LV Beitragsanteile buchen"
     invoice_orchestras: "Rechnungslauf Orchester starten"
+    invoice_lorch: "Rechnungslauf Landesorchester starten"
     invoice_person_members: "Rechnungslauf EM starten"
     invoice_orchestras_success: "Rechnungslauf Orchester gestartet. Sie erhalten nach Fertigstellung eine E-Mail."
+    invoice_lorch_success: "Rechnungslauf Landes-Orchester gestartet. Sie erhalten nach Fertigstellung eine E-Mail."
     custom_info_mail_success: "Rundschreiben werden erstellt. Sie erhalten nach Fertigstellung eine E-Mail."
     remove_resigned: "Ausgetretene Mitglieder löschen"
   user:
     p: Benutzer
     s: Benutzer
+    roles: Rollen
+    restricting_entity: Wurzel-Entity
+    entity_class: Entity-Klasse
+    entity_id: ID der Wurzel-Entity
     username: Benutzername
+    name: Voller Name
     email: E-Mail
     last_sign_in_at: Letzer Login
     last_sign_in_ip: Letze IP

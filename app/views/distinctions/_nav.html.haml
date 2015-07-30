@@ -1,4 +1,5 @@
 %ul.wat-cf
   %li{ :class => 'first'}= link_to_up_path t("common.up"), orchestra_path(params[:orchestra_id])
-  %li{ :class => tabActiveClass(@current_action,'index','first')}= link_to "#{t("common.list", :default => "List")}", orchestra_distinctions_path(@orchestra)
-  %li{:class => tabActiveClass(@current_action,'new',nil)}= link_to "#{t("common.new", :default => "New")}", new_orchestra_distinction_path(@orchestra)
+  %li{ :class => tabActiveClass(@current_action,'index','first')}= link_to t("common.list"), orchestra_distinctions_path(@orchestra)
+  - if can? :create, Distinction 
+    %li{:class => tabActiveClass(@current_action,'new',nil)}= link_to t("common.new"), new_orchestra_distinction_path(@orchestra)

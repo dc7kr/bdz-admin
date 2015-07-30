@@ -18,11 +18,11 @@ class OrchestraMember < ActiveRecord::Base
   end
 
   def year_of_birth
-	if (date_of_birth != nil ) then
-		date_of_birth.year
-	else
-		"N/A"
-	end
+    if (date_of_birth != nil ) then
+      date_of_birth.year
+    else
+      "N/A"
+    end
   end
 
 

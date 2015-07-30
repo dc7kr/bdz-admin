@@ -8,5 +8,5 @@
     %li{ :class => tabActiveClass(@current_action,'show',nil)}= link_to t("common.show"), orchestra_orchestra_member_path(@orchestra_member.orchestra,@orchestra_member)
     %li{ :class => tabActiveClass(@current_action,'edit',nil)}= link_to t("common.edit"), edit_orchestra_orchestra_member_path(@orchestra_member.orchestra,@orchestra_member)
   -else
-    - if not @orchestra.nil? then
+    - if not @orchestra.nil? and can? :create, OrchestraMember then
       %li{:class => tabActiveClass(@current_action,'new',nil)}= link_to t("common.new"), new_orchestra_orchestra_member_path(@orchestra)

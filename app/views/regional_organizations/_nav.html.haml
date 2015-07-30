@@ -1,7 +1,10 @@
 %ul.wat-cf
-  %li.first= link_to_up_path t("common.up"), home_member_data_path
-  %li.active= link_to "#{t("web-app-theme.list", :default => "List")}", regional_organizations_path
   - if @regional_organization
-    %li= link_to t("member_report.oddset_report"), regional_organizations_path
-  %li= link_to "#{t("web-app-theme.new", :default => "New")}", new_regional_organization_path
-
+    %li.first= link_to_up_path t("common.up"), regional_organizations_path
+    -if current_user.national_permission?
+      %li{ :class => tabActiveClass(@current_action,'show',nil)}=link_to t("common.show"), @regional_organization
+      %li{ :class => tabActiveClass(@current_action,'edit',nil)}=link_to t("common.edit"), edit_regional_organization_path(@regional_organization)
+  -else 
+    %li.first= link_to_up_path t("common.up"), home_member_data_path
+  - if current_user.national_permission?
+    %li= link_to t("common.new"), new_regional_organization_path

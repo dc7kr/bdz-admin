@@ -25,6 +25,20 @@ class Cron::InvoicesController < AuthenticatedNonResourceController
 	  render :text => "Pong"
   end
 
+  def gen_lorch
+  	authorize! :member, :edit
+	  if (params[:year]) then
+		  year = params[:year].to_i
+	  else
+		  year = Time.now.year
+	  end
+    RegionalOrchestraInvoicesWorker.perform_async(year,@current_user.id)  
+
+    respond_to do |format|
+        format.html { redirect_to home_cron_path, :notice => t('cron.invoice_lorch_success') }
+    end
+  end
+
   def gen_orchestras
   	authorize! :member, :edit
 	  if (params[:year]) then

@@ -139,6 +139,23 @@ class OrchestrasController < AuthenticatedController
     end
   end
 
+  def lorch
+    @orchestras = @orchestras.includes(:member).where("orch_type='L'").order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
+
+	  @previousYear = (Time.now.year-1).to_s
+
+    respond_to do |format|
+      format.html {
+			if  ( @orchestras.length == 1 ) then
+				redirect_to @orchestras[0]
+			end
+		}
+			# index.html.erb
+      format.json { render :json => @orchestras }
+	  format.js
+    end
+  end
+
   def index
 
     @orchestras = @orchestras.includes(:member).search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)

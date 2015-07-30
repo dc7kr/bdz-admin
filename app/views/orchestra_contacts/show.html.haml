@@ -9,7 +9,7 @@
           %td=t('orchestra_contact.role_'+@orchestra_contact.role)
         %tr
           %td.label #{t("orchestra_contact.salutation")}:
-          %td=@orchestra_contact.salutation
+          %td=t("common.salutations.#{@orchestra_contact.salutation}")
         %tr
           %td.label #{t("orchestra_contact.first_name")}:
           %td=@orchestra_contact.first_name
@@ -26,7 +26,7 @@
           %td.label #{t("orchestra_contact.city")}:
           %td=@orchestra_contact.city
         %tr
-          %td.label #{t("orchestra_contact.country")}:
+          %td.label #{t("common.country")}:
           %td=translated_country(@orchestra_contact.country_code)
         %tr
           %td.label #{t("orchestra_contact.email")}:

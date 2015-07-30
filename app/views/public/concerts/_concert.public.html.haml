@@ -1,8 +1,6 @@
 %dt
   %a{:name => "#{'O'+String(concert.id)}"}
-  = l(concert.datum)
-  ,
-  = l(concert.zeit)
+  = l(concert.concert_date)
   ,
   = concert.stadt
   ,
@@ -14,6 +12,6 @@
     =concert.interpret
   %i
     =concert.comment
-  = link_to_show concert, t('common.show')
-  = link_to_edit concert, t('common.edit')
-  = link_to_delete concert, t('common.delete'),t('common.delete_confirm')
+  = link_to_show concert
+  = link_to_edit concert
+  = link_to_delete concert

@@ -7,8 +7,8 @@
 
   %h3 Links
   %ul.navigation
-    %li= link_to( "Mitglieder", members_regional_organization_path(@regional_organization))
-    %li= link_to( "Mitglieder (PDF)", members_regional_organization_path(@regional_organization,:format=>"pdf"))
-    %li= link_to( "Mitgliedesorchester (CSV)", orch_regional_organization_path(@regional_organization,:format=>"csv"))
-    %li= link_to( "Einzelmitglieder (CSV)", person_regional_organization_path(@regional_organization,:format=>"csv"))
-    %li= link_to( "Beitragsanteile (PDF)", fee_shares_regional_organization_path(@regional_organization,:format=>"pdf"))
+    %li= link_to( "Mitglieder", members_regional_organization_regional_organization_reports_path(@regional_organization))
+    %li= link_to( "Mitglieder (PDF)", members_regional_organization_regional_organization_reports_path(@regional_organization,:format=>"pdf"))
+    %li= link_to( "Mitgliedesorchester (CSV)", orch_regional_organization_regional_organization_reports_path(@regional_organization,:format=>"csv"))
+    %li= link_to( "Einzelmitglieder (CSV)", person_regional_organization_regional_organization_reports_path(@regional_organization,:format=>"csv"))
+    %li= link_to( "Beitragsanteile (PDF)", fee_shares_regional_organization_regional_organization_reports_path(@regional_organization,:format=>"pdf"))

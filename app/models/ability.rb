@@ -2,84 +2,54 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-	if user != nil
-		can :read, Concert
-		can :read, Course
-		can :read, Contest
-		can :read, State
-	 	can :update, Concert, :owner => user.id
-		can :delete, Concert, :owner => user.id
-    can :manage, FeatureRequest
+    if user != nil
+      can :read, Concert
+      can :read, Course
+      can :read, Contest
+      can :read, State
+      can :update, Concert, :owner => user.id
+      can :delete, Concert, :owner => user.id
+      can :manage, FeatureRequest
 
-	  if ( user.admin? or user.national? ) 
-	  	can :manage, :all
-	  elsif ( user.address? )
-        can :read, RegionalOrganization
-        can :read, PersonMember
-        can :read, Orchestra
-	  end
 
-    if ( user.accounting? ) 
-		  can :read, MemberAccountBooking
+      if ( user.has_role?(:admin) or user.has_role?(:national)) 
+        can :manage, :all
+      else
+        if ( user.address? )
+            can :read, RegionalOrganization
+            can :read, PersonMember
+            can :read, Orchestra
+        end
+
+        if ( user.accounting? ) 
+          can :read, MemberAccountBooking
+        end
+
+        if ( user.honor? )
+          can :manage, Distinction 
+          can :read, MemberAccountBooking
+          can :download, MemberAccountBooking
+          can :read, RegionalOrganization
+          can :read, PersonMember
+          can :read, Orchestra
+          can :read, OrchestraMember
+        end
+
+        if ( user.has_role?(:regional)) then
+          lv = RegionalOrganization.with_role(:regional, user)
+          lv_restriction = { :regional_organization_id => lv.first.id }
+          can :read, lv.first
+          can [:read,:lorch], Orchestra, :member => lv_restriction 
+          can :read, PersonMember, :member => lv_restriction
+          can [:read], RegionalOrganization, :id => lv.first.id
+          can :read, RegionalOrganizationBooking, :regional_organization => lv.first
+          can [:read,:search], OrchestraMember
+          can [:read,:download], MemberAccountBooking, :member => lv_restriction
+          can :read, Distinction
+          can [:read,:download], MemberEvent, :member => lv_restriction
+          can :read, OrchestraContact
+        end
+      end
     end
-
-    if ( user.honor? )
-      can :manage, Distinction 
-      can :read, MemberAccountBooking
-      can :download, MemberAccountBooking
-      can :read, RegionalOrganization
-      can :read, PersonMember
-      can :read, Orchestra
-      can :read, OrchestraMember
-    end
-
-    restr = user.restricting_entity
-
-    if ( not restr.nil? and restr.class == RegionalOrganization ) then
-
-        can :read, MemberAccountBooking do |mb|
-          mb.member.regional_organization == restr
-        end
-
-        can :read, Orchestra do |o|
-          o.member.regional_organization == restr
-        end
-
-        can :read, PersonMember do |p|
-          p.member.regional_organization == restr
-        end
-
-        can :read, OrchestraMember do |om|
-          om.orchestra.member.regional_organization == restr
-        end
-    end
-
-    if ( user.is_member? )
-		  can :manage, PersonMember, :mglnr =>user.username
-		  can :manage, Orchestra, :member_id=>420
-	  end
-	end
-    # Define abilities for the passed in user here. For example:
-    #
-    #   user ||= User.new # guest user (not logged in)
-    #   if user.admin?
-    #     can :manage, :all
-    #   else
-    #     can :read, :all
-    #   end
-    #
-    # The first argument to `can` is the action you are giving the user permission to do.
-    # If you pass :manage it will apply to every action. Other common actions here are
-    # :read, :create, :update and :destroy.
-    #
-    # The second argument is the resource the user can perform the action on. If you pass
-    # :all it will apply to every resource. Otherwise pass a Ruby class of the resource.
-    #
-    # The third argument is an optional hash of conditions to further filter the objects.
-    # For example, here the user can only update published articles.
-    #
-    #   can :update, Article, :published => true
-    #
-    # See the wiki for details: https://github.com/ryanb/cancan/wiki/Defining-Abilities
   end
 end

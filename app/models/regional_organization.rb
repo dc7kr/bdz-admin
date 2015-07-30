@@ -5,6 +5,9 @@ class RegionalOrganization < ActiveRecord::Base
 
   has_many :functions
 
+  # for role based access
+  resourcify
+
   include IbanHelper
 
   #//validates :blz , :blz => true
@@ -12,6 +15,11 @@ class RegionalOrganization < ActiveRecord::Base
 
   def to_s
     name
+  end
+
+  def report 
+
+
   end
 
   def member_fee_share_for_year(year=nil,before = nil) 

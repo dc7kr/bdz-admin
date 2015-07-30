@@ -2,7 +2,12 @@ class AboutController < ApplicationController
 	include  GitHelper
 
 	def index
-		@git_info = git_info
+    commit_count=10
+    if not params[:commit_count].nil? then
+      commit_count = params[:commit_count].to_i
+    end
+
+		@git_info = git_info(commit_count)
 		respond_to do |format|
 			format.html # index.html.erb
 		end

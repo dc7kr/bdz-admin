@@ -1,21 +1,23 @@
 table.bordered {
 	border: solid black 1px;
 	border-style: collapse;
+
+  td {
+    border:solid black 1px;
+    border-style: collapse;
+  }
+
+  th {
+	  border:solid black 1px;
+	  border-style: collapse;
+  }
+
 }
 
 th a {
   color: #ffffff;
 }
 
-table.bordered td {
-	border:solid black 1px;
-	border-style: collapse;
-}
-
-table.bordered th {
-	border:solid black 1px;
-	border-style: collapse;
-}
 
 li.username {
 color:#d0d0d0;
@@ -80,20 +82,20 @@ table.border {
 	margin:0;
 	border-collapse:collapse;
 
+  tr {
+    border:solid silver 1px;
+  }
+
+  td,th {
+    border:solid silver 1px;
+    padding:2px;
+  }
 }
 
 table td.check {
 	text-align:center;
 }
 
-table.border tr {
-	border:solid silver 1px;
-}
-
-table.border td,th {
-	border:solid silver 1px;
-	padding:2px;
-}
 
 table.short {
   width: 50%

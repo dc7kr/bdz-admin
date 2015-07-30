@@ -1,8 +1,9 @@
 %ul.wat-cf
   %li{ :class => 'first'}= link_to_up_path t("common.up"), regional_organization_path(params[:regional_organization_id])
   %li{ :class => tabActiveClass(@current_action,'index','first')}= link_to "#{t("common.list", :default => "List")}", regional_organization_regional_organization_bookings_path(@regional_organization)
-  %li{:class => tabActiveClass(@current_action,'new',nil)}= link_to "#{t("common.new", :default => "New")}", new_regional_organization_regional_organization_booking_path(@regional_organization)
   -if ( @booking != nil and @booking.id != nil) then
     %li{ :class => tabActiveClass(@current_action,'show',nil)}= link_to t("common.show"),'#'
+  - if can? :create, RegionalOrganizationBooking
+    %li{:class => tabActiveClass(@current_action,'new',nil)}= link_to t("common.new"), new_regional_organization_regional_organization_booking_path(@regional_organization)
 
 

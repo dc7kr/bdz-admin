@@ -1,8 +1,8 @@
 %ul.wat-cf
-  %li{ :class => tabActiveClass(@current_action,'public_data','first')}= link_to "#{t("common.public_data")}", :controller=>"home",:action=>"public_data"
-  %li{ :class => tabActiveClass(@current_action,'member_data',nil)}= link_to "#{t("common.member_data")}", :controller=>"home",:action=>"member_data"
-  %li{ :class => tabActiveClass(@current_action,'reference_data',nil)}= link_to "#{t("common.reference_data")}", :controller=>"home",:action=>"reference_data"
+  %li{ :class => tabActiveClass(@current_action,'public_data','first')}= link_to "#{t("main_menu.public_data")}", :controller=>"home",:action=>"public_data"
+  %li{ :class => tabActiveClass(@current_action,'member_data',nil)}= link_to "#{t("main_menu.member_data")}", :controller=>"home",:action=>"member_data"
+  %li{ :class => tabActiveClass(@current_action,'reference_data',nil)}= link_to "#{t("main_menu.reference_data")}", :controller=>"home",:action=>"reference_data"
   -if current_user.admin? then
-    %li{ :class => tabActiveClass(@current_action,'admin_data','last')}= link_to "#{t("common.admin_data")}", :controller=>"home",:action=>"admin_data"
+    %li{ :class => tabActiveClass(@current_action,'admin_data','last')}= link_to "#{t("main_menu.admin_data")}", :controller=>"home",:action=>"admin_data"
   -if current_user.bulk_permission? then
-    %li{ :class => tabActiveClass(@current_action,'cron','last')}= link_to "#{t("common.cron")}", :controller=>"home",:action=>"cron"
+    %li{ :class => tabActiveClass(@current_action,'cron','last')}= link_to "#{t("main_menu.cron")}", :controller=>"home",:action=>"cron"

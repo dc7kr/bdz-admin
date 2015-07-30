@@ -1,0 +1,56 @@
+#sidebar {
+  width: 25%;
+  float: right;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+
+  .block { 
+    border-radius: 10px 10px 5px 5px;
+    box-shadow: 5px 5px 5px #888;
+    
+    ul.navigation {
+      list-style-type: none;
+      ul {
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+      }
+
+      li { 
+        a:visited {
+          display: block;
+          padding: 5px 5px;
+          color: #202020;
+        }
+        a:link {
+          display: block;
+          padding: 5px 5px;
+        }
+      }
+    }
+
+    .sidebar-block {
+      padding: 10px;
+    }
+
+    .notice {
+      padding:5px 10px;
+      font-size: 8pt;
+      border-radius: 10px;
+      margin: 10px 0;
+    }
+
+
+    .content {
+      padding: 0 15px;
+    }
+
+    h3 {  
+      padding: 10px 15px;
+      margin: 0;
+      font-size: 13px;
+      border-radius: 10px 10px 0 0;
+    }
+  }
+}
+

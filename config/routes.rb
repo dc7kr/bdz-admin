@@ -5,6 +5,9 @@ BDZAdmin::Application.routes.draw do
     collection do
       get :search
     end
+    member do
+      get 'exchange'
+    end
   end
 
   resources :competition_entries do
@@ -193,7 +196,7 @@ BDZAdmin::Application.routes.draw do
   resources :advertisements
 
   #devise_for :users, :controllers => {:sessions => 'sessions'}
-  devise_for :users
+  devise_for :users, :skip => [:registrations]
 
   resources :users, :path => :accounts
 
@@ -244,7 +247,18 @@ BDZAdmin::Application.routes.draw do
   end
   resources :states
   resources :regional_organizations  do 
-    resources :regional_organization_reports
+    resources :regional_organization_reports, :path => :reports do 
+      collection do 
+        get :index
+        get :orch
+        get :person
+        get :members
+        get :fee_shares
+        get :oddset_report
+        get :share_overview
+      end
+    end
+
     resources :functions do
     end
     member do
@@ -332,9 +346,6 @@ BDZAdmin::Application.routes.draw do
         get 'upload_report'
         post 'upload'
       end
-      member do
-        get 'exchange'
-      end
     end
 
     resources :orchestra_contacts
@@ -349,6 +360,7 @@ BDZAdmin::Application.routes.draw do
       end
     end
     collection do 
+      get :lorch
       get :noreport
       get :nopayment
       get :notinvoiced
@@ -462,6 +474,7 @@ BDZAdmin::Application.routes.draw do
    match 'invoices/gen_all' => 'invoices#gen_all'
    match 'invoices/gen_orchestras' => 'invoices#gen_orchestras'
    match 'invoices/gen_persons' => 'invoices#gen_persons'
+   match 'invoices/gen_lorch' => 'invoices#gen_lorch'
    match 'invoices/ping' => 'invoices#ping'
     match 'lv_fee_bookings/index' => 'lv_fee_bookings#index'
     match 'reminders/report_sheet' => 'reminders#report_sheet'

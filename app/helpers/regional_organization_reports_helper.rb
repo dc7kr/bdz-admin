@@ -1,4 +1,4 @@
-module RegionalOrganizationsHelper
+module RegionalOrganizationReportsHelper
 
   def report_sheet_count(rs, key) 
     if rs.nil? then

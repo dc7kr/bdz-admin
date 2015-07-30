@@ -14,7 +14,7 @@ module GitHelper
 	end
   private 
   def gitparse(commit_count) 
-    cmd = "git log --abrev-commit --max-count=#{commit_count}" 
+    cmd = "git log --abbrev-commit --max-count=#{commit_count}" 
 
     result = IO.popen(cmd, 'r+') {|io| 
         io.close_write
@@ -36,7 +36,7 @@ module GitHelper
       elsif c.start_with?("Author:")
         commit[:author]= c.gsub(/^Author:\ +/,"")
       elsif c.start_with?("Date:")
-        commit[:date]= c.gsub(/^Date:\ +/,"")
+        commit[:date]= DateTime.parse(c.gsub(/^Date:\ +/,""))
       else
         if commit[:lines].nil? then
           commit[:lines] = Array.new

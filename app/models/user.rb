@@ -59,12 +59,15 @@ class User < ActiveRecord::Base
   end
 
   def bulk_permission?
-	  val = (has_role? :admin) or (has_role? :bulk)
-    return val
+	  return (has_role? :admin or has_role? :bulk)
   end
 
   def national_permission? 
     admin? or national?
+  end
+
+  def can_create_members?
+    return ( has_role? :national or has_role? :admin)
   end
 
   def reference_data_permission?
@@ -77,6 +80,10 @@ class User < ActiveRecord::Base
 
   def magazine_permission?
     return national_permission?
+  end
+
+  def accounting_permission?
+    return (has_role? :accounting or has_role? :admin)
   end
 
   def accounting?
@@ -112,9 +119,7 @@ class User < ActiveRecord::Base
   end
 
   def restricting_entity
-    if has_role? :regional 
-      return RegionalOrganization.with_role(:regional, self).first
-    elsif has_role? :member 
+    if has_role? :member 
         member = PersonMember.with_role(:member, self).first
       if member.nil? then
         member = Orchestra.with_role(:member,self).first

@@ -1,0 +1,48 @@
+#main {  
+  width: 70%;
+  float: left;    
+  box-shadow: 5px 5px 5px #888;
+  background: #ffffff;
+  border-radius: 10px;
+  .content {
+    padding: 10px;
+  }
+
+  .block {
+    margin-bottom: 20px;
+    padding-top: 1px;
+
+    .content {
+      background: #FFF;
+      padding-top: 1px;
+
+      h2 {
+        margin-left: 15px;
+        font-size: 22px;
+        font-style: normal;
+        font-weight: bold;
+        text-transform: normal;
+        letter-spacing: -1px;
+        line-height: 1.2em;
+      }
+
+      p {
+        font-size: 13px;
+        font-style: normal;
+        font-weight: normal;
+        text-transform: normal;
+        letter-spacing: normal;
+        line-height: 1.45em;
+      }
+
+      .inner {
+         padding: 0 15px 15px;  
+      }
+    }
+  }
+
+  .main p.first {
+    margin-top: 0;
+  }
+}
+
