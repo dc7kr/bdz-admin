@@ -8,7 +8,7 @@ class ReportSheetsController < AuthenticatedController
   def index
 
 	  if (params[:orchestra_id]) then
-	    @report_sheets = ReportSheet.find_all_by_orchestra_id(params[:orchestra_id])
+	    @report_sheets = @report_sheets.where("orchestra_id = ?", params[:orchestra_id]).order(:year)
       thisYear = Time.now.year
       @report_sheets.each do |rs|
           if rs.year == thisYear then
