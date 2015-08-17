@@ -1,11 +1,9 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.2.15'
+gem 'rails', '3.2.22'
 
 gem 'haml'
 gem 'haml-rails'
-
-gem 'quiet_assets', :group => :development
 
 # DANGER: DONT OMIT iso otherwise it pollutes the default namespace
 gem 'countries', :require => 'iso3166'
@@ -21,9 +19,7 @@ gem 'sepa_king', :git => 'https://github.com/salesking/sepa_king.git'
 gem 'bankleitzahl'
 
 
-gem 'gritter'  # for shiny notifies
-
-gem 'coffee-rails', "~> 3.2.1"
+gem 'coffee-rails'
 gem 'uglifier', ">= 1.3.0"
 
 gem 'fastercsv'
@@ -58,11 +54,6 @@ gem 'json'
 
 gem 'prawn'
 
-# markdown to html
-gem 'bluecloth'
-#markdown to pdf
-gem 'gimli' 
-
 gem 'dynamic_form'
 gem 'formtastic'
 gem 'valid_email'
@@ -94,10 +85,8 @@ gem 'hpricot'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
-  gem 'sass-rails',   '~> 3.2.3'
+  gem 'sass-rails',   '~> 3.2'
 end
-
-
 
 #gem 'will_paginate'
 # testing
@@ -115,29 +104,3 @@ group :production do
   gem 'therubyracer'
 end
 
-#gem 'nokogiri', '1.5.5'
-
-
-
-# Use unicorn as the web server
-# gem 'unicorn'
-
-# Deploy with Capistrano
-# gem 'capistrano'
-
-# To use debugger (ruby-debug for Ruby 1.8.7+, ruby-debug19 for Ruby 1.9.2+)
-# gem 'ruby-debug'
-# gem 'ruby-debug19', :require => 'ruby-debug'
-
-# Bundle the extra gems:
-# gem 'bj'
-# gem 'nokogiri'
-# gem 'sqlite3-ruby', :require => 'sqlite3'
-# gem 'aws-s3', :require => 'aws/s3'
-
-# Bundle gems for the local environment. Make sure to
-# put test-only gems in this group so their generators
-# and rake tasks are available in development mode:
-# group :development, :test do
-#   gem 'webrat'
-# end
