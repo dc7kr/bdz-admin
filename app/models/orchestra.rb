@@ -13,6 +13,10 @@ class Orchestra < ActiveRecord::Base
 
   validates :mglnr, :orch_mglnr => true
 
+  def self.notinvoiced(year)
+    includes([:report_sheets,:member]).joins("LEFT JOIN member_account_bookings mb ON orchestras.member_id=mb.member_id AND mb.booking_type='B' and mb.booking_year = #{year}").where("mb.id IS NULL and report_sheets.year= ?",year).order("members.mglnr")
+  end
+
   def self.mailForEvent(event,via_paper)
     if (via_paper) then
 			includes([:member]).joins("LEFT JOIN member_events e ON orchestras.member_id=e.member_id AND e.event_id='"+event+"'").where("e.id IS NULL")

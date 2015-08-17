@@ -52,8 +52,7 @@ class OrchestrasController < AuthenticatedController
      year = Time.now.year
     end
 
-    @orchestras = Orchestra.includes([:member,:report_sheets]).joins("LEFT JOIN member_account_bookings mb ON orchestras.member_id=mb.member_id AND mb.booking_type='B' and YEAR(mb.booking_date) = #{year}").where("mb.id IS NULL and report_sheets.year= #{year}").search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
-
+    @orchestras = Orchestra.notinvoiced(year).search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
 
     respond_to do |format|
 	 format.js
