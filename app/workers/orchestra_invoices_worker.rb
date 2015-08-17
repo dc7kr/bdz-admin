@@ -28,7 +28,7 @@ class OrchestraInvoicesWorker < AbstractInvoicesWorker
 
     triggered_by = User.find(user_id)
 
-	  @orchestras = Orchestra.includes([:report_sheets,:member]).joins("LEFT JOIN member_account_bookings mb ON orchestras.member_id=mb.member_id AND mb.booking_type='B' and YEAR(mb.booking_date) = #{year}").where("mb.id IS NULL and NOT orch_type='L' and report_sheets.year= ?",year).order("members.mglnr")
+	  @orchestras = Orchestra.notinvoiced(year).where("NOT orch_type='L'")
 
     invoices = Array.new
 
