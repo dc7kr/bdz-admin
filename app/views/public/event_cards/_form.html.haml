@@ -19,7 +19,7 @@
       %td{:colspan=>2}=f.text_field :city
     %tr
       %td= f.label :country_code
-      %td= f.country_select :country_code, ["de"] , iso_codes:true 
+      %td= f.country_select :country_code, iso_codes:true 
     %tr
       %td= f.label :preferred_lang
       %td=f.select(:preferred_lang, options_for_select([['Deutsch','de'],['Englisch','en']],:selected=>@event_card.preferred_lang))

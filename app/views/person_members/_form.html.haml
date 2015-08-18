@@ -25,7 +25,7 @@
       %td= f.text_field :ort, :class => 'text_field'
     %tr
       %td.label= f.label :land, t("country.s")
-      %td= country_select(:person_member, :country_code, nil , :iso_codes=>true)
+      %td= country_select(:person_member, :country_code,  :iso_codes=>true)
     %tr
       %td.label= f.label :telefon, t("member.phone")
       %td= f.text_field :telefon, :class => 'text_field'

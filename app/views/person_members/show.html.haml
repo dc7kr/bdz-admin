@@ -15,7 +15,11 @@
           %td= @person_member.telefonDienstl
         %tr
           %td.label #{t("person_member.tarrif_id")}:
-          %td= @person_member.tariff.description
+          %td
+            - if not @person_member.tariff.nil? then
+              = @person_member.tariff.description
+            -else
+              %span.error FEHLER!!!
         %tr
           %td.label #{t("member.comment")}:
           %td
