@@ -55,8 +55,11 @@ class FestivalApplication < ActiveRecord::Base
     prices = BDZ_SETTINGS["festival_prices"]
     ts = Time.now.strftime "%Y%m%d"
 
+    germany = Country["DE"]
+    austria = Country["AT"]
+
     renr = ts+"-TLN#{id}"
-    if (contact_person.country_code == 'de' or country_code == 'at') then 
+    if (contact_person.country_code == germany.alpha2 or country_code == austria.alpha2 then 
       locale = :de
     else 
       locale = :en

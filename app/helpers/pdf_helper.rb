@@ -31,7 +31,7 @@ module PDFHelper
         text orchestra.strasse
         text " "
         text "#{orchestra.plz} #{orchestra.ort}"
-        if ( orchestra.country_code != 'de' ) then
+        if ( orchestra.country_code != 'DE' ) then
           text orchestra.t_country
         end
       end

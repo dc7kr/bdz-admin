@@ -216,7 +216,7 @@ class FestivalApplicationsController < AuthenticatedController
 					}
 
 	    			applications.each do |app|
-						if ( app.country_code != "de" ) then 
+						if ( app.country_code != Country['DE'].alpha2 ) then 
 							grp_locale=:en
 						else
 							grp_locale=:de

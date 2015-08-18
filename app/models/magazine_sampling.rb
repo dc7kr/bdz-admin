@@ -7,7 +7,7 @@ class MagazineSampling < ActiveRecord::Base
   end
 
   def t_country
-    if country_code != "de" then 
+    if country_code != "DE" then 
       contact.t_country("en")
     else
       ""
