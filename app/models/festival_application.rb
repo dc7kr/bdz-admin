@@ -59,7 +59,7 @@ class FestivalApplication < ActiveRecord::Base
     austria = Country["AT"]
 
     renr = ts+"-TLN#{id}"
-    if (contact_person.country_code == germany.alpha2 or country_code == austria.alpha2 then 
+    if (contact_person.country_code == germany.alpha2 or country_code == austria.alpha2) then 
       locale = :de
     else 
       locale = :en
