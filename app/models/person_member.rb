@@ -2,6 +2,8 @@ class PersonMember < ActiveRecord::Base
   inherits_from :member
   belongs_to :tariff
 
+  validates_presence_of :tariff
+
   scope :cancelled, includes(:member).where("members.austritt_zum is not null and members.austritt_zum != '0000-00-00' and austritt_zum < now()")
   scope :nomail,includes(:member).where('members.email IS NULL')
 
