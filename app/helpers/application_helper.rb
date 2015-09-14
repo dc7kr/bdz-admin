@@ -200,6 +200,13 @@ def format_date_time(date)
   end
 end
 
+def format_date_only(date)
+  if (date.nil?)
+    "---"
+  else
+    return date.strftime '%d.%m.%Y'
+  end
+end
 def format_date(date) 
   if ( date == nil ) 
     "---"
