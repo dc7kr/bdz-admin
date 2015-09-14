@@ -50,5 +50,22 @@ class MemberAccountBooking < ActiveRecord::Base
 
     comma :gema do
     end
+
+  def self.unbalanced_for(year=nil)
+    if not year.nil? 
+      accounts = MemberAccountBooking.where("booking_year < ?", year).sum(:amount,:group=>:member_id)
+    else
+      accounts = MemberAccountBooking.sum(:amount,:group=>:member_id)
+    end
+
+    ids = Set.new
+    accounts.each do |account|
+      if account[1].round(2) <0 
+          ids.add(account[0])
+      end
+	  end
+
+    return ids
+  end
 end
 
