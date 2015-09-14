@@ -75,7 +75,7 @@ class PersonMembersController < AuthenticatedController
   def new
     @person_member = PersonMember.new
     @person_member.zeitungen=1
-    @person_member.country_code = Country['DE'].alpha2
+    @person_member.country_code = ISO3166::Country['DE'].alpha2
 
     respond_to do |format|
       format.html # new.html.erb

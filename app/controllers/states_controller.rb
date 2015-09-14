@@ -91,7 +91,7 @@ class StatesController < AuthenticatedController
 
     def determine_scope
       @scope = if params[:country_id]
-        Country.find(params[:country_id]).states
+        ISO3166::Country.find(params[:country_id]).states
       else
         State
       end

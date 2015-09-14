@@ -1,3 +1,4 @@
+require 'uuid'
 class ConcertsController < AuthenticatedController
   # GET /concerts
   # GET /concerts.json
@@ -108,6 +109,8 @@ class ConcertsController < AuthenticatedController
   # POST /concerts.json
   def create
     @concert = Concert.new(params[:concert])
+    @concert.reported = Time.new
+    @concert.uid = UUID.new.generate
 
     respond_to do |format|
       if @concert.save

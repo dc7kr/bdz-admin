@@ -36,7 +36,7 @@ class CalendarSyncController < AuthenticatedNonResourceController
 				conc.url=""
 				conc.confirmed=1
         conc.bland=nil
-				conc.country_code=Country['DE'].alpha2
+				conc.country_code="DE"
 				conc.eintritt=0
 				conc.token=event.uid.to_s
 			true

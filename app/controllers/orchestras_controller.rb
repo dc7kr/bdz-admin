@@ -190,7 +190,7 @@ class OrchestrasController < AuthenticatedController
   # GET /orchestras/new.json
   def new
     @orchestra = Orchestra.new
-    @orchestra.country_code = Country['DE'].alpha2
+    @orchestra.country_code = ISO3166::Country['DE'].alpha2
 
     respond_to do |format|
       format.html # new.html.erb
