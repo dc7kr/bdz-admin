@@ -3,7 +3,7 @@
   %li{ :class => tabActiveClass(@current_action,'index',nil)}= link_to t("common.list"), concerts_path
   %li{ :class => tabActiveClass(@current_action,'future',nil)}= link_to t("concert.future"), future_concerts_path
   %li{:class => tabActiveClass(@current_action,'inactive',nil)}= link_to t("common.inactive"), inactive_concerts_path
-  -if (@concert) then 
+  -if (@concert and not @concert.id.nil?) then 
     %li{:class => tabActiveClass(@current_action,'edit',nil)}= link_to t("common.edit"), edit_concert_path(@concert)
     %li{:class => tabActiveClass(@current_action,'show',nil)}= link_to t("common.show"), concert_path(@concert)
   %li{:class => tabActiveClass(@current_action,'new',nil)}= link_to "#{t("web-app-theme.new", :default => "New")}", new_concert_path

@@ -1,10 +1,11 @@
 - if can? :read, concert
   %tr{:class => cycle("odd", "even"), :id=>"row#{concert.id}"}
-    %td= format_date(concert.datum)
-    %td= format_time(concert.zeit)
-    %td= concert.stadt
-    %td= concert.ort
+    %td= format_date_only(concert.concert_date)
+    %td= format_time(concert.concert_date)
     %td= concert.interpret
+    %td
+      = concert.ort
+      = concert.stadt
     %td= link_to concert.url,concert.url
     %td
       - if concert.visible == 0 then

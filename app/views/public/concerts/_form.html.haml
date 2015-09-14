@@ -35,7 +35,7 @@
       %td= select_tag "bland", options_from_collection_for_select(@states, "id", "name")
     %tr
       %td.label= f.label :country_code
-      %td= country_select(:concert, :country_code, nil, iso_codes:true)
+      %td= country_select(:concert, :country_code, iso_codes:true)
     %tr
       %td= f.label :email
       %td= f.text_field :email
