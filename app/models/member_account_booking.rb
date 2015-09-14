@@ -22,8 +22,7 @@ class MemberAccountBooking < ActiveRecord::Base
 		@booking.filename = @dateprefix+"-"+prefix+mglnrStr+".pdf"
 
 		return @booking
-    end
-
+  end
 
 	def self.newDistinctionInvoice(txt,amount,mglnrStr)
 		return genericType(txt,'ehrungsrechnung','E',amount,mglnrStr)
@@ -65,7 +64,7 @@ class MemberAccountBooking < ActiveRecord::Base
       end
 	  end
 
-    return ids
+    return { :accounts => accounts, :ids => ids }
   end
 end
 

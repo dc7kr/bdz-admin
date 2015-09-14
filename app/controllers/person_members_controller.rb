@@ -44,7 +44,10 @@ class PersonMembersController < AuthenticatedController
 
   def nopayment
 	
-  @ids = MemberAccountBooking.unbalanced_for
+  data = MemberAccountBooking.unbalanced_for
+
+  @ids = data[:ids]
+  @accounts = data[:accounts]
 
 	@person_members= PersonMember.includes(:member).order("members.mglnr").find(:all, :conditions=> ["member_id in (?)",@ids])
 

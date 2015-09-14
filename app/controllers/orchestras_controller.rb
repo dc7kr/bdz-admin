@@ -103,7 +103,10 @@ class OrchestrasController < AuthenticatedController
   def nopayment
 	@previousYear = (Time.now.year-1).to_s
 
-  @ids = MemberAccountBookings.unbalanced_for(params[:lastyear])
+  data = MemberAccountBooking.unbalanced_for(params[:lastyear])
+
+  @accounts = data[:accounts]
+  @ids = data[:ids]
 
 	@orchestras = Orchestra.includes(:member).order("members.mglnr").find(:all, :conditions=> ["member_id in (?)",@ids])
 
