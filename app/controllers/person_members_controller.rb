@@ -43,14 +43,9 @@ class PersonMembersController < AuthenticatedController
   end
 
   def nopayment
-	@accounts = MemberAccountBooking.sum(:amount,:group=>:member_id)
+	
+  @ids = MemberAccountBooking.unbalanced_for
 
-	@ids = Set.new
-	@accounts.each do |account|
-      if (account[1]<0) then
-        @ids.add(account[0])
-	  end
-	end
 	@person_members= PersonMember.includes(:member).order("members.mglnr").find(:all, :conditions=> ["member_id in (?)",@ids])
 
     respond_to do |format|

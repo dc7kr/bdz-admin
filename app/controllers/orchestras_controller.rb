@@ -102,19 +102,9 @@ class OrchestrasController < AuthenticatedController
   end
   def nopayment
 	@previousYear = (Time.now.year-1).to_s
-	if (params[:lastyear] != nil ) then
-		@lastyear= params[:lastyear]
-		@accounts = MemberAccountBooking.where("booking_year < ?", @lastyear).sum(:amount,:group=>:member_id)
-	else
-		@accounts = MemberAccountBooking.sum(:amount,:group=>:member_id)
-	end
 
-	@ids = Set.new
-	@accounts.each do |account|
-      if account[1].round(2) <0 then
-        @ids.add(account[0])
-	  end
-	end
+  @ids = MemberAccountBookings.unbalanced_for(params[:lastyear])
+
 	@orchestras = Orchestra.includes(:member).order("members.mglnr").find(:all, :conditions=> ["member_id in (?)",@ids])
 
     respond_to do |format|

@@ -42,14 +42,7 @@ class Cron::RemindersController < AuthenticatedNonResourceController
     datePrefix = Time.now.strftime("%Y%m%d_")
     year = Time.now.strftime("%Y")
 
-    @accounts = MemberAccountBooking.sum(:amount,:group=>:member_id)
-
-    @ids = Set.new
-    @accounts.each do |account|
-      if (account[1]<0) then
-        @ids.add(account[0])
-      end
-    end
+    @ids = MemberAccountBooking.unbalanced_for
 
     @persons = PersonMember.includes(:member).order("members.mglnr").find(:all, :conditions=> ["member_id in (?)",@ids])
     @orchestras = Orchestra.includes(:member).order("members.mglnr").find(:all, :conditions=> ["member_id in (?)",@ids])
@@ -91,9 +84,9 @@ class Cron::RemindersController < AuthenticatedNonResourceController
 	  year = Time.now.strftime('%Y')
 	  pdf_prefix= Time.now.strftime '%Y%m%d'
 
-    @users = User.where("role like ? or role like ?", "%admin%","%gs")
-      base_url = cron_downloads_url
-	    reminders_url = base_url+"?year="+year+"&filename="+pdf_file
+    @users = User.with_any_role(:admin, :gs)
+    base_url = cron_downloads_url
+	  reminders_url = base_url+"?year="+year+"&filename="+pdf_file
 	  @users.each do |user| 
 		  AdminNotifier.newreminders_notification(user, reminders_url, current_user).deliver
 	  end
