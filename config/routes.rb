@@ -39,7 +39,6 @@ BDZAdmin::Application.routes.draw do
   end
   resources :contact_events
   resources :board_contacts
-  resources :subscribers
 
   resources :feature_requests do
     collection do 
@@ -65,7 +64,6 @@ BDZAdmin::Application.routes.draw do
   resources :magazine_issues do
     member do 
       get :gen_advert_invoices
-      get :gen_subscriber_invoices
       get :counts
     end
   end
