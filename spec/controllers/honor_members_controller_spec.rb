@@ -24,7 +24,10 @@ RSpec.describe HonorMembersController, :type => :controller do
   # HonorMember. As you add validations to HonorMember, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+
+    {
+    :vorname=> "Vorname",
+    :name => "Name" }
   }
 
   let(:invalid_attributes) {
@@ -103,7 +106,9 @@ RSpec.describe HonorMembersController, :type => :controller do
   describe "PUT #update" do
     context "with valid params" do
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        {
+          :name => "Changed Name"
+        }
       }
 
       it "updates the requested honor_member" do

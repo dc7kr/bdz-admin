@@ -1,0 +1,5 @@
+leaf1:
+  leaf: true
+  hascountry: false
+  description: "Shiny descr"
+  parent_id: nil
