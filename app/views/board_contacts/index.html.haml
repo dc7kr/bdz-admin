@@ -8,7 +8,7 @@
     .inner
       #entry_info
         = page_entries_info @board_contacts
-      %table.table
+      %table.table.table-hover.table-condensed
         %thead
           %th.first= t("contact.last_name")
           %th= sortable "email", t("contact.email")

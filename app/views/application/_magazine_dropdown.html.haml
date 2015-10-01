@@ -1,0 +1,8 @@
+%ul.dropdown-menu{ :aria => {:labelledby=>"dropdownMenuAdmin"}}
+  %li= link_to t('magazine_issue.p'), magazine_issues_path 
+  %li= link_to t('advertiser.p'), advertisers_path 
+  %li= link_to t('magazine_advert.p'), magazine_adverts_path 
+  %li= link_to t('magazine_sampling.p'), magazine_samplings_path 
+  %li{ :role=>"separator", :class=>"divider" }
+  %li= link_to "Adressliste Orchester", "/orchestras/magazine.csv"
+  %li= link_to "Adressliste EM", "/person_members/magazine.csv"

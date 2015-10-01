@@ -5,7 +5,7 @@
     .inner
       %h2=t('custom_info_mail.s')
       = form_for :email, :url => { :controller => 'custom_info_mail', :action => 'send_mail' } do |f|
-        %table
+        %table.table.table-hover.table-condensed
           %tr
             %td= f.label :event_id
             %td= f.text_field :event_id, :size => 60 

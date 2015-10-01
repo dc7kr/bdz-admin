@@ -1,17 +1,34 @@
-%ul.wat-cf
-  -if ( current_user ) then
-    %li{ :class => tabActiveClass(current_area,'public_data','first')}= link_to "#{t("main_menu.public_data")}",home_public_data_path
-    %li{ :class => tabActiveClass(current_area,'member_data',nil)}= link_to "#{t("main_menu.member_data")}", home_member_data_path
+%nav.navbar.navbar-default
+  .container-fluid
+    .collapse.navbar-collapse
+      %ul.nav.navbar-nav.navbar-left
+        -if ( current_user ) then
+          %li{:role => "presentation", :class=>"dropdown"}
+            %a.dropdown-toggle{:href=>"#", :role=>"button" ,:data=> { :toggle=> "dropdown" }}=t("main_menu.public_data")
+            =render :partial => "public_data_dropdown"
+          %li{:role => "presentation", :class=>"dropdown"}
+            %a.dropdown-toggle{:href=>"#", :role=>"button" ,:data=> { :toggle=> "dropdown" }}=t("main_menu.member_data")
+            =render :partial => "member_data_dropdown"
 
-    - if current_user and current_user.reference_data_permission? then
-      %li{ :class => tabActiveClass(current_area,'reference_data',nil)}= link_to "#{t("main_menu.reference_data")}", home_reference_data_path 
-    - if current_user and current_user.magazine_permission? then
-      %li{ :class => tabActiveClass(current_area,'magazine_data',nil)}= link_to "#{t("main_menu.magazine_data")}", home_magazine_data_path 
-    - if current_user and current_user.festival_permission? then
-      %li{ :class => tabActiveClass(current_area,'festival_data',nil)}= link_to "#{t("main_menu.festival_data")}", home_festival_data_path 
-    -if current_user and current_user.has_role?(:admin) then
-      %li{ :class => tabActiveClass(current_area,'admin_data','last')}= link_to "#{t("main_menu.admin_data")}", home_admin_data_path
-    -if current_user and current_user.bulk_permission? then
-      %li{ :class => tabActiveClass(current_area,'cron','last')}= link_to "#{t("main_menu.cron")}", home_cron_path
-    -if current_user and current_user.has_role?(:regional) then
-      %li{ :class => tabActiveClass(current_area,'regional','last')}= link_to "#{t("main_menu.regional")}", RegionalOrganization.with_role(:regional, current_user).first
+          - if current_user and current_user.reference_data_permission? then
+            %li{:role => "presentation", :class=>"dropdown"}
+              %a.dropdown-toggle{:href=>"#", :role=>"button" ,:data=> { :toggle=> "dropdown" }}=t("main_menu.reference_data")
+              =render :partial => "reference_data_dropdown"
+          - if current_user and current_user.magazine_permission? then
+            %li{:role => "presentation", :class=>"dropdown"}
+              %a.dropdown-toggle{:href=>"#", :role=>"button" ,:data=> { :toggle=> "dropdown" }}=t("main_menu.magazine_data")
+              =render :partial => "magazine_dropdown"
+          - if current_user and current_user.festival_permission? then
+            %li{ :class => tabActiveClass(current_area,'festival_data',nil)}= link_to "#{t("main_menu.festival_data")}", home_festival_data_path 
+          -if current_user and current_user.has_role?(:regional) then
+            %li{ :class => tabActiveClass(current_area,'regional','last')}= link_to "#{t("main_menu.regional")}", RegionalOrganization.with_role(:regional, current_user).first
+
+      %ul.nav.navbar-nav.navbar-right
+        -if current_user and current_user.bulk_permission? then
+          %li{:role => "presentation", :class=>"dropdown"}
+          %li{ :class => tabActiveClass(current_area,'regional','last')}= link_to content_tag(:span, "",class: ["glyphicon","glyphicon-time"]), home_cron_path
+        -if current_user and current_user.has_role?(:admin) then
+          %li{:role => "presentation", :class=>"dropdown"}
+            %a.dropdown-toggle{:href=>"#", :role=>"button" ,:data=> { :toggle=> "dropdown" }}=content_tag(:span, "",class: ["glyphicon","glyphicon-cog"])
+            =render :partial => "admin_dropdown"
+

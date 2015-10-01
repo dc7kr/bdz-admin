@@ -1,8 +1,6 @@
-%p#notice= notice
-
 %p
   %b Category:
-  = @url.category
+  = @url.url_category
 %p
   %b Url:
   = @url.url
@@ -20,7 +18,7 @@
   = @url.country_code
 %p
   %b Bland:
-  = @url.bland
+  = @url.bland_id
 %p
   %b Email:
   = @url.email
@@ -34,6 +32,3 @@
   %b Ip:
   = @url.ip
 
-= link_to_edit( @url,'Edit')
-\|
-= link_back( 'Back')

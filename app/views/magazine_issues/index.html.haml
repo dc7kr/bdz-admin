@@ -6,9 +6,11 @@
       = t("common.all")
       = t("magazine_issue.p")
     .inner
-      %table.table
+      %table.table.table-hover.table-condensed
         %thead
           %th.first=t('common.year')
           %th=t('magazine_issue.number')
           %th.last
         = render @magazine_issues
+      #paginator
+        = paginate @magazine_issues

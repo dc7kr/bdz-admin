@@ -8,7 +8,7 @@
     .inner
       #entry_info
         = page_entries_info @festivals
-      %table.table
+      %table.table.table-hover.table-condensed
         %thead
           %th.first= sortable "mglnr", t("festival.mglnr")
           %th= sortable "orchName", t("festival.orchName")

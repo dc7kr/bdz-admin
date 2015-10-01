@@ -1,6 +1,6 @@
-.block
-  %h3=t("orchestra_member.search")
-  .content
+.panel.panel-primary
+  .panel-heading=t("orchestra_member.search")
+  .panel-body
     .notice=t("orchestra_member.search_txt")
     = form_tag search_orchestra_members_path, :method => 'get' do
       %table

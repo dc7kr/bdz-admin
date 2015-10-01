@@ -1,88 +1,38 @@
 .block
   = f.error_messages :message => "", :header_tag => :h3
 .group
-  %table
-    %tr
-      %td.label= f.label :mglnr, t("member.mglnr")
-      %td= f.number_field :mglnr, :class => 'number_field'
+  .container-fluid
+    = form_my_field(f,@person_member,:mglnr, :text, "number_field")
     %tr
       %td.label= f.label :anrede, t("member.salutation")
       %td= f.select :anrede, get_salutation_options(@person_member.anrede)
-    %tr
-      %td.label= f.label :vorname, t("member.vorname")
-      %td= f.text_field :vorname, :class => 'text_field'
-    %tr
-      %td.label= f.label :name, t("member.name")
-      %td= f.text_field :name, :class => 'text_field'
-    %tr
-      %td.label= f.label :strasse, t("member.street")
-      %td= f.text_field :strasse, :class => 'text_field'
-    %tr
-      %td.label= f.label :plz, t("member.zip")
-      %td= f.text_field :plz, :class => 'text_field'
-    %tr
-      %td.label= f.label :ort, t("member.city")
-      %td= f.text_field :ort, :class => 'text_field'
-    %tr
-      %td.label= f.label :land, t("country.s")
-      %td= country_select(:person_member, :country_code,  :iso_codes=>true)
-    %tr
-      %td.label= f.label :telefon, t("member.phone")
-      %td= f.text_field :telefon, :class => 'text_field'
-    %tr
-      %td.label= f.label :fax, t("member.fax")
-      %td= f.text_field :fax, :class => 'text_field'
-    %tr
-      %td.label= f.label :email, t("member.email")
-      %td= f.text_field :email, :class => 'text_field'
-    %tr
-      %td.label= f.label :geburtstag, t("person_member.birthday")
-      %td= f.text_field :geburtstag, :class => 'datePicker'
-    %tr
-      %td.label= f.label :telefonDienstl, t("person_member.telefonDienstl")
-      %td= f.text_field :telefonDienstl, :class => 'text_field'
-    %tr
-      %td.label= f.label :eintritt, t("member.eintritt")
-      %td= f.text_field :eintritt, :class => 'datePicker'
-    %tr
-      %td.label= f.label :za
-      %td= f.select :za, options_for_select([["Lastschrift", "L"], ["Rechnung", "R"]],:selected=>@person_member.za) 
-    %tr
-      %td.label= f.label :konto
-      %td= @person_member.konto
-    %tr
-      %td.label= f.label :blz
-      %td= @person_member.blz
-    %tr
-      %td.label= f.label :konto, t("member.iban")
-      %td= f.text_field :iban, :class => 'iban_field'
-    %tr
-      %td.label= f.label :bic, t("member.bic")
-      %td= f.text_field :bic, :class => 'bic_field'
-    %tr
-      %td.label= f.label :zahler
-      %td= f.text_field :zahler, :class => 'text_field'
-    %tr
-      %td.label= f.label :lv, t("member.lv")
-      %td= collection_select(:person_member, :regional_organization_id, RegionalOrganization.all, :id, :name) 
-    %tr
-      %td.label= f.label :tariff, t("person_member.tarrif_id")
-      %td= collection_select(:person_member, :tariff_id, Tariff.all, :id, :description) 
-    %tr
-      %td.label= f.label :zeitungen, t("person_member.zeitungen")
-      %td= f.number_field :zeitungen, :class => 'number_field'
-    %tr
-      %td.label= f.label :zusatzzeitung, t("person_member.zusatzzeitung")
-      %td= f.check_box :zusatzzeitung, :class => 'number_field'
-    %tr
-      %td.label= f.label :austrittZum, t("member.austritt_zum")
-      %td= f.text_field :austritt_zum, :class => 'datePicker'
-    %tr
-      %td.label= f.label :kuendigungVom, t("member.kuendigung_vom")
-      %td= f.text_field :kuendigungVom, :class => 'datePicker'
-    %tr
-      %td.label= f.label :bemerkung, t("member.comment")
-      %td= f.text_area :bemerkung, :class => 'text_field'
+    = form_my_field(f,@person_member,:vorname)
+    = form_my_field(f,@person_member,:name)
+    = form_my_field(f,@person_member,:strasse)
+    = form_my_field(f,@person_member,:plz)
+    = form_my_field(f,@person_member,:ort)
+    = form_wrapped_field(f,@person_member, :country_code, country_select(:person_member, :country_code, { iso_codes:true }, { class:  "form-control"}))
+    = form_my_field(f,@person_member,:telefon)
+    = form_my_field(f,@person_member,:fax)
+    = form_my_field(f,@person_member,:email,:email)
+    = form_my_field(f,@person_member,:geburtstag,:text,"datePicker")
+    = form_my_field(f,@person_member,:telefonDienstl)
+    = form_my_field(f,@person_member,:eintritt,:text,"datePicker")
+
+    = form_my_select(f,@person_member, :za, options_for_select([["Lastschrift", "L"], ["Rechnung", "R"]],:selected=>@person_member.za))
+    = form_my_field(f,@person_member, :konto,:static)
+    = form_my_field(f,@person_member, :blz,:static)
+    = form_my_field(f,@person_member, :iban,:text,"iban_field")
+    = form_my_field(f,@person_member, :bic,:text,"bic_field")
+    = form_my_field(f,@person_member, :zahler)
+    = form_wrapped_field(f,@person_member, :lv, collection_select(:person_member, :regional_organization_id, RegionalOrganization.all, :id, :name ,{},{ class: "form-control" }))
+    = form_wrapped_field(f,@person_member, :tariff_id, collection_select(:person_member, :tariff_id, Tariff.all, :id, :description,{},{ class: "form-control"}))
+    = form_my_field(f, @person_member, :zeitungen,:number)
+    = form_my_field(f, @person_member, :zusatzzeitung,:number)
+    = form_my_field(f, @person_member, :austritt_zum,:date)
+    = form_my_field(f, @person_member, :kuendigungVom,:date)
+    = form_my_textarea(f, @person_member,:bemerkung,80,5)
+
       
       
       

@@ -1,94 +1,42 @@
 .block
   = f.error_messages :message => "", :header_tag => :h3
 .group
-  %table
-    %tr
-      %td.label= f.label :mglnr, t("member.mglnr")
-      %td= f.text_field :mglnr, :class => 'number_field'
-    %tr
-      %td.label= f.label :orchName, t("orchestra.orchName")
-      %td= f.text_field :orchName, :class => 'text_field'
-    %tr
-      %td.label= f.label :anrede, t("orchestra.anrede")
-      %td= f.select :anrede, get_salutation_options(@orchestra.anrede)
-    %tr
-      %td.label= f.label :vorname, t("member.vorname")
-      %td= f.text_field :vorname, :class => 'text_field'
-    %tr
-      %td.label= f.label :name, t("member.name")
-      %td= f.text_field :name, :class => 'text_field'
-    %tr
-      %td.label= f.label :strasse, t("member.street")
-      %td= f.text_field :strasse, :class => 'text_field'
-    %tr
-      %td.label= f.label :plz, t("member.zip")
-      %td= f.text_field :plz, :class => 'text_field'
-    %tr
-      %td.label= f.label :ort, t("member.city")
-      %td= f.text_field :ort, :class => 'text_field'
-    %tr
-      %td.label= f.label :land, t("member.country")
-      %td= country_select(:orchestra, :country_code, iso_codes:true)
-    %tr
-      %td.label= f.label :telefon, t("member.phone")
-      %td= f.telephone_field :telefon, :class => 'text_field'
-    %tr
-      %td.label= f.label :fax, t("member.fax")
-      %td= f.telephone_field :fax, :class => 'text_field'
-    %tr
-      %td.label= f.label :email, t("member.email")
-      %td= f.text_field :email, :class => 'text_field'
-    %tr
-      %td.label= f.label :url, t("orchestra.url")
-      %td= f.url_field :url, :class => 'text_field'
+  .container-fluid
+    = form_my_field(f,@orchestra,:mglnr, :text, "number_field")
+    = form_my_field(f,@orchestra,:orchName, :text,"text_field")
+    = form_my_select(f,@orchestra, :anrede, get_salutation_options(@orchestra.anrede))
+    = form_my_field(f,@orchestra, :vorname)
+    = form_my_field(f,@orchestra, :name)
+    = form_my_field(f,@orchestra, :strasse)
+    = form_my_field(f,@orchestra, :plz)
+    = form_my_field(f,@orchestra, :ort)
 
-    %tr
-      %td.label= f.label :gruendung, t("orchestra.gruendung")
-      %td= f.text_field :gruendung 
-    %tr
-      %td.label= f.label :eintritt, t("member.eintritt")
-      %td= f.text_field :eintritt
-    %tr
-      %td.label= f.label :za, t("member.za")
-      %td= f.select :za, options_for_select([["Lastschrift", "L"], ["Rechnung", "R"]],:selected=>@orchestra.za) 
-    %tr
-      %td.label= f.label :konto, t("member.konto")
-      %td= @orchestra.konto
-    %tr
-      %td.label= f.label :blz, t("member.blz")
-      %td= @orchestra.blz
-    %tr
-      %td.label= f.label :konto, t("member.iban")
-      %td= f.text_field :iban, :class => 'iban_field'
-      %td= link_to "Calculate", member_tools_iban_calculator_path({ :konto => @orchestra.konto, :blz => @orchestra.blz,:entity=>"orchestra"}),'data-popup' => true
-    %tr
-      %td.label= f.label :bic, t("member.bic")
-      %td= f.text_field :bic, :class => 'bic_field'
-    %tr
-      %td.label= f.label :regional_organization, t("regional_organization.s")
-      - if current_user.national_permission? then
-        %td= collection_select(:orchestra, :regional_organization_id, RegionalOrganization.all, :id, :name) 
-      - else
-        %td=@orchestra.regional_organization.name
-      
-    %tr
-      %td.label= f.label :orch_type, t("orchestra.orch_type")
-      %td= f.select :orch_type, options_for_select([["Vereinsorchester", "O"], ["Kooperativ", "K"],  ["Landesorchester", "L"]],:selected=>@orchestra.orch_type) 
-    %tr
-      %td.label= f.label :austritt_zum, t("member.austritt_zum")
-      %td= f.text_field :austritt_zum, :class => 'datePicker'
-    %tr
-      %td.label= f.label :bemerkung, t("orchestra.bemerkung")
-      %td= f.text_area :bemerkung, :class => 'text_field', :cols=>80, :rows=>5
-    %tr
-      %td.label= f.label :kuendigungErfasst, t("member.kuendigungErfasst")
-      %td= f.check_box :kuendigungErfasst, :class => 'check_box'
-    %tr
-      %td.label= f.label :zweitanschrift, t("orchestra.zweitanschrift")
-      %td= f.text_field :zweitanschrift, :class => 'text_field'
-    %tr
-      %td.label= f.label :name2, t("orchestra.name2")
-      %td= f.text_field :name2, :class => 'text_field'
+    = form_wrapped_field(f,@orchestra, :land, country_select(:orchestra, :country_code, { iso_codes:true }, { class:  "form-control"}))
+    = form_my_field(f,@orchestra, :telefon)
+    = form_my_field(f,@orchestra, :fax)
+    = form_my_field(f,@orchestra, :email,:email)
+    = form_my_field(f,@orchestra, :url,:url)
+    = form_my_field(f,@orchestra, :gruendung,:date)
+    = form_my_field(f,@orchestra, :eintritt, :date)
+    = form_my_select(f,@orchestra, :za, options_for_select([["Lastschrift", "L"], ["Rechnung", "R"]],:selected=>@orchestra.za))
+    = form_my_field(f,@orchestra, :konto,:static)
+    = form_my_field(f,@orchestra, :blz,:static)
+    = form_my_field(f,@orchestra, :iban,:text,"iban_field")
+    = form_my_field(f,@orchestra, :bic,:text,"bic_field")
+    
+    - if current_user.national_permission? 
+      nix
+    -else
+      = form_my_field(f,@orchestra, :regional_organization_id,:static)
+    .form-group
+      = f.label :regional_organization, t("regional_organization.s"),:class => "col-md-2 control-label"
+      .col-md-10= collection_select(:orchestra, :regional_organization_id, RegionalOrganization.all, :id, :name) 
+    = form_my_select(f,@orchestra, :orch_type,   options_for_select([["Vereinsorchester", "O"], ["Kooperativ", "K"],  ["Landesorchester", "L"]],:selected=>@orchestra.orch_type)) 
+    = form_my_field(f,@orchestra, :austritt_zum,:text,"datePicker")
+    = form_my_textarea(f, @orchestra,:bemerkung,80,5)
+    = form_wrapped_field(f,@orchestra,:kuendigungErfasst, f.check_box(:kuendigungErfasst, :class => 'check_box'))
+    = form_my_field(f,@orchestra,:zweitanschrift )
+    = form_my_field(f,@orchestra,:name2)
   =submit_button()
   %span.text_button_padding &nbsp;
   = cancel_button()

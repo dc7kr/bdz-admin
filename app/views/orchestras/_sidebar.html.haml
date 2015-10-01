@@ -1,9 +1,10 @@
 =render :partial=>'search'
 =render :partial=>'search_members'
-.block
-  %h3 Berichte
-  %ul.navigation
-    %li
-      =link_to "Säumige GJ #{@previousYear}", nopayment_orchestras_path( :lastyear=> @previousYear)
-    %li= link_to "GEMA Zahlen", "/orchestras/gema.csv"
-    %li= link_to "Jugendleiter-Adressen",  reports_youth_addresses_path
+.panel.panel-primary
+  .panel-heading Berichte
+  .panel-body
+    %ul.nav.nav-pills.nav-stacked
+      %li
+        =link_to "Säumige GJ #{@previousYear}", nopayment_orchestras_path( :lastyear=> @previousYear)
+      %li= link_to "GEMA Zahlen", "/orchestras/gema.csv"
+      %li= link_to "Jugendleiter-Adressen",  reports_youth_addresses_path

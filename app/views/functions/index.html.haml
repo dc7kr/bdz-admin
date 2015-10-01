@@ -8,7 +8,7 @@
     .inner
       #entry_info
         = page_entries_info @functions
-      %table.table
+      %table.table.table-hover.table-condensed
         %thead
           %th.first= t("function.label")
           %th= sortable "regional_organization_id", t("regional_organization.s")

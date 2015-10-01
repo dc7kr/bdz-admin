@@ -1,0 +1,8 @@
+%ul.dropdown-menu{ :aria => {:labelledby=>"dropdownMenu2"}}
+  %li= link_to "Orchester", orchestras_path 
+  %li= link_to "Einzelmitglieder", person_members_path 
+  %li{ :role=>"separator", :class=>"divider" }
+  - if current_user.has_role?(:admin) or current_user.has_role?(:national) 
+    %li= link_to "Mitgliederbericht", "/member_report"
+    %li= link_to t('report_sheet.final'), final_report_sheets_path
+    %li= link_to t('report_sheet.analysis'), analysis_report_sheets_path
