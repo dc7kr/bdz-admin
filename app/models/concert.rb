@@ -2,9 +2,9 @@ class Concert < ActiveRecord::Base
 
   validates_presence_of :eintritt
 
-  scope :public, where('visible=1 and datum >= now()')
+  scope :public, where('visible=1 and datum >= ?',Time.now)
 	scope :inactive, where('visible=0')
-  scope :future, where('datum >= now()');
+  scope :future, where('datum >= ?', Time.now);
 
 	belongs_to :user , :foreign_key => "owner"
 	belongs_to :state, :foreign_key => "bland"

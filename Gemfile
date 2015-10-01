@@ -9,6 +9,11 @@ gem 'haml-rails'
 gem 'countries', :require => 'iso3166'
 gem 'country_select'
 
+# preparation for Rails 4
+gem 'strong_parameters'
+
+
+#gem 'corika_invoices', :git => 'git@git.corika.com:gems/corika_invoices.git'
 
 #ASYNC Execution 
 gem 'sidekiq'
@@ -82,16 +87,8 @@ gem 'hpricot'
 # JS exec environment for asset precompile
 
 
-# Gems used only for assets and not required
-# in production environments by default.
-group :assets do
-  gem 'sass-rails',   '~> 3.2'
-end
-
 #gem 'will_paginate'
 # testing
-gem 'capybara'
-gem 'rspec-rails'
 #gem 'web-app-theme', '~> 0.8.0'
 #gem 'web-app-theme', :git => "git://github.com/pilu/web-app-theme.git"
 
@@ -99,8 +96,19 @@ gem 'class-table-inheritance'
 
 gem 'parseconfig'
 
+# Bootstrap css 
+gem 'bootstrap-sass', '~> 3.3.5'
+gem 'sass-rails', '>= 3.2'
+
 #to be able to compile the assets...
 group :production do
   gem 'therubyracer'
 end
 
+
+group :test do
+  gem 'simplecov', :require => false
+  gem 'capybara'
+  gem 'rspec-rails'
+  gem 'factory_girl'
+end

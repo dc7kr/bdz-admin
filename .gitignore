@@ -6,3 +6,4 @@ tmp/
 *.sample 
 *.old
 notes/
+coverage/

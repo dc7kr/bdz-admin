@@ -4,7 +4,7 @@ class PersonMember < ActiveRecord::Base
 
   validates_presence_of :tariff
 
-  scope :cancelled, includes(:member).where("members.austritt_zum is not null and members.austritt_zum != '0000-00-00' and austritt_zum < now()")
+  scope :cancelled, includes(:member).where("members.austritt_zum is not null and members.austritt_zum != '0000-00-00' and austritt_zum < ?", Time.now)
   scope :nomail,includes(:member).where('members.email IS NULL')
 
 
@@ -146,9 +146,9 @@ class PersonMember < ActiveRecord::Base
   def self.with_zero_balance(include_this_year=false)
     accounts=nil
     if include_this_year then
-	    accounts = MemberAccountBooking.where("booking_year < year(now())").sum(:amount,:group=>:member_id)
+	    accounts = MemberAccountBooking.where("booking_year < ?",Time.now.year).sum(:amount,:group=>:member_id)
     else
-	    accounts = MemberAccountBooking.where("booking_year < year(now())").sum(:amount,:group=>:member_id)
+	    accounts = MemberAccountBooking.where("booking_year < ?",Time.now.year).sum(:amount,:group=>:member_id)
     end
 
 	  ids = Set.new

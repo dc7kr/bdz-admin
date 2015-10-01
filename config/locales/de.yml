@@ -750,6 +750,8 @@ de:
       cancel_account: "Benutzeraccount löschen"
   activerecord: 
     attributes:
+      orchestra:
+        mglnr: "Mitgl.-Nr."
       festival:
         bland: Bundesland
         startdate: "Beginn-Datum"
