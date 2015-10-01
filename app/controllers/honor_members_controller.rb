@@ -41,7 +41,7 @@ class HonorMembersController < AuthenticatedController
   # POST /honor_members
   # POST /honor_members.json
   def create
-    @honor_member = HonorMember.new(params[:honor_member])
+    @honor_member = HonorMember.new(honor_member_params)
 
     respond_to do |format|
       if @honor_member.save
@@ -60,7 +60,7 @@ class HonorMembersController < AuthenticatedController
     @honor_member = HonorMember.find(params[:id])
 
     respond_to do |format|
-      if @honor_member.update_attributes(params[:honor_member])
+      if @honor_member.update(honor_member_params)
         format.html { redirect_to @honor_member, notice: 'Honor member was successfully updated.' }
         format.json { head :no_content }
       else
@@ -80,5 +80,10 @@ class HonorMembersController < AuthenticatedController
       format.html { redirect_to honor_members_url }
       format.json { head :no_content }
     end
+  end
+
+  private 
+  def honor_member_params
+    params.require(:honor_member).permit( :nr, :vorname, :name, :ort, :honorType, :honorDate)
   end
 end
