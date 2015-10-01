@@ -7,7 +7,7 @@ RSpec.describe "regional_organizations/edit", :type => :view do
       :name => "MyString",
       :subname => "MyString",
       :homepage => "MyString",
-      :jugendurl => "MyString",
+      :jugend_url => "MyString",
       :iban => "MyString",
       :bic => "MyString"
     ))

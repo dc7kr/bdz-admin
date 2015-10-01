@@ -1,0 +1,4 @@
+users_roles1:
+  user_id: admin
+  role_id: admin_role
+

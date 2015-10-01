@@ -20,6 +20,16 @@ require 'rails_helper'
 
 RSpec.describe HonorMembersController, :type => :controller do
 
+  fixtures :users
+
+  before do
+    sign_in users[:admin] 
+  end
+  it "should have a current_user" do
+    # note the fact that you should remove the "validate_session" parameter if this was a scaffold-generated controller
+    subject.current_user.should_not be_nil
+  end
+
   # This should return the minimal set of attributes required to create a valid
   # HonorMember. As you add validations to HonorMember, be sure to
   # adjust the attributes here as well.
@@ -41,6 +51,7 @@ RSpec.describe HonorMembersController, :type => :controller do
 
   describe "GET #index" do
     it "assigns all honor_members as @honor_members" do
+      sign_in :admin
       honor_member = HonorMember.create! valid_attributes
       get :index, {}, valid_session
       expect(assigns(:honor_members)).to eq([honor_member])
@@ -160,5 +171,14 @@ RSpec.describe HonorMembersController, :type => :controller do
       expect(response).to redirect_to(honor_members_url)
     end
   end
+
+  it "blocks unauthenticated access" do
+    sign_in nil
+
+    get :index
+
+    expect(response).to redirect_to(new_user_session_path)
+  end
+
 
 end
