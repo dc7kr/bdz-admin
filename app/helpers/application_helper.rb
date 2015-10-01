@@ -90,12 +90,13 @@ end
 
 
 def submit_button(txt=t('common.save'))
-    button_tag(:type=>"submit",:class=>"button") do 
-      image_tag("web-app-theme/icons/tick.png", :alt => txt)+" "+txt
+    button_tag(:type=>"submit",:class=>"btn btn-default") do 
+      content_tag(:span,"",class: "glyphicon glyphicon-tick")
+      txt
     end
 end
 def cancel_button()
-  link_to t("common.cancel"), url_for(:back), :class => "text_button_padding button"
+  link_to t("common.cancel"), url_for(:back), :class => "btn btn-default"
 end
 
 def del_button(entity)
@@ -123,7 +124,7 @@ def link_to_edit(entity, txt=nil)
 		txt = t('common.edit')
 	end
     if can? :update, entity
-                link_to image_tag('/assets/icons/edit.png', {:size=>'16x16',:alt=>txt,:title=>txt,:class=>'btn'} ),{ :id=>entity, :action=>'edit'}
+        link_to content_tag(:span,"",:class=>"glyphicon glyphicon-edit"), { :id=>entity, :action=>'edit'}
     end
 end
 
@@ -135,7 +136,7 @@ end
 
 def link_to_show_path(path,txt,entity)
 	if can? :read, entity
-        link_to image_tag('/assets/icons/show.png', {:size=>'16x16',:alt=>txt,:title=>txt,:class=>'btn'} ),path
+        link_to content_tag(:span,"",:class=>"glyphicon glyphicon-list"),path
     end
 end
 
@@ -144,14 +145,14 @@ def link_to_show(entity,txt=nil)
 		txt = t('common.show')
 	end
 	if can? :read, entity
-        link_to image_tag('/assets/icons/show.png', {:size=>'16x16',:alt=>txt,:title=>txt,:class=>'btn'} ),entity
+        link_to content_tag(:span,"",:class=>"glyphicon glyphicon-list"), entity
     end
 end
 
 def link_to_new(path, txt, clazz)
 	if can? :create, clazz
 #    if user_signed_in?
-          link_to image_tag('/assets/icons/new.png', {:size=>'16x16',:alt=>txt,:title=>txt,:class=>'btn'} ),path
+        link_to content_tag(:span,"",:class=>"glyphicon glyphicon-plus-sign"), path
 #    end
 	end
 end
@@ -170,7 +171,7 @@ def link_to_del_path(path, entity, remote=false, authorize=true, cfm=true,txt=ni
     if can? :delete, entity or not authorize
       img = '/assets/icons/delete.png'
       img_hash = {:size=>'16x16',:alt=>txt,:title=>txt,:class=>'btn'}
-      link_to image_tag(img, img_hash),path, :confirm => cfm ? confirm : nil, :method => :delete, :remote => remote
+      link_to content_tag(:span,"",:class=>"glyphicon glyphicon-remove-sign"), path, :confirm => cfm ? confirm : nil, :method => :delete, :remote => remote
     end
 end
 
@@ -188,7 +189,7 @@ def link_to_delete(entity, txt=nil, confirm=nil )
       txt = t('common.delete_confirm')
     end
     if can? :delete, entity
-		link_to image_tag('/assets/icons/delete.png', {:size=>'16x16',:alt=>txt,:title=>txt,:class=>'btn'} ),entity,:confirm => confirm, :method => :delete, :remote=>true,  "data-type" => :json
+		link_to content_tag(:span,"",:class=>"glyphicon glyphicon-remove-sign"),entity,:confirm => confirm, :method => :delete, :remote=>true,  "data-type" => :json
     end
 end
 
@@ -429,6 +430,13 @@ JS1
     concat(raw(html_text))
     end
 
+def form_err_class(resource, field) 
+  if resource.errors[field].present? then
+    "has-error"
+  else
+    ""
+  end
+end
 
 def get_salutation_options(selected)
   options_for_select( [
@@ -437,7 +445,57 @@ def get_salutation_options(selected)
     ],
     :selected=>selected)
 end
+
+  def form_wrapped_field(form,resource,field, input) 
+      label = form.label field, nil,:class => "col-sm-12 col-md-2 control-label"
+      css_class="form-group"
+
+      if resource.errors[field].present? 
+        css_class+=" has-error"
+      end
+
+      input_wrap = content_tag(:div, input, :class=>"col-sm-12 col-md-10")
+      content_tag(:div, label+input_wrap, class: css_class) 
+  end
+
+  def form_my_field(form, resource, field, type=:text, extra_class=nil)
+
+      css_class = "form-control"
+
+      if not extra_class.nil?
+        css_class+=" "+extra_class
+      end
+      input = nil
+
+      if type == :text 
+        input = form.text_field field, :class =>  css_class
+      elsif type == :number
+        input = form.number_field field, :class =>  css_class
+      elsif type == :url
+        input = form.url_field field, :class =>  css_class
+      elsif type == :email
+        input = form.email_field field, :class =>  css_class
+      elsif type == :date
+        input = form.text_field field, :class =>  css_class+" date_field"
+      elsif type == :static
+        input = content_tag(:p , resource[field],class: "form-control-static")
+      end
+
+      form_wrapped_field(form, resource, field, input)
+  end
+
+  def form_my_textarea(form, resource, field, cols,rows)
+      input = form.text_area :bemerkung, :class => 'form-control', :cols=>cols, :rows=>rows
+      form_wrapped_field(form,resource, field, input)
+  end
+  def form_my_select(form, resource, field,options) 
+    label = form.label field, nil,:class => "col-sm-12 col-md-2 control-label"
+
+    css_class = "form-control"
+
+    input = form.select field, options, {}, {class: css_class}
+    form_wrapped_field(form, resource, field, input)
+
+  end
+
 end
-
-
-
