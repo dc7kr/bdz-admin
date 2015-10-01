@@ -194,6 +194,7 @@ class OrchestrasController < AuthenticatedController
   def new
     @orchestra = Orchestra.new
     @orchestra.country_code = ISO3166::Country['DE'].alpha2
+    @orchestra.eintritt = Time.now
 
     respond_to do |format|
       format.html # new.html.erb
