@@ -1,0 +1,8 @@
+class RenameBeitragsartInPersonMembers < ActiveRecord::Migration
+  def up
+    rename_column :person_members, :beitragsart, :tariff_id
+  end
+
+  def down
+  end
+end

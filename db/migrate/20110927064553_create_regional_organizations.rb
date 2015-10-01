@@ -5,7 +5,7 @@ class CreateRegionalOrganizations < ActiveRecord::Migration
       t.string :name
       t.string :subname
       t.string :homepage
-      t.string :jugendurl
+      t.string :jugend_url
 
       t.timestamps
     end
