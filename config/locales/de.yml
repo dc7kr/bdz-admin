@@ -434,8 +434,8 @@ de:
     url: URL
 
   booking:
-    s: Buchung
-    p: Buchungen
+    one: Buchung
+    other: Buchungen
     index: Mitgliedskonto
     create_success: Buchung wurde erfolgreich angelegt.
     update_success: Buchung wurde erfolgreich aktualisiert.
@@ -512,6 +512,7 @@ de:
   orchestra:
     s: Orchester
     p: Orchester
+    create_success: "Orchester erfolgreich angelegt."
     regional_orchestra:
       p: Landesorchester
       s: Landesorchester      
@@ -604,13 +605,13 @@ de:
     children_col: "<14"
     teens_col: "15-18"
     youth_col: "19-27"
-    adult_col: "28-55"
-    senior_col: "55+"
+    adult_col: "28-64"
+    senior_col: "65+"
     children: Kinder
     teens: Jugendliche 15-18
     youth: Erw. 19-27
-    adult: Erw. 28-55
-    senior: Erw. 55+ 
+    adult: Erw. 28-64
+    senior: Erw. 65+ 
     passive: Passiv
     supporters: "Fördervereinmitglieder"
     year: Jahr
