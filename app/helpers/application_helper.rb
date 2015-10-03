@@ -57,7 +57,7 @@ end
 
 def link_to_generated_download_path(txt,path)
 	if can? :read, path then
-		link_to image_tag('/assets/icons/download.png', {:size=>'16x16',:alt=>txt,:title=>txt,:class=>'btn'}),path
+    link_to content_tag(:span,"",:class=>"glyphicon glyphicon-download"), path
 	end
 end
 
@@ -68,8 +68,8 @@ end
 
 def link_to_download_path(txt,path,entity)
 	if entity.has_attachment? and can? :read, entity then
-    	icon_link(txt,'/assets/icons/download.png', path)
-    end
+    link_to content_tag(:span,"",:class=>"glyphicon glyphicon-download"), path
+  end
 end
 
 def link_back(txt)
@@ -130,7 +130,7 @@ end
 
 def link_to_edit_path(path,txt,entity)
     if can? :update, entity
-                link_to image_tag('/assets/icons/edit.png', {:size=>'16x16',:alt=>txt,:title=>txt,:class=>'btn'} ),path
+        link_to content_tag(:span,"",:class=>"glyphicon glyphicon-edit"), path
     end
 end
 
