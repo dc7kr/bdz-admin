@@ -137,7 +137,7 @@ class ReportSheetInputsController < AuthenticatedController
 
     @report_sheet_inputs.each do |rs|
       rs.report_sheet.destroy
-	  rs.destroy
+	    rs.destroy
     end
   end
 end
