@@ -490,7 +490,7 @@ end
   end
 
   def form_my_textarea(form, resource, field, cols,rows)
-      input = form.text_area :bemerkung, :class => 'form-control', :cols=>cols, :rows=>rows
+      input = form.text_area field, :class => 'form-control', :cols=>cols, :rows=>rows
       form_wrapped_field(form,resource, field, input)
   end
   def form_my_select(form, resource, field,options) 
