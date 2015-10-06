@@ -57,8 +57,6 @@ class Cron::LvFeeBookingsController < AuthenticatedNonResourceController
     year = Time.now.strftime('%Y')
     pdf_prefix= Time.now.strftime '%Y%m%d'
 
-    users = User.where("role like ? or role like ?", "%accounting%", "%admin%")
-
     base_url = cron_downloads_url
     dd_url=nil
 
@@ -66,7 +64,7 @@ class Cron::LvFeeBookingsController < AuthenticatedNonResourceController
       dd_url = base_url+"?year="+year+"&filename="+ctFile.orig_filename
     end
 
-    users.each do |user|
+    User.for_admin_notify.each do |user|
       AdminNotifier.new_lv_ct_notification(user, dd_url,triggered_by).deliver
       logger.info 'sent to %s' % user.email
     end
