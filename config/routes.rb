@@ -196,7 +196,11 @@ BDZAdmin::Application.routes.draw do
   #devise_for :users, :controllers => {:sessions => 'sessions'}
   devise_for :users, :skip => [:registrations]
 
-  resources :users, :path => :accounts
+  resources :users, :path => :accounts do
+    collection do 
+      get :for_admin_notify 
+    end
+  end
 
   #resources :users
   resources :member_account_bookings
