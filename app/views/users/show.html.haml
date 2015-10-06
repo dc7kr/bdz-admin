@@ -3,33 +3,17 @@
     = render :partial=>'nav'
   .content
     .inner
-      %table
-        %tr
-          %td.label #{t("user.username")}:
-          %td= @user.username
-        %tr
-          %td.label #{t("user.name")}:
-          %td= @user.name
-        %tr
-          %td.label #{t("user.email")}:
-          %td=mail_to @user.email
-        %tr
-          %td.label #{t("user.roles")}:
-          %td
+      .container-fluid
+        =entity_row @user,:username
+        =entity_row @user,:name
+        =entity_row @user,:email,:mailto
+        .row
+          .col-md-3.text-right=label :user, :roles
+          .col-md-9
             -@user.roles.each do |r|
               =r.name
               %br
-        %tr
-          %td.label #{t("user.entity_class")}:
-          %td= @user.entity_class
-        %tr
-          %td.label #{t("user.entity_id")}:
-          %td= @user.entity_id
-        %tr
-          %td.label #{t("user.restricting_entity")}:
-          %td= @user.restricting_entity
-
-      
-        %tr
-          %td.label #{t("user.auth_token")}:
-          %td= @user.authentication_token
+        =entity_row @user,:entity_class
+        =entity_row @user,:entity_id
+        =entity_row @user,:restricting_entity
+        =entity_row @user,:auth_token

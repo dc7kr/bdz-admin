@@ -1,11 +1,13 @@
 .block
-  %h3=t("common.search")
-  %ul.navigation
-    %li
-      %p=t("common.search")
-      %p
-        = form_tag festival_applications_path, :method => 'get' do
-          = hidden_field_tag :direction, params[:direction]
-          = hidden_field_tag :sort, params[:sort]
-          = text_field_tag :search, params[:search]
-          = submit_tag "Suchen", :name => nil
+  .panel.panel-primary
+    .panel-heading=t("common.search")
+    .panel-body
+      %ul.nav.nav-pills.nav-stacked
+        %li
+          %p=t("common.search")
+          %p
+            = form_tag festival_applications_path, :method => 'get' do
+              = hidden_field_tag :direction, params[:direction]
+              = hidden_field_tag :sort, params[:sort]
+              = text_field_tag :search, params[:search]
+              = submit_tag "Suchen", :name => nil

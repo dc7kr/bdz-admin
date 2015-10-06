@@ -3,8 +3,8 @@
     = f.error_messages :message => "", :header_tag => :h3
   .container-fluid
     =form_my_field(f,@classified, :object)
-    =form_my_field(f,@classified, :description,:text_area)
-    =form_wrapped_field(f,@classified,:visible, f.check_box :visible, :class => 'check_box')
+    =form_my_textarea(f,@classified, :description,5,80)
+    =form_wrapped_field(f,@classified,:visible, f.check_box(:visible, :class => 'check_box'))
   .actions
     = f.submit t("common.save")
     = cancel_button()

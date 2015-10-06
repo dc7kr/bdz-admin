@@ -5,16 +5,16 @@
   =form_my_field(f,@ensemble_concert,:zeit,:date)
   =form_my_field(f,@ensemble_concert,:stadt)
   =form_my_field(f,@ensemble_concert,:ort)
-  =form_wrapped_field(f,@ensemble_concert,:festival_id, collection_select(:ensemble_concert, :festival_id, Festival.all, :id, :name))
+  =form_wrapped_field(f,@ensemble_concert,:festival_id, collection_select(:ensemble_concert, :festival_id, Festival.all, :id, :name,{}, { :class=> "form-control"}))
   =form_my_field(f,@ensemble_concert,:titel)
-  =form_my_textarea(f,@ensemble_concert,:comment,5,80)
   =form_my_field(f,@ensemble_concert,:eintritt)
-  =form_wrapped_field(f,@ensemble_concert,:state, collection_select(:ensemble_concert, :state_id, State.all, :id, :name))
-  =form_wrapped_field(f,@ensemble_concert, :country_code, country_select(:ensemble_concert, :country_code, {}, { iso_codes:true},{ :class => "form-control"})
+  =form_wrapped_field(f,@ensemble_concert,:state, collection_select(:ensemble_concert, :state_id, State.all, :id, :name,{},{:class=>"form-control"}))
+  =form_wrapped_field(f,@ensemble_concert, :country_code, country_select(:ensemble_concert, :country_code, { iso_codes:true},{ :class => "form-control"}))
   =form_my_field(f,@ensemble_concert,:email)
   =form_my_field(f,@ensemble_concert,:fk_owner)
   =form_my_field(f,@ensemble_concert,:url)
-  =form_wrapped_field(f,@ensemble_concert,:visible, f.check_box :visible)
+  =form_wrapped_field(f,@ensemble_concert,:visible, f.check_box(:visible))
+  =form_my_textarea(f,@ensemble_concert,:comment,80,5)
   .actions
     = submit_button
     = cancel_button

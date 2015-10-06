@@ -448,14 +448,14 @@ def get_salutation_options(selected)
 end
 
   def form_wrapped_field(form,resource,field, input) 
-      label = form.label field, nil,:class => "col-sm-12 col-md-2 control-label"
+      label = form.label field, nil,:class => "col-sm-12 col-md-3 control-label"
       css_class="form-group"
 
       if resource.errors[field].present? 
         css_class+=" has-error"
       end
 
-      input_wrap = content_tag(:div, input, :class=>"col-sm-12 col-md-10")
+      input_wrap = content_tag(:div, input, :class=>"col-sm-12 col-md-9")
       content_tag(:div, label+input_wrap, class: css_class) 
   end
 
@@ -494,7 +494,7 @@ end
       form_wrapped_field(form,resource, field, input)
   end
   def form_my_select(form, resource, field,options) 
-    label = form.label field, nil,:class => "col-sm-12 col-md-2 control-label"
+    label = form.label field, nil,:class => "col-sm-12 col-md-3 control-label"
 
     css_class = "form-control"
 
@@ -512,6 +512,21 @@ end
     else ""
       Rails.logger.warn("Unsupported flash type: #{type}")
       return "UNSUPPORTED: <#{type}>"
+    end
+  end
+ 
+  def entity_row(entity, field,type=nil) 
+    sym = entity.class.name.underscore.to_sym
+    content_tag :div, :class => "row" do
+      concat(content_tag(:div, label(sym, field), :class => "col-md-3 text-right"))
+
+      data = nil
+      if type.nil? 
+        data = entity[field]
+      elsif type == :mailto
+        data = mail_to entity[field],entity[field]
+      end 
+      concat(content_tag(:div, data,:class => "col-md-9"))
     end
   end
 
