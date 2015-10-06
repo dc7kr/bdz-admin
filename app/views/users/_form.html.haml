@@ -1,38 +1,18 @@
-= form_for @user, :html => { :autocomplete => 'off' } do |f|
+= form_for @user, :html => { :class => "form-horizontal", :autocomplete => 'off' } do |f|
   -if @user.errors.any?
     #error_explanation
       %h2= "#{pluralize(@user.errors.count, "error")} prohibited this user from being saved:"
       %ul
         - @user.errors.full_messages.each do |msg|
           %li= msg
-  %table
-    %tr
-      %td.label= f.label :username
-      %td= f.text_field :username
-    %tr
-      %td.label= f.label :name
-      %td= f.text_field :name
-    %tr
-      %td.label= f.label :email
-      %td= f.text_field :email
-    %tr
-      %td.label= f.label :password
-      %td= f.password_field :password
-    %tr
-      %td.label= f.label :admin
-      %td
-        = hidden_field_tag(:admin, 0) 
-        = check_box_tag(:admin, 1, @user.has_role?(:admin)) 
-    %tr
-      %td.label= f.label :regional
-      %td
-        = hidden_field_tag(:regional, 0) 
-        = check_box_tag(:regional, 1, @user.has_role?(:regional)) 
-    %tr
-      %td.label= f.label :member
-      %td
-        = hidden_field_tag(:member, 0) 
-        = check_box_tag(:member, 1, @user.has_role?(:member)) 
-  .actions
-    = f.submit t("common.save")
-    = cancel_button()
+  .container-fluid
+    = form_my_field(f,@url, :username)
+    = form_my_field(f,@url, :name)
+    = form_my_field(f,@url, :email)
+    = form_my_field(f,@user, :password,:password)
+    = form_wrapped_field(f,@user, :admin, check_box_tag(:admin, 1, @user.has_role?(:admin)) )
+    = form_wrapped_field(f,@user, :regional, check_box_tag(:regional, 1, @user.has_role?(:regional)) )
+    = form_wrapped_field(f,@user, :member, check_box_tag(:member, 1, @user.has_role?(:member)) )
+    .actions
+      = submit_button
+      = cancel_button

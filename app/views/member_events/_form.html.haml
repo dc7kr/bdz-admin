@@ -1,19 +1,10 @@
 = f.hidden_field :member_id, :value=>@member.member_id
 .block
   = f.error_messages :message => "", :header_tag => :h3
-.group
-  %table
-    %tr
-      %td= f.label :event_type, t("event.event_type"), :class => :label
-      %td= f.select :event_type, options_for_select([["Telefonat", "T"], ["Email", "E"],  ["Brief", "B"]],:selected=>@member_event.event_type)
-    %tr
-      %td= f.label :event_date, t("event.event_date"), :class => :label
-      %td= f.text_field :event_date, :class => 'text_field'
-    %tr
-      %td= f.label :event_id, t("event.event_id"), :class => :label
-      %td= f.text_field :event_id, :class => 'text_field'
-      
-  %button.button{:type => "submit"}
-    =submit_button(t("common.save", :default => "Save"))
-  = cancel_button()
-  %br
+.container-fluid
+  =form_my_select(f,@member_event, :event_type, options_for_select([["Telefonat", "T"], ["Email", "E"],  ["Brief", "B"]],:selected=>@member_event.event_type))
+  =form_my_field(f,@member_event, :event_date, :date)
+  =form_my_field(f,@member_event, :event_id)
+  .actions      
+    =submit_button
+    =cancel_button

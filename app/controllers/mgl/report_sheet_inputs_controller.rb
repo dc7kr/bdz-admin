@@ -265,7 +265,7 @@ class Mgl::ReportSheetInputsController < ApplicationController
 				@counts["T"]+=1
 			elsif ( m.age(@year) <=27) then
 				@counts["Y"]+=1
-			elsif ( m.age(@year) <=55) then
+			elsif ( m.age(@year) <65) then
 				@counts["A"]+=1
 			else
 				@counts["S"]+=1

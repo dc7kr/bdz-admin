@@ -1,18 +1,16 @@
 .block
   .secondary-navigation
-    %ul.wat-cf
-      %li.first.active= link_to "#{t("web-app-theme.list", :default => "List")}", states_path
-      %li= link_to "#{t("web-app-theme.new", :default => "New")}", new_state_path
+    = render :partial=>"nav"
   .content
     %h2.title
       = t("common.all")
-      States
+      = t("state.p")
     .inner
       %table.table.table-hover.table-condensed
         %tr
           %th.first ID
-          %th= t("activerecord.attributes.state.country_id")
-          %th= t("activerecord.attributes.state.name")
+          %th=label :state,:country_id
+          %th=label :state,:name
           %th.last &nbsp;
         = render @states
       .actions-bar.wat-cf

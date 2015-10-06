@@ -1,4 +1,4 @@
-%ul.wat-cf
+%ul.nav.nav-tabs
   - if @festival_application then
     %li{ :class => 'first'}= link_to_up_path t("common.up"), festival_application_path(@festival_application)
     %li{ :class => tabActiveClass(@current_action,'index','first')}= link_to "#{t("common.list", :default => "List")}", festival_application_festival_pieces_path(@festival_application)

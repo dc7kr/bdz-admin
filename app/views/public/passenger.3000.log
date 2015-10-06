@@ -1,0 +1,27 @@
+[ 2015-09-28 18:23:11.4134 71175/0x7fff7bf21000 age/Wat/WatchdogMain.cpp:1274 ]: Starting Passenger watchdog...
+[ 2015-09-28 18:23:11.4365 71177/0x7fff7bf21000 age/Cor/CoreMain.cpp:957 ]: Starting Passenger core...
+[ 2015-09-28 18:23:11.4375 71177/0x7fff7bf21000 age/Cor/CoreMain.cpp:234 ]: Passenger core running in multi-application mode.
+[ 2015-09-28 18:23:11.4480 71177/0x7fff7bf21000 age/Cor/CoreMain.cpp:707 ]: Passenger core online, PID 71177
+[ 2015-09-28 18:23:11.4642 71179/0x7fff7bf21000 age/Ust/UstRouterMain.cpp:430 ]: Starting Passenger UstRouter...
+[ 2015-09-28 18:23:11.4660 71179/0x7fff7bf21000 age/Ust/UstRouterMain.cpp:311 ]: Passenger UstRouter online, PID 71179
+2015/09/28 18:23:13 [error] 71182#0: *4 "/Users/kasi/rails-bdz-live/app/views/public/public/index.html" is not found (2: No such file or directory), client: 127.0.0.1, server: _, request: "HEAD / HTTP/1.1", host: "0.0.0.0"
+
+
+[ 2015-09-28 18:23:22.1294 71177/0x70000018a000 age/Cor/CoreMain.cpp:507 ]: Signal received. Gracefully shutting down... (send signal 2 more time(s) to force shutdown)
+[ 2015-09-28 18:23:22.1294 71179/0x700000104000 age/Ust/UstRouterMain.cpp:337 ]: Signal received. Gracefully shutting down... (send signal 2 more time(s) to force shutdown)
+[ 2015-09-28 18:23:22.1294 71179/0x7fff7bf21000 age/Ust/UstRouterMain.cpp:399 ]: Received command to shutdown gracefully. Waiting until all clients have disconnected...
+[ 2015-09-28 18:23:22.1294 71177/0x7fff7bf21000 age/Cor/CoreMain.cpp:876 ]: Received command to shutdown gracefully. Waiting until all clients have disconnected...
+[ 2015-09-28 18:23:22.1295 71179/0x700000104000 Ser/Server.h:751 ]: [LoggerApiServer] Freed 0 spare client objects
+[ 2015-09-28 18:23:22.1295 71179/0x700000104000 Ser/Server.h:443 ]: [LoggerApiServer] Shutdown finished
+[ 2015-09-28 18:23:22.1299 71179/0x7fff7bf21000 age/Ust/UstRouterMain.cpp:424 ]: Passenger UstRouter shutdown finished
+[ 2015-09-28 18:23:22.1301 71177/0x700000396000 Ser/Server.h:751 ]: [ServerThr.3] Freed 128 spare client objects
+[ 2015-09-28 18:23:22.1302 71177/0x700000396000 Ser/Server.h:443 ]: [ServerThr.3] Shutdown finished
+[ 2015-09-28 18:23:22.1303 71177/0x70000049c000 Ser/Server.h:751 ]: [ServerThr.4] Freed 128 spare client objects
+[ 2015-09-28 18:23:22.1303 71177/0x70000049c000 Ser/Server.h:443 ]: [ServerThr.4] Shutdown finished
+[ 2015-09-28 18:23:22.1303 71177/0x7000005a2000 Ser/Server.h:751 ]: [ApiServer] Freed 0 spare client objects
+[ 2015-09-28 18:23:22.1303 71177/0x7000005a2000 Ser/Server.h:443 ]: [ApiServer] Shutdown finished
+[ 2015-09-28 18:23:22.1304 71177/0x70000018a000 Ser/Server.h:751 ]: [ServerThr.1] Freed 128 spare client objects
+[ 2015-09-28 18:23:22.1304 71177/0x70000018a000 Ser/Server.h:443 ]: [ServerThr.1] Shutdown finished
+[ 2015-09-28 18:23:22.1305 71177/0x700000290000 Ser/Server.h:751 ]: [ServerThr.2] Freed 128 spare client objects
+[ 2015-09-28 18:23:22.1305 71177/0x700000290000 Ser/Server.h:443 ]: [ServerThr.2] Shutdown finished
+[ 2015-09-28 18:23:22.1424 71177/0x7fff7bf21000 age/Cor/CoreMain.cpp:942 ]: Passenger core shutdown finished

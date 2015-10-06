@@ -1,14 +1,14 @@
-= semantic_form_for @contact_person do |f|
-  = f.inputs do
-    = f.input :salutation
-    = f.input :first_name
-    = f.input :last_name
-    = f.input :street
-    = f.input :zip
-    = f.input :city
-    = f.input :country
-    = f.input :email
-    = f.input :phone
-  
-  = f.actions do
-    = f.action :submit, :as => :button
+= form_for @contact_person, :html => { :class => "form-horizontal" } do |f|
+    = form_my_field(f,@contact_person,  :salutation)
+    = form_my_field(f,@contact_person,  :first_name)
+    = form_my_field(f,@contact_person,  :last_name)
+    = form_my_field(f,@contact_person,  :street)
+    = form_my_field(f,@contact_person,  :zip)
+    = form_my_field(f,@contact_person,  :city)
+    = form_my_field(f,@contact_person,  :country)
+    = form_my_field(f,@contact_person,  :email)
+    = form_my_field(f,@contact_person,  :phone)
+ 
+  .actions
+    =submit_button
+    =cancel_button 

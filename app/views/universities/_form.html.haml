@@ -5,40 +5,17 @@
       %ul
         - @university.errors.full_messages.each do |msg|
           %li= msg
-
-  .field
-    = f.label :name
-    = f.text_field :name
-  .field
-    = f.label :institut
-    = f.text_field :institut
-  .field
-    = f.label :strasse
-    = f.text_field :strasse
-  .field
-    = f.label :plz
-    = f.text_field :plz
-  .field
-    = f.label :ort
-    = f.text_field :ort
-  .field
-    = f.label :country
-    = country_select(:university, :country_code, nil, :iso_codes=>true)
-  .field
-    = f.label :telefon
-    = f.text_field :telefon
-  .field
-    = f.label :studiengang
-    = f.text_field :studiengang
-  .field
-    = f.label :dozent
-    = f.text_field :dozent
-  .field
-    = f.label :email
-    = f.text_field :email
-  .field
-    = f.label :homepage
-    = f.text_field :homepage
+  =form_my_field(f, @university, :name)
+  =form_my_field(f, @university, :institut)
+  =form_my_field(f, @university, :strasse)
+  =form_my_field(f, @university, :plz)
+  =form_my_field(f, @university, :ort)
+  =form_wrapped_field(f, @university, :country, country_select(:university, :country_code, {:iso_codes=>true}, { class: "form-control" }))
+  =form_my_field(f, @university, :telefon)
+  =form_my_field(f, @university, :studiengang)
+  =form_my_field(f, @university, :dozent)
+  =form_my_field(f, @university, :email)
+  =form_my_field(f, @university, :homepage)
   .actions
-    = f.submit 'Save'
+    = submit_button()
     = cancel_button()

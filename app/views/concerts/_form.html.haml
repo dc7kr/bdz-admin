@@ -5,71 +5,29 @@
       %ul
         - @concert.errors.full_messages.each do |msg|
           %li= msg
-  %table
-    %tr
-      %td= f.label :datum
-      %td= f.date_select :datum, :class => 'date_select'
-    %tr
-      %td= f.label :zeit
-      %td= f.text_field :zeit
-    %tr
-      %td= f.label :concert_date
-      %td= f.text_field :concert_date
-    %tr
-      %td= f.label :stadt
-      %td= f.text_field :stadt
-    %tr
-      %td= f.label :titel
-      %td= f.text_field :titel
-    %tr
-      %td= f.label :ort
-      %td= f.text_field :ort
-    %tr
-      %td= f.label :festival_id
-      %td= collection_select( :concert, :festival_id, Festival.all,:id,:name)
-    %tr
-      %td= f.label :interpret
-      %td= f.text_field :interpret
-    %tr
-      %td= f.label :url
-      %td= f.text_field :url
-    %tr
-      %td= f.label :comment
-      %td= f.text_field :comment
-    %tr
-      %td= f.label :bland
-      %td= collection_select(:concert, :bland, State.all, :id, :name)
-    %tr
-      %td= f.label :country_id
-      %td= country_select(:concert, :country_code, iso_codes:true)
-      
-    %tr
-      %td= f.label :email
-      %td= f.text_field :email
-    %tr
-      %td= f.label :eintritt
-      %td= f.text_field :eintritt
-    %tr
-      %td= f.label :uid
-      %td= f.text_field :uid
+  .container-fluid
+    = form_my_field(f,@concert, :datum,:date)
+    = form_my_field(f,@concert, :zeit)
+    = form_my_field(f,@concert, :concert_date)
+    = form_my_field(f,@concert, :stadt)
+    = form_my_field(f,@concert, :titel)
+    = form_my_field(f,@concert, :ort)
+    = form_wrapped_field(f,@concert, :festival_id,collection_select( :concert, :festival_id, Festival.all,:id,:name))
+    = form_my_field(f,@concert, :interpret)
+    = form_my_field(f,@concert, :url)
+    = form_my_field(f,@concert, :comment)
+    = form_wrapped_field(f,@concert, :bland, collection_select(:concert, :bland, State.all, :id, :name))
+    = form_wrapped_field(f,@concert, :country_id, country_select(:concert, :country_code, {iso_codes:true},{ class:"form-control"}))
+    = form_my_field(f,@concert, :email)
+    = form_my_field(f,@concert, :eintritt)
+    = form_my_field(f,@concert, :uid)
     - if (isAdmin?)
-      %tr
-        %td= f.label :owner
-        %td= f.text_field :owner
-    %tr
-      %td= f.label :reported
-      %td= f.text_field :reported
-    %tr
-      %td= f.label :confirmed
-      %td= f.text_field :confirmed
-    %tr
-      %td= f.label :token
-      %td= f.text_field :token
+      = form_my_field(f,@concert, :owner)
+    = form_my_field(f,@concert, :reported)
+    = form_my_field(f,@concert, :confirmed)
+    = form_my_field(f,@concert, :token)
 
-    %tr
-      %td= f.label :visible
-      %td= f.check_box :visible, :class => 'check_box'
-
+    = form_wrapped_field(f,@concert, :visible, f.check_box( :visible, :class => 'check_box'))
   .actions
     = f.submit t("common.save")
     = cancel_button()

@@ -2,7 +2,7 @@ class MagazineIssuesController < AuthenticatedController
   # GET /magazine_issues
   # GET /magazine_issues.json
   def index
-    @magazine_issues = MagazineIssue.all
+    @magazine_issues = MagazineIssue.where(1).page(params[:page]).per(3)
 
     respond_to do |format|
       format.html # index.html.erb

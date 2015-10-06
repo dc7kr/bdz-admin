@@ -4,15 +4,14 @@
   .content
     %h2.title
       = t("common.all")
-      = t("university.title")
+      = t("university.p")
     .inner
-      %table.table
-%table.table.table-hover.table-condensed
-  %tr
-    %th=t('university.name')
-    %th=t('university.institute')
-    %th=t('university.dozent')
-    %th=t('university.email')
-    %th=t('university.homepage')
-    %th
-  = render @universities
+      %table.table.table-hover.table-condensed
+        %tr
+          %th=t('university.name')
+          %th=t('university.institute')
+          %th=t('university.dozent')
+          %th=t('university.email')
+          %th=t('university.homepage')
+          %th
+        = render @universities

@@ -209,38 +209,6 @@ hr {
 
 }
 
-#flash-message .message p {
-  margin:8px;
-}
-
-#flash-message .alert {
-  border: 1px solid #fbb;
-  background-color: #ff0000;
-  color: #ffffff;
-  font-weight: bold;
-}
-
-#flash-message .error {
-  border: 1px solid #fbb;
-  background-color: #ff0000;
-  color: #ffffff;
-  font-weight: bold;
-  box-shadow: 4px 4px 2px #888;
-  -webkit-shadow: 4px 4px 2px #888;
-	
-}
-
-#flash-message .warning {
-  border: 1px solid #fffaaa;
-  background-color: #ffffcc;
-}
-
-#flash-message .notice {
-  border: 1px solid #1FDF00;
-  background-color: #BBFFB6;
-  box-shadow: 3px 3px #a9a9a9;
-}
-
 /* lists */
 
 ul.list li {

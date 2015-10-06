@@ -1,13 +1,13 @@
-= form_for @address do |f|
+= form_for @address, :html => { :class => "form-horizontal" } do |f|
   -if @address.errors.any?
     #error_explanation
       %h2= "#{pluralize(@address.errors.count, "error")} prohibited this address from being saved:"
       %ul
         - @address.errors.full_messages.each do |msg|
           %li= msg
-  %table
+  .container-fluid
     = render :partial => "contacts/contact_form", :locals => { :f => f,:entity=>@address}
 
   .actions
-    = f.submit t("common.save")
-    = cancel_button()
+    = submit_button
+    = cancel_button

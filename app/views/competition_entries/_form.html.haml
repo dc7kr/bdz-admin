@@ -2,48 +2,23 @@
   = f.error_messages :message => "", :header_tag => :h3
 .group
   %h2 Quizfragen
-  %table
-    %tr
-      %td=f.label :response1
-      %td=f.text_field :response1
-    %tr
-      %td=f.label :response2
-      %td=f.text_field :response2
-    %tr
-      %td=f.label :response3
-      %td=f.text_field :response3
-    %tr
-      %td=f.label :response4
-      %td=f.text_field :response4
+  .container-fluid
+    =form_my_field(f, @competition_entry, :response1)
+    =form_my_field(f, @competition_entry, :response2)
+    =form_my_field(f, @competition_entry, :response3)
+    =form_my_field(f, @competition_entry, :response4)
 
   %h2 Persönliche Daten
-  
-  %table
-    %tr
-      %td=f.label :first_name
-      %td=f.text_field :first_name
-    %tr
-      %td=f.label :last_name
-      %td=f.text_field :last_name
-    %tr
-      %td=f.label :street
-      %td=f.text_field :street
-    %tr
-      %td=f.label :zip
-      %td=f.text_field :zip
-    %tr
-      %td=f.label :city
-      %td=f.text_field :city
-    %tr
-      %td=f.label :country_code
-      %td=f.text_field :country_code
-    %tr
-      %td=f.label :date_of_birth
-      %td=f.text_field :date_of_birth
+  .container-fluid
+    =form_my_field(f, @competition_entry, :first_name)
+    =form_my_field(f, @competition_entry, :last_name)
+    =form_my_field(f, @competition_entry, :street)
+    =form_my_field(f, @competition_entry, :zip)
+    =form_my_field(f, @competition_entry, :city)
+    =form_my_field(f, @competition_entry, :country_code)
+    =form_my_field(f, @competition_entry, :date_of_birth,:date)
+    =form_my_field(f, @competition_entry, :email,:email)
 
-    %tr
-      %td=f.label :email
-      %td=f.text_field :email
     %tr
       %td=f.label :winner
       %td=f.check_box :winner

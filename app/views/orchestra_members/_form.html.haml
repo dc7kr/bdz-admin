@@ -1,24 +1,12 @@
 .block
   = f.error_messages :message => "", :header_tag => :h3
 .group
-  %table
-    %tr
-      %td= f.label :first_name, t('orchestra_member.first_name'), :class => :label 
-      %td= f.text_field :first_name
-    %tr
-      %td= f.label :last_name, t('orchestra_member.last_name'), :class => :label  
-      %td= f.text_field :last_name
-    %tr
-      %td= f.label :date_of_birth, t('orchestra_member.date_of_birth'), :class => :label  
-      %td= f.text_field :date_of_birth
-    %tr
-      %td= f.label :instrument, t('orchestra_member.instrument'), :class => :label  
-      %td= f.text_field :instrument
-    %tr
-      %td= f.label :mglnr, t('orchestra_member.mglnr'), :class => :label  
-      %td= f.text_field :mglnr
-  %button.button{:type => "submit"}
-    = image_tag("web-app-theme/icons/tick.png", :alt => "#{t("web-app-theme.save", :default => "Save")}")
-    = t("web-app-theme.save", :default => "Save")
-  %span.text_button_padding= t("web-app-theme.or", :default => "or")
-  = cancel_button()
+  .container-fluid
+    =form_my_field(f,@orchestra_member, :first_name)
+    =form_my_field(f,@orchestra_member, :last_name)
+    =form_my_field(f,@orchestra_member, :date_of_birth)
+    =form_my_field(f,@orchestra_member, :instrument)
+    =form_my_field(f,@orchestra_member, :mglnr)
+  .actions
+    = submit_button
+    = cancel_button

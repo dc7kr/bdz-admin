@@ -1,4 +1,4 @@
-%ul.wat-cf
+%ul.nav.nav-tabs
   - if @ensemble then
     %li{ :class => 'first'}= link_to_up_path t("common.up"), ensemble_path(@ensemble)
     %li{ :class => tabActiveClass(@current_action,'index',nil)}= link_to t("common.list"), ensemble_ensemble_concerts_path(@ensemble)

@@ -52,7 +52,7 @@ end
 
 
 def link_to_up_path(txt,path)
-	link_to image_tag('/assets/icons/up.svg', {:size=>'16x16',:alt=>txt,:title=>txt,:class=>'btn'} ),path
+	link_to content_tag(:span,"",:class=>"glyphicon glyphicon-arrow-up"), path
 end
 
 def link_to_generated_download_path(txt,path)
@@ -90,11 +90,12 @@ end
 
 
 def submit_button(txt=t('common.save'))
-    button_tag(:type=>"submit",:class=>"btn btn-default") do 
-      content_tag(:span,"",class: "glyphicon glyphicon-tick")
+    button_tag(:type=>"submit",:class=>"btn btn-primary") do 
+      content_tag(:span,"",class: "glyphicon glyphicon-ok")+" "+
       txt
     end
 end
+
 def cancel_button()
   link_to t("common.cancel"), url_for(:back), :class => "btn btn-default"
 end
@@ -124,7 +125,7 @@ def link_to_edit(entity, txt=nil)
 		txt = t('common.edit')
 	end
     if can? :update, entity
-        link_to content_tag(:span,"",:class=>"glyphicon glyphicon-edit"), { :id=>entity, :action=>'edit'}
+        link_to content_tag(:span,"",:class=>"glyphicon glyphicon-edit"), { :id=>entity, :action=>'edit'},:class =>"btn btn-xs btn-default"
     end
 end
 
@@ -136,7 +137,7 @@ end
 
 def link_to_show_path(path,txt,entity)
 	if can? :read, entity
-        link_to content_tag(:span,"",:class=>"glyphicon glyphicon-list"),path
+        link_to content_tag(:span,"",:class=>"glyphicon glyphicon-list"),path,:class =>"btn btn-xs btn-default"
     end
 end
 
@@ -145,7 +146,7 @@ def link_to_show(entity,txt=nil)
 		txt = t('common.show')
 	end
 	if can? :read, entity
-        link_to content_tag(:span,"",:class=>"glyphicon glyphicon-list"), entity
+        link_to content_tag(:span,"",:class=>"glyphicon glyphicon-list"), entity,:class=>"btn btn-xs btn-default"
     end
 end
 
@@ -189,7 +190,7 @@ def link_to_delete(entity, txt=nil, confirm=nil )
       txt = t('common.delete_confirm')
     end
     if can? :delete, entity
-		link_to content_tag(:span,"",:class=>"glyphicon glyphicon-remove-sign"),entity,:confirm => confirm, :method => :delete, :remote=>true,  "data-type" => :json
+		link_to content_tag(:span,"",:class=>"glyphicon glyphicon-remove"),entity,:confirm => confirm, :method => :delete, :remote=>true,  "data-type" => :json,:class=>"btn btn-xs btn-danger"
     end
 end
 
@@ -471,12 +472,16 @@ end
         input = form.text_field field, :class =>  css_class
       elsif type == :number
         input = form.number_field field, :class =>  css_class
+      elsif type == :password
+        input = form.password_field field, :class =>  css_class
       elsif type == :url
         input = form.url_field field, :class =>  css_class
       elsif type == :email
         input = form.email_field field, :class =>  css_class
       elsif type == :date
-        input = form.text_field field, :class =>  css_class+" date_field"
+        input = form.text_field field, :class =>  css_class+" date_field datePicker"
+      elsif type == :checkbox
+        inout = form.check_box field, :class => css_class
       elsif type == :static
         input = content_tag(:p , resource[field],class: "form-control-static")
       end
@@ -495,7 +500,19 @@ end
 
     input = form.select field, options, {}, {class: css_class}
     form_wrapped_field(form, resource, field, input)
+  end
 
+  def map_flash_type(type)
+    if type == :notice
+      return "alert-success"
+    elsif type == :error
+      return "alert-error"
+    elsif type == :warning
+      return "alert-warning"
+    else ""
+      Rails.logger.warn("Unsupported flash type: #{type}")
+      return "UNSUPPORTED: <#{type}>"
+    end
   end
 
 end

@@ -1,4 +1,4 @@
-%ul.wat-cf
+%ul.nav.nav-tabs
   %li.first= link_to_up_path t("common.up"), home_public_data_path
   %li{ :class => tabActiveClass(@current_action,'index','first')}= link_to t("common.list"), functions_path
   -if (@function and @function.id!=nil)

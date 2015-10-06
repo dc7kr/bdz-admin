@@ -11,21 +11,21 @@
         %div.entity_info=t("member.is_direct_debit")
       %table
         = render @orchestra.member,:partial=>"member"
-        %tr
-          %td.label #{t("common.address")}:
-          %td #{@orchestra.fullname}
-        %tr
-          %td.label #{t("orchestra.gruendung")}:
-          %td= format_date(@orchestra.gruendung)
-        %tr
-          %td.label #{t("orchestra.bemerkung")}:
-          %td= @orchestra.bemerkung
-        %tr
-          %td.label #{t("orchestra.url")}:
-          %td=link_to @orchestra.url, sanitize_url(@orchestra.url)
-        %tr
-          %td.label #{t("member.kuendigungErfasst")}:
-          %td!= format_bool(@orchestra.kuendigungErfasst)
+        .row
+          .col-md-2=label :orchestra,:address
+          .col-md-10=@orchestra.fullname
+        .row
+          .col-md-2=label :orchestra,:gruendung
+          .col-md-10= format_date(@orchestra.gruendung)
+        .row
+          .col-md-2=label :orchestra,:bemerkung
+          .col-md-10= @orchestra.bemerkung
+        .row
+          .col-md-2=label :orchestra,:url
+          .col-md-10=link_to @orchestra.url, sanitize_url(@orchestra.url)
+        .row
+          .col-md-2=label :member,:kuendigungErfasst
+          .col-md-10= format_bool(@orchestra.kuendigungErfasst)
         
     .wat-cf
       = edit_button(edit_orchestra_path(@orchestra),@orchestra)

@@ -1,17 +1,11 @@
 .block
   = f.error_messages :message => "", :header_tag => :h3
 .group
-  %table
-    %tr
-      %td=f.label :customer_number
-      %td=f.text_field :customer_number
+  .container-fluid
+    =form_my_field(f,@advertiser,:customer_number)
     = render :partial => "contacts/contact_form", :locals => { :f => f,:entity=>@advertiser }
+        
       
-      
-      
-.group.navform.wat-cf
-  %button.button{:type => "submit"}
-    = image_tag("web-app-theme/icons/tick.png", :alt => "#{t("web-app-theme.save", :default => "Save")}")
-    = t("web-app-theme.save", :default => "Save")
-  %span.text_button_padding= t("web-app-theme.or", :default => "or")
-  = cancel_button()
+    .actions
+      = submit_button
+      = cancel_button

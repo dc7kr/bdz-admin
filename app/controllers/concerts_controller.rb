@@ -1,4 +1,3 @@
-require 'uuid'
 class ConcertsController < AuthenticatedController
   # GET /concerts
   # GET /concerts.json
@@ -60,10 +59,8 @@ class ConcertsController < AuthenticatedController
     @festival_id = params[:event_id]
     
 	if (@festival_id != nil ) 
-	#@Concerts = Concert.where(:all,:include=>[:country,:state,:festival],:conditions=>"datum >= date(now()),festival_id = @festival_id").paginate(:per_page => 20, :page => params[:page])
 		@concerts = Concert.includes(:festival).search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
     else
-      #@concerts = Concert.where(:all,:include=>[:country,:state,:festival],:conditions=>"datum >= date(now())").paginate(:per_page => 20, :page => params[:page])
       @concerts = Concert.search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
     end
 

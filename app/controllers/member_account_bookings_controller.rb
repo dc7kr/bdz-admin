@@ -38,18 +38,18 @@ class MemberAccountBookingsController < AuthenticatedController
   # GET /bookings/new
   # GET /bookings/new.json
   def new
-	@isOrchestra=false
-	@member
-	if ( params[:orchestra_id] ) 
-	    @member = Orchestra.find_by_member_id(params[:orchestra_id])
-		@isOrchestra=true
-	else 
-		@member = PersonMember.find_by_member_id(params[:person_member_id]);
-	end
-    @booking = MemberAccountBooking.new(:member=>@member.member,:booking_date=>Time.now,:booking_year=>Time.now.year,:booking_mode=>'M',:booking_type=>'Z')
+    @isOrchestra=false
+    @member
+    if ( params[:orchestra_id] ) 
+        @member = Orchestra.find_by_member_id(params[:orchestra_id])
+      @isOrchestra=true
+    else 
+      @member = PersonMember.find_by_member_id(params[:person_member_id]);
+    end
+      @booking = MemberAccountBooking.new(:member=>@member.member,:booking_date=>Time.now,:booking_year=>Time.now.year,:booking_mode=>'M',:booking_type=>'Z')
 
 
-    respond_to do |format|
+      respond_to do |format|
       format.html # new.html.erb
       format.json { render :json => @booking }
     end
@@ -72,13 +72,17 @@ class MemberAccountBookingsController < AuthenticatedController
   # POST /bookings
   # POST /bookings.json
   def create
+    if params[:person_member_id] then
+      @member = PersonMember.find(params[:person_member_id])
+	    @isOrchestra=false
+    else
+      @member = Orchestra.find(params[:orchestra_id])
+	    @isOrchestra=true
+    end
     @booking = MemberAccountBooking.new(params[:member_account_booking])
-	@isOrchestra=false
-	if ( params[:orchestra_id])
-		@isOrchestra=true
-	end
 
-	@booking.booking_mode='M'
+  	@booking.booking_mode='M'
+    @booking.member = @member.member
     respond_to do |format|
       if @booking.save
         format.html { 

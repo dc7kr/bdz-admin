@@ -2,6 +2,9 @@
   .container-fluid
     .collapse.navbar-collapse
       %ul.nav.navbar-nav.navbar-left
+        %li{:role => "presentation", :class=>"dropdown"}
+          %a{:href=>"/"}
+            %span.glyphicon.glyphicon-home
         -if ( current_user ) then
           %li{:role => "presentation", :class=>"dropdown"}
             %a.dropdown-toggle{:href=>"#", :role=>"button" ,:data=> { :toggle=> "dropdown" }}=t("main_menu.public_data")
@@ -31,4 +34,12 @@
           %li{:role => "presentation", :class=>"dropdown"}
             %a.dropdown-toggle{:href=>"#", :role=>"button" ,:data=> { :toggle=> "dropdown" }}=content_tag(:span, "",class: ["glyphicon","glyphicon-cog"])
             =render :partial => "admin_dropdown"
-
+        -if current_user
+          %li{ :role => "presentation", :class=>"dropdown" }
+            %a{:href => "/logout"}
+              %span.glyphicon.glyphicon-log-out
+          %li{ :role => "presentation", :class=>"dropdown" }
+            %a{:href => "/about"}
+              %span.glyphicon.glyphicon-info-sign
+      - if current_user then
+        %p.navbar-text.navbar-right Angemeldet als: #{current_user.email}

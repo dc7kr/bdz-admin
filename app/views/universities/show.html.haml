@@ -3,38 +3,38 @@
     = render :partial => "nav"
   .content
     .inner
-      %table
-        %tr
-          %td.label=t('university.name')
-          %td= @university.name
-        %tr
-          %td.label=t('university.institute')
-          %td= @university.institut
-        %tr
-          %td.label=t('university.studiengang')
-          %td= @university.studiengang
-        %tr
-          %td.label=t('universtity.strasse')
-          %td= @university.strasse
-        %tr
-          %td.label=t('university.plz')
-          %td= @university.plz
-        %tr
-          %td.label=t('university.ort')
-          %td= @university.ort
-        %tr
-          %td.label=t('university.land')
-          %td= @university.country_code
-        %tr
-          %td.label=t('university.telefon')
-          %td= @university.telefon
-        %tr
-          %td.label=t('university.dozent')
-          %td= @university.dozent
-        %tr
-          %td.label=t('university.email')
-          %td= @university.email
-        %tr
-          %td.label=t('university.homepage')
-          %td= @university.homepage
+      .container-fluid
+        .row
+          .col-md-2=label :university, :name
+          .col-md-10= @university.name
+        .row
+          .col-md-2=label :university, :institute
+          %p.col-md-10= @university.institut
+        .row
+          .col-md-2=label :university, :studiengang
+          %p.col-md-10= @university.studiengang
+        .row
+          .col-md-2=label :university, :strasse
+          .col-md-10= @university.strasse
+        .row
+          .col-md-2=label :university, :plz
+          .col-md-10= @university.plz
+        .row
+          .col-md-2=label :university, :ort
+          .col-md-10= @university.ort
+        .row
+          .col-md-2=label :university, :land
+          .col-md-10= @university.country_code
+        .row
+          .col-md-2=label :university, :telefon
+          .col-md-10= @university.telefon
+        .row
+          .col-md-2=label :university, :dozent
+          .col-md-10= @university.dozent
+        .row
+          .col-md-2=label :university, :email
+          .col-md-10= @university.email
+        .row
+          .col-md-2=label :university, :homepage
+          .col-md-10= @university.homepage
 

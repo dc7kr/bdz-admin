@@ -1,19 +1,10 @@
 = form_for @classified do |f|
   .block
     = f.error_messages :message => "", :header_tag => :h3
-  .group
-    %table
-      %tr
-        %td= f.label :object, t("classified.object"), :class => :label
-        %td= f.text_field :object
-      %tr
-        %td= f.label :description, t("classified.description"), :class => :label
-        %td= f.text_area :description
-
-      %tr
-        %td= f.label :visible
-        %td= f.check_box :visible, :class => 'check_box'
-
+  .container-fluid
+    =form_my_field(f,@classified, :object)
+    =form_my_field(f,@classified, :description,:text_area)
+    =form_wrapped_field(f,@classified,:visible, f.check_box :visible, :class => 'check_box')
   .actions
     = f.submit t("common.save")
     = cancel_button()

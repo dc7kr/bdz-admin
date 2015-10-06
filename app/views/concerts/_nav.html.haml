@@ -1,4 +1,4 @@
-%ul.wat-cf
+%ul.nav.nav-tabs
   %li.first= link_to_up_path(t('common.up'),home_public_data_path);
   %li{ :class => tabActiveClass(@current_action,'index',nil)}= link_to t("common.list"), concerts_path
   %li{ :class => tabActiveClass(@current_action,'future',nil)}= link_to t("concert.future"), future_concerts_path

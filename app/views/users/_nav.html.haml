@@ -1,4 +1,4 @@
-%ul.wat-cf
+%ul.nav.nav-tabs
   %li{ :class => tabActiveClass(@current_action,'index','first')}= link_to "#{t("common.list", :default => "List")}", users_path
   %li{:class => tabActiveClass(@current_action,'new',nil)}= link_to "#{t("common.new", :default => "New")}", new_user_path
 

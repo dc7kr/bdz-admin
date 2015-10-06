@@ -1,11 +1,14 @@
 #main {  
   width: 70%;
   float: left;    
-  box-shadow: 5px 5px 5px #888;
   background: #ffffff;
-  border-radius: 10px;
+  
   .content {
     padding: 10px;
+    overflow: hidden;
+    border: solid silver 1px;
+    border-top: none;
+    box-shadow: 5px 5px 5px #888;
   }
 
   .block {

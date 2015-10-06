@@ -5,25 +5,13 @@
       %ul
         - @honor_member.errors.full_messages.each do |msg|
           %li= msg
-
-  .field
-    = f.label :nr
-    = f.number_field :nr
-  .field
-    = f.label :vorname
-    = f.text_field :vorname
-  .field
-    = f.label :name
-    = f.text_field :name
-  .field
-    = f.label :ort
-    = f.text_field :ort
-  .field
-    = f.label :honorType
-    = f.text_field :honorType
-  .field
-    = f.label :honorDate
-    = f.date_select :honorDate
+  .container-liquid
+    =form_my_field(f,@honor_member, :nr,:number)
+    =form_my_field(f,@honor_member, :vorname)
+    =form_my_field(f,@honor_member, :name)
+    =form_my_field(f,@honor_member, :ort)
+    =form_my_field(f,@honor_member, :honorType)
+    =form_my_field(f,@honor_member, :honorDate,:date)
   .actions
-    = f.submit 'Save'
-    = cancel_button()
+    = submit_button
+    = cancel_button

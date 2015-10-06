@@ -1,4 +1,4 @@
-%ul.wat-cf
+%ul.nav.nav-tabs
   %li{ :class => 'first'}= link_to_up_path t("common.up"), home_festival_data_path
   %li{ :class => tabActiveClass(@current_action,'index','first')}= link_to "#{t("common.list")}", event_cards_path
   -if (@event_card)

@@ -5,31 +5,19 @@
       %ul
         - @function.errors.full_messages.each do |msg|
           %li= msg
-  %table
-    %tr
-      %td= f.label :label
-      %td=f.text_field :label
+  .container-fluid
+    =form_my_field(f,@function, :label)
     %tr
       %td= t('regional_organization.s')
       %td= f.collection_select :regional_organization_id, RegionalOrganization.find(:all,:order => "name ASC"), :id, :name
     %tr
       %td= t("contact.s")
       %td= f.collection_select :board_contact_id, BoardContact.includes(:contact).order("contacts.last_name ASC, contacts.first_name ASC"), :id, :to_s
-    %tr
-      %td= f.label :bund
-      %td= f.check_box :bund, :class => 'check_box'
-    %tr
-      %td= f.label :jugend
-      %td= f.check_box :jugend, :class => 'check_box'
-    %tr
-      %td= f.label :nr
-      %td=f.text_field :nr
-    %tr
-      %td= f.label :funktion
-      %td=f.text_field :funktion
-    %tr
-      %td= f.label :fkt_subtitle
-      %td=f.text_field :fkt_subtitle
+    =form_my_field(f,@function, :bund,:checkbox)
+    =form_my_field(f,@function, :jugend,:checkbox)
+    =form_my_field(f,@function, :nr,:number)
+    =form_my_field(f,@function, :funktion)
+    =form_my_field(f,@function, :fkt_subtitle)
   .actions
     = submit_button
     = cancel_button()

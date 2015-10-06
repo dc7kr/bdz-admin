@@ -1,0 +1,3 @@
+%ul.nav.nav-tabs
+  %li{:class => tabActiveClass(@current_action,'list',"first")}= link_to "#{t("common.list")}", states_path
+  %li{:class => tabActiveClass(@current_action,'new',nil)}=link_to "#{t("common.new")}", new_state_path

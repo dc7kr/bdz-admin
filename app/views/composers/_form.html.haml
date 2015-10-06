@@ -5,31 +5,15 @@
       %ul
         - @composer.errors.full_messages.each do |msg|
           %li= msg
-
-  .field
-    = f.label :name
-    = f.text_field :name
-  .field
-    = f.label :vorname
-    = f.text_field :vorname
-  .field
-    = f.label :gebjahr
-    = f.text_field :gebjahr
-  .field
-    = f.label :sterbejahr
-    = f.text_field :sterbejahr
-  .field
-    = f.label :ca_geb
-    = f.check_box :ca_geb
-  .field
-    = f.label :ca_sterb
-    = f.check_box :ca_sterb
-  .field
-    = f.label :fk_ref_komp
-    = f.text_field :fk_ref_komp
-  .field
-    = f.label :comment
-    = f.text_field :comment
+  .container-liquid
+    = form_my_field(f,@composer, :name)
+    = form_my_field(f,@composer, :vorname)
+    = form_my_field(f,@composer, :gebjahr)
+    = form_my_field(f,@composer, :sterbejahr)
+    = form_my_field(f,@composer, :ca_geb)
+    = form_my_field(f,@composer, :ca_sterb)
+    = form_my_field(f,@composer, :fk_ref_komp)
+    = form_my_field(f,@composer, :comment)
   .actions
     = f.submit 'Save'
     = cancel_button()

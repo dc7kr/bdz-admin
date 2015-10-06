@@ -1,44 +1,22 @@
-= form_for @contest do |f|
+= form_for @contest,:html=>{ :class => "form-horizontal" } do |f|
   -if @contest.errors.any?
     #error_explanation
       %h2= "#{pluralize(@contest.errors.count, "error")} prohibited this contest from being saved:"
       %ul
         - @contest.errors.full_messages.each do |msg|
           %li= msg
-
-  .field
-    = f.label :startdate
-    = f.text_field :startdate
-  .field
-    = f.label :enddate
-    = f.text_field :enddate
-  .field
-    = f.label :titel
-    = f.text_field :titel
-  .field
-    = f.label :beschreibung
-    = f.text_area :beschreibung
-  .field
-    = f.label :gebuehr
-    = f.text_field :gebuehr
-  .field
-    = f.label :preis
-    = f.text_field :preis
-  .field
-    = f.label :anmeldung
-    = f.text_area :anmeldung
-  .field
-    = f.label :deadline
-    = f.text_field :deadline
-  .field
-    = f.label :reported
-    = f.text_field :reported
-  .field 
-    = f.label :email
-    = f.text_field :email
-  .field
-    = f.label :visible
-    = f.check_box :visible
-  .actions
-    = f.submit t("common.save")
-    = cancel_button()
+  .container-fluid
+    =form_my_field(f,@contest, :startdate,:date)
+    =form_my_field(f,@contest, :enddate,:date)
+    =form_my_field(f,@contest, :titel)
+    =form_my_field(f,@contest, :beschreibung)
+    =form_my_field(f,@contest, :gebuehr)
+    =form_my_field(f,@contest, :preis)
+    =form_my_field(f,@contest, :anmeldung)
+    =form_my_field(f,@contest, :deadline,:date)
+    =form_my_field(f,@contest, :reported,:date)
+    =form_my_field(f,@contest, :email,:email)
+    =form_wrapped_field(f,@contest, :visible, f.check_box(:visible))
+    .actions
+      = submit_button()
+      = cancel_button()

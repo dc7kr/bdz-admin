@@ -87,5 +87,9 @@ class UsersController < ApplicationController
   def sort_column
     User.column_names.include?(params[:sort]) ? params[:sort] : "email"
   end
+
+  def user_params(params)
+    #attr_accessible :username, :email, :password, :password_confirmation, :remember_me, :name, :role, :entity_class, :entity_id, :authentication_token
+  end
   
 end

@@ -1,27 +1,10 @@
-.group
-  = f.label :nummer, t("regional_organization.nummer", :default => "Nummer"), :class => :label
-  = f.number_field :nummer, :class => 'number_field'
-.group
-  = f.label :name, t("regional_organization.name", :default => "Name"), :class => :label
-  = f.text_field :name, :class => 'text_field'
-.group
-  = f.label :subname, t("regional_organization.subname", :default => "Subname"), :class => :label
-  = f.text_field :subname, :class => 'text_field'
-.group
-  = f.label :homepage, t("regional_organization.homepage", :default => "Homepage"), :class => :label
-  = f.text_field :homepage, :class => 'text_field'
-.group
-  = f.label :jugend_url, t("regional_organization.jugend_url", :default => "Jugend url"), :class => :label
-  = f.text_field :jugend_url, :class => 'text_field'
-.group
-  = f.label :iban, t("regional_organization.iban"), :class => :label
-  = f.text_field :iban, :class => 'text_field'
-.group
-  = f.label :bic, t("regional_organization.bic"), :class => :label
-  = f.text_field :bic, :class => 'text_field'
-.group.navform.wat-cf
-  %button.button{:type => "submit"}
-    = image_tag("web-app-theme/icons/tick.png", :alt => "#{t("web-app-theme.save", :default => "Save")}")
-    = t("web-app-theme.save", :default => "Save")
-  %span.text_button_padding= t("web-app-theme.or", :default => "or")
-  =cancel_button() 
+= form_my_field(f,@regional_organization,:nummer, :number)
+= form_my_field(f,@regional_organization,:name, :text)
+= form_my_field(f,@regional_organization,:subname, :text)
+= form_my_field(f,@regional_organization,:homepage, :text)
+= form_my_field(f,@regional_organization,:jugend_url, :text)
+= form_my_field(f,@regional_organization,:iban, :text)
+= form_my_field(f,@regional_organization,:bic, :text)
+.actions
+  =submit_button
+  =cancel_button

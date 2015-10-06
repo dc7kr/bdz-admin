@@ -1,5 +1,6 @@
 class MemberAccountBooking < ActiveRecord::Base
 	belongs_to :member
+  validates_presence_of :amount,:booking_txt
 
     def has_reference?
         return ref_booking_id != nil 

@@ -1,48 +1,20 @@
 .block
   = f.error_messages :message => "", :header_tag => :h3
-.group
-  %table
-    %tr
-      %td.label= f.label :company
-      %td= f.text_field :company, :class => 'text_field'
-    %tr
-      %td.label= f.label :department
-      %td= f.text_field :department, :class => 'text_field'
-    %tr
-    %tr
-      %td.label= f.label :salutation
-      %td= f.select :salutation, options_for_select([[t('common.salutation_d.M'),"M"],[t('common.salutation_d.W'), "W"]],:selected=>@magazine_sampling.salutation)
-    %tr
-      %td.label= f.label :first_name
-      %td= f.text_field :first_name, :class => 'text_field'
-    %tr
-      %td.label= f.label :last_name
-      %td= f.text_field :last_name, :class => 'text_field'
-    %tr
-      %td.label= f.label :street
-      %td= f.text_field :street, :class => 'text_field'
-    %tr
-      %td.label= f.label :zip
-      %td= f.text_field :zip, :class => 'text_field'
-    %tr
-      %td.label= f.label :city
-      %td= f.text_field :city, :class => 'text_field'
-    %tr
-      %td.label= f.label :country
-      %td= country_select(:magazine_sampling, :country_code, nil, iso_codes:true)
-    %tr
-      %td.label= f.label :phone
-      %td= f.text_field :phone, :class => 'text_field'
-    %tr
-      %td.label= f.label :fax
-      %td= f.text_field :fax, :class => 'text_field'
-    %tr
-      %td.label= f.label :email
-      %td= f.text_field :email, :class => 'text_field'
-    %tr
-      %td.label= f.label :count
-      %td= f.text_field :count, :class => 'text_field'
-      
+.container-fluid
+  =form_my_field(f,@magazine_sampling, :company)
+  =form_my_field(f,@magazine_sampling, :department)
+  =form_my_select(f,@magazine_sampling, :salutation, options_for_select([[t('common.salutation_d.M'),"M"],[t('common.salutation_d.W'), "W"]],:selected=>@magazine_sampling.salutation))
+  =form_my_field(f,@magazine_sampling, :first_name)
+  =form_my_field(f,@magazine_sampling, :last_name)
+  =form_my_field(f,@magazine_sampling, :street)
+  =form_my_field(f,@magazine_sampling, :zip)
+  =form_my_field(f,@magazine_sampling, :city)
+  =form_wrapped_field(f,@magazine_sampling, :country,  country_select(:magazine_sampling, :country_code, { iso_codes:true},{:class => "form-control"}))
+  =form_my_field(f,@magazine_sampling, :phone)
+  =form_my_field(f,@magazine_sampling, :fax)
+  =form_my_field(f,@magazine_sampling, :email)
+  =form_my_field(f,@magazine_sampling, :count)
+    
   =submit_button()
   = cancel_button()
   %br

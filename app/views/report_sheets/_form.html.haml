@@ -1,4 +1,4 @@
-=form_for ([@orchestra,@report_sheet]) do |f|
+=form_for ([@orchestra,@report_sheet]),:html=>{:class =>"form-horizontal" } do |f|
   -if @report_sheet.errors.any?
     #error_explanation
       %h2= "#{pluralize(@report_sheet.errors.count, "error")} #{t("common.prohibited_save")}:"
@@ -6,71 +6,30 @@
         - @report_sheet.errors.full_messages.each do |msg|
           %li= msg
   = f.hidden_field :orchestra_id, :value=>@report_sheet.orchestra_id
-  %table
-    %tr
-      %td= t("report_sheet.report_date")
-      %td= f.text_field :report_date_str
-    %tr
-      %td= t("report_sheet.year")
-      %td= f.text_field :year
-    %tr
-      %td= t("report_sheet.children")
-      %td= f.number_field :children
-    %tr
-      %td= t("report_sheet.teens")
-      %td= f.number_field :teens
-    %tr
-      %td= t("report_sheet.youth")
-      %td= f.number_field :youth
-    %tr
-      %td= t("report_sheet.adult")
-      %td= f.number_field :adult
-    %tr
-      %td= t("report_sheet.senior")
-      %td= f.number_field :senior
-    %tr
-      %td= t("report_sheet.uv")
-      %td= f.check_box :uv
-    %tr
-      %td= t("report_sheet.azubi")
-      %td= f.number_field :azubi
-    %tr
-      %td= t("report_sheet.passive")
-      %td= f.number_field :passive
-    %tr
-      %td= t("report_sheet.korr_ztg")
-      %td= f.number_field :korr_ztg
-    %tr
-      %td= f.label :invoiced, t("report_sheet.invoiced")
-      %td= f.check_box :invoiced,:disabled=>true
-    %tr
-      %td= f.label :generated
-      %td= f.check_box :generated, :disabled=>true
+  .container-fluid
+    = form_my_field(f,@report_sheet, :report_date_str)
+    = form_my_field(f,@report_sheet, :year)
+    = form_my_field(f,@report_sheet, :children,:number)
+    = form_my_field(f,@report_sheet, :teens,:number)
+    = form_my_field(f,@report_sheet, :youth,:number)
+    = form_my_field(f,@report_sheet, :adult,:number)
+    = form_my_field(f,@report_sheet, :senior,:number)
+    = form_my_field(f,@report_sheet, :uv,:checkbox)
+    = form_my_field(f,@report_sheet, :azubi,:number)
+    = form_my_field(f,@report_sheet, :passive,:number)
+    = form_my_field(f,@report_sheet, :korr_ztg,:number)
+    =form_wrapped_field(f,@festival, :invoiced, f.check_box :invoiced,:disabled=>true
+    =form_wrapped_field(f,@festival, :generated,f.check_box :generated, :disabled=>true)
+    =form_my_textarea(f,@festival, :comment,5,80)
   %h3 Ensembles
-  %table
-    %tr
-      %td= t("report_sheet.child_ens")
-      %td= f.number_field :child_ens
-    %tr
-      %td= t("report_sheet.youth_ens")
-      %td= f.number_field :youth_ens
-    %tr
-      %td= t("report_sheet.adult_ens")
-      %td= f.number_field :adult_ens
-    %tr
-      %td= t("report_sheet.senior_ens")
-      %td= f.number_field :senior_ens
-    %tr
-      %td= t("report_sheet.chamber_ens")
-      %td= f.number_field :chamber_ens
-    %tr
-      %td= t("report_sheet.other_ens")
-      %td= f.number_field :other_ens
+  .container-fluid
+    = form_my_field(f,@report_sheet, :child_ens,:number)
+    = form_my_field(f,@report_sheet, :youth_ens,:number)
+    = form_my_field(f,@report_sheet, :adult_ens,:number)
+    = form_my_field(f,@report_sheet, :senior_ens,:number)
+    = form_my_field(f,@report_sheet, :chamber_ens,:number)
+    = form_my_field(f,@report_sheet, :other_ens,:number)
 
-  %table
-    %tr
-      %td= f.label :comment
-      %td= f.text_area :comment
   .actions
     = f.submit t("common.save")
     = cancel_button()

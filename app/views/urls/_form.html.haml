@@ -6,39 +6,17 @@
         - @url.errors.full_messages.each do |msg|
           %li= msg
 
-  .field
-    = f.label :url_category
-    = f.text_field :url_category
-  .field
-    = f.label :url
-    = f.text_field :url
-  .field
-    = f.label :titel
-    = f.text_field :titel
-  .field
-    = f.label :descr
-    = f.text_field :descr
-  .field
-    = f.label :sprache
-    = f.text_field :sprache
-  .field
-    = f.label :country
-    = country_select(:url, :country_code, nil, :iso_codes=>true)
-  .field
-    = f.label :bland, corika_tr("url","state","STATE")
-    = collection_select(:url, :bland, State.all, :id, :name) 
-  .field
-    = f.label :email
-    = f.text_field :email
-  .field
-    = f.label :lastchange
-    = f.text_field :lastchange
-  .field
-    = f.label :confirmed
-    = f.text_field :confirmed
-  .field
-    = f.label :ip
-    = f.text_field :ip
+    = form_my_field(f,@url, :url_category)
+    = form_my_field(f,@url, :url)
+    = form_my_field(f,@url, :titel)
+    = form_my_field(f,@url, :descr)
+    = form_my_field(f,@url, :sprache)
+    = form_wrapped_field(f,@url, :country, country_select(:url, :country_code, nil, :iso_codes=>true))
+    = form_wrapped_field(f,@url, :bland, collection_select(:url, :bland, State.all, :id, :name) )
+    = form_my_field(f,@url, :email)
+    = form_my_field(f,@url, :lastchange)
+    = form_my_field(f,@url, :confirmed)
+    = form_my_field(f,@url, :ip)
   .actions
-    = f.submit 'Save'
-    = cancel_button()
+    = submit_button
+    = cancel_button

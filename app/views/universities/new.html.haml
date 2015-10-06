@@ -1,5 +1,9 @@
-%h1 New university
-
-= render 'form'
-
-= link_to 'Back', universities_path
+.block
+  .secondary-navigation
+    =render :partial=>'nav'
+  .content
+    %h2.title
+      = t("common.new")
+      = t("university.s")
+    .inner
+      = render 'form'

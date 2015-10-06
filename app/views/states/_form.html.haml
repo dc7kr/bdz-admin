@@ -1,10 +1,7 @@
-.group
-  = f.label :country_code, :class => :label
-  = country_select(:state, :country_code, nil, :iso_codes=>true)
+.container-fluid
+  = form_wrapped_field(f,@state, :country_code, country_select(:state, :country_code, { iso_codes:true }, { class:  "form-control"}))
+  = form_my_field(f, @state, :name)
 
-.group
-  = f.label :name, :class => :label
-  = f.text_field :name, :class => 'text_field'
-  = submit_button
-  %span.text_button_padding= t("common.or", :default => "or")
-  = cancel_button() 
+  .actions
+    = submit_button
+    = cancel_button() 

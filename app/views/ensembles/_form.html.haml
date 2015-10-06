@@ -1,28 +1,16 @@
-= form_for @ensemble do |f|
-  = f.hidden_field :owner
+= form_for @ensemble, :html => { :class => "form-horizontal"} do |f|
   -if @ensemble.errors.any?
     #error_explanation
       %h2= "#{pluralize(@ensemble.errors.count, "error")} prohibited this ensemble from being saved:"
       %ul
         - @ensemble.errors.full_messages.each do |msg|
           %li= msg
-
-  .field
-    = f.label :name
-    = f.text_field :name
-  .field
-    = f.label :homepage
-    = f.text_field :homepage
-  .field
-    = f.label :beschreibung
-    = f.text_field :beschreibung
-  .field
-    = f.label :email
-    = f.text_field :email
-  .field
-    = f.label :visible
-    = f.check_box :visible, :class => 'check_box'
-
-  .actions
-    = f.submit t("common.save")
-    = cancel_button()
+  .container-fluid
+    =form_my_field(f,@ensemble, :name)
+    =form_my_field(f,@ensemble, :homepage)
+    =form_my_field(f,@ensemble, :beschreibung)
+    =form_my_field(f,@ensemble, :email)
+    =form_my_field(f,@ensemble, :visible,:checkbox)
+    .actions
+      = submit_button
+      = cancel_button

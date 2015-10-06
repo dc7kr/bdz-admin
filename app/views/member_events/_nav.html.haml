@@ -1,4 +1,4 @@
-%ul.wat-cf
+%ul.nav.nav-tabs
   -if(@isOrchestra)
     %li{ :class => 'first'}= link_to_up_path t("common.up"), orchestra_path(params[:orchestra_id])
     %li{ :class => tabActiveClass(@current_action,'index','first')}= link_to "#{t("common.list", :default => "List")}", orchestra_member_events_path(@member)

@@ -1,48 +1,20 @@
 .block
   = f.error_messages :message => "", :header_tag => :h3
-.group
-  %table
-    %tr
-      %td= f.label :datum, t("ensemble_concert.datum")
-      %td= f.text_field :datum
-    %tr
-      %td= f.label :zeit, t("ensemble_concert.zeit")
-      %td= f.text_field :zeit
-    %tr
-      %td= f.label :stadt, t("ensemble_concert.stadt")
-      %td= f.text_field :stadt
-    %tr
-      %td= f.label :ort, t("ensemble_concert.ort")
-      %td=f.text_field :ort
-    %tr
-      %td= f.label :festival, t("ensemble_concert.festival")
-      %td= collection_select(:ensemble_concert, :festival_id, Festival.all, :id, :name)
-    %tr
-      %td= f.label :titel, t("ensemble_concert.titel")
-      %td=f.text_field :titel
-    %tr
-      %td= f.label :comment, t("ensemble_concert.comment")
-      %td=f.text_field :comment
-    %tr
-      %td= f.label :eintritt, t("ensemble_concert.eintritt")
-      %td=f.text_field :eintritt
-    %tr
-      %td= f.label :state, t("ensemble_concert.state")
-      %td= collection_select(:ensemble_concert, :state_id, State.all, :id, :name)
-    %tr
-      %td= f.label :country_code, t("ensemble_concert.country_code")
-      %td= country_select(:ensemble_concert, :country_code, nil, iso_codes:true)
-    %tr
-      %td= f.label :email, t("ensemble_concert.email")
-      %td=f.text_field :email
-    %tr
-      %td= f.label :fk_owner, t("ensemble_concert.owner")
-      %td=f.text_field :fk_owner
-    %tr
-      %td= f.label :url, t("ensemble_concert.url")
-      %td=f.text_field :url
-    %tr
-      %td= f.label :visible, t("ensemble_concert.visible")
-      %td=f.check_box :visible
-  = submit_button(t("common.save"))
-  = cancel_button()
+.container-fluid
+  =form_my_field(f,@ensemble_concert,:datum,:date)
+  =form_my_field(f,@ensemble_concert,:zeit,:date)
+  =form_my_field(f,@ensemble_concert,:stadt)
+  =form_my_field(f,@ensemble_concert,:ort)
+  =form_wrapped_field(f,@ensemble_concert,:festival_id, collection_select(:ensemble_concert, :festival_id, Festival.all, :id, :name))
+  =form_my_field(f,@ensemble_concert,:titel)
+  =form_my_textarea(f,@ensemble_concert,:comment,5,80)
+  =form_my_field(f,@ensemble_concert,:eintritt)
+  =form_wrapped_field(f,@ensemble_concert,:state, collection_select(:ensemble_concert, :state_id, State.all, :id, :name))
+  =form_wrapped_field(f,@ensemble_concert, :country_code, country_select(:ensemble_concert, :country_code, {}, { iso_codes:true},{ :class => "form-control"})
+  =form_my_field(f,@ensemble_concert,:email)
+  =form_my_field(f,@ensemble_concert,:fk_owner)
+  =form_my_field(f,@ensemble_concert,:url)
+  =form_wrapped_field(f,@ensemble_concert,:visible, f.check_box :visible)
+  .actions
+    = submit_button
+    = cancel_button

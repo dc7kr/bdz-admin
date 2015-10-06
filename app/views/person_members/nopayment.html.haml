@@ -4,14 +4,14 @@
   .content
     %h2.title
       = t("member.nopayment")
-      (#{t("person_member.title")})
+      (#{t("person_member.p")})
     .inner
       = link_to_generated_download_path(t('common.download'),nopayment_person_members_path(:format=>:ods))
       %table.table
         %tr
           %th.first 
             = sortable "mglnr", t("member.mglnr", :default =>"#mglr#")
-          %th=t("person_member.fullname")
+          %th=t("member.fullname")
           %th=t("member.email")
           %th=t("booking.balance")
           %th.last &nbsp;

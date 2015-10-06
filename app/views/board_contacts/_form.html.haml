@@ -1,8 +1,9 @@
 .block
   = f.error_messages :message => "", :header_tag => :h3
 .group
-  %table
+  .container-fluid
     = render :partial => "contacts/contact_form", :locals => { :f => f,:entity=>@board_contact}
-  =submit_button(t("common.save"))
-  = cancel_button()
+    .actions
+      =submit_button
+      = cancel_button()
   %br

@@ -1,49 +1,49 @@
-%tr
-  %td.label #{t("member.salutation")}:
-  %td= t("common.salutations."+member.anrede)
-%tr
-  %td.label #{t("common.fullname")}:
-  %td= member.fullname
-%tr
-  %td.label #{t("member.street")}:
-  %td= member.strasse
-%tr
-  %td.label #{t("member.zip")}:
-  %td= member.plz
-%tr
-  %td.label #{t("member.city")}:
-  %td= member.ort
-%tr
-  %td.label #{t("country.s")}:
-  %td=translated_country(member.country_code)
-%tr
-  %td.label #{t("member.email")}:
-  %td= mail_to member.email, member.email
-%tr
-  %td.label #{t("member.phone")}:
-  %td= member.telefon
-%tr
-  %td.label #{t("member.fax")}:
-  %td= member.fax
-%tr
-  %td.label #{t("member.za")}:
+.row
+  .col-md-2=label :member,:salutation
+  .col-md-10= t("common.salutations."+member.anrede)
+.row
+  .col-md-2=label :member,:fullname
+  .col-md-10= member.fullname
+.row
+  .col-md-2=label :member,:street
+  .col-md-10= member.strasse
+.row
+  .col-md-2=label :member,:zip
+  .col-md-10= member.plz
+.row
+  .col-md-2=label :member,:city
+  .col-md-10= member.ort
+.row
+  .col-md-2=label_tag t("country.s")
+  .col-md-10=translated_country(member.country_code)
+.row
+  .col-md-2=label :member,:email
+  .col-md-10= mail_to member.email, member.email
+.row
+  .col-md-2=label :member,:phone
+  .col-md-10= member.telefon
+.row
+  .col-md-2=label :member,:fax
+  .col-md-10= member.fax
+.row
+  .col-md-2=label :member,:za
   %td #{t("common.za_"+member.za)}
-%tr
-  %td.label #{t("member.iban")}:
-  %td= member.iban
-%tr
-  %td.label #{t("member.bic")}:
-  %td= member.bic
-%tr
-  %td.label #{t("member.zahler")}:
-  %td= member.zahler
-%tr
-  %td.label #{t("member.lv")}:
-  %td= member.regional_organization.name
-%tr
-  %td.label #{t("member.eintritt")}:
-  %td= format_date(member.eintritt)
+.row
+  .col-md-2=label :member,:iban
+  .col-md-10= member.iban
+.row
+  .col-md-2=label :member,:bic
+  .col-md-10= member.bic
+.row
+  .col-md-2=label :member,:zahler
+  .col-md-10= member.zahler
+.row
+  .col-md-2=label :member,:lv
+  .col-md-10= member.regional_organization.name
+.row
+  .col-md-2=label :member,:eintritt
+  .col-md-10= format_date(member.eintritt)
 
-%tr
-  %td.label #{t("member.austritt_zum")}:
-  %td= member.austritt_zum
+.row
+  .col-md-2=label :member,:austritt_zum
+  .col-md-10= member.austritt_zum

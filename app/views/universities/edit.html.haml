@@ -1,7 +1,10 @@
-%h1 Editing university
+.block
+  .secondary-navigation
+    =render :partial=>'nav'
+  .content
+    %h2.title
+      = t("common.edit")
+      = t("university.s")
+    .inner
+      = render 'form'
 
-= render 'form'
-
-= link_to 'Show', @university
-\|
-= link_to 'Back', universities_path

@@ -1,5 +1,8 @@
-%ul.wat-cf
+%ul.nav.nav-tabs
   %li.first= link_to_up_path(t('common.up'),home_public_data_path);
   %li{ :class => tabActiveClass(@current_action,'index',nil)}= link_to t("common.list"), universities_path
-  %li{:class => tabActiveClass(@current_action,'new',nil)}= link_to "#{t("web-app-theme.new", :default => "New")}", new_university_path
+  %li{:class => tabActiveClass(@current_action,'new',nil)}= link_to t("common.new"), new_university_path
+  - if @university and @university.id 
+    %li{:class => tabActiveClass(@current_action,'show',nil)}=link_to t("common.show"), @university
+    %li{:class => tabActiveClass(@current_action,'edit',nil)}=link_to t("common.edit"), edit_university_path(@university)
 

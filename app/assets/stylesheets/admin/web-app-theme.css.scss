@@ -33,23 +33,25 @@ body {
   min-width: 960px;
 }
 
-#header, #wrapper {
+#wrapper {
   padding: 0 20px;
 }
 
 #header {
   position: relative;
-  padding-top: 1px;  
-  background: rgba(0, 0, 0, 0) linear-gradient(to right, rgba(0, 143, 172, 0.1) 0%, #008fac 100%) repeat scroll 0 0;
+}
 
-  h1 {
-    margin: 0;
-    padding: 10px 0;  
-    font-size: 26px;
-
-    a:link, a:active, a:hover, a:visited {
-      text-decoration: none;
-    }
+#header.development {
+  .overlay {
+    height:100%;
+    position:absolute;
+    top:0px;
+    width:40px;
+    background:rgba(255,0,0,0.4);
+    padding-left: 5px;
+    padding-top:15px;
+    color:red;
+    z-index:1;
   }
 }
 

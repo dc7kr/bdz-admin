@@ -7,24 +7,16 @@
     = csrf_meta_tag
   %body
     #container
-      #header
-        %h1
-          %a{:href => "/"} #{title}
-        #user-navigation
-          %ul.wat-cf
-            -if current_user 
-              %li.username
-                Angemeldet als: #{current_user.email} 
-              %li
-                %a.logout{:href => "/logout"}= t("account.logout")
-            %li
-              %a{:href => "/about"}= t("common.about", :default => "About")
+      #header{:class=>Rails.env}
+        - if Rails.env == "development"
+          .overlay 
+            DEV
         #main-navigatio
           = render :partial => "main-menu"
       #wrapper.wat-cf
         #flash-message
           - flash.each do |type, message|
-            %div{:class => "message #{type}", :id => "flash_#{type}"}
+            %div{:class => "alert #{map_flash_type(type)}", :id => "flash_#{type}"}
               %p=message
         #main
           = yield

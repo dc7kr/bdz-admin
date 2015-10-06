@@ -1,16 +1,9 @@
 .block
   = f.error_messages :message => "", :header_tag => :h3
-.group
-  %table
-    %tr
-      %td.label= f.label :composer
-      %td= f.text_field :composer
-    %tr
-      %td.label= f.label :title
-      %td= f.text_field :title
-    %tr
-      %td.label= f.label :duration
-      %td= f.text_field :duration
-
-=submit_button
-=cancel_button
+  .container-fluid
+    =form_my_field(f,@festival_piece, :composer)
+    =form_my_field(f,@festival_piece, :title)
+    =form_my_field(f,@festival_piece, :duration)
+    .actions
+      =submit_button
+      =cancel_button

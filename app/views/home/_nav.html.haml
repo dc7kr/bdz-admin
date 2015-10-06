@@ -1,4 +1,4 @@
-%ul.wat-cf
+%ul.nav.nav-tabs
   %li{ :class => tabActiveClass(@current_action,'public_data','first')}= link_to "#{t("main_menu.public_data")}", :controller=>"home",:action=>"public_data"
   %li{ :class => tabActiveClass(@current_action,'member_data',nil)}= link_to "#{t("main_menu.member_data")}", :controller=>"home",:action=>"member_data"
   %li{ :class => tabActiveClass(@current_action,'reference_data',nil)}= link_to "#{t("main_menu.reference_data")}", :controller=>"home",:action=>"reference_data"
