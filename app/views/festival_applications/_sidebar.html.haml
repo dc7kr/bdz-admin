@@ -1,21 +1,22 @@
 =render :partial=>'search'
-.panel.panel-primary
-  .panel-heading=t('common.reports')
-  .panel-body
-    %ul.navigation
-      %li= link_to "Bewerbungsliste (PDF)", "/festival_applications/list.pdf"
-      %li= link_to "Bewerbungsliste (ODS)", "/festival_applications/list.ods"
-      %li= link_to "Zulassungsliste (PDF)", "/festival_applications/permitted.pdf"
-      %li= link_to "Zulassungsliste (ODS)", "/festival_applications/permitted.ods"
-      %li= link_to "Teilnehmerliste (ODS)", "/festival_applications/permitted.ods"
-
-.panel.panel-primary
-  .panel-heading=t("festival_application.group_list") 
-  .panel-body
-    %ul.navigation
-      %li
-        %p
-          = form_tag grp_list_festival_applications_path, :method => 'post', :format=>:pdf do
-            = select_tag :format, options_for_select([["HTML", "html"], ["PDF", "pdf"],["ODS","ods"]], "pdf")
-            = select_tag :visitor_type, get_visitor_type_options("")
-            = submit_tag "Liste", :name => nil
+.block
+  .panel.panel-primary
+    .panel-heading=t('common.reports')
+    .panel-body
+      %ul.nav.nav-pills.nav-stacked
+        %li= link_to "Bewerbungsliste (PDF)", "/festival_applications/list.pdf"
+        %li= link_to "Bewerbungsliste (ODS)", "/festival_applications/list.ods"
+        %li= link_to "Zulassungsliste (PDF)", "/festival_applications/permitted.pdf"
+        %li= link_to "Zulassungsliste (ODS)", "/festival_applications/permitted.ods"
+        %li= link_to "Teilnehmerliste (ODS)", "/festival_applications/permitted.ods"
+.block
+  .panel.panel-primary
+    .panel-heading=t("festival_application.group_list") 
+    .panel-body
+      %ul.nav.nav-pills.nav-stacked
+        %li
+          %p
+            = form_tag grp_list_festival_applications_path, :method => 'post', :format=>:pdf do
+              = select_tag :format, options_for_select([["HTML", "html"], ["PDF", "pdf"],["ODS","ods"]], "pdf")
+              = select_tag :visitor_type, get_visitor_type_options("")
+              = submit_tag "Liste", :name => nil

@@ -13,6 +13,17 @@ class UsersController < ApplicationController
     end
   end
 
+  def for_admin_notify
+	  authorize! :index, @user, :message => 'Not authorized as an administrator.'
+    @users = User.for_admin_notify
+
+    respond_to do |format|
+      format.js
+      format.html 
+      format.json { render :json => @users }
+    end
+  end
+
   # GET /users/1
   # GET /users/1.json
   def show

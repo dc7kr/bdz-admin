@@ -1,0 +1,19 @@
+.block
+  .secondary-navigation
+    =render :partial=>'nav'
+  .content
+    %h2.title
+      Notify
+      = t('user.p')
+    .inner
+      %table.table.table-hover.table-condensed
+        %thead
+          %th.first= t("user.username")
+          %th= t("user.email")
+          %th= t("user.last_sign_in_at")
+          %th= t("user.last_sign_in_ip")
+          %th= t("user.sign_in_count")
+          %th.last &nbsp;
+        %tbody#users
+          =render @users
+- content_for :sidebar, render(:partial => 'sidebar')
