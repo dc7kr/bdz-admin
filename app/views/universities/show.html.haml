@@ -24,7 +24,10 @@
           .col-md-10= @university.ort
         .row
           .col-md-2=label :university, :land
-          .col-md-10= @university.country_code
+          .col-md-10= translated_country(@university.country_code)
+        .row
+          .col-md-2=label :university, :state
+          .col-md-10= translated_state(@university.country_code, @university.state)
         .row
           .col-md-2=label :university, :telefon
           .col-md-10= @university.telefon
