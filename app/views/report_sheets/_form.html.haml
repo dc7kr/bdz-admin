@@ -18,9 +18,9 @@
     = form_my_field(f,@report_sheet, :azubi,:number)
     = form_my_field(f,@report_sheet, :passive,:number)
     = form_my_field(f,@report_sheet, :korr_ztg,:number)
-    =form_wrapped_field(f,@festival, :invoiced, f.check_box(:invoiced,:disabled=>true))
-    =form_wrapped_field(f,@festival, :generated,f.check_box(:generated, :disabled=>true))
-    =form_my_textarea(f,@festival, :comment,5,80)
+    =form_wrapped_field(f,@report_sheet, :invoiced, f.check_box(:invoiced,:disabled=>true))
+    =form_wrapped_field(f,@report_sheet, :generated,f.check_box(:generated, :disabled=>true))
+    =form_my_textarea(f,@report_sheet, :comment,5,80)
   %h3 Ensembles
   .container-fluid
     = form_my_field(f,@report_sheet, :child_ens,:number)
