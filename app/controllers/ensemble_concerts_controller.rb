@@ -109,6 +109,9 @@ class EnsembleConcertsController < AuthenticatedController
   # POST /ensemble_concerts.json
   def create
     @ensemble_concert = EnsembleConcert.new(params[:ensemble_concert])
+
+    @ensemble_concert.reported = Time.now
+
     respond_to do |format|
       if @ensemble_concert.save
         format.html { redirect_to ensemble_ensemble_concerts_path(@ensemble,@ensemble_concert), :notice => t('ensemble_concert.create_success') }
