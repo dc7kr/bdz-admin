@@ -34,7 +34,9 @@ module ApplicationHelper
     ''
   end
 
-
+  def attr_heading(clazz, attr)
+    clazz.human_attribute_name(attr)
+  end
 def c_t(entity,field)
 	c_t(entity,field,nil)
 end
