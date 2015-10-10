@@ -88,12 +88,27 @@ def wizard_del_button(path,txt,entity)
     link_to image_tag("/assets/icons/delete.png", {:size=>'16x16', :alt => txt, :title=>txt, :class=>'btn'})+" "+txt,path, :class => "test_button_padding button", :confirm => t("common.delete_confirm")
 end
 
-
-def submit_button(txt=t('common.save'))
-    button_tag(:type=>"submit",:class=>"btn btn-primary") do 
-      content_tag(:span,"",class: "glyphicon glyphicon-ok")+" "+
+def glyph_button(glyph, path,txt, type= :link)
+  if type == :link 
+    link_to path, :class => "btn btn-default" do 
+      content_tag(:span,"",:class=>"glyphicon #{glyph}")+" #{txt}"
+    end
+  elsif type == :button
+    button_tag(:type=>path,:class=>"btn btn-primary") do 
+      content_tag(:span,"",class: "glyphicon #{glyph}")+" "+
       txt
     end
+  end
+end
+
+def edit_button(path,entity) 
+  if can? :update, entity
+    glyph_button("glyphicon-edit", path, t("common.edit"))
+  end
+end
+
+def submit_button(txt=t('common.save'))
+  glyph_button("glyphicon-ok", "submit", txt,:button)
 end
 
 def cancel_button()
@@ -108,12 +123,6 @@ def del_button(path,entity)
   if can? :destroy, entity  
 	link_to image_tag("/assets/icons/delete.png", :alt => t("common.delete")) + " " + t("common.delete"), path, :method => "delete", :class => "button", :confirm => t("common.confirm")
   end
-end
-def edit_button(path,entity) 
-  if can? :update, entity
-	link_to image_tag("web-app-theme/icons/application_edit.png", :alt => "#{t("common.edit")}") + " " + t("common.edit"), path, :class => "button"
-  end
-
 end
 
 def back_button(path) 
@@ -523,8 +532,12 @@ end
       data = nil
       if type.nil? 
         data = entity[field]
+      elsif type == :date
+        data = l entity[field]
       elsif type == :mailto
         data = mail_to entity[field],entity[field]
+      elsif type == :currency
+        data = format_currency entity[field],"EUR"
       end 
       concat(content_tag(:div, data,:class => "col-md-9"))
     end
