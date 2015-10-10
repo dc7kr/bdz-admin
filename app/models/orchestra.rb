@@ -319,4 +319,8 @@ class Orchestra < ActiveRecord::Base
   def event_class
     MemberEvent
   end
+  
+  def last_invoice
+    member.last_invoice
+  end
 end

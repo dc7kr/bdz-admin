@@ -126,4 +126,8 @@ class Member < ActiveRecord::Base
       end
       return result
   end
+
+  def last_invoice
+    member_account_bookings.max(:booking_date).where("booking_type = 'B'")
+  end
 end
