@@ -12,16 +12,16 @@
         %thead
           %tr
             -if @orchestra
-              %th=t("report_sheet.year")
+              %th=attr_heading(Report_sheet,:year)
             -else 
               %th=t("member.mglnr")
-            %th=t("report_sheet.distribution")
-            %th=t("report_sheet.uv")
-            %th=t("report_sheet.zusatz_uv")
-            %th=t("report_sheet.zeitungen")
-            %th=t("report_sheet.gema")
-            %th=t("report_sheet.azubi")
-            %th=t("report_sheet.passive")
+            %th=attr_heading(Report_sheet,:distribution)
+            %th=attr_heading(Report_sheet,:uv)
+            %th=attr_heading(Report_sheet,:zusatz_uv)
+            %th=attr_heading(Report_sheet,:zeitungen)
+            %th=attr_heading(Report_sheet,:gema)
+            %th=attr_heading(Report_sheet,:azubi)
+            %th=attr_heading(Report_sheet,:passive)
             %th.last &nbsp;
         %tbody#orchestras
           =render @report_sheets

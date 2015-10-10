@@ -8,9 +8,9 @@
     .inner
       %table.table.table-hover.table-condensed
         %thead
-          %th.first= sortable "event_date", t("member_event.event_date")
-          %th= sortable "event_type", t("member_event.event_type")
-          %th= sortable "event", t("member_event.event")
+          %th.first= sortable "event_date", attr_heading(MemberEvent,:event_date)
+          %th= sortable "event_type", attr_heading(MemberEvent,:event_type)
+          %th= sortable "event", attr_heading(MemberEvent,:event)
           %th= sortable "comment", t("common.comment")
           %th.last &nbsp;
         %tbody#member_events

@@ -8,12 +8,12 @@
     .inner
       %table.table.table-hover.table-condensed
         %thead
-          %th.first= t('urls.category')
-          %th=sortable 'url', t('urls.url')
-          %th=t('urls.title')
-          %th=t('urls.language')
-          %th=t('urls.email')
-          %th=t('urls.lastchange')
+          %th.first= attr_heading(Url,:category)
+          %th=sortable 'url', attr_heading(Url,:url)
+          %th=attr_heading(Url,:title)
+          %th=attr_heading(Url,:language)
+          %th=attr_heading(Url,:email)
+          %th=attr_heading(Url,:lastchange)
           %th.last &nbsp;
 
         %tbody#urls

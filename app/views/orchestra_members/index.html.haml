@@ -9,12 +9,12 @@
 
       %table.table.table-hover.table-condensed
         %thead
-          %th.first= sortable "first_name", t("orchestra_member.first_name")
-          %th= sortable "last_name", t("orchestra_member.last_name")
-          %th= sortable "date_of_birth", t("orchestra_member.date_of_birth")
+          %th.first= sortable "first_name", attr_heading(OrchestraMember,:first_name)
+          %th= sortable "last_name", attr_heading(OrchestraMember,:last_name)
+          %th= sortable "date_of_birth", attr_heading(OrchestraMember,:date_of_birth)
           - if @orchestra.is_lorch?
-            %th= sortable "mglnr", t("orchestra_member.mglnr")
-          %th= sortable "instrument", t("orchestra_member.instrument")
+            %th= sortable "mglnr", attr_heading(OrchestraMember,:mglnr)
+          %th= sortable "instrument", attr_heading(OrchestraMember,:instrument)
           %th.last &nbsp;
         %tbody#orchestra_members
           =render @orchestra_members

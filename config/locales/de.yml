@@ -723,6 +723,61 @@ de:
       cancel_account: "Benutzeraccount löschen"
   activerecord: 
     attributes:
+      email:
+        event_id: Event
+        group: Zielgruppe
+        subject: Betreffzeile
+        body: Inhalt
+        via_paper: auch per Post verschicken?
+        datafile: Dateianhang
+      member_event: &member_event_labels
+        event_type: Event-Typ
+        event_date: Event-Datum
+        event: Event-ID
+        event_types:
+          E: E-Mail
+          L: Brief
+          F: E-Mail-Fehler
+        filename: Dateiname
+        p: Kontakt-Events
+
+      report_sheet:
+        generated: Generiert
+        korr_ztg: Zeitungen Korrektur (+/-)
+        invoiced: Abgerechnet
+        children: Kinder
+        azubi: Beitragsfrei
+        uv: Unfallversicherung
+        teens: Jugendliche 15-18
+        youth: Erw. 19-27
+        adult: Erw. 28-64
+        senior: Erw. 65+ 
+        passive: Passiv
+        supporters: "Fördervereinmitglieder"
+        year: Jahr
+        gema: GEMA
+        report_date: Datum
+        child_ens: Kinderensembles
+        youth_ens: Jugendensembles
+        adult_ens: Erwachsenenensembles
+        senior_ens: Seniorenensembles
+        chamber_ens: Kammermusikensembles
+        other_ens: Sonstige Ensembles
+
+      distinction:
+        s: Ehrung
+        p: Ehrungen
+        update_success: Ehrung erfolgreich aktualisiert
+        dist_date: Datum
+        generate_invoice: Rechnung generieren
+        silver_needles: Silbernadeln
+        gold_needles: Goldnadeln
+        national_needles: Bundesnadeln
+        certificates: Urkunden
+        honorletters: Ehrenbriefe
+        medals: BDZ-Medaillen
+        porto: Porto
+
       orchestra:
         mglnr: "Mitgl.-Nr."
       festival:
@@ -831,6 +886,8 @@ de:
           attributes:
             eintritt:
               blank: "Eintrittsdatum darf nicht leer sein"
+            mglnr:
+              taken: "Diese Mitgliedsnummer wird bereits verwendet"
 
       member:
          za: Zahlungsart
@@ -956,58 +1013,6 @@ de:
       truncate: "&hellip;"
   helpers:
     label:
-      distinction:
-        s: Ehrung
-        p: Ehrungen
-        update_success: Ehrung erfolgreich aktualisiert
-        dist_date: Datum
-        generate_invoice: Rechnung generieren
-        silver_needles: Silbernadeln
-        gold_needles: Goldnadeln
-        national_needles: Bundesnadeln
-        certificates: Urkunden
-        honorletters: Ehrenbriefe
-        medals: BDZ-Medaillen
-        porto: Porto
-      report_sheet:
-        generated: Generiert
-        korr_ztg: Zeitungen Korrektur (+/-)
-        invoiced: Abgerechnet
-        children: Kinder
-        azubi: Beitragsfrei
-        uv: Unfallversicherung
-        teens: Jugendliche 15-18
-        youth: Erw. 19-27
-        adult: Erw. 28-64
-        senior: Erw. 65+ 
-        passive: Passiv
-        supporters: "Fördervereinmitglieder"
-        year: Jahr
-        gema: GEMA
-        report_date: Datum
-        child_ens: Kinderensembles
-        youth_ens: Jugendensembles
-        adult_ens: Erwachsenenensembles
-        senior_ens: Seniorenensembles
-        chamber_ens: Kammermusikensembles
-        other_ens: Sonstige Ensembles
-      email:
-        event_id: Event
-        group: Zielgruppe
-        subject: Betreffzeile
-        body: Inhalt
-        via_paper: auch per Post verschicken?
-        datafile: Dateianhang
-      member_event: &member_event_labels
-        event_type: Event-Typ
-        event_date: Event-Datum
-        event: Event-ID
-        event_types:
-          E: E-Mail
-          L: Brief
-          F: E-Mail-Fehler
-        filename: Dateiname
-        p: Kontakt-Events
       contact_event: 
         <<: *member_event_labels
       festival_piece: &festival_piece_labels
@@ -1140,8 +1145,8 @@ de:
       one_page:
         display_entries:
           zero: "keine %{entry_name} gefunden"
-          one: "Displaying <b>1</b> %{entry_name}"
-          other: "Displaying <b>all %{count}</b> %{entry_name}"
+          one: "<b>1</b> %{entry_name}"
+          other: "<b>Alle %{count}</b> %{entry_name}"
       more_pages:
         display_entries: "Zeige Einträge <b>%{first}&nbsp;-&nbsp;%{last}</b> von <b>%{total}</b>"
   festival_perticipant:

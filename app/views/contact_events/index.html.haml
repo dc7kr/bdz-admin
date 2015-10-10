@@ -8,12 +8,12 @@
     .inner
       %table.table.table-hover.table-condensed
         %thead
-          %th=label :contact_event, :event_type
-          %th=label :contact_event, :event_date
-          %th=label :contact_event, :event
-          %th=label :contact, :s
-          %th=label :contact_event, :comment
-          %th=label :contact_event, :filename
+          %th=attr_heading Contact_event, :event_type
+          %th=attr_heading Contact_event, :event_date
+          %th=attr_heading Contact_event, :event
+          %th=attr_heading Contact, :s
+          %th=attr_heading Contact_event, :comment
+          %th=attr_heading Contact_event, :filename
           %th
         = render @contact_events
 

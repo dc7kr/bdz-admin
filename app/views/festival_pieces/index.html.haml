@@ -8,9 +8,9 @@
     .inner
       %table.table.table-hover.table-condensed
         %thead
-          %th.first= t("festival_piece.composer")
-          %th= t("festival_piece.title")
-          %th= t("festival_piece.duration")
+          %th.first= attr_heading(FestivalPiece, :composer)
+          %th= attr_heading(FestivalPiece, :title)
+          %th= attr_heading(FestivalPiece, :duration)
           %th.last &nbsp;
         %tbody#festvial_pieces
           =render @festival_pieces

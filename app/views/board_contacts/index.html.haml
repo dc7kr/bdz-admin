@@ -10,8 +10,8 @@
         = page_entries_info @board_contacts
       %table.table.table-hover.table-condensed
         %thead
-          %th.first= t("contact.last_name")
-          %th= sortable "email", t("contact.email")
+          %th.first= attr_heading Contact, :last_name
+          %th= sortable "email", attr_heading(Contact,:email )
           %th.last &nbsp;
         %tbody#board_contacts
           =render @board_contacts

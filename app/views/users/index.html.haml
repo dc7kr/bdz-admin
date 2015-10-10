@@ -8,11 +8,11 @@
     .inner
       %table.table.table-hover.table-condensed
         %thead
-          %th.first= t("user.username")
-          %th= t("user.email")
-          %th= t("user.last_sign_in_at")
-          %th= t("user.last_sign_in_ip")
-          %th= t("user.sign_in_count")
+          %th.first= attr_heading(User,:username)
+          %th= attr_heading(User,:email)
+          %th= attr_heading(User,:last_sign_in_at)
+          %th= attr_heading(User,:last_sign_in_ip)
+          %th= attr_heading(User,:sign_in_count)
           %th.last &nbsp;
         %tbody#users
           =render @users

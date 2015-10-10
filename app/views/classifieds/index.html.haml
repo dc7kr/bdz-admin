@@ -8,10 +8,10 @@
     .inner
       %table.table.table-hover.table-condensed
         %thead
-          %th.first= t("classified.adv_type")
-          %th= t("classified.object")
-          %th= t("classified.name")
-          %th= t("classified.validuntil")
+          %th.first= attr_heading(Classified, :adv_type)
+          %th= attr_heading(Classified, :object)
+          %th= attr_heading(Classified, :name)
+          %th= attr_heading(Classified, :validuntil)
           %th.last &nbsp;
         %tbody#classifieds
           = render @classifieds

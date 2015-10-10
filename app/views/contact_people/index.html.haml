@@ -8,11 +8,11 @@
     .inner
       %table.table.table-hover.table-condensed
         %thead
-          %th=label :contact_person, :salutation
-          %th=label :contact_person, :first_name
-          %th=label :contact_person, :last_name
-          %th=label :contact_person, :email
-          %th=label :contact_person, :phone
+          %th=attr_heading Contact_person, :salutation
+          %th=attr_heading Contact_person, :first_name
+          %th=attr_heading Contact_person, :last_name
+          %th=attr_heading Contact_person, :email
+          %th=attr_heading Contact_person, :phone
           %th
         = render @contact_people
 

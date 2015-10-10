@@ -10,8 +10,8 @@
         %tr
           %th.first ID
           %th
-            = t("activerecord.attributes.regional_organization.name")
-          %th= t("regional_organization.homepage")
+            = attr_heading(RegionalOrganization,:name)
+          %th= attr_heading(RegionalOrganization;:homepage)
           %th.last &nbsp;
         = render @regional_organizations
       .actions-bar.wat-cf

@@ -10,11 +10,11 @@
         = page_entries_info @magazine_samplings
       %table.table.table-hover.table-condensed
         %thead
-          %th.first{:style=>"width: 30%"}=t('contact.company')
-          %th.first=t('contact.first_name')
-          %th.first=t('contact.last_name')
-          %th.first=t('contact.city')
-          %th=t('magazine_sampling.count')
+          %th.first{:style=>"width: 30%"}=attr_heading(Concact,:company)
+          %th.first=attr_heading(Contact,:first_name)
+          %th.first=attr_heading(Contact,:last_name)
+          %th.first=attr_heading(Contact,:city)
+          %h=attr_heading(MagazineSampling,:count)
           %th.last
         %tbody#magazine_samplings
           = render @magazine_samplings

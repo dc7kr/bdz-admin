@@ -9,11 +9,11 @@
       %table.table.table-hover.table-condensed
         %thead
           %tr
-            %th=t('event_meal.participant_id')
-            %th=t('event_meal.meals')
-            %th=t('event_meal.veg')
-            %th=t('event_meal.name')
-            %th=t('event_meal.email')
-            %th=t('event_meal.arrival_time')
+            %th=attr_heading(EventMeal, :participant_id')
+            %th=attr_heading(EventMeal, :meals')
+            %th=attr_heading(EventMeal, :veg')
+            %th=attr_heading(EventMeal, :name')
+            %th=attr_heading(EventMeal, :email')
+            %th=attr_heading(EventMeal, :arrival_time')
             %th.last &nbsp;
         = render @event_meals

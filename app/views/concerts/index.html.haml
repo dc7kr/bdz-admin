@@ -8,16 +8,11 @@
     .inner
       %table.table.table-hover.table-condensed
         %tr
-          %th.first 
-            = sortable "datum", t("concert.datum")
-          %th
-            = t("concert.zeit")
-          %th
-            = t("concert.interpret")
-          %th
-            = sortable "ort", t("concert.ort")
-          %th
-            = t("concert.url")
+          %th.first= sortable "datum", attr_heading(Concert, :datum")
+          %th= attr_heading(Concert, :zeit)
+          %th= attr_heading(Concert, :interpret)
+          %th= sortable "ort", attr_heading(Concert, :ort)
+          %th= attr_heading(Concert, :url)
           %th.last &nbsp;
         %tbody#concerts
           =render @concerts

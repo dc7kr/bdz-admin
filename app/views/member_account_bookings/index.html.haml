@@ -9,12 +9,12 @@
       %table.table.table-hover.table-condensed
         %thead
           %tr
-            %th.first= t('booking.booking_date')
-            %th= t('booking.booking_type') 
-            %th= t('booking.booking_year')
-            %th= t('booking.text')
-            %th= t('booking.amount')
-            %th= t('booking.has_reference')
+            %th.first= attr_heading(MemberAccountBooking,:booking_date)
+            %th= attr_heading(MemberAccountBooking,:booking_type) 
+            %th= attr_heading(MemberAccountBooking,:booking_year)
+            %th= attr_heading(MemberAccountBooking,:text)
+            %th= attr_heading(MemberAccountBooking,:amount)
+            %th= attr_heading(MemberAccountBooking,:has_reference)
             %th.last
         %tbody#member_account_bookings
           = render @bookings

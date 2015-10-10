@@ -9,10 +9,10 @@
       = page_entries_info @orchestras
     %table.table.table-hover.table-condensed
       %thead
-        %th.first= sortable "mglnr", t("member.mglnr")
-        %th= sortable "orchName", t("orchestra.orchName")
-        %th= sortable "email", t("member.email")
-        %th= sortable "eintritt", t("member.eintritt")
+        %th.first= sortable "mglnr", attr_heading(Member,:mglnr)
+        %th= sortable "orchName", attr_heading(Orchestra,:orchName)
+        %th= sortable "email", attr_heading(Member,:email)
+        %th= sortable "eintritt", attr_heading(Member,:eintritt)
         %th.last &nbsp;
       %tbody#orchestras
         =render @orchestras

@@ -98,6 +98,9 @@ class DistinctionsController < AuthenticatedController
   # POST /distinctions.json
   def create
     @distinction = Distinction.new(params[:distinction])
+    @orchestra = Orchestra.find(params[:orchestra_id])
+    @distinction.orchestra = @orchestra
+
     respond_to do |format|
       if @distinction.save
         format.html { redirect_to orchestra_distinction_path(params[:orchestra_id],@distinction), notice: 'Distinction was successfully created.' }

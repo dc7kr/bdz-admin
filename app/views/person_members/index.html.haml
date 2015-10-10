@@ -8,13 +8,11 @@
     .inner
       %table.table.table-hover.table-condensed
         %thead
-          %th.first 
-            = sortable "mglnr", t("member.mglnr", :default =>"#mglr#")
-          %th
-            = sortable "name", t("member.fullname", :default => "Name")
-          %th= t("member.city")
-          %th= t("member.email")
-          %th=sortable "eintritt", t("member.eintritt")
+          %th.first= sortable "mglnr", attr_heading(Member,:mglnr)
+          %th= sortable "name", attr_heading(Member,:fullname)
+          %th= attr_heading(Member,:city)
+          %th= attr_heading(Member,:email)
+          %th=sortable "eintritt", attr_heading(Member,:eintritt)
           %th.last &nbsp;
         %tbody#person_members
           = render @person_members

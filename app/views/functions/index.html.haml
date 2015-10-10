@@ -10,13 +10,13 @@
         = page_entries_info @functions
       %table.table.table-hover.table-condensed
         %thead
-          %th.first= t("function.label")
+          %th.first= attr_heading(Function,:label)
           %th= sortable "regional_organization_id", t("regional_organization.s")
           %th=t("contact.s")
-          %th=t("function.bund")
-          %th=t("function.jugend")
-          %th=t("function.nr")
-          %th=sortable "funktion", t("function.funktion")
+          %th=attr_heading(Function,:bund)
+          %th=attr_heading(Function,:jugend)
+          %th=attr_heading(Function,:nr)
+          %th=sortable "funktion", attr_heading(Function,:funktion)
           %th.last &nbsp;
         %tbody#functions
           =render @functions

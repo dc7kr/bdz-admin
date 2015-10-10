@@ -9,8 +9,8 @@
       %table.table.table-hover.table-condensed
         %thead
           %th.first=t('advertiser.s')
-          %th=t('magazine_issue.number')
-          %th=t('magazine_issue.year')
-          %th=t('magazine_advert.advert_type')
+          %th=attr_heading(MagazineIssue,:number)
+          %th=attr_heading(MagazineIssue,:year)
+          %th=attr_heading(MagazineAdvert,:advert_type)
           %th.last
         = render @magazine_adverts

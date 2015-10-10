@@ -7,11 +7,11 @@
     .inner
       %table.table.table-hover.table-condensed
         %tr
-          %th.first= t("contest.startDate")
-          %th.first= t("contest.endDate")
-          %th.first= t("contest.title")
-          %th.first= t("contest.deadline")
-          %th.first= t("contest.visible")
+          %th.first= attr_heading(Contest, :startDate)
+          %th.first= attr_heading(Contest, :endDate)
+          %th.first= attr_heading(Contest, :title)
+          %th.first= attr_heading(Contest, :deadline)
+          %th.first= attr_heading(Contest, :visible)
           
           %th.last &nbsp;
         = render @contests

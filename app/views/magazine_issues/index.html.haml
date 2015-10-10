@@ -9,7 +9,7 @@
       %table.table.table-hover.table-condensed
         %thead
           %th.first=t('common.year')
-          %th=t('magazine_issue.number')
+          %th=attr_heading(Magazine_issue,:number)
           %th.last
         = render @magazine_issues
       #paginator

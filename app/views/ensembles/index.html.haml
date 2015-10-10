@@ -10,8 +10,8 @@
       %table.table.table-hover.table-condensed
         %tr
           %th.first 
-            = sortable "id", t("ensemble.id", :default => "Nr")
-          %th= sortable "name", t("ensemble.orchName", :default => "Name")
+            = sortable "id", attr_heading(Ensemble,:id)
+          %th= sortable "name", attr_heading(Ensemble,:orchName)
           %th.last &nbsp;
         = render @ensembles
       = paginate @ensembles

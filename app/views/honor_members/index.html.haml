@@ -7,12 +7,12 @@
     .inner
       %table.table.table-hover.table-condensed
         %thead
-          %th.first= t("honor_member.nr")
-          %th= t("honor_member.vorname")
-          %th= t("honor_member.name")
-          %th= t("honor_member.ort")
-          %th= t("honor_member.honortype")
-          %th= t("honor_member.honordate")
+          %th.first= attr_heading(HonorMember,:nr)
+          %th= attr_heading(HonorMember,:vorname)
+          %th= attr_heading(HonorMember,:name)
+          %th= attr_heading(HonorMember,:ort)
+          %th= attr_heading(HonorMember,:honortype)
+          %th= attr_heading(HonorMember,:honordate)
           %th.last &nbsp;
         %tbody#orchestras
           = render @honor_members

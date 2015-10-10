@@ -8,8 +8,8 @@
     .inner
       %table.table.table-hover.table-condensed
         %thead
-          %th.first=t('contact.company')
-          %th=t('contact.email')
+          %th.first=attr_heading Advertiser, :company
+          %th=attr_heading Contact, :email
           %th.last
         = render @advertisers
 

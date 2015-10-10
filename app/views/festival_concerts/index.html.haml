@@ -9,10 +9,10 @@
       %table.table.table-hover.table-condensed
         %tr
           %th=t("common.number")
-          %th=t("festival_concert.title")
-          %th=t("festival_concert.location")
-          %th=t("festival_concert.event_time")
-          %th=t("festival_concert.outdoor")
+          %th=attr_heading(Festival_concert, :title")
+          %th=attr_heading(Festival_concert, :location")
+          %th=attr_heading(Festival_concert, :event_time")
+          %th=attr_heading(Festival_concert, :outdoor")
           %th
 
         = render @festival_concerts

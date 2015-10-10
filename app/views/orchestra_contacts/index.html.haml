@@ -9,11 +9,11 @@
     .inner
       %table.table.table-hover.table-condensed
         %thead
-          %th.first=t("orchestra_contact.role")
-          %th= sortable "first_name", t("orchestra_contact.first_name")
-          %th= sortable "last_name", t("orchestra_contact.last_name")
-          %th= sortable "email", t("orchestra_contact.email")
-          %th= sortable "phone", t("orchestra_contact.phone")
+          %th.first=attr_heading(OrchestraContact,:role)
+          %th= sortable "first_name", attr_heading(OrchestraContact,:first_name)
+          %th= sortable "last_name", attr_heading(OrchestraContact,:last_name)
+          %th= sortable "email", attr_heading(OrchestraContact,:email)
+          %th= sortable "phone", attr_heading(OrchestraContact,:phone)
           %th.last &nbsp;
         %tbody#orchestra_contacts
           =render @orchestra_contacts
