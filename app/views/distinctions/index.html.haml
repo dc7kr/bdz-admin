@@ -9,13 +9,13 @@
     .inner
       %table.table.table-hover.table-condensed
         %thead
-          %th.first= sortable "dist_date", t("distinction.dist_date")
-          %th=t("distinction.silver_needles")
-          %th=t("distinction.gold_needles")
-          %th=t("distinction.national_needles")
-          %th=t("distinction.certificates")
-          %th=t("distinction.honorletters")
-          %th=t("distinction.medals")
+          %th.first= sortable "dist_date", label(:distinction, :dist_date)
+          %th=label :distinction, :silver_needles
+          %th=label :distinction, :gold_needles
+          %th=label :distinction, :national_needles
+          %th=label :distinction, :certificates
+          %th=label :distinction, :honorletters
+          %th=label :distinction, :medals
           %th.last &nbsp;
         %tbody#distinctions
           =render @distinctions
