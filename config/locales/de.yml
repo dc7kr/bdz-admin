@@ -401,6 +401,7 @@ de:
   concert:
     p: Konzerte
     s: Konzert
+    future: "Zukünftige"
     publish_success: "Konzert erfolgreich veröffentlicht"
     datum: Datum
     zeit: Zeit
