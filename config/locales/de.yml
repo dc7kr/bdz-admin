@@ -608,19 +608,6 @@ de:
     youth_col: "19-27"
     adult_col: "28-64"
     senior_col: "65+"
-    children: Kinder
-    teens: Jugendliche 15-18
-    youth: Erw. 19-27
-    adult: Erw. 28-64
-    senior: Erw. 65+ 
-    passive: Passiv
-    supporters: "Fördervereinmitglieder"
-    year: Jahr
-    gema: GEMA
-    report_date: Datum
-    invoiced: Abgerechnet
-    azubi: Beitragsfrei
-    uv: Unfallversicherung
     new: Neuer Meldebogen
     invsum: Rechnungsbetrag
     invsum_short: Summe
@@ -628,16 +615,9 @@ de:
     sum_short: Beitrag
     uvsum: Unfallversicherung
     uvsum_short: UV
-    korr_ztg: Zeitungen Korrektur (+/-)
     total_active: Gesamt Aktiv
     total_youth: Gesamt Jugendlich
     total: Gesamtzahl
-    child_ens: Kinderensembles
-    youth_ens: Jugendensembles
-    adult_ens: Erwachsenenensembles
-    senior_ens: Seniorenensembles
-    chamber_ens: Kammermusikensembles
-    other_ens: Sonstige Ensembles
     azubi_child: "Aktive bis 14 Jahre"
     azubi_teens: "Aktive 15 – 18 Jahre"
     azubi_youth: "Aktive 19 – 27 Jahre"
@@ -647,7 +627,6 @@ de:
     zi_o: Zitherorchester
     go: Gitarrenorchester
     oz: "Sonstige Zupfinstrumente"
-    generated: Generiert
     age_category:
       C: "Kinder bis 14"
       T: "Jugendliche 15-19"
@@ -985,6 +964,28 @@ de:
       truncate: "&hellip;"
   helpers:
     label:
+      report_sheet:
+        generated: Generiert
+        korr_ztg: Zeitungen Korrektur (+/-)
+        invoiced: Abgerechnet
+        children: Kinder
+        azubi: Beitragsfrei
+        uv: Unfallversicherung
+        teens: Jugendliche 15-18
+        youth: Erw. 19-27
+        adult: Erw. 28-64
+        senior: Erw. 65+ 
+        passive: Passiv
+        supporters: "Fördervereinmitglieder"
+        year: Jahr
+        gema: GEMA
+        report_date: Datum
+        child_ens: Kinderensembles
+        youth_ens: Jugendensembles
+        adult_ens: Erwachsenenensembles
+        senior_ens: Seniorenensembles
+        chamber_ens: Kammermusikensembles
+        other_ens: Sonstige Ensembles
       email:
         event_id: Event
         group: Zielgruppe
