@@ -1,4 +1,4 @@
-= form_for @concert do |f|
+= form_for @concert,:html=>{ :class => "form-horizontal" } do |f|
   -if @concert.errors.any?
     #error_explanation
       %h2= "#{pluralize(@concert.errors.count, "error")} prohibited this concert from being saved:"
@@ -12,11 +12,12 @@
     = form_my_field(f,@concert, :stadt)
     = form_my_field(f,@concert, :titel)
     = form_my_field(f,@concert, :ort)
-    = form_wrapped_field(f,@concert, :festival_id,collection_select( :concert, :festival_id, Festival.all,:id,:name))
+    = form_wrapped_field(f,@concert, :festival_id, collection_select( :concert, :festival_id, Festival.all,:id,:name,{},{:class=>"form-control"}))
     = form_my_field(f,@concert, :interpret)
+    = form_my_field(f,@concert, :mglnr)
     = form_my_field(f,@concert, :url)
     = form_my_field(f,@concert, :comment)
-    = form_wrapped_field(f,@concert, :bland, collection_select(:concert, :bland, State.all, :id, :name))
+    = form_wrapped_field(f,@concert, :bland, collection_select(:concert, :bland, State.all, :id, :name,{},{:class=>"form-control"}))
     = form_wrapped_field(f,@concert, :country_id, country_select(:concert, :country_code, {iso_codes:true},{ class:"form-control"}))
     = form_my_field(f,@concert, :email)
     = form_my_field(f,@concert, :eintritt)
