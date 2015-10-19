@@ -39,7 +39,7 @@ RSpec.describe MemberAccountBookingsController, :type => :controller do
   describe "GET #index" do
     it "assigns all member_account_bookings as @member_account_bookings" do
       member_account_booking = MemberAccountBooking.create! valid_attributes
-      get :index, {}, valid_session
+      get :index, {}
       expect(assigns(:member_account_bookings)).to eq([member_account_booking])
     end
   end
@@ -47,14 +47,14 @@ RSpec.describe MemberAccountBookingsController, :type => :controller do
   describe "GET #show" do
     it "assigns the requested member_account_booking as @member_account_booking" do
       member_account_booking = MemberAccountBooking.create! valid_attributes
-      get :show, {:id => member_account_booking.to_param}, valid_session
+      get :show, {:id => member_account_booking.to_param}
       expect(assigns(:member_account_booking)).to eq(member_account_booking)
     end
   end
 
   describe "GET #new" do
     it "assigns a new member_account_booking as @member_account_booking" do
-      get :new, {}, valid_session
+      get :new, {}
       expect(assigns(:member_account_booking)).to be_a_new(MemberAccountBooking)
     end
   end
@@ -62,7 +62,7 @@ RSpec.describe MemberAccountBookingsController, :type => :controller do
   describe "GET #edit" do
     it "assigns the requested member_account_booking as @member_account_booking" do
       member_account_booking = MemberAccountBooking.create! valid_attributes
-      get :edit, {:id => member_account_booking.to_param}, valid_session
+      get :edit, {:id => member_account_booking.to_param}
       expect(assigns(:member_account_booking)).to eq(member_account_booking)
     end
   end
@@ -71,30 +71,30 @@ RSpec.describe MemberAccountBookingsController, :type => :controller do
     context "with valid params" do
       it "creates a new MemberAccountBooking" do
         expect {
-          post :create, {:member_account_booking => valid_attributes}, valid_session
+          post :create, {:member_account_booking => valid_attributes}
         }.to change(MemberAccountBooking, :count).by(1)
       end
 
       it "assigns a newly created member_account_booking as @member_account_booking" do
-        post :create, {:member_account_booking => valid_attributes}, valid_session
+        post :create, {:member_account_booking => valid_attributes}
         expect(assigns(:member_account_booking)).to be_a(MemberAccountBooking)
         expect(assigns(:member_account_booking)).to be_persisted
       end
 
       it "redirects to the created member_account_booking" do
-        post :create, {:member_account_booking => valid_attributes}, valid_session
+        post :create, {:member_account_booking => valid_attributes}
         expect(response).to redirect_to(MemberAccountBooking.last)
       end
     end
 
     context "with invalid params" do
       it "assigns a newly created but unsaved member_account_booking as @member_account_booking" do
-        post :create, {:member_account_booking => invalid_attributes}, valid_session
+        post :create, {:member_account_booking => invalid_attributes}
         expect(assigns(:member_account_booking)).to be_a_new(MemberAccountBooking)
       end
 
       it "re-renders the 'new' template" do
-        post :create, {:member_account_booking => invalid_attributes}, valid_session
+        post :create, {:member_account_booking => invalid_attributes}
         expect(response).to render_template("new")
       end
     end
@@ -108,20 +108,20 @@ RSpec.describe MemberAccountBookingsController, :type => :controller do
 
       it "updates the requested member_account_booking" do
         member_account_booking = MemberAccountBooking.create! valid_attributes
-        put :update, {:id => member_account_booking.to_param, :member_account_booking => new_attributes}, valid_session
+        put :update, {:id => member_account_booking.to_param, :member_account_booking => new_attributes}
         member_account_booking.reload
         skip("Add assertions for updated state")
       end
 
       it "assigns the requested member_account_booking as @member_account_booking" do
         member_account_booking = MemberAccountBooking.create! valid_attributes
-        put :update, {:id => member_account_booking.to_param, :member_account_booking => valid_attributes}, valid_session
+        put :update, {:id => member_account_booking.to_param, :member_account_booking => valid_attributes}
         expect(assigns(:member_account_booking)).to eq(member_account_booking)
       end
 
       it "redirects to the member_account_booking" do
         member_account_booking = MemberAccountBooking.create! valid_attributes
-        put :update, {:id => member_account_booking.to_param, :member_account_booking => valid_attributes}, valid_session
+        put :update, {:id => member_account_booking.to_param, :member_account_booking => valid_attributes}
         expect(response).to redirect_to(member_account_booking)
       end
     end
@@ -129,13 +129,13 @@ RSpec.describe MemberAccountBookingsController, :type => :controller do
     context "with invalid params" do
       it "assigns the member_account_booking as @member_account_booking" do
         member_account_booking = MemberAccountBooking.create! valid_attributes
-        put :update, {:id => member_account_booking.to_param, :member_account_booking => invalid_attributes}, valid_session
+        put :update, {:id => member_account_booking.to_param, :member_account_booking => invalid_attributes}
         expect(assigns(:member_account_booking)).to eq(member_account_booking)
       end
 
       it "re-renders the 'edit' template" do
         member_account_booking = MemberAccountBooking.create! valid_attributes
-        put :update, {:id => member_account_booking.to_param, :member_account_booking => invalid_attributes}, valid_session
+        put :update, {:id => member_account_booking.to_param, :member_account_booking => invalid_attributes}
         expect(response).to render_template("edit")
       end
     end
@@ -145,13 +145,13 @@ RSpec.describe MemberAccountBookingsController, :type => :controller do
     it "destroys the requested member_account_booking" do
       member_account_booking = MemberAccountBooking.create! valid_attributes
       expect {
-        delete :destroy, {:id => member_account_booking.to_param}, valid_session
+        delete :destroy, {:id => member_account_booking.to_param}
       }.to change(MemberAccountBooking, :count).by(-1)
     end
 
     it "redirects to the member_account_bookings list" do
       member_account_booking = MemberAccountBooking.create! valid_attributes
-      delete :destroy, {:id => member_account_booking.to_param}, valid_session
+      delete :destroy, {:id => member_account_booking.to_param}
       expect(response).to redirect_to(member_account_bookings_url)
     end
   end

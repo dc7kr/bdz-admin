@@ -2,7 +2,19 @@ module ControllerMacros
   def login_admin
     before(:each) do
       @request.env["devise.mapping"] = Devise.mappings[:admin]
-      sign_in FactoryGirl.create(:admin) # Using factory girl as an example
+      admin = FactoryGirl.create(:admin)
+
+      Rails.logger.debug(admin)
+      Rails.logger.debug("----------- KASI --------")
+
+      User.all.each do |u|
+        Rails.logger.debug(u.username)
+        Rails.logger.debug(u.has_role? :admin)
+        
+      end
+      Rails.logger.debug("----------- KASI --------")
+      result = sign_in :user,admin # sign_in(scope, resource)
+      Rails.logger.debug("----------- KASI RESULT #{result} --------")
     end
   end
 

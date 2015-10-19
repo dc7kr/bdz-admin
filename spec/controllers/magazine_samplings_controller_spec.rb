@@ -39,7 +39,7 @@ RSpec.describe MagazineSamplingsController, :type => :controller do
   describe "GET #index" do
     it "assigns all magazine_samplings as @magazine_samplings" do
       magazine_sampling = MagazineSampling.create! valid_attributes
-      get :index, {}, valid_session
+      get :index, {}
       expect(assigns(:magazine_samplings)).to eq([magazine_sampling])
     end
   end
@@ -47,14 +47,14 @@ RSpec.describe MagazineSamplingsController, :type => :controller do
   describe "GET #show" do
     it "assigns the requested magazine_sampling as @magazine_sampling" do
       magazine_sampling = MagazineSampling.create! valid_attributes
-      get :show, {:id => magazine_sampling.to_param}, valid_session
+      get :show, {:id => magazine_sampling.to_param}
       expect(assigns(:magazine_sampling)).to eq(magazine_sampling)
     end
   end
 
   describe "GET #new" do
     it "assigns a new magazine_sampling as @magazine_sampling" do
-      get :new, {}, valid_session
+      get :new, {}
       expect(assigns(:magazine_sampling)).to be_a_new(MagazineSampling)
     end
   end
@@ -62,7 +62,7 @@ RSpec.describe MagazineSamplingsController, :type => :controller do
   describe "GET #edit" do
     it "assigns the requested magazine_sampling as @magazine_sampling" do
       magazine_sampling = MagazineSampling.create! valid_attributes
-      get :edit, {:id => magazine_sampling.to_param}, valid_session
+      get :edit, {:id => magazine_sampling.to_param}
       expect(assigns(:magazine_sampling)).to eq(magazine_sampling)
     end
   end
@@ -71,30 +71,30 @@ RSpec.describe MagazineSamplingsController, :type => :controller do
     context "with valid params" do
       it "creates a new MagazineSampling" do
         expect {
-          post :create, {:magazine_sampling => valid_attributes}, valid_session
+          post :create, {:magazine_sampling => valid_attributes}
         }.to change(MagazineSampling, :count).by(1)
       end
 
       it "assigns a newly created magazine_sampling as @magazine_sampling" do
-        post :create, {:magazine_sampling => valid_attributes}, valid_session
+        post :create, {:magazine_sampling => valid_attributes}
         expect(assigns(:magazine_sampling)).to be_a(MagazineSampling)
         expect(assigns(:magazine_sampling)).to be_persisted
       end
 
       it "redirects to the created magazine_sampling" do
-        post :create, {:magazine_sampling => valid_attributes}, valid_session
+        post :create, {:magazine_sampling => valid_attributes}
         expect(response).to redirect_to(MagazineSampling.last)
       end
     end
 
     context "with invalid params" do
       it "assigns a newly created but unsaved magazine_sampling as @magazine_sampling" do
-        post :create, {:magazine_sampling => invalid_attributes}, valid_session
+        post :create, {:magazine_sampling => invalid_attributes}
         expect(assigns(:magazine_sampling)).to be_a_new(MagazineSampling)
       end
 
       it "re-renders the 'new' template" do
-        post :create, {:magazine_sampling => invalid_attributes}, valid_session
+        post :create, {:magazine_sampling => invalid_attributes}
         expect(response).to render_template("new")
       end
     end
@@ -108,20 +108,20 @@ RSpec.describe MagazineSamplingsController, :type => :controller do
 
       it "updates the requested magazine_sampling" do
         magazine_sampling = MagazineSampling.create! valid_attributes
-        put :update, {:id => magazine_sampling.to_param, :magazine_sampling => new_attributes}, valid_session
+        put :update, {:id => magazine_sampling.to_param, :magazine_sampling => new_attributes}
         magazine_sampling.reload
         skip("Add assertions for updated state")
       end
 
       it "assigns the requested magazine_sampling as @magazine_sampling" do
         magazine_sampling = MagazineSampling.create! valid_attributes
-        put :update, {:id => magazine_sampling.to_param, :magazine_sampling => valid_attributes}, valid_session
+        put :update, {:id => magazine_sampling.to_param, :magazine_sampling => valid_attributes}
         expect(assigns(:magazine_sampling)).to eq(magazine_sampling)
       end
 
       it "redirects to the magazine_sampling" do
         magazine_sampling = MagazineSampling.create! valid_attributes
-        put :update, {:id => magazine_sampling.to_param, :magazine_sampling => valid_attributes}, valid_session
+        put :update, {:id => magazine_sampling.to_param, :magazine_sampling => valid_attributes}
         expect(response).to redirect_to(magazine_sampling)
       end
     end
@@ -129,13 +129,13 @@ RSpec.describe MagazineSamplingsController, :type => :controller do
     context "with invalid params" do
       it "assigns the magazine_sampling as @magazine_sampling" do
         magazine_sampling = MagazineSampling.create! valid_attributes
-        put :update, {:id => magazine_sampling.to_param, :magazine_sampling => invalid_attributes}, valid_session
+        put :update, {:id => magazine_sampling.to_param, :magazine_sampling => invalid_attributes}
         expect(assigns(:magazine_sampling)).to eq(magazine_sampling)
       end
 
       it "re-renders the 'edit' template" do
         magazine_sampling = MagazineSampling.create! valid_attributes
-        put :update, {:id => magazine_sampling.to_param, :magazine_sampling => invalid_attributes}, valid_session
+        put :update, {:id => magazine_sampling.to_param, :magazine_sampling => invalid_attributes}
         expect(response).to render_template("edit")
       end
     end
@@ -145,13 +145,13 @@ RSpec.describe MagazineSamplingsController, :type => :controller do
     it "destroys the requested magazine_sampling" do
       magazine_sampling = MagazineSampling.create! valid_attributes
       expect {
-        delete :destroy, {:id => magazine_sampling.to_param}, valid_session
+        delete :destroy, {:id => magazine_sampling.to_param}
       }.to change(MagazineSampling, :count).by(-1)
     end
 
     it "redirects to the magazine_samplings list" do
       magazine_sampling = MagazineSampling.create! valid_attributes
-      delete :destroy, {:id => magazine_sampling.to_param}, valid_session
+      delete :destroy, {:id => magazine_sampling.to_param}
       expect(response).to redirect_to(magazine_samplings_url)
     end
   end

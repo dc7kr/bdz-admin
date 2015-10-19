@@ -39,7 +39,7 @@ RSpec.describe OrchestrasController, :type => :controller do
   describe "GET #index" do
     it "assigns all orchestras as @orchestras" do
       orchestra = Orchestra.create! valid_attributes
-      get :index, {}, valid_session
+      get :index, {}
       expect(assigns(:orchestras)).to eq([orchestra])
     end
   end
@@ -47,14 +47,14 @@ RSpec.describe OrchestrasController, :type => :controller do
   describe "GET #show" do
     it "assigns the requested orchestra as @orchestra" do
       orchestra = Orchestra.create! valid_attributes
-      get :show, {:id => orchestra.to_param}, valid_session
+      get :show, {:id => orchestra.to_param}
       expect(assigns(:orchestra)).to eq(orchestra)
     end
   end
 
   describe "GET #new" do
     it "assigns a new orchestra as @orchestra" do
-      get :new, {}, valid_session
+      get :new, {}
       expect(assigns(:orchestra)).to be_a_new(Orchestra)
     end
   end
@@ -62,7 +62,7 @@ RSpec.describe OrchestrasController, :type => :controller do
   describe "GET #edit" do
     it "assigns the requested orchestra as @orchestra" do
       orchestra = Orchestra.create! valid_attributes
-      get :edit, {:id => orchestra.to_param}, valid_session
+      get :edit, {:id => orchestra.to_param}
       expect(assigns(:orchestra)).to eq(orchestra)
     end
   end
@@ -71,30 +71,30 @@ RSpec.describe OrchestrasController, :type => :controller do
     context "with valid params" do
       it "creates a new Orchestra" do
         expect {
-          post :create, {:orchestra => valid_attributes}, valid_session
+          post :create, {:orchestra => valid_attributes}
         }.to change(Orchestra, :count).by(1)
       end
 
       it "assigns a newly created orchestra as @orchestra" do
-        post :create, {:orchestra => valid_attributes}, valid_session
+        post :create, {:orchestra => valid_attributes}
         expect(assigns(:orchestra)).to be_a(Orchestra)
         expect(assigns(:orchestra)).to be_persisted
       end
 
       it "redirects to the created orchestra" do
-        post :create, {:orchestra => valid_attributes}, valid_session
+        post :create, {:orchestra => valid_attributes}
         expect(response).to redirect_to(Orchestra.last)
       end
     end
 
     context "with invalid params" do
       it "assigns a newly created but unsaved orchestra as @orchestra" do
-        post :create, {:orchestra => invalid_attributes}, valid_session
+        post :create, {:orchestra => invalid_attributes}
         expect(assigns(:orchestra)).to be_a_new(Orchestra)
       end
 
       it "re-renders the 'new' template" do
-        post :create, {:orchestra => invalid_attributes}, valid_session
+        post :create, {:orchestra => invalid_attributes}
         expect(response).to render_template("new")
       end
     end
@@ -108,20 +108,20 @@ RSpec.describe OrchestrasController, :type => :controller do
 
       it "updates the requested orchestra" do
         orchestra = Orchestra.create! valid_attributes
-        put :update, {:id => orchestra.to_param, :orchestra => new_attributes}, valid_session
+        put :update, {:id => orchestra.to_param, :orchestra => new_attributes}
         orchestra.reload
         skip("Add assertions for updated state")
       end
 
       it "assigns the requested orchestra as @orchestra" do
         orchestra = Orchestra.create! valid_attributes
-        put :update, {:id => orchestra.to_param, :orchestra => valid_attributes}, valid_session
+        put :update, {:id => orchestra.to_param, :orchestra => valid_attributes}
         expect(assigns(:orchestra)).to eq(orchestra)
       end
 
       it "redirects to the orchestra" do
         orchestra = Orchestra.create! valid_attributes
-        put :update, {:id => orchestra.to_param, :orchestra => valid_attributes}, valid_session
+        put :update, {:id => orchestra.to_param, :orchestra => valid_attributes}
         expect(response).to redirect_to(orchestra)
       end
     end
@@ -129,13 +129,13 @@ RSpec.describe OrchestrasController, :type => :controller do
     context "with invalid params" do
       it "assigns the orchestra as @orchestra" do
         orchestra = Orchestra.create! valid_attributes
-        put :update, {:id => orchestra.to_param, :orchestra => invalid_attributes}, valid_session
+        put :update, {:id => orchestra.to_param, :orchestra => invalid_attributes}
         expect(assigns(:orchestra)).to eq(orchestra)
       end
 
       it "re-renders the 'edit' template" do
         orchestra = Orchestra.create! valid_attributes
-        put :update, {:id => orchestra.to_param, :orchestra => invalid_attributes}, valid_session
+        put :update, {:id => orchestra.to_param, :orchestra => invalid_attributes}
         expect(response).to render_template("edit")
       end
     end
@@ -145,13 +145,13 @@ RSpec.describe OrchestrasController, :type => :controller do
     it "destroys the requested orchestra" do
       orchestra = Orchestra.create! valid_attributes
       expect {
-        delete :destroy, {:id => orchestra.to_param}, valid_session
+        delete :destroy, {:id => orchestra.to_param}
       }.to change(Orchestra, :count).by(-1)
     end
 
     it "redirects to the orchestras list" do
       orchestra = Orchestra.create! valid_attributes
-      delete :destroy, {:id => orchestra.to_param}, valid_session
+      delete :destroy, {:id => orchestra.to_param}
       expect(response).to redirect_to(orchestras_url)
     end
   end

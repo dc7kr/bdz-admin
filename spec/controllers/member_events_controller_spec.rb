@@ -39,7 +39,7 @@ RSpec.describe MemberEventsController, :type => :controller do
   describe "GET #index" do
     it "assigns all member_events as @member_events" do
       member_event = MemberEvent.create! valid_attributes
-      get :index, {}, valid_session
+      get :index, {}
       expect(assigns(:member_events)).to eq([member_event])
     end
   end
@@ -47,14 +47,14 @@ RSpec.describe MemberEventsController, :type => :controller do
   describe "GET #show" do
     it "assigns the requested member_event as @member_event" do
       member_event = MemberEvent.create! valid_attributes
-      get :show, {:id => member_event.to_param}, valid_session
+      get :show, {:id => member_event.to_param}
       expect(assigns(:member_event)).to eq(member_event)
     end
   end
 
   describe "GET #new" do
     it "assigns a new member_event as @member_event" do
-      get :new, {}, valid_session
+      get :new, {}
       expect(assigns(:member_event)).to be_a_new(MemberEvent)
     end
   end
@@ -62,7 +62,7 @@ RSpec.describe MemberEventsController, :type => :controller do
   describe "GET #edit" do
     it "assigns the requested member_event as @member_event" do
       member_event = MemberEvent.create! valid_attributes
-      get :edit, {:id => member_event.to_param}, valid_session
+      get :edit, {:id => member_event.to_param}
       expect(assigns(:member_event)).to eq(member_event)
     end
   end
@@ -71,30 +71,30 @@ RSpec.describe MemberEventsController, :type => :controller do
     context "with valid params" do
       it "creates a new MemberEvent" do
         expect {
-          post :create, {:member_event => valid_attributes}, valid_session
+          post :create, {:member_event => valid_attributes}
         }.to change(MemberEvent, :count).by(1)
       end
 
       it "assigns a newly created member_event as @member_event" do
-        post :create, {:member_event => valid_attributes}, valid_session
+        post :create, {:member_event => valid_attributes}
         expect(assigns(:member_event)).to be_a(MemberEvent)
         expect(assigns(:member_event)).to be_persisted
       end
 
       it "redirects to the created member_event" do
-        post :create, {:member_event => valid_attributes}, valid_session
+        post :create, {:member_event => valid_attributes}
         expect(response).to redirect_to(MemberEvent.last)
       end
     end
 
     context "with invalid params" do
       it "assigns a newly created but unsaved member_event as @member_event" do
-        post :create, {:member_event => invalid_attributes}, valid_session
+        post :create, {:member_event => invalid_attributes}
         expect(assigns(:member_event)).to be_a_new(MemberEvent)
       end
 
       it "re-renders the 'new' template" do
-        post :create, {:member_event => invalid_attributes}, valid_session
+        post :create, {:member_event => invalid_attributes}
         expect(response).to render_template("new")
       end
     end
@@ -108,20 +108,20 @@ RSpec.describe MemberEventsController, :type => :controller do
 
       it "updates the requested member_event" do
         member_event = MemberEvent.create! valid_attributes
-        put :update, {:id => member_event.to_param, :member_event => new_attributes}, valid_session
+        put :update, {:id => member_event.to_param, :member_event => new_attributes}
         member_event.reload
         skip("Add assertions for updated state")
       end
 
       it "assigns the requested member_event as @member_event" do
         member_event = MemberEvent.create! valid_attributes
-        put :update, {:id => member_event.to_param, :member_event => valid_attributes}, valid_session
+        put :update, {:id => member_event.to_param, :member_event => valid_attributes}
         expect(assigns(:member_event)).to eq(member_event)
       end
 
       it "redirects to the member_event" do
         member_event = MemberEvent.create! valid_attributes
-        put :update, {:id => member_event.to_param, :member_event => valid_attributes}, valid_session
+        put :update, {:id => member_event.to_param, :member_event => valid_attributes}
         expect(response).to redirect_to(member_event)
       end
     end
@@ -129,13 +129,13 @@ RSpec.describe MemberEventsController, :type => :controller do
     context "with invalid params" do
       it "assigns the member_event as @member_event" do
         member_event = MemberEvent.create! valid_attributes
-        put :update, {:id => member_event.to_param, :member_event => invalid_attributes}, valid_session
+        put :update, {:id => member_event.to_param, :member_event => invalid_attributes}
         expect(assigns(:member_event)).to eq(member_event)
       end
 
       it "re-renders the 'edit' template" do
         member_event = MemberEvent.create! valid_attributes
-        put :update, {:id => member_event.to_param, :member_event => invalid_attributes}, valid_session
+        put :update, {:id => member_event.to_param, :member_event => invalid_attributes}
         expect(response).to render_template("edit")
       end
     end
@@ -145,13 +145,13 @@ RSpec.describe MemberEventsController, :type => :controller do
     it "destroys the requested member_event" do
       member_event = MemberEvent.create! valid_attributes
       expect {
-        delete :destroy, {:id => member_event.to_param}, valid_session
+        delete :destroy, {:id => member_event.to_param}
       }.to change(MemberEvent, :count).by(-1)
     end
 
     it "redirects to the member_events list" do
       member_event = MemberEvent.create! valid_attributes
-      delete :destroy, {:id => member_event.to_param}, valid_session
+      delete :destroy, {:id => member_event.to_param}
       expect(response).to redirect_to(member_events_url)
     end
   end

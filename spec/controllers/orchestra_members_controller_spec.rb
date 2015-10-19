@@ -39,7 +39,7 @@ RSpec.describe OrchestraMembersController, :type => :controller do
   describe "GET #index" do
     it "assigns all orchestra_members as @orchestra_members" do
       orchestra_member = OrchestraMember.create! valid_attributes
-      get :index, {}, valid_session
+      get :index, {}
       expect(assigns(:orchestra_members)).to eq([orchestra_member])
     end
   end
@@ -47,14 +47,14 @@ RSpec.describe OrchestraMembersController, :type => :controller do
   describe "GET #show" do
     it "assigns the requested orchestra_member as @orchestra_member" do
       orchestra_member = OrchestraMember.create! valid_attributes
-      get :show, {:id => orchestra_member.to_param}, valid_session
+      get :show, {:id => orchestra_member.to_param}
       expect(assigns(:orchestra_member)).to eq(orchestra_member)
     end
   end
 
   describe "GET #new" do
     it "assigns a new orchestra_member as @orchestra_member" do
-      get :new, {}, valid_session
+      get :new, {}
       expect(assigns(:orchestra_member)).to be_a_new(OrchestraMember)
     end
   end
@@ -62,7 +62,7 @@ RSpec.describe OrchestraMembersController, :type => :controller do
   describe "GET #edit" do
     it "assigns the requested orchestra_member as @orchestra_member" do
       orchestra_member = OrchestraMember.create! valid_attributes
-      get :edit, {:id => orchestra_member.to_param}, valid_session
+      get :edit, {:id => orchestra_member.to_param}
       expect(assigns(:orchestra_member)).to eq(orchestra_member)
     end
   end
@@ -71,30 +71,30 @@ RSpec.describe OrchestraMembersController, :type => :controller do
     context "with valid params" do
       it "creates a new OrchestraMember" do
         expect {
-          post :create, {:orchestra_member => valid_attributes}, valid_session
+          post :create, {:orchestra_member => valid_attributes}
         }.to change(OrchestraMember, :count).by(1)
       end
 
       it "assigns a newly created orchestra_member as @orchestra_member" do
-        post :create, {:orchestra_member => valid_attributes}, valid_session
+        post :create, {:orchestra_member => valid_attributes}
         expect(assigns(:orchestra_member)).to be_a(OrchestraMember)
         expect(assigns(:orchestra_member)).to be_persisted
       end
 
       it "redirects to the created orchestra_member" do
-        post :create, {:orchestra_member => valid_attributes}, valid_session
+        post :create, {:orchestra_member => valid_attributes}
         expect(response).to redirect_to(OrchestraMember.last)
       end
     end
 
     context "with invalid params" do
       it "assigns a newly created but unsaved orchestra_member as @orchestra_member" do
-        post :create, {:orchestra_member => invalid_attributes}, valid_session
+        post :create, {:orchestra_member => invalid_attributes}
         expect(assigns(:orchestra_member)).to be_a_new(OrchestraMember)
       end
 
       it "re-renders the 'new' template" do
-        post :create, {:orchestra_member => invalid_attributes}, valid_session
+        post :create, {:orchestra_member => invalid_attributes}
         expect(response).to render_template("new")
       end
     end
@@ -108,20 +108,20 @@ RSpec.describe OrchestraMembersController, :type => :controller do
 
       it "updates the requested orchestra_member" do
         orchestra_member = OrchestraMember.create! valid_attributes
-        put :update, {:id => orchestra_member.to_param, :orchestra_member => new_attributes}, valid_session
+        put :update, {:id => orchestra_member.to_param, :orchestra_member => new_attributes}
         orchestra_member.reload
         skip("Add assertions for updated state")
       end
 
       it "assigns the requested orchestra_member as @orchestra_member" do
         orchestra_member = OrchestraMember.create! valid_attributes
-        put :update, {:id => orchestra_member.to_param, :orchestra_member => valid_attributes}, valid_session
+        put :update, {:id => orchestra_member.to_param, :orchestra_member => valid_attributes}
         expect(assigns(:orchestra_member)).to eq(orchestra_member)
       end
 
       it "redirects to the orchestra_member" do
         orchestra_member = OrchestraMember.create! valid_attributes
-        put :update, {:id => orchestra_member.to_param, :orchestra_member => valid_attributes}, valid_session
+        put :update, {:id => orchestra_member.to_param, :orchestra_member => valid_attributes}
         expect(response).to redirect_to(orchestra_member)
       end
     end
@@ -129,13 +129,13 @@ RSpec.describe OrchestraMembersController, :type => :controller do
     context "with invalid params" do
       it "assigns the orchestra_member as @orchestra_member" do
         orchestra_member = OrchestraMember.create! valid_attributes
-        put :update, {:id => orchestra_member.to_param, :orchestra_member => invalid_attributes}, valid_session
+        put :update, {:id => orchestra_member.to_param, :orchestra_member => invalid_attributes}
         expect(assigns(:orchestra_member)).to eq(orchestra_member)
       end
 
       it "re-renders the 'edit' template" do
         orchestra_member = OrchestraMember.create! valid_attributes
-        put :update, {:id => orchestra_member.to_param, :orchestra_member => invalid_attributes}, valid_session
+        put :update, {:id => orchestra_member.to_param, :orchestra_member => invalid_attributes}
         expect(response).to render_template("edit")
       end
     end
@@ -145,13 +145,13 @@ RSpec.describe OrchestraMembersController, :type => :controller do
     it "destroys the requested orchestra_member" do
       orchestra_member = OrchestraMember.create! valid_attributes
       expect {
-        delete :destroy, {:id => orchestra_member.to_param}, valid_session
+        delete :destroy, {:id => orchestra_member.to_param}
       }.to change(OrchestraMember, :count).by(-1)
     end
 
     it "redirects to the orchestra_members list" do
       orchestra_member = OrchestraMember.create! valid_attributes
-      delete :destroy, {:id => orchestra_member.to_param}, valid_session
+      delete :destroy, {:id => orchestra_member.to_param}
       expect(response).to redirect_to(orchestra_members_url)
     end
   end

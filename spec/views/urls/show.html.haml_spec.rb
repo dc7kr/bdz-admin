@@ -14,7 +14,7 @@ RSpec.describe "urls/show", :type => :view do
       :email => "Email",
       :visible => false,
       :ip => "Ip",
-      :country_code => "Country Code"
+      :country_code => "DE"
     ))
   end
 
@@ -31,6 +31,6 @@ RSpec.describe "urls/show", :type => :view do
     expect(rendered).to match(/Email/)
     expect(rendered).to match(/false/)
     expect(rendered).to match(/Ip/)
-    expect(rendered).to match(/Country Code/)
+    expect(rendered).to match(/Deutschland/)
   end
 end

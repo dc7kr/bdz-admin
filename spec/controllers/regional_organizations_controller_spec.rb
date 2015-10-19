@@ -20,11 +20,17 @@ require 'rails_helper'
 
 RSpec.describe RegionalOrganizationsController, :type => :controller do
 
+  login_admin
+
   # This should return the minimal set of attributes required to create a valid
   # RegionalOrganization. As you add validations to RegionalOrganization, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    {
+    :nummer=>42,
+    :iban=>"DE12500105170648489890",
+    :bic=>"INGDDEFFXXX",
+    :name => "Name" }
   }
 
   let(:invalid_attributes) {
@@ -39,7 +45,7 @@ RSpec.describe RegionalOrganizationsController, :type => :controller do
   describe "GET #index" do
     it "assigns all regional_organizations as @regional_organizations" do
       regional_organization = RegionalOrganization.create! valid_attributes
-      get :index, {}, valid_session
+      get :index, {}
       expect(assigns(:regional_organizations)).to eq([regional_organization])
     end
   end
@@ -47,14 +53,14 @@ RSpec.describe RegionalOrganizationsController, :type => :controller do
   describe "GET #show" do
     it "assigns the requested regional_organization as @regional_organization" do
       regional_organization = RegionalOrganization.create! valid_attributes
-      get :show, {:id => regional_organization.to_param}, valid_session
+      get :show, {:id => regional_organization.to_param}
       expect(assigns(:regional_organization)).to eq(regional_organization)
     end
   end
 
   describe "GET #new" do
     it "assigns a new regional_organization as @regional_organization" do
-      get :new, {}, valid_session
+      get :new, {}
       expect(assigns(:regional_organization)).to be_a_new(RegionalOrganization)
     end
   end
@@ -62,7 +68,7 @@ RSpec.describe RegionalOrganizationsController, :type => :controller do
   describe "GET #edit" do
     it "assigns the requested regional_organization as @regional_organization" do
       regional_organization = RegionalOrganization.create! valid_attributes
-      get :edit, {:id => regional_organization.to_param}, valid_session
+      get :edit, {:id => regional_organization.to_param}
       expect(assigns(:regional_organization)).to eq(regional_organization)
     end
   end
@@ -71,30 +77,30 @@ RSpec.describe RegionalOrganizationsController, :type => :controller do
     context "with valid params" do
       it "creates a new RegionalOrganization" do
         expect {
-          post :create, {:regional_organization => valid_attributes}, valid_session
+          post :create, {:regional_organization => valid_attributes}
         }.to change(RegionalOrganization, :count).by(1)
       end
 
       it "assigns a newly created regional_organization as @regional_organization" do
-        post :create, {:regional_organization => valid_attributes}, valid_session
+        post :create, {:regional_organization => valid_attributes}
         expect(assigns(:regional_organization)).to be_a(RegionalOrganization)
         expect(assigns(:regional_organization)).to be_persisted
       end
 
       it "redirects to the created regional_organization" do
-        post :create, {:regional_organization => valid_attributes}, valid_session
+        post :create, {:regional_organization => valid_attributes}
         expect(response).to redirect_to(RegionalOrganization.last)
       end
     end
 
     context "with invalid params" do
       it "assigns a newly created but unsaved regional_organization as @regional_organization" do
-        post :create, {:regional_organization => invalid_attributes}, valid_session
+        post :create, {:regional_organization => invalid_attributes}
         expect(assigns(:regional_organization)).to be_a_new(RegionalOrganization)
       end
 
       it "re-renders the 'new' template" do
-        post :create, {:regional_organization => invalid_attributes}, valid_session
+        post :create, {:regional_organization => invalid_attributes}
         expect(response).to render_template("new")
       end
     end
@@ -103,25 +109,30 @@ RSpec.describe RegionalOrganizationsController, :type => :controller do
   describe "PUT #update" do
     context "with valid params" do
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        {
+          :nummer=>1,
+          :name=>"blabla",
+          :iban=>"DE12500105170648489890"
+
+        }
       }
 
       it "updates the requested regional_organization" do
         regional_organization = RegionalOrganization.create! valid_attributes
-        put :update, {:id => regional_organization.to_param, :regional_organization => new_attributes}, valid_session
+        put :update, {:id => regional_organization.to_param, :regional_organization => new_attributes}
         regional_organization.reload
         skip("Add assertions for updated state")
       end
 
       it "assigns the requested regional_organization as @regional_organization" do
         regional_organization = RegionalOrganization.create! valid_attributes
-        put :update, {:id => regional_organization.to_param, :regional_organization => valid_attributes}, valid_session
+        put :update, {:id => regional_organization.to_param, :regional_organization => valid_attributes}
         expect(assigns(:regional_organization)).to eq(regional_organization)
       end
 
       it "redirects to the regional_organization" do
         regional_organization = RegionalOrganization.create! valid_attributes
-        put :update, {:id => regional_organization.to_param, :regional_organization => valid_attributes}, valid_session
+        put :update, {:id => regional_organization.to_param, :regional_organization => valid_attributes}
         expect(response).to redirect_to(regional_organization)
       end
     end
@@ -129,13 +140,13 @@ RSpec.describe RegionalOrganizationsController, :type => :controller do
     context "with invalid params" do
       it "assigns the regional_organization as @regional_organization" do
         regional_organization = RegionalOrganization.create! valid_attributes
-        put :update, {:id => regional_organization.to_param, :regional_organization => invalid_attributes}, valid_session
+        put :update, {:id => regional_organization.to_param, :regional_organization => invalid_attributes}
         expect(assigns(:regional_organization)).to eq(regional_organization)
       end
 
       it "re-renders the 'edit' template" do
         regional_organization = RegionalOrganization.create! valid_attributes
-        put :update, {:id => regional_organization.to_param, :regional_organization => invalid_attributes}, valid_session
+        put :update, {:id => regional_organization.to_param, :regional_organization => invalid_attributes}
         expect(response).to render_template("edit")
       end
     end
@@ -145,13 +156,13 @@ RSpec.describe RegionalOrganizationsController, :type => :controller do
     it "destroys the requested regional_organization" do
       regional_organization = RegionalOrganization.create! valid_attributes
       expect {
-        delete :destroy, {:id => regional_organization.to_param}, valid_session
+        delete :destroy, {:id => regional_organization.to_param}
       }.to change(RegionalOrganization, :count).by(-1)
     end
 
     it "redirects to the regional_organizations list" do
       regional_organization = RegionalOrganization.create! valid_attributes
-      delete :destroy, {:id => regional_organization.to_param}, valid_session
+      delete :destroy, {:id => regional_organization.to_param}
       expect(response).to redirect_to(regional_organizations_url)
     end
   end

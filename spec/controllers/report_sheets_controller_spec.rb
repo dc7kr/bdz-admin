@@ -39,7 +39,7 @@ RSpec.describe ReportSheetsController, :type => :controller do
   describe "GET #index" do
     it "assigns all report_sheets as @report_sheets" do
       report_sheet = ReportSheet.create! valid_attributes
-      get :index, {}, valid_session
+      get :index, {}
       expect(assigns(:report_sheets)).to eq([report_sheet])
     end
   end
@@ -47,14 +47,14 @@ RSpec.describe ReportSheetsController, :type => :controller do
   describe "GET #show" do
     it "assigns the requested report_sheet as @report_sheet" do
       report_sheet = ReportSheet.create! valid_attributes
-      get :show, {:id => report_sheet.to_param}, valid_session
+      get :show, {:id => report_sheet.to_param}
       expect(assigns(:report_sheet)).to eq(report_sheet)
     end
   end
 
   describe "GET #new" do
     it "assigns a new report_sheet as @report_sheet" do
-      get :new, {}, valid_session
+      get :new, {}
       expect(assigns(:report_sheet)).to be_a_new(ReportSheet)
     end
   end
@@ -62,7 +62,7 @@ RSpec.describe ReportSheetsController, :type => :controller do
   describe "GET #edit" do
     it "assigns the requested report_sheet as @report_sheet" do
       report_sheet = ReportSheet.create! valid_attributes
-      get :edit, {:id => report_sheet.to_param}, valid_session
+      get :edit, {:id => report_sheet.to_param}
       expect(assigns(:report_sheet)).to eq(report_sheet)
     end
   end
@@ -71,30 +71,30 @@ RSpec.describe ReportSheetsController, :type => :controller do
     context "with valid params" do
       it "creates a new ReportSheet" do
         expect {
-          post :create, {:report_sheet => valid_attributes}, valid_session
+          post :create, {:report_sheet => valid_attributes}
         }.to change(ReportSheet, :count).by(1)
       end
 
       it "assigns a newly created report_sheet as @report_sheet" do
-        post :create, {:report_sheet => valid_attributes}, valid_session
+        post :create, {:report_sheet => valid_attributes}
         expect(assigns(:report_sheet)).to be_a(ReportSheet)
         expect(assigns(:report_sheet)).to be_persisted
       end
 
       it "redirects to the created report_sheet" do
-        post :create, {:report_sheet => valid_attributes}, valid_session
+        post :create, {:report_sheet => valid_attributes}
         expect(response).to redirect_to(ReportSheet.last)
       end
     end
 
     context "with invalid params" do
       it "assigns a newly created but unsaved report_sheet as @report_sheet" do
-        post :create, {:report_sheet => invalid_attributes}, valid_session
+        post :create, {:report_sheet => invalid_attributes}
         expect(assigns(:report_sheet)).to be_a_new(ReportSheet)
       end
 
       it "re-renders the 'new' template" do
-        post :create, {:report_sheet => invalid_attributes}, valid_session
+        post :create, {:report_sheet => invalid_attributes}
         expect(response).to render_template("new")
       end
     end
@@ -108,20 +108,20 @@ RSpec.describe ReportSheetsController, :type => :controller do
 
       it "updates the requested report_sheet" do
         report_sheet = ReportSheet.create! valid_attributes
-        put :update, {:id => report_sheet.to_param, :report_sheet => new_attributes}, valid_session
+        put :update, {:id => report_sheet.to_param, :report_sheet => new_attributes}
         report_sheet.reload
         skip("Add assertions for updated state")
       end
 
       it "assigns the requested report_sheet as @report_sheet" do
         report_sheet = ReportSheet.create! valid_attributes
-        put :update, {:id => report_sheet.to_param, :report_sheet => valid_attributes}, valid_session
+        put :update, {:id => report_sheet.to_param, :report_sheet => valid_attributes}
         expect(assigns(:report_sheet)).to eq(report_sheet)
       end
 
       it "redirects to the report_sheet" do
         report_sheet = ReportSheet.create! valid_attributes
-        put :update, {:id => report_sheet.to_param, :report_sheet => valid_attributes}, valid_session
+        put :update, {:id => report_sheet.to_param, :report_sheet => valid_attributes}
         expect(response).to redirect_to(report_sheet)
       end
     end
@@ -129,13 +129,13 @@ RSpec.describe ReportSheetsController, :type => :controller do
     context "with invalid params" do
       it "assigns the report_sheet as @report_sheet" do
         report_sheet = ReportSheet.create! valid_attributes
-        put :update, {:id => report_sheet.to_param, :report_sheet => invalid_attributes}, valid_session
+        put :update, {:id => report_sheet.to_param, :report_sheet => invalid_attributes}
         expect(assigns(:report_sheet)).to eq(report_sheet)
       end
 
       it "re-renders the 'edit' template" do
         report_sheet = ReportSheet.create! valid_attributes
-        put :update, {:id => report_sheet.to_param, :report_sheet => invalid_attributes}, valid_session
+        put :update, {:id => report_sheet.to_param, :report_sheet => invalid_attributes}
         expect(response).to render_template("edit")
       end
     end
@@ -145,13 +145,13 @@ RSpec.describe ReportSheetsController, :type => :controller do
     it "destroys the requested report_sheet" do
       report_sheet = ReportSheet.create! valid_attributes
       expect {
-        delete :destroy, {:id => report_sheet.to_param}, valid_session
+        delete :destroy, {:id => report_sheet.to_param}
       }.to change(ReportSheet, :count).by(-1)
     end
 
     it "redirects to the report_sheets list" do
       report_sheet = ReportSheet.create! valid_attributes
-      delete :destroy, {:id => report_sheet.to_param}, valid_session
+      delete :destroy, {:id => report_sheet.to_param}
       expect(response).to redirect_to(report_sheets_url)
     end
   end

@@ -39,7 +39,7 @@ RSpec.describe UniversitiesController, :type => :controller do
   describe "GET #index" do
     it "assigns all universities as @universities" do
       university = University.create! valid_attributes
-      get :index, {}, valid_session
+      get :index, {}
       expect(assigns(:universities)).to eq([university])
     end
   end
@@ -47,14 +47,14 @@ RSpec.describe UniversitiesController, :type => :controller do
   describe "GET #show" do
     it "assigns the requested university as @university" do
       university = University.create! valid_attributes
-      get :show, {:id => university.to_param}, valid_session
+      get :show, {:id => university.to_param}
       expect(assigns(:university)).to eq(university)
     end
   end
 
   describe "GET #new" do
     it "assigns a new university as @university" do
-      get :new, {}, valid_session
+      get :new, {}
       expect(assigns(:university)).to be_a_new(University)
     end
   end
@@ -62,7 +62,7 @@ RSpec.describe UniversitiesController, :type => :controller do
   describe "GET #edit" do
     it "assigns the requested university as @university" do
       university = University.create! valid_attributes
-      get :edit, {:id => university.to_param}, valid_session
+      get :edit, {:id => university.to_param}
       expect(assigns(:university)).to eq(university)
     end
   end
@@ -71,30 +71,30 @@ RSpec.describe UniversitiesController, :type => :controller do
     context "with valid params" do
       it "creates a new University" do
         expect {
-          post :create, {:university => valid_attributes}, valid_session
+          post :create, {:university => valid_attributes}
         }.to change(University, :count).by(1)
       end
 
       it "assigns a newly created university as @university" do
-        post :create, {:university => valid_attributes}, valid_session
+        post :create, {:university => valid_attributes}
         expect(assigns(:university)).to be_a(University)
         expect(assigns(:university)).to be_persisted
       end
 
       it "redirects to the created university" do
-        post :create, {:university => valid_attributes}, valid_session
+        post :create, {:university => valid_attributes}
         expect(response).to redirect_to(University.last)
       end
     end
 
     context "with invalid params" do
       it "assigns a newly created but unsaved university as @university" do
-        post :create, {:university => invalid_attributes}, valid_session
+        post :create, {:university => invalid_attributes}
         expect(assigns(:university)).to be_a_new(University)
       end
 
       it "re-renders the 'new' template" do
-        post :create, {:university => invalid_attributes}, valid_session
+        post :create, {:university => invalid_attributes}
         expect(response).to render_template("new")
       end
     end
@@ -108,20 +108,20 @@ RSpec.describe UniversitiesController, :type => :controller do
 
       it "updates the requested university" do
         university = University.create! valid_attributes
-        put :update, {:id => university.to_param, :university => new_attributes}, valid_session
+        put :update, {:id => university.to_param, :university => new_attributes}
         university.reload
         skip("Add assertions for updated state")
       end
 
       it "assigns the requested university as @university" do
         university = University.create! valid_attributes
-        put :update, {:id => university.to_param, :university => valid_attributes}, valid_session
+        put :update, {:id => university.to_param, :university => valid_attributes}
         expect(assigns(:university)).to eq(university)
       end
 
       it "redirects to the university" do
         university = University.create! valid_attributes
-        put :update, {:id => university.to_param, :university => valid_attributes}, valid_session
+        put :update, {:id => university.to_param, :university => valid_attributes}
         expect(response).to redirect_to(university)
       end
     end
@@ -129,13 +129,13 @@ RSpec.describe UniversitiesController, :type => :controller do
     context "with invalid params" do
       it "assigns the university as @university" do
         university = University.create! valid_attributes
-        put :update, {:id => university.to_param, :university => invalid_attributes}, valid_session
+        put :update, {:id => university.to_param, :university => invalid_attributes}
         expect(assigns(:university)).to eq(university)
       end
 
       it "re-renders the 'edit' template" do
         university = University.create! valid_attributes
-        put :update, {:id => university.to_param, :university => invalid_attributes}, valid_session
+        put :update, {:id => university.to_param, :university => invalid_attributes}
         expect(response).to render_template("edit")
       end
     end
@@ -145,13 +145,13 @@ RSpec.describe UniversitiesController, :type => :controller do
     it "destroys the requested university" do
       university = University.create! valid_attributes
       expect {
-        delete :destroy, {:id => university.to_param}, valid_session
+        delete :destroy, {:id => university.to_param}
       }.to change(University, :count).by(-1)
     end
 
     it "redirects to the universities list" do
       university = University.create! valid_attributes
-      delete :destroy, {:id => university.to_param}, valid_session
+      delete :destroy, {:id => university.to_param}
       expect(response).to redirect_to(universities_url)
     end
   end

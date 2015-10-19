@@ -19,12 +19,15 @@ require 'rails_helper'
 # that an instance is receiving a specific message.
 
 RSpec.describe MagazineIssuesController, :type => :controller do
+  login_admin
 
   # This should return the minimal set of attributes required to create a valid
   # MagazineIssue. As you add validations to MagazineIssue, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    {
+    :year=> 2015,
+    :number=> 42 }
   }
 
   let(:invalid_attributes) {
@@ -34,12 +37,12 @@ RSpec.describe MagazineIssuesController, :type => :controller do
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
   # MagazineIssuesController. Be sure to keep this updated too.
-  let(:valid_session) { {} }
+  #let(:valid_session) { {} }
 
   describe "GET #index" do
     it "assigns all magazine_issues as @magazine_issues" do
       magazine_issue = MagazineIssue.create! valid_attributes
-      get :index, {}, valid_session
+      get :index, {}
       expect(assigns(:magazine_issues)).to eq([magazine_issue])
     end
   end
@@ -47,14 +50,14 @@ RSpec.describe MagazineIssuesController, :type => :controller do
   describe "GET #show" do
     it "assigns the requested magazine_issue as @magazine_issue" do
       magazine_issue = MagazineIssue.create! valid_attributes
-      get :show, {:id => magazine_issue.to_param}, valid_session
+      get :show, {:id => magazine_issue.to_param}
       expect(assigns(:magazine_issue)).to eq(magazine_issue)
     end
   end
 
   describe "GET #new" do
     it "assigns a new magazine_issue as @magazine_issue" do
-      get :new, {}, valid_session
+      get :new, {}
       expect(assigns(:magazine_issue)).to be_a_new(MagazineIssue)
     end
   end
@@ -62,7 +65,7 @@ RSpec.describe MagazineIssuesController, :type => :controller do
   describe "GET #edit" do
     it "assigns the requested magazine_issue as @magazine_issue" do
       magazine_issue = MagazineIssue.create! valid_attributes
-      get :edit, {:id => magazine_issue.to_param}, valid_session
+      get :edit, {:id => magazine_issue.to_param}
       expect(assigns(:magazine_issue)).to eq(magazine_issue)
     end
   end
@@ -71,30 +74,30 @@ RSpec.describe MagazineIssuesController, :type => :controller do
     context "with valid params" do
       it "creates a new MagazineIssue" do
         expect {
-          post :create, {:magazine_issue => valid_attributes}, valid_session
+          post :create, {:magazine_issue => valid_attributes}
         }.to change(MagazineIssue, :count).by(1)
       end
 
       it "assigns a newly created magazine_issue as @magazine_issue" do
-        post :create, {:magazine_issue => valid_attributes}, valid_session
+        post :create, {:magazine_issue => valid_attributes}
         expect(assigns(:magazine_issue)).to be_a(MagazineIssue)
         expect(assigns(:magazine_issue)).to be_persisted
       end
 
       it "redirects to the created magazine_issue" do
-        post :create, {:magazine_issue => valid_attributes}, valid_session
+        post :create, {:magazine_issue => valid_attributes}
         expect(response).to redirect_to(MagazineIssue.last)
       end
     end
 
     context "with invalid params" do
       it "assigns a newly created but unsaved magazine_issue as @magazine_issue" do
-        post :create, {:magazine_issue => invalid_attributes}, valid_session
+        post :create, {:magazine_issue => invalid_attributes}
         expect(assigns(:magazine_issue)).to be_a_new(MagazineIssue)
       end
 
       it "re-renders the 'new' template" do
-        post :create, {:magazine_issue => invalid_attributes}, valid_session
+        post :create, {:magazine_issue => invalid_attributes}
         expect(response).to render_template("new")
       end
     end
@@ -108,20 +111,20 @@ RSpec.describe MagazineIssuesController, :type => :controller do
 
       it "updates the requested magazine_issue" do
         magazine_issue = MagazineIssue.create! valid_attributes
-        put :update, {:id => magazine_issue.to_param, :magazine_issue => new_attributes}, valid_session
+        put :update, {:id => magazine_issue.to_param, :magazine_issue => new_attributes}
         magazine_issue.reload
         skip("Add assertions for updated state")
       end
 
       it "assigns the requested magazine_issue as @magazine_issue" do
         magazine_issue = MagazineIssue.create! valid_attributes
-        put :update, {:id => magazine_issue.to_param, :magazine_issue => valid_attributes}, valid_session
+        put :update, {:id => magazine_issue.to_param, :magazine_issue => valid_attributes}
         expect(assigns(:magazine_issue)).to eq(magazine_issue)
       end
 
       it "redirects to the magazine_issue" do
         magazine_issue = MagazineIssue.create! valid_attributes
-        put :update, {:id => magazine_issue.to_param, :magazine_issue => valid_attributes}, valid_session
+        put :update, {:id => magazine_issue.to_param, :magazine_issue => valid_attributes}
         expect(response).to redirect_to(magazine_issue)
       end
     end
@@ -129,13 +132,13 @@ RSpec.describe MagazineIssuesController, :type => :controller do
     context "with invalid params" do
       it "assigns the magazine_issue as @magazine_issue" do
         magazine_issue = MagazineIssue.create! valid_attributes
-        put :update, {:id => magazine_issue.to_param, :magazine_issue => invalid_attributes}, valid_session
+        put :update, {:id => magazine_issue.to_param, :magazine_issue => invalid_attributes}
         expect(assigns(:magazine_issue)).to eq(magazine_issue)
       end
 
       it "re-renders the 'edit' template" do
         magazine_issue = MagazineIssue.create! valid_attributes
-        put :update, {:id => magazine_issue.to_param, :magazine_issue => invalid_attributes}, valid_session
+        put :update, {:id => magazine_issue.to_param, :magazine_issue => invalid_attributes}
         expect(response).to render_template("edit")
       end
     end
@@ -145,13 +148,13 @@ RSpec.describe MagazineIssuesController, :type => :controller do
     it "destroys the requested magazine_issue" do
       magazine_issue = MagazineIssue.create! valid_attributes
       expect {
-        delete :destroy, {:id => magazine_issue.to_param}, valid_session
+        delete :destroy, {:id => magazine_issue.to_param}
       }.to change(MagazineIssue, :count).by(-1)
     end
 
     it "redirects to the magazine_issues list" do
       magazine_issue = MagazineIssue.create! valid_attributes
-      delete :destroy, {:id => magazine_issue.to_param}, valid_session
+      delete :destroy, {:id => magazine_issue.to_param}
       expect(response).to redirect_to(magazine_issues_url)
     end
   end

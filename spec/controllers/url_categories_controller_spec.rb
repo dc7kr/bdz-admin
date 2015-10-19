@@ -39,7 +39,7 @@ RSpec.describe UrlCategoriesController, :type => :controller do
   describe "GET #index" do
     it "assigns all url_categories as @url_categories" do
       url_category = UrlCategory.create! valid_attributes
-      get :index, {}, valid_session
+      get :index, {}
       expect(assigns(:url_categories)).to eq([url_category])
     end
   end
@@ -47,14 +47,14 @@ RSpec.describe UrlCategoriesController, :type => :controller do
   describe "GET #show" do
     it "assigns the requested url_category as @url_category" do
       url_category = UrlCategory.create! valid_attributes
-      get :show, {:id => url_category.to_param}, valid_session
+      get :show, {:id => url_category.to_param}
       expect(assigns(:url_category)).to eq(url_category)
     end
   end
 
   describe "GET #new" do
     it "assigns a new url_category as @url_category" do
-      get :new, {}, valid_session
+      get :new, {}
       expect(assigns(:url_category)).to be_a_new(UrlCategory)
     end
   end
@@ -62,7 +62,7 @@ RSpec.describe UrlCategoriesController, :type => :controller do
   describe "GET #edit" do
     it "assigns the requested url_category as @url_category" do
       url_category = UrlCategory.create! valid_attributes
-      get :edit, {:id => url_category.to_param}, valid_session
+      get :edit, {:id => url_category.to_param}
       expect(assigns(:url_category)).to eq(url_category)
     end
   end
@@ -71,30 +71,30 @@ RSpec.describe UrlCategoriesController, :type => :controller do
     context "with valid params" do
       it "creates a new UrlCategory" do
         expect {
-          post :create, {:url_category => valid_attributes}, valid_session
+          post :create, {:url_category => valid_attributes}
         }.to change(UrlCategory, :count).by(1)
       end
 
       it "assigns a newly created url_category as @url_category" do
-        post :create, {:url_category => valid_attributes}, valid_session
+        post :create, {:url_category => valid_attributes}
         expect(assigns(:url_category)).to be_a(UrlCategory)
         expect(assigns(:url_category)).to be_persisted
       end
 
       it "redirects to the created url_category" do
-        post :create, {:url_category => valid_attributes}, valid_session
+        post :create, {:url_category => valid_attributes}
         expect(response).to redirect_to(UrlCategory.last)
       end
     end
 
     context "with invalid params" do
       it "assigns a newly created but unsaved url_category as @url_category" do
-        post :create, {:url_category => invalid_attributes}, valid_session
+        post :create, {:url_category => invalid_attributes}
         expect(assigns(:url_category)).to be_a_new(UrlCategory)
       end
 
       it "re-renders the 'new' template" do
-        post :create, {:url_category => invalid_attributes}, valid_session
+        post :create, {:url_category => invalid_attributes}
         expect(response).to render_template("new")
       end
     end
@@ -108,20 +108,20 @@ RSpec.describe UrlCategoriesController, :type => :controller do
 
       it "updates the requested url_category" do
         url_category = UrlCategory.create! valid_attributes
-        put :update, {:id => url_category.to_param, :url_category => new_attributes}, valid_session
+        put :update, {:id => url_category.to_param, :url_category => new_attributes}
         url_category.reload
         skip("Add assertions for updated state")
       end
 
       it "assigns the requested url_category as @url_category" do
         url_category = UrlCategory.create! valid_attributes
-        put :update, {:id => url_category.to_param, :url_category => valid_attributes}, valid_session
+        put :update, {:id => url_category.to_param, :url_category => valid_attributes}
         expect(assigns(:url_category)).to eq(url_category)
       end
 
       it "redirects to the url_category" do
         url_category = UrlCategory.create! valid_attributes
-        put :update, {:id => url_category.to_param, :url_category => valid_attributes}, valid_session
+        put :update, {:id => url_category.to_param, :url_category => valid_attributes}
         expect(response).to redirect_to(url_category)
       end
     end
@@ -129,13 +129,13 @@ RSpec.describe UrlCategoriesController, :type => :controller do
     context "with invalid params" do
       it "assigns the url_category as @url_category" do
         url_category = UrlCategory.create! valid_attributes
-        put :update, {:id => url_category.to_param, :url_category => invalid_attributes}, valid_session
+        put :update, {:id => url_category.to_param, :url_category => invalid_attributes}
         expect(assigns(:url_category)).to eq(url_category)
       end
 
       it "re-renders the 'edit' template" do
         url_category = UrlCategory.create! valid_attributes
-        put :update, {:id => url_category.to_param, :url_category => invalid_attributes}, valid_session
+        put :update, {:id => url_category.to_param, :url_category => invalid_attributes}
         expect(response).to render_template("edit")
       end
     end
@@ -145,13 +145,13 @@ RSpec.describe UrlCategoriesController, :type => :controller do
     it "destroys the requested url_category" do
       url_category = UrlCategory.create! valid_attributes
       expect {
-        delete :destroy, {:id => url_category.to_param}, valid_session
+        delete :destroy, {:id => url_category.to_param}
       }.to change(UrlCategory, :count).by(-1)
     end
 
     it "redirects to the url_categories list" do
       url_category = UrlCategory.create! valid_attributes
-      delete :destroy, {:id => url_category.to_param}, valid_session
+      delete :destroy, {:id => url_category.to_param}
       expect(response).to redirect_to(url_categories_url)
     end
   end

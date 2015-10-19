@@ -39,7 +39,7 @@ RSpec.describe ReportSheetInputsController, :type => :controller do
   describe "GET #index" do
     it "assigns all report_sheet_inputs as @report_sheet_inputs" do
       report_sheet_input = ReportSheetInput.create! valid_attributes
-      get :index, {}, valid_session
+      get :index, {}
       expect(assigns(:report_sheet_inputs)).to eq([report_sheet_input])
     end
   end
@@ -47,14 +47,14 @@ RSpec.describe ReportSheetInputsController, :type => :controller do
   describe "GET #show" do
     it "assigns the requested report_sheet_input as @report_sheet_input" do
       report_sheet_input = ReportSheetInput.create! valid_attributes
-      get :show, {:id => report_sheet_input.to_param}, valid_session
+      get :show, {:id => report_sheet_input.to_param}
       expect(assigns(:report_sheet_input)).to eq(report_sheet_input)
     end
   end
 
   describe "GET #new" do
     it "assigns a new report_sheet_input as @report_sheet_input" do
-      get :new, {}, valid_session
+      get :new, {}
       expect(assigns(:report_sheet_input)).to be_a_new(ReportSheetInput)
     end
   end
@@ -62,7 +62,7 @@ RSpec.describe ReportSheetInputsController, :type => :controller do
   describe "GET #edit" do
     it "assigns the requested report_sheet_input as @report_sheet_input" do
       report_sheet_input = ReportSheetInput.create! valid_attributes
-      get :edit, {:id => report_sheet_input.to_param}, valid_session
+      get :edit, {:id => report_sheet_input.to_param}
       expect(assigns(:report_sheet_input)).to eq(report_sheet_input)
     end
   end
@@ -71,30 +71,30 @@ RSpec.describe ReportSheetInputsController, :type => :controller do
     context "with valid params" do
       it "creates a new ReportSheetInput" do
         expect {
-          post :create, {:report_sheet_input => valid_attributes}, valid_session
+          post :create, {:report_sheet_input => valid_attributes}
         }.to change(ReportSheetInput, :count).by(1)
       end
 
       it "assigns a newly created report_sheet_input as @report_sheet_input" do
-        post :create, {:report_sheet_input => valid_attributes}, valid_session
+        post :create, {:report_sheet_input => valid_attributes}
         expect(assigns(:report_sheet_input)).to be_a(ReportSheetInput)
         expect(assigns(:report_sheet_input)).to be_persisted
       end
 
       it "redirects to the created report_sheet_input" do
-        post :create, {:report_sheet_input => valid_attributes}, valid_session
+        post :create, {:report_sheet_input => valid_attributes}
         expect(response).to redirect_to(ReportSheetInput.last)
       end
     end
 
     context "with invalid params" do
       it "assigns a newly created but unsaved report_sheet_input as @report_sheet_input" do
-        post :create, {:report_sheet_input => invalid_attributes}, valid_session
+        post :create, {:report_sheet_input => invalid_attributes}
         expect(assigns(:report_sheet_input)).to be_a_new(ReportSheetInput)
       end
 
       it "re-renders the 'new' template" do
-        post :create, {:report_sheet_input => invalid_attributes}, valid_session
+        post :create, {:report_sheet_input => invalid_attributes}
         expect(response).to render_template("new")
       end
     end
@@ -108,20 +108,20 @@ RSpec.describe ReportSheetInputsController, :type => :controller do
 
       it "updates the requested report_sheet_input" do
         report_sheet_input = ReportSheetInput.create! valid_attributes
-        put :update, {:id => report_sheet_input.to_param, :report_sheet_input => new_attributes}, valid_session
+        put :update, {:id => report_sheet_input.to_param, :report_sheet_input => new_attributes}
         report_sheet_input.reload
         skip("Add assertions for updated state")
       end
 
       it "assigns the requested report_sheet_input as @report_sheet_input" do
         report_sheet_input = ReportSheetInput.create! valid_attributes
-        put :update, {:id => report_sheet_input.to_param, :report_sheet_input => valid_attributes}, valid_session
+        put :update, {:id => report_sheet_input.to_param, :report_sheet_input => valid_attributes}
         expect(assigns(:report_sheet_input)).to eq(report_sheet_input)
       end
 
       it "redirects to the report_sheet_input" do
         report_sheet_input = ReportSheetInput.create! valid_attributes
-        put :update, {:id => report_sheet_input.to_param, :report_sheet_input => valid_attributes}, valid_session
+        put :update, {:id => report_sheet_input.to_param, :report_sheet_input => valid_attributes}
         expect(response).to redirect_to(report_sheet_input)
       end
     end
@@ -129,13 +129,13 @@ RSpec.describe ReportSheetInputsController, :type => :controller do
     context "with invalid params" do
       it "assigns the report_sheet_input as @report_sheet_input" do
         report_sheet_input = ReportSheetInput.create! valid_attributes
-        put :update, {:id => report_sheet_input.to_param, :report_sheet_input => invalid_attributes}, valid_session
+        put :update, {:id => report_sheet_input.to_param, :report_sheet_input => invalid_attributes}
         expect(assigns(:report_sheet_input)).to eq(report_sheet_input)
       end
 
       it "re-renders the 'edit' template" do
         report_sheet_input = ReportSheetInput.create! valid_attributes
-        put :update, {:id => report_sheet_input.to_param, :report_sheet_input => invalid_attributes}, valid_session
+        put :update, {:id => report_sheet_input.to_param, :report_sheet_input => invalid_attributes}
         expect(response).to render_template("edit")
       end
     end
@@ -145,13 +145,13 @@ RSpec.describe ReportSheetInputsController, :type => :controller do
     it "destroys the requested report_sheet_input" do
       report_sheet_input = ReportSheetInput.create! valid_attributes
       expect {
-        delete :destroy, {:id => report_sheet_input.to_param}, valid_session
+        delete :destroy, {:id => report_sheet_input.to_param}
       }.to change(ReportSheetInput, :count).by(-1)
     end
 
     it "redirects to the report_sheet_inputs list" do
       report_sheet_input = ReportSheetInput.create! valid_attributes
-      delete :destroy, {:id => report_sheet_input.to_param}, valid_session
+      delete :destroy, {:id => report_sheet_input.to_param}
       expect(response).to redirect_to(report_sheet_inputs_url)
     end
   end

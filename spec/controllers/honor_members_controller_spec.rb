@@ -20,11 +20,8 @@ require 'rails_helper'
 
 RSpec.describe HonorMembersController, :type => :controller do
 
-  fixtures :users
+  login_admin
 
-  before do
-    sign_in users[:admin] 
-  end
   it "should have a current_user" do
     # note the fact that you should remove the "validate_session" parameter if this was a scaffold-generated controller
     subject.current_user.should_not be_nil
@@ -37,11 +34,17 @@ RSpec.describe HonorMembersController, :type => :controller do
 
     {
     :vorname=> "Vorname",
-    :name => "Name" }
+    :name => "Name", 
+    :honorType => "blah", 
+    :honorDate=> Time.now}
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+      {
+      :vorname=> "Vorname",
+      :honorType => "blah", 
+      :honorDate=> Time.now
+    }
   }
 
   # This should return the minimal set of values that should be in the session
@@ -53,7 +56,7 @@ RSpec.describe HonorMembersController, :type => :controller do
     it "assigns all honor_members as @honor_members" do
       sign_in :admin
       honor_member = HonorMember.create! valid_attributes
-      get :index, {}, valid_session
+      get :index, {}
       expect(assigns(:honor_members)).to eq([honor_member])
     end
   end
@@ -61,14 +64,14 @@ RSpec.describe HonorMembersController, :type => :controller do
   describe "GET #show" do
     it "assigns the requested honor_member as @honor_member" do
       honor_member = HonorMember.create! valid_attributes
-      get :show, {:id => honor_member.to_param}, valid_session
+      get :show, {:id => honor_member.to_param}
       expect(assigns(:honor_member)).to eq(honor_member)
     end
   end
 
   describe "GET #new" do
     it "assigns a new honor_member as @honor_member" do
-      get :new, {}, valid_session
+      get :new, {}
       expect(assigns(:honor_member)).to be_a_new(HonorMember)
     end
   end
@@ -76,7 +79,7 @@ RSpec.describe HonorMembersController, :type => :controller do
   describe "GET #edit" do
     it "assigns the requested honor_member as @honor_member" do
       honor_member = HonorMember.create! valid_attributes
-      get :edit, {:id => honor_member.to_param}, valid_session
+      get :edit, {:id => honor_member.to_param}
       expect(assigns(:honor_member)).to eq(honor_member)
     end
   end
@@ -85,30 +88,30 @@ RSpec.describe HonorMembersController, :type => :controller do
     context "with valid params" do
       it "creates a new HonorMember" do
         expect {
-          post :create, {:honor_member => valid_attributes}, valid_session
+          post :create, {:honor_member => valid_attributes}
         }.to change(HonorMember, :count).by(1)
       end
 
       it "assigns a newly created honor_member as @honor_member" do
-        post :create, {:honor_member => valid_attributes}, valid_session
+        post :create, {:honor_member => valid_attributes}
         expect(assigns(:honor_member)).to be_a(HonorMember)
         expect(assigns(:honor_member)).to be_persisted
       end
 
       it "redirects to the created honor_member" do
-        post :create, {:honor_member => valid_attributes}, valid_session
+        post :create, {:honor_member => valid_attributes}
         expect(response).to redirect_to(HonorMember.last)
       end
     end
 
     context "with invalid params" do
       it "assigns a newly created but unsaved honor_member as @honor_member" do
-        post :create, {:honor_member => invalid_attributes}, valid_session
+        post :create, {:honor_member => invalid_attributes}
         expect(assigns(:honor_member)).to be_a_new(HonorMember)
       end
 
       it "re-renders the 'new' template" do
-        post :create, {:honor_member => invalid_attributes}, valid_session
+        post :create, {:honor_member => invalid_attributes}
         expect(response).to render_template("new")
       end
     end
@@ -124,20 +127,20 @@ RSpec.describe HonorMembersController, :type => :controller do
 
       it "updates the requested honor_member" do
         honor_member = HonorMember.create! valid_attributes
-        put :update, {:id => honor_member.to_param, :honor_member => new_attributes}, valid_session
+        put :update, {:id => honor_member.to_param, :honor_member => new_attributes}
         honor_member.reload
         skip("Add assertions for updated state")
       end
 
       it "assigns the requested honor_member as @honor_member" do
         honor_member = HonorMember.create! valid_attributes
-        put :update, {:id => honor_member.to_param, :honor_member => valid_attributes}, valid_session
+        put :update, {:id => honor_member.to_param, :honor_member => valid_attributes}
         expect(assigns(:honor_member)).to eq(honor_member)
       end
 
       it "redirects to the honor_member" do
         honor_member = HonorMember.create! valid_attributes
-        put :update, {:id => honor_member.to_param, :honor_member => valid_attributes}, valid_session
+        put :update, {:id => honor_member.to_param, :honor_member => valid_attributes}
         expect(response).to redirect_to(honor_member)
       end
     end
@@ -145,13 +148,13 @@ RSpec.describe HonorMembersController, :type => :controller do
     context "with invalid params" do
       it "assigns the honor_member as @honor_member" do
         honor_member = HonorMember.create! valid_attributes
-        put :update, {:id => honor_member.to_param, :honor_member => invalid_attributes}, valid_session
+        put :update, {:id => honor_member.to_param, :honor_member => invalid_attributes}
         expect(assigns(:honor_member)).to eq(honor_member)
       end
 
       it "re-renders the 'edit' template" do
         honor_member = HonorMember.create! valid_attributes
-        put :update, {:id => honor_member.to_param, :honor_member => invalid_attributes}, valid_session
+        put :update, {:id => honor_member.to_param, :honor_member => invalid_attributes}
         expect(response).to render_template("edit")
       end
     end
@@ -161,24 +164,15 @@ RSpec.describe HonorMembersController, :type => :controller do
     it "destroys the requested honor_member" do
       honor_member = HonorMember.create! valid_attributes
       expect {
-        delete :destroy, {:id => honor_member.to_param}, valid_session
+        delete :destroy, {:id => honor_member.to_param}
       }.to change(HonorMember, :count).by(-1)
     end
 
     it "redirects to the honor_members list" do
       honor_member = HonorMember.create! valid_attributes
-      delete :destroy, {:id => honor_member.to_param}, valid_session
+      delete :destroy, {:id => honor_member.to_param}
       expect(response).to redirect_to(honor_members_url)
     end
   end
-
-  it "blocks unauthenticated access" do
-    sign_in nil
-
-    get :index
-
-    expect(response).to redirect_to(new_user_session_path)
-  end
-
 
 end
