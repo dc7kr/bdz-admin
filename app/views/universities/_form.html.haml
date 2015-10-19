@@ -1,10 +1,11 @@
-= form_for @university do |f|
+= form_for @university, :html=>{:class=>"form-horizontal"} do |f|
   -if @university.errors.any?
     #error_explanation
       %h2= "#{pluralize(@university.errors.count, "error")} prohibited this university from being saved:"
       %ul
         - @university.errors.full_messages.each do |msg|
           %li= msg
+  =form_my_select(f,@university, :instrument, options_for_select([["Mandoline","M"],["Gitarre","G"]]))
   =form_my_field(f, @university, :name)
   =form_my_field(f, @university, :institut)
   =form_my_field(f, @university, :strasse)
