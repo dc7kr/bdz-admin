@@ -12,7 +12,7 @@ class MailingTool
     if not rcpt.has_email? and @via_paper then
       result = deliver_letter(rcpt,letterFile)
       letterArray << letterFile
-      Rails.logger.info("Created letter for #{rcpt}: #{letterFile.orig_filename}")
+      Rails.logger.info("Created letter for #{rcpt}")
       return result
     else 
       o_result = deliver_email(mailer, rcpt,letterFile,attachment, additionalMailerParams)
@@ -22,7 +22,7 @@ class MailingTool
         if @via_paper then
           result = deliver_letter(rcpt, letterFile)
           letterArray << letterFile
-          Rails.logger.info("Created letter for #{rcpt}: #{letterFile.orig_filename}")
+          Rails.logger.info("Created letter for #{rcpt}")
           return result
         else
           return o_result
