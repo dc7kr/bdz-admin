@@ -1,24 +1,10 @@
-= form_for :festival_mail, :url => { :controller => :festival_mails, :action => :send_mails }  do |f|
-  = f.label :event_id
-  %br
-  = f.text_field :event_id, :size => 60 
-  %br
-  = f.label :group
-  %br
-  = f.select :group, group_options
-
-  %br
-  = f.label :subject 
-  %br
-  = f.text_field :subject, :size => 60 
-  %br
-  = f.label :body 
-  %br
-  = f.text_area :body, :rols => 10, :cols => 60 
-  %br
-  = f.label :datafile
-  \: 
-  = f.file_field :datafile
-  %br
-  = submit_tag "Send Email "
+.panel.panel-default
+  = form_for :festival_mail, :url => { :controller => :festival_mails, :action => :send_mails }  do |f|
+    = form_my_field(f,:festival_mail,:event_id)
+    = form_my_select(f,:festival_mail,:group, group_options)
+    = form_my_field(f,:festival_mail,:subject )
+    = form_my_textarea(f,:festival_mail,:body,60,10)
+    = form_my_field(f,:festival_mail, :datafile,:file)
+    .col-sm-12.col-md-12.center-block
+      = submit_button "Send Email"
 

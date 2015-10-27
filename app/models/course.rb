@@ -4,6 +4,8 @@ class Course < ActiveRecord::Base
 	belongs_to :festival, :foreign_key => "festival"
   
   scope :public, where('visible=1 and datum >= now()')
+  scope :future, where('datum >= now()')
+   
 	#belongs_to :regional_organization, foreign_key => "lv"
 
   def zeit_formatted 

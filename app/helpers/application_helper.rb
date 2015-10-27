@@ -373,10 +373,11 @@ JS1
 
   def form_wrapped_field(form,resource,field, input) 
       label = form.label field, nil,:class => "col-sm-12 col-md-3 control-label"
-      css_class="form-group"
-
-      if resource.errors[field].present? 
-        css_class+=" has-error"
+      css_class="form-group row"
+      if not resource.is_a? Symbol then
+        if resource.errors[field].present? 
+          css_class+=" has-error"
+        end
       end
 
       input_wrap = content_tag(:div, input, :class=>"col-sm-12 col-md-9")
@@ -405,7 +406,10 @@ JS1
       elsif type == :date
         input = form.text_field field, :class =>  css_class+" date_field datePicker"
       elsif type == :checkbox
-        inout = form.check_box field, :class => css_class
+        input = form.check_box field, :class => css_class
+      elsif type == :file
+        # TODO: use Bootstrap 4 File Field once upgraded
+        input = form.file_field field
       elsif type == :static
         input = content_tag(:p , resource[field],class: "form-control-static")
       end
@@ -415,6 +419,11 @@ JS1
 
   def form_my_textarea(form, resource, field, cols,rows)
       input = form.text_area field, :class => 'form-control', :cols=>cols, :rows=>rows
+      form_wrapped_field(form,resource, field, input)
+  end
+
+  def form_my_file(form, resource, field, cols,rows)
+      input = form.file_field field, :class => 'form-control'
       form_wrapped_field(form,resource, field, input)
   end
 
@@ -443,7 +452,6 @@ JS1
   def entity_row(entity, field,type=nil) 
     sym = entity.class.name.underscore.to_sym
     content_tag :div, :class => "row" do
-      concat(content_tag(:div, label(sym, field), :class => "col-md-3 text-right"))
 
       data = nil
       if type.nil? 
@@ -454,7 +462,13 @@ JS1
         data = mail_to entity[field],entity[field]
       elsif type == :currency
         data = format_currency entity[field],"EUR"
+      elsif type == :boolean
+        data = format_bool entity[field]
+      elsif type == :url
+        data = link_to entity[field],entity[field]
       end 
+
+      concat(content_tag(:div, label(sym, field), :class => "col-md-3 text-right"))
       concat(content_tag(:div, data,:class => "col-md-9"))
     end
   end

@@ -5,8 +5,8 @@ de:
   festival_mails:
     send_invoices_button: "Rechnungen generieren"
   competition_entry:
-    p: "Gewinnspiel-Teilnehmer"
-    s: "Gewinnspiel-Teilnehmer"
+    other: "Gewinnspiel-Teilnehmer"
+    one: "Gewinnspiel-Teilnehmer"
     questions:
       title: "Quizfragen"
     personal_data:
@@ -36,8 +36,8 @@ de:
     food: "Essen"
 
   feature_request:
-    p: Feature Requests
-    s: Feature Request
+    other: Feature Requests
+    one: Feature Request
     open: Offene
     owner: Eigentümer
     title: Thema
@@ -50,14 +50,14 @@ de:
       O: Angehalten
       N: Nicht begonnen
   tariff:
-    s: Beitrag
-    p: Beiräge
+    one: Beitrag
+    other: Beiräge
   country:
-    s: Land
-    p: Länder
+    one: Land
+    other: Länder
   custom_info_mail:
-    s: Rundschreiben
-    p: Rundschreiben
+    one: Rundschreiben
+    other: Rundschreiben
     submit: Rundschreiben absenden
     group: Zielgruppe
     groups:
@@ -151,8 +151,8 @@ de:
   event_meals_mailer: 
     subject: "Ihre Essensmeldung Nr. %{id} fuer das Eurofestival 2014"
   event_meal:
-    s: Essensmeldung
-    p: Essensmeldungen
+    one: Essensmeldung
+    other: Essensmeldungen
     meals: "Anzahl der bestellten Festivalkarten"
     veg: "Anzahl vegetarisches Essen"
     name: Name
@@ -177,8 +177,8 @@ de:
     order_confirm:
       thanks: "Vielen Dank für Ihre Kartenbestellung. Sie erhalten in Kürze eine Bestätigungs-Email an %{email}. Ihre Bestellung wird bei uns unter der Nummer %{nr} geführt."
       heading: "Kartenbestellung Nr. %{nr} für das eurofestival Zupfmusik 2014 in Bruchsal"
-    s: Kartenbestellung
-    p: Kartenbestellungen
+    one: Kartenbestellung
+    other: Kartenbestellungen
     regular: "Regulär:"
     orderdate: Bestelldatum
     pickup_success: "Abholung erfolgreich eingetragen"
@@ -377,17 +377,17 @@ de:
       unknown: ist unbekannt
 
   university:
-    p: Studienmöglichkeiten
-    s: Studienmöglichkeit
+    one: Studienmöglichkeit
+    other: Studienmöglichkeiten
     name: Name
     institut: Institut
     dozent: Dozent 
   course:
-    p: Kurse
-    s: Kurs
+    one: Kurs
+    other: Kurse
   classified:
-    p: Kleinanzeigen
-    s: Kleinanzeige
+    other: Kleinanzeigen
+    one: Kleinanzeige
     publish_success: "Kleinanzeige erfolgreich veröffentlicht"
     adv_type: "Typ"
     name: "Name"
@@ -399,8 +399,8 @@ de:
     entrydate: Eingabe-Datum
     visible: Sichtbar
   concert:
-    p: Konzerte
-    s: Konzert
+    other: Konzerte
+    one: Konzert
     future: "Zukünftige"
     publish_success: "Konzert erfolgreich veröffentlicht"
     datum: Datum
@@ -416,17 +416,17 @@ de:
     email: E-Mail
     comment: Bemerkung
   composer:
-    p: Komponisten
-    s: Komponist
+    other: Komponisten
+    one: Komponist
   festival:
-    p: Festivals
-    s: Festival
+    other: Festivals
+    one: Festival
   ensemble:
-    p: Ensembles
-    s: Ensemble
+    other: Ensembles
+    one: Ensemble
   ensemble_concert:
-    s: Ensemble Konzert
-    p: Ensemble Konzerte
+    one: Ensemble Konzert
+    other: Ensemble Konzerte
     datum: Datum
     zeit: Zeit
     stadt: Stadt
@@ -455,7 +455,8 @@ de:
     amount: Betrag
 
   address:
-    p: Adressen  
+    one: Adresse
+    other: Adressen  
   member:
     nopayment: Säumige Zahler
     nonzero_balance: "Zahlungsrückstand im Beitragskonto!"
@@ -487,28 +488,28 @@ de:
     kuendigung_vom: Kündigung vom
 
   person_member:
-    s: Einzelmitglied
-    p: Einzelmitglieder
+    one: Einzelmitglied
+    other: Einzelmitglieder
     telefonDienstl: Telefon (dienstl.)
     zeitungen: Zeitungen
     zusatzzeitung: Zusatz-Zeitung
     birthday: Geburtstag
     tarrif_id: Beitragstyp
   distinction:
-    s: Ehrung
-    p: Ehrungen
+    one: Ehrung
+    other: Ehrungen
     update_success: Ehrung erfolgreich aktualisiert
     generate_invoice: Rechnung generieren
   honor_member:
-    p: Ehrenmitglieder
-    s: Ehrenmitglieder
+    one: Ehrenmitglieder
+    other: Ehrenmitglieder
   orchestra:
-    s: Orchester
-    p: Orchester
+    one: Orchester
+    other: Orchester
     create_success: "Orchester erfolgreich angelegt."
     regional_orchestra:
-      p: Landesorchester
-      s: Landesorchester      
+      one: Landesorchester      
+      other: Landesorchester
     noreport: Kein Meldebogen
     search: "Suche nach Mitgliedsnummer oder Teil des Orchesternamens"
     update_success: "Orchester wurde erfolgreich aktualisiert."
@@ -536,8 +537,8 @@ de:
     report_sheet_upload_success: "%{success} Mitgliedsdaten erfolgreich hochgeladen!"
     report_sheet_upload_warning: "%{success} Datensätze OK, %{error} Datensätze waren fehlerhaft!"
   orchestra_member:
-    p: Orchestermitglieder
-    s: Orchestermitglied
+    one: Orchestermitglied
+    other: Orchestermitglieder
     search: "Orchestermitglieder suchen"
     search_txt: "Anfänge der Namen werden ebenfalls gefunden"
     first_name: Vorname
@@ -551,8 +552,8 @@ de:
     exchange_success: "Vorname und Name erfolgreich ausgetauscht."
     check_double: "Doppel-Mitgliedschaft prüfen"
   orchestra_contact:
-    s: Kontakt-Adresse
-    p: Kontakt-Adressen
+    one: Kontakt-Adresse
+    other: Kontakt-Adressen
     first_name: Vorname
     last_name: Nachname
     street: Straße
@@ -571,8 +572,8 @@ de:
   member_account:
     balance: Saldo
   contest:
-    s: Wettbewerb
-    p: Wettbewerbe
+    one: Wettbewerb
+    other: Wettbewerbe
     startdate: Beginn Datum
     enddate: Ende Datum
     deadline: Anmeldeschluss
@@ -588,8 +589,8 @@ de:
     publish_success: "Wettbewerb erfolgreich veröffentlicht"
 
   report_sheet:
-    s: Meldebogen
-    p: Meldebögen
+    one: Meldebogen
+    other: Meldebögen
     create_success: Meldebogen erfolgreich angelegt
     data_from_last_year: Automatische Datenübernahme aus Vorjahr
     delay_fee: "Säumniszuschlag"
@@ -632,8 +633,8 @@ de:
     zusatz_uv: Zusätzl. UV
     zeitungen: Zeitungen
   regional_organization:
-    p: Landesverbände
-    s: Landesverband
+    other: Landesverbände
+    one: Landesverband
     share_overview: Beitragsanteile
     name: LV-Name
     homepage: Homepage
@@ -646,8 +647,8 @@ de:
     booking_type_S: Sollstellung
     booking_type_G: Gutschrift
   report_sheet_input:
-    s: "Meldebogeneingabe"
-    p: "Meldebogeneingabe-Objekte"
+    one: "Meldebogeneingabe"
+    other: "Meldebogeneingabe-Objekte"
     login: Anmelden
     login_title: Meldebogenerfassung
     token: Passwort
@@ -665,7 +666,7 @@ de:
     generated: "%{count} Meldebogen-Eingabe-Vorlagen erzeugt."
     dd_to_sepa_valid: "Ihr bereits erteiltes SEPA-Mandat bleibt weiterhin gültig. Wir buchen von ihrem Konto mit der IBAN %{iban} und BIC %{bic} mit der SEPA Mandatsreferenz %{mref} im SEPA Verfahren ab."
   member_report:
-    s: Mitgliederbericht
+    one: Mitgliederbericht
     oddset_report: Oddset Zahlen
     orchestra_count: Anzahl Orchester
     active_sum: Summe Aktive
@@ -692,8 +693,8 @@ de:
     custom_info_mail_success: "Rundschreiben werden erstellt. Sie erhalten nach Fertigstellung eine E-Mail."
     remove_resigned: "Ausgetretene Mitglieder löschen"
   user:
-    p: Benutzer
-    s: Benutzer
+    other: Benutzer
+    one: Benutzer
     roles: Rollen
     restricting_entity: Wurzel-Entity
     entity_class: Entity-Klasse
@@ -739,7 +740,7 @@ de:
           L: Brief
           F: E-Mail-Fehler
         filename: Dateiname
-        p: Kontakt-Events
+        other: Kontakt-Events
 
       report_sheet:
         generated: Generiert
@@ -765,8 +766,8 @@ de:
         other_ens: Sonstige Ensembles
 
       distinction:
-        s: Ehrung
-        p: Ehrungen
+        one: Ehrung
+        other: Ehrungen
         update_success: Ehrung erfolgreich aktualisiert
         dist_date: Datum
         generate_invoice: Rechnung generieren
@@ -913,15 +914,19 @@ de:
       report_sheet:
         generated: Generiert
         comment: Kommentar
+      url:
+        attributes: 
+          url_category:
+            blank: "URL Kategorie muss gesetzt sein!"
   member_account:
     balance: Saldo
   advertiser:
-    s: Werbekunde
-    p: Werbekunden
+    one: Werbekunde
+    other: Werbekunden
     customer_number: Kundennummer
   magazine_advert:
-    p: Werbebuchungen
-    s: Werbebuchung
+    one: Werbebuchung
+    other: Werbebuchungen
     advert_type: Typ
     advert_types:
      F: Ganze Seite
@@ -930,8 +935,8 @@ de:
      Q: 1/4 Seite
     
   magazine_issue:
-    p: Ausgaben
-    s: Ausgabe
+    one: Ausgabe
+    other: Ausgaben
     number: Nummer
     year: Jahr
     gen_advert_invoices: Inserenten-Rechnungen generieren
@@ -939,16 +944,16 @@ de:
     counts: Auflage
 
   magazine_sampling:
-    p: Bemusterungen
-    s: Bemusterung
+    one: Bemusterung
+    other: Bemusterungen
     count: Anzahl
     print_list: "Liste für Druck"
   board_contact:
-    s: Vorstandskontakt
-    p: Vorstandskontakte
+    one: Vorstandskontakt
+    other: Vorstandskontakte
   contact:
-    s: Adresse
-    p: Adressen
+    one: Adresse
+    other: Adressen
     office_phone: Telefon dienstl.
     company: Firma
     department: Abteilung
@@ -967,8 +972,8 @@ de:
     
     
   function:
-    p: Funktionen   
-    s: Funktion
+    one: Funktion
+    other: Funktionen   
     label: Eindeutiges Label
     bund: Bund
     jugend: Jugend
@@ -977,17 +982,17 @@ de:
     fkt_subtitle: Untertitel
     untertitel: Untertitel
   subscriber:
-    p: Abonnenten
-    s: Abonnent
+    other: Abonnenten
+    one: Abonnent
     account: Konto
     bic: "BLZ"
   url:
-    p: URLs
-    s: URL
+    one: URL
+    other: URLs
     confirm_delete: "URL wirklich löschen?"
   url_category:
-    p: URL Kategorien
-    s: URL Kategorie
+    one: URL Kategorie
+    other: URL Kategorien
   users:
     profile:
       title: "Benutzerprofil"
@@ -1020,16 +1025,16 @@ de:
         title: Titel
         duration: Dauer
         add_piece: "Stück hinzufügen"
-        s: "Gemeldetes Stück"
-        p: "Gemeldete Stücke"
+        one: "Gemeldetes Stück"
+        other: "Gemeldete Stücke"
       advertiser:
         customer_number: Kundennummer
       festival_mail: &festival_mail_labels
         reservation_invoice_success: "Rechnungslauf für Kartenreservierungen wurde gestartet."
         reservation_invoices: "Reservierungs-Rechnungen versenden"
         gen_invoices: "Teilnehmer Rechnungen versenden"
-        p: Festival-Rundmails
-        s: Festival-Rundmail
+        other: Festival-Rundmails
+        one: Festival-Rundmail
         event_id: Event ID
         group: Gruppe
         groups:
@@ -1044,13 +1049,11 @@ de:
         body: Mail-Inhalt
         datafile: Datei-Anhang
       festival_participant: &festival_participant_labels
-        p: Festival-Teilnehmer
-        s: Festival-Teilnehmer
+        other: Festival-Teilnehmer
+        one: Festival-Teilnehmer
       festival_application: &festival_app_labels
-        plural: "Festival-Bewerbungen"
-        singular: "Festival-Bewerbung"
-        p: "Festival-Bewerbungen"
-        s: "Festival-Bewerbung"
+        one: "Festival-Bewerbung"
+        other: "Festival-Bewerbungen"
         closed: "Eine Anmeldung ist nicht mehr möglich. Wir bitten um Ihr Verständnis."
         group_list: Gruppen-Liste
         soloist_tickets: Solisten-Tageskarten
@@ -1099,16 +1102,16 @@ de:
           O: "OpenAir Teilnehmer"
         rehearsal_time: "Einspiel-Beginn"
       festival_concert: &festival_concert_labels
-        p: Festival-Konzerte
-        s: Festival-Konzert
+        other: Festival-Konzerte
+        one: Festival-Konzert
         title: Titel
         location: Veranstaltungsort
         event_time: Veranstaltungszeit
         outdoor: "Open-Air Veranstaltung"
         programme: "Konzertprogramm"
       contact_person: &contact_person_labels
-        p: Kontakt-Personen
-        s: Kontakt-Person
+        other: Kontakt-Personen
+        one: Kontakt-Person
         salutation: Anrede
         first_name: Vorname
         last_name: Name

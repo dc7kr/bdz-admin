@@ -4,6 +4,14 @@ class CoursesController < AuthenticatedController
   before_filter :authenticate_user!, :except => [:index,:show,:public]
   load_and_authorize_resource :except => [:public]
 
+  def future
+    @courses = Course.future
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render :json => @courses }
+    end
+  end
+
   def inactive
 	@courses = Course.inactive
     respond_to do |format|
