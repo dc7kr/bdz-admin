@@ -4,7 +4,7 @@
   .content
     %h2.title
       = t("member.nopayment")
-      (#{t("orchestra.title")})
+      (#{t("orchestra",:count=>3)})
       - if @lastyear != nil 
         bis Ende GJ #{@lastyear}
     .inner
@@ -24,6 +24,7 @@
             %td=orchestra.orchName
             %td=mail_to orchestra.email, orchestra.email
             %td=format_currency(@accounts[orchestra.member_id],'€')
+            %td=orchestra.last_invoice
             %td=link_to_orchestra_acct orchestra, t("orchestra.member_account")
       .actions-bar.wat-cf
         .actions

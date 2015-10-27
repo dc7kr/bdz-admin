@@ -1,71 +1,38 @@
+= form_for @report_sheet , :url=> url_for(:action=>:submit4,:id=>@report_sheet_input), :html => { :class => "form form-horizontal" } do |f|
+  .panel.panel-default
+    .panel-heading
+      1. Mitglieder in Ausbildung
+    .panel-body
+      = form_my_field(f, @report_sheet,:azubi_child)
+      = form_my_field(f, @report_sheet,:azubi_teens)
+      = form_my_field(f, @report_sheet,:azubi_youth)
+      = form_my_field(f, @report_sheet,:azubi_adult)
+      = form_my_field(f, @report_sheet,:azubi_senior)
+  .panel.panel-default
+    .panel-heading
+      2. Anzahl der passiven Mitglieder (nicht beitragspflichtig)
+    .panel-body
+      = form_my_field(f, @report_sheet,:passive)
+      = form_my_field(f, @report_sheet,:supporters)
 
+    .panel.panel-default
+      .panel-heading
+        3. Anzahl der Ensembles / Orchester im Verein
+      .panel-body
+        = form_my_field(f, @report_sheet,:child_ens)
+        = form_my_field(f, @report_sheet,:youth_ens)
+        = form_my_field(f, @report_sheet,:adult_ens)
+        = form_my_field(f, @report_sheet,:senior_ens)
+        = form_my_field(f, @report_sheet,:other_ens)
 
-= form_for @report_sheet , :url=> url_for(:action=>:submit4,:id=>@report_sheet_input) do |f|
-  
-  %h3 1. Mitglieder in Ausbildung
-  %table
-    %tr
-      %td=t('report_sheet.azubi_child')
-      %td=f.text_field :azubi_child
-    %tr
-      %td=t('report_sheet.azubi_teens')
-      %td=f.text_field :azubi_teens
-    %tr
-      %td=t('report_sheet.azubi_youth')
-      %td=f.text_field :azubi_youth
-    %tr
-      %td=t('report_sheet.azubi_adult')
-      %td=f.text_field :azubi_adult
-    %tr
-      %td=t('report_sheet.azubi_senior')
-      %td=f.text_field :azubi_senior
-    %tr
-      %td{:colspan=>2}  
-        %h3 2. Anzahl der passiven Mitglieder (nicht beitragspflichtig)
-    %tr
-      %td=t('report_sheet.passive')
-      %td=f.text_field :passive
-    %tr
-      %td=t('report_sheet.supporters')
-      %td=f.text_field :supporters
-    %tr
-      %td{:colspan=>2} 
-        %h3 3. Anzahl der Ensembls / Orchester im Verein
-    %tr
-      %td=t('report_sheet.child_ens')
-      %td=f.text_field :child_ens
-    %tr
-      %td=t('report_sheet.youth_ens')
-      %td=f.text_field :youth_ens
-    %tr
-      %td=t('report_sheet.adult_ens')
-      %td=f.text_field :adult_ens
-    %tr
-      %td=t('report_sheet.senior_ens')
-      %td=f.text_field :senior_ens
-    %tr
-      %td=t('report_sheet.other_ens')
-      %td=f.text_field :other_ens
-
-    %tr
-      %td{:colspan=>2}
-        %h3 4. Instrumentierung
-    %tr
-      %td=t('report_sheet.zo')
-      %td=f.check_box(:zo)
-    %tr
-      %td=t('report_sheet.zi_o')
-      %td=f.check_box(:zi_o)
-    %tr
-      %td=t('report_sheet.go')
-      %td=f.check_box(:go)
-    %tr
-      %td
-        =t('report_sheet.oz')
-        %br
-        (z.B. Balalaika, Baglama, Bouzouki)
-      %td=f.check_box(:oz)
-  
+    .panel.panel-default
+      .panel-heading 4. Instrumentierung
+      .panel-body
+        = form_my_field(f, @report_sheet,:zo,:checkbox)
+        = form_my_field(f, @report_sheet,:zi_o,:checkbox)
+        = form_my_field(f, @report_sheet,:go,:checkbox)
+        = form_my_field(f, @report_sheet, :oz,:checkbox)
+    
   .group.navform.wat-cf
     = back_button( url_for(:action=>:step3, :id=>@report_sheet_input))
     = submit_button( t("common.save_and_continue"))

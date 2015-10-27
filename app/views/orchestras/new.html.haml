@@ -4,7 +4,7 @@
   .content
     %h2.title
       = t("common.new")
-      = t("orchestra.title")
+      = t("orchestra",:count=>3)
     .inner
       = form_for :orchestra, :url => orchestras_path, :html => { :class => "form-horizontal" } do |f|
         = render :partial => "form", :locals => {:f => f}

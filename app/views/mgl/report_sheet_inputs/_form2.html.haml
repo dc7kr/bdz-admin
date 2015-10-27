@@ -1,42 +1,27 @@
-%div.infobox
-  %span.title
+.panel.panel-info
+  .panel-heading
     Hinweis
-  %br
-  Die hier gemeldeten Vorstandsmitglieder werden nicht automatisch in der Beitragsberechnung als aktive Mitglieder berücksichtigt. Bitte melden Sie die aktiven Vorstandsmitglieder im nächsten Schritt erneut als aktive Mitglieder.
-  %br 
-= form_for @report_sheet_input, :url=> url_for(:action => :submit2, :id=> @report_sheet_input) do |f|
+  .panel-body
+    Die hier gemeldeten Vorstandsmitglieder werden nicht automatisch in der Beitragsberechnung als aktive Mitglieder berücksichtigt. Bitte melden Sie die aktiven Vorstandsmitglieder im nächsten Schritt erneut als aktive Mitglieder.
+= form_for @report_sheet_input, :url=> url_for(:action => :submit2, :id=> @report_sheet_input), :html => { :class => "form form-horizontal" } do |f|
   -OrchestraContact.roles.each_with_index do |role,i|
     - contact = @contact_hash[role]
     = f.fields_for 'contact['+i.to_s+']',contact do |cf|
-      %h3=t('orchestra_contact.role_'+role)
-      = cf.hidden_field(:id)
-      = cf.hidden_field(:role)
-      %table
-        %tr
-          %td= t('orchestra_contact.salutation')
-          %td=cf.select :salutation, get_salutation_options(contact.salutation)
-        %tr
-          %td= t('orchestra_contact.first_name')
-          %td=cf.text_field :first_name ,:size=>50
-        %tr
-          %td=t('orchestra_contact.last_name')
-          %td= cf.text_field :last_name ,:size=>50
-        %tr
-          %td=t('orchestra_contact.street')
-          %td=cf.text_field :street ,:size=>50
-        %tr
-          %td=t('orchestra_contact.zip')
-          %td=cf.text_field :zip ,:size=>50
-        %tr
-          %td=t('orchestra_contact.city')
-          %td=cf.text_field :city ,:size=>50
-        %tr
-          %td=t('orchestra_contact.email')
-          %td=cf.text_field :email ,:size=>50
-        %tr
-          %td=t('orchestra_contact.phone')
-          %td=cf.text_field :phone ,:size=>50
-  
+      .panel.panel-default
+        .panel-heading
+          =t('orchestra_contact.role_'+role)
+        .panel-body
+          = cf.hidden_field(:id)
+          = cf.hidden_field(:role)
+          = form_my_select(cf, contact,:salutation, get_salutation_options(contact.salutation))
+          = form_my_field(cf, contact,:first_name,:text,"input-sm")
+          = form_my_field(cf, contact,:last_name,:text,"input-sm")
+          = form_my_field(cf, contact,:street,:text,"input-sm")
+          = form_my_field(cf, contact,:zip,:text,"input-sm")
+          = form_my_field(cf, contact,:city,:text,"input-sm")
+          = form_my_field(cf, contact,:email,:text,"input-sm")
+          = form_my_field(cf, contact,:phone,:text,"input-sm")
+      
   .group.navform.wat-cf
     = back_button(url_for(:action=>:step1, :id=>@report_sheet_input))
     %button.button{:type => "submit"}

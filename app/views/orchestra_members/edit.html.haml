@@ -4,7 +4,7 @@
   .content
     %h2.title
       = t('common.edit')
-      = t('orchestra_member.title')
+      = t('orchestra_member',:count=>3)
     .inner
       = form_for @orchestra_member, :url => orchestra_orchestra_member_path(@orchestra_member.orchestra,@orchestra_member), :html => { :class => :form } do |f|
         = render :partial => "form", :locals => {:f => f}

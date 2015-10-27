@@ -611,15 +611,6 @@ de:
     total_active: Gesamt Aktiv
     total_youth: Gesamt Jugendlich
     total: Gesamtzahl
-    azubi_child: "Aktive bis 14 Jahre"
-    azubi_teens: "Aktive 15 – 18 Jahre"
-    azubi_youth: "Aktive 19 – 27 Jahre"
-    azubi_adult: "Aktive 28 – 60 Jahre"
-    azubi_senior: "Aktive ab 60 Jahren"
-    zo: Zupforchester
-    zi_o: Zitherorchester
-    go: Gitarrenorchester
-    oz: "Sonstige Zupfinstrumente"
     age_category:
       C: "Kinder bis 14"
       T: "Jugendliche 15-19"
@@ -723,7 +714,41 @@ de:
       current_password_hint: "(wird zum Bestätigen der Änderungen benötigt)"
       cancel_account: "Benutzeraccount löschen"
   activerecord: 
+    models:
+      report_sheet: Meldebogen
     attributes:
+      report_sheet:
+        azubi_child: "Aktive bis 14 Jahre"
+        azubi_teens: "Aktive 15 – 18 Jahre"
+        azubi_youth: "Aktive 19 – 27 Jahre"
+        azubi_adult: "Aktive 28 – 60 Jahre"
+        azubi_senior: "Aktive ab 60 Jahren"
+        zo: Zupforchester
+        zi_o: Zitherorchester
+        go: Gitarrenorchester
+        oz: "Sonstige Zupfinstrumente"
+        generated: Generiert
+        korr_ztg: Zeitungen Korrektur (+/-)
+        invoiced: Abgerechnet
+        children: Kinder
+        azubi: Beitragsfrei
+        uv: Unfallversicherung
+        teens: Jugendliche 15-18
+        youth: Erw. 19-27
+        adult: Erw. 28-64
+        senior: Erw. 65+ 
+        passive: Passiv
+        supporters: "Fördervereinmitglieder"
+        year: Jahr
+        gema: GEMA
+        report_date: Datum
+        child_ens: Kinderensembles
+        youth_ens: Jugendensembles
+        adult_ens: Erwachsenenensembles
+        senior_ens: Seniorenensembles
+        chamber_ens: Kammermusikensembles
+        other_ens: Sonstige Ensembles
+
       email:
         event_id: Event
         group: Zielgruppe

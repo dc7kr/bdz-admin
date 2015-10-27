@@ -6,30 +6,11 @@
       %h2
         = t("classified.s")
         = @classified.object
-      %table
-        %tr
-          %td.label #{t("classified.name")}:
-          %td=@classified.name
-        %tr
-          %td.label #{t("classified.email")}:
-          %td=@classified.email
-        %tr
-          %td.label #{t("classified.url")}:
-          %td=@classified.url
-        %tr
-          %td.label #{t("classified.object")}:
-          %td=@classified.object
-        %tr
-          %td.label #{t("classified.description")}:
-          %td=@classified.description
-        %tr
-          %td.label #{t("classified.validuntil")}:
-          %td=l @classified.validuntil
-        %tr
-          %td.label #{t("classified.entrydate")}:
-          %td=l @classified.entrydate
-        %tr
-          %td.label #{t("classified.visible")}:
-          %td=@classified.visible
-
-
+      = entity_row(@classified,:name)
+      = entity_row(@classified,:email)
+      = entity_row(@classified,:url,:url)
+      = entity_row(@classified,:object)
+      = entity_row(@classified,:description)
+      = entity_row(@classified,:entrydate,:date)
+      = entity_row(@classified,:validuntil,:date)
+      = entity_row(@classified,:visible,:boolean)

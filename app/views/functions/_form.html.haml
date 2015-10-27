@@ -1,4 +1,4 @@
-= form_for @function do |f|
+= form_for @function,:html=>{ :class => "form-horizontal" } do |f|
   -if @function.errors.any?
     #error_explanation
       %h2= "#{pluralize(@function.errors.count, "error")} prohibited this function from being saved:"

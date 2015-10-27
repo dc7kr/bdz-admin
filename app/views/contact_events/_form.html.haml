@@ -1,4 +1,4 @@
-= form_for @contact_event do |f|
+= form_for @contact_event,:html=>{ :class => "form-horizontal" } do |f|
   =form_my_field(f,@contact_event, :event_type)
   =form_my_field(f,@contact_event, :event_date)
   =form_my_field(f,@contact_event, :event_id)

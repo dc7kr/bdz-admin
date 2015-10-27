@@ -1,22 +1,18 @@
-= form_for @url do |f|
-  -if @url.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@url.errors.count, "error")} prohibited this url from being saved:"
-      %ul
-        - @url.errors.full_messages.each do |msg|
-          %li= msg
+= form_for @url,:html=>{ :class => "form-horizontal" } do |f|
+  = render :partial => "form_errors", :locals => { :entity => @url,:form => f }
 
-    = form_my_field(f,@url, :url_category)
-    = form_my_field(f,@url, :url)
-    = form_my_field(f,@url, :titel)
-    = form_my_field(f,@url, :descr)
-    = form_my_field(f,@url, :sprache)
-    = form_wrapped_field(f,@url, :country, country_select(:url, :country_code, nil, :iso_codes=>true))
-    = form_wrapped_field(f,@url, :bland, collection_select(:url, :bland, State.all, :id, :name) )
-    = form_my_field(f,@url, :email)
-    = form_my_field(f,@url, :lastchange)
-    = form_my_field(f,@url, :confirmed)
-    = form_my_field(f,@url, :ip)
+  = form_wrapped_field(f,@url, :url_category,collection_select(:url,:url_category, UrlCategory.order(:description),:id,:description))
+  = form_my_field(f,@url, :url)
+  = form_my_field(f,@url, :titel)
+  = form_my_field(f,@url, :descr)
+  = form_my_field(f,@url, :sprache)
+  = form_wrapped_field(f,@url, :country, country_select(:url, :country_code, { iso_codes:true }, { class:  "form-control"}))
+  = form_my_select(f,@url, :state, state_options_for_country(@url.country_code))
+  = form_my_field(f,@url, :email)
+  = form_my_field(f,@url, :lastchange)
+  = form_my_field(f,@url, :confirmed)
+  = form_my_field(f,@url, :ip)
+  = form_my_field(f,@url, :visible,:checkbox)
   .actions
     = submit_button
     = cancel_button

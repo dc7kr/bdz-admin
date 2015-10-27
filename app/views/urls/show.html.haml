@@ -1,34 +1,43 @@
-%p
-  %b Category:
-  = @url.url_category
-%p
-  %b Url:
-  = @url.url
-%p
-  %b Titel:
-  = @url.titel
-%p
-  %b Descr:
-  = @url.descr
-%p
-  %b Sprache:
-  = @url.sprache
-%p
-  %b Land:
-  = @url.country_code
-%p
-  %b Bland:
-  = @url.bland_id
-%p
-  %b Email:
-  = @url.email
-%p
-  %b Lastchange:
-  = @url.lastchange
-%p
-  %b Confirmed:
-  = @url.confirmed
-%p
-  %b Ip:
-  = @url.ip
+.block
+  .secondary-navigation
+    =render :partial=>'nav'
+  .content
+    %h2.title
+      = t("common.all")
+      URLs
+    .inner
+      .container-fluid
+        .row
+          .col-sm-3=label :url,:url_category
+          = @url.url_category
+        .row
+          .col-sm-3=label :url,:url
+          = @url.url
+        .row
+          .col-sm-3=label :url,:title
+          = @url.titel
+        .row
+          .col-sm-3=label :url,:descr
+          = @url.descr
+        .row
+          .col-sm-3=label :url,:sprache
+          = @url.sprache
+        .row
+          .col-sm-3=label :url,:country_code
+          = @url.country_code
+        .row
+          .col-sm-3=label :url,:state
+          = @url.state
+        .row
+          .col-sm-3=label :url,:email
+          = @url.email
+        .row
+          .col-sm-3=label :url,:lastchange
+          = @url.lastchange
+        .row
+          .col-sm-3=label :url,:confirmed
+          = @url.confirmed
+        .row
+          .col-sm-3=label :url,:ip
+          = @url.ip
 

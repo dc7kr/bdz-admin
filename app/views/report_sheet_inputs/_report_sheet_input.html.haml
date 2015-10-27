@@ -8,4 +8,4 @@
     %td NIL 
   %td=report_sheet_input.token
   %td=report_sheet_input.report_sheet.updated_at
-  %td=link_to t("report_sheet_input.s")+" "+report_sheet_input.report_sheet.year.to_s, metadata_report_sheet_input_path(report_sheet_input)
+  %td=link_to t("report_sheet_input",:count=>1)+" "+report_sheet_input.report_sheet.year.to_s, metadata_report_sheet_input_path(report_sheet_input)

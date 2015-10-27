@@ -1,9 +1,10 @@
-   %ul
-        - @tariff.errors.full_messages.each do |msg|
-          %li= msg
+=form_for @tariff do |f|
+  %ul
+    - @tariff.errors.full_messages.each do |msg|
+      %li= msg
 
   .container-fluid
-    = form_my_field(f,@report_sheet, :tariff_type)
+    = form_my_field(f,@tariff, :tariff_type)
     = form_my_field(f,@tariff, :description)
     = form_my_field(f,@tariff, :amount)
     .actions

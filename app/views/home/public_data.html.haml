@@ -3,33 +3,33 @@
     .link-group
       %h3 Admin Ansichten
       %ul.navigation
-        %li= link_to t("classified.p"), classifieds_path
-        %li= link_to t("concert.p"), concerts_path
-        %li= link_to t("festival.p"), festivals_path
-        %li= link_to t("ensemble.p"), ensembles_path
-        %li= link_to t("course.p"), courses_path
-        %li= link_to t("contest.p"), contests_path
-        %li= link_to t("university.p"), universities_path
-        %li= link_to t("honor_member.p"), honor_members_path
-        %li= link_to t("composer.p"), composers_path
-        %li= link_to t("url.p"), urls_path
-        %li= link_to t("url_category.p"), url_categories_path
-        %li= link_to t("board_contact.p"), board_contacts_path
-        %li= link_to t("function.p"), functions_path
+        %li= link_to t("classified",:count=>3), classifieds_path
+        %li= link_to t("concert",:count=>3), concerts_path
+        %li= link_to t("festival",:count=>3), festivals_path
+        %li= link_to t("ensemble",:count=>3), ensembles_path
+        %li= link_to t("course",:count=>3), courses_path
+        %li= link_to t("contest",:count=>3), contests_path
+        %li= link_to t("university",:count=>3), universities_path
+        %li= link_to t("honor_member",:count=>3), honor_members_path
+        %li= link_to t("composer",:count=>3), composers_path
+        %li= link_to t("url",:count=>3), urls_path
+        %li= link_to t("url_category",:count=>3), url_categories_path
+        %li= link_to t("board_contact",:count=>3), board_contacts_path
+        %li= link_to t("function",:count=>3), functions_path
     .link-group
       %h3 Öffentliche Ansichten
       %ul.navigation
-        %li= link_to t("classified.p"), public_classifieds_path
-        %li= link_to t("concert.p"), public_concerts_path
-        %li= link_to t("festival.p"), public_festivals_path
-        %li= link_to t("ensemble.p"), public_ensembles_path
-        %li= link_to t("course.p"), public_courses_path
-        %li= link_to t("contest.p"), public_contests_path
-        %li= link_to t("university.p"), public_universities_path
-        %li= link_to t("honor_member.p"), public_honor_members_path
-        %li= link_to t("composer.p"), public_composers_path
-        %li= link_to t("url.p"), public_urls_path
-        %li= link_to t("url_category.p"), public_url_categories_path
-        %li= link_to t("function.p"), public_functions_path
+        %li= link_to t("classified",:count=>3), public_classifieds_path
+        %li= link_to t("concert",:count=>3), public_concerts_path
+        %li= link_to t("festival",:count=>3), public_festivals_path
+        %li= link_to t("ensemble",:count=>3), public_ensembles_path
+        %li= link_to t("course",:count=>3), public_courses_path
+        %li= link_to t("contest",:count=>3), public_contests_path
+        %li= link_to t("university",:count=>3), public_universities_path
+        %li= link_to t("honor_member",:count=>3), public_honor_members_path
+        %li= link_to t("composer",:count=>3), public_composers_path
+        %li= link_to t("url",:count=>3), public_urls_path
+        %li= link_to t("url_category",:count=>3), public_url_categories_path
+        %li= link_to t("function",:count=>3), public_functions_path
 - content_for :sidebar, render(:partial => 'sidebar')
 

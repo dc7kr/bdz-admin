@@ -3,9 +3,8 @@
 .group
   .container-fluid
     = form_my_field(f,@person_member,:mglnr, :text, "number_field")
-    %tr
-      %td.label= f.label :anrede, t("member.salutation")
-      %td= f.select :anrede, get_salutation_options(@person_member.anrede)
+    = form_my_select(f,@person_member, :anrede, get_salutation_options(@person_member.anrede))
+    = form_my_field(f,@person_member,:title)
     = form_my_field(f,@person_member,:vorname)
     = form_my_field(f,@person_member,:name)
     = form_my_field(f,@person_member,:strasse)
@@ -17,7 +16,7 @@
     = form_my_field(f,@person_member,:email,:email)
     = form_my_field(f,@person_member,:geburtstag,:text,"datePicker")
     = form_my_field(f,@person_member,:telefonDienstl)
-    = form_my_field(f,@person_member,:eintritt,:text,"datePicker")
+    = form_my_field(f,@person_member,:eintritt,:date)
 
     = form_my_select(f,@person_member, :za, options_for_select([["Lastschrift", "L"], ["Rechnung", "R"]],:selected=>@person_member.za))
     = form_my_field(f,@person_member, :konto,:static)

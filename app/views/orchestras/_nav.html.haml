@@ -1,7 +1,7 @@
 %ul.nav.nav-tabs
   %li{ :role=>"presentation", :class => 'first'}= link_to_up_path t("common.up"), home_member_data_path
   %li{ :class => tabActiveClass(@current_action,'index','first')}= link_to t("common.list"), orchestras_path
-  %li{ :class => tabActiveClass(@current_action,'lorch','first')}= link_to t("orchestra.regional_orchestra.p"), lorch_orchestras_path
+  %li{ :class => tabActiveClass(@current_action,'lorch','first')}= link_to t("orchestra.regional_orchestra",:count=>3), lorch_orchestras_path
   
   -if (not @orchestra.nil?)
     -if can? :edit, @orchestra and not @orchestra.id.nil? 

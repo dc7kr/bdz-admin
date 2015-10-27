@@ -3,12 +3,17 @@
     %h2.title
       = t("report_sheet_input.login_title")
     .inner
-      =form_tag({:controller => "report_sheet_inputs", :action => "submit_login", :method => "post"}) do
-        %table
-          %tr
-            %td=t('member.mglnr')
-            %td=text_field_tag(:mglnr)
-          %tr
-            %td=t('report_sheet_input.token')
-            %td=password_field_tag(:token)
-        =submit_tag(t('report_sheet_input.login'))
+      .container-fluid
+        =form_tag({:controller => "report_sheet_inputs", :action => "submit_login", :method => "post"},{:class=>"form form-horizontal"}) do
+          .row
+            .col-md-2.col-sm-12
+              %label{:class=>"control-label col-md-2 col-sm-2"}=attr_heading Member, :mglnr
+            .col-md-6.col-sm-12=text_field_tag(:mglnr,"",:class=>"form-control")
+          .row
+            .col-md-2.col-sm-12
+              %label{:class=>"control-label col-md-2 col-sm-2"}=attr_heading ReportSheetInput, :token
+            .col-md-6.col-sm-12=password_field_tag(:token,"",:class=>"form-control")
+          .row
+            .col-md-2
+            .col-md-5.col-sm-12
+              =submit_button(t('report_sheet_input.login'))

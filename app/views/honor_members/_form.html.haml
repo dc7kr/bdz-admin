@@ -1,4 +1,4 @@
-= form_for @honor_member do |f|
+= form_for @honor_member,:html=>{ :class => "form-horizontal" } do |f|
   -if @honor_member.errors.any?
     #error_explanation
       %h2= "#{pluralize(@honor_member.errors.count, "error")} prohibited this honor_member from being saved:"

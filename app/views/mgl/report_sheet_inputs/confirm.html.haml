@@ -2,6 +2,10 @@
   .content
     %h2.title Meldebogen #{@rs.year} - #{@rsi.orchestra.orchName} (#{@rsi.orchestra.mglnr}) 
     .inner
-      %h3 Vielen Dank!
-      %p Der Meldebogen wurde in das System eingestellt. Die Beitragsrechnung erhalten Sie, sobald die Eingaben verarbeitet worden sind.
-      = link_to "PDF Version für Ihre Unterlagen.", url_for(:action=> :confirm, :id=>@rsi,:format=>"pdf")
+      = render :partial => "progress", :locals => { max: 100, value:90 }
+      .panel.panel-success
+        .panel-heading
+          Vielen Dank!
+        .panel-body
+          Der Meldebogen wurde in das System eingestellt. Die Beitragsrechnung erhalten Sie, sobald die Eingaben verarbeitet worden sind.
+          = link_to "PDF Version für Ihre Unterlagen.", url_for(:action=> :confirm, :id=>@rsi,:format=>"pdf")

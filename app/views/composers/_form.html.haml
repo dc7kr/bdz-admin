@@ -1,4 +1,4 @@
-= form_for @composer do |f|
+= form_for @composer,:html=>{ :class => "form-horizontal" } do |f|
   -if @composer.errors.any?
     #error_explanation
       %h2= "#{pluralize(@composer.errors.count, "error")} prohibited this composer from being saved:"
