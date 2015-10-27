@@ -424,6 +424,7 @@ BDZAdmin::Application.routes.draw do
     end
     collection do 
       get :inactive
+      get :future
     end
     end
 
