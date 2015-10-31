@@ -4,7 +4,7 @@
   .content
     %h2.title
       = t("common.new")
-      = t("distinction.s")  
+      = t("distinction",:count=>1)
     .inner
       %h3= @orchestra.orchName
       = form_for ([@orchestra,@distinction]) do |f|
