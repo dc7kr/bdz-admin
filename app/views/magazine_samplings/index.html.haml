@@ -4,17 +4,17 @@
   .content
     %h2.title
       = t("common.all")
-      = t("magazine_sampling.p")
+      = t("magazine_sampling",:count=>3)
     .inner
       #entry_info
         = page_entries_info @magazine_samplings
       %table.table.table-hover.table-condensed
         %thead
-          %th.first{:style=>"width: 30%"}=attr_heading(Concact,:company)
+          %th.first{:style=>"width: 30%"}=attr_heading(Contact,:company)
           %th.first=attr_heading(Contact,:first_name)
           %th.first=attr_heading(Contact,:last_name)
           %th.first=attr_heading(Contact,:city)
-          %h=attr_heading(MagazineSampling,:count)
+          %th=attr_heading(MagazineSampling,:count)
           %th.last
         %tbody#magazine_samplings
           = render @magazine_samplings

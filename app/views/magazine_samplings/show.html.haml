@@ -4,13 +4,11 @@
   .content
     .inner
       %h2.title
-        =t("magazine_sampling.s")
+        =t("magazine_sampling",:count=>1)
         =@magazine_sampling.company
       %table
         = render @magazine_sampling.contact,:partial=>"contact"
-        %tr
-          %td.label #{t("magazine_sampling.count")}:
-          %td= @magazine_sampling.count
+        = entity_row(@magazine_sampling,:count)
       .wat-cf
         = edit_button(edit_magazine_sampling_path(@magazine_sampling),@magazine_sampling)
         = del_button(magazine_sampling_path(@magazine_sampling),@magazine_sampling)
