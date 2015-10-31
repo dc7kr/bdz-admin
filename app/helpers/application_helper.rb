@@ -397,6 +397,8 @@ JS1
         input = form.text_field field, :class =>  css_class
       elsif type == :number
         input = form.number_field field, :class =>  css_class
+      elsif type == :currency
+        input = form.number_field field, :class =>  css_class,:step=>0.01
       elsif type == :password
         input = form.password_field field, :class =>  css_class
       elsif type == :url
