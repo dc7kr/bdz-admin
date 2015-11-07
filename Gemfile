@@ -41,7 +41,9 @@ gem 'jquery-fileupload-rails'
 
 # 0.3.1 seems to be broken
 # 0.3.2 works fine :)
-gem "rodf", "~> 0.3"
+# 0.3.5 works fine :)
+# 0.3.6 has encoding issues!
+gem "rodf", "= 0.3.5"
 #gem "rodf", '= 0.3'
 
 #gem 'roo', :git => 'git://github.com/dc7kr/roo.git'
