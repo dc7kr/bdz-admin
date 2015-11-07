@@ -4,5 +4,5 @@
   %li= link_to t('magazine_advert',:count=>3), magazine_adverts_path 
   %li= link_to t('magazine_sampling',:count=>3), magazine_samplings_path 
   %li{ :role=>"separator", :class=>"divider" }
-  %li= link_to "Adressliste Orchester", "/orchestras/magazine.csv"
-  %li= link_to "Adressliste EM", "/person_members/magazine.csv"
+  %li= link_to "Adressliste Orchester", magazine_orchestras_path
+  %li= link_to "Adressliste EM", magazine_person_members_path

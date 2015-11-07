@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140916110902) do
+ActiveRecord::Schema.define(:version => 20151008070550) do
 
   create_table "Inserenten", :id => false, :force => true do |t|
     t.string  "Firmenname",    :limit => 35
@@ -128,15 +128,15 @@ ActiveRecord::Schema.define(:version => 20140916110902) do
   add_index "concertino_inhalt", ["category"], :name => "category"
 
   create_table "concerts", :force => true do |t|
-    t.date     "datum",                                                                                        :null => false
-    t.time     "zeit",                                                      :default => '2000-01-01 00:00:00', :null => false
+    t.date     "datum"
+    t.time     "zeit",                                                      :default => '2000-01-01 00:00:00'
     t.decimal  "eintritt",                   :precision => 10, :scale => 0,                                    :null => false
     t.datetime "reported",                                                                                     :null => false
     t.datetime "confirmed"
     t.string   "token",        :limit => 32,                                                                   :null => false
     t.string   "stadt",                                                                                        :null => false
     t.text     "titel",                                                                                        :null => false
-    t.string   "ort",                                                                                          :null => false
+    t.string   "ort"
     t.integer  "festival_id",  :limit => 8,                                 :default => 0,                     :null => false
     t.string   "interpret",                                                                                    :null => false
     t.string   "url",                                                                                          :null => false
@@ -151,6 +151,7 @@ ActiveRecord::Schema.define(:version => 20140916110902) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "country_code", :limit => 2
+    t.datetime "concert_date"
   end
 
   add_index "concerts", ["bland"], :name => "bland"
@@ -249,6 +250,14 @@ ActiveRecord::Schema.define(:version => 20140916110902) do
     t.string "label",                            :default => "0", :null => false
   end
 
+  create_table "d7_advanced_help_index", :primary_key => "sid", :force => true do |t|
+    t.string "module",                 :default => "", :null => false
+    t.string "topic",                  :default => "", :null => false
+    t.string "language", :limit => 12, :default => "", :null => false
+  end
+
+  add_index "d7_advanced_help_index", ["language"], :name => "language"
+
   create_table "d7_authmap", :primary_key => "aid", :force => true do |t|
     t.integer "uid",                     :default => 0,  :null => false
     t.string  "authname", :limit => 128, :default => "", :null => false
@@ -275,7 +284,7 @@ ActiveRecord::Schema.define(:version => 20140916110902) do
     t.integer "custom",     :limit => 1,  :default => 0,   :null => false
     t.integer "visibility", :limit => 1,  :default => 0,   :null => false
     t.text    "pages",                                     :null => false
-    t.string  "title",      :limit => 64, :default => "",  :null => false
+    t.string  "title",                    :default => "",  :null => false
     t.integer "cache",      :limit => 1,  :default => 1,   :null => false
     t.integer "i18n_mode",                :default => 0,   :null => false
   end
@@ -376,6 +385,15 @@ ActiveRecord::Schema.define(:version => 20140916110902) do
 
   add_index "d7_cache_image", ["expire"], :name => "expire"
 
+  create_table "d7_cache_libraries", :primary_key => "cid", :force => true do |t|
+    t.binary  "data",       :limit => 2147483647
+    t.integer "expire",                           :default => 0, :null => false
+    t.integer "created",                          :default => 0, :null => false
+    t.integer "serialized", :limit => 2,          :default => 0, :null => false
+  end
+
+  add_index "d7_cache_libraries", ["expire"], :name => "expire"
+
   create_table "d7_cache_menu", :primary_key => "cid", :force => true do |t|
     t.binary  "data",       :limit => 2147483647
     t.integer "expire",                           :default => 0, :null => false
@@ -403,6 +421,15 @@ ActiveRecord::Schema.define(:version => 20140916110902) do
 
   add_index "d7_cache_path", ["expire"], :name => "expire"
 
+  create_table "d7_cache_token", :primary_key => "cid", :force => true do |t|
+    t.binary  "data",       :limit => 2147483647
+    t.integer "expire",                           :default => 0, :null => false
+    t.integer "created",                          :default => 0, :null => false
+    t.integer "serialized", :limit => 2,          :default => 0, :null => false
+  end
+
+  add_index "d7_cache_token", ["expire"], :name => "expire"
+
   create_table "d7_cache_update", :primary_key => "cid", :force => true do |t|
     t.binary  "data",       :limit => 2147483647
     t.integer "expire",                           :default => 0, :null => false
@@ -420,6 +447,24 @@ ActiveRecord::Schema.define(:version => 20140916110902) do
   end
 
   add_index "d7_cache_variable", ["expire"], :name => "expire"
+
+  create_table "d7_cache_views", :primary_key => "cid", :force => true do |t|
+    t.binary  "data",       :limit => 2147483647
+    t.integer "expire",                           :default => 0, :null => false
+    t.integer "created",                          :default => 0, :null => false
+    t.integer "serialized", :limit => 2,          :default => 0, :null => false
+  end
+
+  add_index "d7_cache_views", ["expire"], :name => "expire"
+
+  create_table "d7_cache_views_data", :primary_key => "cid", :force => true do |t|
+    t.binary  "data",       :limit => 2147483647
+    t.integer "expire",                           :default => 0, :null => false
+    t.integer "created",                          :default => 0, :null => false
+    t.integer "serialized", :limit => 2,          :default => 1, :null => false
+  end
+
+  add_index "d7_cache_views_data", ["expire"], :name => "expire"
 
   create_table "d7_ckeditor_input_format", :id => false, :force => true do |t|
     t.string "name",   :limit => 128, :default => "", :null => false
@@ -463,6 +508,16 @@ ActiveRecord::Schema.define(:version => 20140916110902) do
   add_index "d7_contact", ["category"], :name => "category", :unique => true
   add_index "d7_contact", ["weight", "category"], :name => "list"
 
+  create_table "d7_css_injector_rule", :primary_key => "crid", :force => true do |t|
+    t.string  "title",                          :null => false
+    t.integer "rule_type",       :default => 0, :null => false
+    t.text    "rule_conditions",                :null => false
+    t.string  "media",                          :null => false
+    t.integer "preprocess",      :default => 0, :null => false
+    t.integer "enabled",         :default => 1, :null => false
+    t.text    "rule_themes"
+  end
+
   create_table "d7_ctools_css_cache", :primary_key => "cid", :force => true do |t|
     t.string  "filename"
     t.text    "css",      :limit => 2147483647
@@ -472,12 +527,18 @@ ActiveRecord::Schema.define(:version => 20140916110902) do
   create_table "d7_ctools_object_cache", :id => false, :force => true do |t|
     t.string  "sid",     :limit => 64,                        :null => false
     t.string  "name",    :limit => 128,                       :null => false
-    t.string  "obj",     :limit => 32,                        :null => false
+    t.string  "obj",     :limit => 128,                       :null => false
     t.integer "updated",                       :default => 0, :null => false
     t.binary  "data",    :limit => 2147483647
   end
 
   add_index "d7_ctools_object_cache", ["updated"], :name => "updated"
+
+  create_table "d7_data_tables", :primary_key => "name", :force => true do |t|
+    t.string "title",        :default => "", :null => false
+    t.text   "table_schema"
+    t.text   "meta"
+  end
 
   create_table "d7_date_format_locale", :id => false, :force => true do |t|
     t.string "format",   :limit => 100, :null => false
@@ -586,6 +647,48 @@ ActiveRecord::Schema.define(:version => 20140916110902) do
   add_index "d7_field_data_comment_body", ["language"], :name => "language"
   add_index "d7_field_data_comment_body", ["revision_id"], :name => "revision_id"
 
+  create_table "d7_field_data_field_attachment", :id => false, :force => true do |t|
+    t.string  "entity_type",                  :limit => 128, :default => "", :null => false
+    t.string  "bundle",                       :limit => 128, :default => "", :null => false
+    t.integer "deleted",                      :limit => 1,   :default => 0,  :null => false
+    t.integer "entity_id",                                                   :null => false
+    t.integer "revision_id"
+    t.string  "language",                     :limit => 32,  :default => "", :null => false
+    t.integer "delta",                                                       :null => false
+    t.integer "field_attachment_fid"
+    t.integer "field_attachment_display",     :limit => 1,   :default => 1,  :null => false
+    t.text    "field_attachment_description"
+  end
+
+  add_index "d7_field_data_field_attachment", ["bundle"], :name => "bundle"
+  add_index "d7_field_data_field_attachment", ["deleted"], :name => "deleted"
+  add_index "d7_field_data_field_attachment", ["entity_id"], :name => "entity_id"
+  add_index "d7_field_data_field_attachment", ["entity_type"], :name => "entity_type"
+  add_index "d7_field_data_field_attachment", ["field_attachment_fid"], :name => "field_attachment_fid"
+  add_index "d7_field_data_field_attachment", ["language"], :name => "language"
+  add_index "d7_field_data_field_attachment", ["revision_id"], :name => "revision_id"
+
+  create_table "d7_field_data_field_dateianhang", :id => false, :force => true do |t|
+    t.string  "entity_type",                   :limit => 128, :default => "", :null => false
+    t.string  "bundle",                        :limit => 128, :default => "", :null => false
+    t.integer "deleted",                       :limit => 1,   :default => 0,  :null => false
+    t.integer "entity_id",                                                    :null => false
+    t.integer "revision_id"
+    t.string  "language",                      :limit => 32,  :default => "", :null => false
+    t.integer "delta",                                                        :null => false
+    t.integer "field_dateianhang_fid"
+    t.integer "field_dateianhang_display",     :limit => 1,   :default => 1,  :null => false
+    t.text    "field_dateianhang_description"
+  end
+
+  add_index "d7_field_data_field_dateianhang", ["bundle"], :name => "bundle"
+  add_index "d7_field_data_field_dateianhang", ["deleted"], :name => "deleted"
+  add_index "d7_field_data_field_dateianhang", ["entity_id"], :name => "entity_id"
+  add_index "d7_field_data_field_dateianhang", ["entity_type"], :name => "entity_type"
+  add_index "d7_field_data_field_dateianhang", ["field_dateianhang_fid"], :name => "field_dateianhang_fid"
+  add_index "d7_field_data_field_dateianhang", ["language"], :name => "language"
+  add_index "d7_field_data_field_dateianhang", ["revision_id"], :name => "revision_id"
+
   create_table "d7_field_data_field_email", :id => false, :force => true do |t|
     t.string  "entity_type",       :limit => 128, :default => "", :null => false
     t.string  "bundle",            :limit => 128, :default => "", :null => false
@@ -603,6 +706,25 @@ ActiveRecord::Schema.define(:version => 20140916110902) do
   add_index "d7_field_data_field_email", ["entity_type"], :name => "entity_type"
   add_index "d7_field_data_field_email", ["language"], :name => "language"
   add_index "d7_field_data_field_email", ["revision_id"], :name => "revision_id"
+
+  create_table "d7_field_data_field_farbschema", :id => false, :force => true do |t|
+    t.string  "entity_type",            :limit => 128, :default => "", :null => false
+    t.string  "bundle",                 :limit => 128, :default => "", :null => false
+    t.integer "deleted",                :limit => 1,   :default => 0,  :null => false
+    t.integer "entity_id",                                             :null => false
+    t.integer "revision_id"
+    t.string  "language",               :limit => 32,  :default => "", :null => false
+    t.integer "delta",                                                 :null => false
+    t.string  "field_farbschema_value"
+  end
+
+  add_index "d7_field_data_field_farbschema", ["bundle"], :name => "bundle"
+  add_index "d7_field_data_field_farbschema", ["deleted"], :name => "deleted"
+  add_index "d7_field_data_field_farbschema", ["entity_id"], :name => "entity_id"
+  add_index "d7_field_data_field_farbschema", ["entity_type"], :name => "entity_type"
+  add_index "d7_field_data_field_farbschema", ["field_farbschema_value"], :name => "field_farbschema_value"
+  add_index "d7_field_data_field_farbschema", ["language"], :name => "language"
+  add_index "d7_field_data_field_farbschema", ["revision_id"], :name => "revision_id"
 
   create_table "d7_field_data_field_image", :id => false, :force => true do |t|
     t.string  "entity_type",        :limit => 128,  :default => "", :null => false
@@ -645,6 +767,33 @@ ActiveRecord::Schema.define(:version => 20140916110902) do
   add_index "d7_field_data_field_tags", ["field_tags_tid"], :name => "field_tags_tid"
   add_index "d7_field_data_field_tags", ["language"], :name => "language"
   add_index "d7_field_data_field_tags", ["revision_id"], :name => "revision_id"
+
+  create_table "d7_field_data_field_zielseite", :id => false, :force => true do |t|
+    t.string  "entity_type",                  :limit => 128,  :default => "",     :null => false
+    t.string  "bundle",                       :limit => 128,  :default => "",     :null => false
+    t.integer "deleted",                      :limit => 1,    :default => 0,      :null => false
+    t.integer "entity_id",                                                        :null => false
+    t.integer "revision_id"
+    t.string  "language",                     :limit => 32,   :default => "",     :null => false
+    t.integer "delta",                                                            :null => false
+    t.string  "field_zielseite_url",          :limit => 1024
+    t.string  "field_zielseite_title"
+    t.string  "field_zielseite_class"
+    t.string  "field_zielseite_width",        :limit => 4
+    t.string  "field_zielseite_height",       :limit => 4
+    t.integer "field_zielseite_frameborder",  :limit => 1,    :default => 0,      :null => false
+    t.string  "field_zielseite_scrolling",    :limit => 4,    :default => "auto", :null => false
+    t.integer "field_zielseite_transparency", :limit => 1,    :default => 0,      :null => false
+    t.integer "field_zielseite_tokensupport", :limit => 1,    :default => 0,      :null => false
+  end
+
+  add_index "d7_field_data_field_zielseite", ["bundle"], :name => "bundle"
+  add_index "d7_field_data_field_zielseite", ["deleted"], :name => "deleted"
+  add_index "d7_field_data_field_zielseite", ["entity_id"], :name => "entity_id"
+  add_index "d7_field_data_field_zielseite", ["entity_type"], :name => "entity_type"
+  add_index "d7_field_data_field_zielseite", ["field_zielseite_url"], :name => "field_zielseite_url", :length => {"field_zielseite_url"=>255}
+  add_index "d7_field_data_field_zielseite", ["language"], :name => "language"
+  add_index "d7_field_data_field_zielseite", ["revision_id"], :name => "revision_id"
 
   create_table "d7_field_data_taxonomy_forums", :id => false, :force => true do |t|
     t.string  "entity_type",         :limit => 128, :default => "", :null => false
@@ -706,6 +855,48 @@ ActiveRecord::Schema.define(:version => 20140916110902) do
   add_index "d7_field_revision_comment_body", ["language"], :name => "language"
   add_index "d7_field_revision_comment_body", ["revision_id"], :name => "revision_id"
 
+  create_table "d7_field_revision_field_attachment", :id => false, :force => true do |t|
+    t.string  "entity_type",                  :limit => 128, :default => "", :null => false
+    t.string  "bundle",                       :limit => 128, :default => "", :null => false
+    t.integer "deleted",                      :limit => 1,   :default => 0,  :null => false
+    t.integer "entity_id",                                                   :null => false
+    t.integer "revision_id",                                                 :null => false
+    t.string  "language",                     :limit => 32,  :default => "", :null => false
+    t.integer "delta",                                                       :null => false
+    t.integer "field_attachment_fid"
+    t.integer "field_attachment_display",     :limit => 1,   :default => 1,  :null => false
+    t.text    "field_attachment_description"
+  end
+
+  add_index "d7_field_revision_field_attachment", ["bundle"], :name => "bundle"
+  add_index "d7_field_revision_field_attachment", ["deleted"], :name => "deleted"
+  add_index "d7_field_revision_field_attachment", ["entity_id"], :name => "entity_id"
+  add_index "d7_field_revision_field_attachment", ["entity_type"], :name => "entity_type"
+  add_index "d7_field_revision_field_attachment", ["field_attachment_fid"], :name => "field_attachment_fid"
+  add_index "d7_field_revision_field_attachment", ["language"], :name => "language"
+  add_index "d7_field_revision_field_attachment", ["revision_id"], :name => "revision_id"
+
+  create_table "d7_field_revision_field_dateianhang", :id => false, :force => true do |t|
+    t.string  "entity_type",                   :limit => 128, :default => "", :null => false
+    t.string  "bundle",                        :limit => 128, :default => "", :null => false
+    t.integer "deleted",                       :limit => 1,   :default => 0,  :null => false
+    t.integer "entity_id",                                                    :null => false
+    t.integer "revision_id",                                                  :null => false
+    t.string  "language",                      :limit => 32,  :default => "", :null => false
+    t.integer "delta",                                                        :null => false
+    t.integer "field_dateianhang_fid"
+    t.integer "field_dateianhang_display",     :limit => 1,   :default => 1,  :null => false
+    t.text    "field_dateianhang_description"
+  end
+
+  add_index "d7_field_revision_field_dateianhang", ["bundle"], :name => "bundle"
+  add_index "d7_field_revision_field_dateianhang", ["deleted"], :name => "deleted"
+  add_index "d7_field_revision_field_dateianhang", ["entity_id"], :name => "entity_id"
+  add_index "d7_field_revision_field_dateianhang", ["entity_type"], :name => "entity_type"
+  add_index "d7_field_revision_field_dateianhang", ["field_dateianhang_fid"], :name => "field_dateianhang_fid"
+  add_index "d7_field_revision_field_dateianhang", ["language"], :name => "language"
+  add_index "d7_field_revision_field_dateianhang", ["revision_id"], :name => "revision_id"
+
   create_table "d7_field_revision_field_email", :id => false, :force => true do |t|
     t.string  "entity_type",       :limit => 128, :default => "", :null => false
     t.string  "bundle",            :limit => 128, :default => "", :null => false
@@ -723,6 +914,25 @@ ActiveRecord::Schema.define(:version => 20140916110902) do
   add_index "d7_field_revision_field_email", ["entity_type"], :name => "entity_type"
   add_index "d7_field_revision_field_email", ["language"], :name => "language"
   add_index "d7_field_revision_field_email", ["revision_id"], :name => "revision_id"
+
+  create_table "d7_field_revision_field_farbschema", :id => false, :force => true do |t|
+    t.string  "entity_type",            :limit => 128, :default => "", :null => false
+    t.string  "bundle",                 :limit => 128, :default => "", :null => false
+    t.integer "deleted",                :limit => 1,   :default => 0,  :null => false
+    t.integer "entity_id",                                             :null => false
+    t.integer "revision_id",                                           :null => false
+    t.string  "language",               :limit => 32,  :default => "", :null => false
+    t.integer "delta",                                                 :null => false
+    t.string  "field_farbschema_value"
+  end
+
+  add_index "d7_field_revision_field_farbschema", ["bundle"], :name => "bundle"
+  add_index "d7_field_revision_field_farbschema", ["deleted"], :name => "deleted"
+  add_index "d7_field_revision_field_farbschema", ["entity_id"], :name => "entity_id"
+  add_index "d7_field_revision_field_farbschema", ["entity_type"], :name => "entity_type"
+  add_index "d7_field_revision_field_farbschema", ["field_farbschema_value"], :name => "field_farbschema_value"
+  add_index "d7_field_revision_field_farbschema", ["language"], :name => "language"
+  add_index "d7_field_revision_field_farbschema", ["revision_id"], :name => "revision_id"
 
   create_table "d7_field_revision_field_image", :id => false, :force => true do |t|
     t.string  "entity_type",        :limit => 128,  :default => "", :null => false
@@ -766,6 +976,33 @@ ActiveRecord::Schema.define(:version => 20140916110902) do
   add_index "d7_field_revision_field_tags", ["language"], :name => "language"
   add_index "d7_field_revision_field_tags", ["revision_id"], :name => "revision_id"
 
+  create_table "d7_field_revision_field_zielseite", :id => false, :force => true do |t|
+    t.string  "entity_type",                  :limit => 128,  :default => "",     :null => false
+    t.string  "bundle",                       :limit => 128,  :default => "",     :null => false
+    t.integer "deleted",                      :limit => 1,    :default => 0,      :null => false
+    t.integer "entity_id",                                                        :null => false
+    t.integer "revision_id",                                                      :null => false
+    t.string  "language",                     :limit => 32,   :default => "",     :null => false
+    t.integer "delta",                                                            :null => false
+    t.string  "field_zielseite_url",          :limit => 1024
+    t.string  "field_zielseite_title"
+    t.string  "field_zielseite_class"
+    t.string  "field_zielseite_width",        :limit => 4
+    t.string  "field_zielseite_height",       :limit => 4
+    t.integer "field_zielseite_frameborder",  :limit => 1,    :default => 0,      :null => false
+    t.string  "field_zielseite_scrolling",    :limit => 4,    :default => "auto", :null => false
+    t.integer "field_zielseite_transparency", :limit => 1,    :default => 0,      :null => false
+    t.integer "field_zielseite_tokensupport", :limit => 1,    :default => 0,      :null => false
+  end
+
+  add_index "d7_field_revision_field_zielseite", ["bundle"], :name => "bundle"
+  add_index "d7_field_revision_field_zielseite", ["deleted"], :name => "deleted"
+  add_index "d7_field_revision_field_zielseite", ["entity_id"], :name => "entity_id"
+  add_index "d7_field_revision_field_zielseite", ["entity_type"], :name => "entity_type"
+  add_index "d7_field_revision_field_zielseite", ["field_zielseite_url"], :name => "field_zielseite_url", :length => {"field_zielseite_url"=>255}
+  add_index "d7_field_revision_field_zielseite", ["language"], :name => "language"
+  add_index "d7_field_revision_field_zielseite", ["revision_id"], :name => "revision_id"
+
   create_table "d7_field_revision_taxonomy_forums", :id => false, :force => true do |t|
     t.string  "entity_type",         :limit => 128, :default => "", :null => false
     t.string  "bundle",              :limit => 128, :default => "", :null => false
@@ -790,7 +1027,7 @@ ActiveRecord::Schema.define(:version => 20140916110902) do
     t.string  "filename",               :default => "", :null => false
     t.string  "uri",                    :default => "", :null => false
     t.string  "filemime",               :default => "", :null => false
-    t.integer "filesize",               :default => 0,  :null => false
+    t.integer "filesize",  :limit => 8, :default => 0,  :null => false
     t.integer "status",    :limit => 1, :default => 0,  :null => false
     t.integer "timestamp",              :default => 0,  :null => false
   end
@@ -926,7 +1163,8 @@ ActiveRecord::Schema.define(:version => 20140916110902) do
   add_index "d7_image_effects", ["weight"], :name => "weight"
 
   create_table "d7_image_styles", :primary_key => "isid", :force => true do |t|
-    t.string "name", :null => false
+    t.string "name",                  :null => false
+    t.string "label", :default => "", :null => false
   end
 
   add_index "d7_image_styles", ["name"], :name => "name", :unique => true
@@ -955,6 +1193,7 @@ ActiveRecord::Schema.define(:version => 20140916110902) do
   end
 
   add_index "d7_locales_source", ["source", "context"], :name => "source_context", :length => {"source"=>30, "context"=>nil}
+  add_index "d7_locales_source", ["textgroup", "context"], :name => "textgroup_context"
 
   create_table "d7_locales_target", :id => false, :force => true do |t|
     t.integer "lid",                       :default => 0,  :null => false
@@ -1057,6 +1296,7 @@ ActiveRecord::Schema.define(:version => 20140916110902) do
 
   add_index "d7_node", ["changed"], :name => "node_changed"
   add_index "d7_node", ["created"], :name => "node_created"
+  add_index "d7_node", ["language"], :name => "language"
   add_index "d7_node", ["promote", "status", "sticky", "created"], :name => "node_frontpage"
   add_index "d7_node", ["status", "type", "nid"], :name => "node_status_type"
   add_index "d7_node", ["title", "type"], :name => "node_title_type", :length => {"title"=>nil, "type"=>4}
@@ -1227,6 +1467,12 @@ ActiveRecord::Schema.define(:version => 20140916110902) do
 
   add_index "d7_shortcut_set_users", ["set_name"], :name => "set_name"
 
+  create_table "d7_spamicide", :primary_key => "form_id", :force => true do |t|
+    t.string  "form_field", :limit => 64, :default => "feed_me", :null => false
+    t.integer "enabled",    :limit => 1,  :default => 0,         :null => false
+    t.integer "removable",  :limit => 1,  :default => 1,         :null => false
+  end
+
   create_table "d7_system", :primary_key => "filename", :force => true do |t|
     t.string  "name",                         :default => "", :null => false
     t.string  "type",           :limit => 12, :default => "", :null => false
@@ -1282,6 +1528,21 @@ ActiveRecord::Schema.define(:version => 20140916110902) do
   add_index "d7_taxonomy_vocabulary", ["machine_name"], :name => "machine_name", :unique => true
   add_index "d7_taxonomy_vocabulary", ["weight", "name"], :name => "list"
 
+  create_table "d7_themekey_properties", :force => true do |t|
+    t.string  "property",                        :default => "",  :null => false
+    t.string  "operator",  :limit => 2,          :default => "=", :null => false
+    t.string  "value",                           :default => "",  :null => false
+    t.integer "weight",                          :default => 0,   :null => false
+    t.string  "theme",                           :default => "",  :null => false
+    t.integer "enabled",                         :default => 0,   :null => false
+    t.text    "wildcards", :limit => 2147483647,                  :null => false
+    t.integer "parent",                          :default => 0,   :null => false
+    t.string  "module",                          :default => "",  :null => false
+  end
+
+  add_index "d7_themekey_properties", ["enabled", "parent", "weight"], :name => "enabled_parent_weight"
+  add_index "d7_themekey_properties", ["parent", "weight"], :name => "parent_weight"
+
   create_table "d7_url_alias", :primary_key => "pid", :force => true do |t|
     t.string "source",                 :default => "", :null => false
     t.string "alias",                  :default => "", :null => false
@@ -1326,6 +1587,28 @@ ActiveRecord::Schema.define(:version => 20140916110902) do
     t.binary "value", :limit => 2147483647, :null => false
   end
 
+  create_table "d7_views_display", :id => false, :force => true do |t|
+    t.integer "vid",                                   :default => 0,  :null => false
+    t.string  "id",              :limit => 64,         :default => "", :null => false
+    t.string  "display_title",   :limit => 64,         :default => "", :null => false
+    t.string  "display_plugin",  :limit => 64,         :default => "", :null => false
+    t.integer "position",                              :default => 0
+    t.text    "display_options", :limit => 2147483647
+  end
+
+  add_index "d7_views_display", ["vid", "position"], :name => "vid"
+
+  create_table "d7_views_view", :primary_key => "vid", :force => true do |t|
+    t.string  "name",        :limit => 128, :default => "", :null => false
+    t.string  "description",                :default => ""
+    t.string  "tag",                        :default => ""
+    t.string  "base_table",  :limit => 64,  :default => "", :null => false
+    t.string  "human_name",                 :default => ""
+    t.integer "core",                       :default => 0
+  end
+
+  add_index "d7_views_view", ["name"], :name => "name", :unique => true
+
   create_table "d7_watchdog", :primary_key => "wid", :force => true do |t|
     t.integer "uid",                             :default => 0,  :null => false
     t.string  "type",      :limit => 64,         :default => "", :null => false
@@ -1342,50 +1625,6 @@ ActiveRecord::Schema.define(:version => 20140916110902) do
   add_index "d7_watchdog", ["severity"], :name => "severity"
   add_index "d7_watchdog", ["type"], :name => "type"
   add_index "d7_watchdog", ["uid"], :name => "uid"
-
-  create_table "dboerse_addr", :force => true do |t|
-    t.integer "fk_bland_id", :limit => 8,   :null => false
-    t.string  "vorname",     :limit => 100, :null => false
-    t.string  "name",        :limit => 100, :null => false
-    t.string  "gebjahr",     :limit => 100, :null => false
-    t.text    "bereich",                    :null => false
-    t.string  "homepage",    :limit => 100, :null => false
-    t.string  "email",       :limit => 100, :null => false
-    t.string  "telefon",     :limit => 100, :null => false
-    t.string  "fax",         :limit => 100, :null => false
-    t.text    "tmp_quali",                  :null => false
-    t.text    "tmp_bland",                  :null => false
-  end
-
-  create_table "dboerse_addr2cat", :force => true do |t|
-    t.integer "fk_addr_id",    :limit => 8, :null => false
-    t.integer "fk_bereich_id", :limit => 8, :null => false
-  end
-
-  create_table "dboerse_addr2instr", :force => true do |t|
-    t.integer "fk_addr_id",  :limit => 8, :null => false
-    t.integer "fk_instr_id", :limit => 8, :null => false
-  end
-
-  add_index "dboerse_addr2instr", ["fk_addr_id"], :name => "fk_addr_id"
-  add_index "dboerse_addr2instr", ["fk_instr_id"], :name => "fk_instr_id"
-
-  create_table "dboerse_addr2quali", :force => true do |t|
-    t.integer "fk_addr_id",  :limit => 8, :null => false
-    t.integer "fk_quali_id", :limit => 8, :null => false
-  end
-
-  create_table "dboerse_cat", :force => true do |t|
-    t.string "category", :limit => 100, :null => false
-  end
-
-  create_table "dboerse_instr", :force => true do |t|
-    t.string "instrument", :limit => 100, :null => false
-  end
-
-  create_table "dboerse_quali", :force => true do |t|
-    t.string "qualification", :limit => 100, :null => false
-  end
 
   create_table "distinctions", :force => true do |t|
     t.date     "dist_date"
@@ -1467,7 +1706,7 @@ ActiveRecord::Schema.define(:version => 20140916110902) do
     t.string   "company"
     t.string   "preferred_lang"
     t.string   "zip"
-    t.boolean  "pickup",                           :default => false, :null => false
+    t.boolean  "pickup",                           :default => false
   end
 
   create_table "event_food", :force => true do |t|
@@ -1552,7 +1791,6 @@ ActiveRecord::Schema.define(:version => 20140916110902) do
     t.date    "startdate",                                    :null => false
     t.date    "enddate",                                      :null => false
     t.integer "bland",        :limit => 8,                    :null => false
-    t.integer "land",         :limit => 8,                    :null => false
     t.string  "name",                      :default => "",    :null => false
     t.text    "description",                                  :null => false
     t.text    "anmeldung",                                    :null => false
@@ -1566,7 +1804,6 @@ ActiveRecord::Schema.define(:version => 20140916110902) do
   end
 
   add_index "festivals", ["bland"], :name => "bland"
-  add_index "festivals", ["land"], :name => "land"
 
   create_table "functions", :force => true do |t|
     t.string  "label",                    :limit => 10
@@ -2018,20 +2255,6 @@ ActiveRecord::Schema.define(:version => 20140916110902) do
     t.boolean  "visible",                 :null => false
   end
 
-  create_table "hochschulen", :force => true do |t|
-    t.string "name",                       :null => false
-    t.string "institut",                   :null => false
-    t.string "strasse",      :limit => 50, :null => false
-    t.string "plz",          :limit => 10, :null => false
-    t.string "ort",          :limit => 50, :null => false
-    t.string "telefon",      :limit => 50, :null => false
-    t.string "studiengang",                :null => false
-    t.string "dozent",       :limit => 50, :null => false
-    t.string "email",        :limit => 50, :null => false
-    t.string "homepage",                   :null => false
-    t.string "country_code", :limit => 2
-  end
-
   create_table "homepages", :force => true do |t|
     t.string   "abbrev",     :limit => 20,  :null => false
     t.string   "mitglnr",    :limit => 6,   :null => false
@@ -2039,8 +2262,8 @@ ActiveRecord::Schema.define(:version => 20140916110902) do
     t.text     "kontakt",                   :null => false
     t.text     "proben",                    :null => false
     t.text     "descr",                     :null => false
-    t.datetime "created",                   :null => false
-    t.date     "lastchange",                :null => false
+    t.datetime "created_at",                :null => false
+    t.datetime "updated_at",                :null => false
     t.string   "redir_url"
   end
 
@@ -2132,30 +2355,29 @@ ActiveRecord::Schema.define(:version => 20140916110902) do
   add_index "member_events", ["member_id"], :name => "member_id"
 
   create_table "members", :force => true do |t|
-    t.string   "subtype",                  :limit => 50,                  :null => false
-    t.integer  "regional_organization_id", :limit => 8,                   :null => false
-    t.integer  "mglnr",                    :limit => 8,                   :null => false
-    t.string   "anrede",                   :limit => 20,                  :null => false
-    t.string   "vorname",                  :limit => 100,                 :null => false
-    t.string   "name",                     :limit => 100,                 :null => false
-    t.string   "strasse",                  :limit => 50,                  :null => false
-    t.string   "plz",                      :limit => 20,                  :null => false
-    t.string   "ort",                      :limit => 50,                  :null => false
-    t.integer  "country_id",               :limit => 8,   :default => 81, :null => false
+    t.string   "subtype",                  :limit => 50,  :null => false
+    t.integer  "regional_organization_id", :limit => 8,   :null => false
+    t.integer  "mglnr",                    :limit => 8,   :null => false
+    t.string   "anrede",                   :limit => 20,  :null => false
+    t.string   "vorname",                  :limit => 100, :null => false
+    t.string   "name",                     :limit => 100, :null => false
+    t.string   "strasse",                  :limit => 50,  :null => false
+    t.string   "plz",                      :limit => 20,  :null => false
+    t.string   "ort",                      :limit => 50,  :null => false
     t.string   "email",                    :limit => 100
-    t.date     "eintritt",                                                :null => false
+    t.date     "eintritt",                                :null => false
     t.date     "austritt_zum"
-    t.string   "za",                       :limit => 1,                   :null => false
+    t.string   "za",                       :limit => 1,   :null => false
     t.integer  "konto",                    :limit => 8
     t.string   "blz",                      :limit => 8
     t.string   "zahler",                   :limit => 100
-    t.datetime "created_at",                                              :null => false
+    t.datetime "created_at",                              :null => false
     t.datetime "update_at"
     t.string   "telefon"
     t.string   "fax"
     t.string   "bic"
     t.string   "iban"
-    t.string   "country_code"
+    t.string   "country_code",             :limit => 2
   end
 
   add_index "members", ["mglnr"], :name => "mglnr", :unique => true
@@ -2203,8 +2425,8 @@ ActiveRecord::Schema.define(:version => 20140916110902) do
     t.boolean  "kuendigungErfasst"
     t.string   "zweitanschrift",    :limit => 100
     t.string   "name2",             :limit => 100
-    t.datetime "created_on",                                        :null => false
-    t.datetime "updated_on",                                        :null => false
+    t.datetime "created_at",                                        :null => false
+    t.datetime "updated_at",                                        :null => false
   end
 
   create_table "orte", :primary_key => "ID", :force => true do |t|
@@ -2397,6 +2619,22 @@ ActiveRecord::Schema.define(:version => 20140916110902) do
 
   add_index "phpbb3_bots", ["bot_active"], :name => "bot_active"
 
+  create_table "phpbb3_captcha_answers", :id => false, :force => true do |t|
+    t.integer "question_id", :limit => 3, :default => 0,  :null => false
+    t.string  "answer_text",              :default => "", :null => false
+  end
+
+  add_index "phpbb3_captcha_answers", ["question_id"], :name => "qid"
+
+  create_table "phpbb3_captcha_questions", :primary_key => "question_id", :force => true do |t|
+    t.boolean "strict",                      :default => false, :null => false
+    t.integer "lang_id",       :limit => 3,  :default => 0,     :null => false
+    t.string  "lang_iso",      :limit => 30, :default => "",    :null => false
+    t.text    "question_text",                                  :null => false
+  end
+
+  add_index "phpbb3_captcha_questions", ["lang_iso"], :name => "lang"
+
   create_table "phpbb3_config", :primary_key => "config_name", :force => true do |t|
     t.string  "config_value", :default => "",    :null => false
     t.boolean "is_dynamic",   :default => false, :null => false
@@ -2536,6 +2774,7 @@ ActiveRecord::Schema.define(:version => 20140916110902) do
     t.boolean "group_legend",                      :default => true,  :null => false
     t.integer "group_max_recipients", :limit => 3, :default => 0,     :null => false
     t.boolean "group_skip_auth",                   :default => false, :null => false
+    t.boolean "group_prune_exclude",               :default => false, :null => false
   end
 
   add_index "phpbb3_groups", ["group_legend", "group_name"], :name => "group_legend_name"
@@ -2604,6 +2843,24 @@ ActiveRecord::Schema.define(:version => 20140916110902) do
 
   add_index "phpbb3_moderator_cache", ["display_on_index"], :name => "disp_idx"
   add_index "phpbb3_moderator_cache", ["forum_id"], :name => "forum_id"
+
+  create_table "phpbb3_mods", :primary_key => "mod_id", :force => true do |t|
+    t.boolean "mod_active",                           :default => false, :null => false
+    t.integer "mod_time",                             :default => 0,     :null => false
+    t.text    "mod_dependencies", :limit => 16777215,                    :null => false
+    t.text    "mod_name",                                                :null => false
+    t.text    "mod_description",                                         :null => false
+    t.string  "mod_version",      :limit => 25,       :default => "",    :null => false
+    t.text    "mod_author_notes",                                        :null => false
+    t.string  "mod_author_name",  :limit => 100,      :default => "",    :null => false
+    t.string  "mod_author_email", :limit => 100,      :default => "",    :null => false
+    t.string  "mod_author_url",   :limit => 100,      :default => "",    :null => false
+    t.text    "mod_actions",      :limit => 16777215,                    :null => false
+    t.string  "mod_languages",                        :default => "",    :null => false
+    t.string  "mod_template",                         :default => "",    :null => false
+    t.string  "mod_path",                             :default => "",    :null => false
+    t.string  "mod_contribs",                         :default => "",    :null => false
+  end
 
   create_table "phpbb3_modules", :primary_key => "module_id", :force => true do |t|
     t.boolean "module_enabled",                :default => true, :null => false
@@ -2791,6 +3048,17 @@ ActiveRecord::Schema.define(:version => 20140916110902) do
     t.text    "lang_explain",                                    :null => false
     t.string  "lang_default_value",              :default => "", :null => false
   end
+
+  create_table "phpbb3_qa_confirm", :primary_key => "confirm_id", :force => true do |t|
+    t.string  "session_id",   :limit => 32, :default => "", :null => false
+    t.string  "lang_iso",     :limit => 30, :default => "", :null => false
+    t.integer "question_id",  :limit => 3,  :default => 0,  :null => false
+    t.integer "attempts",     :limit => 3,  :default => 0,  :null => false
+    t.integer "confirm_type", :limit => 2,  :default => 0,  :null => false
+  end
+
+  add_index "phpbb3_qa_confirm", ["confirm_id", "session_id", "lang_iso"], :name => "lookup"
+  add_index "phpbb3_qa_confirm", ["session_id"], :name => "session_id"
 
   create_table "phpbb3_ranks", :primary_key => "rank_id", :force => true do |t|
     t.string  "rank_title",                :default => "",    :null => false
@@ -3113,6 +3381,8 @@ ActiveRecord::Schema.define(:version => 20140916110902) do
     t.boolean "user_new",                                                                   :default => true,        :null => false
     t.integer "user_reminded",            :limit => 1,                                      :default => 0,           :null => false
     t.integer "user_reminded_time",                                                         :default => 0,           :null => false
+    t.boolean "user_email_verified",                                                        :default => false,       :null => false
+    t.boolean "user_prune_exclude",                                                         :default => false,       :null => false
   end
 
   add_index "phpbb3_users", ["user_birthday"], :name => "user_birthday"
@@ -3262,6 +3532,17 @@ ActiveRecord::Schema.define(:version => 20140916110902) do
 
   add_index "report_sheets", ["year", "orchestra_id"], :name => "oneperyear", :unique => true
 
+  create_table "roles", :force => true do |t|
+    t.string   "name"
+    t.integer  "resource_id"
+    t.string   "resource_type"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
+
+  add_index "roles", ["name", "resource_type", "resource_id"], :name => "index_roles_on_name_and_resource_type_and_resource_id"
+  add_index "roles", ["name"], :name => "index_roles_on_name"
+
   create_table "static_tsconfig_help", :primary_key => "uid", :force => true do |t|
     t.integer "guide",                     :default => 0,  :null => false
     t.string  "md5hash",     :limit => 32, :default => "", :null => false
@@ -3295,6 +3576,21 @@ ActiveRecord::Schema.define(:version => 20140916110902) do
     t.integer "tariff_type",                                              :null => false
     t.string  "description", :limit => 50,                                :null => false
     t.decimal "amount",                    :precision => 10, :scale => 0, :null => false
+  end
+
+  create_table "universities", :force => true do |t|
+    t.string "name",                       :null => false
+    t.string "institut",                   :null => false
+    t.string "strasse",      :limit => 50, :null => false
+    t.string "plz",          :limit => 10, :null => false
+    t.string "ort",          :limit => 50, :null => false
+    t.string "telefon",      :limit => 50, :null => false
+    t.string "studiengang",                :null => false
+    t.string "dozent",       :limit => 50, :null => false
+    t.string "email",        :limit => 50, :null => false
+    t.string "homepage",                   :null => false
+    t.string "country_code", :limit => 2
+    t.string "state"
   end
 
   create_table "uploaded_files", :force => true do |t|
@@ -3374,7 +3670,6 @@ ActiveRecord::Schema.define(:version => 20140916110902) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.string   "role",                                  :default => "", :null => false
     t.string   "authentication_token"
     t.string   "username"
     t.string   "entity_class"
@@ -3383,6 +3678,13 @@ ActiveRecord::Schema.define(:version => 20140916110902) do
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
+
+  create_table "users_roles", :id => false, :force => true do |t|
+    t.integer "user_id"
+    t.integer "role_id"
+  end
+
+  add_index "users_roles", ["user_id", "role_id"], :name => "index_users_roles_on_user_id_and_role_id"
 
   create_table "wettbewerbe", :force => true do |t|
     t.date     "startdate",                                    :null => false

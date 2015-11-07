@@ -17,6 +17,7 @@
           %th=t("orchestra.orchName",:default => "#orchName")
           %th=t("member.email")
           %th=t("booking.balance")
+          %th=t("orchestra.last_invoice")
           %th.last=t("common.links")
         - @orchestras.each do |orchestra| 
           %tr
@@ -24,7 +25,7 @@
             %td=orchestra.orchName
             %td=mail_to orchestra.email, orchestra.email
             %td=format_currency(@accounts[orchestra.member_id],'€')
-            %td=orchestra.last_invoice
+            %td=l orchestra.last_invoice
             %td=link_to_orchestra_acct orchestra, t("orchestra.member_account")
       .actions-bar.wat-cf
         .actions
