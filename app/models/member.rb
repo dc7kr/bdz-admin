@@ -128,6 +128,6 @@ class Member < ActiveRecord::Base
   end
 
   def last_invoice
-    member_account_bookings.max(:booking_date).where("booking_type = 'B'")
+    member_account_bookings.where("booking_type = 'B'").maximum(:booking_date)
   end
 end
