@@ -4,6 +4,7 @@ class PersonMembersController < AuthenticatedController
 #  before_filter :authenticate_user!, :except => @publicActions
 #[:some_action_without_auth]
   helper_method :sort_column, :sort_direction
+  include MagazineReportHelper
 
   # GET /person_members
   # GET /person_members.json
@@ -136,71 +137,36 @@ class PersonMembersController < AuthenticatedController
   end
 
   def magazine 
+    @person_members = PersonMember.with_zero_balance
+    @result = Array.new
 
-  @person_members = PersonMember.with_zero_balance
+    @person_members.each do |person_member|
+      if ( person_member.currentMagazines >0) then
+        @csvrow = {
+        :mglnr=>person_member.mglnr,
+        :name=> '',
+        :name2=>'',
+        :vorname=>person_member.vorname,
+        :nachname=>person_member.name,
+        :strasse=>person_member.strasse ,
+        :countryCode=>person_member.countryCode,
+        :plz=>person_member.plz,
+        :ort=>person_member.ort,
+        :land=>person_member.letterCountry,
+        :magazines=>person_member.currentMagazines
 
-	@result = Array.new
-
-	@person_members.each do |person_member|
-		if ( person_member.currentMagazines >0) then
-		  @csvrow = {
-			:mglnr=>person_member.mglnr,
-			:name=> '',
-			:name2=>'',
-			:vorname=>person_member.vorname,
-			:nachname=>person_member.name,
-			:strasse=>person_member.strasse ,
-			:countryCode=>person_member.countryCode,
-			:plz=>person_member.plz,
-			:ort=>person_member.ort,
-			:land=>person_member.letterCountry,
-			:magazines=>person_member.currentMagazines
-
-		  }
-		  @result << @csvrow
-		end
-	end
-  	@outfile = "concertino.em." + Time.now.strftime("%m-%d-%Y") + ".csv"
- 
-  csv_data = CSV.generate do |csv|
-    csv << [
-    "Lfd Nr",
-    "Mglnr",
-    "Firma",
-    "Firma2",
-    "Vorname",
-    "Name",
-    "Strasse",
-	"Laendercode",
-    "PLZ",
-    "Ort",
-    "Land",
-    "Zeitungen"
-    ]
-	@nr=1
-    @result.sort_by { |item| item[:magazines]}.each do |data|
-		csv << [
-			@nr,
-            data[:mglnr],
-            data[:name],
-            data[:name2],
-            data[:vorname],
-            data[:nachname],
-            data[:strasse],
-			data[:countryCode],
-            data[:plz],
-            data[:ort],
-            data[:land],
-            data[:magazines]
-		]
-		@nr=@nr+1
+        }
+        @result << @csvrow
+      end
     end
-	end
- 	send_data csv_data,
-    	:type => 'text/csv; charset=iso-8859-1; header=present',
-    	:disposition => "attachment; filename=#{@outfile}"
+    
+    filename = "magazine.em." + Time.now.strftime("%m-%d-%Y") + ".ods"
+    renderPersonMembersMagazineListOds("/tmp/"+filename,@result)
 
-  	flash[:notice] = "Export complete!"
+    send_file("/tmp/"+filename, :filename => filename, :type => "application/octet-stream")
+
+    flash[:notice] = "Export complete!"
+ 
   end
 
 

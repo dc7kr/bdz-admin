@@ -2,7 +2,44 @@ require 'odf/spreadsheet'
 
 module MagazineReportHelper
 
+  def renderPersonMembersMagazineListOds(filename,person_members)
 
+    ODF::Spreadsheet.file(filename) do
+
+      table "EM" do
+        row {
+          cell "Lfd Nr"
+          cell I18n.t("member.mglnr")
+          cell ""
+          cell ""
+          cell I18n.t("member.fullname")
+          cell I18n.t("member.street")
+          cell I18n.t("contact.zip")
+          cell I18n.t("contact.city")
+          cell I18n.t("country")
+          cell "Zeitungen"
+        }
+
+        nr=1
+        person_members.sort_by { |item| [item[:magazines],item[:mglnr]]}.each do |data|
+          row {
+            cell nr
+            cell data[:mglnr]
+            cell data[:name]
+            cell data[:name2]
+            cell "#{data[:vorname]} #{data[:nachname]}"
+            cell data[:strasse]
+            cell data[:plz]
+            cell data[:ort]
+            cell data[:land]
+            cell data[:magazines]
+          }
+          nr+=1
+        end
+      end
+    end
+  end
+  
   def renderSamplingListOds(filename,samplings)
     ODF::Spreadsheet.file(filename) do
       table "Samplings"  do |t|
@@ -13,7 +50,7 @@ module MagazineReportHelper
           cell I18n.t("contact.fullname")
           cell I18n.t("contact.street")
           cell I18n.t("contact.city")
-          cell I18n.t("country.s")
+          cell I18n.t("country")
           cell "Zeitungen"
         }
         rownr=1
@@ -46,7 +83,6 @@ module MagazineReportHelper
           cell "Orchester2"
           cell I18n.t("member.fullname")
           cell I18n.t("member.street")
-          cell I18n.t("common.country_code")
           cell I18n.t("contact.zip")
           cell I18n.t("contact.city")
           cell I18n.t("country.s")
@@ -55,6 +91,8 @@ module MagazineReportHelper
 
      	  nr=1
         orchestras.sort_by { |item| [item[:magazines],item[:mglnr]]}.each do |data|
+
+          Rails.logger.debug(data)
           row {
             cell nr
             cell data[:mglnr]
@@ -62,7 +100,6 @@ module MagazineReportHelper
             cell data[:name2]
             cell data[:fullname]
             cell data[:strasse]
-			      cell data[:t_country]
             cell data[:plz]
             cell data[:ort]
             cell data[:land]
