@@ -115,12 +115,17 @@ class TexWriter
 			full_ort += customer.city
 		end
 
-		f.write('\newcommand{\ort}{'+full_ort+"}\n")
+		f.write('\newcommand{\ort}{'+"#{full_ort}}\n")
 
     country = ISO3166::Country[customer.country]
-    if (customer.country != "DE") then
-      f.write('\newcommand{\country}{'+country.translations['en']+"}\n")
+    country_en = nil
+    if (customer.country == "DE") then
+      country_en = ""
+    else
+      country_en = country.translations['en']
     end
+
+    f.write('\newcommand{\country}{'+country_en+"}\n")
 
 		lastname=""
 		if (customer.name) 
