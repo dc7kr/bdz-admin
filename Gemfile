@@ -60,6 +60,7 @@ gem 'http_accept_language'
 gem 'json'
 
 gem 'prawn'
+gem 'prawn-table', '~> 0.2.2'
 
 gem 'dynamic_form'
 gem 'formtastic'
@@ -70,8 +71,15 @@ gem "comma", "~> 3.0"
 gem "spreadsheet"
 #gem "to_xml-rails"
 
-gem 'sqlite3'
-gem 'mysql2' , '>=0.3'
+group :development do
+  gem 'sqlite3'
+end
+
+group :production do 
+  gem 'mysql2' , '>=0.3'
+end
+
+#gem 'mongoid', '~> 3.0.0'
 
 gem 'rails-asset-jqueryui'
 
@@ -112,5 +120,5 @@ group :test do
   gem 'simplecov', :require => false
   gem 'capybara'
   gem 'rspec-rails'
-  gem 'factory_girl'
+  gem 'factory_girl_rails', "~> 4.0"
 end
