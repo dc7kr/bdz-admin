@@ -1,3 +1,5 @@
+require "prawn/table"
+
 class ReportSheetInputPdf< Prawn::Document
   def initialize(rsi, view)
     super(top_margin: 70)

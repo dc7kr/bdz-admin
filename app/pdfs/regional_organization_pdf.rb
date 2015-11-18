@@ -1,4 +1,5 @@
 require 'prawn'
+require 'prawn/table'
 class RegionalOrganizationPdf < Prawn::Document
 	def initialize(regional_organization,orchestras,person_members,view)
 		super(top_margin: 70)
