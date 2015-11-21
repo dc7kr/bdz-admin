@@ -4,7 +4,7 @@
   .content
     %h2.title
       = t("common.new")
-      = t("board_contact.s")
+      = t("board_contact")
     .inner
       = form_for @board_contact do |f|
         = render :partial => "form", :locals => {:f => f}

@@ -1,12 +1,12 @@
 .panel.panel-primary
   .panel-heading=t('common.events')
   .panel-body
-    %ul.navigation
+    %ul.nav.nav-pills.nav-stacked
       %li= link_to "Rundschreiben", custom_info_mail_path
 
 .panel.panel-primary
   .panel-heading=t('common.reminders')
   .panel-body
-    %ul.navigation
+    %ul.nav.nav-pills.nav-stacked
       %li= link_to "Mahnungen Meldebogen", cron_reminders_report_sheet_path
 

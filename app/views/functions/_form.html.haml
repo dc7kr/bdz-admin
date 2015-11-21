@@ -11,7 +11,7 @@
       %td= t('regional_organization.s')
       %td= f.collection_select :regional_organization_id, RegionalOrganization.find(:all,:order => "name ASC"), :id, :name
     %tr
-      %td= t("contact.s")
+      %td= t("contact")
       %td= f.collection_select :board_contact_id, BoardContact.includes(:contact).order("contacts.last_name ASC, contacts.first_name ASC"), :id, :to_s
     =form_my_field(f,@function, :bund,:checkbox)
     =form_my_field(f,@function, :jugend,:checkbox)

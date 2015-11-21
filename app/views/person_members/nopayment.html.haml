@@ -4,7 +4,7 @@
   .content
     %h2.title
       = t("member.nopayment")
-      (#{t("person_member.p")})
+      (#{t("person_member",:count=>3)})
     .inner
       = link_to_generated_download_path(t('common.download'),nopayment_person_members_path(:format=>:ods))
       %table.table

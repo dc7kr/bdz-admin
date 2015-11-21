@@ -4,15 +4,15 @@
   .content
     %h2.title
       = t("common.all")
-      = t('function.p')
+      = t('function',:count=>3)
     .inner
       #entry_info
         = page_entries_info @functions
       %table.table.table-hover.table-condensed
         %thead
           %th.first= attr_heading(Function,:label)
-          %th= sortable "regional_organization_id", t("regional_organization.s")
-          %th=t("contact.s")
+          %th= sortable "regional_organization_id", t("regional_organization")
+          %th=t("contact")
           %th=attr_heading(Function,:bund)
           %th=attr_heading(Function,:jugend)
           %th=attr_heading(Function,:nr)

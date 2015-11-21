@@ -4,7 +4,7 @@
   .content
     %h2.title
       = t("common.new")
-      = t("concert.p")
+      = t("concert",:count=>3)
     .inner
       = form_for :concert, :url => concerts_path, :html => { :class => :form } do |f|
         = render :partial => "form", :locals => {:f => f}

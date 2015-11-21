@@ -4,7 +4,7 @@
   .content
     %h2.title
       = t("common.new")
-      = t("function.s")
+      = t("function")
     .inner
       = form_for @function do |f|
         = render :partial => "form", :locals => {:f => f}

@@ -13,7 +13,7 @@
         = format_currency(invoice.sum,'€')
         &nbsp; Bereits bezahlt 
     %h2.title
-      #{t("event_card.s")} Nr. #{@event_card.id} #{@event_card.name}
+      #{t("event_card")} Nr. #{@event_card.id} #{@event_card.name}
       - if @event_card.pickup
         (bereits abgeholt)
     .inner

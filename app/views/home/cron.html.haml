@@ -3,7 +3,7 @@
     .row
       .col-md-4
         .panel.panel-default
-          .panel-heading=t('report_sheet.p')
+          .panel-heading=t('report_sheet',:count=>3)
           .panel-body
             %ul.nav.nav-pills.nav-stacked
               %li= link_to "Meldebogen Anschreiben", "/api/rsm/gen_mailings"
@@ -11,7 +11,7 @@
               %li= link_to "Meldebogen-Eingabe generieren", generate_report_sheet_inputs_path
       .col-md-4
         .panel.panel-default
-          .panel-heading=t('tariff.p')
+          .panel-heading=t('tariff',:count=>3)
           .panel-body
             %ul.nav.nav-pills.nav-stacked
               %li= link_to t('cron.invoice_person_members'), cron_invoices_gen_persons_path
@@ -21,7 +21,7 @@
               %li= link_to t('cron.lv_fee_bookings'), cron_lv_fee_bookings_index_path
       .col-md-4
         .panel.panel-default
-          .panel-heading=t('member.p')
+          .panel-heading=t('member',:count=>3)
           .panel-body
             %ul.nav.nav-pills.nav-stacked
               %li=link_to t('cron.remove_resigned'), cron_cleanup_remove_resigned_path

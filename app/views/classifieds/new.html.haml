@@ -4,7 +4,7 @@
   .content
     %h2.title
       = t("common.new")
-      = t("classified.s")
+      = t("classified")
     .inner
       = form_for :classified, :url => classifieds_path, :html => { :class => :form } do |f|
         = render :partial => "form", :locals => {:f => f}

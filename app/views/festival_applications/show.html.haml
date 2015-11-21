@@ -3,7 +3,7 @@
     =render :partial=>'nav'
   .content
     %h2.title
-      #{t("festival_application.s")} Nr. #{@festival_application.id}
+      #{t("festival_application")} Nr. #{@festival_application.id}
       - if @festival_application.permission
         (#{t('festival_application.permission_granted')})
       %br

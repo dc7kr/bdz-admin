@@ -29,7 +29,7 @@
     -else
       = form_my_field(f,@orchestra, :regional_organization_id,:static)
     .form-group
-      = f.label :regional_organization, t("regional_organization.s"),:class => "col-md-2 control-label"
+      = f.label :regional_organization, t("regional_organization"),:class => "col-md-2 control-label"
       .col-md-10= collection_select(:orchestra, :regional_organization_id, RegionalOrganization.all, :id, :name) 
     = form_my_select(f,@orchestra, :orch_type,   options_for_select([["Vereinsorchester", "O"], ["Kooperativ", "K"],  ["Landesorchester", "L"]],:selected=>@orchestra.orch_type)) 
     = form_my_field(f,@orchestra, :austritt_zum,:text,"datePicker")

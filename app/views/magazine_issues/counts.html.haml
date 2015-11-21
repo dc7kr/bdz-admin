@@ -5,23 +5,23 @@
     .inner
       %h3
         #{t("magazine_issue.counts")}
-        #{t("magazine_issue.s")} #{@magazine_issue.number}/#{@magazine_issue.year}
+        #{t("magazine_issue")} #{@magazine_issue.number}/#{@magazine_issue.year}
 
 %table 
   %tr
-    %td.label_l=t("magazine_sampling.p")
+    %td.label_l=t("magazine_sampling",:count=>3)
     %td.number=@magazine_samplings
   %tr
-    %td.label_l=t("subscriber.p")
+    %td.label_l=t("subscriber",:count=>3)
     %td.number=@subscribers
   %tr 
-    %td.label_l=t("advertiser.p")
+    %td.label_l=t("advertiser",:count=>3)
     %td.number=@adverts
   %tr
-    %td.label_l=t("orchestra.p")
+    %td.label_l=t("orchestra",:count=>3)
     %td.number=@orchestra_count
   %tr
-    %td.label_l=t("person_member.p")
+    %td.label_l=t("person_member",:count=>3)
     %td.number=@person_member_count
   %tr
     %td.label_l=t("common.sum")

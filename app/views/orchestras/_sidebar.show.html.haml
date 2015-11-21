@@ -12,9 +12,10 @@
       - if @orchestra.is_regular?
         %li= link_to( "Ehrungen", orchestra_distinctions_url(@orchestra)) 
 
-  %h3 Aktionen
-  %ul.navigation
-    %li
-      = link_to("Meldebogen-Anschreiben erzeugen", gen_rsi_orchestra_url(@orchestra))
+.panel.panel-primary
+  .panel-heading Aktionen
+  .panel-body
+    %ul.nav.nav-pills.nav-stacked
+      %li= link_to("Meldebogen-Anschreiben erzeugen", gen_rsi_orchestra_url(@orchestra))
 
 

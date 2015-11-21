@@ -4,11 +4,11 @@
   .content
     %h2.title
       = t("common.all")
-      = t("magazine_advert.p")
+      = t("magazine_advert",:count=>3)
     .inner
       %table.table.table-hover.table-condensed
         %thead
-          %th.first=t('advertiser.s')
+          %th.first=t('advertiser')
           %th=attr_heading(MagazineIssue,:number)
           %th=attr_heading(MagazineIssue,:year)
           %th=attr_heading(MagazineAdvert,:advert_type)

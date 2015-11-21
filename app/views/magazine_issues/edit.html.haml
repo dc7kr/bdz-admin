@@ -4,7 +4,7 @@
   .content
     %h2.title
       =t("common.edit")
-      =t("magazine_issue.s")
+      =t("magazine_issue")
     .inner
       = form_for @magazine_issue, :url => magazine_issue_path(@magazine), :html => { :class => :form } do |f|
         = render :partial => "form", :locals => {:f => f}
