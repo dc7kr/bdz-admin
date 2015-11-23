@@ -1,0 +1,7 @@
+- if entity.errors.any?
+  .alert-danger
+    %h2= "#{pluralize(@url.errors.count, "error")} prohibited this url from being saved:"
+    %ul
+      - entity.errors.full_messages.each do |msg|
+        %li= msg
+
