@@ -1,6 +1,8 @@
 require "prawn/table"
 
 class ReportSheetInputPdf< Prawn::Document
+  include TranslationHelper
+
   def initialize(rsi, view)
     super(top_margin: 70)
     @rsi= rsi
@@ -31,18 +33,18 @@ class ReportSheetInputPdf< Prawn::Document
     move_down 20
 	text "Anschrift", style: :bold, size: 20
 	rows = [
-		[I18n.t('orchestra.orchName'),@orch.orchName ],
+		[t_label('orchestra.orchName'),@orch.orchName ],
 		[I18n.t('common.fullname'), I18n.t('common.salutations.'+@orch.anrede)+" "+ @orch.vorname+" "+@orch.name ],
-		[I18n.t('member.street'),	@orch.strasse],
-		[I18n.t('member.city'),	@orch.plz+" "+@orch.ort],
-		[I18n.t('member.phone'), @orch.telefon],
-		[I18n.t('member.fax'), @orch.fax],
-		[I18n.t('member.email'), @orch.email]]
+		[t_label('member.street'),	@orch.strasse],
+		[t_label('member.city'),	@orch.plz+" "+@orch.ort],
+		[t_label('member.phone'), @orch.telefon],
+		[t_label('member.fax'), @orch.fax],
+		[t_label('member.email'), @orch.email]]
 
     if @orch.za=='L' then
-      rows << [I18n.t('member.iban'), @orch.iban]
-      rows << [I18n.t('member.bic'), @orch.bic]
-      rows << [I18n.t('member.mref'), @orch.mref]
+      rows << [t_label('member.iban'), @orch.iban]
+      rows << [t_label('member.bic'), @orch.bic]
+      rows << [t_label('member.mref'), @orch.mref]
     end
     
     table rows do
@@ -65,10 +67,10 @@ class ReportSheetInputPdf< Prawn::Document
   end
 
   def orch_contact_rows
-    [[I18n.t('orchestra_contact.role'),I18n.t('common.fullname'), I18n.t('orchestra_contact.phone'),I18n.t('orchestra_contact.email') ]] +
+    [[t_label('orchestra_contact.role'),I18n.t('common.fullname'), t_label('orchestra_contact.phone'),t_label('orchestra_contact.email') ]] +
 	
 	OrchestraContact.roles.map do |r| 
-		if (@contacts[r]!=nil) then
+		if not @contacts[r].nil? then
 	      [I18n.t('orchestra_contact.role_'+r), @contacts[r].first_name+" "+@contacts[r].last_name+", "+@contacts[r].street+", "+@contacts[r].zip+" "+@contacts[r].city, @contacts[r].phone, @contacts[r].email] 
 		else
 			[]
@@ -89,12 +91,12 @@ class ReportSheetInputPdf< Prawn::Document
 
   def report_sheet_rows
 	[
-		[I18n.t('report_sheet.children'),@rsi.report_sheet.children],
-		[I18n.t('report_sheet.teens'),@rsi.report_sheet.teens],
-		[I18n.t('report_sheet.youth'),@rsi.report_sheet.youth],
-		[I18n.t('report_sheet.adult'),@rsi.report_sheet.adult],
-		[I18n.t('report_sheet.senior'),@rsi.report_sheet.senior],
-		[I18n.t('report_sheet.uv'),@rsi.report_sheet.uv ? "Ja" : "Nein"]
+		[t_label('report_sheet.children'),@rsi.report_sheet.children],
+		[t_label('report_sheet.teens'),@rsi.report_sheet.teens],
+		[t_label('report_sheet.youth'),@rsi.report_sheet.youth],
+		[t_label('report_sheet.adult'),@rsi.report_sheet.adult],
+		[t_label('report_sheet.senior'),@rsi.report_sheet.senior],
+		[t_label('report_sheet.uv'),@rsi.report_sheet.uv ? "Ja" : "Nein"]
 
 	]
   end
@@ -118,7 +120,7 @@ class ReportSheetInputPdf< Prawn::Document
 	end
   end
   def orch_member_rows
-    [[I18n.t('common.fullname'), I18n.t('orchestra_member.year_of_birth'),I18n.t('orchestra_member.instrument') ]] +
+    [[I18n.t('common.fullname'), t_label('orchestra_member.year_of_birth'),t_label('orchestra_member.instrument') ]] +
 	
 	@orch.orchestra_members.map do |m| 
 	    [m.first_name+" "+m.last_name, m.year_of_birth, m.instrument] 
@@ -132,11 +134,11 @@ class ReportSheetInputPdf< Prawn::Document
 	  text "2. Mitglieder in Ausbildung", style: :bold, size: 20
 
   	rows = [
-	    [I18n.t('report_sheet.azubi_child'),@rs.azubi_child],
-	    [I18n.t('report_sheet.azubi_teens'), @rs.azubi_teens],
-	    [I18n.t('report_sheet.azubi_youth'),@rs.azubi_youth],
-	    [I18n.t('report_sheet.azubi_adult'),@rs.azubi_adult],
-	    [I18n.t('report_sheet.azubi_senior'), @rs.azubi_senior ]]
+	    [t_label('report_sheet.azubi_child'),@rs.azubi_child],
+	    [t_label('report_sheet.azubi_teens'), @rs.azubi_teens],
+	    [t_label('report_sheet.azubi_youth'),@rs.azubi_youth],
+	    [t_label('report_sheet.azubi_adult'),@rs.azubi_adult],
+	    [t_label('report_sheet.azubi_senior'), @rs.azubi_senior ]]
 
     table rows do
       row(0).font_style = :bold
@@ -149,8 +151,8 @@ class ReportSheetInputPdf< Prawn::Document
 	  text "3. Anzahl der passiven Mitglieder (nicht beitragspflichtig)", style: :bold, size: 20
 
 	  rows = [
-      [I18n.t('report_sheet.passive'),@rs.passive ],
-			[I18n.t('report_sheet.supporters'),@rs.supporters]
+      [t_label('report_sheet.passive'),@rs.passive ],
+			[t_label('report_sheet.supporters'),@rs.supporters]
     ]
 
     table rows do
@@ -163,11 +165,11 @@ class ReportSheetInputPdf< Prawn::Document
 	  text "4. Anzahl der Ensembles / Orchester im Verein", style: :bold, size: 20
 
 	  rows = [
-		  [I18n.t('report_sheet.child_ens'),@rs.child_ens],
-		  [I18n.t('report_sheet.youth_ens'),@rs.youth_ens],
-		  [I18n.t('report_sheet.adult_ens'),@rs.adult_ens],
-		  [I18n.t('report_sheet.senior_ens'),@rs.senior_ens],
-		  [I18n.t('report_sheet.other_ens'),@rs.other_ens]
+		  [t_label('report_sheet.child_ens'),@rs.child_ens],
+		  [t_label('report_sheet.youth_ens'),@rs.youth_ens],
+		  [t_label('report_sheet.adult_ens'),@rs.adult_ens],
+		  [t_label('report_sheet.senior_ens'),@rs.senior_ens],
+		  [t_label('report_sheet.other_ens'),@rs.other_ens]
 		]
 
     table rows do
@@ -179,10 +181,10 @@ class ReportSheetInputPdf< Prawn::Document
     move_down 20
 	text "5. Instrumentierung", style: :bold, size: 20
 	rows = [
-		[I18n.t('report_sheet.zo'), check_txt(@rs.zo)],
-		[I18n.t('report_sheet.zi_o'),check_txt(@rs.zi_o)],
-		[I18n.t('report_sheet.go'),check_txt(@rs.go)],
-		[I18n.t('report_sheet.oz'),check_txt(@rs.oz)]
+		[t_label('report_sheet.zo'), check_txt(@rs.zo)],
+		[t_label('report_sheet.zi_o'),check_txt(@rs.zi_o)],
+		[t_label('report_sheet.go'),check_txt(@rs.go)],
+		[t_label('report_sheet.oz'),check_txt(@rs.oz)]
 		]
     table rows do
       columns(0).align = :right
