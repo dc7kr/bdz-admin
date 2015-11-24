@@ -73,17 +73,20 @@ def link_back(txt)
 	icon_link(txt,'/assets/icons/back.png',url_for(:back))
 end
 
-def wizard_img_button(path,txt,img)
-    link_to image_tag(img, {:size=>'16x16',:alt=>txt,:title=>txt,:class=>'btn'} )+" "+txt,path, :class => "text_button_padding button"
-end
+  def wizard_back_button(path,txt=t("common.back"))
+    glyph_button("glyphicon-step-backward", path, txt)
+  end
+  def wizard_img_button(path,txt,img)
+      link_to image_tag(img, {:size=>'16x16',:alt=>txt,:title=>txt,:class=>'btn'} )+" "+txt,path, :class => "text_button_padding button"
+  end
 
-def wizard_forward_button(txt,path)
-    link_to image_tag('web-app-theme/icons/tick.png', {:size=>'16x16',:alt=>txt,:title=>txt,:class=>'btn'} )+" "+txt,path, :class => "text_button_padding button"
-end
+  def wizard_forward_button(txt=t('common.save'),path)
+    glyph_button("glyphicon-step-forward", path, txt,:link,"btn-primary")
+  end
 
-def wizard_del_button(path,txt,entity)
-    link_to image_tag("/assets/icons/delete.png", {:size=>'16x16', :alt => txt, :title=>txt, :class=>'btn'})+" "+txt,path, :class => "test_button_padding button", :confirm => t("common.delete_confirm")
-end
+  def wizard_del_button(path,txt,entity)
+      link_to content_tag(:span,"",:class=>"glyphicon glyphicon-remove")+txt,path,:confirm => t("common.delete_confirm"), :class=>"btn btn-danger"
+  end
 
 def back_button(path) 
   link_to image_tag("icons/back.png", :alt => t("common.back"))+" "+t("common.back"), path, :class => "button"
@@ -456,18 +459,23 @@ JS1
     content_tag :div, :class => "row" do
 
       data = nil
+      tmp = entity.send(field)
       if type.nil? 
-        data = entity[field]
+        data = tmp
       elsif type == :date
-        data = l entity[field]
+        if tmp.nil? then
+          data ="---"
+        else
+          data = l tmp
+        end
       elsif type == :mailto
-        data = mail_to entity[field],entity[field]
+        data = mail_to tmp,tmp
       elsif type == :currency
-        data = format_currency entity[field],"EUR"
+        data = format_currency tmp,"EUR"
       elsif type == :boolean
-        data = format_bool entity[field]
+        data = format_bool tmp
       elsif type == :url
-        data = link_to entity[field],entity[field]
+        data = link_to tmp,tmp
       end 
 
       concat(content_tag(:div, label(sym, field), :class => "col-md-3 text-right"))
@@ -475,4 +483,27 @@ JS1
     end
   end
 
+  def calculation_row(entity, field, unit_price) 
+    sym = entity.class.name.underscore.to_sym
+    content_tag :div, :class => "row" do
+      count=nil
+      if entity[field].nil? then
+        count = 0
+      else 
+        count = entity.send(field)
+      end
+      concat(content_tag(:div, label(sym, field), :class => "col-md-3 text-right"))
+      concat(content_tag(:div, count.to_s,:class => "col-md-1 text-right"))
+      concat(content_tag(:div, "x",:class => "col-md-1"))
+      concat(content_tag(:div, format_currency(unit_price,'€'), :class => "col-md-2 text-right"))
+      concat(content_tag(:div, format_currency(count *unit_price,'€'), :class => "col-md-2 text-right"))
+    end
+  end
+  def calculation_sum(label, price)
+    content_tag :div, :class => "row" do
+      concat(content_tag(:div, label, :class => "col-md-3 text-right"))
+      concat(content_tag(:div, "", :class => "col-md-4"))
+      concat(content_tag(:div, format_currency(price,'€'), :class => "col-md-2 text-right sum"))
+    end
+  end
 end

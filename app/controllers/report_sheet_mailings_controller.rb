@@ -1,7 +1,6 @@
 class ReportSheetMailingsController < AuthenticatedNonResourceController
 
 	include PDFHelper
-	include NotifyHelper
   include BulkMailHelper
   include FileArchiveHelper
 
@@ -76,7 +75,7 @@ class ReportSheetMailingsController < AuthenticatedNonResourceController
    	  doc_url = base_url+"?year="+cur_year.to_s+"&filename="+pdf_merged_file.orig_filename
     end
 
-		@users = admin_notify_users
+		@users = User.for_admin_notify
 
    	@users.each do |user|
       AdminNotifier.report_sheet_notification(user, doc_url,@current_user).deliver
