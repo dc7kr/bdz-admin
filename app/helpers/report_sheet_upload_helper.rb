@@ -13,7 +13,7 @@ module ReportSheetUploadHelper
 	
   def open_report_spreadsheet(filename,uploaded_file)
 	  if filename.end_with?(".ods") then
-		  Roo::Openoffice.new(uploaded_file)
+		  Roo::OpenOffice.new(uploaded_file)
 	  elsif filename.end_with?(".xls") then	
 		  Roo::Excel.new(uploaded_file)
 	  else

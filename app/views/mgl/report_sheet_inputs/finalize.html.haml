@@ -8,42 +8,37 @@
       .panel.panel-default
         .panel-heading Kontaktadresse 
         .panel-body
+          - @member = @report_sheet_input.orchestra.member
           =entity_row(@report_sheet_input.orchestra,:orchName)
           =entity_row(@report_sheet_input.orchestra, :gruendung,:date)
-        %tr
-          %td.label_l=t('orchestra.contact')
-          %td
-            =t('common.salutation_d.'+@report_sheet_input.orchestra.anrede)
-            =@report_sheet_input.orchestra.vorname
-            =@report_sheet_input.orchestra.name
-        %tr
-          %td.label_l=t('member.street')
-          %td=@report_sheet_input.orchestra.strasse
-        %tr
-          %td.label_l=t('member.zip')
-          %td=@report_sheet_input.orchestra.plz
-        %tr
-          %td.label_l=t('member.city')
-          %td=@report_sheet_input.orchestra.ort
-        %tr
-          %td.label_l=t('country.s')
-          %td=translated_country(@report_sheet_input.orchestra.country_code)
+          .row
+            .col-md-3.text-right=label(:member,:anrede)
+            .col-md-8=t('common.salutation_d.'+@report_sheet_input.orchestra.anrede)
+          .row
+            .col-md-3.text-right=label(:member,:fullname) 
+            .col-md-8=@member.fullname
+          =entity_row(@member,:strasse)
+          =entity_row(@member,:plz)
+          =entity_row(@member,:ort)
+          =entity_row(@member,:country_code)
       .panel.panel-default
         .panel-heading Ansprechpartner
         .panel-body
           -@roles.each do |r|
             - if @contacts[r] != nil then
-              %b=t('orchestra_contact.role_'+r)
-              %br
-              #{@contacts[r].first_name} #{@contacts[r].last_name}
-              %br
-              =@contacts[r].street
-              %br
-              #{@contacts[r].zip} #{@contacts[r].city}
-              %br
-              =@contacts[r].phone
-              %br
-              =@contacts[r].email
+              .row
+                .col-md-4
+                  %b=t('orchestra_contact.role_'+r)
+                .col-md-4
+                  #{@contacts[r].first_name} #{@contacts[r].last_name}
+                  %br
+                  =@contacts[r].street
+                  %br
+                  #{@contacts[r].zip} #{@contacts[r].city}
+                  %br
+                  =@contacts[r].phone
+                  %br
+                  =@contacts[r].email
 
       .panel.panel-default
         .panel-heading Beitragspflichtige Mitglieder
@@ -53,17 +48,6 @@
           =entity_row(@rs,:youth)
           =entity_row(@rs,:adult)
           =entity_row(@rs,:senior)
-      
-      .panel.panel-default
-        .panel-heading 
-          Mitglieder
-        .panel-body
-      %table
-        -ReportSheet.age_categories.each do |cat|
-          %tr
-            %td.label=t('report_sheet.age_category.'+cat)
-            %td=@counts[cat]
-
       .panel.panel-default
         .panel-heading Sonstige Mitglieder
         .panel-body
@@ -91,6 +75,5 @@
             .col-sm-12.col-md-3.text-right=label :report_sheet,:instrumentation
             .col-sm-12.col-md-9=@orchestration.join(", ")
 
-    .group.navform.wat-cf
-      = back_button( url_for(:action=>:step4, :id=>@report_sheet_input))
-      =wizard_forward_button("Verbindlich absenden", url_for(:action=>:confirm, :id=>@report_sheet_input))
+    = wizard_back_button( url_for(:action=>:step4, :id=>@report_sheet_input))
+    = wizard_forward_button("Verbindlich absenden", url_for(:action=>:confirm, :id=>@report_sheet_input))

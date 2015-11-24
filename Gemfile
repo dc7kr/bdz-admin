@@ -62,6 +62,8 @@ gem 'json'
 gem 'prawn'
 gem 'prawn-table', '~> 0.2.2'
 
+gem 'pdf-toolkit'
+
 gem 'dynamic_form'
 gem 'formtastic'
 gem 'valid_email'
@@ -69,6 +71,7 @@ gem 'valid_email'
 gem "comma", "~> 3.0"
 
 gem "spreadsheet"
+gem "roo-xls"
 #gem "to_xml-rails"
 
 group :development do

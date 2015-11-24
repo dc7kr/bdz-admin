@@ -25,15 +25,14 @@
         = form_my_field(f, @report_sheet,:senior_ens)
         = form_my_field(f, @report_sheet,:other_ens)
 
-    .panel.panel-default
-      .panel-heading 4. Instrumentierung
-      .panel-body
-        = form_my_field(f, @report_sheet,:zo,:checkbox)
-        = form_my_field(f, @report_sheet,:zi_o,:checkbox)
-        = form_my_field(f, @report_sheet,:go,:checkbox)
-        = form_my_field(f, @report_sheet, :oz,:checkbox)
-    
-  .group.navform.wat-cf
-    = back_button( url_for(:action=>:step3, :id=>@report_sheet_input))
-    = submit_button( t("common.save_and_continue"))
+  .panel.panel-default
+    .panel-heading 4. Instrumentierung
+    .panel-body
+      = form_my_field(f, @report_sheet,:zo,:checkbox)
+      = form_my_field(f, @report_sheet,:zi_o,:checkbox)
+      = form_my_field(f, @report_sheet,:go,:checkbox)
+      = form_my_field(f, @report_sheet, :oz,:checkbox)
+  
+  = wizard_back_button( url_for(:action=>:step3, :id=>@report_sheet_input))
+  = submit_button( t("common.save_and_continue"))
   

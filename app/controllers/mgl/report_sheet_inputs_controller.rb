@@ -346,7 +346,8 @@ class Mgl::ReportSheetInputsController < ApplicationController
           result = tool.deliver_mailing(ReportSheetConfirmationMail, @rsi.orchestra,  pdf_file,  nil, nil, mailer_params)
         end
 				format.pdf do
-				  send_data File.new(pdf_file.full_path), filename: "meldebogen_#{@rsi.report_sheet.year}_#{@rsi.orchestra.mglnr}.pdf",
+          Rails.logger.debug "Sending PDF: #{pdf_file.full_path}"
+				  send_file pdf_file.full_path, filename: "meldebogen_#{@rsi.report_sheet.year}_#{@rsi.orchestra.mglnr}.pdf",
 									  type: "application/pdf",
 									  disposition: "inline"
 				end

@@ -22,9 +22,5 @@
           = form_my_field(cf, contact,:email,:text,"input-sm")
           = form_my_field(cf, contact,:phone,:text,"input-sm")
       
-  .group.navform.wat-cf
-    = back_button(url_for(:action=>:step1, :id=>@report_sheet_input))
-    %button.button{:type => "submit"}
-      = image_tag("web-app-theme/icons/tick.png", :alt => "#{t("common.save_and_continue")}")
-      = t("common.save_and_continue")
-  
+  = wizard_back_button(url_for(:action=>:step1, :id=>@report_sheet_input))
+  = submit_button(t("common.save_and_continue"))
