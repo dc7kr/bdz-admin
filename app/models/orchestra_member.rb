@@ -33,7 +33,7 @@ class OrchestraMember < ActiveRecord::Base
 		return "T"
 	elsif age(year) <= 27 then
 		return "Y"
-	elsif age(year) <= 55 then
+	elsif age(year) <= 65 then
 		return "A"
 	else 
 		return "S"
