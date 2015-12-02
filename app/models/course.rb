@@ -3,8 +3,8 @@ class Course < ActiveRecord::Base
 	belongs_to :state, :foreign_key => "bland"
 	belongs_to :festival, :foreign_key => "festival"
   
-  scope :public, where('visible=1 and datum >= now()')
-  scope :future, where('datum >= now()')
+  scope :public, where('visible=1 and startdate >= now()')
+  scope :future, where('startdate>= now()')
    
 	#belongs_to :regional_organization, foreign_key => "lv"
 
