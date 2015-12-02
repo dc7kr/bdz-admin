@@ -1,11 +1,12 @@
-.block
-  %h3=t("common.search",:default=>"Search")
-  %ul.navigation
-    %li
-      %p Suche nach Mitgliedsnummer oder Teil des Nachnamens
-      %p
-        = form_tag person_members_path, :method => 'get' do
-          = hidden_field_tag :direction, params[:direction]
-          = hidden_field_tag :sort, params[:sort]
-          = text_field_tag :search, params[:search]
-          = submit_tag "Suchen", :name => nil
+.panel.panel-primary
+  .panel-heading=t("common.search",:default=>"Search")
+  .panel-body
+    %ul.nav.nav-pills.nav-stacked
+      %li
+        %p Suche nach Mitgliedsnummer oder Teil des Nachnamens
+        %p
+          = form_tag person_members_path, :method => 'get' do
+            = hidden_field_tag :direction, params[:direction]
+            = hidden_field_tag :sort, params[:sort]
+            = text_field_tag :search, params[:search]
+            = submit_tag "Suchen", :name => nil

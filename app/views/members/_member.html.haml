@@ -1,49 +1,22 @@
 .row
   .col-md-2=label :member,:salutation
   .col-md-10= t("common.salutations."+member.anrede)
+=entity_row(member,:fullname)
+=entity_row(member,:strasse)
+=entity_row(member,:plz)
+=entity_row(member,:ort)
 .row
-  .col-md-2=label :member,:fullname
-  .col-md-10= member.fullname
-.row
-  .col-md-2=label :member,:street
-  .col-md-10= member.strasse
-.row
-  .col-md-2=label :member,:zip
-  .col-md-10= member.plz
-.row
-  .col-md-2=label :member,:city
-  .col-md-10= member.ort
-.row
-  .col-md-2=label_tag t("country")
-  .col-md-10=translated_country(member.country_code)
-.row
-  .col-md-2=label :member,:email
-  .col-md-10= mail_to member.email, member.email
-.row
-  .col-md-2=label :member,:phone
-  .col-md-10= member.telefon
-.row
-  .col-md-2=label :member,:fax
-  .col-md-10= member.fax
+  .col-md-3.text-right=label :member,:country
+  .col-md-9=translated_country(member.country_code)
+=entity_row(member,:email,:mailto)
+=entity_row(member,:telefon)
+=entity_row(member,:fax)
 .row
   .col-md-2=label :member,:za
   %td #{t("common.za_"+member.za)}
-.row
-  .col-md-2=label :member,:iban
-  .col-md-10= member.iban
-.row
-  .col-md-2=label :member,:bic
-  .col-md-10= member.bic
-.row
-  .col-md-2=label :member,:zahler
-  .col-md-10= member.zahler
-.row
-  .col-md-2=label :member,:lv
-  .col-md-10= member.regional_organization.name
-.row
-  .col-md-2=label :member,:eintritt
-  .col-md-10= format_date(member.eintritt)
-
-.row
-  .col-md-2=label :member,:austritt_zum
-  .col-md-10= member.austritt_zum
+=entity_row(member,:iban)
+=entity_row(member,:bic)
+=entity_row(member,:zahler)
+=entity_row(member.regional_organization,:name)
+=entity_row(member,:eintritt)
+=entity_row(member,:austritt_zum,:date)

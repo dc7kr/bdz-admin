@@ -5,40 +5,14 @@
     .inner
       %h2= @person_member.mglnr
       %h2= @person_member.fullname
-      %table
-        = render @person_member.member,:partial=>"member"
-        %tr
-          %td.label #{t("person_member.birthday")}:
-          %td= format_date(@person_member.geburtstag)
-        %tr
-          %td.label #{t("member.telefonDienstl")}:
-          %td= @person_member.telefonDienstl
-        %tr
-          %td.label #{t("person_member.tarrif_id")}:
-          %td
-            - if not @person_member.tariff.nil? then
-              = @person_member.tariff.description
-            -else
-              %span.error FEHLER!!!
-        %tr
-          %td.label #{t("member.comment")}:
-          %td
-            = @person_member.bemerkung
-        %tr
-          %td.label
-            #{t("person_member.zeitungen")}:
-          %td
-            = @person_member.zeitungen
-        %tr
-          %td.label
-            #{t("person_member.kuendigungVom")}:
-          %td
-            = @person_member.kuendigungVom
-        %tr
-          %td.label
-            #{t("person_member.zusatzzeitung")}:
-          %td
-            = @person_member.zusatzzeitung
+      = render @person_member.member,:partial=>"member"
+      = entity_row(@person_member,:geburtstag,:date)
+      = entity_row(@person_member,:telefonDienstl)
+      = entity_row(@person_member.tariff,:description)
+      = entity_row(@person_member,:bemerkung)
+      = entity_row(@person_member,:zeitungen)
+      = entity_row(@person_member,:kuendigungVom,:date)
+      = entity_row(@person_member,:zusatzzeitung)
       .wat-cf
         = edit_button(edit_person_member_path(@person_member),@person_member)
         = del_button(person_member_path(@person_member),@person_member)
