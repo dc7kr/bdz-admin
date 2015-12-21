@@ -108,46 +108,6 @@ body {
 }
 
 
-/* tables */
-.table {
-  width: 100%;
-  border-collapse: collapse;  
-  margin-bottom: 15px;
-
-  tr {
-    margin-bottom:0px;
-  }
-  td {
-    padding: 5px;
-  }
-
-  td.last {
-    text-align: right;
-  }
-
-  th {
-    padding: 10px;
-    font-weight: bold;
-    text-align: left;
-    a {
-      color: #ffffff;
-    }
-  }
-
-  th.first {
-    width: 30px;
-  }
-
-  th.last {
-    width: 200px;  
-  }
-
-  .checkbox {
-    margin-left: 10px;
-  }
-}
-
-
 /* forms */
 
 input.checkbox {

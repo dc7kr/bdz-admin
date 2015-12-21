@@ -264,17 +264,11 @@ class OrchestrasController < AuthenticatedController
 	  dateprefix = Time.now.strftime '%Y%m%d%H%M%S_'
 	  @rsi = ReportSheetInput.includes(:report_sheet).where('report_sheet_inputs.orchestra_id = :orchestra_id and report_sheets.year = :year',:orchestra_id=>@orchestra.id, :year=>year+1).first
 
-	  if ( @rsi == nil ) then
-		  @rsi = ReportSheetInput.new_for_orchestra(@orchestra,year)
-	  end
-
-	  @rsi.save
-
     url = "http://www.bdz-online.de/meldebogen/"
 
-	  target = BDZ_SETTINGS['invoice_archive_dir']+"/"+year.to_s+"/"+dateprefix+"_"+@orchestra.mglnr.to_s+"_meldebogen_anschreiben.pdf"
+	  target = BDZ_SETTINGS['invoice_archive_dir']+"/"+year.to_s+"/"+dateprefix+@orchestra.mglnr.to_s+"_meldebogen_anschreiben.pdf"
 
-	  gen_anschreiben(@orchestra,@rsi,url,target,year);
+	  gen_anschreiben(@orchestra,@rsi);
     send_file(target, :filename => target, :type => "application/octet-stream")
   end
 

@@ -16,12 +16,12 @@ class ReportSheetInputPdf< Prawn::Document
 	  end
     @view = view
 
-     font("Helvetica",:size=>10)
+   font("Helvetica",:size=>10)
     rsi_head
 	  addresses
 	  orch_contacts
 	  report_sheet
-	  #orch_members
+#	  #orch_members
 	  part4
   end
   
@@ -66,16 +66,17 @@ class ReportSheetInputPdf< Prawn::Document
     end
   end
 
-  def orch_contact_rows
-    [[t_label('orchestra_contact.role'),I18n.t('common.fullname'), t_label('orchestra_contact.phone'),t_label('orchestra_contact.email') ]] +
+  def orch_contact_rows  
+    contact_rows = 
+    [[t_label('orchestra_contact.role'),I18n.t('common.fullname'), t_label('orchestra_contact.phone'),t_label('orchestra_contact.email') ]] 
 	
-	OrchestraContact.roles.map do |r| 
-		if not @contacts[r].nil? then
-	      [I18n.t('orchestra_contact.role_'+r), @contacts[r].first_name+" "+@contacts[r].last_name+", "+@contacts[r].street+", "+@contacts[r].zip+" "+@contacts[r].city, @contacts[r].phone, @contacts[r].email] 
-		else
-			[]
-		end
+    OrchestraContact.roles.map do |r| 
+      if not @contacts[r].nil? then
+        contact_rows << [I18n.t('orchestra_contact.role_'+r), @contacts[r].first_name+" "+@contacts[r].last_name+", "+@contacts[r].street+", "+@contacts[r].zip+" "+@contacts[r].city, @contacts[r].phone, @contacts[r].email] 
+      end
     end
+
+    contact_rows
   end
 
   def report_sheet 

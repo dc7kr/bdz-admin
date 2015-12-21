@@ -61,9 +61,12 @@ module ButtonHelper
     end
   end
 
-  def glyph_button(glyph, path,txt, type= :link)
+  def glyph_button(glyph, path,txt, type= :link, clazz=nil)
     if type == :link 
-      link_to path, :class => "btn btn-default" do 
+      if clazz.nil? then
+        clazz = "btn-default"
+      end
+      link_to path, :class => "btn "+clazz do 
         content_tag(:span,"",:class=>"glyphicon #{glyph}")+" #{txt}"
       end
     elsif type == :button

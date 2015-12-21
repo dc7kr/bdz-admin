@@ -9,7 +9,15 @@ class RegionalOrganizationPdf < Prawn::Document
 		@view = view
     @cur_year = Time.now.year
 
-		font "Helvetica", :size => 10
+    font_dir = "/usr/share/fonts/truetype/liberation"
+    font_families.update("LiberationSans" => {
+      :normal => File.join(font_dir,"LiberationSans-Regular.ttf"),
+      :italic => File.join(font_dir,"LiberationSans-Italic.ttf"),
+      :bold => File.join(font_dir,"LiberationSans-Bold.ttf"),
+      :bold_italic => File.join(font_dir,"LiberationSans-BoldItalic.ttf")
+    })
+    font "LiberationSans", :size => 10
+
 		heading
 		orchestra_list
 		move_down(30)

@@ -14,7 +14,8 @@ class Mgl::ReportSheetInputsController < ApplicationController
 	url_id = params[:id].to_i
 	
 	if ( @sess_token == nil or @input_id != url_id) then
-		redirect_to url_for(:action=>:login), :flash => { :error => t('report_sheet_input.login_first') } 
+    flash[:error ] =  t('report_sheet_input.login_first') 
+		redirect_to url_for(:action=>:login)
 		return
 	end
 
@@ -43,7 +44,8 @@ class Mgl::ReportSheetInputsController < ApplicationController
 
 		if ( @report_sheet_input == nil ) then
 			Rails.logger.warn('Invalid token: ')
-			redirect_to :action=>:login, notice: t('report_sheet_input.invalid_token')
+      flash[:error] =  t('report_sheet_input.invalid_token')
+			redirect_to :action=>:login
 		else
 			@orchestra = @report_sheet_input.orchestra
 			session[:report_sheet_input_id]=@report_sheet_input.id

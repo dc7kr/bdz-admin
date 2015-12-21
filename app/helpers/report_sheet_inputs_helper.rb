@@ -28,7 +28,7 @@ def memberToAgeCategory(dob,year)
 		category[1]="x"
 	elsif age <= 27 then
 		category[2]="x"
-	elsif age <= 55 then 
+	elsif age <= 65 then 
 		category[3]="x"
 	else
 		category[4]="x"
