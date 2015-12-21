@@ -4,15 +4,15 @@
   .content
     %h2.title
       = t("common.all")
-      Orchester
+      = t("festival",:count=>3)
     .inner
       #entry_info
         = page_entries_info @festivals
       %table.table.table-hover.table-condensed
         %thead
-          %th.first= sortable "mglnr", t("festival.mglnr")
-          %th= sortable "orchName", t("festival.orchName")
-          %th= sortable "email", t("member.email")
+          %th.first= sortable "startdate", t("festival.startdate")
+          %th= sortable "name", t("festival.name")
+          %th= sortable "homepage", t("festival.homepage")
           %th.last &nbsp;
         %tbody#festivals
           =render @festivals

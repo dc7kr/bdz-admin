@@ -8,7 +8,7 @@
     .inner
       %table.table.table-hover.table-condensed
         %tr
-          %th.first=sortable("datum", attr_heading(Concert, :datum))
+          %th.first=sortable("concert_date", attr_heading(Concert, :concert_date))
           %th=attr_heading(Concert, :zeit)
           %th=attr_heading(Concert, :interpret)
           %th=sortable("ort", attr_heading(Concert, :ort))

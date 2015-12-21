@@ -4,7 +4,7 @@
   .content
     %h2.title
       = t("common.edit")
-      = t('homepage.s')
+      = t('homepages',:count=>1)
     .inner
       = form_for @homepage do |f|
         = render :partial => "form", :locals => {:f => f}

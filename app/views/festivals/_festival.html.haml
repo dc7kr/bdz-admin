@@ -2,15 +2,10 @@
   %td= festival.startdate
   %td= festival.bland
   %td= festival.name
-  %td= festival.description
-  %td= festival.anmeldung
-  %td= festival.gebuehren
-  %td= festival.stadt
   %td= festival.homepage
-  %td= festival.ort
-  %td= festival.ortdetails
   %td= festival.visible
-  %td= link_to_show( festival_path(festival), 'Show')
-  %td= link_to_edit( edit_festival_path(festival) ,'Edit')
-  %td= link_to_delete(festival,'Satz löschen','Wirklich löschen?')
+  %td
+    = link_to_show festival
+    = link_to_edit festival
+    = link_to_delete festival
 

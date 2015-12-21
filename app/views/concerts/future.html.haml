@@ -4,13 +4,13 @@
       =render :partial=>'nav'
   .content
     %h2.title
-      = t("common.all", :default => "All")
+      = t("common.future")
       Konzerte
     .inner
       %table.table
         %tr
           %th.first 
-            = sortable "datum", t("concert.datum", :default =>"#datum#")
+            = sortable "concert_date", t("concert.concert_date")
           %th
             = c_t("concert","zeit",nil)
           %th

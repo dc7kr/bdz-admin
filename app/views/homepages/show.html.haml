@@ -3,32 +3,13 @@
     = render :partial=>'nav'
   .content
     .inner
-      %table
-        %tr
-          %td=f.label :abbrev
-          %td=@homepage.abbrev
-        %tr
-          %td=f.label :mitglnr
-          %td=@homepage.mitglnr
-        %tr
-          %td=f.label :name
-          %td=@homepage.name
-        %tr
-          %td=f.label :kontakt
-          %td=@homepage.kontakt
-        %tr
-          %td=f.label :proben
-          %td=@homepage.proben
-        %tr
-          %td=f.label :descr
-          %td=@homepage.descr
-        %tr
-          %td=f.label :created
-          %td=@homepage.created
-        %tr
-          %td=f.label :lastchange
-          %td=@homepage.lastchange
-        %tr
-          %td=f.label :redir_url
-          %td=@homepage.redir_url
+      =entity_row @homepage, :abbrev
+      =entity_row @homepage, :mitglnr
+      =entity_row @homepage, :name
+      =entity_row @homepage, :kontakt
+      =entity_row @homepage, :proben
+      =entity_row @homepage, :descr
+      =entity_row @homepage, :created_at
+      =entity_row @homepage, :updated_at
+      =entity_row @homepage, :redir_url
 

@@ -4,7 +4,7 @@
   .content
     .inner
       %h2
-        = t("classified")
+        = t("classified",:count=>1)
         = @classified.object
       = entity_row(@classified,:name)
       = entity_row(@classified,:email)

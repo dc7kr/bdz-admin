@@ -2,8 +2,8 @@
   %td.first= homepage.abbrev
   %td= homepage.mitglnr
   %td= homepage.name
-  %td= l homepage.created unless homepage.created.nil?
-  %td= l homepage.lastchange unless homepage.lastchange.nil?
+  %td= l homepage.created_at unless homepage.created_at.nil?
+  %td= l homepage.updated_at unless homepage.updated_at.nil?
   %td= homepage.redir_url
   %td
     = link_to_show homepage

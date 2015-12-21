@@ -8,81 +8,27 @@
         %br
         = t("report_sheet",:count=>3)
         = @report_sheet.year
+      =entity_row(@report_sheet,:report_date,:date)
+      =entity_row(@report_sheet,:generated)
+      =calculation_row(@report_sheet,:children, Prices.childrenRate)
+      =calculation_row(@report_sheet,:teens, Prices.teensRate)
+      =calculation_row(@report_sheet,:youth, Prices.youthRate)
+      =calculation_row(@report_sheet,:adult, Prices.adultRate)
+      =calculation_row(@report_sheet,:senior, Prices.seniorRate)
+      =calculation_row(@report_sheet,:calcUvCount, Prices.uvRate)
+      =calculation_sum(label(:report_sheet,:invsum),@report_sheet.calcInvoice)
 
+      - if @report_sheet.delayed? then
+        .row
+          .col-md-3=label(:report_sheet,:delay_fee)
+          .col-md-1
+          .col-md-3
+          .col-md-2.text-right=format_currency(Prices.delayFee)
+
+      =entity_row(@report_sheet,:calcZeitungen)
+      =entity_row(@report_sheet,:calcGemaCount)
+      =entity_row(@report_sheet,:azubi)
       %table
-        %tr
-          %td.label
-            = t("report_sheet.report_date")
-            \:
-          %td= @report_sheet.report_date != nil ? l(@report_sheet.report_date) : "NIL"
-        %tr
-          %td.label=t("report_sheet.generated")
-          %td=format_bool @report_sheet.generated
-        %tr
-          %td.label
-            = t("report_sheet.children")
-            \:
-          %td= @report_sheet.children
-          %td à
-          %td.currency
-            =format_currency(Prices.childrenRate,'€')
-          %td.currency
-            = format_currency(@report_sheet.children * Prices.childrenRate,'€')
-        %tr
-          %td.label
-            = t("report_sheet.teens")
-            \:
-          %td= @report_sheet.teens
-          %td à
-          %td.currency
-            =format_currency(Prices.teensRate,'€')
-          %td.currency
-            = format_currency(@report_sheet.teens * Prices.teensRate,'€')
-        %tr
-          %td.label
-            = t("report_sheet.youth")
-            \:
-          %td= @report_sheet.youth
-          %td à
-          %td.currency 
-            = format_currency(Prices.youthRate,'€')
-          %td.currency
-            = format_currency(@report_sheet.youth * Prices.youthRate,'€')
-        %tr
-          %td.label=t("report_sheet.adult")
-          %td= @report_sheet.adult
-          %td à
-          %td.currency
-            = format_currency(Prices.adultRate,'€')
-          %td.currency
-            = format_currency(@report_sheet.adult * Prices.adultRate,'€')
-        %tr
-          %td.label=t("report_sheet.senior")
-          %td= @report_sheet.senior
-          %td à
-          %td.currency
-            = format_currency(Prices.seniorRate,'€')
-          %td.currency
-            = format_currency(@report_sheet.senior * Prices.seniorRate,'€')
-        %tr
-        %tr
-          %td.label=t("report_sheet.uv")
-          %td!= @report_sheet.calcUvCount
-          %td à
-          %td.currency
-            =format_currency(Prices.uvRate ,'€')
-          %td.currency
-            =format_currency(@report_sheet.calcUV,'€')
-        %tr
-          %td.label=t("report_sheet.zeitungen")
-          %td #{@report_sheet.calcZeitungen}
-        %tr
-          %td.label=t("report_sheet.gema")
-          %td
-            = @report_sheet.calcGemaCount
-        %tr
-          %td.label=t("report_sheet.azubi")
-          %td= @report_sheet.azubi
         %tr
           %td{:colspan=>4}
             %hr
@@ -101,10 +47,6 @@
         %tr
           %td{:class =>'label',:colspan=>4}=t("report_sheet.sum")
           %td.sum= format_currency(@report_sheet.calcBeitrag,'€')
-        - if @report_sheet.delayed? then
-          %tr
-            %td{:class => 'label',:colspan=>4}=t("report_sheet.delay_fee")
-            %td.sum=format_currency(Prices.delayFee)
         %tr
           %td{:class =>'label',:colspan=>4}=t("report_sheet.uvsum")
           %td.sum= format_currency(@report_sheet.calcUV,'€')

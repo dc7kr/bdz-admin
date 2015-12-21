@@ -4,7 +4,7 @@
   .content
     %h2.title
       = t("common.new")
-      = t("magazine_issue")
+      = t("magazine_issue",:count=>1)
     .inner
       = form_for :magazine_issue, :url => magazine_issues_path, :html => { :class => :form } do |f|
         = render :partial => "form", :locals => {:f => f}

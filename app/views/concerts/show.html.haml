@@ -3,46 +3,17 @@
     = render :partial => "nav"
   .content
     .inner
-      %table
-        %tr
-          %td.label=t("concert.datum")
-          %td= @concert.datum
-        %tr
-          %td.label=t("concert.zeit")
-          %td= @concert.zeit
-        %tr
-          %td.label=t("concert.concert_date")
-          %td= @concert.concert_date
-        %tr
-          %td.label=t("concert.interpret")
-          %td= @concert.interpret
-        %tr
-          %td.label=t("concert.titel")
-          %td= @concert.titel
-        %tr
-          %td.label=t("concert.ort")
-          %td= @concert.ort
-        %tr
-          %td.label=t("concert.stadt")
-          %td= @concert.stadt
-        %tr
-          %td.label=t("concert.state")
-          %td= @concert.state.name
-        %tr
-          %td.label=t("concert.country")
-          %td= @concert.country_code
-        %tr
-          %td.label=t("concert.festival")
-          %td= @concert.festival.name
-        %tr
-          %td.label #{t("concert.eintritt")}:
-          %td= @concert.eintritt
-        %tr
-          %td.label=t("concert.url")
-          %td= link_to @concert.url,@concert.url
-        %tr
-          %td.label=t("concert.email")
-          %td= mail_to @concert.email,@concert.email
-        %tr
-          %td.label=t("concert.comment")
-          %td=@concert.comment
+      = entity_row @concert,:datum
+      = entity_row @concert,:zeit
+      = entity_row @concert,:concert_date,:date
+      = entity_row @concert,:interpret
+      = entity_row @concert,:titel
+      = entity_row @concert,:ort
+      = entity_row @concert,:stadt
+      = entity_row @concert.state,:name
+      = entity_row @concert,:country_code
+      = entity_row @concert.festival,:name
+      = entity_row @concert,:eintritt,:currency
+      = entity_row @concert,:url,:url
+      =entity_row @concert,:email,:mailto
+      =entity_row @concert,:comment

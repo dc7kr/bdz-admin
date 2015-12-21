@@ -1,34 +1,11 @@
-%p
-  %b Startdate:
-  = format_date @course.startdate
-%p
-  %b Enddate:
-  = format_date @course.enddate
-%p
-  %b Titel:
-  = @course.titel
-%p
-  %b Beschreibung:
-  = @course.beschreibung
-%p
-  %b Gebuehr:
-  = @course.gebuehr
-%p
-  %b Weitere Termine:
-  = @course.more_dates
-%p
-  %b Anmeldung:
-  = @course.anmeldung
-%p
-  %b Deadline:
-  = format_date @course.deadline
-%p
-  %b Reported:
-  = l @course.reported
-%p
-  %b Visible:
-  = @course.visible
-
+= entity_row @course,:startdate,:date
+= entity_row @course,:enddate,:date
+= entity_row @course,:titel
+= entity_row @course,:beschreibung
+= entity_row @course,:gebuehr
+= entity_row @course,:more_dates
+= entity_row @course,:anmeldung
+= entity_row @course,:deadline,:date
+= entity_row @course,:reported,:date
+= entity_row @course,:visible,:boolean
 = link_to_edit @course,t("common.edit")
-\|
-= link_back t("common.back")
