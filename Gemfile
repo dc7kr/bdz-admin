@@ -111,6 +111,7 @@ gem 'parseconfig'
 
 # Bootstrap css 
 gem 'bootstrap-sass', '~> 3.3.5'
+#gem 'bootstrap_form'
 gem 'sass-rails', '>= 3.2'
 
 #to be able to compile the assets...

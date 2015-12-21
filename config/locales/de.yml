@@ -592,8 +592,8 @@ de:
       C: "Kinder bis 14"
       T: "Jugendliche 15-19"
       Y: "Jugendliche 19-27"
-      A: "Erwachsene 28-55"
-      S: "Erwachsene 55+"
+      A: "Erwachsene 28-64"
+      S: "Erwachsene 65+"
     final: "Eingereichte Meldebögen"
     analysis: "Auffällige Meldebögen"
     update_double_members: "Meldebogen anpassen"
@@ -619,7 +619,6 @@ de:
     other: "Meldebogeneingabe-Objekte"
     login: Anmelden
     login_title: Meldebogenerfassung
-    token: Passwort
     save_success: "Daten erfolgreich gespeichert"
     current_members: "Aktuelle Mitgliederliste"
     page_1: "Mitgliedermeldung %{year} - Schritt 1"
@@ -628,6 +627,7 @@ de:
     page_4: "Mitgliedermeldung %{year} - Schritt 4"
     no_file_selected: "Bitte wählen Sie zuerst eine Datei zum Hochladen aus!"
     invalid_upload: "Das Format der hochgeladenen Datei wurde nicht erkannt!"
+    invalid_token: "Ungültige Zugangsdaten"
     login_first: "Bitte melden Sie sich an!"
     pdf_confirm: "PDF Bestätigung"
     member_delete_success: "Alle Orchestermitglieder wurden gelöscht."
@@ -997,6 +997,8 @@ de:
       truncate: "&hellip;"
   helpers:
     label:
+      report_sheet_input:
+        token: "Passwort"
       orchestra_contact:
         first_name: Vorname
         last_name: Nachname
@@ -1018,8 +1020,8 @@ de:
         azubi_child: "Aktive bis 14 Jahre"
         azubi_teens: "Aktive 15 – 18 Jahre"
         azubi_youth: "Aktive 19 – 27 Jahre"
-        azubi_adult: "Aktive 28 – 60 Jahre"
-        azubi_senior: "Aktive ab 60 Jahren"
+        azubi_adult: "Aktive 28 – 64 Jahre"
+        azubi_senior: "Aktive ab 65 Jahren"
         children: Kinder
         teens: Jugendliche 15-18
         youth: Erw. 19-27
@@ -1056,6 +1058,7 @@ de:
         street: Straße
         city: Ort
         zip: PLZ
+        mglnr: Mitgliedsnummer
 
 
       contact_event: 
