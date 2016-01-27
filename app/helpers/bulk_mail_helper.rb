@@ -36,7 +36,7 @@ module BulkMailHelper
     year = Time.now.strftime('%Y')
     pdf_prefix= Time.now.strftime '%Y%m%d'
 
-    users = User.where("role like ? or role like ?", "%accounting%", "%admin%")
+    users = User.for_admin_notify
 
     base_url = cron_downloads_url
     letters_url = base_url+"?year="+year+"&filename="+letterFile.orig_filename

@@ -1,9 +1,9 @@
 module NotifyHelper
 	def admin_notify_users
 		if is_production?
-    		@users = User.where("role like ? or role like ?", "%accounting%", "%admin%")
+    		@users = User.for_admin_notify
 		else
-			@users = User.where("role like ?","%admin%")
+			@users = User.with_role(:admin)
 		end
 	end
 end
