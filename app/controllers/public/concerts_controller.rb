@@ -5,17 +5,19 @@ class Public::ConcertsController < ApplicationController
 
   # override
   def index
-	@currentTab = params[:tab];
-	if ( @currentTab == nil ) then
-		@currentTab = 0 
-	end
+    if params[:lv] then
+    end
+    @currentTab = params[:tab];
+    if ( @currentTab == nil ) then
+      @currentTab = 0 
+    end
 
-	if ( @currentTab == 0 ) then 
-		renderConcerts
-	elsif (@currentTab==1) then
-		renderEnsembleConcerts(params)
-	elsif (@currentTab==2) then 
-		renderFestivals(params)
+    if ( @currentTab == 0 ) then 
+      renderConcerts
+    elsif (@currentTab==1) then
+      renderEnsembleConcerts(params)
+    elsif (@currentTab==2) then 
+      renderFestivals(params)
     end
   end
 
@@ -61,7 +63,7 @@ class Public::ConcertsController < ApplicationController
   # GET /concerts/new.json
   def new
     @concert = Concert.new
-    @concert.country_code='de'
+    @concert.country_code='DE'
     @lvs = RegionalOrganization.all
     @states = State.all
     @festivals = Festival.where("startdate > ? or id=0",Time.now)

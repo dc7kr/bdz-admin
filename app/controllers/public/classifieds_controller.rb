@@ -1,0 +1,80 @@
+class Public::ClassifiedsController < ApplicationController
+  helper_method :sort_column, :sort_direction
+
+  def index
+    @classifieds= Classified.search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
+
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.js
+      format.json { render json: @classifieds }
+    end
+  end
+  
+  def show
+    @classified = Classified.find(params[:id])
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json { render json: @classified }
+    end
+  end
+
+  # GET /classifieds/new
+  # GET /classifieds/new.json
+  def new
+    @classified = Classified.new
+
+    respond_to do |format|
+      format.html # new.html.erb
+      format.json { render json: @classified }
+    end
+  end
+
+  # GET /classifieds/1/edit
+  def edit
+    @classified = Classified.find(params[:id])
+  end
+
+  # POST /classifieds
+  # POST /classifieds.json
+  def create
+    @classified = Classified.new(params[:classified])
+
+    respond_to do |format|
+      if @classified.save
+        format.html { redirect_to @classified, notice: 'Classified was successfully created.' }
+        format.json { render json: @classified, status: :created, location: @classified }
+      else
+        format.html { render action: "new" }
+        format.json { render json: @classified.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # PUT /classifieds/1
+  # PUT /classifieds/1.json
+  def update
+    @classified = Classified.find(params[:id])
+
+    respond_to do |format|
+      if @classified.update_attributes(params[:classified])
+        format.html { redirect_to @classified, notice: 'Classified was successfully updated.' }
+        format.json { head :no_content }
+      else
+        format.html { render action: "edit" }
+        format.json { render json: @classified.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  private 
+  def sort_column
+    Classified.column_names.include?(params[:sort]) ? params[:sort] : "validuntil"
+  end
+  
+  def sort_direction
+    %w[asc desc].include?(params[:direction]) ? params[:direction] : "desc"
+  end
+end
