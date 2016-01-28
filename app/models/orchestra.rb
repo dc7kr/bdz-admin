@@ -56,6 +56,20 @@ class Orchestra < ActiveRecord::Base
 	  return @reportSheets[0]
   end
 
+  def report_sheet_for_year(year)
+    if year.nil? then
+      year=Time.now.year
+    end
+
+    rs = report_sheets.where(:year => year)
+
+    if rs then
+      rs.first
+    else
+      nil
+    end
+  end
+
   def currentMagazines
 	  if ( orch_type=='K') then
 		  return 2;
@@ -68,28 +82,33 @@ class Orchestra < ActiveRecord::Base
 	  end
   end
 
-  def currentGema
-    if ( currentReportSheet ) then 
-        return currentReportSheet.calcGemaCount
+  def gema(year=nil)
+    rs = report_sheet_for_year(year)
+    if ( rs ) then 
+        return rs.calcGemaCount
     end
   end
 
-  def currentTotal
-	  if ( currentReportSheet ) then 
-	    return currentReportSheet.totalActiveMembers
+  def total(year=nil)
+    rs = report_sheet_for_year(year)
+
+	  if ( rs ) then 
+	    return rs.totalActiveMembers
 	  end
   end
 
-  def currentLvShare  
-    if ( currentReportSheet ) then
-      return currentReportSheet.calcLvPart
+  def lv_share(year=nil)  
+    rs = report_sheet_for_year(year)
+    if ( rs ) then
+      return rs.calcLvPart
     end
   end
 
-  def currentAgeKeyStr
+  def age_key_str(year)
+    rs = report_sheet_for_year(year) 
     str = ""
-    if ( currentReportSheet ) then
-      str=currentReportSheet.ageKeyStr
+    if ( rs ) then
+      str=rs.ageKeyStr
     else 
      str=" kein Meldebogen"
     end
@@ -135,7 +154,7 @@ class Orchestra < ActiveRecord::Base
 	  mglnr 'Mitgliedsnummer'
 	  orchName  'Orchestername'
     inlineFullAddress 'Adresse'
-    currentGema 'Mitglieder'
+    gema 'Mitglieder'
   end
 
   comma :magazine do

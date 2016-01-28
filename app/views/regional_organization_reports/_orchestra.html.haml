@@ -9,16 +9,16 @@
     = mail_to orchestra.email
     %br
     = orchestra.telefon
-  - currentSheet = orchestra.currentReportSheet
+  - rs = orchestra.report_sheet_for_year(@year)
   %td
-    = orchestra.currentTotal
+    = orchestra.total(@year)
   %td
-    = orchestra.currentGema
+    = orchestra.gema(@year)
   %td
-    - if ( currentSheet ) then @orchSum= @orchSum + currentSheet.calcLvPart end
-    = if ( currentSheet ) then format_currency(currentSheet.calcLvPart,'EUR') end
+    - if ( rs ) then @orchSum= @orchSum + rs.calcLvPart end
+    = if ( rs ) then format_currency(rs.calcLvPart,'EUR') end
   %td
-    - if ( currentSheet ) then @orchFullSum= @orchFullSum + currentSheet.calcInvoice end
-    = if ( currentSheet ) then format_currency(currentSheet.calcInvoice,'EUR') end
+    - if ( rs ) then @orchFullSum= @orchFullSum + rs.calcInvoice end
+    = if ( rs ) then format_currency(rs.calcInvoice,'EUR') end
   %td.last
 

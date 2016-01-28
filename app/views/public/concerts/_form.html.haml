@@ -1,4 +1,4 @@
-= boostrap_form_for @concert, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10") do |f|
+= form_for(@concert, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10") do |f|
   -if @concert.errors.any?
     #error_explanation
       %h2= "#{pluralize(@concert.errors.count, "error")} prohibited this concert from being saved:"
@@ -6,40 +6,30 @@
         - @concert.errors.full_messages.each do |msg|
           %li= msg
   .container-fluid
-    =f.text_field :titel
-    =f.number_field :mglnr
-    =f.text_field :interpret
-    =f.date_field :concert_date
-    =f.text_field :stadt
-    =f.text_field :ort
-    %tr
-      %td= f.label :festival
-      %td= select_tag "festival", options_from_collection_for_select(@festivals, "id", "name")
-    %tr
-      %td= f.label :url
-      %td= f.text_field :url
-    %tr
-      %td= f.label :comment
-      %td= f.text_field :comment
-    %tr
-      %td= f.label :bland
-      %td= select_tag "bland", options_from_collection_for_select(@states, "id", "name")
-    %tr
-      %td.label= f.label :country_code
-      %td= country_select(:concert, :country_code, iso_codes:true)
-    %tr
-      %td= f.label :email
-      %td= f.text_field :email
-    %tr
-      %td= f.label :eintritt
-      %td= f.text_field :eintritt
-    - if (isAdmin?)
-      %tr
-        %td= f.label :owner
-        %td= f.text_field :owner
-    %tr
-      %td= f.label :visible
-      %td= f.check_box :visible, :class => 'check_box'
+    = form_my_field(f,@concert, :titel)
+    = form_my_field(f,@concert, :concert_date,:date)
+    = form_my_field(f,@concert, :stadt)
+    = form_my_field(f,@concert, :ort)
+    = form_my_select(f, @concert, :bland, options_from_collection_for_select(@states, "id", "name"))
+    = form_wrapped_field(f,@concert, :country_code, country_select(:concert, :country_code, iso_codes:true))
+    = form_my_field(f,@concert, :eintritt)
+    = form_my_select(f,@concert, :festival, options_from_collection_for_select(@festivals, "id", "name"))
+    .panel.panel-primary 
+      .panel-heading
+        .panel-title
+          Mitglieder
+      .panel-body
+        = form_my_field(f,@concert, :mglnr, :number)
+        Hinweis: Durch Eingabe der Mitgliedsnummer wird automatisch Homepage und Veranstalter aus unseren Daten übernommen. 
+    .panel.panel-default
+      .panel-heading
+        .panel-title
+          Nicht-Mitglieder
+      .panel-body
+        = form_my_field(f,@concert, :interpret)
+        = form_my_field(f,@concert, :url)
+        = form_my_field(f,@concert, :email)
+    = form_my_field(f, @concert,:comment)
 
   .actions
     = f.submit t("common.save")

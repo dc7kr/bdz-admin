@@ -52,7 +52,7 @@ class RegionalOrganizationReportsController < AuthenticatedNonResourceController
           cell I18n.t('report_sheet.chamber_ens')
         end
         orchestras.each do |o|
-          rs = o.lastReportSheet
+          rs = o.report_sheet_for_year(year)
           t.row do 
             cell o.mglnr
             cell o.orchName
@@ -94,6 +94,14 @@ class RegionalOrganizationReportsController < AuthenticatedNonResourceController
 
 
   def members 
+
+    @year = params[:year]
+
+    if @year.nil? then
+      @year = Time.now.year
+      Rails.logger.debug("Year is nil!")
+    end
+
     @regional_organization = RegionalOrganization.find(params[:regional_organization_id])
 	  @lvSum=0
 	  @orchSum=0
@@ -113,11 +121,13 @@ class RegionalOrganizationReportsController < AuthenticatedNonResourceController
     @ens_sum[:total] = 0 
   
     @orchestras.each do |o|
-      lr = o.lastReportSheet
+      lr = o.report_sheet_for_year(@year)
       ensemble = Hash.new 
       ensemble[:mglnr] =o.mglnr
       ensemble[:rs] = lr 
+
       @ensembles << ensemble
+
       if not lr.nil? then
         @ens_sum[:child_ens]+=lr.child_ens unless lr.child_ens.nil?
         @ens_sum[:youth_ens]+=lr.youth_ens unless lr.youth_ens.nil?
@@ -131,7 +141,7 @@ class RegionalOrganizationReportsController < AuthenticatedNonResourceController
 	  respond_to do |format|
 		  format.html 
 		  format.pdf do
-			  pdf = RegionalOrganizationPdf.new(@regional_organization,@orchestras,@person_members,view_context)
+			  pdf = RegionalOrganizationPdf.new(@regional_organization,@orchestras,@person_members,@year,view_context)
 			  send_data pdf.render, filename: "lv_#{@regional_organization.id}.pdf",
 				  type: "application/pdf",
 			  	disposition: "inline"
@@ -176,7 +186,11 @@ class RegionalOrganizationReportsController < AuthenticatedNonResourceController
 
   def share_overview
     @regional_organzation = RegionalOrganization.find(params[:regional_organization_id])
-    @curYear = Time.now.year
+    @year = params[:year]
+
+    if @year.nil? then
+      @year = Time.now.year
+    end
 
 	if ( params[:before] != nil ) then
 		@before = Date.strptime(params[:before],"%d.%m.%Y")
@@ -200,7 +214,7 @@ class RegionalOrganizationReportsController < AuthenticatedNonResourceController
 
 	@regional_organizations.each do |ro|
 
-    share = ro.member_fee_share_for_year(@curYear,@before)
+    share = ro.member_fee_share_for_year(@year,@before)
 		@s[:uv_sum]+=share[:uv]
 		@s[:lv_sum]+=share[:orch_part]+share[:em_part]
     @s[:lv_em_sum]+=share[:em_part]

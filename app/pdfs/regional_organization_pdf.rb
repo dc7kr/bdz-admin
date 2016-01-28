@@ -1,13 +1,17 @@
 require 'prawn'
 require 'prawn/table'
 class RegionalOrganizationPdf < Prawn::Document
-	def initialize(regional_organization,orchestras,person_members,view)
+	def initialize(regional_organization,orchestras,person_members,year,view)
 		super(top_margin: 70)
 		@regional_organization = regional_organization
 		@orchestras = orchestras
 		@person_members = person_members
 		@view = view
-    @cur_year = Time.now.year
+    if year.nil? then
+      @year = Time.now.year
+    else
+      @year = year
+    end
 
     font_dir = "/usr/share/fonts/truetype/liberation"
     font_families.update("LiberationSans" => {
@@ -53,9 +57,9 @@ class RegionalOrganizationPdf < Prawn::Document
 				item.address+ ", "+
 				(item.telefon ? item.telefon : "") +", "+
 				(item.email ? item.email : ""),
-				item.currentTotal,
-				item.currentGema,
-        item.currentAgeKeyStr
+				item.total(@year),
+				item.gema(@year),
+        item.age_key_str(@year)
 
     ]
 		end
@@ -76,7 +80,7 @@ class RegionalOrganizationPdf < Prawn::Document
   def mglnr(member) 
     str = member.mglnr.to_s
 
-    if ( member.eintritt and member.eintritt.year == @cur_year) then
+    if ( member.eintritt and member.eintritt.year == @year) then
       str+=" (N)"
     elsif member.austritt_zum != nil then
       str+=" (A)"
