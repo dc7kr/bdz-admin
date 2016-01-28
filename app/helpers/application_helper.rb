@@ -73,20 +73,6 @@ def link_back(txt)
 	icon_link(txt,'/assets/icons/back.png',url_for(:back))
 end
 
-  def wizard_back_button(path,txt=t("common.back"))
-    glyph_button("glyphicon-step-backward", path, txt)
-  end
-  def wizard_img_button(path,txt,img)
-      link_to image_tag(img, {:size=>'16x16',:alt=>txt,:title=>txt,:class=>'btn'} )+" "+txt,path, :class => "text_button_padding button"
-  end
-
-  def wizard_forward_button(txt=t('common.save'),path)
-    glyph_button("glyphicon-step-forward", path, txt,:link,"btn-primary")
-  end
-
-  def wizard_del_button(path,txt,entity)
-      link_to content_tag(:span,"",:class=>"glyphicon glyphicon-remove")+txt,path,:confirm => t("common.delete_confirm"), :class=>"btn btn-danger"
-  end
 
 def back_button(path) 
   link_to image_tag("icons/back.png", :alt => t("common.back"))+" "+t("common.back"), path, :class => "button"
