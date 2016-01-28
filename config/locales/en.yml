@@ -33,8 +33,8 @@ en:
 
 
   feature_request:
-    p: Feature Requests
-    s: Feature Request
+    other: Feature Requests
+    one: Feature Request
     owner: Owner
     title: Title
     description: Details
@@ -100,12 +100,12 @@ en:
       W: "Dear Mrs."
 
   advertiser:
-    s: Advertiser
-    p: Advertisers
+    one: Advertiser
+    other: Advertisers
     customer_number: Customer No. 
   magazine_advert:
-    p: Ad bookings
-    s: Ad bookings
+    other: Ad bookings
+    one: Ad bookings
     advert_type: Type
     advert_types:
      F: Full page
@@ -114,8 +114,8 @@ en:
      Q: 1/4 page  
     
   magazine_issue:
-    p: Issues
-    s: Issue
+    other: Issues
+    one: Issue
     number: Number
     year: Year
     gen_advert_invoices: Generate advert invoices
@@ -123,19 +123,19 @@ en:
     counts: Volume
 
   magazine_sampling:
-    p: Samplings
-    s: Sampling
+    other: Samplings
+    one: Sampling
     count: Count
 
   subscriber:
-    p: Subscribers
-    s: Subscriber
+    other: Subscribers
+    one: Subscriber
     account: Acount
     bic: Bank ID
 
   contest:
-    s: Contest
-    p: Contests
+    one: Contest
+    other: Contests
     startdate: Start date
     enddate: End date
     deadline: Deadline
@@ -151,17 +151,17 @@ en:
     publish_success: "Contest successfully published"
 
   university:
-    p: Study location
-    s: Study locations
+    one: Study location
+    other: Study locations
     name: Name
     institut: Institute
     dozent: Teacher
   course:
-    p: Courses
-    s: Course
+    other: Courses
+    one: Course
   concert:
-    p: Concerts
-    s: Concert
+    other: Concerts
+    one: Concert
     publish_success: "Concert successfully published"
     datum: Date
     zeit: Time
@@ -176,17 +176,17 @@ en:
     email: E-Mail
     comment: Comment
   composer:
-    p: Composers
-    s: Composer
+    other: Composers
+    one: Composer
   festival:
-    p: Festivals
-    s: Festival
+    other: Festivals
+    one: Festival
   ensemble:
-    p: Ensembles
-    s: Ensemble
+    other: Ensembles
+    one: Ensemble
   ensemble_concert:
-    s: Ensemble Concert
-    p: Ensemble Concerts
+    one: Ensemble Concert
+    other: Ensemble Concerts
     datum: Date
     zeit: Time
     stadt: City
@@ -194,22 +194,22 @@ en:
     interpret: Artist
     url: URL
   honor_member:
-    p: Honor members
-    s: Honor member
+    other: Honor members
+    one: Honor member
   url:
-    p: URLs
-    s: URL
+    other: URLs
+    one: URL
     confirm_delete: "Really delete URL?"
   url_category:
-    p: URL categories
-    s: URL category
+    other: URL categories
+    one: URL category
 
   board_contact:
-    s: Board contact
-    p: Board contacts
+    one: Board contact
+    other: Board contacts
   contact:
-    s: Address
-    p: Addresses
+    one: Address
+    other: Addresses
     office_phone: Office phone
     company: Company
     department: Dept.
@@ -224,8 +224,8 @@ en:
     street: "Street"
     zip: ZIP
   function:
-    p: Functions
-    s: Function
+    other: Functions
+    one: Function
     label: Unique Label
     bund: National
     jugend: Youth
@@ -235,8 +235,8 @@ en:
     untertitel: Subtitle
 
   regional_organization:
-    p: Regional organizations
-    s: Regional organization
+    other: Regional organizations
+    one: Regional organization
     share_overview: Share 
 
 
@@ -265,8 +265,8 @@ en:
     kuendigungErfasst: Kündigung erfasst
     comment: Bemerkung
   orchestra:
-    s: orchestra
-    p: orchestra
+    one: orchestra
+    other: orchestra
     title: orchestra
     noreport: Kein Meldebogen
     search: "Suche nach Mitgliedsnummer oder Teil des orchestranamens"
@@ -293,6 +293,8 @@ en:
     report_sheet_upload_success: "%{success} Mitgliedsdaten erfolgreich hochgeladen!"
     report_sheet_upload_warning: "%{success} Datensätze OK, %{error} Datensätze waren fehlerhaft!"
   orchestra_member:
+    other: "Orchestra members"
+    one: "Orchestra member"
     title: orchestra members
     first_name: Vorname
     last_name: Nachname
@@ -319,9 +321,8 @@ en:
     order_confirm:
       thanks: "Thank you for your ticket order. You will receive a confirmation e-mail to %{email} shortly. Your order is referenced on our side as number %{nr}."
       heading: "Ticket order No. %{nr} for the eurofestival Zupfmusik 2014 in Bruchsal"
-    s: Kartenbestellung
-    s: Ticket order
-    p: Ticket orders 
+    one: Ticket order
+    other: Ticket orders 
     regular: "Regular:"
     orderdate: Order date
     reduced: "Reduced:"
@@ -342,8 +343,8 @@ en:
     single_price: "unit price"
     total_price: "all round price"
   event_meal:
-    s: Meal report
-    p: Meal reports
+    one: Meal report
+    other: Meal reports
 
     participant_id: participant number
     meals: Overall festival tickets
@@ -372,8 +373,8 @@ en:
       festival_application: &festival_app_labels
         plural: "Festival applications"
         singular: "Festival application"
-        p: "Festival applications"
-        s: "Festival application"
+        other: "Festival applications"
+        one: "Festival application"
         country_id: "Country of origin"
         orchestra: Orchestra
         orch_name: Group name

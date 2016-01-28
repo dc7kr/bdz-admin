@@ -101,6 +101,9 @@ BDZAdmin::Application.routes.draw do
     end
     resources :classifieds do
     end
+
+    resources :regional_organizations, :as => "lv" do
+    end
   end # END NAMESPACE PUBLIC
 
 end
