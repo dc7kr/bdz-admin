@@ -225,8 +225,9 @@ BDZAdmin::Application.routes.draw do
   match 'config' => 'about#settings'
 
   match 'custom_info_mail' => 'custom_info_mail#index'
-  match 'custom_info_mail/kasitest' => 'custom_info_mail#kasitest'
+  match 'custom_info_mail/test' => 'custom_info_mail#test'
   match 'custom_info_mail/send_mail' => 'custom_info_mail#send_mail'
+  match 'custom_info_mail/template_test' => 'custom_info_mail#template_test'
 
   resources :festival_mails do
     collection do 
@@ -521,7 +522,7 @@ BDZAdmin::Application.routes.draw do
   end
 
   namespace :public do 
-    
+    resources :regional_organizations, :as => "lv"   
   end
 
 end

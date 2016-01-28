@@ -8,6 +8,20 @@ class CustomInfoMailController < AuthenticatedNonResourceController
     authorize! :member, :edit
   end
 
+  def test
+    authorize! :member, :edit
+        
+    respond_to do |format|
+      format.html
+    end
+  end
+
+  def template_test
+    authorize! :member, :edit
+
+
+  end
+
   def kasitest
     authorize! :member, :edit
     @mail_params =  { :subject => "Testsubj", :body=> "This is a shiny testbody", :event_id => "TEST_EVENT" }

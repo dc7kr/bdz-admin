@@ -76,6 +76,37 @@ class CustomInfoMailWorker
       end
     end
 
+    if ( test ) then  
+      addr1 = DummyAddress.new
+      addr2 = DummyAddress.new
+      addrs = Array.new
+
+      addr1.company = "Testfirma"
+      addr1.fullname = "Karsten Richter"
+      addr1.street = "Turmstr. 65"
+      addr1.zip = "46539"
+      addr1.city = "Dinslaken"
+      addr1.country_code="DE"
+
+      addrs << addr1
+      addr2.company= "Testfirma2"
+      addr2.fullname="Someone Outside Germany"
+      addr2.street="Elm Street"
+      addr2.zip="12398"
+      addr2.city="New York"
+      addr2.country_code="US"
+      
+      addrs << addr2
+
+      addrs.each do |dummy| 
+
+        filled_template = customize_letter(date_prefix, cur_year.to_s,"gs", dummy,event_id, letterfile)
+        o_result = tool.deliver_mailing(CustomInfoMail,dummy, filled_template, attachment , letterArray,mailer_params)  
+        results.push(o_result) 
+      end
+      
+    end
+
     if ( em ) then
       persons = PersonMember.mailForEvent(event_id, via_paper) 
 
