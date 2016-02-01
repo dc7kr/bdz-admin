@@ -2,10 +2,9 @@ class CompanyPaperDocument < Prawn::Document
 
   include CountryHelper
 
-  def initialize(templateFile)
-    super(:template=>templateFile)
+  def initialize()
+    super()
     @left_margin = 25
-    @templateFile = templateFile
     @addr_start = 123
     @addr_xpos = 30  
     @addr_rowskip = 12
