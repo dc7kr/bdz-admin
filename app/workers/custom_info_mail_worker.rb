@@ -71,7 +71,7 @@ class CustomInfoMailWorker
 
 
       orchestras.each do |orchestra| 
-
+        Rails.logger.debug("Generating for: #{orchestra.member.mglnr}")
         filled_template = customize_letter(date_prefix, cur_year.to_s,"gs", orchestra,event_id, letterfile)
         o_result = tool.deliver_mailing(CustomInfoMail,orchestra, filled_template, attachment , letterArray,mailer_params)  
         results.push(o_result) 
@@ -103,6 +103,7 @@ class CustomInfoMailWorker
       persons = PersonMember.mailForEvent(event_id, via_paper) 
 
       persons.each do |person| 
+        Rails.logger.debug("Generating for: EM #{person.member.mglnr}")
         filled_template = customize_letter(date_prefix, cur_year.to_s,"gs", person,event_id, letterfile)
         o_result = tool.deliver_mailing(CustomInfoMail,person, filled_template, attachment , letterArray,mailer_params)  
         results.push(o_result) 
@@ -111,7 +112,7 @@ class CustomInfoMailWorker
 
     if via_paper then
       pdf_filename = "#{date_prefix}#{event_id}_letters.pdf"
-      pdf_merged_file = MailingFile.new(pdf_filename,pdf_filename,attachment.archive_folder)
+      pdf_merged_file = MailingFile.new(pdf_filename,pdf_filename)
       merge_pdfs(letterArray, pdf_merged_file)
     end
 

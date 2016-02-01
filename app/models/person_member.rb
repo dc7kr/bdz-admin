@@ -32,9 +32,9 @@ class PersonMember < ActiveRecord::Base
 
   def self.mailForEvent(event,via_paper)
     if ( via_paper ) then
-      includes([:member]).joins("LEFT JOIN member_events e ON person_members.member_id=e.member_id AND e.event_id='"+event+"'").where("e.id IS NULL")
+      includes([:member]).joins("LEFT JOIN member_events e ON person_members.member_id=e.member_id AND e.event_id='"+event+"'").where("e.id IS NULL").order("members.mglnr")
     else
-		  includes([:member]).joins("LEFT JOIN member_events e ON person_members.member_id=e.member_id AND e.event_type='E' and e.event_id='"+event+"'").where("members.email IS NOT NULL and length(members.email) >3 and e.id IS NULL")
+		  includes([:member]).joins("LEFT JOIN member_events e ON person_members.member_id=e.member_id AND e.event_type='E' and e.event_id='"+event+"'").where("members.email IS NOT NULL and length(members.email) >3 and e.id IS NULL").order("members.mglnr")
     end
   end
 

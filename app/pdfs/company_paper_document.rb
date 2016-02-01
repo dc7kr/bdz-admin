@@ -10,7 +10,15 @@ class CompanyPaperDocument < Prawn::Document
     @addr_rowskip = 12
     @heading_pos = [20,500]
     @datepos = [ 390, @heading_pos[1]+24 ]
-    font "Helvetica", :size => 10
+    #font "Helvetica", :size => 10
+
+    font_families.update(
+      "MyFont" => {
+        normal: BDZ_SETTINGS["fonts"]["dir"]+"/"+BDZ_SETTINGS["fonts"]["normal"],
+        bold: BDZ_SETTINGS["fonts"]["dir"]+"/"+BDZ_SETTINGS["fonts"]["bold"]
+      }
+    )
+    font "MyFont", :size=>10
   end
 
   def print_headline(txt)
