@@ -8,7 +8,8 @@ class MailingTool
     @via_paper = via_paper
   end
 
-  def deliver_mailing(mailer, rcpt, letterFile, attachment, letterArray, additionalMailerParams=nil)  
+  def deliver_mailing(mailer, rcpt, letterFile, attachment, letterArray, additionalMailerParams)  
+
     if not rcpt.has_email? and @via_paper then
       result = deliver_letter(rcpt,letterFile)
       letterArray << letterFile
@@ -64,8 +65,9 @@ class MailingTool
 
   def recordMailFailure(entity, result)
 
-    if ( entity.event_class.nil?) then
-      Rails.logger.info("Event class is nil. Mail sending failed.")
+    if entity.event_class.nil? then
+      Rails.logger.info("Event class is nil.")
+      Rails.logger.warning("Mail sending failed: "+result)
       return
     end
 
@@ -75,8 +77,9 @@ class MailingTool
 
   def recordLetter(entity,subject,letterFile)
 
-    if ( entity.event_class.nil?) then
-      Rails.logger.info("Event class is nil. Letter success: #{entity.email}.")
+    if entity.event_class.nil? then
+      Rails.logger.info("Event class is nil.")
+      Rails.logger.info("Letter success: #{entity.email}.")
       return
     end
 

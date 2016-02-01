@@ -64,10 +64,11 @@ class CustomInfoMailWorker
 
     letterArray = Array.new 
 
+    mailer_params = { :subject => subject, :body=> body}
+
     if ( orchestra ) then
       orchestras = Orchestra.mailForEvent(event_id,via_paper)
 
-      mailer_params = { :subject => subject, :body=> body}
 
       orchestras.each do |orchestra| 
 
@@ -78,32 +79,20 @@ class CustomInfoMailWorker
     end
 
     if ( test ) then  
-      addr1 = DummyAddress.new
-      addr2 = DummyAddress.new
+
+      o1 = Orchestra.find(420)
+
       addrs = Array.new
+      addrs << o1
 
-      addr1.mglnr = "4711"
-      addr1.company = "Testfirma"
-      addr1.fullname = "Karsten Richter"
-      addr1.street = "Turmstr. 65"
-      addr1.zip = "46539"
-      addr1.city = "Dinslaken"
-      addr1.country_code="DE"
-      addrs << addr1
+      o2 = Orchestra.find(433)
 
-      addr2.mglnr = "4712"
-      addr2.company= "Testfirma2"
-      addr2.fullname="Someone Outside Germany"
-      addr2.street="Elm Street"
-      addr2.zip="12398"
-      addr2.city="New York"
-      addr2.email="k@rsten-richter.de"
-      addr2.country_code="US"
-      
-      addrs << addr2
+      addrs << o2
+
+      o3 = Orchestra.find(752)
+      addrs << o3
 
       addrs.each do |dummy| 
-
         filled_template = customize_letter(date_prefix, cur_year.to_s,"gs", dummy,event_id, letterfile)
         o_result = tool.deliver_mailing(CustomInfoMail,dummy, filled_template, attachment , letterArray,mailer_params)  
         results.push(o_result) 

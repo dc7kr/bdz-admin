@@ -34,6 +34,8 @@ class CompanyPaperDocument < Prawn::Document
     text_box addressee.zip+" "+addressee.city, :at => [xpos,rowpos]
     rowpos-=@addr_rowskip
     rowpos-=@addr_rowskip
-    text_box translated_country(addressee.country_code), :at => [xpos,rowpos]
+    if ( addressee.country_code != "DE") then
+      text_box translated_country(addressee.country_code,"en"), :at => [xpos,rowpos]
+    end
   end
 end

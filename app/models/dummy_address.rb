@@ -6,4 +6,8 @@ class DummyAddress
     not email.nil? and email.length > 3
   end
 
+  def event_class
+    DummyEvent
+  end
+
 end
