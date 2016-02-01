@@ -12,7 +12,7 @@ class BicValidator < ActiveModel::EachValidator
     end
 
     # only BIC lookup for DE works 
-    if record.iban.empty? or not record.iban.start_with? "DE" then
+    if record.iban.nil? or record.iban.empty? or not record.iban.start_with? "DE" then
       return
     end
     if not BIC_FINDER.exists?(value) then
