@@ -63,6 +63,7 @@ class CustomInfoMailWorker
     tool = MailingTool.new(cur_year.to_s,"gs",event_id,subject);
 
     letterArray = Array.new 
+
     if ( orchestra ) then
       orchestras = Orchestra.mailForEvent(event_id,via_paper)
 
@@ -81,19 +82,22 @@ class CustomInfoMailWorker
       addr2 = DummyAddress.new
       addrs = Array.new
 
+      addr1.mglnr = "4711"
       addr1.company = "Testfirma"
       addr1.fullname = "Karsten Richter"
       addr1.street = "Turmstr. 65"
       addr1.zip = "46539"
       addr1.city = "Dinslaken"
       addr1.country_code="DE"
-
       addrs << addr1
+
+      addr2.mglnr = "4712"
       addr2.company= "Testfirma2"
       addr2.fullname="Someone Outside Germany"
       addr2.street="Elm Street"
       addr2.zip="12398"
       addr2.city="New York"
+      addr2.email="k@rsten-richter.de"
       addr2.country_code="US"
       
       addrs << addr2
@@ -104,7 +108,6 @@ class CustomInfoMailWorker
         o_result = tool.deliver_mailing(CustomInfoMail,dummy, filled_template, attachment , letterArray,mailer_params)  
         results.push(o_result) 
       end
-      
     end
 
     if ( em ) then

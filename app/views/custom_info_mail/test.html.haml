@@ -5,26 +5,7 @@
       = form_for :email, :url => { :controller => 'custom_info_mail', :action => 'template_test' } do |f|
         %table.table.table-hover.table-condensed
           %tr
-            %td= f.label :event_id
-            %td= f.text_field :event_id, :size => 60 
-          %tr
-            %td= f.label :group
-            %td= f.select :group, group_options
-          %tr
-            %td= f.label :subject 
-            %td= f.text_field :subject, :size => 60 
-          %tr
-            %td= f.label :body 
-            %td= f.text_area :body, :rols => 10, :cols => 60 
-          %tr
-            %td= f.label :via_paper
-            %td= f.check_box :via_paper
-          %tr
             %td= f.label :datafile
             %td= f.file_field :datafile
-          %tr
-            %td= f.label :attachment
-            %td= f.file_field :attachment
-          %br
         = submit_tag t('custom_info_mail.submit')
 

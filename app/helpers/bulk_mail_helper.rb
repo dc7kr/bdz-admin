@@ -5,20 +5,28 @@ module BulkMailHelper
     doc=nil
     filled_template = nil 
 
-    doc = prepare_pdf(rcpt,our_contact,template.full_path)
+    doc = prepare_pdf(rcpt,our_contact,false)
     suffix=event_id+"_"+rcpt.mglnr.to_s
 
-    filled_filename = date_prefix+suffix+".pdf"
+    tmpfile = Tempfile.new('ci_addr')
 
+    doc.render_file(tmpfile)
+
+    tmpfile2 = Tempfile.new('mb_stamped')
+
+    filled_filename = date_prefix+suffix+".pdf"
     file = MailingFile.new(filled_filename, filled_filename, year.to_s)
-    doc.render_file(file.full_path)
+
+    PDF::Toolkit.pdftk(tmpfile.path, "background", template.full_path, "output", tmpfile2.path)
+    PDF::Toolkit.pdftk("A="+tmpfile2.path, "B="+template.full_path, "cat", "A1", "B2-2", "output", file.full_path)
+
 
     return file
   end
 
 
-  def prepare_pdf(rcpt,our_contact, att_file, print_date = true)
-    doc = CompanyPaperDocument.new(att_file)
+  def prepare_pdf(rcpt,our_contact, print_date = true)
+    doc = CompanyPaperDocument.new
     doc.print_address(rcpt)
     if print_date then 
       doc.print_date(BDZ_SETTINGS["contacts"][our_contact]["ort"],Time.now)
