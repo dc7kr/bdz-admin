@@ -18,7 +18,29 @@ class CustomInfoMailController < AuthenticatedNonResourceController
 
   def template_test
     authorize! :member, :edit
+    form_params = params[:email]
 
+    date_prefix = Time.now.strftime '%Y%m%d'
+    cur_year = Time.now.strftime "%Y"
+
+    letterfile = form_params[:datafile]
+
+    if ( letterfile != nil) then
+      letter_file = storeUploadedFile(cur_year.to_s, letterfile.original_filename, letterfile)
+    end
+
+    addressee = DummyAddress.new
+    addressee.mglnr="4711"
+    addressee.company="Mandolinenverein HARMONIE 1931 e.V."
+    addressee.fullname="Karsten Richter"
+    addressee.street="Turmstr. 65"
+    addressee.city="Dinslaken"
+    addressee.zip="46539"
+    addressee.country_code="CH"
+    
+    filled_template = customize_letter(date_prefix, cur_year.to_s,"gs", addressee,"TPL_TEST", letter_file)
+
+    send_file(filled_template.full_path, :filename => filled_template.relative_filename, :type => "application/octet-stream")
 
   end
 
