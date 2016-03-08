@@ -58,15 +58,25 @@ class RegionalOrganizationFeeSharePdf < Prawn::Document
 
 
     @result += @orchestras.map do |item|
-      if item.nil? then next
+      if item.nil? then 
+        next
       end
 
-      @count+=item.currentTotal unless item.currentTotal.nil?
-      @sum+=item.currentLvShare unless item.currentLvShare.nil?
+      rs = item.currentReportSheet
+      lv_part = 0
+      member_count = 0
+ 
+      if not rs.nil? then 
+        lv_part = rs.calcLvPart
+        member_count = rs.calcGemaCount
+      end
+
+      @count+=member_count
+      @sum+=lv_part 
 			[ mglnr(item),
 				item.orchName,
-				item.currentTotal,
-				@view.format_currency(item.currentLvShare)
+				member_count,
+				@view.format_currency(lv_part) 
       ]
     end
 
