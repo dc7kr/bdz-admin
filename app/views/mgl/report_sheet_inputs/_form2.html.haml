@@ -3,7 +3,7 @@
     Hinweis
   .panel-body
     Die hier gemeldeten Vorstandsmitglieder werden nicht automatisch in der Beitragsberechnung als aktive Mitglieder berücksichtigt. Bitte melden Sie die aktiven Vorstandsmitglieder im nächsten Schritt erneut als aktive Mitglieder.
-= form_for @report_sheet_input, :url=> url_for(:action => :submit2, :id=> @report_sheet_input), :html => { :class => "form form-horizontal" } do |f|
+= bootstrap_form_for @report_sheet_input, :url=> url_for(:action => :submit2, :id=> @report_sheet_input), layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10", :html => { :class => "form form-horizontal" } do |f|
   -OrchestraContact.roles.each_with_index do |role,i|
     - contact = @contact_hash[role]
     = f.fields_for 'contact['+i.to_s+']',contact do |cf|
@@ -13,14 +13,14 @@
         .panel-body
           = cf.hidden_field(:id)
           = cf.hidden_field(:role)
-          = form_my_select(cf, contact,:salutation, get_salutation_options(contact.salutation))
-          = form_my_field(cf, contact,:first_name,:text,"input-sm")
-          = form_my_field(cf, contact,:last_name,:text,"input-sm")
-          = form_my_field(cf, contact,:street,:text,"input-sm")
-          = form_my_field(cf, contact,:zip,:text,"input-sm")
-          = form_my_field(cf, contact,:city,:text,"input-sm")
-          = form_my_field(cf, contact,:email,:text,"input-sm")
-          = form_my_field(cf, contact,:phone,:text,"input-sm")
+          = cf.select :salutation, get_salutation_options(contact.salutation)
+          = cf.text_field :first_name
+          = cf.text_field :last_name
+          = cf.text_field :street
+          = cf.text_field :zip
+          = cf.text_field :city
+          = cf.email_field :email
+          = cf.text_field :phone
       
   = wizard_back_button(url_for(:action=>:step1, :id=>@report_sheet_input))
   = submit_button(t("common.save_and_continue"))

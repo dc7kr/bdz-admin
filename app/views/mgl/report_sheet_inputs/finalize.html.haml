@@ -1,6 +1,6 @@
 .block
   .content
-    %h2.title Meldebogen #{@rs.year} - #{@report_sheet_input.orchestra.orchName} (#{@report_sheet_input.orchestra.mglnr}) 
+    %h2.title Meldebogen #{@rs.year} - #{@report_sheet_input.orchestra.orchName} (#{@report_sheet_input.orchestra.member.mglnr}) 
     .inner
       = render :partial => "progress", :locals => { max: 100, value:90 }
       %p Bitte überprüfen Sie noch einmal Ihre Angaben.
@@ -13,7 +13,7 @@
           =entity_row(@report_sheet_input.orchestra, :gruendung,:date)
           .row
             .col-md-3.text-right=label(:member,:anrede)
-            .col-md-8=t('common.salutation_d.'+@report_sheet_input.orchestra.anrede)
+            .col-md-8=t('common.salutation_d.'+@member.anrede)
           .row
             .col-md-3.text-right=label(:member,:fullname) 
             .col-md-8=@member.fullname

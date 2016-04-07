@@ -1,23 +1,25 @@
-= form_for @report_sheet_input, :url => url_for(:action => :submit1, :id=> @report_sheet_input) do |f|
+= bootstrap_form_for @report_sheet_input, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10", :url => url_for(:action => :submit1, :id=> @report_sheet_input) do |f|
   = f.fields_for @report_sheet_input.report_sheet do |rs|
     =form_my_field(rs,@report_sheet_input,:uv,:checkbox) 
   = f.fields_for @report_sheet_input.orchestra do |orch|
-    = render partial: "form_errors", locals: { entity: @report_sheet_input.orchestra }
-    = form_my_field(orch,@report_sheet_input.orchestra, :orchName)
+    = orch.text_field :orchName
     = form_my_field(orch,@report_sheet_input.orchestra, :gruendung,:date)
-    = form_my_select(orch,@report_sheet_input.orchestra, :anrede, get_salutation_options(@report_sheet_input.orchestra.anrede))
-    = form_my_field(orch,@report_sheet_input.orchestra, :vorname)
-    = form_my_field(orch,@report_sheet_input.orchestra, :name)
-    = form_my_field(orch,@report_sheet_input.orchestra, :strasse)
-    = form_my_field(orch,@report_sheet_input.orchestra, :plz)
-    = form_my_field(orch,@report_sheet_input.orchestra, :ort)
-    = form_my_field(orch,@report_sheet_input.orchestra, :telefon)
-    = form_my_field(orch,@report_sheet_input.orchestra, :fax)
-    = form_my_field(orch,@report_sheet_input.orchestra, :email)
-    - if ( @report_sheet_input.orchestra.za == 'R' ) then 
-      =form_my_select(orch,@report_sheet_input.orchestra, :za, options_for_select([["Lastschrift", "L"], ["Rechnung", "R"]],:selected=>@report_sheet_input.orchestra.za)) 
-    = form_my_field(orch,@report_sheet_input.orchestra, :iban)
-    = form_my_field(orch,@report_sheet_input.orchestra, :bic)
+    - member = @report_sheet_input.orchestra.member
+    = orch.fields_for :member do |mf|
+      = mf.select :anrede, get_salutation_options(member.anrede)
+      = mf.text_field :vorname
+      = mf.text_field :name
+      = mf.text_field :strasse
+      = mf.text_field :plz
+      = mf.text_field :ort
+      = mf.text_field :telefon
+      = mf.text_field :fax
+      = mf.text_field :email
+      - if ( member.za == 'R' ) then 
+        =mf.select :za, options_for_select([["Lastschrift", "L"], ["Rechnung", "R"]],:selected=>member.za) 
+      = mf.text_field :iban
+      = mf.text_field :bic
+      = mf.text_field :zahler
 
     = submit_button(t("common.save_and_continue"))
   
