@@ -57,12 +57,12 @@ module MagazineReportHelper
         samplings.each do |s|
           row {
             cell rownr
-            cell s.company
-            cell s.department
-            cell s.fullname
-            cell s.street
-            cell s.zip+" "+s.city
-            cell s.t_country
+            cell s.contact.company
+            cell s.contact.department
+            cell s.contact.fullname
+            cell s.contact.street
+            cell s.contact.zip+" "+s.contact.city
+            cell s.contact.t_country
             cell s.count , :type=> :float
           }
           rownr+=1
