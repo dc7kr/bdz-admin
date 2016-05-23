@@ -2,9 +2,9 @@ class AdminNotifier < ActionMailer::Base
   default from: "bdzdb@bdz-online.de"
 
   def new_report_sheet(user,rs)
-	 @recipient = user
-	 @rs=rs
-     mail(:to => user.email, :subject => "Meldebogen-Eingabe "+rs.orchestra.mglnr.to_s)
+	  @recipient = user
+	  @rs=rs
+    mail(:to => user.email, :subject => "Meldebogen-Eingabe "+rs.orchestra.member.mglnr.to_s)
 
   end
   def report_sheet_notification(user, doc_url, current_user)
@@ -49,12 +49,12 @@ class AdminNotifier < ActionMailer::Base
     mail(:to => user.email, :subject => "BDZ LV Beitragsanteile SEPA CT")
   end
   
-  def newdistinction_notification(sepafile, invnr, orch)
+  def newdistinction_notification(sepafile, invnr, customer)
     @sepafile_url = sepafile
-	  @is_direct_debit = orch.is_direct_debit?
+	  @is_direct_debit = customer.is_direct_debit?
 
 	  @invoice_number = invnr
-	  @mglnr = orch.mglnr
+	  @mglnr = customer.id
 
     if ENV["RAILS_ENV"] == "production" 
       @name = BDZ_SETTINGS['contacts']['treasurer']['name']
