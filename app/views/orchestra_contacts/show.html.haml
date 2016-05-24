@@ -3,34 +3,33 @@
     = render :partial=>'nav'
   .content
     .inner
-      %table
-        %tr
-          %td.label #{t("orchestra_contact.role")}:
-          %td=t('orchestra_contact.role_'+@orchestra_contact.role)
-        %tr
-          %td.label #{t("orchestra_contact.salutation")}:
-          %td=t("common.salutations.#{@orchestra_contact.salutation}")
-        %tr
-          %td.label #{t("orchestra_contact.first_name")}:
-          %td=@orchestra_contact.first_name
-        %tr
-          %td.label #{t("orchestra_contact.last_name")}:
-          %td=@orchestra_contact.last_name
-        %tr
-          %td.label #{t("orchestra_contact.street")}:
-          %td=@orchestra_contact.street
-        %tr
-          %td.label #{t("orchestra_contact.zip")}:
-          %td=@orchestra_contact.zip
-        %tr
-          %td.label #{t("orchestra_contact.city")}:
-          %td=@orchestra_contact.city
-        %tr
-          %td.label #{t("common.country")}:
-          %td=translated_country(@orchestra_contact.country_code)
-        %tr
-          %td.label #{t("orchestra_contact.email")}:
-          %td=mail_to @orchestra_contact.email,@orchestra_contact.email
-        %tr
-          %td.label #{t("orchestra_contact.phone")}:
-          %td=@orchestra_contact.phone
+      .row
+        .col-md-3.text-right=label :orchestra_contact,:role
+        .col-md-9=t('orchestra_contact.role_'+@orchestra_contact.role)
+      .row
+        .col-md-3.text-right=label :orchestra_contact,:salutation
+        .col-md-9=t("common.salutations.#{@orchestra_contact.salutation}")
+      .row
+        .col-md-3.text-right=label :orchestra_contact,:first_name
+        .col-md-9=@orchestra_contact.first_name
+      .row
+        .col-md-3.text-right=label :orchestra_contact,:last_name
+        .col-md-9=@orchestra_contact.last_name
+      .row
+        .col-md-3.text-right=label :orchestra_contact,:street
+        .col-md-9=@orchestra_contact.street
+      .row
+        .col-md-3.text-right=label :orchestra_contact,:zip
+        .col-md-9=@orchestra_contact.zip
+      .row
+        .col-md-3.text-right=label :orchestra_contact,:city
+        .col-md-9=@orchestra_contact.city
+      .row
+        .col-md-3.text-right=label :orchestra_contact, :country_code
+        .col-md-9=translated_country(@orchestra_contact.country_code)
+      .row
+        .col-md-3.text-right=label :orchestra_contact,:email
+        .col-md-9=mail_to @orchestra_contact.email,@orchestra_contact.email
+      .row
+        .col-md-3.text-right=label :orchestra_contact,:phone
+        .col-md-9=@orchestra_contact.phone
