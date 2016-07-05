@@ -3,7 +3,7 @@ class EnsembleConcert < ActiveRecord::Base
 	belongs_to :ensemble
 	belongs_to :bundesland
 
-	scope :public, where("visible =1 and datum >= now()")
+	scope :published, where("visible =1 and datum >= now()")
 	scope :inactive, where("visible = 0")
 
 

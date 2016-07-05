@@ -1,16 +1,17 @@
 class Url < ActiveRecord::Base
+ include Authority::Abilities
 	belongs_to :url_category, :foreign_key => "category";
 	belongs_to :state, :foreign_key => "bland"
 
 
-    scope :public, where('visible=1')
-	scope :inactive, where('visible=0')
+  scope :published, -> { where('visible=1') }
+	scope :inactive, -> { where('visible=0') }
 
   def self.search(search)
 	if (search)
 		where('url like ? or titel like ?',"%#{search}%","%#{search}%");
 	else
-		scoped
+		where(1)
 	end
   end
 end

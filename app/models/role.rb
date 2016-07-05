@@ -7,5 +7,4 @@ class Role < ActiveRecord::Base
             :allow_nil => true
 
   scopify
-  # attr_accessible :title, :body
 end

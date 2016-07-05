@@ -2,11 +2,19 @@ require 'blz_validator'
 require 'iban_validator'
 
 class Member < ActiveRecord::Base
-  acts_as_superclass
+  #acts_as_superclass
+  resourcify
+  #include Authority::Abilities
+
+  belongs_to :member_entity, polymorphic: true
+
+  def self.nested_params
+    [ :id, :regional_organization_id, :mglnr, :title, :anrede, :vorname, :name, :strasse, :plz, :ort, :email, :eintritt, :austritt_zum, :za, :konto, :blz, :zahler, :telefon, :fax, :bic, :iban, :country_code ]
+  end
 
   include CountryHelper
 
-  validates_presence_of :eintritt 
+  validates_presence_of :eintritt,:mglnr
   validates :iban, :iban => true
   validates :bic, :bic => true
   validates :email, :email_format => true 
@@ -30,6 +38,9 @@ class Member < ActiveRecord::Base
 
   def fullname 
      result =''
+     if ( title ) 
+      result = result + title + ' '
+     end
      if ( vorname ) 
       result = result + vorname + ' '
      end
@@ -94,9 +105,11 @@ class Member < ActiveRecord::Base
     c.street = strasse
     c.zip = plz
     c.city = ort
+    c.email = email
     c.country = country_code
     c.sig_date = sig_date 
     c.mandate_id =  mandate_id 
+    c.account_owner = zahler
     if dd then
       c.iban = iban
       c.bic = bic
@@ -129,5 +142,77 @@ class Member < ActiveRecord::Base
 
   def last_invoice
     member_account_bookings.where("booking_type = 'B'").maximum(:booking_date)
+  end
+
+  def contact_info
+    (telefon && telefon.length >0 ? "Tel: "+ telefon+", " :"" )+
+	  (fax && fax.length >0 ? "Fax: "+ fax+", " :"" )+
+	  (email ? email+", " : "") 
+  end
+
+  def member_type 
+    logger.debug("Member class: #{member_entity.class}")
+    if member_entity.is_a? Orchestra
+      "O"
+    elsif member_entity.is_a? PersonMember
+      "EM"
+    else
+      "--"
+    end
+  end
+
+  def self.nomail(type=nil)
+    Rails.logger.debug("type: #{type.name}")
+    if not type.nil? then 
+      where('email IS NULL or LENGTH(email) < 3 and member_entity_type=?', type.name) 
+    else
+      where('email IS NULL or LENGTH(email) < 3')
+    end
+  end
+  
+  def self.mail(type=nil)
+    if not type.nil? then
+      where('email IS NOT NULL and length(email) >3 and member_entity_type=?', type.name)
+    else
+      where('email IS NOT NULL and length(email) >3')
+    end
+  end
+
+  def self.ids_with_non_zero_balance(type=nil,year=nil)
+
+    if year.nil? then
+      year = Time.now.year
+    end
+      
+    accounts=nil
+
+    if type.nil? then
+      accounts = MemberAccountBooking.where("booking_year < ?", year).group(:member).sum(:amount)
+    else 
+      accounts = MemberAccountBooking.includes(:member).where("booking_year < ? AND members.member_entity_type = ? ", year,type).group(:member).sum(:amount)
+    end
+
+	  ids = Set.new
+
+	  accounts.each do |account|
+      if (account[1]<-0.1) then
+        ids.add(account[0])
+	    end
+	  end
+    
+    return ids
+  end
+
+  def to_addressee
+    addressee = Addressee.new
+    addressee.email        = self.email
+    addressee.street       = self.strasse
+    addressee.zip          = self.plz
+    addressee.country_code = self.country_code
+    addressee.id           = self.mglnr
+    addressee.email        = self.email
+    addressee.event_entity_id = self.id
+
+    addressee
   end
 end

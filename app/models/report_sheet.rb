@@ -46,7 +46,13 @@ class ReportSheet < ActiveRecord::Base
 		self.senior_ens ||=0
 		self.teens ||=0
 		self.token ||=0
-		if self.uv.nil? then self.uv=false else logger.debug "UV was not nil" end
+
+		if self.uv.nil? then 
+      self.uv=false 
+    else 
+      logger.debug "UV was not nil" 
+    end
+
 		self.youth ||=0
 		self.youth_ens ||=0
 		self.zusatz_uv ||=0
@@ -206,7 +212,7 @@ class ReportSheet < ActiveRecord::Base
   end
 
   def gen_invoice
-    @invoice = Invoice.new("#{orchestra.mglnr}-BEITRAG#{year}")
+    @invoice = Invoice.new("#{orchestra.member.mglnr}-BEITRAG#{year}")
     @invoice.customer = orchestra.to_customer
 
 		if ( orchestra.is_coop? ) then
@@ -263,6 +269,10 @@ class ReportSheet < ActiveRecord::Base
     data.map! { |x| x.to_i }
     "|"+data.join("|")+"|"
 
+  end
+
+  def update_stats(hash, key, value)
+    hash[key]+= value unless value.nil?
   end
 
 

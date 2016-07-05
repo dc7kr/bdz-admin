@@ -1,9 +1,15 @@
 class RegionalOrganization < ActiveRecord::Base
+  include Authority::Abilities
 
   validates :iban, :iban => true
   validates :bic, :bic => true
 
+  has_one :member, as: :member_entity
+  accepts_nested_attributes_for :member
+  
   has_many :functions
+
+  has_many :members
 
   # for role based access
   resourcify
@@ -47,7 +53,7 @@ class RegionalOrganization < ActiveRecord::Base
 		@sheets = ReportSheet.final(year).includes(orchestra: [ :member ]).where("year = ? and report_date < ? ",year, before)
 		@sheets.each do |s|
       orch = s.orchestra
-			if orch.regional_organization_id == self.id and orch.zero_member_fee_balance? then
+			if orch.member.regional_organization_id == self.id and orch.zero_member_fee_balance? then
 	      share[:uv]+= s.calcUV
 	      share[:orch_part]+= s.calcLvPart
 				share[:sum]+= s.calcBeitrag

@@ -51,17 +51,36 @@ class MemberAccountBooking < ActiveRecord::Base
     comma :gema do
     end
 
-  def self.unbalanced_for(year=nil)
+  def self.balanced_before(year=nil)
     if not year.nil? 
-      accounts = MemberAccountBooking.where("booking_year < ?", year).sum(:amount,:group=>:member_id)
+      accounts = MemberAccountBooking.where("booking_year < ?", year).group(:member_id).sum(:amount)
     else
-      accounts = MemberAccountBooking.sum(:amount,:group=>:member_id)
+      accounts = MemberAccountBooking.group(:member_id).sum(:amount)
     end
 
     ids = Set.new
     accounts.each do |account|
-      if account[1].round(2) <0 
+      if account[1].round(2) >-0.1
           ids.add(account[0])
+      end
+	  end
+
+    return { :accounts => accounts, :ids => ids }
+  end
+
+  def self.unbalanced_before(year=nil)
+    if not year.nil? 
+      accounts = MemberAccountBooking.where("booking_year < ?", year).group(:member_id).sum(:amount)
+    else
+      accounts = MemberAccountBooking.group(:member_id).sum(:amount)
+    end
+
+    ids = Set.new
+    accounts.each do |account|
+      if account[1].round(2) <-0.1
+          ids.add(account[0])
+
+          Rails.logger.debug("Amount: #{account[1].round(2)} ID: #{account[0]}")
       end
 	  end
 

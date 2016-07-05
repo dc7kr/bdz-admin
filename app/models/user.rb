@@ -3,6 +3,8 @@ require 'set'
 class User < ActiveRecord::Base
   rolify
 
+  include Authority::UserAbilities
+
   before_create :generate_api_token
 
   has_many :concerts
@@ -22,12 +24,12 @@ class User < ActiveRecord::Base
  
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :username, :email, :password, :password_confirmation, :remember_me, :name, :role, :entity_class, :entity_id, :authentication_token
+  #attr_accessible :username, :email, :password, :password_confirmation, :remember_me, :name, :role, :entity_class, :entity_id, :authentication_token
 
   # Virtual attribute for authenticating by either username or email
   # This is in addition to a real persisted field like 'username'
   attr_accessor :login
-  attr_accessible :login
+  #attr_accessible :login
 
   def self.find_first_by_auth_conditions(warden_conditions)
     conditions = warden_conditions.dup
@@ -56,6 +58,10 @@ class User < ActiveRecord::Base
 
   def admin?
 	  return has_role? :admin
+  end
+
+  def is_admin?
+    return has_role? :admin
   end
 
   def bulk_permission?
@@ -127,10 +133,20 @@ class User < ActiveRecord::Base
     end
   end
 
+  def to_s
+    if username.nil? then
+      email
+    else
+      username
+    end
+  end
+
   private 
   def generate_api_token
     begin
       self.authentication_token = SecureRandom.hex
     end while self.class.exists?(authentication_token: self.authentication_token)
   end
+
+
 end

@@ -1,5 +1,5 @@
 class FestivalConcert < ActiveRecord::Base
-  attr_accessible :event_time, :location, :number, :title, :outdoor
+  #attr_accessible :event_time, :location, :number, :title, :outdoor
 
   has_many :festival_applications
 

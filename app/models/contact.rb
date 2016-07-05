@@ -2,7 +2,7 @@ class Contact < ActiveRecord::Base
 
   include CountryHelper
 
-  acts_as_superclass
+  belongs_to :contact_entity, polymorphic: true
 
   def to_s
     first_name+" "+last_name
@@ -22,4 +22,5 @@ class Contact < ActiveRecord::Base
   def t_country(locale=country_code)
     translated_country(country_code,locale)
   end
+
 end

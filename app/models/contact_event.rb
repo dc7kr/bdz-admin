@@ -1,5 +1,5 @@
 class ContactEvent < ActiveRecord::Base
-  attr_accessible :comment, :contact_id, :event_date, :event_id, :event_type, :filename
+  #attr_accessible :comment, :contact_id, :event_date, :event_id, :event_type, :filename
 
   belongs_to :contact_person
 

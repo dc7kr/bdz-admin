@@ -1,16 +1,20 @@
 class PersonMember < ActiveRecord::Base
-  inherits_from :member
   belongs_to :tariff
 
   validates_presence_of :tariff
 
-  scope :cancelled, includes(:member).where("members.austritt_zum is not null and members.austritt_zum != '0000-00-00' and austritt_zum < ?", Time.now)
-  scope :nomail,includes(:member).where('members.email IS NULL')
+  has_one :member, as: :member_entity
+  accepts_nested_attributes_for :member
 
+  scope :cancelled, includes(:member).where("members.austritt_zum is not null and members.austritt_zum != '0000-00-00' and austritt_zum < ?", Time.now)
+
+  def self.notinvoiced(year)
+    joins(:member,:tariff).joins("LEFT JOIN member_account_bookings mb ON members.id=mb.member_id AND mb.booking_type='B' and mb.booking_year = #{year}" ).where("mb.id IS NULL and tariffs.amount >0").order("members.mglnr")
+  end
 
   def self.for_user(user)
     if (not user.is_restricted_role?) then
-      return scoped
+      return where(1)
     end
 
     restr = user.restricting_entity
@@ -42,12 +46,16 @@ class PersonMember < ActiveRecord::Base
 	  if (search)
 		  where('members.mglnr = ? or members.name like ?',"#{search}","%#{search}%")
 	  else
-		  scoped
+		  where(1)
 	  end
   end
 
   def fullname
-	  member.fullname
+    if member.nil? then
+      "---"
+    else
+	    member.fullname
+    end
   end
 
   def letterCountry
@@ -83,17 +91,6 @@ class PersonMember < ActiveRecord::Base
 	  currentMagazines 'Zeitungen'
   end
 
-  comma :lv do
-	  mglnr
-	  anrede
-	  vorname
-	  name
-	  strasse
-	  plz
-	  ort
-	  email
-  end
-
   def lvPart
 	  tariff.amount*0.15
   end
@@ -112,9 +109,7 @@ class PersonMember < ActiveRecord::Base
   end
 
   def contact_info
-	  (telefon && telefon.length >0 ? "Tel: "+ telefon+", " :"" )+
-	  (fax && fax.length >0 ? "Fax: "+ fax+", " :"" )+
-	  (member.email ? member.email+", " : "") 
+	  member.contact_info
   end
 
   def contact_info_block 
@@ -143,22 +138,10 @@ class PersonMember < ActiveRecord::Base
     member.has_email?
   end
 
-  def self.with_zero_balance(include_this_year=false)
-    accounts=nil
-    if include_this_year then
-	    accounts = MemberAccountBooking.where("booking_year < ?",Time.now.year).sum(:amount,:group=>:member_id)
-    else
-	    accounts = MemberAccountBooking.where("booking_year < ?",Time.now.year).sum(:amount,:group=>:member_id)
-    end
+  def self.with_zero_balance(year=nil)
+    ids = Member.ids_with_non_zero_balance(PersonMember)
 
-	  ids = Set.new
-	  accounts.each do |account|
-      if (account[1]<0) then
-        ids.add(account[0])
-	    end
-	  end
-	
-	  person_members = PersonMember.includes([:member]).where("NOT (member_id  in (?) )",ids)
+	  person_members = PersonMember.joins(:member).where("NOT (members.id  in (?) )",ids)
   end
 
   # address interface
@@ -201,8 +184,20 @@ class PersonMember < ActiveRecord::Base
     invoice = Invoice.new("Beitragsrechnung #{year}")
     invoice.customer = to_customer
 
-    invoice << InvoiceItem.new(1,tariff.amount, 'Beitrag'+ tariff.description)
+    invoice << InvoiceItem.new(1,tariff.amount, 'Beitrag '+ tariff.description)
 
     invoice
+  end
+
+  def self.nomail
+    Member.nomail(PersonMember)
+  end
+
+  def to_addresssee
+    addressee = member.to_addressee
+    addressee.company      = self.company
+    addressee.name         = self.fullname
+    addressee.entity       = self
+    addressee.event_class = self.event_class
   end
 end

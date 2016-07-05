@@ -27,6 +27,7 @@ class Ability
 
         if ( user.honor? )
           can :manage, Distinction 
+          can :manage, HonorMember
           can :read, MemberAccountBooking
           can :download, MemberAccountBooking
           can :read, RegionalOrganization

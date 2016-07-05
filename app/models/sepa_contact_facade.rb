@@ -1,40 +1,43 @@
 class SepaContactFacade
 
-  def initialize(member)
-    @member=member
+  def initialize(customer)
+    @customer=customer
   end
 
   def postcode 
-    @member.member.plz
+    @customer.customer.plz
   end
 
   def city
-    @member.member.ort[0..65]
+    @customer.city
   end
 
   def country
-    @member.member.t_country("de")
+    @customer.customer.t_country("de")
   end
 
   def phone
-    #@member.member.telefon[0..65]
     nil
   end
 
   def email
-    #@member.member.email[0..65]
     nil
   end
 
   def name 
-    @member.account_owner[0..65]
+    if @customer.account_owner.nil? or @customer.account_owner.empty? then
+      Rails.logger.warn("Empty account owner: #{@customer.id}")
+      @customer.fullname[0..65]
+    else
+      @customer.account_owner[0..65]
+    end
   end
 
   def addr
-    @member.member.strasse[0..65]
+    @customer.street[0..65]
   end
 
   def contact
-    @member.fullname[0..65]
+    @customer.name[0..65]
   end
 end

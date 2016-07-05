@@ -1,10 +1,16 @@
 class Concert < ActiveRecord::Base
+  include Authority::Abilities
+  self.authorizer = PublicEntityAuthorizer
 
   validates_presence_of :eintritt
 
-  scope :public, where('visible=1 and concert_date >= ?',Time.now)
-	scope :inactive, where('visible=0')
-  scope :future, where('concert_date >= ?', Time.now);
+  def self.future 
+    where('concert_date >= ?', Time.now).order(:concert_date)
+  end
+
+  scope :published, -> { where('visible=1 and concert_date >= ?',Time.now) }
+	scope :inactive, -> { where('visible=0') }
+  #scope :future, -> { where('concert_date >= ?', Time.now) }
 
 	belongs_to :user , :foreign_key => "owner"
 	belongs_to :state, :foreign_key => "bland"
@@ -23,14 +29,14 @@ class Concert < ActiveRecord::Base
 	if (search)
 		where('concerts.titel like ? or concerts.ort like ?',"#{search}","#{search}")
 	else
-		scoped
+		where(1)
 	end
   end
   def self.searchByDate(search)
 	if (search)
 		where('concerts.date = ? ',"#{search}")
 	else
-		scoped
+		where(1)
 	end
   end
 

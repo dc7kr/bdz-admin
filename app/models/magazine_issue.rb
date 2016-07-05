@@ -1,5 +1,5 @@
 class MagazineIssue < ActiveRecord::Base
-  attr_accessible :number, :year
+  #attr_accessible :number, :year
 	
 
   has_many :magazine_adverts

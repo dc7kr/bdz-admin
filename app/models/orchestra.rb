@@ -1,20 +1,27 @@
 require 'valid_email'
 class Orchestra < ActiveRecord::Base
+  include Authority::Abilities
 
-  scope :default, includes(:member)
-  scope :cancelled, includes(:member).where("members.austritt_zum is not null and members.austritt_zum != '0000-00-00' and austritt_zum < now()")
-
+  has_one :member, as: :member_entity
   has_many :report_sheets
   has_many :orchestra_contacts
   has_many :orchestra_members
+
+  accepts_nested_attributes_for :member
+
+  validates_presence_of :orchName
+
+  scope :default, -> { includes(:member) }
+  scope :cancelled, -> { includes(:member).where("members.austritt_zum is not null and members.austritt_zum != '0000-00-00' and austritt_zum < now()") }
+
   #has_many :current_report_sheet, :class_name => 'ReportSheet', :where => ['year = ?',Time.now.year]
 
-  inherits_from :member
+  #inherits_from :member
 
-  validates :mglnr, :orch_mglnr => true
+  #validates :mglnr, :orch_mglnr => true
 
   def self.notinvoiced(year)
-    includes([:report_sheets,:member]).joins("LEFT JOIN member_account_bookings mb ON orchestras.member_id=mb.member_id AND mb.booking_type='B' and mb.booking_year = #{year}").where("mb.id IS NULL and report_sheets.year= ?",year).order("members.mglnr")
+    joins([:report_sheets,:member]).joins("LEFT JOIN member_account_bookings mb ON members.id=mb.member_id AND mb.booking_type='B' and mb.booking_year = #{year}").where("mb.id IS NULL and report_sheets.year= ?",year).order("members.mglnr")
   end
 
   def self.mailForEvent(event,via_paper)
@@ -26,17 +33,17 @@ class Orchestra < ActiveRecord::Base
   end
 
   def self.mail
-	  where('members.email IS NOT NULL and length(members.email) >3')
+    Member.mail(Orchestra)
   end
   def self.nomail
-	  where('members.email IS NULL or length(members.email) <3')
+    Member.nomail(Orchestra)
   end
 
   def self.search(search)
 	if (search)
 		where('members.mglnr = ? or orchestras.orchName like ?',"#{search}","%#{search}%");
 	else
-		scoped
+		where(1) 
 	end
   end
 
@@ -168,13 +175,13 @@ class Orchestra < ActiveRecord::Base
   end
   
   comma :lv do
-	  mglnr
+	  member.mglnr
 	  cleanOrchName
 	  fullname
-	  strasse
-	  plz
-	  ort
-	  email
+	  member.strasse
+	  member.plz
+	  member.ort
+	  member.email
   end
 
   def letterCountry
@@ -245,16 +252,8 @@ class Orchestra < ActiveRecord::Base
 
 
   def self.with_zero_balance
-	  accounts = MemberAccountBooking.where("booking_year < year(now())").sum(:amount,:group=>:member_id)
-
-	  ids = Set.new
-	  accounts.each do |account|
-      if (account[1]<-0.1) then
-        ids.add(account[0])
-	    end
-	  end
-	
-	  Orchestra.includes([:member,:report_sheets]).where("NOT (member_id  in (?) )",ids)
+    ids = Member.ids_with_non_zero_balance(Orchestra)
+	  Orchestra.includes(:report_sheets).joins(:member).where("NOT (members.id  in (?) )",ids)
   end
 
   #for address interface
@@ -288,6 +287,17 @@ class Orchestra < ActiveRecord::Base
     member.sig_date
   end
 
+  def to_addressee
+    addressee = member.to_addressee
+
+    addressee.company      = orchName
+    addressee.name         = fullname
+    addressee.entity       = self
+    addressee.event_class = self.event_class
+
+    addressee
+  end
+
   def to_customer
     cust = member.to_customer
     cust.entity = self
@@ -307,7 +317,7 @@ class Orchestra < ActiveRecord::Base
 
   def self.for_user(user)
     if (not user.is_restricted_role?) then
-      return scoped
+      return where(1)
     end
 
     restr = user.restricting_entity
@@ -338,8 +348,24 @@ class Orchestra < ActiveRecord::Base
   def event_class
     MemberEvent
   end
+
+  def contact_info
+    member.contact_info
+  end
   
   def last_invoice
     member.last_invoice
+  end
+
+  def to_s
+    orchName
+  end 
+
+  def full_url
+    if url.start_with?("http")
+      url
+    else
+      "http://"+url
+    end
   end
 end

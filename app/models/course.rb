@@ -3,8 +3,10 @@ class Course < ActiveRecord::Base
 	belongs_to :state, :foreign_key => "bland"
 	belongs_to :festival, :foreign_key => "festival"
   
-  scope :public, where('visible=1 and startdate >= now()')
-  scope :future, where('startdate>= now()')
+  scope :future,-> { where('startdate>= now()') }
+  scope :inactive, -> { where('visible=0') }
+  scope :active, -> { where('visible=1') }
+  scope :published, -> { where('visible=1 and startdate >= now()') }
    
 	#belongs_to :regional_organization, foreign_key => "lv"
 
@@ -20,18 +22,15 @@ class Course < ActiveRecord::Base
 	if (search)
 		where('titel like ? or ort like ?',"#{search}","#{search}")
 	else
-		scoped
+		where(1)
 	end
   end
   def self.searchByDate(search)
 	if (search)
 		where('concerts.date = ? ',"#{search}")
 	else
-		scoped
+		where(1)
 	end
   end
 
-  scope :inactive, where('visible=0')
-  scope :active, where('visible=1')
-  scope :public, where('visible=1 and startdate >= now()')
 end

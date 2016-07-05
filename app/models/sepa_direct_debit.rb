@@ -2,8 +2,8 @@ class SepaDirectDebit  < SepaContactFacade
 
   attr_accessor :end_to_end_id,:amount,:remittance_txt,:sequence_type
 
-  def initialize(member, seq_type="RCUR")
-    super(member)
+  def initialize(customer, seq_type="RCUR")
+    super(customer)
 
     if (seq_type.nil?) then
       seq_type = "RCUR"
@@ -13,22 +13,22 @@ class SepaDirectDebit  < SepaContactFacade
   end
 
   def iban
-    @member.iban
+    @customer.iban
   end
 
   def bic
-    @member.bic
+    @customer.bic
   end
 
   def mandate_id 
-    "BDZBEITRAG"+@member.mglnr.to_s
+    @customer.mandate_id
   end
 
   def sig_date
-    @member.sig_date
+    @customer.sig_date
   end
 
   def end_to_end_id(prefix)
-    prefix+"_"+@member.mglnr.to_s
+    prefix+"_"+@customer.id.to_s
   end
 end

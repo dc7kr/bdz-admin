@@ -1,7 +1,8 @@
 class MagazineSampling < ActiveRecord::Base
   #attr_accessible :count
+  has_one :contact, as: :contact_entity
+  accepts_nested_attributes_for :contact
 
-  inherits_from :contact
   def fullname
     contact.fullname
   end

@@ -1,7 +1,7 @@
 class ContactPerson < ActiveRecord::Base
   include CountryHelper
 
-  attr_accessible :city, :country_code, :email, :first_name, :last_name, :phone, :salutation, :street, :zip,:country_code
+  #attr_accessible :city, :country_code, :email, :first_name, :last_name, :phone, :salutation, :street, :zip,:country_code
 
   validates :last_name, :first_name, :email, :phone, :presence => true
   validates :email, :email_format => true 

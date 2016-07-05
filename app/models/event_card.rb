@@ -13,7 +13,7 @@ class EventCard < ActiveRecord::Base
     if (search)
       where('name like ? or id = ?',"%#{search}%",search);
     else
-      scoped
+      where(1)
     end
   end
 

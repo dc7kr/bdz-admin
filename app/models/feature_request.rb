@@ -1,5 +1,5 @@
 class FeatureRequest < ActiveRecord::Base
-  attr_accessible :description, :priority, :title,:status,:user_id
+  #attr_accessible :description, :priority, :title,:status,:user_id
 
   belongs_to :user
 
