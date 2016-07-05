@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  protect_from_forgery
+  protect_from_forgery with: :exception
 
   before_filter :set_locale
 
@@ -54,8 +54,6 @@ class ApplicationController < ActionController::Base
   include SessionHelper
 
 	helper_method :current_area
-
-
 
  private
   def flash_to_headers
@@ -164,8 +162,10 @@ class ApplicationController < ActionController::Base
       #	if ( current_user == nil or current_user.admin?)
 	    begin 
 	      Rails.logger.error("Encountered error status:"+status.to_s)
-        ErrorMailer.deliver_snapshot( exception, Rails.env, current_user)
-        Rails.logger.error("ERROR: "+exception.to_s)
+        if is_production? then
+          ErrorMailer.deliver_snapshot( exception, Rails.env, current_user)
+          Rails.logger.error("ERROR: "+exception.to_s)
+        end
       rescue => e
         logger.error(e)
       end
@@ -189,6 +189,8 @@ class ApplicationController < ActionController::Base
 		Rails.logger.error("Unmapped controller: "+@current_controller.to_s)
 	end
   end
+
+  # Send 'em back where they came from with a slap on the wrist
 
   def set_locale
     logger.debug "* Accept-Language: #{request.env['HTTP_ACCEPT_LANGUAGE']}"

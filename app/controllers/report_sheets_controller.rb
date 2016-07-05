@@ -1,5 +1,4 @@
 class ReportSheetsController < AuthenticatedController
-  load_and_authorize_resource
 
 	include ReportSheetHelper
 
@@ -8,14 +7,15 @@ class ReportSheetsController < AuthenticatedController
   def index
 
 	  if (params[:orchestra_id]) then
-	    @report_sheets = @report_sheets.where("orchestra_id = ?", params[:orchestra_id]).order(:year)
+      @orchestra = Orchestra.find(params[:orchestra_id])
+
+	    @report_sheets = @orchestra.report_sheets.order(:year) 
       thisYear = Time.now.year
       @report_sheets.each do |rs|
           if rs.year == thisYear then
             @has_current_report_sheet = true
           end
       end
-    	@orchestra = Orchestra.find_by_member_id(params[:orchestra_id])
 	  else 
 		  @curYear = Time.now.year
 		  @report_sheets = ReportSheet.joins(:orchestra => :member).order('members.mglnr').find_all_by_year(@curYear)
@@ -29,7 +29,7 @@ class ReportSheetsController < AuthenticatedController
   end
 
   def copy_from_last_year
-    @orchestra = Orchestra.find_by_member_id(params[:orchestra_id])
+    @orchestra = Orchestra.find(params[:orchestra_id])
 
     @curYear = Time.now.year
     @prevYear = @curYear-1
@@ -38,31 +38,38 @@ class ReportSheetsController < AuthenticatedController
 
     logger.debug "PREV Sheet ID: "+@prev.id.to_s
 
-    @report_sheet = @prev.dup
 
-    @report_sheet.year = Time.now.year
-    @report_sheet.report_date = Time.now	
-    @report_sheet.id=nil
-    @report_sheet.init_empty
-    @report_sheet.generated=true
-    @report_sheet.comment= t("report_sheet.data_from_last_year")
+    @cur = ReportSheet.where(:year=>@curYear,:orchestra_id=>params[:orchestra_id]).first
+
+    if ( @cur.nil?) then
+      cur_id = nil
+    else
+      cur_id = @cur.id
+    end
+
+    @cur = @prev.dup
+    @cur.year = Time.now.year
+    @cur.report_date = Time.now	
+    @cur.id=cur_id
+    @cur.init_empty
+    @cur.generated=true
+    @cur.comment= t("report_sheet.data_from_last_year")
   
-
-    if  not @report_sheet.valid? then
-      @report_sheet.errors.each do |e|
-      logger.warn "Invalid: "+e.to_s+":"+@report_sheet.errors[e].to_s
+    if  not @cur.valid? then
+      @cur.errors.each do |e|
+      logger.warn "Invalid: "+e.to_s+":"+@cur.errors[e].to_s
      end
     end
 
-    logger.debug("UV: "+@report_sheet.uv.to_s)
+    logger.debug("UV: "+@cur.uv.to_s)
 
     respond_to do |format|
-        if @report_sheet.save
-          format.html { redirect_to orchestra_report_sheet_path(@report_sheet.orchestra,@report_sheet), :notice => t('report_sheet.create_success') }
+        if @cur.save
+          format.html { redirect_to orchestra_report_sheet_path(@cur.orchestra,@cur), :notice => t('report_sheet.create_success') }
         else
           logger.error("ERROR: could not save report sheet")
         end
-        logger.info ("ID is: "+@report_sheet.id.to_s)
+        logger.info ("ID is: "+@cur.id.to_s)
     end
           
   end
@@ -118,7 +125,7 @@ class ReportSheetsController < AuthenticatedController
   # GET /report_sheets/new
   # GET /report_sheets/new.json
   def new
-    @orchestra = Orchestra.find_by_member_id(params[:orchestra_id])
+    @orchestra = Orchestra.find(params[:orchestra_id])
     @report_sheet = ReportSheet.new
     @report_sheet.init_empty
 	  @report_sheet.orchestra = @orchestra
@@ -135,13 +142,15 @@ class ReportSheetsController < AuthenticatedController
   # GET /report_sheets/1/edit
   def edit
     @report_sheet = ReportSheet.find(params[:id])
-    @orchestra = Orchestra.find_by_member_id(params[:orchestra_id])
+    @orchestra = Orchestra.find(params[:orchestra_id])
   end
 
   # POST /report_sheets
   # POST /report_sheets.json
   def create
-    @report_sheet = ReportSheet.new(params[:report_sheet])
+    @report_sheet = ReportSheet.new(report_sheet_params)
+    orchestra = Orchestra.find(params[:orchestra_id])
+    @report_sheet.orchestra = orchestra
 
     respond_to do |format|
       if @report_sheet.save
@@ -159,9 +168,8 @@ class ReportSheetsController < AuthenticatedController
   def update
     @report_sheet = ReportSheet.includes(:orchestra).find(params[:id])
 
-    logger.debug params[:report_sheet].to_s
     respond_to do |format|
-      if @report_sheet.update_attributes(params[:report_sheet])
+      if @report_sheet.update(report_sheet_params)
         format.html { redirect_to orchestra_report_sheet_path(@report_sheet.orchestra,@report_sheet), :notice => I18n.t('report_sheet.title')+' '+t('common.update_success') }
         format.json { head :ok }
       else
@@ -175,7 +183,7 @@ class ReportSheetsController < AuthenticatedController
   # DELETE /report_sheets/1.json
   def destroy
     @report_sheet = ReportSheet.includes(:orchestra).find(params[:id])
-    @orchestra = Orchestra.find_by_member_id(@report_sheet.orchestra_id)
+    @orchestra = Orchestra.find(@report_sheet.orchestra_id)
     @report_sheet.destroy
 
     respond_to do |format|
@@ -234,8 +242,18 @@ class ReportSheetsController < AuthenticatedController
       else
         format.html { redirect_to orchestra_report_sheet_path(@report_sheet.orchestra,@report_sheet), :warning => t('report_sheet.update_double_failed') }
         format.json { render :json => @report_sheet.errors, :status => :unprocessable_entity }
-	  end
-	end
+  	  end
+  	end
   end
 
+  private 
+  def report_sheet_params
+    params.require(:report_sheet).permit(
+      :year, :children, :teens, :youth, :adult, :senior, :uv, 
+      :zusatz_uv, :korr_ztg, :zusatz_ztg, :gema, :azubi, :passive, 
+      :child_ens, :youth_ens, :adult_ens, :senior_ens, :chamber_ens, 
+      :other_ens, :token, :azubi_child, :azubi_teens, :azubi_youth, 
+      :azubi_adult, :azubi_senior, :supporters, :zo, :zi_o, :go, :oz, 
+      :report_date, :comment)
+  end
 end

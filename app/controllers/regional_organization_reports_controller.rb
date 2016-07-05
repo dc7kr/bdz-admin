@@ -1,8 +1,13 @@
 require 'odf/spreadsheet'
 
-class RegionalOrganizationReportsController < AuthenticatedNonResourceController
+class RegionalOrganizationReportsController < AuthorityController
   include OrchestrasHelper
-  load_and_authorize_resource :regional_organization
+  
+  authority_actions :orch=> 'read'
+  authority_actions :index=> 'read'
+  authority_actions :members=> 'read'
+  authority_actions :fee_shares => 'read'
+  authority_actions :person => 'read'
 
   def index
     lv = RegionalOrganization.find(params[:regional_organization_id])
@@ -28,9 +33,9 @@ class RegionalOrganizationReportsController < AuthenticatedNonResourceController
           orchestras.each do |o|
             oc = o.contacts_by_role
             t.row do 
-              cell o.mglnr
+              cell o.member.mglnr
               cell o.orchName
-              cell o.email
+              cell o.member.email
               cell oc['V'].to_s
               cell oc['S'].to_s
               cell oc['G'].to_s
@@ -76,25 +81,35 @@ class RegionalOrganizationReportsController < AuthenticatedNonResourceController
 
 
   def orch
-    @regional_organzation = RegionalOrganization.find(params[:regional_organization_id])
+    @regional_organization = RegionalOrganization.find(params[:regional_organization_id])
+    authorize_action_for @regional_organization
 
   	@orchestras = Orchestra.includes(:member).where("members.regional_organization_id = ?", params[:regional_organization_id]).order("members.mglnr")
 	  respond_to do |format|
-		  format.csv { render :csv => @orchestras, :style=>:lv, :filename => "orch_lv"+@regional_organization.nummer.to_s+"_"+Time.now.year.to_s }
+		  format.ods { 
+        filename = "orch_lv"+@regional_organization.nummer.to_s+"_"+Time.now.year.to_s+".ods"
+        renderOrchOds("/tmp/"+filename, @orchestras)
+        send_file("/tmp/"+filename, :filename => filename, :type => "application/octet-stream")
+      }
 	  end
   end
 
   def person
-    @regional_organzation = RegionalOrganization.find(params[:regional_organization_id])
+    @regional_organization = RegionalOrganization.find(params[:regional_organization_id])
+    authorize_action_for @regional_organization
+
 	  @person_members = PersonMember.includes(:member).where("members.regional_organization_id = ?", params[:regional_organization_id]).order("members.mglnr")
 	  respond_to do |format|
-		  format.csv { render :csv => @person_members, :style=>:lv, :filename => "em_lv"+@regional_organization.nummer.to_s+"_"+Time.now.year.to_s }
+      format.ods {
+        filename= "em_lv"+@regional_organization.nummer.to_s+"_"+Time.now.year.to_s+".ods"
+        render_person_members_ods("/tmp/"+filename, @person_members)
+        send_file("/tmp/"+filename, :filename => filename, :type => "application/octet-stream")
+      }
 	  end
   end
 
 
   def members 
-
     @year = params[:year]
 
     if @year.nil? then
@@ -103,6 +118,8 @@ class RegionalOrganizationReportsController < AuthenticatedNonResourceController
     end
 
     @regional_organization = RegionalOrganization.find(params[:regional_organization_id])
+    authorize_action_for @regional_organization
+
 	  @lvSum=0
 	  @orchSum=0
 	  @orchFullSum=0
@@ -119,11 +136,26 @@ class RegionalOrganizationReportsController < AuthenticatedNonResourceController
     @ens_sum[:senior_ens] = 0
     @ens_sum[:chamber_ens] = 0
     @ens_sum[:total] = 0 
-  
+
+    @orch_stats = Hash.new
+    @orch_stats[:children] = 0
+    @orch_stats[:senior] = 0
+    @orch_stats[:youth] = 0
+    @orch_stats[:teens] = 0
+    @orch_stats[:adult] = 0
+    @orch_stats[:passive] = 0
+
+	  @orch_stats[:azubi_child] = 0 
+	  @orch_stats[:azubi_teens] = 0 
+	  @orch_stats[:azubi_youth] = 0 
+	  @orch_stats[:azubi_adult] = 0 
+	  @orch_stats[:azubi_senior] = 0 
+
     @orchestras.each do |o|
-      lr = o.report_sheet_for_year(@year)
+      #lr = o.report_sheet_for_year(@year)
+      lr = o.lastReportSheet
       ensemble = Hash.new 
-      ensemble[:mglnr] =o.mglnr
+      ensemble[:mglnr] =o.member.mglnr
       ensemble[:rs] = lr 
 
       @ensembles << ensemble
@@ -135,6 +167,16 @@ class RegionalOrganizationReportsController < AuthenticatedNonResourceController
         @ens_sum[:senior_ens]+=lr.senior_ens unless lr.senior_ens.nil?
         @ens_sum[:chamber_ens]+=lr.chamber_ens unless lr.chamber_ens.nil?
         @ens_sum[:total]+=lr.total_ensembles
+        @orch_stats[:children]+=lr.children 
+        @orch_stats[:teens]+=lr.teens
+        @orch_stats[:youth]+=lr.youth
+        @orch_stats[:adult]+=lr.adult
+        @orch_stats[:senior]+=lr.senior
+        lr.update_stats(@orch_stats,:azubi_child, lr.azubi_child) 
+        lr.update_stats(@orch_stats,:azubi_teens, lr.azubi_teens) 
+        lr.update_stats(@orch_stats,:azubi_youth, lr.azubi_youth) 
+        lr.update_stats(@orch_stats,:azubi_adult, lr.azubi_adult) 
+        lr.update_stats(@orch_stats,:azubi_senior, lr.azubi_senior) 
       end
     end
       
@@ -152,6 +194,8 @@ class RegionalOrganizationReportsController < AuthenticatedNonResourceController
 
   def fee_shares
     @regional_organization = RegionalOrganization.find(params[:regional_organization_id])
+    authorize_action_for @regional_organization
+
 	  @lvSum=0
 	  @orchSum=0
 	  @orchFullSum=0
@@ -185,48 +229,108 @@ class RegionalOrganizationReportsController < AuthenticatedNonResourceController
   end
 
   def share_overview
-    @regional_organzation = RegionalOrganization.find(params[:regional_organization_id])
+    @regional_organization = RegionalOrganization.find(params[:regional_organization_id])
+    authorize_action_for @regional_organization
     @year = params[:year]
 
     if @year.nil? then
       @year = Time.now.year
     end
 
-	if ( params[:before] != nil ) then
-		@before = Date.strptime(params[:before],"%d.%m.%Y")
-	else
-		@before = Time.new
-	end
+    if ( params[:before] != nil ) then
+      @before = Date.strptime(params[:before],"%d.%m.%Y")
+    else
+      @before = Time.new
+    end
 
-	@regional_organization_shares = Array.new
+    @regional_organization_shares = Array.new
 
-  @s = Hash.new
+    @s = Hash.new
 
-  @s[:uv_sum]=0
-  @s[:dd_uv_sum]=0
-	@s[:lv_sum]=0
-	@s[:lv_em_sum]=0
-	@s[:lv_orch_sum]=0
-  @s[:dd_em_sum]= 0
-  @s[:dd_sum]= 0
-  @s[:dd_orch_sum]= 0
-  @s[:full_sum]= 0
+    @s[:uv_sum]=0
+    @s[:dd_uv_sum]=0
+    @s[:lv_sum]=0
+    @s[:lv_em_sum]=0
+    @s[:lv_orch_sum]=0
+    @s[:dd_em_sum]= 0
+    @s[:dd_sum]= 0
+    @s[:dd_orch_sum]= 0
+    @s[:full_sum]= 0
 
-	@regional_organizations.each do |ro|
+    @regional_organizations.each do |ro|
 
-    share = ro.member_fee_share_for_year(@year,@before)
-		@s[:uv_sum]+=share[:uv]
-		@s[:lv_sum]+=share[:orch_part]+share[:em_part]
-    @s[:lv_em_sum]+=share[:em_part]
-    @s[:lv_orch_sum]+=share[:orch_part]
-		@s[:full_sum]+=share[:sum]
-		@s[:dd_sum]+= share[:dd_em_part]+share[:dd_orch_part] 
-    @s[:dd_em_sum]+= share[:dd_em_part]
-    @s[:dd_orch_sum]+= share[:dd_orch_part]
-		@s[:dd_uv_sum]= share[:dd_uv] 
+      share = ro.member_fee_share_for_year(@year,@before)
+      @s[:uv_sum]+=share[:uv]
+      @s[:lv_sum]+=share[:orch_part]+share[:em_part]
+      @s[:lv_em_sum]+=share[:em_part]
+      @s[:lv_orch_sum]+=share[:orch_part]
+      @s[:full_sum]+=share[:sum]
+      @s[:dd_sum]+= share[:dd_em_part]+share[:dd_orch_part] 
+      @s[:dd_em_sum]+= share[:dd_em_part]
+      @s[:dd_orch_sum]+= share[:dd_orch_part]
+      @s[:dd_uv_sum]= share[:dd_uv] 
 
-		@regional_organization_shares << share
+      @regional_organization_shares << share
 
-	end
+    end
+  end
+
+  private 
+  def renderOrchOds(tmpname,orchestras)
+    ODF::Spreadsheet.file(tmpname) do 
+      table 'Orchester' do |t|
+        t.row do 
+          cell "Mglnr"
+          cell "Orchester-Name"
+          cell "Name"
+          cell "Strasse"
+          cell "PLZ"
+          cell "Ort"
+          cell "Email"
+        end
+        orchestras.each do |o|
+          t.row do 
+            cell o.member.mglnr
+            cell o.cleanOrchName
+            cell o.fullname
+            cell o.member.strasse
+            cell o.member.plz
+            cell o.member.ort
+            cell o.member.email
+          end
+        end
+      end
+    end
+  end
+
+  def render_person_members_ods(tmpfile, person_members) 
+
+    ODF::Spreadsheet.file(tmpfile) do 
+      table 'Einzelmitglieder' do |t|
+        t.row do 
+          cell "Mglnr"
+          cell "Anrede"
+          cell "Vorname"
+          cell "Name"
+          cell "Strasse"
+          cell "PLZ"
+          cell "Ort"
+          cell "Email"
+        end
+
+        person_members.each do |pm|
+          t.row do 
+            cell pm.member.mglnr
+            cell pm.member.anrede
+            cell pm.member.vorname
+            cell pm.member.name
+            cell pm.member.strasse
+            cell pm.member.plz
+            cell pm.member.ort
+            cell pm.member.email
+          end
+        end
+      end
+    end
   end
 end

@@ -7,10 +7,10 @@ class MemberAreaController < ApplicationController
   def show
     @p = params
     member = Member.find_by_mglnr(params[:id])
-    if member.subtype == "PersonMember" then 
-      @person_member = PersonMember.find_by_member_id(member.id)
-    elsif member.subtype  == "Orchestra"
-      @orchestra = Orchestra.find_by_member_id(member.id)
+    if member.member_entity_type == "PersonMember" then 
+      @person_member = member.member_entity
+    elsif member.member_entity_type  == "Orchestra"
+      @orchestra = member.member_entity
     end
   end
 

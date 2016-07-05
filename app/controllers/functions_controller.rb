@@ -2,7 +2,6 @@ class FunctionsController < AuthenticatedController
   # GET /functions
   # GET /functions.json
   before_filter :authenticate_user!#, :except => [:index]
-  load_and_authorize_resource
   helper_method :sort_column, :sort_direction
   def index
 
@@ -71,7 +70,7 @@ class FunctionsController < AuthenticatedController
     @function = Function.find(params[:id])
 
     respond_to do |format|
-      if @function.update_attributes(params[:function])
+      if @function.update_attributes!(function_params)
         format.html { redirect_to @function, :notice => 'Function was successfully updated.' }
         format.json { head :ok }
       else
@@ -105,5 +104,10 @@ class FunctionsController < AuthenticatedController
   private
   def sort_column
     Function.column_names.include?(params[:sort]) ? "functions."+params[:sort] : "functions.id"
+  end
+
+
+  def function_params
+    params.require(:function).permit(:label, :regional_organization_id, :board_contact_id, :bund,:jugend,:nr, :funktion, :fkt_subtitle)
   end
 end

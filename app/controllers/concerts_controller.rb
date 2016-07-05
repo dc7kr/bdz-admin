@@ -1,4 +1,11 @@
-class ConcertsController < AuthenticatedController
+class ConcertsController < AuthorityController
+  authorize_actions_for Concert, :except => :create 
+
+  authority_actions :future=> 'read', :inactive => 'read', :publish=> 'update'
+
+  before_action :set_concert, only: [:show, :edit, :update, :destroy]
+  #, :actions => {:neuter => :update},
+
   # GET /concerts
   # GET /concerts.json
   layout :choose_layout
@@ -27,7 +34,7 @@ class ConcertsController < AuthenticatedController
   end
 
   def public 
-    @concerts = Concert.public.search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
+    @concerts = Concert.published.search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
     respond_to do |format|
       format.html # index.html.erb
       format.json { render :json => @concerts }
@@ -98,6 +105,7 @@ class ConcertsController < AuthenticatedController
   # GET /concerts/1/edit
   def edit
     @concert = Concert.find(params[:id])
+    authorize_action_for @concert
     @lvs = RegionalOrganization.all
     @states = State.all
   end
@@ -105,7 +113,7 @@ class ConcertsController < AuthenticatedController
   # POST /concerts
   # POST /concerts.json
   def create
-    @concert = Concert.new(params[:concert])
+    @concert = Concert.new(concert_params)
     @concert.reported = Time.new
     @concert.uid = UUID.new.generate
 
@@ -126,7 +134,7 @@ class ConcertsController < AuthenticatedController
     @concert = Concert.find(params[:id])
 
     respond_to do |format|
-      if @concert.update_attributes(params[:concert])
+      if @concert.update(concert_params)
         format.html { redirect_to @concert, :notice => 'Concert was successfully updated.' }
         format.json { head :ok }
       else
@@ -160,4 +168,13 @@ class ConcertsController < AuthenticatedController
     Concert.column_names.include?(params[:sort]) ? params[:sort] : "datum"
   end
 
+  def set_concert
+    @concert = Concert.find(params[:id])
+
+    authorize_action_for @concert
+  end
+
+  def concert_params
+    params.require(:concert).permit(:eintritt, :token, :stadt, :titel, :ort, :festival_id, :interpret, :url, :comment, :bundesland, :bland, :email, :owner, :visible, :orchestra_id, :uid, :country_code, :concert_date, :mglnr)
+  end
 end

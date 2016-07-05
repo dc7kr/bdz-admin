@@ -1,8 +1,7 @@
-class CoursesController < AuthenticatedController
+class Public::CoursesController < ApplicationController
   layout :choose_layout
   helper_method :sort_column, :sort_direction
   before_filter :authenticate_user!, :except => [:index,:show,:public]
-
 
   def future
     @courses = Course.future
@@ -22,7 +21,7 @@ class CoursesController < AuthenticatedController
   # GET /courses
   # GET /courses.json
   def public
-    @courses = Course.public
+    @courses = Course.published
 
     respond_to do |format|
       format.html # index.html.erb
@@ -70,8 +69,6 @@ class CoursesController < AuthenticatedController
   def create
     @course = Course.new(course_params)
 
-    @course.reported = Time.now
-
 	if @course.bland == nil then
 		@course.bland = 1
 	end
@@ -91,23 +88,6 @@ class CoursesController < AuthenticatedController
     end
   end
 
-  def publish 
-	  @course = Course.find(params[:id])
-	  @course.confirmed = Time.now
-	  @course.visible = true
-  	@course.save
-
-    respond_to do |format|
-      if @course.save
-        format.html { redirect_to @course, :notice => t('course.publish_success') }
-        format.json { render :json => @course, :status => :created, :location => @course }
-      else
-        format.html { render :action => "new" }
-        format.json { render :json => @course.errors, :status => :unprocessable_entity }
-      end
-    end
-
-  end
   # PUT /courses/1
   # PUT /courses/1.json
   def update
@@ -123,20 +103,8 @@ class CoursesController < AuthenticatedController
       end
     end
   end
-
-  # DELETE /courses/1
-  # DELETE /courses/1.json
-  def destroy
-    @course = Course.find(params[:id])
-    @course.destroy
-
-    respond_to do |format|
-      format.html { redirect_to courses_url }
-      format.json { head :ok }
-    end
-  end
   
   def course_params
-    params.require(:course).permit(:startdate, :enddate, :reported, :confirmed, :bland, :fk_festival, :more_dates, :titel, :ort, :beschreibung, :inhalt, :gebuehr, :zielgruppe, :dozenten, :anmeldung, :deadline, :email, :token, :visible, :country_code) 
+    params.require(:course).permit(:startdate, :enddate, :bland, :fk_festival, :more_dates, :titel, :ort, :beschreibung, :inhalt, :gebuehr, :zielgruppe, :dozenten, :anmeldung, :deadline, :email, :country_code) 
   end
 end

@@ -2,7 +2,6 @@ class FestivalsController < AuthenticatedController
   # GET /festivals
   # GET /festivals.json
   before_filter :authenticate_user!#, :except => [:index]
-  load_and_authorize_resource
 
   helper_method :sort_column, :sort_direction
 

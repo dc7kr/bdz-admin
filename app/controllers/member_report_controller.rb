@@ -70,4 +70,25 @@ class MemberReportController < AuthenticatedNonResourceController
  
 	  @sums = ReportSheet.includes([:orchestra,:member]).all(:select => "year, count(*) as anzahl, sum(report_sheets.children) as sum_children , sum(report_sheets.teens) as sum_teens, sum(report_sheets.youth) as sum_youth ,sum(report_sheets.adult) as sum_adult, sum(report_sheets.senior) as sum_senior , sum(report_sheets.azubi) as sum_azubi, sum(report_sheets.passive) as sum_passive", :order => "member.regional_organization", :group => "year")
   end
+
+  def report_sheet_stats
+	  authorize! :member, :edit
+    sheets = ReportSheet.final(Time.now.year).includes(:orchestra)
+
+    @maxTariff = 0 
+    @minTariff = 0
+
+    sheets.each do |rs|
+      if rs.calcBeitrag == Prices.maxTariff then
+        @maxTariff+=1
+      elsif rs.calcBeitrag == Prices.minTariff then
+        @minTariff+=1
+      end
+    end
+
+
+	  respond_to do |format|
+      format.html
+    end
+  end
 end

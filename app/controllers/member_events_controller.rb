@@ -20,7 +20,7 @@ class MemberEventsController < AuthenticatedController
     end
 
     if (@member) then
-      @member_events= MemberEvent.where("member_id=?",@member.member_id)
+      @member_events= MemberEvent.where("member_id=?",@member.member.id)
     else 
     @member_events= MemberEvent.all
     end
@@ -57,13 +57,12 @@ class MemberEventsController < AuthenticatedController
   def edit
     @member_event = MemberEvent.find(params[:id])
 
-	@basemember = @member_event.member
-    @isOrchestra=false
-    if ( @basemember.subtype == 'PersonMember')
-        @member = PersonMember.find_by_member_id(params[:person_member_id]);
-    else
-        @member = Orchestra.find_by_member_id(@basemember.id)
-        @isOrchestra=true
+	  @basemember = @member_event.member
+
+    @member = @basemember.member_entity
+
+    if ( @member.is_a? Orchestra) then
+      @isOrchestra=true
     end
 
   end
@@ -71,7 +70,7 @@ class MemberEventsController < AuthenticatedController
   # POST /member_events
   # POST /member_events.json
   def create
-    @member_event = MemberEvent.new(params[:member_event])
+    @member_event = MemberEvent.new(member_event_params)
 
     respond_to do |format|
       if @member_event.save
@@ -90,7 +89,7 @@ class MemberEventsController < AuthenticatedController
     @member_event = MemberEvent.find(params[:id])
 
     respond_to do |format|
-      if @member_event.update_attributes(params[:member_event])
+      if @member_event.update!(member_event_params)
         format.html { redirect_to @member_event, notice: 'Member event was successfully updated.' }
         format.json { head :no_content }
       else
@@ -128,5 +127,10 @@ class MemberEventsController < AuthenticatedController
 
   def sort_column
     MemberEvent.column_names.include?(params[:sort]) ? params[:sort] : "event_date"
+  end
+
+  private
+  def member_event_params
+    params.require(:member_event).permit( :event_type, :event_date, :event_id)
   end
 end

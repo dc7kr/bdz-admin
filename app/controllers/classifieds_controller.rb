@@ -21,7 +21,7 @@ class ClassifiedsController < AuthenticatedController
   end
 
   def inactive 
-    @classifieds = Classified.inactive.search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
+    @classifieds = Classified.inactive.order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -32,7 +32,7 @@ class ClassifiedsController < AuthenticatedController
   # GET /classifieds
   # GET /classifieds.json
   def index
-    @classifieds= Classified.search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
+    @classifieds= Classified.order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
 
 
     respond_to do |format|

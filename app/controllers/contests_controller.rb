@@ -82,7 +82,7 @@ class ContestsController < AuthenticatedController
   # POST /contests
   # POST /contests.json
   def create
-    @contest = Contest.new(params[:contest])
+    @contest = Contest.new(contest_params)
 
     respond_to do |format|
       if @contest.save
@@ -101,7 +101,7 @@ class ContestsController < AuthenticatedController
     @contest = Contest.find(params[:id])
 
     respond_to do |format|
-      if @contest.update_attributes(params[:contest])
+      if @contest.update!(contest_params)
         format.html { redirect_to @contest, :notice => 'Contest was successfully updated.' }
         format.json { head :ok }
       else
@@ -125,5 +125,8 @@ class ContestsController < AuthenticatedController
 
   def sort_column
     Contest.column_names.include?(params[:sort]) ? params[:sort] : "startDate"
+  end
+  def contest_params
+    params.require(:contest).permit(:startdate, :enddate, :titel, :beschreibung, :gebuehr, :preis, :anmeldung, :deadline, :email, :reported, :confirmed, :visible)
   end
 end

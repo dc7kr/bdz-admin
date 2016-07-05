@@ -34,7 +34,8 @@ class PersonMembersController < AuthenticatedController
   end
 
   def notinvoiced 
-    @person_members = PersonMember.includes([:tariff,:member]).joins("LEFT JOIN member_account_bookings mb ON person_members.member_id=mb.member_id AND mb.booking_type='B' and mb.booking_year = YEAR(NOW())").where("mb.id IS NULL").order("members.mglnr").page(params[:page]).per(20)
+    @person_members = PersonMember.notinvoiced(Time.now.year).page(params[:page]).per(20)
+
 	
     respond_to do |format|
       format.html # index.html.erb
@@ -44,22 +45,21 @@ class PersonMembersController < AuthenticatedController
   end
 
   def nopayment
-	
-  data = MemberAccountBooking.unbalanced_for
+    data = MemberAccountBooking.unbalanced_before(params[:before])
 
-  @ids = data[:ids]
-  @accounts = data[:accounts]
+    @ids = data[:ids]
+    @accounts = data[:accounts]
 
-	@person_members= PersonMember.includes(:member).order("members.mglnr").find(:all, :conditions=> ["member_id in (?)",@ids])
+    @members = Member.includes(:member_entity).where("member_entity_type='PersonMember' and id in (?)",@ids.to_a).order(:mglnr)
 
     respond_to do |format|
      format.html
-     format.json { render :json => @person_members }
-	 format.csv { render :csv => @person_members, :style=>:minimal, :filename => "nopayment_em_"+Time.now.year.to_s }
-	 format.ods {
-			renderNoPayOds("/tmp/nopayment.ods",@accounts,@person_members);
-    		send_file("/tmp/nopayment.ods", :filename => "em_nopay_"+Time.now.year.to_s+".ods", :type => "application/octet-stream")
-		}
+     format.json { render :json => @members }
+     format.csv { render :csv => @members, :style=>:minimal, :filename => "nopayment_em_"+Time.now.year.to_s }
+     format.ods {
+        renderNoPayOds("/tmp/nopayment.ods",@accounts,@members);
+          send_file("/tmp/nopayment.ods", :filename => "em_nopay_"+Time.now.year.to_s+".ods", :type => "application/octet-stream")
+      }
     end
   end
   # GET /person_members/1
@@ -78,8 +78,9 @@ class PersonMembersController < AuthenticatedController
   # GET /person_members/new.json
   def new
     @person_member = PersonMember.new
+    @person_member.build_member
     @person_member.zeitungen=1
-    @person_member.country_code = ISO3166::Country['DE'].alpha2
+    @person_member.member.country_code = ISO3166::Country['DE'].alpha2
 
     respond_to do |format|
       format.html # new.html.erb
@@ -95,7 +96,7 @@ class PersonMembersController < AuthenticatedController
   # POST /person_members
   # POST /person_members.json
   def create
-    @person_member = PersonMember.new(params[:person_member])
+    @person_member = PersonMember.new(person_member_params)
 
     respond_to do |format|
       if @person_member.save
@@ -114,7 +115,7 @@ class PersonMembersController < AuthenticatedController
     @person_member = PersonMember.find(params[:id])
 
     respond_to do |format|
-      if @person_member.update_attributes(params[:person_member])
+      if @person_member.update(person_member_params)
         format.html { redirect_to @person_member, :notice => 'Person member was successfully updated.' }
         format.json { head :ok }
       else
@@ -142,19 +143,19 @@ class PersonMembersController < AuthenticatedController
 
     @person_members.each do |person_member|
       if ( person_member.currentMagazines >0) then
+        member = person_member.member
         @csvrow = {
-        :mglnr=>person_member.mglnr,
-        :name=> '',
-        :name2=>'',
-        :vorname=>person_member.vorname,
-        :nachname=>person_member.name,
-        :strasse=>person_member.strasse ,
-        :countryCode=>person_member.countryCode,
-        :plz=>person_member.plz,
-        :ort=>person_member.ort,
-        :land=>person_member.letterCountry,
-        :magazines=>person_member.currentMagazines
-
+          :mglnr=>member.mglnr,
+          :name=> '',
+          :name2=>'',
+          :vorname=>member.vorname,
+          :nachname=>member.name,
+          :strasse=>member.strasse ,
+          :countryCode=>member.countryCode,
+          :plz=>member.plz,
+          :ort=>member.ort,
+          :land=>member.letterCountry,
+          :magazines=>1
         }
         @result << @csvrow
       end
@@ -177,18 +178,22 @@ class PersonMembersController < AuthenticatedController
   end
 
   private
-  def renderNoPayOds(filename,accounts,person_members)
+  def renderNoPayOds(filename,accounts,members)
 	ODF::Spreadsheet.file(filename) do
 				table "No payment"  do
-	    			person_members.each do |pm|
+	    			members.each do |m|
 						row {
-							cell pm.mglnr.to_s
-							cell pm.vorname+" "+pm.name
-							cell pm.email
-							cell accounts[pm.member_id],:type=>:float
+							cell m.mglnr.to_s
+							cell m.vorname+" "+m.name
+							cell m.email
+							cell accounts[m.id],:type=>:float
 						}
 					end
   				end
 			end
+  end
+
+  def person_member_params()
+    params.require(:person_member).permit(:geburtstag, :telefonDienstl, :tariff_id, :bemerkung, :zeitungen, :kuendigungVom, :beitrag, :zusatzzeitung,member_attributes: Member.nested_params) 
   end
 end

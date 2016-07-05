@@ -6,7 +6,6 @@ class EnsemblesController < AuthenticatedController
   # GET /ensembles
   # GET /ensembles.json
   
-  #load_and_authorize_resource
   def public
 	@ensembles = Ensemble.includes(:public_concerts)
     respond_to do |format|

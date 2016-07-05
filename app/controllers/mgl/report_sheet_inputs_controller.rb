@@ -42,7 +42,7 @@ class Mgl::ReportSheetInputsController < ApplicationController
   def submit_login
 		@report_sheet_input = ReportSheetInput.find_by_token(params[:token])
 
-		if ( @report_sheet_input == nil ) then
+		if ( @report_sheet_input.nil? ) then
 			Rails.logger.warn('Invalid token: ')
       flash[:error] =  t('report_sheet_input.invalid_token')
 			redirect_to :action=>:login
@@ -102,23 +102,21 @@ class Mgl::ReportSheetInputsController < ApplicationController
 
   # PUT
   def submit1
-	@report_sheet_input = ReportSheetInput.find(params[:id])
+	  @report_sheet_input = ReportSheetInput.find(params[:id])
 
-	if current_user != nil then
-    	@report_sheet_input.admin_flag=true
-	else
-		# looks strange but is correct! this is for NIL case and admin
-		# flag not yet set to false... (if it is true we want it to stay true)
-		if ( @report_sheet_input.admin_flag!=true) then
-			@report_sheet_input.admin_flag=false
-		end
-	end
-	@report_sheet_input.save
-
-	
+    if current_user != nil then
+        @report_sheet_input.admin_flag=true
+    else
+      # looks strange but is correct! this is for NIL case and admin
+      # flag not yet set to false... (if it is true we want it to stay true)
+      if ( @report_sheet_input.admin_flag!=true) then
+        @report_sheet_input.admin_flag=false
+      end
+    end
+    @report_sheet_input.save
     
     respond_to do |format|
-      if @report_sheet_input.orchestra.update_attributes(params[:report_sheet_input][:orchestra]) and @report_sheet_input.report_sheet.update_attributes(params[:report_sheet_input][:report_sheet]) then
+      if @report_sheet_input.orchestra.update(orchestra_params) and @report_sheet_input.report_sheet.update(report_sheet_params(params[:report_sheet_input])) then
         format.html { redirect_to :action => :step2, :id => @report_sheet_input, notice: t('report_sheet_input.save_success') }
         format.json { render json: @report_sheet_input, status: :created, location: url_for(:action=>:step2,:id=>@report_sheet_input) }
       else
@@ -207,7 +205,7 @@ class Mgl::ReportSheetInputsController < ApplicationController
 
 	end
 
-		  def submit4
+  def submit4
 			@report_sheet_input = ReportSheetInput.find(params[:id])
 			@rs = @report_sheet_input.report_sheet
 
@@ -232,7 +230,7 @@ class Mgl::ReportSheetInputsController < ApplicationController
 
 			respond_to do |format|
 				format.html { 
-					if ( @rs.update_attributes(params[:report_sheet]) ) then 
+					if @rs.update(report_sheet_params(params))  then 
 						redirect_to url_for(:action=>:finalize,:id=>@report_sheet_input), notice: t('report_sheet_input.save_success') 
 					else 
 						redirect_to url_for(:action=>:step4,:id=>@report_sheet_input), :flash => { :error => t('report_sheet_input.save_error') } 
@@ -337,25 +335,26 @@ class Mgl::ReportSheetInputsController < ApplicationController
    				end
 			end
 
+      mglnr = @rsi.orchestra.member.mglnr
+
       datePrefix = Time.now.strftime("%Y%m%d%H%M%S")
-      filename = "#{datePrefix}_meldebogen_#{@rsi.report_sheet.year}_#{@rsi.orchestra.mglnr}.pdf"
+      filename = "#{datePrefix}_meldebogen_#{@rsi.report_sheet.year}_#{mglnr}.pdf"
 		  pdf = ReportSheetInputPdf.new(@rsi, view_context)
       pdf_file = MailingFile.new(filename, filename, Time.now.strftime("%Y"))
       pdf.render_file pdf_file.full_path
 
 			respond_to do |format|
 				format.html do
-          result = tool.deliver_mailing(ReportSheetConfirmationMail, @rsi.orchestra,  pdf_file,  nil, nil, mailer_params)
+          result = tool.deliver_mailing(ReportSheetConfirmationMail, @rsi.orchestra.member,  pdf_file,  nil, nil, mailer_params)
         end
 				format.pdf do
           Rails.logger.debug "Sending PDF: #{pdf_file.full_path}"
-				  send_file pdf_file.full_path, filename: "meldebogen_#{@rsi.report_sheet.year}_#{@rsi.orchestra.mglnr}.pdf",
+				  send_file pdf_file.full_path, filename: "meldebogen_#{@rsi.report_sheet.year}_#{mglnr}.pdf",
 									  type: "application/pdf",
 									  disposition: "inline"
 				end
 			end
-
-		  end
+		end
 
 		  # POST /report_sheet_inputs
 		  # POST /report_sheet_inputs
@@ -402,7 +401,9 @@ class Mgl::ReportSheetInputsController < ApplicationController
 
     datafile = params[:datafile]
 
-    prefix = @orchestra.mglnr.to_s+"_"+Time.now.year.to_s+"_"
+    mglnr = @orchestra.member.mglnr
+
+    prefix = mglnr.to_s+"_"+Time.now.year.to_s+"_"
 
     if (datafile == nil ) then
           redirect_to url_for(:action=>:step3,:id=>@report_sheet_input), :flash => { :error => t('report_sheet_input.no_file_selected') } 
@@ -456,5 +457,33 @@ class Mgl::ReportSheetInputsController < ApplicationController
       format.html { redirect_to report_sheet_inputs_url }
       format.json { head :no_content }
     end
+  end
+
+  def step1_params
+    params.require(:report_sheet_input).permit()
+  end
+
+  def step2_params
+    params.require(:report_sheet_input).permit()
+  end
+  
+  def step3_params
+    params.require(:report_sheet_input).permit()
+  end
+
+  def step4_params
+    params.require(:report_sheet_input).permit()
+  end
+
+  private
+  def report_sheet_params root
+    root.require(:report_sheet).permit(:id, :uv,
+       :azubi_child, :azubi_teens, :azubi_youth, :azubi_adult, :azubi_senior, :passive, :supporters,
+       :child_ens, :youth_ens, :adult_ens, :senior_ens, :other_ens,
+        :zo, :zi_o, :go, :oz )
+  end
+
+  def orchestra_params
+    params.require(:report_sheet_input).permit(orchestra_attributes: [ :orchName, :gruendung, member_attributes: [ :id, :title, :anrede, :vorname, :name, :strasse, :plz, :ort, :email, :za, :zahler, :telefon, :fax, :bic, :iban, :country_code ] ])
   end
 end

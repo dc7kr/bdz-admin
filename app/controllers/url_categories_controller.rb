@@ -2,7 +2,6 @@ class UrlCategoriesController < AuthenticatedController
   # GET /url_categories
   # GET /url_categories.json
   before_filter :authenticate_user!#, :except => [:index]
-  load_and_authorize_resource
   def index
     @url_categories = UrlCategory.all
 

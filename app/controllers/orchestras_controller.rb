@@ -7,6 +7,10 @@ class OrchestrasController < AuthenticatedController
   # for table sort by column click
   helper_method :sort_column, :sort_direction
 
+  authority_actions :lorch=> 'read'
+
+
+
   include UploadHelper
   include ReportSheetUploadHelper
   include PDFHelper
@@ -71,7 +75,7 @@ class OrchestrasController < AuthenticatedController
 	  @orchestras.each do |orchestra|
       last_report = orchestra.lastReportSheet
       if last_report.nil? then
-        logger.warn("Last Report sheet is NIL: #{orchestra.mglnr} #{orchestra.orchName}")
+        logger.warn("Last Report sheet is NIL: #{orchestra.member.mglnr} #{orchestra.orchName}")
       elsif ( last_report.calcZeitungen > 0) then
 			  mag_count=nil
 			  if ( orchestra.is_regular? or orchestra.is_lorch? ) then
@@ -80,13 +84,13 @@ class OrchestrasController < AuthenticatedController
 				  mag_count = BDZ_SETTINGS["tariff"]["koopZtgCount"].to_i
 			  end
 		  @csvrow = {:name=> orchestra.orchName,
-			:mglnr=>orchestra.mglnr,
+			:mglnr=>orchestra.member.mglnr,
 			:fullname=>orchestra.fullname,
 			:name2=>'',
-			:strasse=>orchestra.strasse ,
-			:countryCode=>orchestra.countryCode,
-			:plz=>orchestra.plz,
-			:ort=>orchestra.ort,
+			:strasse=>orchestra.member.strasse ,
+			:countryCode=>orchestra.member.countryCode,
+			:plz=>orchestra.member.plz,
+			:ort=>orchestra.member.ort,
 			:land=>orchestra.letterCountry,
 			:magazines=>mag_count }
       @result << @csvrow
@@ -100,22 +104,21 @@ class OrchestrasController < AuthenticatedController
 
   	flash[:notice] = "Export complete!"
   end
+
   def nopayment
-	@previousYear = (Time.now.year-1).to_s
+    data = MemberAccountBooking.unbalanced_before(params[:before])
 
-  data = MemberAccountBooking.unbalanced_for(params[:lastyear])
+    @accounts = data[:accounts]
+    @ids = data[:ids]
 
-  @accounts = data[:accounts]
-  @ids = data[:ids]
-
-	@orchestras = Orchestra.includes(:member).order("members.mglnr").find(:all, :conditions=> ["member_id in (?)",@ids])
+    @members = Member.includes(:member_entity).where("member_entity_type='Orchestra' and id in (?)",@ids.to_a).order(:mglnr)
 
     respond_to do |format|
      format.html 
-     format.json { render :json => @orchestras }
-		format.csv { render :csv => @orchestras, :style=>:minimal, :filename => "nopayment_"+Time.now.year.to_s } 
+     format.json { render :json => @members}
+		format.csv { render :csv => @members, :style=>:minimal, :filename => "nopayment_"+Time.now.year.to_s } 
 		format.ods {
-			renderNoPayOds("/tmp/nopayment.ods",@accounts,@orchestras);
+			renderNoPayOds("/tmp/nopayment.ods",@accounts,@members);
     		send_file("/tmp/nopayment.ods", :filename => "orch_nopay_"+Time.now.year.to_s+".ods", :type => "application/octet-stream")
 		}
     end
@@ -134,7 +137,8 @@ class OrchestrasController < AuthenticatedController
   def lorch
     @orchestras = @orchestras.includes(:member).where("orch_type='L'").order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
 
-	  @previousYear = (Time.now.year-1).to_s
+  #authorize_action_for @orchestras
+  
 
     respond_to do |format|
       format.html {
@@ -152,8 +156,6 @@ class OrchestrasController < AuthenticatedController
 
     @orchestras = @orchestras.includes(:member).search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
 
-	  @previousYear = (Time.now.year-1).to_s
-
     respond_to do |format|
       format.html {
 			if  ( @orchestras.length == 1 ) then
@@ -167,7 +169,7 @@ class OrchestrasController < AuthenticatedController
   end
 
   def noreport
-	@orchestras = Orchestra.includes([:member]).joins('LEFT JOIN report_sheets ON report_sheets.orchestra_id = orchestras.member_id AND report_sheets.year='+String(Time.now.year)).page(params[:page]).per(10).where(['report_sheets.id IS NULL']).search(params[:search]).order(sort_column+ " "+ sort_direction)
+	@orchestras = Orchestra.includes([:member]).joins('LEFT JOIN report_sheets ON report_sheets.orchestra_id = orchestras.id AND report_sheets.year='+String(Time.now.year)).page(params[:page]).per(10).where(['report_sheets.id IS NULL']).search(params[:search]).order(sort_column+ " "+ sort_direction)
 
 
 	respond_to do |format|
@@ -193,8 +195,9 @@ class OrchestrasController < AuthenticatedController
   # GET /orchestras/new.json
   def new
     @orchestra = Orchestra.new
-    @orchestra.country_code = ISO3166::Country['DE'].alpha2
-    @orchestra.eintritt = Time.now
+    @orchestra.build_member
+    @orchestra.member.country_code = ISO3166::Country['DE'].alpha2
+    @orchestra.member.eintritt = Time.now
 
     respond_to do |format|
       format.html # new.html.erb
@@ -205,13 +208,14 @@ class OrchestrasController < AuthenticatedController
   # GET /orchestras/1/edit
   def edit
     @orchestra = Orchestra.find(params[:id])
+    authorize_action_for @orchestra
   end
 
 
   # POST /orchestras
   # POST /orchestras.json
   def create
-    @orchestra = Orchestra.new(params[:orchestra])
+    @orchestra = Orchestra.new(orchestra_params)
     respond_to do |format|
       if @orchestra.save
         format.html { redirect_to @orchestra, :notice => t('orchestra.create_success') }
@@ -229,7 +233,7 @@ class OrchestrasController < AuthenticatedController
     @orchestra = Orchestra.find(params[:id])
 
     respond_to do |format|
-      if @orchestra.update_attributes(params[:orchestra])
+      if @orchestra.update_attributes!(orchestra_params)
         format.html { redirect_to @orchestra, :notice => t('orchestra.update_success') }
         format.json { head :ok }
       else
@@ -291,19 +295,29 @@ class OrchestrasController < AuthenticatedController
     Orchestra.column_names.include?(params[:sort]) ? params[:sort] : "members.mglnr"
   end
 
+  def pro_musica
+    @age = 90
+    Logger.debug("AGE: #{@age}")
+    year = Time.now.year - @age
+    @orchestras = Orchestra.includes(:member).where("YEAR(gruendung) <= ? and gruendung != '0000-00-00' and gruendung IS NOT NULL ",year).order("members.mglnr")
+  end
+
   private
-  def renderNoPayOds(filename,accounts,orchestras)
+  def renderNoPayOds(filename,accounts,members)
 			ODF::Spreadsheet.file(filename) do
 				table "Nopayment" do
-	    			orchestras.each do |o|
+	    			members.each do |m|
 						row {
-							cell o.mglnr.to_s
-							cell o.orchName
-							cell o.email
-							cell accounts[o.member_id].round(2),:type=>:float
+							cell m.mglnr.to_s
+							cell m.member_entity.orchName
+							cell m.email
+							cell accounts[m.id].round(2),:type=>:float
 						}
 					end
       end
     end
+  end
+  def orchestra_params
+    params.require(:orchestra).permit( :orchName, :url, :gruendung, :orch_type, :bemerkung, :zweitanschrift, :name2, :kuendigungErfasst ,member_attributes: Member.nested_params) 
   end
 end

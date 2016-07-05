@@ -32,6 +32,8 @@ class MagazineSamplingsController < AuthenticatedController
   def new
     @magazine_sampling = MagazineSampling.new
 
+    @magazine_sampling.contact = Contact.new
+
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @magazine_sampling }
@@ -46,7 +48,7 @@ class MagazineSamplingsController < AuthenticatedController
   # POST /magazine_samplings
   # POST /magazine_samplings.json
   def create
-    @magazine_sampling = MagazineSampling.new(params[:magazine_sampling])
+    @magazine_sampling = MagazineSampling.new(magazine_sampling_params)
 
     respond_to do |format|
       if @magazine_sampling.save
@@ -65,7 +67,7 @@ class MagazineSamplingsController < AuthenticatedController
     @magazine_sampling = MagazineSampling.find(params[:id])
 
     respond_to do |format|
-      if @magazine_sampling.update_attributes(params[:magazine_sampling])
+      if @magazine_sampling.update!(magazine_sampling_params)
         format.html { redirect_to @magazine_sampling, notice: 'Magazine sampling was successfully updated.' }
         format.json { head :no_content }
       else
@@ -96,4 +98,8 @@ class MagazineSamplingsController < AuthenticatedController
   	flash[:notice] = "Export complete!"
   end
 
+  private 
+  def magazine_sampling_params
+    params.require(:magazine_sampling).permit(:count, contact_attributes: [:company,:department,:salutation,:title,:first_name,:last_name,:street,:zip,:city,:phone,:office_phone,:mobile,:fax,:email,:bic,:iban,:country_code])
+  end
 end

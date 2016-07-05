@@ -38,11 +38,11 @@ class Public::ConcertsController < ApplicationController
 
 
   def magazine
-    @concerts = Concert.public.order([:datum,:zeit])
+    @concerts = Concert.published.order([:datum,:zeit])
   end
 
   def renderConcerts
-    @concerts = Concert.public.search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
+    @concerts = Concert.published.search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
     respond_to do |format|
       format.html # index.html.erb
       format.json { render :json => @concerts }

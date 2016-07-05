@@ -3,7 +3,7 @@ require 'date'
 require 'open-uri'
 
 
-class CalendarSyncController < AuthenticatedNonResourceController
+class Adm::CalendarSyncController < AuthenticatedNonResourceController
 	@@bw_url="https://www.google.com/calendar/ical/redaktion%40zupfer-kurier.de/public/basic.ics"
 
 	#include Icalendar # Probably do this in your class to limit namespace overlap

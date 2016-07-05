@@ -32,6 +32,9 @@ class BoardContactsController < AuthenticatedController
   # GET /board_contacts/new.json
   def new
     @board_contact = BoardContact.new
+    contact = Contact.new
+    @board_contact.contact = contact
+    contact.country_code="DE"
 
     respond_to do |format|
       format.html # new.html.erb
@@ -47,7 +50,7 @@ class BoardContactsController < AuthenticatedController
   # POST /board_contacts
   # POST /board_contacts.json
   def create
-    @board_contact = BoardContact.new(params[:board_contact])
+    @board_contact = BoardContact.new(board_contact_params)
 
     respond_to do |format|
       if @board_contact.save
@@ -64,9 +67,8 @@ class BoardContactsController < AuthenticatedController
   # PUT /board_contacts/1.json
   def update
     @board_contact = BoardContact.find(params[:id])
-
     respond_to do |format|
-      if @board_contact.update_attributes(params[:board_contact])
+      if @board_contact.update!(board_contact_params)
         format.html { redirect_to @board_contact, notice: 'Board contact was successfully updated.' }
         format.json { head :no_content }
       else
@@ -88,7 +90,6 @@ class BoardContactsController < AuthenticatedController
     end
   end
 
-
   ## helpers ###
 
   private 
@@ -97,4 +98,9 @@ class BoardContactsController < AuthenticatedController
     BoardContact.column_names.include?(params[:sort]) ? params[:sort] : "contacts.last_name,contacts.first_name"
   end
 
+  def board_contact_params
+    params.require(:board_contact).permit(contact_attributes: [:company,:department,:salutation,:title,:first_name,:last_name,:street,:zip,:city,:phone,:office_phone,:mobile,:fax,:email,:bic,:iban,:country_code])
+  end
 end
+
+

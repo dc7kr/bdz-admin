@@ -1,5 +1,4 @@
 class ComposersController < AuthenticatedController
-  load_and_authorize_resource
   # GET /composers
   # GET /composers.json
   def index

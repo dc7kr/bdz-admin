@@ -71,9 +71,9 @@ class OrchestraMembersController < AuthenticatedController
   # POST /orchestra_members
   # POST /orchestra_members.json
   def create
-	@orchestra = Orchestra.find(params[:orchestra_id])
-    @orchestra_member = OrchestraMember.new(params[:orchestra_member])
-	@orchestra_member.orchestra = @orchestra
+	  @orchestra = Orchestra.find(params[:orchestra_id])
+    @orchestra_member = OrchestraMember.new(orchestra_member_params)
+	  @orchestra_member.orchestra = @orchestra
 
     respond_to do |format|
       if @orchestra_member.save
@@ -92,7 +92,7 @@ class OrchestraMembersController < AuthenticatedController
     @orchestra_member = OrchestraMember.find(params[:id])
 
     respond_to do |format|
-      if @orchestra_member.update_attributes(params[:orchestra_member])
+      if @orchestra_member.update(orchestra_member_params)
         format.html { redirect_to orchestra_orchestra_member_path(@orchestra_member.orchestra,@orchestra_member), notice: t('orchestra_member.update_success') }
         format.json { head :no_content }
       else
@@ -126,7 +126,7 @@ class OrchestraMembersController < AuthenticatedController
 	@orchestra = Orchestra.find(params[:orchestra_id])
 	@orchestra_members.each do |o|
 		if o.mglnr != nil and o.mglnr != 0 then
-			orch = Orchestra.includes(:member).where("members.mglnr = ?",o.mglnr)	
+			orch = Orchestra.joins(:member).where("members.mglnr = ?",o.mglnr)	
 
 			if (orch != nil and orch[0] != nil ) then
 				Rails.logger.info("Found orchestra")
@@ -150,10 +150,11 @@ class OrchestraMembersController < AuthenticatedController
   # DELETE /orchestra_members/1.json
   def destroy
     @orchestra_member = OrchestraMember.find(params[:id])
+    orchestra = @orchestra_member.orchestra
     @orchestra_member.destroy
 
     respond_to do |format|
-      format.html { redirect_to orchestra_orchestra_members_url(params[:orchestra_id]) }
+      format.html { redirect_to orchestra_orchestra_members_url(orchestra) }
       format.json { head :no_content }
     end
   end
@@ -163,7 +164,7 @@ class OrchestraMembersController < AuthenticatedController
     @orchestra = Orchestra.find(params[:orchestra_id])
     datafile = params[:datafile]
 
-    prefix = @orchestra.mglnr.to_s+"_"+Time.now.year.to_s+"_"
+    prefix = @orchestra.member.mglnr.to_s+"_"+Time.now.year.to_s+"_"
 
     if (datafile == nil ) then
       redirect_to orchestra_orchestra_members_upload_path(@orchestra), :flash => { :error => t('upload.no_file_selected') }
@@ -196,5 +197,8 @@ class OrchestraMembersController < AuthenticatedController
   private 
   def sort_column
     OrchestraMember.column_names.include?(params[:sort]) ? params[:sort] : "last_name,first_name"
+  end
+  def orchestra_member_params
+    params.require(:orchestra_member).permit(:first_name,:last_name,:date_of_birth,:instrument,:mglnr)
   end
 end

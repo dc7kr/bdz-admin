@@ -2,13 +2,27 @@ class AuthenticatedController < ApplicationController
   protect_from_forgery
 
   before_filter :authnUser
+  #ensure_authorization_performed :except => [:index, :search], :if => :auditing_security?, :unless => :devise_controller?
   load_and_authorize_resource 
+
+  def auditing_security?
+    Rails.env != 'production'
+  end
+
 #  skip_authorize_resource :only => [noAuthActions]
 
   rescue_from CanCan::AccessDenied do |exception|
     flash[:error] = exception.message
     redirect_to root_url
     #redirect_to home_landing_page_url 
+  end
+
+
+  rescue_from Authority::SecurityViolation do |exception|
+    flash[:error] = exception.message
+
+    Rails.logger.error(exception.message)
+    redirect_to root_url
   end
 
 

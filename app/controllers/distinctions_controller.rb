@@ -5,58 +5,62 @@ class DistinctionsController < AuthenticatedController
 
   def gen_invoice
     @cur_year = Time.now.year
-    @distinction = Distinction.find(params[:id])
+    distinction = Distinction.find(params[:id])
+    orchestra = distinction.orchestra 
 
     datePrefix = Time.now.strftime '%Y%m%d%H%M%S'
 
-    @tw = TexWriter.new
-    @ddWriter = SEPAWriter.new(datePrefix, BDZ_SETTINGS)
+    tw = TexWriter.new
+    ddWriter = SEPAWriter.new(datePrefix, BDZ_SETTINGS)
 
-    @orchestra = @distinction.orchestra 
+    customer = orchestra.to_customer
 
-    @invoiceNumber = "E-"+Time.now.strftime("%Y%m%d-")+@orchestra.mglnr.to_s
+    is_dd = customer.is_direct_debit?
+    mglnr = orchestra.member.mglnr
 
-    if (@distinction.orchestra.is_direct_debit?) then
-       remittance_txt = "Ehrungsrechnung #{@invoiceNumber}" 
-       @ddWriter.addBooking(@orchestra, @distinction.calcSum, remittance_txt,"OOFF")
+    invoiceNumber = "E-"+Time.now.strftime("%Y%m%d-")+mglnr.to_s
+
+    if (is_dd) then
+       remittance_txt = "Ehrungsrechnung #{invoiceNumber}" 
+       ddWriter.addBooking(customer, distinction.calcSum, remittance_txt,"OOFF")
     end
 
-    @invoice = @distinction.gen_invoice(@invoiceNumber)
-    @tw.writeInvoice(@invoice, 'distinction',Time.now.year)
-    system("/opt/bdz-rechnung/bin/ehrungsrechnung.sh "+String(@orchestra.mglnr))
-    @tw.moveGeneratedFiles(@ddWriter.datePrefix)
+    @invoice = distinction.gen_invoice(invoiceNumber)
+    tw.writeInvoice(@invoice, 'distinction',Time.now.year)
+    system("/opt/bdz-rechnung/bin/ehrungsrechnung.sh "+String(mglnr))
+    tw.moveGeneratedFiles(ddWriter.datePrefix)
 
-    if ( @distinction.orchestra.is_direct_debit?) then
-      @ddFileName = @ddWriter.generateFile
+    if ( is_dd) then
+      @ddFileName = ddWriter.generateFile
     end
 
 
-    @booking_txt = 'Ehrungsrechung '+@invoiceNumber
-    @booking =  MemberAccountBooking.newDistinctionInvoice(@booking_txt,-1*@distinction.calcSum,String(@orchestra.mglnr))
-    @booking.member_id = @orchestra.id
-    @booking.save
+    booking_txt = 'Ehrungsrechung '+invoiceNumber
+    booking =  MemberAccountBooking.newDistinctionInvoice(booking_txt,-1*distinction.calcSum,String(mglnr))
+    booking.member_id = orchestra.member.id
+    booking.save
 
-    if (@distinction.orchestra.is_direct_debit?) then
-      @wdbooking = MemberAccountBooking.newWithdrawal("Lastschrift "+@booking_txt,@distinction.calcSum)
-      @wdbooking.member_id = @orchestra.id
+    if (is_dd) then
+      @wdbooking = MemberAccountBooking.newWithdrawal("Lastschrift "+booking_txt,distinction.calcSum)
+      @wdbooking.member_id = orchestra.member.id
       @wdbooking.save
     end
 
-    @distinction.member_account_booking = @booking
-    @distinction.save
+    distinction.member_account_booking = booking
+    distinction.save
 
-    send_mail(@ddFileName, @invoiceNumber, @distinction.orchestra)
+    send_mail(@ddFileName, invoiceNumber, distinction.orchestra)
     shortprefix = Time.now.strftime("%Y%m%d-")
 
-    redirect_to(download_orchestra_member_account_booking_path(@orchestra,@booking))
+    redirect_to(download_orchestra_member_account_booking_path(orchestra,booking))
   end
 
   # GET /distinctions
   # GET /distinctions.json
   def index
-    @distinctions = Distinction.where("orchestra_id = ?",params[:orchestra_id]).search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
+    @distinctions = Distinction.where("orchestra_id = ?",params[:orchestra_id]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
 
-	  @orchestra = Orchestra.find_by_member_id(params[:orchestra_id])
+	  @orchestra = Orchestra.find(params[:orchestra_id])
 
     respond_to do |format|
       format.html # index.html.erb
@@ -79,7 +83,7 @@ class DistinctionsController < AuthenticatedController
   # GET /distinctions/new
   # GET /distinctions/new.json
   def new
-	@orchestra = Orchestra.find_by_member_id(params[:orchestra_id])
+	  @orchestra = Orchestra.find(params[:orchestra_id])
     @distinction = Distinction.new(:orchestra_id=>@orchestra.id, :dist_date=>Time.now)
 
     respond_to do |format|
@@ -97,7 +101,7 @@ class DistinctionsController < AuthenticatedController
   # POST /distinctions
   # POST /distinctions.json
   def create
-    @distinction = Distinction.new(params[:distinction])
+    @distinction = Distinction.new(distinction_params)
     @orchestra = Orchestra.find(params[:orchestra_id])
     @distinction.orchestra = @orchestra
 
@@ -160,5 +164,8 @@ class DistinctionsController < AuthenticatedController
     end
 
 	  AdminNotifier.newdistinction_notification(dd_url,invoiceNr,orch).deliver
+  end
+  def distinction_params
+    params.require(:distinction).permit(:dist_date, :certificates, :honorletters, :medals, :gold_needles, :silver_needles, :national_needles, :porto)
   end
 end
