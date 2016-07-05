@@ -44,7 +44,7 @@ class RegionalOrganizationPdf < Prawn::Document
 		[[ "Mitgl.Nr.","Name" ]]+
 		@person_members.map do |item|
 			[
-        mglnr(item),
+        mglnr(item.member),
 				item.address
 			]
 		end
@@ -52,14 +52,13 @@ class RegionalOrganizationPdf < Prawn::Document
 
 	def format_orchestras 
 		[[ "Mglnr","Orchester","Gesamt","GEMA" ]] +
-		@orchestras.map do |item|
-			[ mglnr(item),
-				item.address+ ", "+
-				(item.telefon ? item.telefon : "") +", "+
-				(item.email ? item.email : ""),
-				item.total(@year),
-				item.gema(@year),
-        item.age_key_str(@year)
+		@orchestras.map do |orch|
+			[ mglnr(orch.member),
+				orch.address+ ", "+
+				orch.contact_info,
+				orch.total(@year),
+				orch.gema(@year),
+        orch.age_key_str(@year)
 
     ]
 		end

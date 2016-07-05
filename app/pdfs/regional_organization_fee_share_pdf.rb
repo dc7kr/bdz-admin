@@ -39,7 +39,7 @@ class RegionalOrganizationFeeSharePdf < Prawn::Document
       @count+=1
       @sum+=item.lvPart
 			[
-        mglnr(item),
+        mglnr(item.member),
 				item.fullname,
         @view.format_currency(item.lvPart,'EUR')
 			]
@@ -73,7 +73,7 @@ class RegionalOrganizationFeeSharePdf < Prawn::Document
 
       @count+=member_count
       @sum+=lv_part 
-			[ mglnr(item),
+			[ mglnr(item.member),
 				item.orchName,
 				member_count,
 				@view.format_currency(lv_part) 

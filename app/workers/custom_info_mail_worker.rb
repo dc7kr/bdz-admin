@@ -1,7 +1,6 @@
 class CustomInfoMailWorker
 
   include Sidekiq::Worker
-  include BulkMailHelper
   include FileArchiveHelper
   include Rails.application.routes.url_helpers
 
@@ -69,11 +68,12 @@ class CustomInfoMailWorker
     if ( orchestra ) then
       orchestras = Orchestra.mailForEvent(event_id,via_paper)
 
-
       orchestras.each do |orchestra| 
-        Rails.logger.debug("Generating for: #{orchestra.member.mglnr}")
-        filled_template = customize_letter(date_prefix, cur_year.to_s,"gs", orchestra,event_id, letterfile)
-        o_result = tool.deliver_mailing(CustomInfoMail,orchestra, filled_template, attachment , letterArray,mailer_params)  
+
+        addr = orchestra.to_addressee
+        Rails.logger.debug("Generating for: #{addr.id}")
+        filled_template = customize_letter(date_prefix, cur_year.to_s,"gs", addr, event_id, letterfile)
+        o_result = tool.deliver_mailing(CustomInfoMail,addr, filled_template, attachment , letterArray,mailer_params)  
         results.push(o_result) 
       end
     end
@@ -103,9 +103,11 @@ class CustomInfoMailWorker
       persons = PersonMember.mailForEvent(event_id, via_paper) 
 
       persons.each do |person| 
-        Rails.logger.debug("Generating for: EM #{person.member.mglnr}")
-        filled_template = customize_letter(date_prefix, cur_year.to_s,"gs", person,event_id, letterfile)
-        o_result = tool.deliver_mailing(CustomInfoMail,person, filled_template, attachment , letterArray,mailer_params)  
+        addr = person.to_addressee
+
+        Rails.logger.debug("Generating for: EM #{addr.id}")
+        filled_template = customize_letter(date_prefix, cur_year.to_s,"gs", addr,event_id, letterfile)
+        o_result = tool.deliver_mailing(CustomInfoMail,addr, filled_template, attachment , letterArray,mailer_params)  
         results.push(o_result) 
       end
     end
@@ -118,5 +120,4 @@ class CustomInfoMailWorker
 
     send_admin_mail(pdf_merged_file,triggered_by,results)
   end
-
 end

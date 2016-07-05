@@ -8,22 +8,28 @@ class MailingTool
     @via_paper = via_paper
   end
 
-  def deliver_mailing(mailer, rcpt, letterFile, attachment, letterArray, additionalMailerParams)  
+  # recipient is the derived class (Orchestra, PersonMember, RegionalOrganization)
+  #
+  # fields needed in addressee: id 
+  #
+  # diverts to deliver_letter in error case
+  #
+  def deliver_mailing(mailer, addressee, letterFile, attachment, letterArray, additionalMailerParams)  
 
-    if not rcpt.has_email? and @via_paper then
-      result = deliver_letter(rcpt,letterFile)
+    if not addressee.has_email? and @via_paper then
+      result = deliver_letter(addressee,letterFile)
       letterArray << letterFile
-      Rails.logger.info("Created letter for #{rcpt}")
+      Rails.logger.info("Created letter for #{addressee.id}")
       return result
     else 
-      o_result = deliver_email(mailer, rcpt,letterFile,attachment, additionalMailerParams)
+      o_result = deliver_email(mailer, addressee,letterFile,attachment, additionalMailerParams)
       if o_result[:success]!= true then
-        Rails.logger.info("Mail delivery failed: "+rcpt.email)
+        Rails.logger.info("Mail delivery failed: #{addressee.id}")
 
         if @via_paper then
-          result = deliver_letter(rcpt, letterFile)
+          result = deliver_letter(addressee, letterFile)
           letterArray << letterFile
-          Rails.logger.info("Created letter for #{rcpt}")
+          Rails.logger.info("Created letter for #{addressee.id}")
           return result
         else
           return o_result
@@ -34,27 +40,24 @@ class MailingTool
     end
   end
 
-
   private 
 
   def is_mail_blacklisted?(mail) 
     mail.include?("aol.com") 
   end
 
-  def move_attachment(date_prefix, att_file,rcpt)
-      #FileUtils.cp(att_file,
-  end
- 
-  def recordMailSuccess(entity,subject,letterFile=nil)
-    Rails.logger.debug("Mail success  : "+entity.class.name )
-    Rails.logger.debug("Festival class: "+FestivalApplication.class.name)
+  # entity is either the superclass member or a similar object that supports calls to:
+  # email, event_class, id
+  def recordMailSuccess(addressee,subject,letterFile=nil)
+    #Rails.logger.debug("Mail success  : "+addressee.class.name )
+    #Rails.logger.debug("Festival class: "+FestivalApplication.class.name)
 
-    if ( entity.event_class.nil?) then
-      Rails.logger.info("Event class is nil. Mail successfully sent to : #{entity.email}")
+    if ( addressee.event_class.nil?) then
+      Rails.logger.info("Event class is nil. Mail successfully sent to : #{addressee.email}")
       return
     end
 
-    event = entity.event_class.newEmail(@event_id,entity.id,subject)
+    event = addressee.event_class.newEmail(@event_id,addressee.event_entity_id,subject)
 
     if not letterFile.nil? then
       event.filename=letterFile.relative_filename
@@ -63,56 +66,56 @@ class MailingTool
     event.save
   end
 
-  def recordMailFailure(entity, result)
+  def recordMailFailure(addressee, result)
 
-    if entity.event_class.nil? then
+    if addressee.event_class.nil? then
       Rails.logger.info("Event class is nil.")
       Rails.logger.warning("Mail sending failed: "+result)
       return
     end
 
-    event = entity.event_class.newEmail(@event_id,entity.id,result.to_s)
+    event = addressee.event_class.newEmail(@event_id,addressee.event_entity_id,result.to_s)
     event.save
   end
 
-  def recordLetter(entity,subject,letterFile)
+  def recordLetter(addressee,subject,letterFile)
 
-    if entity.event_class.nil? then
+    if addressee.event_class.nil? then
       Rails.logger.info("Event class is nil.")
-      Rails.logger.info("Letter success: #{entity.email}.")
+      Rails.logger.info("Letter success: #{addressee.id}.")
       return
     end
 
-    event = entity.event_class.newLetter(@event_id,entity.id,subject.to_s)
+    event = addressee.event_class.newLetter(@event_id,addressee.event_entity_id,subject.to_s)
     if not letterFile.nil? then
   	  event.filename=letterFile.relative_filename
     end
     event.save
 
-    { :success=>true, :mode => "L" ,:entity=>entity}
+    { :success=>true, :mode => "L" ,:entity=>addressee}
   end
 
-  def deliver_letter(rcpt,letter)
-    recordLetter(rcpt, @event_title, letter)
+  def deliver_letter(addressee,letter)
+    recordLetter(addressee, @event_title, letter)
   end
 
-  def deliver_email(mailer, rcpt, letter,attachment,additionalMailerParams)
+  def deliver_email(mailer, addressee, letter,attachment,additionalMailerParams)
     begin
-      type = rcpt.class
-      if not is_mail_blacklisted?(rcpt.email) then
-        mailer.notify(rcpt.email, letter,attachment,additionalMailerParams).deliver
-        recordMailSuccess(rcpt, @event_title,letter)
-        result = { :success=>true, :mode => "E" ,:entity=>rcpt}
+      type = addressee.entity.class
+      if not is_mail_blacklisted?(addressee.email) then
+        mailer.notify(addressee.email, letter,attachment,additionalMailerParams).deliver
+        recordMailSuccess(addressee, @event_title,letter)
+        result = { :success=>true, :mode => "E" ,:entity=>addressee}
         return result
       else 
-        recordMailFailure(rcpt,"blacklist")
-        result = { :err=>"blacklisted", :entity=>rcpt,:type =>type, :mode => "E"}
+        recordMailFailure(addressee,"blacklist")
+        result = { :err=>"blacklisted", :entity=>addressee,:type =>type, :mode => "E"}
         return result
        end
     rescue => e 
-      recordMailFailure(rcpt,e.message)
+      recordMailFailure(addressee,e.message)
        Rails.logger.warn e.backtrace.join("\n")
-      return { :err=>e.message, :entity=>rcpt,:type =>type, :mode=> "E"}
+      return { :err=>e.message, :entity=>addressee,:type =>type, :mode=> "E"}
     end
   end
 end

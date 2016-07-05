@@ -26,25 +26,26 @@ class ReportSheetInputPdf< Prawn::Document
   end
   
   def rsi_head
-    text "Mitgliedermeldung #{@rs.year}, Mgl.Nr: #{@rsi.orchestra.mglnr}", size: 30, style: :bold
+    text "Mitgliedermeldung #{@rs.year}, Mgl.Nr: #{@rsi.orchestra.member.mglnr}", size: 30, style: :bold
   end
 
   def addresses 
     move_down 20
 	text "Anschrift", style: :bold, size: 20
+    member = @orch.member
 	rows = [
 		[t_label('orchestra.orchName'),@orch.orchName ],
-		[I18n.t('common.fullname'), I18n.t('common.salutations.'+@orch.anrede)+" "+ @orch.vorname+" "+@orch.name ],
-		[t_label('member.street'),	@orch.strasse],
-		[t_label('member.city'),	@orch.plz+" "+@orch.ort],
-		[t_label('member.phone'), @orch.telefon],
-		[t_label('member.fax'), @orch.fax],
-		[t_label('member.email'), @orch.email]]
+		[I18n.t('common.fullname'), I18n.t('common.salutations.'+member.anrede)+" "+ member.vorname+" "+member.name ],
+		[t_label('member.street'),	member.strasse],
+		[t_label('member.city'),	member.plz+" "+member.ort],
+		[t_label('member.phone'), member.telefon],
+		[t_label('member.fax'), member.fax],
+		[t_label('member.email'), member.email]]
 
-    if @orch.za=='L' then
-      rows << [t_label('member.iban'), @orch.iban]
-      rows << [t_label('member.bic'), @orch.bic]
-      rows << [t_label('member.mref'), @orch.mref]
+    if member.za=='L' then
+      rows << [t_label('member.iban'), member.iban]
+      rows << [t_label('member.bic'), member.bic]
+      rows << [t_label('member.mref'), member.mref]
     end
     
     table rows do

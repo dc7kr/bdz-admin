@@ -35,7 +35,7 @@ class CompanyPaperDocument < Prawn::Document
     xpos = @addr_xpos
     text_box addressee.company, :at => [ xpos,rowpos]
     rowpos-=@addr_rowskip
-    text_box addressee.fullname, :at => [ xpos,rowpos]
+    text_box addressee.name, :at => [ xpos,rowpos]
     rowpos-=@addr_rowskip
     text_box addressee.street, :at => [ xpos,rowpos]
     rowpos-=@addr_rowskip
