@@ -21,12 +21,12 @@ class SEPAWriter < BankTransferWriter
   end
 
   public
-  def addBooking(member, amount, remittance_txt,sequence_type=nil)
-    dd = dd_from_member(member,sequence_type)
+  def addBooking(customer, amount, remittance_txt,sequence_type=nil)
+    dd = dd_from_member(customer,sequence_type)
     dd.remittance_txt = remittance_txt
     dd.amount = amount 
 
-    Rails.logger.debug("New booking: "+member.mglnr.to_s+": "+dd.sequence_type.to_s+": "+amount.to_s)
+    Rails.logger.debug("New booking: #{customer.id}: #{dd.sequence_type}: #{amount}")
     @direct_debits << dd
   end
 
