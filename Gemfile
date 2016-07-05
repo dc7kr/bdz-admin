@@ -1,31 +1,61 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.2.22'
+# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
+gem 'rails', '4.1.0'
 
+# Use SCSS for stylesheets
+gem 'sass-rails', '~> 5.0'
+# Use Uglifier as compressor for JavaScript assets
+gem 'uglifier', '>= 1.3.0'
+# Use CoffeeScript for .js.coffee assets and views
+gem 'coffee-rails', '~> 4.0.0'
+# See https://github.com/sstephenson/execjs#readme for more supported runtimes
+gem 'therubyracer',  platforms: :ruby
+
+# Use jquery as the JavaScript library
+gem 'jquery-rails'
+# Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
+gem 'turbolinks'
+# Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
+gem 'jbuilder', '~> 2.0'
+# bundle exec rake doc:rails generates the API under doc/api.
+gem 'sdoc', '~> 0.4.0',          group: :doc
+
+# Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
+gem 'spring',        group: :development
+
+# Use ActiveModel has_secure_password
+# gem 'bcrypt', '~> 3.1.7'
+
+# Use unicorn as the app server
+# gem 'unicorn'
+
+# Use Capistrano for deployment
+# gem 'capistrano-rails', group: :development
+
+# Use debugger
+# gem 'debugger', group: [:development, :test]
+
+
+## custom starts here
 gem 'haml'
 gem 'haml-rails'
 
 # DANGER: DONT OMIT iso otherwise it pollutes the default namespace
-gem 'countries', :require => 'iso3166'
+gem 'countries'
 gem 'country_select'
-
-# preparation for Rails 4
-gem 'strong_parameters'
-
 
 #gem 'corika_invoices', :git => 'git@git.corika.com:gems/corika_invoices.git'
 
 #ASYNC Execution 
 gem 'sidekiq'
+gem 'redis-namespace'
+
 gem 'sinatra', require: false
 gem 'slim'
 
 gem 'sepa_king', :git => 'https://github.com/salesking/sepa_king.git'
 gem 'bankleitzahl'
-
-
-gem 'coffee-rails'
-gem 'uglifier', ">= 1.3.0"
 
 gem 'fastercsv'
 gem 'paperclip'
@@ -35,9 +65,8 @@ gem 'icalendar'
 gem 'rbktoblzcheck'
 #gem 'konto_check'
 
-gem 'jquery-rails' 	
 gem 'jquery-ui-rails'
-gem 'jquery-fileupload-rails'
+#gem 'jquery-fileupload-rails'
 
 # 0.3.1 seems to be broken
 # 0.3.2 works fine :)
@@ -50,12 +79,13 @@ gem "rodf", "= 0.3.5"
 gem 'roo'
 
 #gem 'meta_where'
-gem 'meta_search'
 gem 'http_accept_language'
 
 # Use unicorn as the web server
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
+
+gem 'unicorn'
 
 gem 'json'
 
@@ -64,8 +94,6 @@ gem 'prawn-table', '~> 0.2.2'
 
 gem 'pdf-toolkit'
 
-gem 'dynamic_form'
-gem 'formtastic'
 gem 'valid_email'
 
 gem "comma", "~> 3.0"
@@ -78,9 +106,8 @@ group :development do
   gem 'sqlite3'
 end
 
-group :production do 
-  gem 'mysql2' , '>=0.3'
-end
+gem 'mysql2', '~> 0.3.18'
+
 
 #gem 'mongoid', '~> 3.0.0'
 
@@ -94,6 +121,7 @@ gem 'cancancan' ,'~> 1.10'
 #paginator
 gem 'kaminari'
 gem 'rolify'
+gem 'authority'
 
 gem 'ruby_parser'
 gem 'hpricot'
@@ -105,24 +133,12 @@ gem 'hpricot'
 #gem 'web-app-theme', '~> 0.8.0'
 #gem 'web-app-theme', :git => "git://github.com/pilu/web-app-theme.git"
 
-gem 'class-table-inheritance'
-
 gem 'parseconfig'
 
 # Bootstrap css 
-gem 'bootstrap-sass', '~> 3.3.5'
-#gem 'bootstrap_form'
-gem 'sass-rails', '>= 3.2'
+gem 'bootstrap-sass', '~> 3.3.6'
+gem 'momentjs-rails', '>= 2.9.0'
+gem 'bootstrap3-datetimepicker-rails', '~> 4.17.37'
 
-#to be able to compile the assets...
-group :production do
-  gem 'therubyracer'
-end
+gem 'bootstrap_form'
 
-
-group :test do
-  gem 'simplecov', :require => false
-  gem 'capybara'
-  gem 'rspec-rails'
-  gem 'factory_girl_rails', "~> 4.0"
-end

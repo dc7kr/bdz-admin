@@ -6,6 +6,10 @@ module ApplicationHelper
   def is_production?
 	  ENV["RAILS_ENV"] == "production"
   end
+  
+  def is_staging?
+	  ENV["RAILS_ENV"] == "staging"
+  end
 
   def t_opts(group,field,data)
     tags = Array.new
@@ -21,6 +25,8 @@ module ApplicationHelper
   def title
     if is_production?
       "BDZ Admin Interface"
+    elsif is_staging?
+      "Staging Instance BDZ Admin Interface"
     else
       "Dev. Instance BDZ Admin (DON'T USE FOR PRODUCTION!)"
     end
@@ -360,6 +366,10 @@ JS1
       :selected=>selected)
   end
 
+  def get_country_options
+    options = ISO3166::Country.all.collect {|c| [ c.translations["en"], c.alpha2 ] }
+  end
+
   def form_wrapped_field(form,resource,field, input) 
       label = form.label field, nil,:class => "col-sm-12 col-md-3 control-label"
       css_class="form-group row"
@@ -394,6 +404,8 @@ JS1
         input = form.url_field field, :class =>  css_class
       elsif type == :email
         input = form.email_field field, :class =>  css_class
+      elsif type == :datetime
+        input = form.datetime_field field, :class =>  css_class+" date_field datePicker"
       elsif type == :date
         input = form.text_field field, :class =>  css_class+" date_field datePicker"
       elsif type == :checkbox
@@ -445,7 +457,10 @@ JS1
     content_tag :div, :class => "row" do
 
       data = nil
-      tmp = entity.send(field)
+      if not entity.nil? then 
+       tmp = entity.send(field)
+      end
+
       if type.nil? 
         data = tmp
       elsif type == :date
@@ -473,11 +488,13 @@ JS1
     sym = entity.class.name.underscore.to_sym
     content_tag :div, :class => "row" do
       count=nil
-      if entity[field].nil? then
+
+      count = entity.send(field)
+
+      if count.nil? then
         count = 0
-      else 
-        count = entity.send(field)
       end
+
       concat(content_tag(:div, label(sym, field), :class => "col-md-3 text-right"))
       concat(content_tag(:div, count.to_s,:class => "col-md-1 text-right"))
       concat(content_tag(:div, "x",:class => "col-md-1"))
@@ -491,5 +508,25 @@ JS1
       concat(content_tag(:div, "", :class => "col-md-4"))
       concat(content_tag(:div, format_currency(price,'€'), :class => "col-md-2 text-right sum"))
     end
+  end
+
+  def bootstrap_class_for flash_type
+
+    map = { "success" => "alert-success", "error" => "alert-danger", "alert" => "alert-warning", "notice" => "alert-info" }
+
+    Rails.logger.debug("Flash-type: #{flash_type}")
+    map[flash_type] || flash_type.to_s
+  end
+
+  def flash_messages(opts = {})
+    flash.each do |msg_type, message|
+      Rails.logger.debug("Flash message: #{message}")
+      #concat(content_tag(:div, message, class: "alert #{bootstrap_class_for(msg_type)} fade in") do 
+      concat(content_tag(:div, message, class: "alert #{bootstrap_class_for(msg_type)} fade in") do 
+        concat content_tag(:button, 'x', class: "close", data: { dismiss: 'alert' })
+        concat message 
+      end)
+    end
+    nil
   end
 end

@@ -23,11 +23,6 @@ BDZAdmin::Application.routes.draw do
 
   end
 
-  resources :sepa_regeneration do
-    collection do
-      post :regenerate
-    end
-  end
 
   resources :homepages
 
@@ -85,11 +80,11 @@ BDZAdmin::Application.routes.draw do
         get :step2
         get :step3
         get :step4
-        put :submit1
-        put :submit2
-        put :submit3
-        put :submit4
-        put :finalize
+        patch :submit1
+        patch :submit2
+        patch :submit3
+        patch :submit4
+        patch :finalize
         get :finalize
         get :confirm
         put :confirm
@@ -159,11 +154,11 @@ BDZAdmin::Application.routes.draw do
 
   resources :uploaded_files
 
-  match 'magazine_reports/calendar' => 'magazine_reports#calendar'
-  match 'magazine_reports/counts' => 'magazine_reports#counts'
+  get 'magazine_reports/calendar' => 'magazine_reports#calendar'
+  get 'magazine_reports/counts' => 'magazine_reports#counts'
 
-  match 'api/rsm/gen_data' => 'report_sheet_mailings#gen_data'
-  match 'api/rsm/gen_mailings' => 'report_sheet_mailings#gen_mailings'
+  get 'api/rsm/gen_data' => 'report_sheet_mailings#gen_data'
+  get 'api/rsm/gen_mailings' => 'report_sheet_mailings#gen_mailings'
 
   resources :uploads
 
@@ -195,6 +190,7 @@ BDZAdmin::Application.routes.draw do
 
   #devise_for :users, :controllers => {:sessions => 'sessions'}
   devise_for :users, :skip => [:registrations]
+  devise_for :members,  :controllers => {:registrations => "registrations"}, :path_prefix => 'mem'
 
   resources :users, :path => :accounts do
     collection do 
@@ -209,25 +205,26 @@ BDZAdmin::Application.routes.draw do
 
   get 'member_report' => 'member_report#index'
   get 'member_report/by_lv' => 'member_report#by_lv'
+  get 'member_report/report_sheet_stats' => 'member_report#report_sheet_stats'
 
-  match 'home/member_data' => 'home#member_data'
-  match 'home/reference_data' => 'home#reference_data'
-  match 'home/admin_data' => 'home#admin_data'
-  match 'home/public_data' => 'home#public_data'
-  match 'home/landing_page' => 'home#landing_page'
-  match 'home/magazine_data' => 'home#magazine_data'
-  match 'home/festival_data' => 'home#festival_data'
-  match 'home/cron' => 'home#cron'
+  get 'home/member_data' => 'home#member_data'
+  get 'home/reference_data' => 'home#reference_data'
+  get 'home/admin_data' => 'home#admin_data'
+  get 'home/public_data' => 'home#public_data'
+  get 'home/landing_page' => 'home#landing_page'
+  get 'home/magazine_data' => 'home#magazine_data'
+  get 'home/festival_data' => 'home#festival_data'
+  get 'home/cron' => 'home#cron'
 
-  match 'modify_pdf' => 'modify_pdf#index'
+  get 'modify_pdf' => 'modify_pdf#index'
 
-  match 'about' => 'about#index'
-  match 'config' => 'about#settings'
+  get 'about' => 'about#index'
+  get 'config' => 'about#settings'
 
-  match 'custom_info_mail' => 'custom_info_mail#index'
-  match 'custom_info_mail/test' => 'custom_info_mail#test'
-  match 'custom_info_mail/send_mail' => 'custom_info_mail#send_mail'
-  match 'custom_info_mail/template_test' => 'custom_info_mail#template_test'
+  get 'custom_info_mail' => 'custom_info_mail#index'
+  get 'custom_info_mail/test' => 'custom_info_mail#test'
+  get 'custom_info_mail/send_mail' => 'custom_info_mail#send_mail'
+  get 'custom_info_mail/template_test' => 'custom_info_mail#template_test'
 
   resources :festival_mails do
     collection do 
@@ -318,6 +315,10 @@ BDZAdmin::Application.routes.draw do
   end
   
   resources :orchestras do
+    collection do 
+      get :pro_musica
+    end
+
     member do 
      get :gen_rsi
      get :rsi_login
@@ -475,15 +476,15 @@ BDZAdmin::Application.routes.draw do
 
 # automated controllers 
   namespace :cron do
-   match 'invoices/gen_all' => 'invoices#gen_all'
-   match 'invoices/gen_orchestras' => 'invoices#gen_orchestras'
-   match 'invoices/gen_persons' => 'invoices#gen_persons'
-   match 'invoices/gen_lorch' => 'invoices#gen_lorch'
-   match 'invoices/ping' => 'invoices#ping'
-    match 'lv_fee_bookings/index' => 'lv_fee_bookings#index'
-    match 'reminders/report_sheet' => 'reminders#report_sheet'
-    match 'reminders/payment' => 'reminders#payment'
-    match 'cancellations' => 'batch#cancellations'
+   get 'invoices/gen_all' => 'invoices#gen_all'
+   get 'invoices/gen_orchestras' => 'invoices#gen_orchestras'
+   get 'invoices/gen_persons' => 'invoices#gen_persons'
+   get 'invoices/gen_lorch' => 'invoices#gen_lorch'
+   get 'invoices/ping' => 'invoices#ping'
+    get 'lv_fee_bookings/index' => 'lv_fee_bookings#index'
+    get 'reminders/report_sheet' => 'reminders#report_sheet'
+    get 'reminders/payment' => 'reminders#payment'
+    get 'cancellations' => 'batch#cancellations'
 
     get 'cleanup/remove_resigned' => 'cleanup#remove_resigned'
   # TODO: These aren't resources!
@@ -492,8 +493,8 @@ BDZAdmin::Application.routes.draw do
   end
 
 
-  match 'member_tools/kto_blz_to_iban_bic' => 'member_tools#kto_blz_to_iban'
-  match 'member_tools/iban_calculator' => 'member_tools#iban_calculator'
+  get 'member_tools/kto_blz_to_iban_bic' => 'member_tools#kto_blz_to_iban'
+  get 'member_tools/iban_calculator' => 'member_tools#iban_calculator'
   get "home/index"
 
   get 'reports/youth_addresses', to: 'reports/youth_addresses#index', defaults: { format: 'ods' }
@@ -508,7 +509,7 @@ BDZAdmin::Application.routes.draw do
 
   # This is a legacy wild controller route that's not recommended for RESTful applications.
   # Note: This route will make all actions in every controller accessible via GET requests.
-  # match ':controller(/:action(/:id(.:format)))'
+  # get ':controller(/:action(/:id(.:format)))'
 
   # login and logout urls ...
   devise_scope :user do
@@ -521,8 +522,125 @@ BDZAdmin::Application.routes.draw do
     mount Sidekiq::Web, at: '/sidekiq'
   end
 
+  namespace :adm do 
+    resources :sepa_regeneration do
+      collection do
+        post :regenerate
+        post :regenerate_by_date_and_type
+      end
+    end
+  end
+  # BEGIN PUBLIC NAMESPACE
   namespace :public do 
     resources :regional_organizations, :as => "lv"   
-  end
+    resources :honor_members
+    resources :orchestras do
+      collection do
+        get :by_lv
+      end
+    end
+    resources :functions do
+      collection do 
+        get :federal
+        get :states
+        get :youth
+      end
+    end
+    resources :competition_entries do
+      collection do 
+        get :participate
+      end
+      member do   
+        get :success
+      end
+    end
+
+    resources :event_cards do 
+      collection do 
+        get :order_form
+        post :order_success
+      end
+    end
+    resources :event_meals do 
+      collection do 
+        get :order_form
+        post :order_success
+      end
+    end
+
+    resources :festival_applications do
+      member do 
+        get :step2
+        get :finalize
+      end
+      resources :festival_pieces 
+    end
+    resources :contacts
+    resources :courses do
+      collection do 
+        get :inactive
+        get :public
+      end
+    end
+
+    resources :honor_members
+    resources :countries do
+      resources :states
+    end
+
+    resources :ensembles do
+      resources :ensemble_concerts do
+        member do
+          get :publish
+        end
+      end
+    end
+
+    resources :concerts do
+      collection do 
+        get :inactive
+        get :public
+        get :magazine
+      end
+    end
+
+    resources :composers do
+      collection do
+          get :public
+      end
+    end
+
+    resources :contests do
+      collection do
+        get :inactive
+        get :public
+      end
+      member do 
+        get :publish
+      end
+    end
+    resources :festivals do
+    #    collection do 
+    #      get :public
+    #    end
+      resources :concerts
+    end
+    resources :composers
+    resources :universities
+
+    resources :urls 
+    resources :url_categories do
+      resources :urls
+    end
+    resources :ensembles do
+      resources :ensemble_concerts
+    end
+    resources :classifieds do
+    end
+
+    resources :regional_organizations, :as => "lv" do
+    end
+  end # END NAMESPACE PUBLIC
+
 
 end

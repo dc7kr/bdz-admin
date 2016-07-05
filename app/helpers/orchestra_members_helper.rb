@@ -2,7 +2,7 @@ module OrchestraMembersHelper
 
 def link_to_exchange(path,txt, entity)
     if can? :update, entity
-		link_to image_tag('/assets/icons/exchange.png', {:size=>'16x16',:alt=>txt,:title=>txt,:class=>'btn'} ),{ :id=>entity, :action=>'exchange'}
+      link_to content_tag(:span,"",:class=>"glyphicon glyphicon-transfer"),{ :id=>entity, :action=>'exchange' },:class =>"btn btn-xs btn-default"
     end
 end
 

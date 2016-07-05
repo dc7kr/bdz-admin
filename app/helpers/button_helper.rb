@@ -12,7 +12,7 @@ module ButtonHelper
 
   def link_to_show_path(path,txt,entity)
     if can? :read, entity
-      link_to content_tag(:span,"",:class=>"glyphicon glyphicon-list"),path,:class =>"btn btn-xs btn-default"
+      link_to content_tag(:span,"",:class=>"glyphicon glyphicon-eye-open"),path,:class =>"btn btn-xs btn-default"
     end
   end
 
@@ -21,7 +21,7 @@ module ButtonHelper
       txt = t('common.show')
     end
     if can? :read, entity
-          link_to content_tag(:span,"",:class=>"glyphicon glyphicon-list"), entity,:class=>"btn btn-xs btn-default"
+          link_to content_tag(:span,"",:class=>"glyphicon glyphicon-eye-open"), entity,:class=>"btn btn-xs btn-default"
       end
   end
 
@@ -40,14 +40,15 @@ module ButtonHelper
   end
 
   def link_to_delete(entity, txt=nil, confirm=nil )
-      if txt == nil then
+      if txt.nil? then
         txt = t('common.delete')
       end
-      if  confirm == nil then 
-        txt = t('common.delete_confirm')
+      if  confirm.nil? then 
+        confirm = t('common.delete_confirm')
       end
       if can? :delete, entity
-      link_to content_tag(:span,"",:class=>"glyphicon glyphicon-remove"),entity,:confirm => confirm, :method => :delete, :remote=>true,  "data-type" => :json,:class=>"btn btn-xs btn-danger"
+        #link_to content_tag(:span,"",:class=>"glyphicon glyphicon-remove"), {:id=> entity,:action=> 'destroy'}, method: :delete, :remote=>true, data: {confirm: confirm }, :class=>"btn btn-xs btn-danger"
+        link_to content_tag(:span,"",:class=>"glyphicon glyphicon-remove"), {:id=> entity,:action=> 'destroy'}, method: :delete, remote: true, data: {confirm: confirm }, class: "btn btn-xs btn-danger"
       end
   end
 
@@ -57,20 +58,23 @@ module ButtonHelper
 
   def del_button(path,entity)
     if can? :destroy, entity  
-    link_to image_tag("/assets/icons/delete.png", :alt => t("common.delete")) + " " + t("common.delete"), path, :method => "delete", :class => "button", :confirm => t("common.confirm")
+      glyph_button("glyphicon-remove", path, t("common.delete"),:button,"btn-danger")
+#    link_to image_tag("/assets/icons/delete.png", :alt => t("common.delete")) + " " + t("common.delete"), path, :method => "delete", :class => "button", :confirm => t("common.confirm")
     end
   end
 
   def glyph_button(glyph, path,txt, type= :link, clazz=nil)
+    if clazz.nil? then
+      clazz = "btn-default"
+    end
+
     if type == :link 
-      if clazz.nil? then
-        clazz = "btn-default"
-      end
       link_to path, :class => "btn "+clazz do 
         content_tag(:span,"",:class=>"glyphicon #{glyph}")+" #{txt}"
       end
     elsif type == :button
-      button_tag(:type=>path,:class=>"btn btn-primary") do 
+      
+      button_tag(:type=>path,:class=>"btn #{clazz}") do 
         content_tag(:span,"",class: "glyphicon #{glyph}")+" "+
         txt
       end
@@ -84,7 +88,7 @@ module ButtonHelper
   end
 
   def submit_button(txt=t('common.save'))
-    glyph_button("glyphicon-ok", "submit", txt,:button)
+    glyph_button("glyphicon-ok", "submit", txt,:button, "btn btn-primary")
   end
 
   def cancel_button()

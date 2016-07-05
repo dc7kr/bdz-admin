@@ -30,6 +30,16 @@ production:
 #  socket: /tmp/mysql.sock
   host: 88.198.56.112
 
+staging:
+  adapter: mysql2
+  encoding: utf8
+  database: "***REMOVED***" #notenverzeichnis
+  pool: 5
+  username: "***REMOVED***
+  password: ***REMOVED***
+#  socket: /tmp/mysql.sock
+  host: 88.198.56.112
+
 development:
   adapter: mysql2
   encoding: utf8

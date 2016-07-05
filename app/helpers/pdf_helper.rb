@@ -6,9 +6,12 @@ module PDFHelper
 	def gen_anschreiben(orchestra,rsi)
 		year = rsi.report_sheet.year
     url = BDZ_SETTINGS['meldebogen_url']
+
+    mglnr = orchestra.member.mglnr
+
 		dateprefix = Time.now.strftime '%Y%m%d%H%M%S'
 
-    filename = dateprefix+"_"+orchestra.mglnr.to_s+"_meldebogen_anschreiben.pdf"
+    filename = dateprefix+"_"+mglnr.to_s+"_meldebogen_anschreiben.pdf"
 
     tmpfile = Tempfile.new('mb_anschr')
 
@@ -26,7 +29,7 @@ module PDFHelper
       bounding_box([21,340],:width=>500,:height => 50) do
         font "Times-Roman"
         font_size 11
-        text "Bitte melden Sie sich dazu unter #{url} mit Ihrer Mitgliedsnummer #{orchestra.mglnr} und dem Passwort #{rsi.token} an.", :align => :left
+        text "Bitte melden Sie sich dazu unter #{url} mit Ihrer Mitgliedsnummer #{mglnr} und dem Passwort #{rsi.token} an.", :align => :left
       end
  
       bounding_box([40,650],:width=>250,:height=>100) do

@@ -1,1 +1,1 @@
-Rails.application.config.middleware.use JQuery::FileUpload::Rails::Middleware
+#Rails.application.config.middleware.use JQuery::FileUpload::Rails::Middleware

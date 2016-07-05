@@ -1,12 +1,16 @@
 module BulkMailHelper
 
-  def customize_letter(date_prefix, year, our_contact, rcpt, event_id, template)
+  def customize_letter(date_prefix, year, our_contact, addressee, event_id, template)
     rel_path = nil 
     doc=nil
     filled_template = nil 
 
-    doc = prepare_pdf(rcpt,our_contact,false)
-    suffix=event_id+"_"+rcpt.mglnr.to_s
+    if template.nil? then
+      return nil
+    end
+
+    doc = prepare_pdf(addressee,our_contact,false)
+    suffix=event_id+"_"+addressee.id.to_s
 
     tmpfile = Tempfile.new('ci_addr')
 
@@ -20,14 +24,13 @@ module BulkMailHelper
     PDF::Toolkit.pdftk(tmpfile.path, "background", template.full_path, "output", tmpfile2.path)
     PDF::Toolkit.pdftk("A="+tmpfile2.path, "B="+template.full_path, "cat", "A1", "B2-2", "output", file.full_path)
 
-
     return file
   end
 
 
-  def prepare_pdf(rcpt,our_contact, print_date = true)
+  def prepare_pdf(addressee,our_contact, print_date = true)
     doc = CompanyPaperDocument.new
-    doc.print_address(rcpt)
+    doc.print_address(addressee)
     if print_date then 
       doc.print_date(BDZ_SETTINGS["contacts"][our_contact]["ort"],Time.now)
     end
@@ -42,7 +45,6 @@ module BulkMailHelper
 
   def send_admin_mail(letterFile,triggered_by,results)
     year = Time.now.strftime('%Y')
-    pdf_prefix= Time.now.strftime '%Y%m%d'
 
     users = User.for_admin_notify
 

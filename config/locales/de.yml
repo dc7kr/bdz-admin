@@ -121,7 +121,7 @@ de:
     za_L: Lastschrift
     za_R: Rechnung
     nopayment: Säumige Zahler
-    delete_confirm: Wirlich löschen?
+    delete_confirm: Wirklich löschen?
     show: Anzeigen
     publish: Veröffentlichen
     edit: Bearbeiten
@@ -462,6 +462,7 @@ de:
     other: Mitglieder
     nopayment: Säumige Zahler
     nonzero_balance: "Zahlungsrückstand im Beitragskonto!"
+    is_direct_debit: "Lastschrift"
     notinvoiced: Keine Rechnung
     invalid_mail: Ungültige Mailadresse
     mglnr: Mitgl.-Nr.
@@ -691,10 +692,7 @@ de:
       current_password_hint: "(wird zum Bestätigen der Änderungen benötigt)"
       cancel_account: "Benutzeraccount löschen"
   activerecord: 
-    models:
-      report_sheet: Meldebogen
     attributes:
-      
       email:
         event_id: Event
         group: Zielgruppe
@@ -702,6 +700,14 @@ de:
         body: Inhalt
         via_paper: auch per Post verschicken?
         datafile: Dateianhang
+      honor_member:
+        nr: Nummer
+        vorname: Vorname
+        name: Name
+        ort: Ort
+        honorType: Ehrungstyp
+        honorDate: Ehrungs-Datum
+        deceased: Verstorben
       member_event: &member_event_labels
         event_type: Event-Typ
         event_date: Event-Datum
@@ -815,7 +821,18 @@ de:
       template:
         header: Fehler im Formular
         body: Betroffene Felder 
+      messages:
+        record_invalid: "Datensatz ist ungültig"
       models:
+        sepa:
+          direct_debit_transaction:
+            attributes:
+              name:
+                too_short: "Name zu kurz"
+        member_account_booking:
+          attributes:
+            booking_txt:
+              blank: "Buchungstext darf nicht leer sein"
         event_meal:
           attributes:
             participant_id: 
@@ -1034,6 +1051,13 @@ de:
         go: Gitarrenorchester
         oz: "Sonstige Zupfinstrumente"
         uv: Unfallversicherung
+        calcGemaCount: GEMA
+        calcZeitungen: Zeitungen
+        calcInvoice: Rechnungsbetrag
+        calcUV: Unfallversicherung
+        calcUvCount: Unfallversicherung
+        totalActiveMembers: Gesamt Aktiv
+        calcBeitrag: Mitgliedsbeiträge
 
       orchestra:
         orchName: Orchestername
@@ -1059,6 +1083,7 @@ de:
         city: Ort
         zip: PLZ
         mglnr: Mitgliedsnummer
+        regional_organization_id: Landesverband
 
 
       contact_event: 
@@ -1219,6 +1244,8 @@ de:
     <<: *member_event_labels
 
   activemodel:
+    models:
+      report_sheet: Meldebogen
     errors:
       models:
         sepa/credit_transfer_transaction:

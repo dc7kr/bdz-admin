@@ -1,1 +1,4 @@
 bdz-settings.yml
+database.yml
+redis.yml
+secrets.yml
