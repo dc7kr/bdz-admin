@@ -1,7 +1,9 @@
-%h1 Editing honor_member
+.block
+  .secondary-navigation
+    =render :partial=>'nav'
+  .content
+    %h2
+      =t("common.edit")
+      =t("honor_member",:count=>1)
+    = render 'form'
 
-= render 'form'
-
-= link_to 'Show', @honor_member
-\|
-= link_to 'Back', honor_members_path

@@ -1,12 +1,11 @@
-.block
-  = f.error_messages :message => "", :header_tag => :h3
 .group
-  .container-fluid
-    =form_my_field(f,@orchestra_member, :first_name)
-    =form_my_field(f,@orchestra_member, :last_name)
-    =form_my_field(f,@orchestra_member, :date_of_birth)
-    =form_my_field(f,@orchestra_member, :instrument)
-    =form_my_field(f,@orchestra_member, :mglnr)
-  .actions
-    = submit_button
-    = cancel_button
+  = bootstrap_form_for([@orchestra, @orchestra_member], layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10") do |f| 
+    .container-fluid
+      =f.text_field :first_name
+      =f.text_field :last_name
+      =f.text_field :date_of_birth
+      =f.text_field :instrument
+      =f.number_field :mglnr
+    .actions
+      = submit_button
+      = cancel_button

@@ -12,10 +12,6 @@
       -else
         = link_to_download_path(t('common.download'),download_person_member_member_account_booking_path(@member,member_account_booking),member_account_booking)
       -if ( member_account_booking.booking_mode=='M' or isAdmin?) then
-        -if (@isOrchestra) then 
-          = link_to_edit_path( edit_orchestra_member_account_booking_path(@member,member_account_booking),'Edit',member_account_booking)
-          = link_to_del_path orchestra_member_account_booking_path(@member,member_account_booking), member_account_booking,true
-        -else
-          = link_to_edit_path( edit_person_member_member_account_booking_path(@member,member_account_booking),'Edit',member_account_booking)
-          = link_to_del_path( person_member_member_account_booking_path(@member,member_account_booking), member_account_booking)
+        = link_to_edit member_account_booking
+        = link_to_delete member_account_booking
 

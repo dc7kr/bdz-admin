@@ -1,13 +1,3 @@
 %h1 Buchung bearbeiten
 
-= link_back('Back')
-
-= form_for ([@member,@booking]) do |f|
-  -if @booking.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@booking.errors.count, "error")} prohibited this booking from being saved:"
-      %ul
-        - @booking.errors.full_messages.each do |msg|
-          %li= msg
-  = f.hidden_field :member_id, :value=>@member.member_id
-  = render :partial => "form", :locals => {:f => f}
+= render :partial => "form"

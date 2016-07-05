@@ -1,17 +1,13 @@
-= form_for @honor_member,:html=>{ :class => "form-horizontal" } do |f|
-  -if @honor_member.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@honor_member.errors.count, "error")} prohibited this honor_member from being saved:"
-      %ul
-        - @honor_member.errors.full_messages.each do |msg|
-          %li= msg
-  .container-liquid
-    =form_my_field(f,@honor_member, :nr,:number)
-    =form_my_field(f,@honor_member, :vorname)
-    =form_my_field(f,@honor_member, :name)
-    =form_my_field(f,@honor_member, :ort)
-    =form_my_field(f,@honor_member, :honorType)
-    =form_my_field(f,@honor_member, :honorDate,:date)
+= bootstrap_form_for(@honor_member, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10") do |f| 
+  =f.number_field :nr
+  =f.text_field :vorname
+  =f.text_field :name
+  =f.text_field :ort
+  =f.text_field :honorType
+  =f.date_field :honorDate
+  .row
+    .control-label.col-sm-2=label :honor_member, :deceased
+    .col-sm-10=f.check_box :deceased, { inline: true, hide_label: true, label: ""  }
   .actions
     = submit_button
     = cancel_button

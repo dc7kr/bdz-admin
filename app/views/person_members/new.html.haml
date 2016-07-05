@@ -4,8 +4,7 @@
   .content
     %h2.title
       = t("common.new")
-      = t("person_member")
+      = t("person_member",:count=>1)
     .inner
-      = form_for (:person_member), :url => person_members_path, :html => { :class => :form } do |f|
-        = render :partial => "form", :locals => {:f => f}
+      = render :partial => "form"
 - content_for :sidebar, render(:partial => 'sidebar')

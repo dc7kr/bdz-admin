@@ -3,15 +3,22 @@
     %td
       - if !person_member.valid? then
         = image_tag('/assets/warn.svg',{:size=>"16x16"})
-      = link_to person_member.mglnr, person_member_path(person_member)
+      - if person_member.member.nil? then
+        INCONSISTENT
+      - else
+        = link_to person_member.member.mglnr, person_member_path(person_member)
     %td
       = person_member.fullname
-    %td
-      = person_member.ort
-    %td
-      = mail_to person_member.email, person_member.email
-    %td
-      =format_date person_member.eintritt 
+    - if person_member.member.nil? then
+      %td
+        INVALID
+    -else 
+      %td
+        = person_member.member.ort
+      %td
+        = mail_to person_member.member.email, person_member.member.email
+      %td
+        =format_date person_member.member.eintritt 
     %td.last
       = link_to_show(person_member, t("common.show"))
       = link_to_edit(person_member, t("common.edit")) 

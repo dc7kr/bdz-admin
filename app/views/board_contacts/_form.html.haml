@@ -1,9 +1,10 @@
 .block
-  = f.error_messages :message => "", :header_tag => :h3
 .group
   .container-fluid
-    = render :partial => "contacts/contact_form", :locals => { :f => f,:entity=>@board_contact}
-    .actions
-      =submit_button
-      = cancel_button()
+    = bootstrap_form_for(@board_contact, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10") do |f| 
+      = f.fields_for :contact do |contact_form|
+        = render :partial => "contacts/contact_form", :locals => { :f => contact_form,:contact=>@board_contact.contact}
+      .actions
+        =submit_button
+        = cancel_button()
   %br

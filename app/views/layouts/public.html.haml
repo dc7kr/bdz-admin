@@ -6,7 +6,7 @@
     = javascript_include_tag :application
     = csrf_meta_tag
   %body
-    #container
+    .container
       #user-navigation
         -if (current_user)
           Eingeloggt als #{current_user.email}

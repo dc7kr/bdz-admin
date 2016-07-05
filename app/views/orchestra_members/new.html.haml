@@ -6,6 +6,5 @@
       = t('common.new')
       = t('orchestra_member',:count=>3)
     .inner
-      = form_for @orchestra_member, :url => orchestra_orchestra_members_path(@orchestra), :html => { :class => :form } do |f|
-        = render :partial => "form", :locals => {:f => f}
+      = render :partial => "form"
 

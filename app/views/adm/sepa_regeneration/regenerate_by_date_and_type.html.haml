@@ -1,0 +1,7 @@
+%table 
+  -  @bookings.each do |b|
+    - if b.member.member_type=="O"
+      %tr
+        %td=b.booking_txt
+        %td=b.member.fullname
+        %td=b.amount

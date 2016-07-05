@@ -4,7 +4,7 @@
   .content
     %h2.title
       = t("common.edit")
-      = t("magazine_advert")
+      = t("magazine_advert",:count=>1)
     .inner
       = form_for @magazine_advert do |f|
         = render :partial => "form", :locals => {:f => f}

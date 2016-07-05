@@ -4,8 +4,7 @@
   .content
     %h2.title
       = t("common.edit")
-      = t("regional_organization")
+      = t("regional_organization",:count=>1)
     .inner
-      = form_for @regional_organization, :url => regional_organization_path(@regional_organization), :html => { :class => :form } do |f|
-        = render :partial => "form", :locals => {:f => f}
+      = render :partial => "form"
 - content_for :sidebar, render(:partial => 'sidebar')

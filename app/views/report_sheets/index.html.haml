@@ -4,7 +4,7 @@
   .content
     %h2.title
       -if @orchestra 
-        Meldebögen #{@orchestra.orchName } #{@orchestra.mglnr} 
+        Meldebögen #{@orchestra.orchName } #{@orchestra.member.mglnr} 
       -else
         Meldebögen #{@curYear}
     .inner

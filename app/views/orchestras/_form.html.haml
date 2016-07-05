@@ -1,41 +1,17 @@
-.block
-  = f.error_messages :message => "", :header_tag => :h3
-.group
+= bootstrap_form_for(@orchestra, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10") do |f| 
   .container-fluid
-    = form_my_field(f,@orchestra,:mglnr, :text, "number_field")
-    = form_my_field(f,@orchestra,:orchName, :text,"text_field")
-    = form_my_select(f,@orchestra, :anrede, get_salutation_options(@orchestra.anrede))
-    = form_my_field(f,@orchestra, :vorname)
-    = form_my_field(f,@orchestra, :name)
-    = form_my_field(f,@orchestra, :strasse)
-    = form_my_field(f,@orchestra, :plz)
-    = form_my_field(f,@orchestra, :ort)
+    .panel.panel-default
+      .panel-heading Orchesterdaten
+      .panel-body
+        = f.text_field :orchName, :required=>true
+        = f.select :orch_type,   options_for_select([["Vereinsorchester", "O"], ["Kooperativ", "K"],  ["Landesorchester", "L"]],:selected=>@orchestra.orch_type)
+        = f.url_field :url
+        = f.date_field :gruendung
 
-    = form_wrapped_field(f,@orchestra, :land, country_select(:orchestra, :country_code, { iso_codes:true }, { class:  "form-control"}))
-    = form_my_field(f,@orchestra, :telefon)
-    = form_my_field(f,@orchestra, :fax)
-    = form_my_field(f,@orchestra, :email,:email)
-    = form_my_field(f,@orchestra, :url,:url)
-    = form_my_field(f,@orchestra, :gruendung,:date)
-    = form_my_field(f,@orchestra, :eintritt, :date)
-    = form_my_select(f,@orchestra, :za, options_for_select([["Lastschrift", "L"], ["Rechnung", "R"]],:selected=>@orchestra.za))
-    = form_my_field(f,@orchestra, :konto,:static)
-    = form_my_field(f,@orchestra, :blz,:static)
-    = form_my_field(f,@orchestra, :iban,:text,"iban_field")
-    = form_my_field(f,@orchestra, :bic,:text,"bic_field")
-    
-    - if current_user.national_permission? 
-      nix
-    -else
-      = form_my_field(f,@orchestra, :regional_organization_id,:static)
-    .form-group
-      = f.label :regional_organization, t("regional_organization"),:class => "col-md-2 control-label"
-      .col-md-10= collection_select(:orchestra, :regional_organization_id, RegionalOrganization.all, :id, :name) 
-    = form_my_select(f,@orchestra, :orch_type,   options_for_select([["Vereinsorchester", "O"], ["Kooperativ", "K"],  ["Landesorchester", "L"]],:selected=>@orchestra.orch_type)) 
-    = form_my_field(f,@orchestra, :austritt_zum,:text,"datePicker")
-    = form_my_textarea(f, @orchestra,:bemerkung,80,5)
-    = form_wrapped_field(f,@orchestra,:kuendigungErfasst, f.check_box(:kuendigungErfasst, :class => 'check_box'))
-    = form_my_field(f,@orchestra,:zweitanschrift )
-    = form_my_field(f,@orchestra,:name2)
-  = submit_button()
-  = cancel_button()
+
+    = f.fields_for :member do |member_form|
+      = render :partial => "members/member_form", :locals => { :f => member_form,:member=>@orchestra.member}
+
+    = f.text_area(:bemerkung,  cols: 80, rows: 5) 
+    = submit_button()
+    = cancel_button()

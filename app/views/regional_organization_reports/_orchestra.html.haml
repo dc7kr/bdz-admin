@@ -1,14 +1,14 @@
 %tr{:class => cycle("odd", "even")}
   %td
-    = link_to orchestra.mglnr, orchestra_path(orchestra)
+    = link_to orchestra.member.mglnr, orchestra_path(orchestra)
   %td
     = orchestra.orchName
     %br
     = orchestra.address
     %br
-    = mail_to orchestra.email
+    = mail_to orchestra.member.email
     %br
-    = orchestra.telefon
+    = orchestra.member.telefon
   - rs = orchestra.report_sheet_for_year(@year)
   %td
     = orchestra.total(@year)

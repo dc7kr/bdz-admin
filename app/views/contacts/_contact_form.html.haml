@@ -1,42 +1,15 @@
-%tr
-  %td= f.label :company, t("contact.company"), :class => :label
-  %td= f.text_field :company, :class => 'text_field'
-%tr
-  %td= f.label :department, t("contact.department"), :class => :label
-  %td= f.text_field :department, :class => 'text_field'
-%tr
-  %td= f.label :salutation, t("contact.salutation"), :class => :label
-  %td= f.select :salutation, get_salutation_options(entity.salutation)
-%tr
-  %td=f.label :title, t("contact.title"),:class=>:label
-  %td=f.text_field :title
-%tr
-  %td=f.label :first_name, t("contact.first_name"),:class=>:label
-  %td=f.text_field :first_name
-%tr
-  %td=f.label :last_name, t("contact.last_name"),:class=>:label
-  %td=f.text_field :last_name
-%tr
-  %td=f.label :street, t("contact.street"),:class=>:label
-  %td=f.text_field :street
-%tr
-  %td=f.label :zip, t("contact.zip"),:class=>:label
-  %td=f.text_field :zip
-%tr
-  %td=f.label :city, t("contact.city"),:class=>:label
-  %td=f.text_field :city
-%tr
-  %td= f.label :country, t("country"), :class => :label
-  %td= country_select(:contact, :country_code, nil, iso_codes:true)
-%tr
-  %td=f.label :phone, t("contact.phone"),:class=>:label
-  %td=f.text_field :phone
-%tr
-  %td=f.label :fax, t("contact.fax"),:class=>:label
-  %td=f.text_field :fax
-%tr
-  %td= f.label :office_phone, t("contact.office_phone"), :class => :label
-  %td= f.text_field :office_phone, :class => 'text_field'
-%tr
-  %td=f.label :email, t("contact.email"),:class=>:label
-  %td=f.text_field :email
+= f.text_field :company
+= f.text_field :department
+= f.select :salutation, get_salutation_options(contact.salutation)
+= f.text_field :title
+= f.text_field :first_name
+= f.text_field :last_name
+= f.text_field :street
+= f.text_field :zip
+= f.text_field :city
+= contact.country_code
+= f.select :country_code, get_country_options
+= f.text_field :phone
+= f.text_field :fax
+= f.text_field :office_phone
+= f.text_field :email

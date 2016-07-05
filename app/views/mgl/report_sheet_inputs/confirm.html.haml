@@ -1,6 +1,6 @@
 .block
   .content
-    %h2.title Meldebogen #{@rs.year} - #{@rsi.orchestra.orchName} (#{@rsi.orchestra.mglnr}) 
+    %h2.title Meldebogen #{@rs.year} - #{@rsi.orchestra.orchName} (#{@rsi.orchestra.member.mglnr}) 
     .inner
       = render :partial => "progress", :locals => { max: 100, value:90 }
       .panel.panel-success

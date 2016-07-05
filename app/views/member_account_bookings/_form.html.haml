@@ -1,14 +1,14 @@
-.block
-  = f.error_messages :message => "", :header_tag => :h3
 .container-fluid
-  =form_my_select(f, @booking, :booking_type, options_for_select([[t('booking.booking_type_A'),"A"],[t('booking.booking_type_B'), "B"], [t('booking.booking_type_L'), "L"],  [t('booking.booking_type_G'), "G"], [t('booking.booking_type_E'),"E"],[t('booking.booking_type_R'),"R"],[t('booking.booking_type_Z'),"Z"]],:selected=>@booking.booking_type))
-  =form_my_field(f, @booking, :booking_year, :number)
-  =form_my_field(f, @booking, :booking_date, :date)
-  =form_my_field(f, @booking, :booking_txt)
-  =form_my_field(f, @booking, :amount, :text)
-  - if isAdmin? then
-    =form_my_field(f, @booking, :filename)
-  .col-md-2
-  .col-md-10    
-    %button.btn.btn-primary{:type => "submit"}=t("common.save")
-    = cancel_button()
+  = bootstrap_form_for([@member_entity,@booking], layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10") do |f|
+    = f.hidden_field :member_id, :value=>@member.id
+    =f.select :booking_type, options_for_select([[t('booking.booking_type_A'),"A"],[t('booking.booking_type_B'), "B"], [t('booking.booking_type_L'), "L"],  [t('booking.booking_type_G'), "G"], [t('booking.booking_type_E'),"E"],[t('booking.booking_type_R'),"R"],[t('booking.booking_type_Z'),"Z"]],:selected=>@booking.booking_type)
+    =f.number_field :booking_year
+    =f.date_field :booking_date
+    =f.text_field :booking_txt
+    =f.number_field :amount,:step=>0.01
+    - if isAdmin? then
+      =f.text_field :filename
+    .col-md-2
+    .col-md-10    
+      %button.btn.btn-primary{:type => "submit"}=t("common.save")
+      = cancel_button()

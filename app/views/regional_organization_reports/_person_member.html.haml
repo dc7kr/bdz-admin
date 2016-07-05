@@ -1,16 +1,16 @@
 %tr{:class => cycle("odd", "even")}
   %td
-    = link_to person_member.mglnr, person_member_path(person_member)
+    = link_to person_member.member.mglnr, person_member_path(person_member)
   %td
-    = person_member.fullname
+    = person_member.member.fullname
   %td
-    = person_member.strasse
+    = person_member.member.strasse
   %td
-    #{person_member.plz} #{person_member.ort}
+    #{person_member.member.plz} #{person_member.member.ort}
   %td 
-    = person_member.telefon
+    = person_member.member.telefon
   %td
-    = mail_to person_member.email
+    = mail_to person_member.member.email
   %td
     = format_currency(person_member.lvPart,'EUR')
     - @personSum=@personSum+person_member.lvPart

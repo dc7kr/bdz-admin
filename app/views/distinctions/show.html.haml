@@ -4,9 +4,9 @@
   .content
     .inner
       %h3
-        #{t("distinction")}
+        #{t("distinction",:count=>1)}
         &nbsp;
-        #{@distinction.orchestra.orchName} (#{@distinction.orchestra.mglnr.to_s})
+        #{@distinction.orchestra.orchName} (#{@distinction.orchestra.member.mglnr.to_s})
       .container-fluid
         =entity_row @distinction, :dist_date,:date
         =entity_row @distinction, :gold_needles

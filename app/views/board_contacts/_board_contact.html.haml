@@ -1,6 +1,10 @@
 %tr
   %td= board_contact.fullname
-  %td= board_contact.email
+  %td
+    -if board_contact.contact.nil? then
+      INCONSISTENT
+    -else 
+      = board_contact.contact.email
   %td
     = link_to_show board_contact
     = link_to_edit board_contact

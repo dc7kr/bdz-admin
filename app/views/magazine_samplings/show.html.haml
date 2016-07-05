@@ -5,7 +5,7 @@
     .inner
       %h2.title
         =t("magazine_sampling",:count=>1)
-        =@magazine_sampling.company
+        =@magazine_sampling.contact.company
       %table
         = render @magazine_sampling.contact,:partial=>"contact"
         = entity_row(@magazine_sampling,:count)

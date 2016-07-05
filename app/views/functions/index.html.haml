@@ -11,8 +11,8 @@
       %table.table.table-hover.table-condensed
         %thead
           %th.first= attr_heading(Function,:label)
-          %th= sortable "regional_organization_id", t("regional_organization")
-          %th=t("contact")
+          %th= sortable "regional_organization_id", t("regional_organization",:count=>1)
+          %th=t("contact",:count=>1)
           %th=attr_heading(Function,:bund)
           %th=attr_heading(Function,:jugend)
           %th=attr_heading(Function,:nr)

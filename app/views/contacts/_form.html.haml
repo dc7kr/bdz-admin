@@ -1,12 +1,6 @@
-= form_for @address, :html => { :class => "form-horizontal" } do |f|
-  -if @address.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@address.errors.count, "error")} prohibited this address from being saved:"
-      %ul
-        - @address.errors.full_messages.each do |msg|
-          %li= msg
+= bootstrap_form_for(@address, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10") do |f| 
   .container-fluid
-    = render :partial => "contacts/contact_form", :locals => { :f => f,:entity=>@address}
+    = render :partial => "contacts/contact_form", :locals => { :f => f,:contact=>@address}
 
   .actions
     = submit_button

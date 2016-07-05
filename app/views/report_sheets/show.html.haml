@@ -6,7 +6,7 @@
       %h2
         = @report_sheet.orchestra.orchName
         %br
-        = t("report_sheet",:count=>3)
+        = t("report_sheet",:count=>1)
         = @report_sheet.year
       =entity_row(@report_sheet,:report_date,:date)
       =entity_row(@report_sheet,:generated)
@@ -15,44 +15,22 @@
       =calculation_row(@report_sheet,:youth, Prices.youthRate)
       =calculation_row(@report_sheet,:adult, Prices.adultRate)
       =calculation_row(@report_sheet,:senior, Prices.seniorRate)
+      %hr.calc
+      =calculation_sum(label(:report_sheet,:calcBeitrag), @report_sheet.calcBeitrag)
       =calculation_row(@report_sheet,:calcUvCount, Prices.uvRate)
-      =calculation_sum(label(:report_sheet,:invsum),@report_sheet.calcInvoice)
-
       - if @report_sheet.delayed? then
-        .row
-          .col-md-3=label(:report_sheet,:delay_fee)
-          .col-md-1
-          .col-md-3
-          .col-md-2.text-right=format_currency(Prices.delayFee)
+        =calculation_sum(label(:report_sheet,:delay_fee), Prices.delayFee)
+      %hr.calc
+      =calculation_sum(label(:report_sheet,:calcInvoice), @report_sheet.calcInvoice)
+      %hr.calc_final
 
-      =entity_row(@report_sheet,:calcZeitungen)
-      =entity_row(@report_sheet,:calcGemaCount)
-      =entity_row(@report_sheet,:azubi)
-      %table
-        %tr
-          %td{:colspan=>4}
-            %hr
-        %tr
-          %td.label=t("report_sheet.total_active")
-          %td= @report_sheet.totalActiveMembers
-        %tr
-          %td.label=t("report_sheet.passive")
-          %td= @report_sheet.passive
-        %tr
-          %td.label=t("report_sheet.total")
-          %td= @report_sheet.passive+@report_sheet.totalActiveMembers
-        %tr
-          %td{:colspan=>4}
-            %hr
-        %tr
-          %td{:class =>'label',:colspan=>4}=t("report_sheet.sum")
-          %td.sum= format_currency(@report_sheet.calcBeitrag,'€')
-        %tr
-          %td{:class =>'label',:colspan=>4}=t("report_sheet.uvsum")
-          %td.sum= format_currency(@report_sheet.calcUV,'€')
-        %tr
-          %td{:class =>'label',:colspan=>4}=t("report_sheet.invsum")
-          %td.sum= format_currency(@report_sheet.calcInvoice,'€')
-
-  
+      .panel.panel-default
+        =entity_row(@report_sheet,:calcZeitungen)
+        =entity_row(@report_sheet,:calcGemaCount)
+        =entity_row(@report_sheet,:azubi)
+        =entity_row(@report_sheet,:totalActiveMembers)
+        =entity_row(@report_sheet,:passive)
+        .row 
+          .col-md-3=label(:report_sheet,:total)
+          .col-md-9= @report_sheet.passive+@report_sheet.totalActiveMembers
 - content_for :sidebar, render(:partial => 'sidebar')

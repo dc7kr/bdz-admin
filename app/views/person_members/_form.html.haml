@@ -1,43 +1,18 @@
-.block
-  = f.error_messages :message => "", :header_tag => :h3
-.group
-  .container-fluid
-    = form_my_field(f,@person_member,:mglnr, :text, "number_field")
-    = form_my_select(f,@person_member, :anrede, get_salutation_options(@person_member.anrede))
-    = form_my_field(f,@person_member,:title)
-    = form_my_field(f,@person_member,:vorname)
-    = form_my_field(f,@person_member,:name)
-    = form_my_field(f,@person_member,:strasse)
-    = form_my_field(f,@person_member,:plz)
-    = form_my_field(f,@person_member,:ort)
-    = form_wrapped_field(f,@person_member, :country_code, country_select(:person_member, :country_code, { iso_codes:true }, { class:  "form-control"}))
-    = form_my_field(f,@person_member,:telefon)
-    = form_my_field(f,@person_member,:fax)
-    = form_my_field(f,@person_member,:email,:email)
-    = form_my_field(f,@person_member,:geburtstag,:text,"datePicker")
-    = form_my_field(f,@person_member,:telefonDienstl)
-    = form_my_field(f,@person_member,:eintritt,:date)
+= bootstrap_form_for(@person_member, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10") do |f| 
+  .group
+    .container-fluid
+      = f.fields_for :member do |member_form|
+        = render :partial => "members/member_form", :locals => { :f => member_form,:member=>@person_member.member}
 
-    = form_my_select(f,@person_member, :za, options_for_select([["Lastschrift", "L"], ["Rechnung", "R"]],:selected=>@person_member.za))
-    = form_my_field(f,@person_member, :konto,:static)
-    = form_my_field(f,@person_member, :blz,:static)
-    = form_my_field(f,@person_member, :iban,:text,"iban_field")
-    = form_my_field(f,@person_member, :bic,:text,"bic_field")
-    = form_my_field(f,@person_member, :zahler)
-    = form_wrapped_field(f,@person_member, :lv, collection_select(:person_member, :regional_organization_id, RegionalOrganization.all, :id, :name ,{},{ class: "form-control" }))
-    = form_wrapped_field(f,@person_member, :tariff_id, collection_select(:person_member, :tariff_id, Tariff.all, :id, :description,{},{ class: "form-control"}))
-    = form_my_field(f, @person_member, :zeitungen,:number)
-    = form_my_field(f, @person_member, :zusatzzeitung,:number)
-    = form_my_field(f, @person_member, :austritt_zum,:date)
-    = form_my_field(f, @person_member, :kuendigungVom,:date)
-    = form_my_textarea(f, @person_member,:bemerkung,80,5)
+      = f.date_field :geburtstag
+      = f.text_field :telefonDienstl
 
-      
-      
-      
-.group.navform.wat-cf
-  %button.button{:type => "submit"}
-    = image_tag("web-app-theme/icons/tick.png", :alt => "#{t("web-app-theme.save", :default => "Save")}")
-    = t("web-app-theme.save", :default => "Save")
-  %span.text_button_padding= t("web-app-theme.or", :default => "or")
-  = cancel_button()
+      = f.collection_select(:tariff_id, Tariff.all, :id, :description,{})
+      = f.number_field :zeitungen
+      = f.number_field :zusatzzeitung
+      = f.date_field :kuendigungVom
+      = f.text_area :bemerkung, cols: 80, rows:5
+
+  .group.navform.wat-cf
+    =submit_button
+    =cancel_button

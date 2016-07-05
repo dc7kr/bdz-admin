@@ -6,6 +6,5 @@
       = t("web-app-theme.edit", :default => "Edit")
       Konzert
     .inner
-      = form_for @concert, :url => concert_path(@concert), :html => { :class => :form } do |f|
-        = render :partial => "form", :locals => {:f => f}
+      = render :partial => "form"
 - content_for :sidebar, render(:partial => 'sidebar')

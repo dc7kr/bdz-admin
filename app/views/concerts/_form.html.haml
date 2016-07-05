@@ -1,34 +1,25 @@
-= form_for @concert,:html=>{ :class => "form-horizontal" } do |f|
-  -if @concert.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@concert.errors.count, "error")} prohibited this concert from being saved:"
-      %ul
-        - @concert.errors.full_messages.each do |msg|
-          %li= msg
-  .container-fluid
-    = form_my_field(f,@concert, :datum,:date)
-    = form_my_field(f,@concert, :zeit)
-    = form_my_field(f,@concert, :concert_date)
-    = form_my_field(f,@concert, :stadt)
-    = form_my_field(f,@concert, :titel)
-    = form_my_field(f,@concert, :ort)
-    = form_wrapped_field(f,@concert, :festival_id, collection_select( :concert, :festival_id, Festival.all,:id,:name,{},{:class=>"form-control"}))
-    = form_my_field(f,@concert, :interpret)
-    = form_my_field(f,@concert, :mglnr)
-    = form_my_field(f,@concert, :url)
-    = form_my_field(f,@concert, :comment)
-    = form_wrapped_field(f,@concert, :bland, collection_select(:concert, :bland, State.all, :id, :name,{},{:class=>"form-control"}))
-    = form_wrapped_field(f,@concert, :country_id, country_select(:concert, :country_code, {iso_codes:true},{ class:"form-control"}))
-    = form_my_field(f,@concert, :email)
-    = form_my_field(f,@concert, :eintritt)
-    = form_my_field(f,@concert, :uid)
-    - if (isAdmin?)
-      = form_my_field(f,@concert, :owner)
-    = form_my_field(f,@concert, :reported)
-    = form_my_field(f,@concert, :confirmed)
-    = form_my_field(f,@concert, :token)
+= bootstrap_form_for(@concert, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10") do |f| 
+  = f.datetime_field :concert_date
+  = f.text_field :stadt
+  = f.text_field :titel
+  = f.text_field :ort
+  = f.collection_select( :festival_id, Festival.all,:id,:name,{})
+  = f.text_field :interpret
+  = f.text_field :mglnr
+  = f.url_field :url
+  = f.text_area :comment, cols:80, rows:5
+  = f.collection_select(:bland, State.all, :id, :name,{})
+  = form_wrapped_field(f,@concert, :country_id, country_select(:concert, :country_code, {iso_codes:true},{ class:"form-control"}))
+  = f.email_field :email
+  = f.text_field :eintritt
+  = f.text_field :uid
+  - if (isAdmin?)
+    = f.text_field :owner
+  = f.datetime_field :reported
+  = f.datetime_field :confirmed
+  = f.text_field :token
 
-    = form_wrapped_field(f,@concert, :visible, f.check_box( :visible, :class => 'check_box'))
+  = f.check_box :visible
   .actions
     = f.submit t("common.save")
     = cancel_button()

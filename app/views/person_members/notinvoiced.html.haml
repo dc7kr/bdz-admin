@@ -17,11 +17,11 @@
         - @person_members.each do |person_member|
           %tr{:class => cycle("odd", "even")}
             %td
-              = link_to person_member.mglnr, person_member_path(person_member)
+              = link_to person_member.member.mglnr, person_member_path(person_member)
             %td
               = person_member.fullname
             %td
-              = mail_to person_member.email, person_member.email
+              = mail_to person_member.member.email, person_member.member.email
             %td.last
               = link_to_show(person_member_path(person_member), "#{t("web-app-theme.show", :default => "Show")}")
               |

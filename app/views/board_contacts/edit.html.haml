@@ -6,6 +6,5 @@
       = t("common.edit")
       = t('board_contact.s')
     .inner
-      = form_for @board_contact do |f|
-        = render :partial => "form", :locals => {:f => f}
+      = render :partial => "form"
 - content_for :sidebar, render(:partial => 'sidebar')

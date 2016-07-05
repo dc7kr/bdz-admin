@@ -1,0 +1,10 @@
+%tr
+  %td= honor_member.nr
+  %td
+    = honor_member.vorname
+    = honor_member.name
+    - if honor_member.deceased then
+      (+)
+  %td= honor_member.ort
+  %td= honor_member.honorType
+  %td= l honor_member.honorDate

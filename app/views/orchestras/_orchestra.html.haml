@@ -1,15 +1,20 @@
 -if readable?(orchestra) 
   %tr{:class => cycle("odd", "even")}
     %td
-      = link_to orchestra.mglnr, orchestra_path(orchestra)
+      - if orchestra.member.nil? then
+        INCONSISTENT
+      - else
+        = link_to orchestra.member.mglnr, orchestra_path(orchestra)
     %td
       - if not orchestra.valid? 
         = image_tag('/assets/icons/warning.svg', {:size=>'16x16',:title=>orchestra.errors.to_a.join("\n")} )
       = orchestra.orchName
-    %td
-      = mail_to orchestra.email, orchestra.email
-    %td
-      = format_date orchestra.eintritt
+
+    - if orchestra.member.nil? then
+      %td INCONSISTENT
+    - else
+      %td
+        = mail_to orchestra.member.email, orchestra.member.email
     %td.last
       = link_to_show orchestra
       = link_to_edit orchestra

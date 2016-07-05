@@ -6,14 +6,18 @@
       .error NIL
 
     -else 
-      = function.board_contact.last_name
+      = function.board_contact.contact.last_name
       ,
-      = function.board_contact.first_name
+      = function.board_contact.contact.first_name
   %td= format_bool function.bund
   %td= format_bool function.jugend
-  %td= function.nr
-  %td= function.funktion
-  %td= function.fkt_subtitle
+  %td
+    = function.nr
+    %br
+    = function.funktion
+    %br
+    = function.fkt_subtitle
+    %br
   %td
     = link_to_show function
     = link_to_edit function 

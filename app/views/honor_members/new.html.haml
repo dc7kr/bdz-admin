@@ -1,5 +1,8 @@
-%h1 New honor_member
-
-= render 'form'
-
-= link_to 'Back', honor_members_path
+.block
+  .secondary-navigation
+    =render :partial=>'nav'
+  .content
+    %h2
+      =t("common.new")
+      =t("honor_member",:count=>1)
+    = render 'form'

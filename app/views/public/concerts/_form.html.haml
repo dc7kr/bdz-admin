@@ -7,7 +7,7 @@
           %li= msg
   .container-fluid
     = form_my_field(f,@concert, :titel)
-    = form_my_field(f,@concert, :concert_date,:date)
+    = form_my_field(f,@concert, :concert_date,:datetime)
     = form_my_field(f,@concert, :stadt)
     = form_my_field(f,@concert, :ort)
     = form_my_select(f, @concert, :bland, options_from_collection_for_select(@states, "id", "name"))

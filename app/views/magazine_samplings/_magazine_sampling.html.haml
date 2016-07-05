@@ -1,8 +1,12 @@
 %tr
-  %td= magazine_sampling.company
-  %td= magazine_sampling.first_name
-  %td= magazine_sampling.last_name
-  %td= magazine_sampling.city
+  %td
+    = magazine_sampling.contact.company
+    %br
+    = magazine_sampling.contact.first_name
+    = magazine_sampling.contact.last_name
+    %br
+    = magazine_sampling.contact.zip
+    = magazine_sampling.contact.city
   %td= magazine_sampling.count
   %td
     = link_to_show magazine_sampling

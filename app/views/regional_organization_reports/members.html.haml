@@ -34,25 +34,71 @@
           %td=format_currency(@personSum,'EUR')
       %b Summe: #{format_currency(@personSum+@orchSum,'EUR')}
 
-    %h3 Ensembles
-    %table.table
-      %tr
-        %td
-          %tr=t("member.mglnr")
-          %tr=t("report_sheet.child_ens")
-          %tr=t("report_sheet.youth_ens")
-          %tr=t("report_sheet.adult_ens")
-          %tr=t("report_sheet.senior_ens")
-          %tr=t("report_sheet.chamber_ens")
-          %tr=t("report_sheet.total_ensembles")
-      = render :partial => "ensemble", :collection => @ensembles
-      %tr
-        %td=t("common.sum")
-        %td=@ens_sum[:child_ens]
-        %td=@ens_sum[:youth_ens]
-        %td=@ens_sum[:adult_ens]
-        %td=@ens_sum[:senior_ens]
-        %td=@ens_sum[:chamber_ens]
-        %td=@ens_sum[:total]
+    .panel.panel-default
+      .panel-heading
+        .panel-title Statistik
+      .panel-body 
+        .container
+          .row
+            .col-md-2
+            .col-md-2 Regular
+            .col-md-2 In Ausbildung
+            .col-md-2 Gesamt
+          .row
+            .col-md-2=label(:report_sheet,:children)
+            .col-md-2=@orch_stats[:children]
+            .col-md-2=@orch_stats[:azubi_child]
+            .col-md-2=@orch_stats[:azubi_child]+@orch_stats[:children]
+          .row
+            .col-md-2=label(:report_sheet,:teens)
+            .col-md-2=@orch_stats[:teens]
+            .col-md-2=@orch_stats[:azubi_teens]
+            .col-md-2=@orch_stats[:azubi_teens]+@orch_stats[:teens]
+          .row
+            .col-md-2=label(:report_sheet,:youth)
+            .col-md-2=@orch_stats[:youth]
+            .col-md-2=@orch_stats[:azubi_youth]
+            .col-md-2=@orch_stats[:azubi_youth]+@orch_stats[:youth]
+          .row
+            .col-md-2=label(:report_sheet,:adult)
+            .col-md-2=@orch_stats[:adult]
+            .col-md-2=@orch_stats[:azubi_adult]
+            .col-md-2=@orch_stats[:azubi_adult]+@orch_stats[:adult]
+          .row
+            .col-md-2=label(:report_sheet,:senior)
+            .col-md-2=@orch_stats[:senior]
+            .col-md-2=@orch_stats[:azubi_senior]
+            .col-md-2=@orch_stats[:azubi_senior]+@orch_stats[:senior]
+          - regular_sum=@orch_stats[:senior]+@orch_stats[:adult]+@orch_stats[:youth]+@orch_stats[:teens]+@orch_stats[:children]
+          - azubi_sum=@orch_stats[:azubi_senior]+@orch_stats[:azubi_adult]+@orch_stats[:azubi_youth]+@orch_stats[:azubi_teens]+@orch_stats[:azubi_child]
+          .row
+            .col-md-2 Summe
+            .col-md-2=regular_sum
+            .col-md-2=azubi_sum
+            .col-md-2=regular_sum+azubi_sum
+
+
+    .panel.panel-default
+      .panel-heading
+        .panel-title Ensembles
+      .panel-body 
+        %table.table
+          %tr
+            %td=t("member.mglnr")
+            %td=t("report_sheet.child_ens")
+            %td=t("report_sheet.youth_ens")
+            %td=t("report_sheet.adult_ens")
+            %td=t("report_sheet.senior_ens")
+            %td=t("report_sheet.chamber_ens")
+            %td=t("report_sheet.total_ensembles")
+          = render :partial => "ensemble", :collection => @ensembles
+          %tr
+            %td=t("common.sum")
+            %td=@ens_sum[:child_ens]
+            %td=@ens_sum[:youth_ens]
+            %td=@ens_sum[:adult_ens]
+            %td=@ens_sum[:senior_ens]
+            %td=@ens_sum[:chamber_ens]
+            %td=@ens_sum[:total]
 
 - content_for :sidebar, render(:partial => 'regional_organizations/sidebar.show')

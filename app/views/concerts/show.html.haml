@@ -2,18 +2,17 @@
   .secondary-navigation
     = render :partial => "nav"
   .content
-    .inner
-      = entity_row @concert,:datum
-      = entity_row @concert,:zeit
-      = entity_row @concert,:concert_date,:date
-      = entity_row @concert,:interpret
-      = entity_row @concert,:titel
-      = entity_row @concert,:ort
-      = entity_row @concert,:stadt
-      = entity_row @concert.state,:name
-      = entity_row @concert,:country_code
-      = entity_row @concert.festival,:name
-      = entity_row @concert,:eintritt,:currency
-      = entity_row @concert,:url,:url
-      =entity_row @concert,:email,:mailto
-      =entity_row @concert,:comment
+    .well
+      = l @concert.concert_date
+      %h3
+        =@concert.interpret
+      =@concert.titel
+    = entity_row @concert,:ort
+    = entity_row @concert,:stadt
+    = entity_row @concert.state,:name
+    = entity_row @concert,:country_code
+    = entity_row @concert.festival,:name
+    = entity_row @concert,:eintritt,:currency
+    = entity_row @concert,:url,:url
+    =entity_row @concert,:email,:mailto
+    =entity_row @concert,:comment

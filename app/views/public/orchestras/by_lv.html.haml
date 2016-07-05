@@ -1,0 +1,4 @@
+.content
+  %h2 Mitgliedsorchester im Landesverband #{@regional_organization.name}
+%table
+  = render partial: "member_orchestra", collection: @members

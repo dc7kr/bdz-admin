@@ -1,17 +1,11 @@
-= form_for @ensemble, :html => { :class => "form-horizontal"} do |f|
-  -if @ensemble.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@ensemble.errors.count, "error")} prohibited this ensemble from being saved:"
-      %ul
-        - @ensemble.errors.full_messages.each do |msg|
-          %li= msg
+= bootstrap_form_for(@ensemble, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10") do |f| 
   .container-fluid
-    =form_my_field(f,@ensemble, :name)
-    =form_my_field(f,@ensemble, :mglnr)
-    =form_my_field(f,@ensemble, :homepage)
-    =form_my_field(f,@ensemble, :beschreibung)
-    =form_my_field(f,@ensemble, :email)
-    =form_my_field(f,@ensemble, :visible,:checkbox)
+    =f.text_field :name
+    =f.number_field :mglnr
+    =f.url_field :homepage
+    =f.text_area :beschreibung, cols:80, rows: 5
+    =f.email_field :email
+    =f.check_box :visible
     .actions
       = submit_button
       = cancel_button

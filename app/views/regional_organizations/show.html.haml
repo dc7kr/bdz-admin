@@ -3,18 +3,22 @@
     = render :partial => 'nav'
   .content
     .inner
-      %h2= @regional_organization.nummer
+      %h2= @regional_organization.member.mglnr
       %h2= @regional_organization.name
       -if not @regional_organization.valid?
         %h3
-          - regional_organization.errors.each do |e|
-            = e.message
+          - @regional_organization.errors.each do |e|
+            = e
             
       =entity_row(@regional_organization, :subname)
       =entity_row(@regional_organization,:homepage,:url)
       =entity_row(@regional_organization,:jugend_url,:url)
+
+      = render @regional_organization.member,:partial=>"member"
+
       =entity_row(@regional_organization, :iban)
       =entity_row(@regional_organization,:bic)
+
 
       .wat-cf
         = link_to_edit @regional_organization

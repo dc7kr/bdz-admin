@@ -12,7 +12,6 @@
         %th.first= sortable "mglnr", attr_heading(Member,:mglnr)
         %th= sortable "orchName", attr_heading(Orchestra,:orchName)
         %th= sortable "email", attr_heading(Member,:email)
-        %th= sortable "eintritt", attr_heading(Member,:eintritt)
         %th.last &nbsp;
       %tbody#orchestras
         =render @orchestras

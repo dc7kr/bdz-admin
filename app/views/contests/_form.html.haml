@@ -1,21 +1,15 @@
-= form_for @contest,:html=>{ :class => "form-horizontal" } do |f|
-  -if @contest.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@contest.errors.count, "error")} prohibited this contest from being saved:"
-      %ul
-        - @contest.errors.full_messages.each do |msg|
-          %li= msg
+= bootstrap_form_for @contest,:layout=>:horizontal do |f|
   .container-fluid
-    =form_my_field(f,@contest, :startdate,:date)
-    =form_my_field(f,@contest, :enddate,:date)
-    =form_my_field(f,@contest, :titel)
-    =form_my_field(f,@contest, :beschreibung)
-    =form_my_field(f,@contest, :gebuehr)
-    =form_my_field(f,@contest, :preis)
-    =form_my_field(f,@contest, :anmeldung)
-    =form_my_field(f,@contest, :deadline,:date)
-    =form_my_field(f,@contest, :reported,:date)
-    =form_my_field(f,@contest, :email,:email)
+    =f.text_field(:startdate)
+    =f.text_field(:enddate)
+    =f.text_field :titel
+    =f.text_area :beschreibung
+    =f.text_area :gebuehr
+    =f.text_area :preis
+    =f.text_area :anmeldung
+    =f.text_field :deadline
+    =f.text_field :reported
+    =f.text_field :email
     =form_wrapped_field(f,@contest, :visible, f.check_box(:visible))
     .actions
       = submit_button()

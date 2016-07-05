@@ -11,7 +11,7 @@
           %th= attr_heading(HonorMember,:vorname)
           %th= attr_heading(HonorMember,:name)
           %th= attr_heading(HonorMember,:ort)
-          %th= attr_heading(HonorMember,:honortype)
+          %th= sortable "honortype", attr_heading(HonorMember,:honortype)
           %th= attr_heading(HonorMember,:honordate)
           %th.last &nbsp;
         %tbody#orchestras

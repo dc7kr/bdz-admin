@@ -19,12 +19,13 @@
           %th=t("booking.balance")
           %th=t("orchestra.last_invoice")
           %th.last=t("common.links")
-        - @orchestras.each do |orchestra| 
+        - @members.each do |member| 
+          - orchestra = member.member_entity
           %tr
-            %td=link_to orchestra.mglnr, orchestra_path(orchestra)
+            %td=link_to member.mglnr, orchestra_path(orchestra)
             %td=orchestra.orchName
-            %td=mail_to orchestra.email, orchestra.email
-            %td=format_currency(@accounts[orchestra.member_id],'€')
+            %td=mail_to member.email, member.email
+            %td=format_currency(@accounts[member.id],'€')
             %td=l orchestra.last_invoice
             %td=link_to_orchestra_acct orchestra, t("orchestra.member_account")
       .actions-bar.wat-cf

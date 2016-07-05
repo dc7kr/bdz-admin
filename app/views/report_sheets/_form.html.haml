@@ -1,35 +1,35 @@
-=form_for ([@orchestra,@report_sheet]),:html=>{:class =>"form-horizontal" } do |f|
-  -if @report_sheet.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@report_sheet.errors.count, "error")} #{t("common.prohibited_save")}:"
-      %ul
-        - @report_sheet.errors.full_messages.each do |msg|
-          %li= msg
-  = f.hidden_field :orchestra_id, :value=>@report_sheet.orchestra_id
+=bootstrap_form_for [@orchestra,@report_sheet], layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10" do |f| 
   .container-fluid
-    = form_my_field(f,@report_sheet, :report_date_str)
-    = form_my_field(f,@report_sheet, :year)
-    = form_my_field(f,@report_sheet, :children,:number)
-    = form_my_field(f,@report_sheet, :teens,:number)
-    = form_my_field(f,@report_sheet, :youth,:number)
-    = form_my_field(f,@report_sheet, :adult,:number)
-    = form_my_field(f,@report_sheet, :senior,:number)
-    = form_my_field(f,@report_sheet, :uv,:checkbox)
-    = form_my_field(f,@report_sheet, :azubi,:number)
-    = form_my_field(f,@report_sheet, :passive,:number)
-    = form_my_field(f,@report_sheet, :korr_ztg,:number)
-    =form_wrapped_field(f,@report_sheet, :invoiced, f.check_box(:invoiced,:disabled=>true))
-    =form_wrapped_field(f,@report_sheet, :generated,f.check_box(:generated, :disabled=>true))
-    =form_my_textarea(f,@report_sheet, :comment,80,5)
-  %h3 Ensembles
-  .container-fluid
-    = form_my_field(f,@report_sheet, :child_ens,:number)
-    = form_my_field(f,@report_sheet, :youth_ens,:number)
-    = form_my_field(f,@report_sheet, :adult_ens,:number)
-    = form_my_field(f,@report_sheet, :senior_ens,:number)
-    = form_my_field(f,@report_sheet, :chamber_ens,:number)
-    = form_my_field(f,@report_sheet, :other_ens,:number)
+    = f.text_field :report_date_str
+    = f.number_field :year 
+    .form-group
+      = f.label :uv,:class=>"control-label col-sm-2"
+      = f.check_box :uv, label_class: "col-sm-10", label: ""
+
+  .panel.panel-default
+    .panel-heading
+      .panel-title Mitgliederzahlen
+    .panel-body
+      = f.number_field :children,:control_col=>"col-sm-2"
+      = f.number_field :teens,:control_col=>"col-sm-2"
+      = f.number_field :youth,:control_col=>"col-sm-2"
+      = f.number_field :adult,:control_col=>"col-sm-2"
+      = f.number_field :senior,:control_col=>"col-sm-2"
+      = f.number_field :azubi,:control_col=>"col-sm-2"
+      = f.number_field :passive,:control_col=>"col-sm-2"
+      = f.number_field :korr_ztg,:control_col=>"col-sm-2"
+  .panel.panel-default
+    .panel-heading
+      .panel-title Ensembles
+    .panel-body
+      = f.number_field :child_ens,:control_col=>"col-sm-2"
+      = f.number_field :youth_ens,:control_col=>"col-sm-2"
+      = f.number_field :adult_ens,:control_col=>"col-sm-2"
+      = f.number_field :senior_ens,:control_col=>"col-sm-2"
+      = f.number_field :chamber_ens,:control_col=>"col-sm-2"
+      = f.number_field :other_ens,:control_col=>"col-sm-2"
+  =f.text_area :comment,cols: 80, rows:5
 
   .actions
-    = f.submit t("common.save")
-    = cancel_button()
+    = submit_button
+    = cancel_button

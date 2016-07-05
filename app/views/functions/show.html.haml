@@ -4,27 +4,15 @@
     = render :partial=>'nav'
   .content
     .inner
-      %table
-        %tr
-          %td.label #{t("function.label")}:
-          %td= @function.label
-        %tr
-          %td.label #{t('contact.s')}:
-          %td= @function.regional_organization
-        = render @function.board_contact.contact,:partial=>"contact"
-        %tr
-          %td.label #{t('function.bund')}:
-          %td= @function.bund
-        %tr
-          %td.label #{t('function.jugend')}:
-          %td= @function.jugend
-        %tr
-          %td.label #{t('function.nr')}:
-          %td= @function.nr
-        %tr
-          %td.label #{t('function.funktion')}:
-          %td= @function.funktion
-        %tr
-          %td.label #{t('function.fkt_subtitle')}:
-          %td= @function.fkt_subtitle
+      %h2
+        =t("helpers.label.function",:count=>1) 
+        =@function.funktion
+      =entity_row(@function,:regional_organization)
+      =entity_row(@function,:label)
+      =entity_row(@function,:bund)
+      =entity_row(@function,:jugend)
+      =entity_row(@function,:nr)
+      =entity_row(@function,:funktion)
+      =entity_row(@function,:fkt_subtitle)
+      = render @function.board_contact.contact,:partial=>"contact"
 

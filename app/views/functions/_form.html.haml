@@ -1,23 +1,17 @@
-= form_for @function,:html=>{ :class => "form-horizontal" } do |f|
-  -if @function.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@function.errors.count, "error")} prohibited this function from being saved:"
-      %ul
-        - @function.errors.full_messages.each do |msg|
-          %li= msg
+= bootstrap_form_for @function do |f|
   .container-fluid
-    =form_my_field(f,@function, :label)
+    =f.text_field :label 
     %tr
       %td= t('regional_organization.s')
-      %td= f.collection_select :regional_organization_id, RegionalOrganization.find(:all,:order => "name ASC"), :id, :name
+      %td= f.collection_select :regional_organization_id, RegionalOrganization.all.order("name ASC"), :id, :name
     %tr
       %td= t("contact")
       %td= f.collection_select :board_contact_id, BoardContact.includes(:contact).order("contacts.last_name ASC, contacts.first_name ASC"), :id, :to_s
     =form_my_field(f,@function, :bund,:checkbox)
     =form_my_field(f,@function, :jugend,:checkbox)
-    =form_my_field(f,@function, :nr,:number)
-    =form_my_field(f,@function, :funktion)
-    =form_my_field(f,@function, :fkt_subtitle)
+    =f.number_field :nr
+    =f.text_field :funktion
+    =f.text_field :fkt_subtitle
   .actions
     = submit_button
     = cancel_button()

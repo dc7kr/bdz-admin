@@ -2,12 +2,4 @@
   =render :partial=>'nav'
 .content
   %h2.title Neue #{t("booking.one")}
-
-  = form_for ([@member,@booking]) do |f|
-    -if @booking.errors.any?
-      #error_explanation
-        %h2= "#{pluralize(@booking.errors.count, "error")} prohibited this booking from being saved:"
-        %ul
-          - @booking.errors.full_messages.each do |msg|
-            %li= msg
-    = render :partial => "form", :locals => {:f => f}
+  = render :partial => "form"

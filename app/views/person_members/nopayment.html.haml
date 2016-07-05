@@ -15,17 +15,17 @@
           %th=t("member.email")
           %th=t("booking.balance")
           %th.last &nbsp;
-        - @person_members.each do |person_member|
+        - @members.each do |member|
           %tr{:class => cycle("odd", "even")}
             %td
-              = link_to person_member.mglnr, person_member_path(person_member)
-            %td= person_member.fullname
-            %td=mail_to person_member.email, person_member.email
-            %td=format_currency(@accounts[person_member.member_id],'€')
+              = link_to member.mglnr, person_member_path(member.member_entity)
+            %td= member.fullname
+            %td=mail_to member.email, member.email
+            %td=format_currency(@accounts[member.id],'€')
             %td.last
-              = link_to_show person_member
-              = link_to_edit person_member
-              = link_to_delete person_member
+              = link_to_show member.member_entity
+              = link_to_edit member.member_entity
+              = link_to_delete member.member_entity
       .actions-bar.wat-cf
         .actions
 //- content_for :sidebar, render(:partial => 'sidebar')

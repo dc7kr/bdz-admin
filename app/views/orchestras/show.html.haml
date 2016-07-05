@@ -3,26 +3,24 @@
     = render :partial=>'nav'
   .content
     .inner
-      %h2 #{@orchestra.mglnr} (#{t("orchestra.type_"+@orchestra.orch_type)})
-      %h3=  @orchestra.orchName
-      - if not @orchestra.zero_member_fee_balance?
-        %div.entity_warning=t("member.nonzero_balance")
-      - if @orchestra.is_direct_debit? then
-        %div.entity_info=t("member.is_direct_debit")
-      = render @orchestra.member,:partial=>"member"
+      %h2 #{@orchestra.member.mglnr} (#{t("orchestra.type_"+@orchestra.orch_type)})
+      %h3
+        =  @orchestra.orchName
+        - if not @orchestra.zero_member_fee_balance?
+          %span.label.label-danger=t("member.nonzero_balance")
+        - if @orchestra.is_direct_debit? then
+          %span.label.label-info=t("member.is_direct_debit")
       = entity_row(@orchestra,:fullname)
       = entity_row(@orchestra,:gruendung,:date)
-      = entity_row(@orchestra,:bemerkung)
       .row
         .col-md-3.text-right=label :orchestra,:url
         .col-md-9=link_to @orchestra.url, sanitize_url(@orchestra.url)
-      .row
-        .col-md-3.text-right=label :member,:kuendigungErfasst
-        .col-md-9= format_bool(@orchestra.kuendigungErfasst)
+
+      = render @orchestra.member,:partial=>"member"
+      = entity_row(@orchestra,:bemerkung)
       
-    .wat-cf
+    .btn-group{:role=>"group"}
       = edit_button(edit_orchestra_path(@orchestra),@orchestra)
       = del_button( orchestra_path(@orchestra),@orchestra)
-    //= render 'report_sheets/fororchestra' unless @report_sheets.count ==0
 
 - content_for :sidebar, render(:partial => 'sidebar.show')

@@ -8,4 +8,9 @@
       -if current_user != nil and current_user.admin?
         %pre
           =@exception.backtrace.join("\n")
+        %h2 Cause
+        -if not @exception.cause.nil?
+          %p= @exception.cause
+          %pre
+            =@exception.cause.backtrace.join("\n")
 

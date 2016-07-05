@@ -6,6 +6,7 @@
   - else 
     -if current_user.national_permission? 
       %li{ :class=> tabActiveClass(@current_action,'nopayment',nil)}= link_to t("member.nopayment"), nopayment_person_members_path
+      %li{ :class=> tabActiveClass(@current_action,'notinvoiced',nil)}= link_to t("member.notinvoiced"), notinvoiced_person_members_path
   - if can? :create, PersonMember
     %li= link_to "#{t("common.new", :default => "New")}", new_person_member_path
 

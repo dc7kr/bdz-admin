@@ -1,20 +1,9 @@
-.block
-  = f.error_messages :message => "", :header_tag => :h3
-.container-fluid
-  =form_my_field(f,@magazine_sampling, :company)
-  =form_my_field(f,@magazine_sampling, :department)
-  =form_my_select(f,@magazine_sampling, :salutation, options_for_select([[t('common.salutation_d.M'),"M"],[t('common.salutation_d.W'), "W"]],:selected=>@magazine_sampling.salutation))
-  =form_my_field(f,@magazine_sampling, :first_name)
-  =form_my_field(f,@magazine_sampling, :last_name)
-  =form_my_field(f,@magazine_sampling, :street)
-  =form_my_field(f,@magazine_sampling, :zip)
-  =form_my_field(f,@magazine_sampling, :city)
-  =form_wrapped_field(f,@magazine_sampling, :country,  country_select(:magazine_sampling, :country_code, { iso_codes:true},{:class => "form-control"}))
-  =form_my_field(f,@magazine_sampling, :phone)
-  =form_my_field(f,@magazine_sampling, :fax)
-  =form_my_field(f,@magazine_sampling, :email)
-  =form_my_field(f,@magazine_sampling, :count)
-    
-  =submit_button()
-  = cancel_button()
-  %br
+= bootstrap_form_for(@magazine_sampling, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10") do |f| 
+  .container-fluid
+    = f.fields_for :contact do |contact_form|
+      = render :partial => "contacts/contact_form", :locals => { :f => contact_form,:contact=>@magazine_sampling.contact}
+    =f.number_field :count
+      
+    =submit_button()
+    = cancel_button()
+    %br

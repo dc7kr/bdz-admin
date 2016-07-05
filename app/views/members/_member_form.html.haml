@@ -1,0 +1,38 @@
+.panel.panel-default
+  .panel-heading Mitgliedsdaten
+  .panel-body
+    = f.number_field :mglnr
+    - if current_user.national_permission? then
+      =f.collection_select(:regional_organization_id, RegionalOrganization.all, :id, :name) 
+    -else
+      = form_my_field(f,member, :regional_organization_id,:static)
+
+    = f.date_field :eintritt
+    = f.date_field :austritt_zum
+.panel.panel-default
+  .panel-heading Kontaktdaten
+  .panel-body
+    = f.select :anrede, get_salutation_options(member.anrede)
+    = f.text_field :title
+    = f.text_field :vorname
+    = f.text_field :name
+    = f.text_field :strasse
+    = f.text_field :plz
+    = f.text_field :ort
+    .row
+      .col-md-2.text-right=label :member,:country
+      .col-md-10= f.country_select(:country_code, { iso_codes:true }, { class:  "form-control"})
+    = f.phone_field :telefon
+    = f.phone_field :fax
+    = f.email_field :email
+
+
+.panel.panel-default
+  .panel-heading Zahlungsdaten
+  .panel-body
+    = f.select :za, options_for_select([["Lastschrift", "L"], ["Rechnung", "R"]],:selected=>member.za)
+    = f.text_field :iban
+    = f.text_field :bic
+    = f.text_field :zahler
+    
+

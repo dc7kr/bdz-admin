@@ -3,7 +3,7 @@
     = render :partial=>'nav'
   .content
     .inner
-      %h2= @person_member.mglnr
+      %h2= @person_member.member.mglnr
       %h2= @person_member.fullname
       = render @person_member.member,:partial=>"member"
       = entity_row(@person_member,:geburtstag,:date)

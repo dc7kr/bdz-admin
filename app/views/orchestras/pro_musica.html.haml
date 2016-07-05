@@ -1,0 +1,18 @@
+.secondary-navigation
+  =render :partial=>'nav'
+.content
+  %h2.title
+    Orchester über #{@age}
+  .inner
+    %table.table.table-hover.table-condensed
+      %thead
+        %th.first= sortable "mglnr", attr_heading(Member,:mglnr)
+        %th= sortable "orchName", attr_heading(Orchestra,:orchName)
+        %th= sortable "email", attr_heading(Member,:email)
+        %th= sortable "gruendung", attr_heading(Orchestra,:gruendung)
+        %th.last &nbsp;
+      %tbody#orchestras
+        =render partial: "orchestra.pro_musica", collection: @orchestras
+    .actions-bar.wat-cf
+      .actions
+- content_for :sidebar, render(:partial => 'sidebar')

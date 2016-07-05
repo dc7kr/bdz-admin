@@ -1,14 +1,8 @@
-= form_for @user, :html => { :class => "form-horizontal", :autocomplete => 'off' } do |f|
-  -if @user.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@user.errors.count, "error")} prohibited this user from being saved:"
-      %ul
-        - @user.errors.full_messages.each do |msg|
-          %li= msg
+= bootstrap_form_for(@user, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10") do |f|
   .container-fluid
-    = form_my_field(f,@url, :username)
-    = form_my_field(f,@url, :name)
-    = form_my_field(f,@url, :email)
+    = form_my_field(f,@user, :username)
+    = form_my_field(f,@user, :name)
+    = form_my_field(f,@user, :email)
     = form_my_field(f,@user, :password,:password)
     = form_wrapped_field(f,@user, :admin, check_box_tag(:admin, 1, @user.has_role?(:admin)) )
     = form_wrapped_field(f,@user, :regional, check_box_tag(:regional, 1, @user.has_role?(:regional)) )

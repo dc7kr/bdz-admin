@@ -1,0 +1,7 @@
+%tr
+  -if not member_orchestra.member_entity.url.nil?  and not member_orchestra.member_entity.url.empty?
+    %td=link_to member_orchestra.member_entity.orchName, member_orchestra.member_entity.full_url
+  -else
+    %td=member_orchestra.member_entity.orchName
+
+  %td=member_orchestra.ort

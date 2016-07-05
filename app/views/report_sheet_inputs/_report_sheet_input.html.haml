@@ -1,7 +1,7 @@
 %tr
   %td=report_sheet_input.report_sheet.year
   -if report_sheet_input.orchestra != nil then
-    %td #{report_sheet_input.orchestra.mglnr}
+    %td #{report_sheet_input.orchestra.member.mglnr}
     %td #{report_sheet_input.orchestra.orchName} 
   -else
     %td NIL 

@@ -1,0 +1,29 @@
+%dd
+
+%dt.title
+  = format_date_interval(course.startdate,course.enddate)
+  = course.titel
+%dd=course.beschreibung
+%dd.BODY Ort:
+%dt=course.ort
+%dt Lehrgangsinhalte:
+%dd.BODY=course.inhalt
+%dt Zielgruppe
+%dd.BODY=course.zielgruppe
+%dt Lehrgangsgebühr
+%dd.BODY=course.gebuehr
+%dt DozentInnen:
+%dd.BODY=course.dozenten
+%dt Termine:
+%dd.BODY=course.more_dates
+%dt Infos und Anmeldung:
+%dd.BODY=course.anmeldung
+%dt Anmeldeschluss:
+%dd.BODY=format_date(course.deadline)
+
+//  =course.reported 	 			
+//  =course.confirmed 	 			
+//  =course.bland 	
+//  =course.fk_festival 	
+
+
