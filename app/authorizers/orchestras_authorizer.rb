@@ -21,4 +21,13 @@ class OrchestraAuthorizer < ApplicationAuthorizer
 
     result
   end
+
+  def self.readable_by?(user) 
+    Rails.logger.debug("readable static: Orchestra")
+    user.is_admin? or user.has_role? :national
+  end
+
+  def readable_by?(user)
+    user.is_admin? or user.has_role? :national or user.has_role? :distinction
+  end
 end
