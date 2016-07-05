@@ -37,11 +37,12 @@ class OrchestraInvoicesWorker < AbstractInvoicesWorker
     tool =  MailingTool.new(year, "gs", "RECHNUNG#{year}", "Beitragsrechnung #{year}")
 
 	  @orchestras.each do |orch|
-      Rails.logger.debug("Gen invoice for: #{orch.mglnr}")
+      mglnr = orch.member.mglnr
+      Rails.logger.debug("Gen invoice for: #{mglnr}")
       invoice_file = orchestraInvoice(datePrefix, orch,year,tw,sw)
       logger.debug("PDF File archived as #{invoice_file}")
 
-      add_mailer_params = { :year => year, :mglnr=>orch.mglnr }
+      add_mailer_params = { :year => year, :mglnr=>mglnr }
 
       tool.deliver_mailing(InvoiceMail, orch, invoice_file,nil, letters, add_mailer_params)  
 		end
@@ -64,6 +65,8 @@ class OrchestraInvoicesWorker < AbstractInvoicesWorker
   def orchestraInvoice(datePrefix, orch, year, tw, sw)
 		booking_txt = "BDZ-Beitrag "+String(year)
 
+    mglnr = orch.member.mglnr
+
     invoice_type = "beitragsrechnung"
 
 		sheet = orch.sheet_for_year(year)
@@ -77,13 +80,13 @@ class OrchestraInvoicesWorker < AbstractInvoicesWorker
 
 		tw.writeInvoice(invoice, 'gs',year)
 
-    work_pdf_file = tw.gen_pdf(invoice_type,datePrefix, orch.mglnr)
+    work_pdf_file = tw.gen_pdf(invoice_type,datePrefix, mglnr)
 
     workdir = BDZ_SETTINGS["invoice_workdir"]
     invoice_file = archive_file(workdir,work_pdf_file,year)
 
-		booking = MemberAccountBooking.newInvoice(booking_txt,-1*invoice.sum,orch.mglnr.to_s)
-		booking.member_id = orch.id
+		booking = MemberAccountBooking.newInvoice(booking_txt,-1*invoice.sum,mglnr.to_s)
+		booking.member_id = orch.member.id
     booking.booking_year=year
     booking.filename = invoice_file.orig_filename
 		booking.save

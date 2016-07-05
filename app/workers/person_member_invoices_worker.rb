@@ -10,22 +10,24 @@ class PersonMemberInvoicesWorker  < AbstractInvoicesWorker
     letters = Array.new
     triggered_by = User.find(user_id)
 
-    @person_members = PersonMember.includes([:tariff,:member]).joins("LEFT JOIN member_account_bookings mb ON person_members.member_id=mb.member_id AND mb.booking_type='B' and YEAR(mb.booking_date) = #{year}" ).where("mb.id IS NULL").order("members.mglnr")
+    @person_members = PersonMember.notinvoiced(year)
 
     tool =  MailingTool.new(year, "gs", "RECHNUNG#{year}", "Beitragsrechnung #{year}")
 
 	  @person_members.each do |pm|
-      Rails.logger.debug("Gen invoice for: #{pm.mglnr}")
-      invoice_file = personMemberInvoice(datePrefix, pm,year,tw,sw)
+      mglnr = pm.member.mglnr
+
+      Rails.logger.debug("Gen invoice for: #{pm.member.mglnr}")
+      invoice_file = personMemberInvoice(datePrefix, pm, year,tw,sw)
 
       if (invoice_file.nil?) then
-        Rails.logger.info("No invoice generated for: #{pm.mglnr} tariff: #{pm.tariff.description}")
+        Rails.logger.info("No invoice generated for: #{mglnr} tariff: #{pm.tariff.description}")
         next
       end
 
       logger.debug("PDF File archived as #{invoice_file}")
 
-      add_mailer_params = { :year => year, :mglnr=>pm.mglnr }
+      add_mailer_params = { :year => year, :mglnr=>mglnr }
 
       tool.deliver_mailing(InvoiceMail, pm, invoice_file,nil, letters, add_mailer_params)  
 		end
@@ -42,11 +44,23 @@ class PersonMemberInvoicesWorker  < AbstractInvoicesWorker
   end
 
   private 
+  def create_invoice_booking(person, year, invoice, filename)
+		booking_txt = 'Beitrag '+person.tariff.description+' '+String(year)
+		booking = MemberAccountBooking.newInvoice(booking_txt,-1*invoice.sum,person.member.mglnr.to_s)
+		booking.member_id = person.member.id
+    booking.booking_year=year
+    booking.filename = filename
+		booking.save
+  end
+
   def personMemberInvoice(datePrefix, person,year,tw,sw)
 
-      if ( person.tariff.amount == 0 )
-        return
-      end
+    mglnr = person.member.mglnr
+ 
+    if ( person.tariff.amount == 0 )
+      Rails.logger.warning("Requested invoice generation with 0 amount: #{mglnr}")
+      return
+    end
 
     invoice_type = "beitragsrechnung"
 
@@ -54,18 +68,12 @@ class PersonMemberInvoicesWorker  < AbstractInvoicesWorker
 
 		tw.writeInvoice(invoice, 'gs',year)
 
-    work_pdf_file = tw.gen_pdf(invoice_type,datePrefix, person.mglnr)
+    work_pdf_file = tw.gen_pdf(invoice_type,datePrefix, mglnr)
 
     workdir = BDZ_SETTINGS["invoice_workdir"]
     invoice_file = archive_file(workdir,work_pdf_file,year)
 
-		booking_txt = 'Beitrag '+person.tariff.description+' '+String(year)
-		booking = MemberAccountBooking.newInvoice(booking_txt,-1*invoice.sum,person.mglnr.to_s)
-		booking.member_id = person.id
-    booking.booking_year=year
-    booking.filename = invoice_file.orig_filename
-		booking.save
-
+    create_invoice_booking(person, year, invoice, invoice_file.orig_filename)
     gen_dd_booking(sw, person, invoice, year)
 
     invoice_file

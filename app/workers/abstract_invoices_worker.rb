@@ -22,11 +22,13 @@ class AbstractInvoicesWorker
     }
   end
 
-  def gen_dd_booking(sw, member, invoice, year)
+  def gen_dd_booking(sw, member_entity, invoice, year)
+    member = member_entity.member
+    customer = member_entity.to_customer
 
     booking_txt = "Rechnung Nr. #{invoice.invoice_number} #{member.mglnr}"
 		if (member.is_direct_debit?) then
-			sw.addBooking(member,invoice.sum,booking_txt,"RCUR")
+			sw.addBooking(customer,invoice.sum,booking_txt,"RCUR")
 			booking = MemberAccountBooking.newWithdrawal("Lastschrift "+booking_txt,invoice.sum)
 			booking.member_id = member.id
       booking.booking_year = year
