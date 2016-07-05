@@ -1,5 +1,7 @@
 /* ...
 */
-@import "admin/*";
 @import "bootstrap-sprockets";
 @import "bootstrap";
+@import "bootstrap/theme";
+@import 'bootstrap-datetimepicker';
+@import "admin/*";

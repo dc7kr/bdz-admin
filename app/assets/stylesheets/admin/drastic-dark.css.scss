@@ -58,6 +58,14 @@ hr {
   background: #36393d;
 }
 
+#header.staging {
+  background: #ffff00;
+  #main-nav::before {
+    content: "Staging Environment";
+  }
+}
+
+
 #header h1 {
   padding: 15px 0;
   font-size: 28px;

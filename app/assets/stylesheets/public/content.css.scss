@@ -217,12 +217,6 @@ div.form { position:absolute; left:100px; }
 .form_required { color:red;font-weight:bold; }
 div.form_required{ position:relative; left:0px; top:5px;color:#ff0000;}
 
-input:focus { background-color:#e0e0ff; }
-textarea:focus { background-color:#e0e0ff; }
-.faulty { border: 1px solid red;  }
-.faulty:focus { border-color:#ff0000; }
-
-
 a.Item, a.Item:visited
   {
   color: #1e1916;

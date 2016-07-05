@@ -160,3 +160,15 @@ span.not_payed {
   padding:3px;
 
 }
+
+hr.calc {
+  margin-bottom:0px;
+  margin-top:0px;
+  border-top: #999 solid 1px;
+}
+
+hr.calc_final {
+  margin-bottom:20px;
+  margin-top:0px;
+  border-top: 3px double #999; 
+}

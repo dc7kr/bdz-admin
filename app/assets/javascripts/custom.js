@@ -3,6 +3,8 @@ $(function() {
   $('input.ui-datepicker').datepicker({ dateFormat: 'yy-mm-dd' });
   $.ajaxSetup({ dataType: 'json' });
 
+  Turbolinks.enableProgressBar();
+
   $('.dateTimePicker').datetimepicker();
   $('.timePicker').timepicker();
 
@@ -96,4 +98,8 @@ $(document).ready( function() {
         }
         
     });
+});
+
+$(function () {
+  $('.datetimepicker').datetimepicker();
 });
