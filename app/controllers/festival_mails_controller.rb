@@ -99,13 +99,13 @@ class FestivalMailsController < AuthenticatedNonResourceController
     letterArray = Array.new
 
     @applicants.each do |appl|
-      contact = appl.contact_person
+      addressee = appl.contact_person.to_addressee
 
       body = prepare_body(appl,@mail_params[:body])
       logger.debug("Result: "+body)
       mailer_params = { :body => body ,:subject => subject }
 
-      result = tool.deliver_mailing(FestivalMail, appl.contact_person, nil, @letterfile,  letterArray, mailer_params)  
+      result = tool.deliver_mailing(FestivalMail, addressee, nil, @letterfile,  letterArray, mailer_params)  
       @results << result
 
       if result[:success]==true then

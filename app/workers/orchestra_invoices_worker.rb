@@ -44,7 +44,7 @@ class OrchestraInvoicesWorker < AbstractInvoicesWorker
 
       add_mailer_params = { :year => year, :mglnr=>mglnr }
 
-      tool.deliver_mailing(InvoiceMail, orch, invoice_file,nil, letters, add_mailer_params)  
+      tool.deliver_mailing(InvoiceMail, orch.to_addressee, invoice_file,nil, letters, add_mailer_params)  
 		end
 
     pdf_merged_file = nil
@@ -95,6 +95,5 @@ class OrchestraInvoicesWorker < AbstractInvoicesWorker
 
     invoice_file
   end
-
 end
 

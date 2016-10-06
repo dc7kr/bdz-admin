@@ -77,24 +77,15 @@ class CustomInfoMailWorker
         results.push(o_result) 
       end
     end
-
-    if ( test ) then  
-
-      o1 = Orchestra.find(420)
-
+    if ( test ) then
       addrs = Array.new
-      addrs << o1
 
-      o2 = Orchestra.find(433)
+      addrs << Addressee.dummy_for_mail
+      addrs << Addressee.dummy_for_letter
 
-      addrs << o2
-
-      o3 = Orchestra.find(752)
-      addrs << o3
-
-      addrs.each do |dummy| 
-        filled_template = customize_letter(date_prefix, cur_year.to_s,"gs", dummy,event_id, letterfile)
-        o_result = tool.deliver_mailing(CustomInfoMail,dummy, filled_template, attachment , letterArray,mailer_params)  
+      addrs.each do |addr|
+        filled_template = customize_letter(date_prefix, cur_year.to_s,"gs", addr,event_id, letterfile)
+        o_result = tool.deliver_mailing(CustomInfoMail,addr, filled_template, attachment , letterArray,mailer_params)  
         results.push(o_result) 
       end
     end

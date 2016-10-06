@@ -57,7 +57,7 @@ class EventCardInvoiceMailsWorker
 
         mailer_params = { :subject => subject , :cc => BDZ_SETTINGS["contacts"]["treasurer"]["mail"], :bcc => "webmaster@bdz-online.de", :invoice => invoice, :locale => locale }
 
-        result = tool.deliver_mailing(EventCardInvoiceMail, rsrv, invoice_file,  nil, letterArray, mailer_params)  
+        result = tool.deliver_mailing(EventCardInvoiceMail, rsrv.to_addressee, invoice_file,  nil, letterArray, mailer_params)  
         results << result
 
         if result[:success]==true then

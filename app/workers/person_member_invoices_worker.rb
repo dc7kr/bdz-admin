@@ -29,7 +29,7 @@ class PersonMemberInvoicesWorker  < AbstractInvoicesWorker
 
       add_mailer_params = { :year => year, :mglnr=>mglnr }
 
-      tool.deliver_mailing(InvoiceMail, pm, invoice_file,nil, letters, add_mailer_params)  
+      tool.deliver_mailing(InvoiceMail, pm.to_addressee, invoice_file,nil, letters, add_mailer_params)  
 		end
 
     pdf_filename = "#{datePrefix}-em-beitragsrechnungen.pdf"
