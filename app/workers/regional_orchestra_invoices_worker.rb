@@ -28,7 +28,7 @@ class RegionalOrchestraInvoicesWorker < AbstractInvoicesWorker
 
     triggered_by = User.find(user_id)
 
-	  @orchestras = Orchestra.includes([:report_sheets,:member]).joins("LEFT JOIN member_account_bookings mb ON orchestras.member_id=mb.member_id AND mb.booking_type='B' and YEAR(mb.booking_date) = #{year}").where("mb.id IS NULL and orch_type='L' and report_sheets.year= ?",year).order("members.mglnr")
+    @orchestras = Orchestra.notinvoiced(year).where("orch_type='L'")
 
     invoices = Array.new
 
@@ -37,13 +37,14 @@ class RegionalOrchestraInvoicesWorker < AbstractInvoicesWorker
     tool =  MailingTool.new(year, "gs", "RECHNUNG#{year}", "Beitragsrechnung #{year}")
 
 	  @orchestras.each do |orch|
-      Rails.logger.debug("Gen invoice for: #{orch.mglnr}")
+      mglnr = orch.member.mglnr
+      Rails.logger.debug("Gen invoice for: #{mglnr}")
       invoice_file = orchestraInvoice(datePrefix, orch,year,tw,sw)
       logger.debug("PDF File archived as #{invoice_file}")
 
-      add_mailer_params = { :year => year, :mglnr=>orch.mglnr }
+      add_mailer_params = { :year => year, :mglnr=>mglnr }
 
-      tool.deliver_mailing(InvoiceMail, orch, invoice_file,nil, letters, add_mailer_params)  
+      tool.deliver_mailing(InvoiceMail, orch.to_addressee, invoice_file,nil, letters, add_mailer_params)  
 		end
 
     pdf_merged_file = nil
@@ -66,6 +67,8 @@ class RegionalOrchestraInvoicesWorker < AbstractInvoicesWorker
 
     invoice_type = "beitragsrechnung"
 
+    mglnr = orch.member.mglnr
+
 		sheet = orch.sheet_for_year(year)
 
     if sheet.nil? then
@@ -77,13 +80,13 @@ class RegionalOrchestraInvoicesWorker < AbstractInvoicesWorker
 
 		tw.writeInvoice(invoice, 'gs',year)
 
-    work_pdf_file = tw.gen_pdf(invoice_type,datePrefix, orch.mglnr)
+    work_pdf_file = tw.gen_pdf(invoice_type,datePrefix, mglnr)
 
     workdir = BDZ_SETTINGS["invoice_workdir"]
     invoice_file = archive_file(workdir,work_pdf_file,year)
 
-		booking = MemberAccountBooking.newInvoice(booking_txt,-1*invoice.sum,orch.mglnr.to_s)
-		booking.member_id = orch.id
+		booking = MemberAccountBooking.newInvoice(booking_txt,-1*invoice.sum,mglnr.to_s)
+		booking.member_id = orch.member.id
     booking.booking_year=year
     booking.filename = invoice_file.orig_filename
 		booking.save
