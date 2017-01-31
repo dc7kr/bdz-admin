@@ -3,15 +3,9 @@
     =render :partial=>'nav'
   .content
     %h2.title
-      = t('festival_piece.s')
+      = t('festival_piece',:count=>1)
     .inner
-%p
-  %b Composer:
-  = @festival_piece.composer
-%p
-  %b Title:
-  = @festival_piece.title
-%p
-  %b Duration:
-  = @festival_piece.duration
+      =entity_row(@festival_piece,:composer) 
+      =entity_row(@festival_piece,:title) 
+      =entity_row(@festival_piece,:duration) 
 

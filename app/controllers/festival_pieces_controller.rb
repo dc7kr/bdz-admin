@@ -3,8 +3,8 @@ class FestivalPiecesController < AuthenticatedController
   # GET /festival_pieces
   # GET /festival_pieces.json
   def index
-    if ( params[:festival_application_id] != nil ) then
-	    @festival_application = FestivalApplication.find(params[:festival_application_id])
+    if ( params[:festival_application_token] != nil ) then
+	    @festival_application = FestivalApplication.find_by(token: params[:festival_application_token])
       @festival_pieces = @festival_application.festival_pieces
     else
       @festival_pieces = FestivalPiece.all
@@ -19,7 +19,7 @@ class FestivalPiecesController < AuthenticatedController
   # GET /festival_pieces/1
   # GET /festival_pieces/1.json
   def show
-	@festival_application = FestivalApplication.find(params[:festival_application_id])
+	  @festival_application = FestivalApplication.find_by(token: params[:festival_application_token])
     @festival_piece = FestivalPiece.find(params[:id])
 
     respond_to do |format|
@@ -31,7 +31,7 @@ class FestivalPiecesController < AuthenticatedController
   # GET /festival_pieces/new
   # GET /festival_pieces/new.json
   def new
-	@festival_application = FestivalApplication.find(params[:festival_application_id])
+	@festival_application = FestivalApplication.find_by(token: params[:festival_application_token])
     @festival_piece = FestivalPiece.new
 
     respond_to do |format|
@@ -42,14 +42,14 @@ class FestivalPiecesController < AuthenticatedController
 
   # GET /festival_pieces/1/edit
   def edit
-	@festival_application = FestivalApplication.find(params[:festival_application_id])
+	@festival_application = FestivalApplication.find_by(token: params[:festival_application_token])
     @festival_piece = FestivalPiece.find(params[:id])
   end
 
   # POST /festival_pieces
   # POST /festival_pieces.json
   def create
-  	@festival_application = FestivalApplication.find(params[:festival_application_id])
+  	@festival_application = FestivalApplication.find_by(token: params[:festival_application_token])
     @festival_piece = @festival_application.festival_pieces.create(params[:festival_piece])
 
 	logger.debug("New piece: "+@festival_piece.id.to_s)
@@ -60,7 +60,7 @@ class FestivalPiecesController < AuthenticatedController
   # PUT /festival_pieces/1
   # PUT /festival_pieces/1.json
   def update
-	@festival_application = FestivalApplication.find(params[:festival_application_id])
+	@festival_application = FestivalApplication.find_by(token: params[:festival_application_token])
     @festival_piece = FestivalPiece.find(params[:id])
 
     respond_to do |format|
@@ -77,7 +77,7 @@ class FestivalPiecesController < AuthenticatedController
   # DELETE /festival_pieces/1
   # DELETE /festival_pieces/1.json
   def destroy
-    @festival_application = FestivalApplication.find(params[:festival_application_id])
+    @festival_application = FestivalApplication.find_by(token: params[:festival_application_token])
     @festival_piece = FestivalPiece.find(params[:id])
     @festival_piece.destroy
 
