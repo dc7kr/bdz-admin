@@ -66,7 +66,7 @@ class FestivalMailsController < AuthenticatedNonResourceController
 
     @results = Array.new
 
-    @event = @mail_params[:event_id]
+    @event_id = @mail_params[:event_id]
 
     if ( datafile != nil) then
       @letterfile = storeUploadedFile(cur_year.to_s, datafile.original_filename, datafile)
@@ -94,7 +94,8 @@ class FestivalMailsController < AuthenticatedNonResourceController
 
     subject = @mail_params[:subject]
 
-    tool = MailingTool.new(cur_year.to_s,"gs",@event,subject);
+    # via_paper is true by default
+    tool = MailingTool.new(cur_year.to_s,"gs",@event_id,subject);
 
     letterArray = Array.new
 
