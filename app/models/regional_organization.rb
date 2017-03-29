@@ -11,6 +11,18 @@ class RegionalOrganization < ActiveRecord::Base
 
   has_many :members
 
+   has_many :orchestras, {
+    :through => :members,
+    :source => :member_entity,
+    :source_type => "Orchestra"
+  }
+
+  has_many :person_members, {
+    :through => :members,
+    :source => :member_entity,
+    :source_type => "PersonMember"
+  }
+
   # for role based access
   resourcify
 
