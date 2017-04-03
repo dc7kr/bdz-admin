@@ -141,10 +141,9 @@ class FestivalApplicationsController < AuthenticatedController
           format.json { render json: @festival_application.errors, status: :unprocessable_entity }
         end
       end
-      else
-        format.html { render action: "new" }
-        format.json { render json: @festival_application.errors, status: :unprocessable_entity }
-      end
+    else
+      format.html { render action: "new" }
+      format.json { render json: @festival_application.errors, status: :unprocessable_entity }
     end
   end
 
