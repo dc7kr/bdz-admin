@@ -1,0 +1,78 @@
+.block
+  .secondary-navigation
+    =render :partial=>'nav'
+  .content
+    %h2.title
+      #{t("festival_application",:count=>1)} Nr. #{@festival_application.id}
+      - if @festival_application.permission
+        (#{t('festival_application.permission_granted')})
+      %br
+      =@festival_application.orch_name
+    .container-fluid
+
+      #accordion.panel-group{:role=>"tablist", :aria=>{:multiselectable=>"true"}}
+        .panel.panel-default
+          .panel-heading
+            %h4.panel-title
+              %a.collapsed{:role=>"button",:data=>{:toggle=>"collapse",:parent=>"#accordion"},:aria=>{:controls=>"collapseOne"},:expanded=>"true", :href=>"#collapseOne"}=t("festival_application",:count=>1)
+
+          #collapseOne.panel-collapse.collapse.in{ :role=>"tabpanel",:aria=>{:labelledby=>"headingOne"}}
+            .panel-body
+              =custom_entity_row(t("festival_application.group_type"), display_group_type(@festival_application.group_type))
+              =entity_row(@festival_application,:contact_phone)
+              =entity_row(@festival_application,:country_code,:country) 
+              =entity_row(@festival_application,:orch_name)
+              =entity_row(@festival_application,:conductor)
+        -if @festival_application.permission
+          .panel.panel-default
+            .panel-heading
+              %h4.panel-title
+                %a.collapsed{:role=>"button",:data=>{:toggle=>"collapse",:parent=>"#accordion"},:aria=>{:controls=>"collapseTwo"},:expanded=>"true", :href=>"#collapseTwo"}=t("festival_application.festival_concert_id")
+            #collapseTwo.panel-collapse.collapse.in{ :role=>"tabpanel",:aria=>{:labelledby=>"headingTwo"}}
+              .panel-body
+                .row
+                  .col-md-9
+                    -if @festival_application.festival_concert then
+                      = @festival_application.festival_concert.label
+                    -else
+                      keine Zuweisung
+                =entity_row(@festival_application,:stage_time)
+                =entity_row(@festival_application,:rehearsal_time)
+                =entity_row(@festival_application,:num_players)
+                =entity_row(@festival_application,:equipment)
+                =entity_row(@festival_application,:special_cast)
+                =entity_row(@festival_application,:soloist_tickets)
+
+        .panel.panel-default
+          .panel-heading
+            %h4.panel-title
+              %a.collapsed{:role=>"button",:data=>{:toggle=>"collapse",:parent=>"#accordion"},:aria=>{:controls=>"collapseThree"},:expanded=>"true", :href=>"#collapseThree"}=t("contact_person",:count=>1)
+          #collapseThree.panel-collapse.collapse.in{ :role=>"tabpanel",:aria=>{:labelledby=>"headingThree"}}
+            .panel-body
+              - contact = @festival_application.contact_person
+              =entity_row(contact,:first_name)
+              =entity_row(contact,:last_name)
+              =entity_row(contact,:street)
+              =entity_row(contact,:zip)
+              =entity_row(contact,:city)
+              =entity_row(contact,:country_code,:country)
+              =entity_row(contact,:email,:mailto)
+              =entity_row(contact,:phone)
+        .panel.panel-default
+          .panel-heading=t("festival_application.invoice")
+          .panel-body
+            -invoice = @festival_application.invoice
+            -invoice.items.each do |i|
+              =invoice_item_row(i)
+            = calculation_sum(t("common.sum"), invoice.sum)
+            =custom_entity_row(t("festival_application.payment_status"), t("festival_application.payment_states.#{@festival_application.payment_status}"))
+        - if not @festival_application.event_meal.nil?
+          -@event_meal = @festival_application.event_meal
+          .panel.panel-default
+            .panel-heading=t("festival_application.invoice")
+            .panel-body
+              =entity_row(@event_meal,:tln)
+              =entity_row(@event_meal,:veg)
+              =entity_row(@event_meal,:arrival_time,:date)
+            
+

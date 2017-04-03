@@ -1,0 +1,34 @@
+%p
+  %b Startdate:
+  = @contest.startdate
+%p
+  %b Enddate:
+  = @contest.enddate
+%p
+  %b Titel:
+  = @contest.titel
+%p
+  %b Beschreibung:
+  = @contest.beschreibung
+%p
+  %b Gebuehr:
+  = @contest.gebuehr
+%p
+  %b Preis:
+  = @contest.preis
+%p
+  %b Anmeldung:
+  = @contest.anmeldung
+%p
+  %b Deadline:
+  = @contest.deadline
+%p
+  %b Reported:
+  = @contest.reported
+%p
+  %b Visible:
+  = @contest.visible
+
+= link_to_edit @contest,t("common.edit")
+\|
+= link_back t("common.back")

@@ -1,22 +1,19 @@
 %a{:name=>"top"}
 
-%center
-  %h2 Termine, Adressen &amp; Daten
-.nav_element 
-  %a{:href=>"index.htm"}
-    Termine, Adressen &amp; Daten: 
-  Konzert-Termine
-
-.heading Zupforchester und Gitarrenensembles
-=@method
-#header 
-  %br
-  %br
-  - @currentTab = "O"
-  = render :partial => "/public/concert_nav"
-
-#content
-  .content
-    %b 2012
-    %dl
-      = render :partial => "concert.public", :collection => @concerts
+.container
+  .heading Zupforchester und Gitarrenensembles
+  .scrollarea{ :data=> {:spy=>"scroll", :target=>"navbar", :offset=>50}}
+  %nav.navbar 
+    %ul.nav.nav-tabs{:role=>"tablist"}
+      %li
+        %a{ :href=>"#orch"}
+          Orchester
+      %li
+        %a{:href=>"#ensemble"}
+          Ensembles
+  #orch
+    %h2 Orchester-Konzerte
+    %p= render :partial => "concert.public", :collection => @concerts
+  #ensemble
+    %h2 Ensemble-Konzerte
+    %p= render :partial => "ensemble_concert.public", :collection => @ensemble_concerts

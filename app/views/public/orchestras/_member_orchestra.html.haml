@@ -1,7 +1,15 @@
-%tr
-  -if not member_orchestra.member_entity.url.nil?  and not member_orchestra.member_entity.url.empty?
-    %td=link_to member_orchestra.member_entity.orchName, member_orchestra.member_entity.full_url
-  -else
-    %td=member_orchestra.member_entity.orchName
+- if not @alpha_links[member_orchestra.id].nil?
+  %a.alpha_separator{:name=>"#{@alpha_links[member_orchestra.id]}"}=@alpha_links[member_orchestra.id] 
 
-  %td=member_orchestra.ort
+-o = member_orchestra.member_entity
+.orchestra_entry
+  #{o.orchName} | #{o.member.strasse}, #{o.member.plz} #{o.member.ort}
+  %br
+  -if not o.member.telefon.nil? and not o.member.telefon.empty? then
+    Tel. #{o.member.telefon} #{"|"} 
+  
+  #{o.member.email} 
+  -if not o.url.nil?  and not o.url.empty?
+    |
+    = link_to o.full_url, o.full_url
+  %br

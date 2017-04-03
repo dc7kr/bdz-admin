@@ -1,36 +1,36 @@
-= form_for(@concert, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10") do |f|
-  -if @concert.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@concert.errors.count, "error")} prohibited this concert from being saved:"
-      %ul
-        - @concert.errors.full_messages.each do |msg|
-          %li= msg
+= bootstrap_form_for([:public, @concert], layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10") do |f|
   .container-fluid
-    = form_my_field(f,@concert, :titel)
-    = form_my_field(f,@concert, :concert_date,:datetime)
-    = form_my_field(f,@concert, :stadt)
-    = form_my_field(f,@concert, :ort)
-    = form_my_select(f, @concert, :bland, options_from_collection_for_select(@states, "id", "name"))
-    = form_wrapped_field(f,@concert, :country_code, country_select(:concert, :country_code, iso_codes:true))
-    = form_my_field(f,@concert, :eintritt)
-    = form_my_select(f,@concert, :festival, options_from_collection_for_select(@festivals, "id", "name"))
+    .panel.panel-primary
+      .panel-heading
+        .panel-title
+          Konzertdaten
+      .panel-body 
+        = f.text_field :titel
+        = form_my_field(f,@concert, :concert_date,:datetime)
+        = f.text_field :stadt
+        = f.text_field :ort
+        = f.select :bland, options_from_collection_for_select(@states, "id", "name")
+        = form_wrapped_field(f,@concert, :country_code, country_select(:concert, :country_code, iso_codes:true))
+        = f.text_field :eintritt
+        = f.select :festival, options_from_collection_for_select(@festivals, "id", "name")
+        = f.text_area :comment
     .panel.panel-primary 
       .panel-heading
         .panel-title
           Mitglieder
       .panel-body
-        = form_my_field(f,@concert, :mglnr, :number)
-        Hinweis: Durch Eingabe der Mitgliedsnummer wird automatisch Homepage und Veranstalter aus unseren Daten übernommen. 
+        = f.number_field :mglnr
+        %span.label.label-info Hinweis: Durch Eingabe der Mitgliedsnummer wird automatisch Homepage und Veranstalter aus unseren Daten übernommen. 
+
     .panel.panel-default
       .panel-heading
         .panel-title
           Nicht-Mitglieder
       .panel-body
-        = form_my_field(f,@concert, :interpret)
-        = form_my_field(f,@concert, :url)
-        = form_my_field(f,@concert, :email)
-    = form_my_field(f, @concert,:comment)
+        = f.text_field :interpret
+        = f.url_field :url
+        = f.email_field :email 
 
   .actions
-    = f.submit t("common.save")
-    = cancel_button()
+    = submit_button
+    = cancel_button

@@ -1,17 +1,13 @@
-%dt
+.concert_data
   %a{:name => "#{'O'+String(concert.id)}"}
-  = l(concert.concert_date)
-  ,
-  = concert.stadt
-  ,
-  = concert.ort
-  ,
-%dd.title=concert.titel
-%dd
-  %a{:href=>"#{concert.url}",:target=>"_blank", :onclick=>"meldung()"}
-    =concert.interpret
-  %i
-    =concert.comment
-  = link_to_show concert
-  = link_to_edit concert
-  = link_to_delete concert
+  %span.concert_date= l(concert.concert_date)
+  %span.concert_title= concert.titel
+  %span.concert_performer
+    - if not concert.url.nil? and not concert.url.empty? then 
+      %a{:href=>"#{concert.url}",:target=>"_blank", :onclick=>"meldung()"}=concert.interpret
+    -else
+      =concert.interpret
+  %span.concert_location
+    = concert.ort
+    ,
+    = concert.stadt

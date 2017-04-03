@@ -1,0 +1,7 @@
+%tr{:class => cycle("odd", "even")}
+  %td= contest.startdate
+  %td= contest.enddate
+  %td= contest.titel
+  %td= contest.deadline
+  %td
+    = link_to_show [:public,contest],  t("common.show")

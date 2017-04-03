@@ -1,0 +1,15 @@
+= bootstrap_form_for([:public,@contest],:layout=>:horizontal) do |f|
+  .container-fluid
+    =f.text_field(:startdate)
+    =f.text_field(:enddate)
+    =f.text_field :titel
+    =f.text_area :beschreibung
+    =f.text_area :gebuehr
+    =f.text_area :preis
+    =f.text_area :anmeldung
+    =f.text_field :deadline
+    =f.text_field :reported
+    =f.text_field :email
+    .actions
+      = submit_button()
+      = cancel_button()

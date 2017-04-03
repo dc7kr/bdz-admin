@@ -15,13 +15,8 @@
       
       %h3=t('festival_application.add_piece')
       
-      = form_for [:public,@festival_application,FestivalPiece.new], :remote => true do |f| 
-        = f.error_messages 
+      = bootstrap_form_for [:public,@festival_application,FestivalPiece.new], :remote => true,:format=>:js do |f| 
         %table
-          %tr
-            %td= f.label :composer
-            %td= f.label :title
-            %td= f.label :duration
           %tr
             %td= f.text_field :composer
             %td= f.text_field :title

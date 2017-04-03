@@ -1,0 +1,26 @@
+.block
+  .content
+    %h2.title
+      = t('festival_piece',:count=>3)
+    .inner
+      %table.table.table-hover.table-condensed
+        %thead
+          %th.first= attr_heading(FestivalPiece, :composer)
+          %th= attr_heading(FestivalPiece, :title)
+          %th= attr_heading(FestivalPiece, :duration)
+          %th.last &nbsp;
+        %tbody#festvial_pieces
+          =render @festival_pieces
+
+
+
+      %h3=t('festival_application.add_piece')
+      
+      = bootstrap_form_for [:public,@festival_application,FestivalPiece.new], :remote => true,:format=>:js do |f| 
+        %table
+          %tr
+            %td= f.text_field :composer
+            %td= f.text_field :title
+            %td= f.text_field :duration
+            %td= f.submit  t('festival_piece.create_festival_piece')
+

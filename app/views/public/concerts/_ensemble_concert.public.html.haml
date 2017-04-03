@@ -1,0 +1,7 @@
+-if ensemble_concert.datum != nil && ensemble_concert.datum > Time.now
+  %a{name:"E#{ensemble_concert.id}"}
+  =format_date_time(ensemble_concert.datum)
+  ,
+  =ensemble_concert.stadt
+  %i=ensemble_concert.comment
+  %br
