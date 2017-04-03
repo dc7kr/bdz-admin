@@ -4,7 +4,7 @@ class ReportSheetInput < ActiveRecord::Base
 
   validates :report_sheet, presence: true
 
-  scope :not_final, includes(:report_sheet).where("report_sheets.orchestra_id is null")
+  scope :not_final, ->{ includes(:report_sheet).where("report_sheets.orchestra_id is null") }
 
   def self.new_for_orchestra(orchestra,year)
 

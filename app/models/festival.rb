@@ -2,7 +2,7 @@ class Festival < ActiveRecord::Base
   include Authority::Abilities
 	belongs_to :state, :foreign_key => "bland"
 
-  scope :published, where('visible=1 and startdate >= now()')
+  scope :published, -> { where('visible=1 and startdate >= now()') }
 
   def self.search(search)
 	if (search)
