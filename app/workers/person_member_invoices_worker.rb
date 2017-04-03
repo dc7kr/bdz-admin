@@ -10,11 +10,11 @@ class PersonMemberInvoicesWorker  < AbstractInvoicesWorker
     letters = Array.new
     triggered_by = User.find(user_id)
 
-    @person_members = PersonMember.notinvoiced(year)
+    person_members = PersonMember.notinvoiced(year)
 
-    tool =  MailingTool.new(year, "gs", "RECHNUNG#{year}", "Beitragsrechnung #{year}")
+    mailing_tool =  MailingTool.new(year, "gs", "RECHNUNG#{year}", "Beitragsrechnung #{year}")
 
-	  @person_members.each do |pm|
+	  person_members.each do |pm|
       mglnr = pm.member.mglnr
 
       Rails.logger.debug("Gen invoice for: #{pm.member.mglnr}")
@@ -29,7 +29,7 @@ class PersonMemberInvoicesWorker  < AbstractInvoicesWorker
 
       add_mailer_params = { :year => year, :mglnr=>mglnr }
 
-      tool.deliver_mailing(InvoiceMail, pm.to_addressee, invoice_file,nil, letters, add_mailer_params)  
+      mailing_tool.deliver_mailing(InvoiceMail, pm.to_addressee, invoice_file,nil, letters, add_mailer_params)  
 		end
 
     pdf_filename = "#{datePrefix}-em-beitragsrechnungen.pdf"
@@ -46,6 +46,7 @@ class PersonMemberInvoicesWorker  < AbstractInvoicesWorker
   private 
   def create_invoice_booking(person, year, invoice, filename)
 		booking_txt = 'Beitrag '+person.tariff.description+' '+String(year)
+
 		booking = MemberAccountBooking.newInvoice(booking_txt,-1*invoice.sum,person.member.mglnr.to_s)
 		booking.member_id = person.member.id
     booking.booking_year=year
@@ -54,24 +55,10 @@ class PersonMemberInvoicesWorker  < AbstractInvoicesWorker
   end
 
   def personMemberInvoice(datePrefix, person,year,tw,sw)
-
-    mglnr = person.member.mglnr
- 
-    if ( person.tariff.amount == 0 )
-      Rails.logger.warning("Requested invoice generation with 0 amount: #{mglnr}")
-      return
-    end
-
-    invoice_type = "beitragsrechnung"
-
     invoice = person.gen_invoice(year)
+    invoice.save
 
-		tw.writeInvoice(invoice, 'gs',year)
-
-    work_pdf_file = tw.gen_pdf(invoice_type,datePrefix, mglnr)
-
-    workdir = BDZ_SETTINGS["invoice_workdir"]
-    invoice_file = archive_file(workdir,work_pdf_file,year)
+    invoice_file = invoice.gen_pdf(tw)
 
     create_invoice_booking(person, year, invoice, invoice_file.orig_filename)
     gen_dd_booking(sw, person, invoice, year)

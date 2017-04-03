@@ -16,13 +16,22 @@ module BulkMailHelper
 
     doc.render_file(tmpfile)
 
+    Rails.logger.info("Tempfile: "+tmpfile.path)
+
     tmpfile2 = Tempfile.new('mb_stamped')
 
     filled_filename = date_prefix+suffix+".pdf"
     file = MailingFile.new(filled_filename, filled_filename, year.to_s)
 
-    PDF::Toolkit.pdftk(tmpfile.path, "background", template.full_path, "output", tmpfile2.path)
-    PDF::Toolkit.pdftk("A="+tmpfile2.path, "B="+template.full_path, "cat", "A1", "B2-2", "output", file.full_path)
+    Rails.logger.debug("Output file: #{file.full_path}")
+
+    # this is the multipage case
+    #result = PDF::Toolkit.pdftk(tmpfile.path, "background", template.full_path, "output", tmpfile2.path)
+    #Rails.logger.debug("Result 1: #{result}")
+    #result = PDF::Toolkit.pdftk("A="+tmpfile2.path, "B="+template.full_path, "cat", "A1", "B1", "output", file.full_path)
+    #Rails.logger.debug("Result 2: #{result}")
+    
+    result = PDF::Toolkit.pdftk(tmpfile.path, "background", template.full_path, "output", file.full_path)
 
     return file
   end
@@ -49,7 +58,13 @@ module BulkMailHelper
     users = User.for_admin_notify
 
     base_url = cron_downloads_url
-    letters_url = base_url+"?year="+year+"&filename="+letterFile.orig_filename
+
+    letters_url = nil
+
+    if not letterFile.nil? then 
+      letters_url = base_url+"?year="+year+"&filename="+letterFile.orig_filename
+    end
+      
     dd_url=nil
 
     users.each do |user| 

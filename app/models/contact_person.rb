@@ -1,7 +1,11 @@
 class ContactPerson < ActiveRecord::Base
+
+  belongs_to :festival_application
   include CountryHelper
 
-  #attr_accessible :city, :country_code, :email, :first_name, :last_name, :phone, :salutation, :street, :zip,:country_code
+  def self.nested_params
+    [ :salutation, :first_name, :last_name, :street, :zip, :city, :country_code, :email, :phone ]
+  end
 
   validates :last_name, :first_name, :email, :phone, :presence => true
   validates :email, :email_format => true 
@@ -34,5 +38,21 @@ class ContactPerson < ActiveRecord::Base
 
   def event_class
     ContactEvent
+  end
+
+  def to_addressee
+    addressee = Addressee.new
+    addressee.email        = self.email
+    addressee.street       = self.street
+    addressee.zip          = self.zip
+    addressee.city         = self.city
+    addressee.country_code = self.country_code
+    addressee.id           = self.id
+    addressee.email        = self.email
+    addressee.event_entity_id = self.id
+    addressee.event_class = self.event_class
+    addressee.entity = self
+
+    addressee
   end
 end

@@ -1,3 +1,4 @@
+require 'rodf'
 class ReportSheet < ActiveRecord::Base
 
   validates_presence_of :report_date , :unless => lambda { self.orchestra.blank? }
@@ -17,6 +18,16 @@ class ReportSheet < ActiveRecord::Base
   validates_presence_of :zusatz_uv
   validates_presence_of :zusatz_ztg
 
+  has_one :member, through: :orchestra
+
+  has_one :regional_organization, through: :member
+
+  def self.for_regional_organization(year,regional_organization_id) 
+    lv = RegionalOrganization.find(regional_organization_id)
+    ids = lv.orchestras.pluck(:id)
+
+    ReportSheet.includes(:orchestra).where("orchestra_id in (?) and year=?", ids,year)
+  end
 
 
 	scope :final, lambda { |year| where('year = ? and orchestra_id is not null', year) }
@@ -107,8 +118,10 @@ class ReportSheet < ActiveRecord::Base
 
 		if (orchestra.is_coop? )
         then
-           return Prices.koopRate
-		elsif (orchestra.is_lorch? )
+           return Prices.coopRate
+    elsif orchestra.is_foreign_coop?
+      return Prices.foreignCoopRate
+		elsif orchestra.is_lorch? 
         then
             return Prices.lvOrchRate+(calcGemaCount)*Prices.lvMember
 		end
@@ -212,45 +225,48 @@ class ReportSheet < ActiveRecord::Base
   end
 
   def gen_invoice
-    @invoice = Invoice.new("#{orchestra.member.mglnr}-BEITRAG#{year}")
+    @invoice = Invoice.new
+    @invoice.invoice_type = "beitragsrechnung"
+    @invoice.invoice_date = Time.now
+    @invoice.number = "#{orchestra.member.mglnr}-BEITRAG#{year}"
     @invoice.customer = orchestra.to_customer
 
 		if ( orchestra.is_coop? ) then
-			@invoice << InvoiceItem.new(1,Prices.lvOrchRate,'Beitrag kooperativ')
+			@invoice.addItem(1,Prices.lvOrchRate,'Beitrag kooperativ')
 		elsif (orchestra.is_lorch? ) then
-			@invoice << InvoiceItem.new(1,Prices.lvOrchRate,'Landesorchesterbeitrag')
+			@invoice.addItem(1,Prices.lvOrchRate,'Landesorchesterbeitrag')
 			count = calcGemaCount
 			if ( count > 0 ) then
-				@invoice << InvoiceItem.new(count,Prices.lvMember,'GEMA+Haftpflichtbeitrag je Mitglied')
+				@invoice.addItem(count,Prices.lvMember,'GEMA+Haftpflichtbeitrag je Mitglied')
 			end
 		else
 			if ( isMinTariff? or isMaxTariff? ) then
-				@invoice << InvoiceItem.new(children,0, 'Beitrag Kinder')
-				@invoice << InvoiceItem.new(teens,0, 'Beitrag Jugendliche 15-18')
-				@invoice << InvoiceItem.new(youth,0, 'Beitrag Erwachsene 19-27')
-				@invoice << InvoiceItem.new(adult,0, 'Beitrag Erwachsene')
-				@invoice << InvoiceItem.new(senior,0, 'Beitrag Erwachsene 55+')
+				@invoice.addItem(children,0, 'Beitrag Kinder')
+				@invoice.addItem(teens,0, 'Beitrag Jugendliche 15-18')
+				@invoice.addItem(youth,0, 'Beitrag Erwachsene 19-27')
+				@invoice.addItem(adult,0, 'Beitrag Erwachsene')
+				@invoice.addItem(senior,0, 'Beitrag Erwachsene 55+')
 			else
-				@invoice << InvoiceItem.new(children,Prices.childrenRate, 'Beitrag Kinder')
-				@invoice << InvoiceItem.new(teens,Prices.teensRate, 'Beitrag Jugendliche 15-18')
-				@invoice << InvoiceItem.new(youth,Prices.youthRate, 'Beitrag Erwachsene 19-27')
-				@invoice << InvoiceItem.new(adult,Prices.adultRate, 'Beitrag Erwachsene')
-				@invoice << InvoiceItem.new(senior,Prices.seniorRate, 'Beitrag Erwachsene 55+')
+				@invoice.addItem(children,Prices.childrenRate, 'Beitrag Kinder')
+				@invoice.addItem(teens,Prices.teensRate, 'Beitrag Jugendliche 15-18')
+				@invoice.addItem(youth,Prices.youthRate, 'Beitrag Erwachsene 19-27')
+				@invoice.addItem(adult,Prices.adultRate, 'Beitrag Erwachsene')
+				@invoice.addItem(senior,Prices.seniorRate, 'Beitrag Erwachsene 55+')
 			end
 
 			if ( isMinTariff? ) then
-				@invoice << InvoiceItem.new(1,Prices.minTariff,'Mindestbeitrag')
+				@invoice.addItem(1,Prices.minTariff,'Mindestbeitrag')
 			elsif ( isMaxTariff? ) 
-				@invoice << InvoiceItem.new(1,Prices.maxTariff,'H{"o}chstbeitrag')
+				@invoice.addItem(1,Prices.maxTariff,'H{"o}chstbeitrag')
 			end
 		end
 
 		if ( uv ) then
-			@invoice << InvoiceItem.new(calcUvCount,Prices.uvRate, 'Unfallversicherung')
+			@invoice.addItem(calcUvCount,Prices.uvRate, 'Unfallversicherung')
 		end
 
     if ( delayed? ) then
-      @invoice << InvoiceItem.new(1,Prices.delayFee, I18n.t('report_sheet.delay_fee'))
+      @invoice.addItem(1,Prices.delayFee, I18n.t('report_sheet.delay_fee'))
     end
 
     @invoice
@@ -273,6 +289,76 @@ class ReportSheet < ActiveRecord::Base
 
   def update_stats(hash, key, value)
     hash[key]+= value unless value.nil?
+  end
+
+  def self.renderOds(report_sheets,filename)
+	  RODF::Spreadsheet.file(filename) do
+      table "Meldebögen"  do
+        row {
+          cell I18n.t("member.mglnr")
+          cell I18n.t("common.year")
+          cell I18n.t("helpers.label.report_sheet.children")
+          cell I18n.t("helpers.label.report_sheet.teens")
+          cell I18n.t("helpers.label.report_sheet.youth")
+          cell I18n.t("helpers.label.report_sheet.adult")
+          cell I18n.t("helpers.label.report_sheet.senior")
+          cell I18n.t("helpers.label.report_sheet.uv")
+          cell I18n.t("helpers.label.report_sheet.zusatz_uv")
+          cell I18n.t("helpers.label.report_sheet.gema")
+          cell I18n.t("helpers.label.report_sheet.azubi")
+          cell I18n.t("helpers.label.report_sheet.passive")
+          cell I18n.t("helpers.label.report_sheet.child_ens")
+          cell I18n.t("helpers.label.report_sheet.youth_ens")
+          cell I18n.t("helpers.label.report_sheet.adult_ens")
+          cell I18n.t("helpers.label.report_sheet.senior_ens")
+          cell I18n.t("helpers.label.report_sheet.chamber_ens")
+          cell I18n.t("helpers.label.report_sheet.other_ens")
+          cell I18n.t("helpers.label.report_sheet.azubi_child")
+          cell I18n.t("helpers.label.report_sheet.azubi_teens")
+          cell I18n.t("helpers.label.report_sheet.azubi_youth")
+          cell I18n.t("helpers.label.report_sheet.azubi_adult")
+          cell I18n.t("helpers.label.report_sheet.azubi_senior")
+          cell I18n.t("helpers.label.report_sheet.supporters")
+          cell I18n.t("helpers.label.report_sheet.zo")
+          cell I18n.t("helpers.label.report_sheet.zi_o")
+          cell I18n.t("helpers.label.report_sheet.go")
+          cell I18n.t("helpers.label.report_sheet.oz")
+        }
+
+        report_sheets.each do |rs|
+          row {
+            cell rs.orchestra.member.mglnr
+            cell rs.year
+            cell rs.children
+            cell rs.teens
+            cell rs.youth
+            cell rs.adult
+            cell rs.senior
+            cell rs.uv
+            cell rs.zusatz_uv
+            cell rs.gema
+            cell rs.azubi
+            cell rs.passive
+            cell rs.child_ens
+            cell rs.youth_ens
+            cell rs.adult_ens
+            cell rs.senior_ens
+            cell rs.chamber_ens
+            cell rs.other_ens
+            cell rs.azubi_child
+            cell rs.azubi_teens
+            cell rs.azubi_youth
+            cell rs.azubi_adult
+            cell rs.azubi_senior
+            cell rs.supporters
+            cell rs.zo
+            cell rs.zi_o
+            cell rs.go
+            cell rs.oz
+          }
+        end
+      end
+    end
   end
 
 

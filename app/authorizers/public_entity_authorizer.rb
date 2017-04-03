@@ -10,11 +10,11 @@ class PublicEntityAuthorizer < ApplicationAuthorizer
   end
 
   def self.editable_by?(user)
-    user.has_role? :admin
+    user.has_role? :admin or user.has_role? :national
   end
 
   def self.updatable_by?(user)
-    user.has_role? :admin
+    user.has_role? :admin or user.has_role? :national
   end
 
   def deletable_by?(user)
@@ -22,7 +22,7 @@ class PublicEntityAuthorizer < ApplicationAuthorizer
   end
 
   def editable_by?(user)
-    user.has_role? :admin
+    user.has_role? :admin or user.has_role? :national
   end
   def updatable_by?(user)
     user.has_role? :admin or user.has_role? :national

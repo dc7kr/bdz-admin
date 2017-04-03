@@ -70,7 +70,7 @@ class MailingTool
 
     if addressee.event_class.nil? then
       Rails.logger.info("Event class is nil.")
-      Rails.logger.warning("Mail sending failed: "+result)
+      Rails.logger.warn("Mail sending failed: "+result)
       return
     end
 

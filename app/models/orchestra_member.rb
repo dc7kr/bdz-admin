@@ -7,6 +7,16 @@ class OrchestraMember < ActiveRecord::Base
 	year - date_of_birth.year
   end
 
+  def is_birthday_valid? 
+    if date_of_birth.nil? then
+      false
+    elsif date_of_birth.year > Time.now.year then
+      false
+    else
+      true
+    end
+  end
+
   def is_dummy_birthday?
     if ( date_of_birth == nil ) then
       true

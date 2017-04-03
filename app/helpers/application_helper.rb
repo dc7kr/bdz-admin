@@ -88,9 +88,21 @@ def link_to_edit(entity, txt=nil)
 	if txt == nil then
 		txt = t('common.edit')
 	end
-    if can? :update, entity
-        link_to content_tag(:span,"",:class=>"glyphicon glyphicon-edit"), { :id=>entity, :action=>'edit'},:class =>"btn btn-xs btn-default"
-    end
+
+  
+  if entity.kind_of?(Array) then 
+    namespace = entity[0]
+    entity = entity[1]
+    path = "edit_#{namespace}_#{entity.class.name.singularize.underscore}_path"
+  else 
+    namespace = nil
+    path = "edit_#{entity.class.name.singularize.underscore}_path"
+  end
+
+  if can? :update, entity
+    link_to content_tag(:span,"",:class=>"glyphicon glyphicon-edit"), 
+          send(path, entity), :class =>"btn btn-xs btn-default"
+  end
 end
 
 
@@ -103,12 +115,14 @@ def label_or_default(txt, key)
 end
 
 def link_to_del_path(path, entity, remote=false, authorize=true, cfm=true,txt=nil, confirm=nil )
+
+  link_class = "delete-#{entity.class.model_name}"
 	txt=label_or_default(txt,'common.delete')
 	confirm=label_or_default(confirm,'common.confirm_delete')
     if can? :delete, entity or not authorize
       img = '/assets/icons/delete.png'
       img_hash = {:size=>'16x16',:alt=>txt,:title=>txt,:class=>'btn'}
-      link_to content_tag(:span,"",:class=>"glyphicon glyphicon-remove-sign"), path, :confirm => cfm ? confirm : nil, :method => :delete, :remote => remote,:class =>"btn btn-xs btn-danger"
+      link_to content_tag(:span,"",:class=>"glyphicon glyphicon-remove-sign"), path, :confirm => cfm ? confirm : nil, :method => :delete, :remote => remote,:class =>"btn btn-xs btn-danger #{link_class}"
     end
 end
 
@@ -451,6 +465,13 @@ JS1
       return "UNSUPPORTED: <#{type}>"
     end
   end
+
+  def custom_entity_row(label,value) 
+    content_tag :div, :class => "row" do
+      concat(content_tag(:div, content_tag(:label, label), :class => "col-md-3 text-right"))
+      concat(content_tag(:div, value,:class => "col-md-9"))
+    end
+  end
  
   def entity_row(entity, field,type=nil) 
     sym = entity.class.name.underscore.to_sym
@@ -477,10 +498,35 @@ JS1
         data = format_bool tmp
       elsif type == :url
         data = link_to tmp,tmp
+      elsif type == :select
+        data = "TODO"
+      elsif type == :country
+        ctry = ISO3166::Country[tmp]
+        if ctry.nil? then 
+          data = "---"
+        else
+          data = ctry.translations[I18n.locale.to_s]
+        end
       end 
 
       concat(content_tag(:div, label(sym, field), :class => "col-md-3 text-right"))
       concat(content_tag(:div, data,:class => "col-md-9"))
+    end
+  end
+
+  def invoice_item_row(item) 
+    content_tag :div, :class => "row" do
+      count = item.count
+
+      if count.nil? then
+        count = 0
+      end
+
+      concat(content_tag(:div, item.label, :class => "col-md-3 text-right"))
+      concat(content_tag(:div, count.to_s,:class => "col-md-1 text-right"))
+      concat(content_tag(:div, "x",:class => "col-md-1"))
+      concat(content_tag(:div, format_currency(item.price,'€'), :class => "col-md-2 text-right"))
+      concat(content_tag(:div, format_currency(count *item.price,'€'), :class => "col-md-2 text-right"))
     end
   end
 

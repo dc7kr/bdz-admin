@@ -2,6 +2,8 @@ require 'valid_email'
 class Orchestra < ActiveRecord::Base
   include Authority::Abilities
 
+  acts_as_paranoid
+
   has_one :member, as: :member_entity
   has_many :report_sheets
   has_many :orchestra_contacts
@@ -11,8 +13,39 @@ class Orchestra < ActiveRecord::Base
 
   validates_presence_of :orchName
 
-  scope :default, -> { includes(:member) }
-  scope :cancelled, -> { includes(:member).where("members.austritt_zum is not null and members.austritt_zum != '0000-00-00' and austritt_zum < now()") }
+  scope :cancelled, -> {
+    joins(:member).where("members.austritt_zum is not null and members.austritt_zum != '0000-00-00' and austritt_zum < now()") 
+  }
+
+  scope :regional, -> { where("orch_type = 'L' ") }  
+
+  scope :no_report_sheet, ->(year) { includes([:member]).joins('LEFT JOIN report_sheets ON report_sheets.orchestra_id = orchestras.id AND report_sheets.year='+String(year)).where(['report_sheets.id IS NULL']) }
+
+  def self.no_payment(before=nil)
+    data = MemberAccountBooking.unbalanced_before(before)
+
+    ids = data[:ids]
+    accounts = data[:accounts]
+
+    members = Member.includes(:member_entity).where("member_entity_type='Orchestra' and id in (?)",ids.to_a).order(:mglnr)
+
+    h = Hash.new
+
+    h[:members]=members
+    h[:accounts]=accounts
+
+    h
+  end
+
+  def self.for_mglnr(mglnr) 
+    member = Member.where("mglnr = ?",mglnr).take
+
+    if member.nil? or not member.member_entity.is_a?(Orchestra) then
+      nil
+    else
+      member.member_entity
+    end
+  end
 
   #has_many :current_report_sheet, :class_name => 'ReportSheet', :where => ['year = ?',Time.now.year]
 
@@ -26,9 +59,9 @@ class Orchestra < ActiveRecord::Base
 
   def self.mailForEvent(event,via_paper)
     if (via_paper) then
-			includes([:member]).joins("LEFT JOIN member_events e ON orchestras.member_id=e.member_id AND e.event_id='"+event+"'").where("e.id IS NULL")
+			joins([:member]).joins("LEFT JOIN member_events e ON members.id=e.member_id AND members.member_entity_id = orchestras.id AND members.member_entity_type='Orchestra' AND e.event_id='"+event+"'").where("e.id IS NULL")
     else
-			includes([:member]).joins("LEFT JOIN member_events e ON orchestras.member_id=e.member_id AND e.event_type='E' and e.event_id='"+event+"'").where("members.email IS NOT NULL and length(members.email) >3 and e.id IS NULL")
+			joins([:member]).joins("LEFT JOIN member_events e ON members.id=e.member_id AND members.member_entity_id = orchestras.id AND members.member_entity_type='Orchestra' AND e.event_type='E' and e.event_id='"+event+"'").where("members.email IS NOT NULL and length(members.email) >3 and e.id IS NULL")
     end
   end
 
@@ -54,8 +87,9 @@ class Orchestra < ActiveRecord::Base
   def inlineFullAddress
 	"#{fullname}, #{inlineAddress}"
   end
+
   def inlineAddress
-	"#{strasse}, #{plz} #{ort}"
+	"#{member.strasse}, #{member.plz} #{member.ort}"
   end
 
   def lastReportSheet
@@ -158,7 +192,7 @@ class Orchestra < ActiveRecord::Base
 
   # CSV
   comma :gema do
-	  mglnr 'Mitgliedsnummer'
+	  member.mglnr 'Mitgliedsnummer'
 	  orchName  'Orchestername'
     inlineFullAddress 'Adresse'
     gema 'Mitglieder'
@@ -212,6 +246,10 @@ class Orchestra < ActiveRecord::Base
 	  orch_type == 'K'
   end
 
+  def is_foreign_coop?
+    orch_type == 'A'
+  end
+
   def is_lorch?
 	  orch_type == 'L'
   end
@@ -238,10 +276,6 @@ class Orchestra < ActiveRecord::Base
 
   def has_event?(event_type,event_id)
 	  member.has_event?(event_type,event_id)
-  end
-
-  def t_country(locale=country_code)
-    member.t_country(locale)
   end
 
   def zero_member_fee_balance?
@@ -302,7 +336,6 @@ class Orchestra < ActiveRecord::Base
     cust = member.to_customer
     cust.entity = self
 
-    cust.name= fullname
     cust.company = orchName
     cust.account_owner = orchName
 

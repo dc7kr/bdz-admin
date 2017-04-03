@@ -32,15 +32,19 @@ class Distinction < ActiveRecord::Base
   end
 
 
-  def gen_invoice(number)
-    @invoice = Invoice.new(number)
-    @invoice.customer = orchestra.to_customer
-    @invoice << InvoiceItem.new(certificates,Prices.certificate,"Urkunden")
-    @invoice << InvoiceItem.new(silver_needles,Prices.silverNeedle, 'Silbernadel')
-    @invoice << InvoiceItem.new(gold_needles,Prices.goldenNeedle, 'Goldnadel')
-    @invoice << InvoiceItem.new(honorletters,Prices.honorLetter, 'Ehrenbrief mit Urkundenmappe')
-    @invoice << InvoiceItem.new(medals,Prices.medal, 'BDZ-Verdienstmedaille')
-    @invoice << InvoiceItem.new(national_needles,Prices.nationalNeedle, 'BDZ-Bundesnadel')
+  def gen_invoice
+    invoice = Invoice.new
+    invoice.invoice_type="ehrungsrechnung"
+    invoice.our_contact = "distinction"
+    invoice.customer = orchestra.to_customer
+    invoiceNumber = "E-"+Time.now.strftime("%Y%m%d-")+invoice.customer.customer_id
+    invoice.number = invoiceNumber
+    invoice.considerItem(certificates,Prices.certificate,"Urkunden")
+    invoice.considerItem(silver_needles,Prices.silverNeedle, 'Silbernadel')
+    invoice.considerItem(gold_needles,Prices.goldenNeedle, 'Goldnadel')
+    invoice.considerItem(honorletters,Prices.honorLetter, 'Ehrenbrief mit Urkundenmappe')
+    invoice.considerItem(medals,Prices.medal, 'BDZ-Verdienstmedaille')
+    invoice.considerItem(national_needles,Prices.nationalNeedle, 'BDZ-Bundesnadel')
 
     portoPrice = nil 
 
@@ -50,8 +54,12 @@ class Distinction < ActiveRecord::Base
       portoPrice = porto
     end
 
-    @invoice << InvoiceItem.new( 1, portoPrice , 'Porto und Verpackungskostenanteil')
+    invoice.considerItem( 1, portoPrice , 'Porto und Verpackungskostenanteil')
 
-    @invoice
+    invoice
+  end
+
+  def has_booking? 
+    not member_account_booking.nil?
   end
 end

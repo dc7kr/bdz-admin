@@ -2,11 +2,29 @@ class PersonMember < ActiveRecord::Base
   belongs_to :tariff
 
   validates_presence_of :tariff
-
+  
   has_one :member, as: :member_entity
   accepts_nested_attributes_for :member
 
-  scope :cancelled, includes(:member).where("members.austritt_zum is not null and members.austritt_zum != '0000-00-00' and austritt_zum < ?", Time.now)
+  def self.cancelled 
+    PersonMember.joins(:member).where("members.austritt_zum is not null and members.austritt_zum != '0000-00-00' and austritt_zum < ?", Time.now) 
+  end
+
+  def self.no_payment(before=nil)
+    data = MemberAccountBooking.unbalanced_before(before)
+
+    ids = data[:ids]
+    accounts = data[:accounts]
+
+    members = Member.includes(:member_entity).where("member_entity_type='PersonMember' and id in (?)",ids.to_a).order(:mglnr)
+
+    h = Hash.new
+
+    h[:members]=members
+    h[:accounts]=accounts
+
+    h
+  end
 
   def self.notinvoiced(year)
     joins(:member,:tariff).joins("LEFT JOIN member_account_bookings mb ON members.id=mb.member_id AND mb.booking_type='B' and mb.booking_year = #{year}" ).where("mb.id IS NULL and tariffs.amount >0").order("members.mglnr")
@@ -36,9 +54,9 @@ class PersonMember < ActiveRecord::Base
 
   def self.mailForEvent(event,via_paper)
     if ( via_paper ) then
-      includes([:member]).joins("LEFT JOIN member_events e ON person_members.member_id=e.member_id AND e.event_id='"+event+"'").where("e.id IS NULL").order("members.mglnr")
+			joins([:member]).joins("LEFT JOIN member_events e ON members.id=e.member_id AND members.member_entity_id = person_members.id AND members.member_entity_type='PersonMember' AND e.event_id='"+event+"'").where("e.id IS NULL").order("members.mglnr")
     else
-		  includes([:member]).joins("LEFT JOIN member_events e ON person_members.member_id=e.member_id AND e.event_type='E' and e.event_id='"+event+"'").where("members.email IS NOT NULL and length(members.email) >3 and e.id IS NULL").order("members.mglnr")
+			joins([:member]).joins("LEFT JOIN member_events e ON members.id=e.member_id AND members.member_entity_id = person_members.id AND members.member_entity_type='PersonMember' AND e.event_type='E' and e.event_id='"+event+"'").where("members.email IS NOT NULL and length(members.email) >3 and e.id IS NULL")
     end
   end
 
@@ -174,17 +192,28 @@ class PersonMember < ActiveRecord::Base
     cust = member.to_customer
     cust.entity = self
 
-    cust.name= fullname
     cust.account_owner = fullname
 
     cust
   end
 
-  def gen_invoice(year)
-    invoice = Invoice.new("Beitragsrechnung #{year}")
+  def gen_invoice
+
+    if ( self.tariff.amount == 0 )
+      Rails.logger.warning("Requested invoice generation with 0 amount: #{mglnr}")
+      return
+    end
+
+    year = Time.now.year
+
+    invoice = Invoice.new
+    invoice.invoice_date = Time.now
+    invoice.invoice_type = "beitragsrechnung"
+
+    invoice.number = "#{member.mglnr}-BEITRAG#{year}"
     invoice.customer = to_customer
 
-    invoice << InvoiceItem.new(1,tariff.amount, 'Beitrag '+ tariff.description)
+    invoice.addItem(1,tariff.amount, 'Beitrag '+ tariff.description)
 
     invoice
   end
@@ -193,11 +222,14 @@ class PersonMember < ActiveRecord::Base
     Member.nomail(PersonMember)
   end
 
-  def to_addresssee
+  def to_addressee
     addressee = member.to_addressee
     addressee.company      = self.company
     addressee.name         = self.fullname
     addressee.entity       = self
     addressee.event_class = self.event_class
+
+    addressee
   end
+
 end

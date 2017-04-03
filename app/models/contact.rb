@@ -2,6 +2,10 @@ class Contact < ActiveRecord::Base
 
   include CountryHelper
 
+  def self.nested_attributes
+    [:id, :company, :first_name, :last_name, :street, :zip, :city, :country_code, :salutation, :phone, :fax, :office_phone, :email ]
+  end
+
   belongs_to :contact_entity, polymorphic: true
 
   def to_s
@@ -23,4 +27,18 @@ class Contact < ActiveRecord::Base
     translated_country(country_code,locale)
   end
 
+  def to_customer
+    c = InvoiceCustomer.new
+    c.salutation  = salutation
+    c.first_name = vorname
+    c.last_name = name
+    c.entity = self
+    c.street = strasse
+    c.zip = plz
+    c.city = ort
+    c.email = email
+    c.country = country_code
+
+    c
+  end
 end

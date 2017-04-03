@@ -6,11 +6,13 @@ class FestivalApplication < ActiveRecord::Base
   has_many :festival_pieces
   has_many :festival_application_attachments
   has_one :event_meal, :foreign_key => 'participant_id'
+  has_one :contact_person
 
   accepts_nested_attributes_for :festival_pieces, :allow_destroy => :true
 
+  validates_presence_of :conductor, :num_players, :orch_name
 
-  belongs_to :contact_person
+
   belongs_to :orchestra
   belongs_to :festival_concert
 
@@ -29,7 +31,10 @@ class FestivalApplication < ActiveRecord::Base
 
 
   def to_customer
-    cust = Customer.new(id, contact_person.fullname, false)
+    cust = InvoiceCustomer.new
+    cust.customer_id = id
+    cust.direct_debit = false
+
     cust.id = id
     cust.entity = self
 
@@ -39,10 +44,10 @@ class FestivalApplication < ActiveRecord::Base
     cust.bic=nil
     cust.sig_date = nil
 
-    cust.salutation = contact_person.salutation
-
     cust.company = orch_name
-    cust.name = contact_person.fullname
+    cust.salutation = contact_person.salutation
+    cust.first_name = contact_person.first_name
+    cust.last_name = contact_person.last_name
     cust.street = contact_person.street
     cust.zip = contact_person.zip
     cust.city = contact_person.city
@@ -55,8 +60,8 @@ class FestivalApplication < ActiveRecord::Base
     prices = BDZ_SETTINGS["festival_prices"]
     ts = Time.now.strftime "%Y%m%d"
 
-    germany = Country["DE"]
-    austria = Country["AT"]
+    germany = ISO3166::Country["DE"]
+    austria = ISO3166::Country["AT"]
 
     renr = ts+"-TLN#{id}"
     if (contact_person.country_code == germany.alpha2 or country_code == austria.alpha2) then 
@@ -65,7 +70,8 @@ class FestivalApplication < ActiveRecord::Base
       locale = :en
     end
 
-    inv = Invoice.new(renr)
+    inv = Invoice.new
+    inv.number = renr
     inv.customer = to_customer
     inv.considerItem(tickets,prices["fest"],I18n.t("event_card.fest", :locale=>locale))
     inv.considerItem(tickets_red,prices["fest_erm"],I18n.t("event_card.fest_erm",:locale=>locale))
@@ -76,5 +82,9 @@ class FestivalApplication < ActiveRecord::Base
     end
 
     inv
+  end
+
+  def to_param
+    self.token
   end
 end

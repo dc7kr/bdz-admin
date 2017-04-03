@@ -2,6 +2,8 @@ require 'blz_validator'
 require 'iban_validator'
 
 class Member < ActiveRecord::Base
+
+  acts_as_paranoid
   #acts_as_superclass
   resourcify
   #include Authority::Abilities
@@ -100,7 +102,11 @@ class Member < ActiveRecord::Base
 
   def to_customer
     dd = is_direct_debit? 
-    c = Customer.new(mglnr, name, dd)
+    c = InvoiceCustomer.new
+    c.customer_id = mglnr
+    c.direct_debit = dd
+    c.first_name = vorname
+    c.last_name = name
     c.entity = self
     c.street = strasse
     c.zip = plz
@@ -208,11 +214,22 @@ class Member < ActiveRecord::Base
     addressee.email        = self.email
     addressee.street       = self.strasse
     addressee.zip          = self.plz
+    addressee.city         = self.ort
     addressee.country_code = self.country_code
     addressee.id           = self.mglnr
     addressee.email        = self.email
     addressee.event_entity_id = self.id
 
     addressee
+  end
+
+  def last_payment
+    booking = member_account_bookings.where("booking_type = ? or booking_type = ? ","A","L").order("booking_date desc").first
+
+    if booking.nil? then 
+      nil
+    else
+      booking.booking_date
+    end
   end
 end

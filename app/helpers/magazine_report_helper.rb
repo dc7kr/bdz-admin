@@ -1,10 +1,10 @@
-require 'odf/spreadsheet'
+require 'rodf'
 
 module MagazineReportHelper
 
   def renderPersonMembersMagazineListOds(filename,person_members)
 
-    ODF::Spreadsheet.file(filename) do
+    RODF::Spreadsheet.file(filename) do
 
       table "EM" do
         row {
@@ -13,7 +13,7 @@ module MagazineReportHelper
           cell ""
           cell ""
           cell I18n.t("member.fullname")
-          cell I18n.t("member.street")
+          cell I18n.t("member.strasse")
           cell I18n.t("contact.zip")
           cell I18n.t("contact.city")
           cell I18n.t("country")
@@ -41,7 +41,7 @@ module MagazineReportHelper
   end
   
   def renderSamplingListOds(filename,samplings)
-    ODF::Spreadsheet.file(filename) do
+    RODF::Spreadsheet.file(filename) do
       table "Samplings"  do |t|
         t.row {
           cell "Lfd Nr"
@@ -73,7 +73,7 @@ module MagazineReportHelper
   
   def renderOrchestraMagazineListOds(filename,orchestras)
 
-    ODF::Spreadsheet.file(filename) do
+    RODF::Spreadsheet.file(filename) do
 
       table "Orchester" do
         row {

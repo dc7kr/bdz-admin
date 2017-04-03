@@ -78,6 +78,8 @@ class OrchestraInvoicesWorker < AbstractInvoicesWorker
 
     invoice = sheet.gen_invoice
 
+    invoice.save
+
 		tw.writeInvoice(invoice, 'gs',year)
 
     work_pdf_file = tw.gen_pdf(invoice_type,datePrefix, mglnr)

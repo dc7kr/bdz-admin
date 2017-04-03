@@ -1,5 +1,11 @@
+require 'iban_validator'
+
 class Advertiser < ActiveRecord::Base
 	#attr_accessible :advert_type
+
+  validates :iban, :iban => true
+  validates :bic, :bic => true
+  validates_uniqueness_of :customer_number
 
   has_one :contact, as: :contact_entity
 
@@ -19,5 +25,11 @@ class Advertiser < ActiveRecord::Base
 
   def fullname
    contact.fullname
+  end
+
+  def to_customer
+    c = InvoiceCustomer.new
+
+    c
   end
 end

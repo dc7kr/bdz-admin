@@ -1,0 +1,25 @@
+de:
+  member:
+    one: Mitglied
+    other: Mitglieder
+    nopayment: Säumige Zahler
+    nonzero_balance: "Zahlungsrückstand im Beitragskonto!"
+    is_direct_debit: "Lastschrift"
+    notinvoiced: Keine Rechnung
+    invalid_mail: Ungültige Mailadresse
+    mglnr: Mitgl.-Nr.
+    eintritt: Eintritt
+    austritt_zum: Austritt zum
+    salutation: Anrede
+    za: Zahlungsart
+    lv: Landesverband
+    konto: Konto-Nr.
+    blz: BLZ
+    zahler: Konto-Inhaber
+    vorname: Vorname
+    kuendigungErfasst: Kündigung erfasst
+    comment: Bemerkung
+    fullname: Name
+    kuendigung_vom: Kündigung vom
+
+

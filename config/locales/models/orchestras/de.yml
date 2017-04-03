@@ -1,0 +1,29 @@
+de:
+  orchestra:
+    one: Orchester
+    other: Orchester
+    create_success: "Orchester erfolgreich angelegt."
+    regional_orchestra:
+      one: Landesorchester      
+      other: Landesorchester
+    noreport: Kein Meldebogen
+    search: "Suche nach Mitgliedsnummer oder Teil des Orchesternamens"
+    update_success: "Orchester wurde erfolgreich aktualisiert."
+    orch_type: Orchestertyp
+    koopMitglied: Kooperativ
+    schreibenVom: Schreiben vom 
+    bemerkung: Bemerkung
+    eMail: E-Mail
+    url: Homepage
+    zweitanschrift: Zweitanschrift
+    name2: Zweiter Name 	
+    type_O: Vereinsorchester
+    type_K: Kooperativ
+    type_L: Landesorchester
+    member_account: Mitgliedskonto
+    contact: Kontakt
+    invalid_report_sheet_upload: "Das hochgeladene Dokument konnte nicht verarbeitet werden! Bitte verwenden Sie ausschließlich die Originalvorlage."
+    err_invalid_report_sheet_upload: "Ungültiges Dateiformat hochgeladen!"
+    report_sheet_upload_success: "%{success} Mitgliedsdaten erfolgreich hochgeladen!"
+    report_sheet_upload_warning: "%{success} Datensätze OK, %{error} Datensätze waren fehlerhaft!"
+

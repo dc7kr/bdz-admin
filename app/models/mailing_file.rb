@@ -9,6 +9,10 @@ class MailingFile
     end
   end
 
+  def to_hash
+    self.instance_values
+  end
+
   def initialize(filename,orig_filename,archive_folder=nil)
     @visible_filename = filename
     @orig_filename = orig_filename

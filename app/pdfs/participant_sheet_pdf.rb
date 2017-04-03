@@ -21,17 +21,17 @@ class ParticipantSheetPdf < Prawn::Document
   end
   
   def head(app)
-    text "#{@view.t('event_meal.participant_id')} #{app.id}", size: 20, style: :bold
-    text "#{app.orch_name} (#{@view.t('festival_application.group_types.'+app.group_type)})", size: 20, style: :bold
+    text "#{I18n.t('event_meal.participant_id')} #{app.id}", size: 20, style: :bold
+    text "#{app.orch_name} (#{I18n.t('festival_application.group_types.'+app.group_type)})", size: 20, style: :bold
 
     if app.event_meal.nil? or app.event_meal.arrival_time.nil? then
       text "Unknown arrival time."
     else
-      text "#{@view.t('event_meal.arrival_time')} #{@view.l app.event_meal.arrival_time}"
+      text "#{I18n.t('event_meal.arrival_time')} #{@view.l app.event_meal.arrival_time}"
     end
 
     move_down 20
-    text "#{@view.t('contact_person.phone')}:", size:14, style: :bold
+    text "#{I18n.t('contact_person.phone')}:", size:14, style: :bold
 
     if app.payment_status !=  'S' then
       if (@invoice.sum < 0 ) then
@@ -57,7 +57,7 @@ class ParticipantSheetPdf < Prawn::Document
 
   def invoice(appl)
     move_down 20
-    text @view.t('participant_sheet.tickets') , style: :bold,:size=>14
+    text I18n.t('participant_sheet.tickets') , style: :bold,:size=>14
 	  rows = Array.new
     count = 0
 
@@ -77,9 +77,9 @@ class ParticipantSheetPdf < Prawn::Document
     end
 
     if appl.payment_status == 'S' then
-      rows << [ count, @view.t("common.sum"),"","" ]
+      rows << [ count, I18n.t("common.sum"),"","" ]
     else
-      rows << [ count, @view.t("common.sum"),"",@view.format_currency(@invoice.sum,'EUR') ]
+      rows << [ count, I18n.t("common.sum"),"",@view.format_currency(@invoice.sum,'EUR') ]
     end
 
     table rows do
@@ -94,21 +94,28 @@ class ParticipantSheetPdf < Prawn::Document
 
     move_down 20
     if not @appl.soloist_tickets.nil? and @appl.soloist_tickets > 0 then
-      text "#{@appl.soloist_tickets} #{@view.t("festival_application.soloist_tickets")}"
+      text "#{@appl.soloist_tickets} #{I18n.t("festival_application.soloist_tickets")}"
     end
   end
 
   def performance(app)
     move_down 20
-    text @view.t('participant_sheet.performance') , style: :bold
+    text I18n.t('participant_sheet.performance') , style: :bold
 
-    text "#{@view.t('festival_application.num_players')} #{app.num_players}" 
-    text "#{@view.t('festival_application.festival_concert_id')} #{app.festival_concert.title} #{@view.l app.festival_concert.event_time}" 
+    text "#{I18n.t('festival_application.num_players')} #{app.num_players}" 
+    concert = app.festival_concert
+
+    if not concert.nil? then
+      text "#{I18n.t('festival_application.festival_concert_id')} #{app.festival_concert.title} #{@view.l app.festival_concert.event_time}" 
+    else
+      text "#{I18n.t('festival_application.festival_concert_id')} N/A"
+    end
+
     if not app.rehearsal_time.nil? 
-      text "#{@view.t('festival_application.rehearsal_time')} #{app.rehearsal_time.localtime.strftime("%H:%M")}" 
+      text "#{I18n.t('festival_application.rehearsal_time')} #{app.rehearsal_time.localtime.strftime("%H:%M")}" 
     end
     if not app.stage_time.nil?
-      text "#{@view.t('festival_application.stage_time')} #{app.stage_time.strftime("%H:%M")}"
+      text "#{I18n.t('festival_application.stage_time')} #{app.stage_time.strftime("%H:%M")}"
     end
   end
   def food(app)
@@ -119,9 +126,9 @@ class ParticipantSheetPdf < Prawn::Document
       text "KEINE ESSENSMELDUNG!", style: :bold, size: 20
       restore_stroke_and_fill
     else 
-      text @view.t('participant_sheet.food') , style: :bold
-      text "#{@view.t('participant_sheet.meals')} #{app.event_meal.tln}" 
-      text "#{@view.t('event_meal.veg')} #{app.event_meal.veg}" 
+      text I18n.t('participant_sheet.food') , style: :bold
+      text "#{I18n.t('participant_sheet.meals')} #{app.event_meal.tln}" 
+      text "#{I18n.t('event_meal.veg')} #{app.event_meal.veg}" 
     end
   end
 
@@ -130,7 +137,7 @@ class ParticipantSheetPdf < Prawn::Document
     if value.nil? or value ==0 
       return
     end
-    text "#{@view.t(label)} #{value}"
+    text "#{I18n.t(label)} #{value}"
   end
 
   def body(app)

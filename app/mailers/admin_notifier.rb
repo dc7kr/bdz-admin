@@ -26,6 +26,7 @@ class AdminNotifier < ActionMailer::Base
   end
 
   def new_custom_info_mail_notification(user, letters_url, results, triggered_by)
+    @recipient = user
     @results = results
     @letterUrl = letters_url
     @triggeredBy = triggered_by
@@ -49,23 +50,26 @@ class AdminNotifier < ActionMailer::Base
     mail(:to => user.email, :subject => "BDZ LV Beitragsanteile SEPA CT")
   end
   
-  def newdistinction_notification(sepafile, invnr, customer)
+  def newdistinction_notification(invoice)
     @sepafile_url = sepafile
-	  @is_direct_debit = customer.is_direct_debit?
 
-	  @invoice_number = invnr
-	  @mglnr = customer.id
+	  @is_direct_debit = invoice.customer.is_direct_debit?
 
+	  @invoice_number = invoice.number
+	  @mglnr = invoice.customer.customer_id
+
+    name = nil
+    user= nil
     if ENV["RAILS_ENV"] == "production" 
-      @name = BDZ_SETTINGS['contacts']['treasurer']['name']
-      @user =	BDZ_SETTINGS['contacts']['treasurer']['mail'] 
+      name = BDZ_SETTINGS['contacts']['treasurer']['name']
+      user =	BDZ_SETTINGS['contacts']['treasurer']['mail'] 
     else
-      @name = BDZ_SETTINGS['contacts']['admin']['name']
-      @user = BDZ_SETTINGS['contacts']['admin']['mail']
+      name = BDZ_SETTINGS['contacts']['admin']['name']
+      user = BDZ_SETTINGS['contacts']['admin']['mail']
     end
     
-    @cc = BDZ_SETTINGS['contacts']['admin']['mail']
+    cc = BDZ_SETTINGS['contacts']['admin']['mail']
 
-    mail(:to => @user, :cc => @cc, :subject => "Neue Ehrungsrechnung Nr. "+invnr);
+    mail(:to => user, :cc => cc, :subject => "Neue Ehrungsrechnung Nr. "+invnr);
   end
 end

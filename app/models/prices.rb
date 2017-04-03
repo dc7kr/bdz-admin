@@ -85,8 +85,12 @@ class Prices
 	def self.lvMember
 		return BDZ_SETTINGS['tariff']['lvMember'].to_f
 	end
-	def self.koopRate
+	def self.coopRate
 		return BDZ_SETTINGS['tariff']['koop'].to_f
+	end
+
+	def self.foreignCoopRate
+		return BDZ_SETTINGS['tariff']['foreign_coop'].to_f
 	end
 
   	def self.ztgRate

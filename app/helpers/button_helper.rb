@@ -6,7 +6,7 @@ module ButtonHelper
   end
   def link_to_download_path(txt,path,entity)
     if entity.has_attachment? and can? :read, entity then
-      link_to content_tag(:span,"",:class=>"glyphicon glyphicon-download"),path,:class =>"btn btn-xs btn-default"
+      link_to content_tag(:span,"",:class=>"glyphicon glyphicon-download"),path,:class =>"btn btn-xs btn-default", data: { turbolinks:false }
     end
   end
 
@@ -46,9 +46,20 @@ module ButtonHelper
       if  confirm.nil? then 
         confirm = t('common.delete_confirm')
       end
+
+      if entity.kind_of?(Array)
+        namespace = entity[0]
+        entity = entity[1]
+        path = "#{namespace}_#{entity.class.name.singularize.underscore}_path" 
+      else
+        namespace = nil
+        path= "#{entity.class.name.singularize.underscore}_path"
+      end
+
       if can? :delete, entity
         #link_to content_tag(:span,"",:class=>"glyphicon glyphicon-remove"), {:id=> entity,:action=> 'destroy'}, method: :delete, :remote=>true, data: {confirm: confirm }, :class=>"btn btn-xs btn-danger"
-        link_to content_tag(:span,"",:class=>"glyphicon glyphicon-remove"), {:id=> entity,:action=> 'destroy'}, method: :delete, remote: true, data: {confirm: confirm }, class: "btn btn-xs btn-danger"
+        link_to content_tag(:span,"",:class=>"glyphicon glyphicon-remove"), 
+        send(path, entity), method: :delete, remote: true, data: {confirm: confirm }, class: "btn btn-xs btn-danger"
       end
   end
 

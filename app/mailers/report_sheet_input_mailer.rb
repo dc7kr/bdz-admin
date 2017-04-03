@@ -7,8 +7,9 @@ class ReportSheetInputMailer < ActionMailer::Base
     @year = @rsi.report_sheet.year.to_s
 
     @orchestra = @rsi.orchestra
+    member = @orchestra.member
 
-    @salutation = t('common.salutation_full.'+@orchestra.anrede)
+    @salutation = t('common.salutation_full.'+member.anrede)
 
     @url = BDZ_SETTINGS['meldebogen_url']
 

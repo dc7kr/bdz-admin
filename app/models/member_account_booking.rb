@@ -25,8 +25,12 @@ class MemberAccountBooking < ActiveRecord::Base
 		return @booking
   end
 
-	def self.newDistinctionInvoice(txt,amount,mglnrStr)
-		return genericType(txt,'ehrungsrechnung','E',amount,mglnrStr)
+	def self.newDistinctionInvoice(txt,amount,mglnrStr,pdf)
+		booking = genericType(txt,'ehrungsrechnung','E',amount,mglnrStr)
+
+    booking.filename=pdf.orig_filename
+
+    booking
 	end
 
 	def self.newInvoice(txt,amount,mglnrStr)
