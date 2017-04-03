@@ -47,20 +47,20 @@ class TexWriter
 		end
   end
 
-	def writeReportSheetReminderData(member)
+	def writeReportSheetReminderData(customer)
 		File.open(TexWriter.workdir+"/variables.tex", 'w') {|f| 
 			writeOurData(f,'gs')
-			writeCommon(f,member.to_customer)
+			writeCommon(f,customer)
 			intwo= I18n.l(14.days.from_now.to_date , :format => :long)
 			f.write('\newcommand{\inTwoWeeks}{'+intwo+"}\n")
 		}
   end
 
-	def writeReminderData(member,bookings)
+	def writeReminderData(customer,bookings)
 
 		File.open(TexWriter.workdir+"/variables.tex", 'w') {|f| 
 			writeOurData(f,'treasurer')
-			writeCommon(f,member.to_customer)
+			writeCommon(f,customer)
 			intwo= I18n.l(14.days.from_now.to_date , :format => :long)
 			f.write('\newcommand{\inTwoWeeks}{'+intwo+"}\n")
 		}
@@ -77,7 +77,7 @@ class TexWriter
 			f.write("\\hline\n")
 			f.write('\textbf{Summe} & & \textbf{'+format_currency(sum,"EUR")+"}\\\\\n")
 		}
-    end
+  end
 
 	def write(member,year) 
 		File.open(TexWriter.workdir+"/variables.tex", 'w') do |f| 
@@ -102,7 +102,7 @@ class TexWriter
 		if ( customer.company.nil?)
 			f.write('\newcommand{\firma}{}'+"\n")
 		else
-			f.write('\newcommand{\firma}{'+breakName(customer.company)+'}'+"\n")
+			f.write('\newcommand{\firma}{'+breakName(tex_escape(customer.company))+'}'+"\n")
 		end
 		f.write('\newcommand{\name}{'+"#{customer.fullname}}\n")
 		f.write('\newcommand{\strasse}{'+"#{customer.street}}\n")
@@ -209,5 +209,9 @@ class TexWriter
 		system("/opt/bdz-rechnung/bin/rechnung.sh #{invoice_type} #{datePrefix} #{customer_id}")
 
     out_file
+  end
+
+  def tex_escape(text)
+    text.gsub(/\"([a-zA-z0-9]+)\"/, '\glqq \1\grqq ')
   end
 end
