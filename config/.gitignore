@@ -1,4 +1,5 @@
 bdz-settings.yml
 database.yml
+mongoid.yml
 redis.yml
 secrets.yml
