@@ -111,4 +111,8 @@ class Public::EventMealsController < Public::ApplicationController
       end
     end
   end
+
+  def event_meal_params
+    require(:event_meal).permit( :orchName, :url, :gruendung, :orch_type, :bemerkung, :zweitanschrift, :name2, :kuendigungErfasst ,member_attributes: Member.nested_params) 
+  end
 end

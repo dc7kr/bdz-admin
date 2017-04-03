@@ -29,7 +29,7 @@ class RegionalOrganizationBookingsController < AuthenticatedController
 
   # GET /regional_organization_bookings/1/edit
   def edit
-	@regional_organization = RegionalOrganization.find(params[:regional_organization_id])
+	  @regional_organization = RegionalOrganization.find(params[:regional_organization_id])
     @booking = RegionalOrganizationBooking.find(params[:id])
   end
 

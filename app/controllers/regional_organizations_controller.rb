@@ -1,15 +1,15 @@
 
-class RegionalOrganizationsController < AuthenticatedController
+class RegionalOrganizationsController < AuthorityController
   before_action :set_regional_organization, only: [:show, :edit, :update, :destroy]
   # GET /regional_organizations
   # GET /regional_organizations.json
   before_filter :authenticate_user!#, :except => [:index]
 
   authority_actions :orch=> 'read'
-  authority_actions :share_overview => 'update'
+  authority_actions :share_overview => 'read'
 
   def index
-
+    @regional_organizations = RegionalOrganizationAuthorizer.readable_by(current_user)
     respond_to do |format|
       format.html # index.html.erb
       format.json { render :json => @regional_organizations }
@@ -19,6 +19,8 @@ class RegionalOrganizationsController < AuthenticatedController
   # GET /regional_organizations/1
   # GET /regional_organizations/1.json
   def show
+    # set by before filter 
+    authorize_action_for(@regional_organization)
 
 	  @lastYear = Time.now.year-1
 
@@ -44,7 +46,8 @@ class RegionalOrganizationsController < AuthenticatedController
 
   # GET /regional_organizations/1/edit
   def edit
-    @regional_organization = RegionalOrganization.find(params[:id])
+    # set by before filter 
+    authorize_action_for(@regional_organization)
   end
 
   # POST /regional_organizations
@@ -92,8 +95,8 @@ class RegionalOrganizationsController < AuthenticatedController
   end
 
   def share_overview
-    @regional_organizations = RegionalOrganization.all
-    authorize_action_for RegionalOrganization
+    @regional_organizations = RegionalOrganizationAuthorizer.readable_by(current_user)
+    authorize_action_for @regional_organizations.first
     @year = params[:year]
 
     if @year.nil? then
@@ -117,6 +120,7 @@ class RegionalOrganizationsController < AuthenticatedController
     @s[:lv_orch_sum]=0
     @s[:dd_em_sum]= 0
     @s[:dd_sum]= 0
+    @s[:dd_uv_sum]= 0
     @s[:dd_orch_sum]= 0
     @s[:full_sum]= 0
 
@@ -131,7 +135,7 @@ class RegionalOrganizationsController < AuthenticatedController
       @s[:dd_sum]+= share[:dd_em_part]+share[:dd_orch_part] 
       @s[:dd_em_sum]+= share[:dd_em_part]
       @s[:dd_orch_sum]+= share[:dd_orch_part]
-      @s[:dd_uv_sum]= share[:dd_uv] 
+      @s[:dd_uv_sum]+= share[:dd_uv] 
 
       @regional_organization_shares << share
 

@@ -59,7 +59,9 @@ class EnsemblesController < AuthenticatedController
   # POST /ensembles
   # POST /ensembles.json
   def create
-    @ensemble = Ensemble.new(params[:ensemble])
+    @ensemble = Ensemble.new(ensemble_params)
+
+    @ensemble.owner = current_user.id
 
     respond_to do |format|
       if @ensemble.save
@@ -78,7 +80,7 @@ class EnsemblesController < AuthenticatedController
     @ensemble = Ensemble.find(params[:id])
 
     respond_to do |format|
-      if @ensemble.update_attributes(params[:ensemble])
+      if @ensemble.update_attributes!(ensemble_params)
         format.html { redirect_to @ensemble, :notice => 'Ensemble was successfully updated.' }
         format.json { head :ok }
       else
@@ -109,5 +111,10 @@ class EnsemblesController < AuthenticatedController
   def sort_column
     Ensemble.column_names.include?(params[:sort]) ? params[:sort] : "name"
   end
-  
+
+
+  private
+  def ensemble_params
+    params.require(:ensemble).permit(:name, :mglnr, :homepage, :beschreibung, :email, :visible)
+  end
 end

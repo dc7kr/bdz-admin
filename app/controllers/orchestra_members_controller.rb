@@ -21,6 +21,11 @@ class OrchestraMembersController < AuthenticatedController
       format.html # index.html.erb
       format.json { render json: @orchestra_members }
 	    format.js
+      format.ods {
+        filename = gen_sheet(@orchestra_members)
+        Rails.logger.debug("TMP File 2: "+ filename)
+        send_file(filename, :filename => "orchestra_members.ods", :type => "application/octet-stream")
+      }
     end
   end
 
@@ -64,6 +69,7 @@ class OrchestraMembersController < AuthenticatedController
 
   # GET /orchestra_members/1/edit
   def edit
+    session[:return_to] ||= request.referer
     @orchestra_member = OrchestraMember.find(params[:id])
 	@orchestra = Orchestra.find(@orchestra_member.orchestra)
   end
@@ -93,7 +99,8 @@ class OrchestraMembersController < AuthenticatedController
 
     respond_to do |format|
       if @orchestra_member.update(orchestra_member_params)
-        format.html { redirect_to orchestra_orchestra_member_path(@orchestra_member.orchestra,@orchestra_member), notice: t('orchestra_member.update_success') }
+        format.html { 
+          redirect_to session.delete(:return_to), notice: t('orchestra_member.update_success') }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -119,31 +126,48 @@ class OrchestraMembersController < AuthenticatedController
   end
 
   def check_double
-    @orchestra_members = OrchestraMember.where("orchestra_id = ?", params[:orchestra_id])
+    @orchestra = Orchestra.find(params[:orchestra_id])
+    @orchestra_members = @orchestra.orchestra_members
 
-	@faulty_members = Array.new
-	@checked_members = Array.new
-	@orchestra = Orchestra.find(params[:orchestra_id])
-	@orchestra_members.each do |o|
-		if o.mglnr != nil and o.mglnr != 0 then
-			orch = Orchestra.joins(:member).where("members.mglnr = ?",o.mglnr)	
+    @current_report_sheet = @orchestra.currentReportSheet
+    @needs_update = false
 
-			if (orch != nil and orch[0] != nil ) then
-				Rails.logger.info("Found orchestra")
-				@matching = OrchestraMember.where("orchestra_id = ? and first_name like ? and last_name like ?",orch[0].id,o.first_name,o.last_name)
+    @faulty_members = Array.new
+    @checked_members = Array.new
+    @neutral_members = Array.new
 
-				if ( @matching != nil and @matching[0] != nil ) then 
-					@checked_members << @matching[0]
-				else 
-					@faulty_members << o
-				end
-			else
-				Rails.logger.info("Invalid mglnr: "+o.mglnr.to_s)
-				@faulty_members << o
-			end
-		end
-	end
-	
+    @orchestra_members.each do |o|
+      if o.mglnr != nil and o.mglnr != 0 and o.mglnr != @orchestra.member.mglnr then
+        orch = Orchestra.joins(:member).where("members.mglnr = ?",o.mglnr)	
+
+        if (orch != nil and orch[0] != nil ) then
+          Rails.logger.info("Found orchestra")
+          @matching = OrchestraMember.where("orchestra_id = ? and first_name like ? and last_name like ?",orch[0].id,o.first_name,o.last_name).first
+
+          if ( @matching != nil  ) then 
+            other_orch = @matching.orchestra
+
+            if other_orch.is_coop? or other_orch.is_lorch? then
+              @faulty_members << o 
+            else
+              @checked_members << o
+            end
+          else 
+            @faulty_members << o
+          end
+        else
+          Rails.logger.info("Invalid mglnr: "+o.mglnr.to_s)
+          @faulty_members << o
+        end
+      else 
+        @neutral_members << o
+      end
+	  end
+
+    if @checked_members.count != @current_report_sheet.azubi then
+      @needs_update = true
+    end
+      
   end
 
   # DELETE /orchestra_members/1
@@ -200,5 +224,38 @@ class OrchestraMembersController < AuthenticatedController
   end
   def orchestra_member_params
     params.require(:orchestra_member).permit(:first_name,:last_name,:date_of_birth,:instrument,:mglnr)
+  end
+
+  def gen_sheet(orchestra_members)
+    tmpfile = Tempfile.new("mgl")
+    
+    filename = tmpfile.path
+
+    Rails.logger.debug("TMP File: "+filename)
+
+	  ODF::Spreadsheet.file(filename) do
+
+      table "Mitglieder"  do
+        row {
+          cell "Vorname"
+          cell "Name"
+          cell "Mgl.Nr. des Vereins (*)"
+          cell "Geburtsjahr"
+          cell "Instrument"
+          cell "(*) Nur für Landesorchester ausfüllen!"
+        }
+
+        orchestra_members.each do |om|
+          row {
+            cell om.first_name
+            cell om.last_name
+            cell om.mglnr
+            cell om.date_of_birth
+            cell om.instrument
+          }
+        end
+      end
+    end
+    filename
   end
 end

@@ -34,9 +34,9 @@ class Mgl::ReportSheetInputsController < ApplicationController
   end
 
   def login 
-
-		
 		#session[:report_sheet_token] = params[:token]
+    @mglnr = params[:mglnr]
+    @token = params[:token]
   end
 
   def submit_login
@@ -116,7 +116,7 @@ class Mgl::ReportSheetInputsController < ApplicationController
     @report_sheet_input.save
     
     respond_to do |format|
-      if @report_sheet_input.orchestra.update(orchestra_params) and @report_sheet_input.report_sheet.update(report_sheet_params(params[:report_sheet_input])) then
+      if @report_sheet_input.orchestra.update(orchestra_params(params[:report_sheet_input])) and @report_sheet_input.report_sheet.update(report_sheet_params(params[:report_sheet_input])) then
         format.html { redirect_to :action => :step2, :id => @report_sheet_input, notice: t('report_sheet_input.save_success') }
         format.json { render json: @report_sheet_input, status: :created, location: url_for(:action=>:step2,:id=>@report_sheet_input) }
       else
@@ -345,7 +345,7 @@ class Mgl::ReportSheetInputsController < ApplicationController
 
 			respond_to do |format|
 				format.html do
-          result = tool.deliver_mailing(ReportSheetConfirmationMail, @rsi.orchestra.member,  pdf_file,  nil, nil, mailer_params)
+          result = tool.deliver_mailing(ReportSheetConfirmationMail, @rsi.orchestra.to_addressee,  pdf_file,  nil, nil, mailer_params)
         end
 				format.pdf do
           Rails.logger.debug "Sending PDF: #{pdf_file.full_path}"
@@ -393,6 +393,13 @@ class Mgl::ReportSheetInputsController < ApplicationController
 			  end
 			end
 		  end
+
+  def dowmload_current_member_list
+    @report_sheet_input = ReportSheetInput.find(params[:id])
+    @orchestra = @report_sheet_input.orchestra
+    sheet = @orchestra.orchestra_members_sheet
+
+  end
 
   # POST
   def upload
@@ -483,7 +490,7 @@ class Mgl::ReportSheetInputsController < ApplicationController
         :zo, :zi_o, :go, :oz )
   end
 
-  def orchestra_params
-    params.require(:report_sheet_input).permit(orchestra_attributes: [ :orchName, :gruendung, member_attributes: [ :id, :title, :anrede, :vorname, :name, :strasse, :plz, :ort, :email, :za, :zahler, :telefon, :fax, :bic, :iban, :country_code ] ])
+  def orchestra_params root
+    root.require(:orchestra).permit( :orchName, :gruendung, :member_attributes => [ :id, :title, :anrede, :vorname, :name, :strasse, :plz, :ort, :email, :za, :zahler, :telefon, :fax, :bic, :iban, :country_code ]  )
   end
 end

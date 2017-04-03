@@ -1,5 +1,11 @@
 class SessionsController < Devise::SessionsController
-  
+
+def create
+    @user = User.find_or_create_from_auth_hash(auth_hash)
+    self.current_user = @user
+    redirect_to '/'
+  end
+
   def create
     resource = warden.authenticate!(:scope => resource_name, :recall => :failure)
     return sign_in_and_redirect(resource_name, resource)
@@ -15,4 +21,10 @@ class SessionsController < Devise::SessionsController
   def failure
     return render:json => {:success => false, :errors => ["Login failed."]}
   end
+
+  protected
+
+  def auth_hash
+    request.env['omniauth.auth']
+  end  
 end

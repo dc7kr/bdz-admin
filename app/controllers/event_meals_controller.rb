@@ -1,4 +1,4 @@
-require 'odf/spreadsheet'
+require 'rodf'
 class EventMealsController < AuthenticatedController
   # GET /event_meals
   # GET /event_meals.json
@@ -135,7 +135,7 @@ class EventMealsController < AuthenticatedController
 
  def renderOds(meals,filename)
 
-    ODF::Spreadsheet.file(filename) do
+    RODF::Spreadsheet.file(filename) do
       table "Essensmeldungen"  do
         row {
             cell I18n.t("common.number")

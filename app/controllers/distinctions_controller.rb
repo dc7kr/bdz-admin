@@ -4,43 +4,33 @@ class DistinctionsController < AuthenticatedController
   helper_method :sort_column, :sort_direction
 
   def gen_invoice
-    @cur_year = Time.now.year
+    cur_year = Time.now.year
     distinction = Distinction.find(params[:id])
+    
     orchestra = distinction.orchestra 
+
+    if distinction.has_booking? then
+        redirect_to orchestra_distinction_path(orchestra,distinction), :flash => { :error => t('distinction.invoice_already_exists') }
+        return
+    end
 
     datePrefix = Time.now.strftime '%Y%m%d%H%M%S'
 
-    tw = TexWriter.new
     ddWriter = SEPAWriter.new(datePrefix, BDZ_SETTINGS)
 
-    customer = orchestra.to_customer
+    invoice = distinction.gen_invoice 
+    invoice.save
 
-    is_dd = customer.is_direct_debit?
-    mglnr = orchestra.member.mglnr
+    pdf = invoice.gen_pdf
+    sepa = invoice.gen_sepa 
 
-    invoiceNumber = "E-"+Time.now.strftime("%Y%m%d-")+mglnr.to_s
-
-    if (is_dd) then
-       remittance_txt = "Ehrungsrechnung #{invoiceNumber}" 
-       ddWriter.addBooking(customer, distinction.calcSum, remittance_txt,"OOFF")
-    end
-
-    @invoice = distinction.gen_invoice(invoiceNumber)
-    tw.writeInvoice(@invoice, 'distinction',Time.now.year)
-    system("/opt/bdz-rechnung/bin/ehrungsrechnung.sh "+String(mglnr))
-    tw.moveGeneratedFiles(ddWriter.datePrefix)
-
-    if ( is_dd) then
-      @ddFileName = ddWriter.generateFile
-    end
-
-
-    booking_txt = 'Ehrungsrechung '+invoiceNumber
-    booking =  MemberAccountBooking.newDistinctionInvoice(booking_txt,-1*distinction.calcSum,String(mglnr))
+    booking_txt = 'Ehrungsrechung '+invoice.number
+    booking =  MemberAccountBooking.newDistinctionInvoice(booking_txt,-1*invoice.sum,invoice.customer.customer_id,pdf)
     booking.member_id = orchestra.member.id
+    booking.invoice_id = invoice.id.to_s
     booking.save
 
-    if (is_dd) then
+    if (invoice.customer.is_direct_debit?) then
       @wdbooking = MemberAccountBooking.newWithdrawal("Lastschrift "+booking_txt,distinction.calcSum)
       @wdbooking.member_id = orchestra.member.id
       @wdbooking.save
@@ -49,7 +39,7 @@ class DistinctionsController < AuthenticatedController
     distinction.member_account_booking = booking
     distinction.save
 
-    send_mail(@ddFileName, invoiceNumber, distinction.orchestra)
+    send_mail(invoice)
     shortprefix = Time.now.strftime("%Y%m%d-")
 
     redirect_to(download_orchestra_member_account_booking_path(orchestra,booking))
@@ -123,7 +113,7 @@ class DistinctionsController < AuthenticatedController
     @distinction = Distinction.find(params[:id])
 
     respond_to do |format|
-      if @distinction.update_attributes(params[:distinction])
+      if @distinction.update_attributes!(distinction_params)
         format.html { redirect_to orchestra_distinction_path(@orchestra,@distinction), notice: t('distinction.update_success') }
 
         format.json { head :no_content }
@@ -153,18 +143,23 @@ class DistinctionsController < AuthenticatedController
     Orchestra.column_names.include?(params[:sort]) ? params[:sort] : "distinctions.dist_date"
   end
 
-  def send_mail(ddFile, invoiceNr, orch )
-	  year = Time.now.strftime('%Y')
-	  pdf_prefix= Time.now.strftime '%Y%m%d'
+  def send_mail(invoice) 
 
-	  @users = User.where("role like ?", "%admin%")
+    #ddFile, invoiceNr, orch )
+    #sepa, invoice.number, distinction.orchestra)
+
+    pdf = invoice.pdf_filename
+    sepa = invoice.sepa_filename
+
     base_url = cron_downloads_url
-    if not ddFile.nil?
-  	  dd_url = base_url+"?year="+year+"&filename="+ddFile.orig_filename
+
+    if not sepa.nil?
+  	  dd_url = base_url+"?year="+year+"&filename="+sepa.orig_filename
     end
 
-	  AdminNotifier.newdistinction_notification(dd_url,invoiceNr,orch).deliver
+	  AdminNotifier.newdistinction_notification(invoice).deliver
   end
+
   def distinction_params
     params.require(:distinction).permit(:dist_date, :certificates, :honorletters, :medals, :gold_needles, :silver_needles, :national_needles, :porto)
   end

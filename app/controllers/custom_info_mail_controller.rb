@@ -91,13 +91,18 @@ class CustomInfoMailController < AuthenticatedNonResourceController
 
     if ( letterfile != nil) then
       letter_file = storeUploadedFile(cur_year.to_s, letterfile.original_filename, letterfile)
+      letter_hash = letter_file.instance_values
+    else 
+      Rails.logger.info("Letter mode disabled due to nil letterfile")
+      via_paper = false
     end
 
     if ( attachment != nil) then
       attachment = storeUploadedFile(cur_year.to_s, attachment.original_filename, attachment)
+      attachment_hash = attachment.instance_values
     end
 
-    CustomInfoMailWorker.perform_async(@current_user.id,letter_file,attachment, subject, body, event_id, grp, via_paper)
+    CustomInfoMailWorker.perform_async(@current_user.id,letter_hash,attachment_hash, subject, body, event_id, grp, via_paper)
 
     respond_to do |format|
         format.html { redirect_to home_cron_path, :notice => t('cron.custom_info_mail_success') }

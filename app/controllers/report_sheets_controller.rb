@@ -16,15 +16,30 @@ class ReportSheetsController < AuthenticatedController
             @has_current_report_sheet = true
           end
       end
+    elsif (params[:regional_organization_id]) then
+
+      if params[:year].nil? then
+        year = Time.now.year
+      else
+        year = params[:year]
+      end
+      @report_sheets = ReportSheet.for_regional_organization(year, params[:regional_organization_id])
+
 	  else 
 		  @curYear = Time.now.year
 		  @report_sheets = ReportSheet.joins(:orchestra => :member).order('members.mglnr').find_all_by_year(@curYear)
 	  end
 
     respond_to do |format|
-	  format.js
+	    format.js
       format.html # index.html.erb
       format.json { render :json => @report_sheets }
+      format.ods do
+
+        tmpfile = Tempfile.new("report_sheets")
+        ReportSheet.renderOds(@report_sheets,tmpfile.path)
+        send_file(tmpfile.path, :filename => "meldeboegen_#{year}.ods", :type => "application/octet-stream")
+      end
     end
   end
 
@@ -233,7 +248,7 @@ class ReportSheetsController < AuthenticatedController
   def update_double_members
     @report_sheet = ReportSheet.find(params[:id])
 
-	@report_sheet.azubi=params[:dm]
+	  @report_sheet.azubi=params[:dm]
 
     respond_to do |format|
       if @report_sheet.save
@@ -254,6 +269,7 @@ class ReportSheetsController < AuthenticatedController
       :child_ens, :youth_ens, :adult_ens, :senior_ens, :chamber_ens, 
       :other_ens, :token, :azubi_child, :azubi_teens, :azubi_youth, 
       :azubi_adult, :azubi_senior, :supporters, :zo, :zi_o, :go, :oz, 
-      :report_date, :comment)
+      :report_date, :report_date_str, :comment)
+
   end
 end

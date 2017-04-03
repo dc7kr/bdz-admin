@@ -29,7 +29,7 @@ class ReportSheetMailingsController < AuthenticatedNonResourceController
 
     tool = MailingTool.new(cur_year.to_s,"gs",event_id,subject);
 
-    @orchestras = Orchestra.includes(:member)
+    @orchestras = Orchestra.joins(:member)
 
     results = Array.new
 
@@ -47,7 +47,7 @@ class ReportSheetMailingsController < AuthenticatedNonResourceController
 
         mailer_params = { :rsi => @rsi }
 
-        result = tool.deliver_mailing(ReportSheetInputMailer, orchestra,  mailing_pdf,  nil, letterArray, mailer_params)  
+        result = tool.deliver_mailing(ReportSheetInputMailer, orchestra.to_addressee,  mailing_pdf,  nil, letterArray, mailer_params)  
 
         results << result
 
@@ -83,4 +83,35 @@ class ReportSheetMailingsController < AuthenticatedNonResourceController
    	end
   end
 
+  def test
+    date_prefix = Time.now.strftime '%Y%m%d'
+    cur_year = Time.now.strftime "%Y"
+
+		rs_year = nil
+		if params[:year].nil? then
+			rs_year = Time.now.year+1
+		else
+			rs_year = params[:year].to_i
+		end
+
+		event_id = "MB_"+rs_year.to_s
+    subject="Meldebogen Anschreiben "+rs_year.to_s
+
+    tool = MailingTool.new(cur_year.to_s,"gs",event_id,subject);
+
+    orchestra = Orchestra.joins(:member).where("members.mglnr = ?",1045).first
+
+    orchestra.member.email = "karsten.richter@bdz-online.de"
+
+    @rsi = ReportSheetInput.for_orchestra_and_year(orchestra,rs_year)
+
+    letterArray = Array.new
+
+    mailer_params = { :rsi => @rsi }
+    mailing_pdf = gen_anschreiben(orchestra,@rsi)
+
+    result = tool.deliver_mailing(ReportSheetInputMailer, orchestra.to_addressee,  mailing_pdf,  nil, letterArray, mailer_params)  
+
+    send_file(mailing_pdf.full_path, :filename => "meldeboegen_anschreiben.pdf", :type => "application/octet-stream")
+  end
 end

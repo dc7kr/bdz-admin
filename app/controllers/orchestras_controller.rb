@@ -1,4 +1,4 @@
-require 'odf/spreadsheet'
+require 'rodf'
 require 'set'
 require 'csv'
 
@@ -8,8 +8,6 @@ class OrchestrasController < AuthenticatedController
   helper_method :sort_column, :sort_direction
 
   authority_actions :lorch=> 'read'
-
-
 
   include UploadHelper
   include ReportSheetUploadHelper
@@ -106,12 +104,10 @@ class OrchestrasController < AuthenticatedController
   end
 
   def nopayment
-    data = MemberAccountBooking.unbalanced_before(params[:before])
+    data = Orchestra.no_payment(params[:before])
 
+    @members = data[:members]
     @accounts = data[:accounts]
-    @ids = data[:ids]
-
-    @members = Member.includes(:member_entity).where("member_entity_type='Orchestra' and id in (?)",@ids.to_a).order(:mglnr)
 
     respond_to do |format|
      format.html 
@@ -129,6 +125,16 @@ class OrchestrasController < AuthenticatedController
     currentYear = String(Time.now.year)
     respond_to do |format|
       @orchestras = Orchestra.includes(:member,:report_sheets).where("report_sheets.year = ? and members.mglnr < 20000 and orchestras.orch_type <>'K'",currentYear).order("members.mglnr")
+
+    format.ods {
+      sheet = GemaSpreadsheet.new(@orchestras)
+      sheet.render
+      tmpfile = Tempfile.new("gema")
+      #send_data(sheet.sheet.bytes, :filename => "gema.ods", :type => "application/octet-stream")
+      sheet.sheet.write_to tmpfile
+      send_file(stmpfile, :filename => "gema.ods", :type => "application/octet-stream")
+    }
+
       format.csv { render :csv => @orchestras, :style=>:gema, :filename => "gema"+Time.now.year.to_s }
 		format.json { render :json => @orchestras }
     end
@@ -152,6 +158,16 @@ class OrchestrasController < AuthenticatedController
     end
   end
 
+  def pro_musica
+    @age = 90
+    Rails.logger.debug("AGE: #{@age}")
+    year = Time.now.year - @age
+
+    Rails.logger.debug("Year: #{year}")
+    @orchestras = Orchestra.includes(:member).where("YEAR(gruendung) <= ? and gruendung <> '0000-00-00' and gruendung IS NOT NULL ",year).order("members.mglnr")
+  end
+
+
   def index
 
     @orchestras = @orchestras.includes(:member).search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
@@ -169,13 +185,12 @@ class OrchestrasController < AuthenticatedController
   end
 
   def noreport
-	@orchestras = Orchestra.includes([:member]).joins('LEFT JOIN report_sheets ON report_sheets.orchestra_id = orchestras.id AND report_sheets.year='+String(Time.now.year)).page(params[:page]).per(10).where(['report_sheets.id IS NULL']).search(params[:search]).order(sort_column+ " "+ sort_direction)
+    @orchestras = @orchestras.no_report_sheet(Time.now.year.to_s).order("members.mglnr").page(params[:page]).per(20)
 
-
-	respond_to do |format|
-		format.html 
-		format.json {render :json => @orchestras }
-	end
+    respond_to do |format|
+      format.html 
+      format.json {render :json => @orchestras }
+    end
   end
 
   # GET /orchestras/1
@@ -295,16 +310,9 @@ class OrchestrasController < AuthenticatedController
     Orchestra.column_names.include?(params[:sort]) ? params[:sort] : "members.mglnr"
   end
 
-  def pro_musica
-    @age = 90
-    Logger.debug("AGE: #{@age}")
-    year = Time.now.year - @age
-    @orchestras = Orchestra.includes(:member).where("YEAR(gruendung) <= ? and gruendung != '0000-00-00' and gruendung IS NOT NULL ",year).order("members.mglnr")
-  end
-
   private
   def renderNoPayOds(filename,accounts,members)
-			ODF::Spreadsheet.file(filename) do
+			RODF::Spreadsheet.file(filename) do
 				table "Nopayment" do
 	    			members.each do |m|
 						row {

@@ -1,4 +1,4 @@
-require 'odf/spreadsheet'
+require 'rodf'
 class Reports::YouthAddressesController < AuthenticatedNonResourceController
   def index
     authorize! :orchestra, :edit
@@ -14,11 +14,11 @@ class Reports::YouthAddressesController < AuthenticatedNonResourceController
   end
 
   def renderYouthList(filename,contacts)
-    ODF::Spreadsheet.file(filename) do
+    RODF::Spreadsheet.file(filename) do
       table "Jugendleiter"  do
         contacts.each do |c|
           row {
-            cell c.orchestra.mglnr.to_s
+            cell c.orchestra.member.mglnr.to_s
             cell c.orchestra.orchName.to_s
             cell c.first_name+" "+c.last_name
             cell c.street

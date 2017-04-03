@@ -1,4 +1,4 @@
-class AdvertisersController < AuthenticatedController
+class Magazine::AdvertisersController < AuthenticatedController
   # GET /advertisers
   # GET /advertisers.json
   def index
@@ -25,6 +25,7 @@ class AdvertisersController < AuthenticatedController
   # GET /advertisers/new.json
   def new
     @advertiser = Advertiser.new
+    @advertiser.contact = Contact.new
 
     respond_to do |format|
       format.html # new.html.erb
@@ -44,7 +45,7 @@ class AdvertisersController < AuthenticatedController
 
     respond_to do |format|
       if @advertiser.save
-        format.html { redirect_to @advertiser, notice: 'Advertiser was successfully created.' }
+        format.html { redirect_to [:magazine,@advertiser], notice: 'Advertiser was successfully created.' }
         format.json { render json: @advertiser, status: :created, location: @advertiser }
       else
         format.html { render action: "new" }
@@ -59,8 +60,8 @@ class AdvertisersController < AuthenticatedController
     @advertiser = Advertiser.find(params[:id])
 
     respond_to do |format|
-      if @advertiser.update_attributes(params[:advertiser])
-        format.html { redirect_to @advertiser, notice: 'Advertiser was successfully updated.' }
+      if @advertiser.update_attributes!(advertiser_params)
+        format.html { redirect_to [:magazine,@advertiser], notice: 'Advertiser was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -76,8 +77,12 @@ class AdvertisersController < AuthenticatedController
     @advertiser.destroy
 
     respond_to do |format|
-      format.html { redirect_to advertisers_url }
+      format.html { redirect_to magazine_advertisers_url }
       format.json { head :no_content }
     end
+  end
+
+  def advertiser_params
+    params.require(:advertiser).permit( :iban, :bic, :account_owner, :direct_debit, :customer_number, contact_attributes: Contact.nested_attributes) 
   end
 end

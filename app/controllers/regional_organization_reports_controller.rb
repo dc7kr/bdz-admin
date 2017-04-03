@@ -1,4 +1,4 @@
-require 'odf/spreadsheet'
+require 'rodf'
 
 class RegionalOrganizationReportsController < AuthorityController
   include OrchestrasHelper
@@ -17,7 +17,7 @@ class RegionalOrganizationReportsController < AuthorityController
     orchestras = Orchestra.includes(:member).where("members.regional_organization_id = ?", lv.id).order("members.mglnr")
 
     tmpname = "/tmp/lv#{lv.id}.ods"
-    ODF::Spreadsheet.file(tmpname) do 
+    RODF::Spreadsheet.file(tmpname) do 
       table 'Orchester' do |t|
         t.row do 
           cell "Mglnr"
@@ -277,7 +277,7 @@ class RegionalOrganizationReportsController < AuthorityController
 
   private 
   def renderOrchOds(tmpname,orchestras)
-    ODF::Spreadsheet.file(tmpname) do 
+    RODF::Spreadsheet.file(tmpname) do 
       table 'Orchester' do |t|
         t.row do 
           cell "Mglnr"
@@ -305,7 +305,7 @@ class RegionalOrganizationReportsController < AuthorityController
 
   def render_person_members_ods(tmpfile, person_members) 
 
-    ODF::Spreadsheet.file(tmpfile) do 
+    RODF::Spreadsheet.file(tmpfile) do 
       table 'Einzelmitglieder' do |t|
         t.row do 
           cell "Mglnr"

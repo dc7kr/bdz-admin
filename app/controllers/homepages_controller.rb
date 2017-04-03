@@ -1,4 +1,11 @@
-class HomepagesController < AuthenticatedController
+class HomepagesController < AuthorityController
+  authorize_actions_for Homepage, :except => :create 
+
+  authority_actions :future=> 'read', :inactive => 'read', :publish=> 'update'
+
+  before_action :set_homepage, only: [:show, :edit, :update, :destroy]
+
+  #, :actions => {:neuter => :update},
   # GET /homepages
   # GET /homepages.json
   def index
@@ -80,4 +87,12 @@ class HomepagesController < AuthenticatedController
       format.json { head :no_content }
     end
   end
+
+
+  def set_homepage
+    @homepage = Homepage.find(params[:id])
+
+    authorize_action_for @homepage
+  end
+
 end

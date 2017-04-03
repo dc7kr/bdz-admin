@@ -5,6 +5,8 @@ class ApplicationController < ActionController::Base
 
   after_filter :flash_to_headers
 
+  after_filter :allow_iframe
+
 
   layout :choose_layout
 
@@ -54,6 +56,16 @@ class ApplicationController < ActionController::Base
   include SessionHelper
 
 	helper_method :current_area
+
+  def allow_iframe
+    response.headers["X-FRAME-OPTIONS"] = "ALLOW-FROM http://www.bdz-online.de"
+  end
+
+  def goto_login_page
+    flash[:error] = "Please login first."
+    redirect_to root_url
+    #redirect_to home_landing_page_url 
+  end
 
  private
   def flash_to_headers
@@ -113,25 +125,16 @@ class ApplicationController < ActionController::Base
 	@exception = exception
     #log_error(exception)
     respond_to do |format| 
-      format.html { render :template => "/errors/error_500.html.erb", :layout => 'application', :status => 500 } 
+      format.html { render :template => "/errors/error_500", :layout => 'application', :status => 500 } 
       format.all  { render :nothing => true, :status => 500 } 
     end
 
-  end
-
-  def render_error(exception)
-    @exception = exception
-    log_error(exception)
-    respond_to do |format| 
-      format.html { render :template => "/errors/error_500.html.erb", :layout => 'application', :status => 500 } 
-      format.all  { render :nothing => true, :status => 500 } 
-    end
   end
 
   def render_not_found(exception)
     log_error(exception)
     respond_to do |type| 
-      type.html { render :template => "/errors/error_404.html.erb", :layout => 'application', :status => 404 } 
+      type.html { render :template => "/errors/error_404", :layout => 'application', :status => 404 } 
       type.all  { render :nothing => true, :status => 404 } 
     end
     true  # so we can do "render_not_found and return"
@@ -147,6 +150,8 @@ class ApplicationController < ActionController::Base
 	  namespace = path.second if  path.first
 	  if namespace == "public" then
 		  "public"
+    elsif namespace == "mgl"
+      "member_area"
 	  else 
 		  "application"
 	  end
@@ -157,7 +162,7 @@ class ApplicationController < ActionController::Base
     rescue_from ActionController::RoutingError, ActionController::UnknownController, ::AbstractController::ActionNotFound, ActiveRecord::RecordNotFound, with: lambda { |exception| render_error 404, exception }
   #end
 
-  private
+  protected
     def render_error(status, exception)
       #	if ( current_user == nil or current_user.admin?)
 	    begin 
@@ -171,7 +176,10 @@ class ApplicationController < ActionController::Base
       end
 
 	    @exception = exception
-        
+
+      # needed to prevent double render!
+      self.response_body = nil        
+
       respond_to do |format|
         format.html { render template: "errors/error_#{status}", layout: 'layouts/application', status: status }
         format.all { render nothing: true, status: status }
@@ -194,11 +202,16 @@ class ApplicationController < ActionController::Base
 
   def set_locale
     logger.debug "* Accept-Language: #{request.env['HTTP_ACCEPT_LANGUAGE']}"
-    I18n.locale = extract_locale_from_accept_language_header
 
-	if ( locale == nil ) then
-		I18n.locale = "en"
-	end
+    locale = extract_locale_from_accept_language_header
+    Rails.logger.debug "Extracted locale: #{locale}"
+
+    begin 
+      I18n.locale = locale
+    rescue 
+      I18n.locale = "en"
+    end
+
     logger.debug "* Locale set to '#{I18n.locale}'"
   end
 

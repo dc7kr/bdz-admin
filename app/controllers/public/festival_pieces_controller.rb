@@ -3,7 +3,8 @@ class Public::FestivalPiecesController < ApplicationController
   # GET /festival_pieces
   # GET /festival_pieces.json
   def index
-    @festival_pieces = FestivalPiece.all
+    @festival_application =  FestivalApplication.find_by token: params[:festival_application_token]
+    @festival_pieces = @festival_application.festival_pieces
 
     respond_to do |format|
       format.html # index.html.erb
@@ -41,8 +42,8 @@ class Public::FestivalPiecesController < ApplicationController
   # POST /festival_pieces
   # POST /festival_pieces.json
   def create
-  	@festival_application = FestivalApplication.find(params[:festival_application_id])
-    @festival_piece = @festival_application.festival_pieces.create(params[:festival_piece])
+  	@festival_application = FestivalApplication.find_by token: params[:festival_application_token]
+    @festival_piece = @festival_application.festival_pieces.create(festival_piece_params)
 
 	logger.debug("New piece: "+@festival_piece.id.to_s)
 
@@ -68,10 +69,14 @@ class Public::FestivalPiecesController < ApplicationController
   # DELETE /festival_pieces/1
   # DELETE /festival_pieces/1.json
   def destroy
-    @festival_application = FestivalApplication.find(params[:festival_application_id])
+  	@festival_application = FestivalApplication.find_by token: params[:festival_application_token]
     @festival_piece = FestivalPiece.find(params[:id])
     @festival_piece.destroy
 
     respond_with @festival_piece, :location => festival_application_festival_pieces_url(@festival_application,@festival_application.festival_pieces)
+  end
+
+  def festival_piece_params 
+    params.require(:festival_piece).permit(:composer,:title,:duration)
   end
 end

@@ -1,4 +1,4 @@
-require 'odf/spreadsheet'
+require 'rodf'
 require 'set'
 require 'csv'
 
@@ -107,7 +107,7 @@ class Mgl::OrchestrasController < AuthenticatedController
   end
   private
   def renderNoPayOds(filename,accounts,orchestras)
-			ODF::Spreadsheet.file(filename) do
+			RODF::Spreadsheet.file(filename) do
 				table "Nopayment" do
 	    			orchestras.each do |o|
 						row {

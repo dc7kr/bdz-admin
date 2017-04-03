@@ -1,4 +1,4 @@
-class MagazineIssuesController < AuthenticatedController
+class Magazine::MagazineIssuesController < AuthenticatedController
   # GET /magazine_issues
   # GET /magazine_issues.json
   def index
@@ -56,7 +56,7 @@ class MagazineIssuesController < AuthenticatedController
   # POST /magazine_issues
   # POST /magazine_issues.json
   def create
-    @magazine_issue = MagazineIssue.new(params[:magazine_issue])
+    @magazine_issue = MagazineIssue.new(magazine_params)
 
     respond_to do |format|
       if @magazine_issue.save
@@ -75,7 +75,7 @@ class MagazineIssuesController < AuthenticatedController
     @magazine_issue = MagazineIssue.find(params[:id])
 
     respond_to do |format|
-      if @magazine_issue.update_attributes(params[:magazine_issue])
+      if @magazine_issue.update_attributes(magazine_params)
         format.html { redirect_to @magazine_issue, notice: 'Magazine issue was successfully updated.' }
         format.json { head :no_content }
       else
@@ -126,5 +126,9 @@ class MagazineIssuesController < AuthenticatedController
 
 
     @overall+=@orchestra_count
+  end
+
+  def magazine_params
+    params.require(:magazine_issue).permit(:number,:year)
   end
 end

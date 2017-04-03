@@ -51,7 +51,7 @@ class FunctionsController < AuthenticatedController
   # POST /functions
   # POST /functions.json
   def create
-    @function = Function.new(params[:function])
+    @function = Function.new(function_params)
 
     respond_to do |format|
       if @function.save

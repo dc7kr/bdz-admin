@@ -5,35 +5,14 @@ class Public::ConcertsController < ApplicationController
 
   # override
   def index
-    if params[:lv] then
+    if not params[:lv_id].nil? then
+      @concerts = Concert.published.search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
+      @ensemble_concerts = EnsembleConcert.all
+    else
+      @concerts = Concert.published.search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
+      @ensemble_concerts = EnsembleConcert.all
     end
-    @currentTab = params[:tab];
-    if ( @currentTab == nil ) then
-      @currentTab = 0 
-    end
-
-    if ( @currentTab == 0 ) then 
-      renderConcerts
-    elsif (@currentTab==1) then
-      renderEnsembleConcerts(params)
-    elsif (@currentTab==2) then 
-      renderFestivals(params)
-    end
-  end
-
-  def renderEnsembleConcerts
-    respond_to do |format|
-      format.html { render :partial=>"ensembleConcerts" }
-	# index.html.erb
-      format.json { render :json => @concerts }
-    end
-  end
-
-  def renderFestivals
-    respond_to do |format|
-      format.html { render :partial=>"festivals" }
-      format.json { render :json => @concerts }
-    end
+    #@ensemble_concerts = EnsembleConcert.published.search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
   end
 
 

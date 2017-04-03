@@ -11,7 +11,7 @@ class Cron::RemindersController < AuthenticatedNonResourceController
     datePrefix = Time.now.strftime("%Y%m%d_")
     year = Time.now.strftime("%Y")
 
-    @orchestras = Orchestra.includes([:member]).joins('LEFT JOIN report_sheets ON report_sheets.orchestra_id = orchestras.member_id AND report_sheets.year='+String(Time.now.year)).where(['report_sheets.id IS NULL'])
+    @orchestras = Orchestra.no_report_sheet(Time.now.year)
 
     @tw = TexWriter.new 
     pdfs = Array.new
@@ -19,7 +19,7 @@ class Cron::RemindersController < AuthenticatedNonResourceController
     tmpdir = BDZ_SETTINGS["docs_work_dir"]
 
     @orchestras.each do |orch|
-      @tw.writeReportSheetReminderData(orch)
+      @tw.writeReportSheetReminderData(orch.to_customer)
       filename = `/opt/bdz-rechnung/bin/create_pdf.sh #{orch.mglnr} mahnung-meldebogen`
       filename = filename.chomp
 
@@ -42,30 +42,33 @@ class Cron::RemindersController < AuthenticatedNonResourceController
     datePrefix = Time.now.strftime("%Y%m%d_")
     year = Time.now.strftime("%Y")
 
-    @ids = MemberAccountBooking.unbalanced_for
+    pm_data = PersonMember.no_payment
+    orch_data = Orchestra.no_payment
 
-    @persons = PersonMember.includes(:member).order("members.mglnr").find(:all, :conditions=> ["member_id in (?)",@ids])
-    @orchestras = Orchestra.includes(:member).order("members.mglnr").find(:all, :conditions=> ["member_id in (?)",@ids])
+    @persons = pm_data[:members]
+
+    @orchestras = orch_data[:members]
 
     pdfs = Array.new
     tmpdir = BDZ_SETTINGS["docs_work_dir"]
 
     @tw = TexWriter.new 
-    @orchestras.each do |orch|
+    @orchestras.each do |orch_member|
       
-		  filtered_bookings = orch.get_unbalanced_bookings
-     
-      @tw.writeReminderData(orch,filtered_bookings)
-      filename = `/opt/bdz-rechnung/bin/create_pdf.sh #{orch.mglnr} mahnung-beitrag`
+		  filtered_bookings = orch_member.get_unbalanced_bookings
+      customer = orch_member.member_entity.to_customer
+      @tw.writeReminderData(customer,filtered_bookings)
+      filename = `/opt/bdz-rechnung/bin/create_pdf.sh #{orch_member.mglnr} mahnung-beitrag`
       filename = filename.chomp
       out_file = archive_file(tmpdir,filename, year);
       pdfs << filename
     end
 
-    @persons.each do |person|
-		  filtered_bookings = person.get_unbalanced_bookings
-      @tw.writeReminderData(person,filtered_bookings)
-      filename = `/opt/bdz-rechnung/bin/create_pdf.sh #{person.mglnr} mahnung-beitrag`
+    @persons.each do |person_member|
+		  filtered_bookings = person_member.get_unbalanced_bookings
+      customer = person_member.member_entity.to_customer
+      @tw.writeReminderData(customer,filtered_bookings)
+      filename = `/opt/bdz-rechnung/bin/create_pdf.sh #{customer.id} mahnung-beitrag`
       filename = filename.chomp
       out_file = archive_file(tmpdir,filename, year);
       pdfs << filename

@@ -53,7 +53,7 @@ class UsersController < ApplicationController
   # POST /users
   # POST /users.json
   def create
-    @user = User.new(params[:user])
+    @user = User.new(user_params)
 
     respond_to do |format|
       if @user.save
@@ -98,8 +98,8 @@ class UsersController < ApplicationController
     User.column_names.include?(params[:sort]) ? params[:sort] : "email"
   end
 
-  def user_params(params)
-    #attr_accessible :username, :email, :password, :password_confirmation, :remember_me, :name, :role, :entity_class, :entity_id, :authentication_token
+  def user_params
+    params.require(:user).permit(:username, :email, :password, :password_confirmation, :name)
   end
   
 end

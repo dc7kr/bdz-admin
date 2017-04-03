@@ -1,4 +1,4 @@
-require 'odf/spreadsheet'
+require 'rodf'
 
 class PersonMembersController < AuthenticatedController
 #  before_filter :authenticate_user!, :except => @publicActions
@@ -45,12 +45,10 @@ class PersonMembersController < AuthenticatedController
   end
 
   def nopayment
-    data = MemberAccountBooking.unbalanced_before(params[:before])
+    data = PersonMember.no_payment(params[:before])
 
-    @ids = data[:ids]
+    @members = data[:members]
     @accounts = data[:accounts]
-
-    @members = Member.includes(:member_entity).where("member_entity_type='PersonMember' and id in (?)",@ids.to_a).order(:mglnr)
 
     respond_to do |format|
      format.html
@@ -179,12 +177,16 @@ class PersonMembersController < AuthenticatedController
 
   private
   def renderNoPayOds(filename,accounts,members)
-	ODF::Spreadsheet.file(filename) do
+	RODF::Spreadsheet.file(filename) do
 				table "No payment"  do
 	    			members.each do |m|
 						row {
 							cell m.mglnr.to_s
+							cell I18n.t("common.salutations.#{m.anrede}")
 							cell m.vorname+" "+m.name
+							cell m.strasse
+							cell m.plz
+							cell m.ort
 							cell m.email
 							cell accounts[m.id],:type=>:float
 						}

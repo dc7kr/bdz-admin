@@ -1,21 +1,8 @@
 class Public::FestivalApplicationsController < ApplicationController
   layout :choose_layout
 
-  # GET /festival_applications
-  # GET /festival_applications.json
-  def index
-    @festival_applications = FestivalApplication.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @festival_applications }
-    end
-  end
-
-  # GET /festival_applications/1
-  # GET /festival_applications/1.json
   def show
-    @festival_application = FestivalApplication.find(params[:id])
+    @festival_application = FestivalApplication.find_by token: params[:token]
 
     respond_to do |format|
       format.html # show.html.erb
@@ -24,21 +11,23 @@ class Public::FestivalApplicationsController < ApplicationController
   end
 
   def finalize 
-    @festival_application = FestivalApplication.find(params[:id])
+    @festival_application = FestivalApplication.find_by token: params[:token]
   end
 
   # GET /festival_applications/new
   # GET /festival_applications/new.json
   def new
     @festival_application = FestivalApplication.new
-	  @festival_application.group_type="O"
-	  @festival_application.contact_person = ContactPerson.new
+    @festival_application.group_type="O"
+    @festival_application.country_code="DE"
+    @festival_application.contact_person = ContactPerson.new
+    @festival_application.contact_person.country_code="DE"
 
     respond_to do |format|
-      format.html { 
-        if not BDZ_SETTINGS["config"]["festival_application_open"] then
-          render :partial => "closed";
-        end
+    format.html { 
+      if not BDZ_SETTINGS["config"]["festival_application_open"] then
+        render :partial => "closed";
+      end
       }
       format.json { render json: @festival_application }
     end
@@ -46,39 +35,42 @@ class Public::FestivalApplicationsController < ApplicationController
 
   # GET /festival_applications/1/edit
   def edit
-    @festival_application = FestivalApplication.find(params[:id])
+    @festival_application = FestivalApplication.find_by token: params[:token]
   end
 
   # POST /festival_applications
   # POST /festival_applications.json
   def create
-    @festival_application = FestivalApplication.new(params[:festival_application])
-    @contact_person = ContactPerson.new(params[:contact_person])
+    @festival_application = FestivalApplication.new(festival_application_params)
+   
+    Rails.logger.debug("Festival application contact person")
+    contact_person = ContactPerson.new(contact_person_params)
+    @festival_application.contact_person= contact_person
+    @festival_application.token = SecureRandom.uuid
 
-	@festival_application.contact_person= @contact_person
-	if @contact_person.save
 
-			respond_to do |format|
-			  if @festival_application.save
-				format.html { redirect_to step2_public_festival_application_path(@festival_application), notice: 'Festival application was successfully created.' }
-				format.json { render json: @festival_application, status: :created, location: @festival_application }
-			  else
-				format.html { render action: "new" }
-				format.json { render json: @festival_application.errors, status: :unprocessable_entity }
-			  end
-			end
-	else
-		respond_to do |format|
-			format.html { render action: "new" }
-			format.json { render json: @contact_person.errors, status: :unprocessable_entity }
-		end
-	end
+    if @festival_application.contact_person.save
+      respond_to do |format|
+        if @festival_application.save
+          format.html { redirect_to step2_public_festival_application_path(@festival_application), notice: 'Festival application was successfully created.' }
+          format.json { render json: @festival_application, status: :created, location: @festival_application }
+        else
+          format.html { render action: "new" }
+          format.json { render json: @festival_application.errors, status: :unprocessable_entity }
+        end
+      end
+    else
+      respond_to do |format|
+        format.html { render action: "new" }
+        format.json { render json: @contact_person.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   # PUT /festival_applications/1
   # PUT /festival_applications/1.json
   def update
-    @festival_application = FestivalApplication.find(params[:id])
+    @festival_application = FestivalApplication.find_by params[:token]
 
     respond_to do |format|
       if @festival_application.update_attributes(params[:festival_application])
@@ -100,13 +92,29 @@ class Public::FestivalApplicationsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to festival_applications_url }
       format.json { head :no_content }
+      format.js { render :layout => false}
     end
   end
 
   def step2
-	@festival_application = FestivalApplication.find(params[:id])
-	
-	@festival_pieces = @festival_application.festival_pieces
+    @festival_application = FestivalApplication.find_by token: params[:token]
+    @festival_pieces = @festival_application.festival_pieces
+  end
 
+  private 
+  def festival_application_params
+    params.require(:festival_application).permit(
+        :group_type,
+        :country_code,
+        :conductor,
+        :special_cast,
+        :orch_name, 
+        :equipment, 
+        :num_players, 
+        contact_person: [:first_name])
+  end
+  def contact_person_params
+    my_params = params.require(:festival_application).permit(contact_person: ContactPerson.nested_params)
+    my_params[:contact_person]
   end
 end

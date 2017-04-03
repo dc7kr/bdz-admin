@@ -8,8 +8,8 @@ class MemberReportController < AuthenticatedNonResourceController
 
     sheets = ReportSheet.includes(:orchestra).group(:year).order(:year)
 	
-	  @l_orch_no_pay = sheets.calculate(:sum,"children+teens+youth+adult+senior-azubi",:conditions => "orchestras.orch_type='L'")
-	  @l_orch_all= sheets.calculate(:sum,"children+teens+youth+adult+senior",:conditions => "orchestras.orch_type='L'")
+	  @l_orch_no_pay = sheets.where("orchestras.orch_type='L'").calculate(:sum,"children+teens+youth+adult+senior-azubi")
+	  @l_orch_all= sheets.where("orchestras.orch_type='L'").calculate(:sum,"children+teens+youth+adult+senior")
 
 	  @o_nomail = Orchestra.nomail.count()
 	  @em_nomail = PersonMember.nomail.count()
@@ -18,7 +18,7 @@ class MemberReportController < AuthenticatedNonResourceController
 	  @vers_sums = Array.new
 	  @vers_hash = Hash.new
 
-	  @uv_sum = sheets.calculate(:sum,"children+teens+youth+adult+senior",:conditions=>"orchestras.orch_type<>'K' and uv=1")
+	  @uv_sum = sheets.where("orchestras.orch_type<>'K' and uv=1").calculate(:sum,"children+teens+youth+adult+senior")
 
 	  @uv_sum.each do |uv|
 		  @vers_sums.push(uv[0])
@@ -27,21 +27,16 @@ class MemberReportController < AuthenticatedNonResourceController
 		  @vers_hash[uv[0]]=h 
 	  end
 
-	  @haft_sum = sheets.calculate(:sum,"children+teens+youth+adult+senior",:conditions=>"orchestras.orch_type='O'")
+	  @haft_sum = sheets.where("orchestras.orch_type='O'").calculate(:sum,"children+teens+youth+adult+senior")
 	  @haft_sum.each do |hv|
 		  vals = @vers_hash[hv[0]]
-		  if (vals != nil ) then
-			  vals["hv"]=hv[1]
-		  end
+		  if (vals == nil ) then
+        vals = Hash.new
+        @vers_hash[hv[0]] = vals
+		  end	
+
+      vals["hv"]=hv[1]
 	  end
-
-	  @haft_sum = sheets.calculate(:sum,"children+teens+youth+adult+senior-azubi",:conditions=>"orchestras.orch_type='L'")
-
-
-	  @haft_sum.each do |hv|
-		  vals = @vers_hash[hv[0]]
-		  vals["hv"]+=hv[1]
-  	end
 
 	  @l_orch_all.each do |lv|
 		  @lorch[lv[0]] = lv[1]

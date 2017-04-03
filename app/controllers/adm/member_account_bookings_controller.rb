@@ -1,29 +1,8 @@
-class MemberAccountBookingsController < AuthenticatedController
+class Adm::MemberAccountBookingsController < AuthenticatedController
   # GET /bookings
   # GET /bookings.json
   def index
-    @isOrchestra
-    @member
-    @name=nil
-    
-    if ( params[:orchestra_id]) then
-      @member = Member.includes(:member_entity).find_by "member_entity_id = ? and member_entity_type='Orchestra'" , params[:orchestra_id]
-      @orchestra = @member.member_entity
-      @name = @orchestra.orchName
-      @isOrchestra=true
-    elsif (params[:person_member_id]) then
-      @member = Member.includes(:member_entity).find_by "member_entity_id = ? and member_entity_type='PersonMember'", params[:person_member_id]
-      @name = @member.member_entity.fullname
-      @isOrchestra=false
-    end
-
-    if not @member.nil? then
-      @bookings = MemberAccountBooking.where("member_id=?",@member.id).page(params[:page])
-      @member_entity = @member.member_entity
-    else
       @bookings = MemberAccountBooking.order("booking_date").page(params[:page]).per(30)
-    end
-
 
     respond_to do |format|
       format.html # index.html.erb
@@ -159,12 +138,9 @@ class MemberAccountBookingsController < AuthenticatedController
   end
 
   def download
-     x_sendfile=false
     @booking = MemberAccountBooking.find(params[:id])
 	  fullPath = BDZ_SETTINGS['invoice_archive_dir']+"/"+String(@booking.booking_year)+"/"+@booking.filename
-	  #send_file(fullPath, :filename => @booking.filename, :type => "application/pdf", :x_sendfile=>true)
-	  #send_file(fullPath, :filename => @booking.filename, :x_sendfile=>true,:type=>"application/octet-stream")
-	  send_file(fullPath, filename: @booking.filename, x_sendfile: x_sendfile,type: "application/octet-stream")
+	  send_file(fullPath, :filename => @booking.filename, :type => "application/pdf", :x_sendfile=>true)
   end
 
   private
