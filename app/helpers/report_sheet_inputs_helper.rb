@@ -2,7 +2,7 @@ module ReportSheetInputsHelper
 
 def birthyear_class(member) 
 
-	if (member.date_of_birth == nil ) then
+	if (member.date_of_birth == nil or not member.is_birthday_valid?) then
 		"invalid"
 	elsif (member.is_dummy_birthday?) then
 		"warning"
