@@ -197,14 +197,15 @@ class PersonMember < ActiveRecord::Base
     cust
   end
 
-  def gen_invoice
-
+  def gen_invoice(year)
     if ( self.tariff.amount == 0 )
       Rails.logger.warning("Requested invoice generation with 0 amount: #{mglnr}")
       return
     end
 
-    year = Time.now.year
+    if (year.nil?) then 
+      year = Time.now.year
+    end
 
     invoice = Invoice.new
     invoice.invoice_date = Time.now
