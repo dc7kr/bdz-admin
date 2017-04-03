@@ -38,6 +38,10 @@ class SEPAWriter < BankTransferWriter
     addBooking(orch, currentReportSheet.calcInvoice, remittance_txt)
   end
 
+  def filename
+    @datePrefix+"_sepa.xml"
+  end
+
   private
   def writeXml
     if @direct_debits.count == 0 
@@ -46,8 +50,7 @@ class SEPAWriter < BankTransferWriter
     
     sepaxml = @tool.create_sepa_direct_debit_order(@direct_debits)
 
-    filename = @datePrefix+"_sepa.xml"
-    outfile = MailingFile.new(filename,filename,@year.to_s)
+    outfile = MailingFile.new(self.filename,self.filename,@year.to_s)
     sepaFile = File.open(outfile.full_path,"w")
     sepaFile << sepaxml
     sepaFile.close
