@@ -1,13 +1,33 @@
 de:
-  member:
+  member: &member_labels
     one: Mitglied
     other: Mitglieder
+
+    fullname: "Name"
+    vorname: Vorname
+    nachname: Nachname 
+    country_code: Land
+    strasse: Straße
+    plz: PLZ
+    ort: Ort
+    iban: IBAN
+    bic: BIC
+    mref: SEPA-Mandatsreferenz
+    email: E-Mail
+    name: Name
+    phone: Telefon
+    fax: Fax
+    street: Straße
+    city: Ort
+    zip: PLZ
+    mglnr: Mitgliedsnummer
+    regional_organization_id: Landesverband
+    
     nopayment: Säumige Zahler
     nonzero_balance: "Zahlungsrückstand im Beitragskonto!"
     is_direct_debit: "Lastschrift"
     notinvoiced: Keine Rechnung
     invalid_mail: Ungültige Mailadresse
-    mglnr: Mitgl.-Nr.
     eintritt: Eintritt
     austritt_zum: Austritt zum
     salutation: Anrede
@@ -19,7 +39,10 @@ de:
     vorname: Vorname
     kuendigungErfasst: Kündigung erfasst
     comment: Bemerkung
-    fullname: Name
     kuendigung_vom: Kündigung vom
 
+  helpers:
+    label:
+      member:
+        <<: *member_labels
 

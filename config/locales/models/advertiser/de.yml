@@ -1,0 +1,11 @@
+de:
+  helpers:
+    label:      
+      advertiser: &advertiser_labels
+        account_owner: "Konto-Inhaber"
+  advertiser:
+    <<: *advertiser_labels
+  activerecord:
+    attributes:
+      advertiser:
+        <<: *advertiser_labels

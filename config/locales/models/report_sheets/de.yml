@@ -1,16 +1,67 @@
 de:
   report_sheet:
+    one: Meldebogen
+    other: Meldebögen
     children_col: "<14"
     teens_col: "15-18"
     youth_col: "19-27"
     adult_col: "28-64"
     senior_col: "65+"
+    final: "Eingereichte Meldebögen"
+    analysis: "Auffällige Meldebögen"
+  helpers:
+    label:
+      report_sheet:
+        child_ens: Kinderensembles
+        youth_ens: Jugendensembles
+        adult_ens: Erwachsenenensembles
+        senior_ens: Seniorenensembles
+        chamber_ens: Kammermusikensembles
+        other_ens: Sonstige Ensembles
+        azubi_child: "Aktive bis 14 Jahre"
+        azubi_teens: "Aktive 15 – 18 Jahre"
+        azubi_youth: "Aktive 19 – 27 Jahre"
+        azubi_adult: "Aktive 28 – 64 Jahre"
+        azubi_senior: "Aktive ab 65 Jahren"
+        children: Kinder
+        teens: Jugendliche 15-18
+        youth: Erw. 19-27
+        adult: Erw. 28-64
+        senior: Erw. 65+ 
+        passive: Passiv
+        supporters: "Fördervereinmitglieder"
+        zo: Zupforchester
+        zi_o: Zitherorchester
+        go: Gitarrenorchester
+        oz: "Sonstige Zupfinstrumente"
+        uv: Unfallversicherung
+        calcGemaCount: GEMA
+        calcZeitungen: Zeitungen
+        calcInvoice: Rechnungsbetrag
+        calcUV: Unfallversicherung
+        calcUvCount: Unfallversicherung
+        totalActiveMembers: Gesamt Aktiv
+        calcBeitrag: Mitgliedsbeiträge
+        year: Jahr
+        gema: GEMA
+        report_date: Datum
+        generated: Generiert
+        korr_ztg: Zeitungen Korrektur (+/-)
+        invoiced: Abgerechnet
+        children: Kinder
+        azubi: Beitragsfrei
+        uv: Unfallversicherung
+        zusatz_uv: Zusätzl. UV
+        teens: Jugendliche 15-18
+        youth: Erw. 19-27
+        adult: Erw. 28-64
+        senior: Erw. 65+ 
+        passive: Passiv
+        supporters: "Fördervereinmitglieder"
 
   activerecord:
     attributes:
       report_sheet:
-        one: Meldebogen
-        other: Meldebögen
         create_success: Meldebogen erfolgreich angelegt
         data_from_last_year: Automatische Datenübernahme aus Vorjahr
         no_update_needed: "Meldebogen ist aktuell"
@@ -34,8 +85,6 @@ de:
           Y: "Jugendliche 19-27"
           A: "Erwachsene 28-64"
           S: "Erwachsene 65+"
-        final: "Eingereichte Meldebögen"
-        analysis: "Auffällige Meldebögen"
         update_double_members: "Meldebogen anpassen"
         update_double_success: "Doppelmitglieder erfolgreich auf beitragsfrei gesetzt."
         zusatz_uv: Zusätzl. UV

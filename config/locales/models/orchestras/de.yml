@@ -20,6 +20,8 @@ de:
     type_O: Vereinsorchester
     type_K: Kooperativ
     type_L: Landesorchester
+    type_A: Auslandsorchester
+    type_X: Außerordentliches Mitglied
     member_account: Mitgliedskonto
     contact: Kontakt
     invalid_report_sheet_upload: "Das hochgeladene Dokument konnte nicht verarbeitet werden! Bitte verwenden Sie ausschließlich die Originalvorlage."

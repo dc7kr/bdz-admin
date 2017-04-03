@@ -112,6 +112,7 @@ de:
     confirm_delete: "Wollen Sie diesen Eintrag wirklich löschen?"
     error_500: "Interner Fehler"
     error_404: "Seite nicht gefunden"
+    error_403: "Zugriff verweigert"
     tasks: "Aufträge"
     events: "Ereignisse"
     reminders: "Mahnungen"
@@ -375,6 +376,8 @@ de:
     blz:
       required_by_za: Zahlungsart Lastschrift erfordert Bankleitzahl
       unknown: ist unbekannt
+    downloads:
+      file_does_not_exist: "Die Datei existiert nicht."
 
   university:
     one: Studienmöglichkeit
@@ -457,29 +460,6 @@ de:
   address:
     one: Adresse
     other: Adressen  
-  member:
-    one: Mitglied
-    other: Mitglieder
-    nopayment: Säumige Zahler
-    nonzero_balance: "Zahlungsrückstand im Beitragskonto!"
-    is_direct_debit: "Lastschrift"
-    notinvoiced: Keine Rechnung
-    invalid_mail: Ungültige Mailadresse
-    mglnr: Mitgl.-Nr.
-    eintritt: Eintritt
-    austritt_zum: Austritt zum
-    salutation: Anrede
-    za: Zahlungsart
-    lv: Landesverband
-    konto: Konto-Nr.
-    blz: BLZ
-    zahler: Konto-Inhaber
-    vorname: Vorname
-    kuendigungErfasst: Kündigung erfasst
-    comment: Bemerkung
-    fullname: Name
-    kuendigung_vom: Kündigung vom
-
   person_member:
     one: Einzelmitglied
     other: Einzelmitglieder
@@ -493,36 +473,10 @@ de:
     other: Ehrungen
     update_success: Ehrung erfolgreich aktualisiert
     generate_invoice: Rechnung generieren
+    invoice_already_exists: Die Ehrungsrechnung wurde bereits erstellt!
   honor_member:
     one: Ehrenmitglieder
     other: Ehrenmitglieder
-  orchestra:
-    one: Orchester
-    other: Orchester
-    create_success: "Orchester erfolgreich angelegt."
-    regional_orchestra:
-      one: Landesorchester      
-      other: Landesorchester
-    noreport: Kein Meldebogen
-    search: "Suche nach Mitgliedsnummer oder Teil des Orchesternamens"
-    update_success: "Orchester wurde erfolgreich aktualisiert."
-    orch_type: Orchestertyp
-    koopMitglied: Kooperativ
-    schreibenVom: Schreiben vom 
-    bemerkung: Bemerkung
-    eMail: E-Mail
-    url: Homepage
-    zweitanschrift: Zweitanschrift
-    name2: Zweiter Name 	
-    type_O: Vereinsorchester
-    type_K: Kooperativ
-    type_L: Landesorchester
-    member_account: Mitgliedskonto
-    contact: Kontakt
-    invalid_report_sheet_upload: "Das hochgeladene Dokument konnte nicht verarbeitet werden! Bitte verwenden Sie ausschließlich die Originalvorlage."
-    err_invalid_report_sheet_upload: "Ungültiges Dateiformat hochgeladen!"
-    report_sheet_upload_success: "%{success} Mitgliedsdaten erfolgreich hochgeladen!"
-    report_sheet_upload_warning: "%{success} Datensätze OK, %{error} Datensätze waren fehlerhaft!"
   orchestra_member:
     one: Orchestermitglied
     other: Orchestermitglieder
@@ -538,15 +492,6 @@ de:
     delete_all: "Alle Orchestermitglieder löschen"
     exchange_success: "Vorname und Name erfolgreich ausgetauscht."
     check_double: "Doppel-Mitgliedschaft prüfen"
-  orchestra_contact:
-    one: Kontakt-Adresse
-    other: Kontakt-Adressen
-    role_V: "1. Vorsitzender"
-    role_S: "Stellvertreter"
-    role_G: "Geschäftsführer"
-    role_D: "Dirigent"
-    role_J: "Jugendleitung"
-    role_O: "Seniorenbeauftragter"
   member_account:
     balance: Saldo
   contest:
@@ -566,41 +511,6 @@ de:
     anmeldung: Infos und Anmeldung
     publish_success: "Wettbewerb erfolgreich veröffentlicht"
 
-  report_sheet:
-    one: Meldebogen
-    other: Meldebögen
-    create_success: Meldebogen erfolgreich angelegt
-    data_from_last_year: Automatische Datenübernahme aus Vorjahr
-    delay_fee: "Säumniszuschlag"
-    tariff: Tarif
-    distribution: Mitglieder
-    children_col: "<14"
-    teens_col: "15-18"
-    youth_col: "19-27"
-    adult_col: "28-64"
-    senior_col: "65+"
-    new: Neuer Meldebogen
-    invsum: Rechnungsbetrag
-    invsum_short: Summe
-    sum: Mitgliedsbeiträge
-    sum_short: Beitrag
-    uvsum: Unfallversicherung
-    uvsum_short: UV
-    total_active: Gesamt Aktiv
-    total_youth: Gesamt Jugendlich
-    total: Gesamtzahl
-    age_category:
-      C: "Kinder bis 14"
-      T: "Jugendliche 15-19"
-      Y: "Jugendliche 19-27"
-      A: "Erwachsene 28-64"
-      S: "Erwachsene 65+"
-    final: "Eingereichte Meldebögen"
-    analysis: "Auffällige Meldebögen"
-    update_double_members: "Meldebogen anpassen"
-    update_double_success: "Doppelmitglieder erfolgreich auf beitragsfrei gesetzt."
-    zusatz_uv: Zusätzl. UV
-    zeitungen: Zeitungen
   regional_organization:
     other: Landesverbände
     one: Landesverband
@@ -615,25 +525,6 @@ de:
     index: Landesverbandskonto
     booking_type_S: Sollstellung
     booking_type_G: Gutschrift
-  report_sheet_input:
-    one: "Meldebogeneingabe"
-    other: "Meldebogeneingabe-Objekte"
-    login: Anmelden
-    login_title: Meldebogenerfassung
-    save_success: "Daten erfolgreich gespeichert"
-    current_members: "Aktuelle Mitgliederliste"
-    page_1: "Mitgliedermeldung %{year} - Schritt 1"
-    page_2: "Mitgliedermeldung %{year} - Schritt 2"
-    page_3: "Mitgliedermeldung %{year} - Schritt 3"
-    page_4: "Mitgliedermeldung %{year} - Schritt 4"
-    no_file_selected: "Bitte wählen Sie zuerst eine Datei zum Hochladen aus!"
-    invalid_upload: "Das Format der hochgeladenen Datei wurde nicht erkannt!"
-    invalid_token: "Ungültige Zugangsdaten"
-    login_first: "Bitte melden Sie sich an!"
-    pdf_confirm: "PDF Bestätigung"
-    member_delete_success: "Alle Orchestermitglieder wurden gelöscht."
-    generated: "%{count} Meldebogen-Eingabe-Vorlagen erzeugt."
-    dd_to_sepa_valid: "Ihr bereits erteiltes SEPA-Mandat bleibt weiterhin gültig. Wir buchen von ihrem Konto mit der IBAN %{iban} und BIC %{bic} mit der SEPA Mandatsreferenz %{mref} im SEPA Verfahren ab."
   member_report:
     one: Mitgliederbericht
     oddset_report: Oddset Zahlen
@@ -653,7 +544,7 @@ de:
     haft_count: Haftpflichtversicherung
 
   cron:
-    lv_bookings: "LV Beitragsanteile buchen"
+    lv_fee_bookings: "LV Beitragsanteile buchen"
     invoice_orchestras: "Rechnungslauf Orchester starten"
     invoice_lorch: "Rechnungslauf Landesorchester starten"
     invoice_person_members: "Rechnungslauf EM starten"
@@ -692,6 +583,10 @@ de:
       current_password_hint: "(wird zum Bestätigen der Änderungen benötigt)"
       cancel_account: "Benutzeraccount löschen"
   activerecord: 
+    models:
+      orchestra_member: 
+        one: Orchestermitglied
+        other: Orchestermitglieder
     attributes:
       email:
         event_id: Event
@@ -719,37 +614,7 @@ de:
         filename: Dateiname
         other: Kontakt-Events
 
-      report_sheet:
-        generated: Generiert
-        korr_ztg: Zeitungen Korrektur (+/-)
-        invoiced: Abgerechnet
-        azubi: Beitragsfrei
-        year: Jahr
-        gema: GEMA
-        report_date: Datum
-        generated: Generiert
-        korr_ztg: Zeitungen Korrektur (+/-)
-        invoiced: Abgerechnet
-        children: Kinder
-        azubi: Beitragsfrei
-        uv: Unfallversicherung
-        teens: Jugendliche 15-18
-        youth: Erw. 19-27
-        adult: Erw. 28-64
-        senior: Erw. 65+ 
-        passive: Passiv
-        supporters: "Fördervereinmitglieder"
-        year: Jahr
-        gema: GEMA
-        report_date: Datum
-        child_ens: Kinderensembles
-        youth_ens: Jugendensembles
-        adult_ens: Erwachsenenensembles
-        senior_ens: Seniorenensembles
-        chamber_ens: Kammermusikensembles
-        other_ens: Sonstige Ensembles
-
-
+  
       distinction:
         one: Ehrung
         other: Ehrungen
@@ -811,6 +676,8 @@ de:
           one: "Anzahl der bestellten Festivalkarten"
         arrival_time:
           one: "Ankunft in Bruchsal"
+        meals:
+          one: "Anzahl der bestellten Festivalkarten"
         veg:
           one: "Anzahl vegetarisches Essen"
         email:
@@ -898,6 +765,7 @@ de:
          jugend_url: Jugend-Homepage
          konto: Konto
          blz: BLZ
+         zahler: Konto-Inhaber
       magazine_sampling:
          firma: Firma
       contact:
@@ -907,9 +775,6 @@ de:
          name: Name
       regional_organization:
         name: LV-Name
-      report_sheet:
-        generated: Generiert
-        comment: Kommentar
       url:
         attributes: 
           url_category:
@@ -1014,19 +879,6 @@ de:
       truncate: "&hellip;"
   helpers:
     label:
-      report_sheet_input:
-        token: "Passwort"
-      orchestra_contact:
-        first_name: Vorname
-        last_name: Nachname
-        street: Straße
-        zip: PLZ
-        city: Ort
-        email: E-Mail
-        phone: Telefon
-        role: Rolle
-        salutation: Anrede
-
       report_sheet:
         child_ens: Kinderensembles
         youth_ens: Jugendensembles
@@ -1058,33 +910,28 @@ de:
         calcUvCount: Unfallversicherung
         totalActiveMembers: Gesamt Aktiv
         calcBeitrag: Mitgliedsbeiträge
+        year: Jahr
+        gema: GEMA
+        report_date: Datum
+        generated: Generiert
+        korr_ztg: Zeitungen Korrektur (+/-)
+        invoiced: Abgerechnet
+        children: Kinder
+        azubi: Beitragsfrei
+        uv: Unfallversicherung
+        zusatz_uv: Zusätzl. UV
+        teens: Jugendliche 15-18
+        youth: Erw. 19-27
+        adult: Erw. 28-64
+        senior: Erw. 65+ 
+        passive: Passiv
+        supporters: "Fördervereinmitglieder"
 
       orchestra:
         orchName: Orchestername
         orch_name: Orchestername
         gruendung: Gründungsdatum
         anrede: Anrede
-      member:
-        fullname: "Name"
-        vorname: Vorname
-        nachname: Nachname 
-        country_code: Land
-        strasse: Straße
-        plz: PLZ
-        ort: Ort
-        iban: IBAN
-        bic: BIC
-        mref: SEPA-Mandatsreferenz
-        email: E-Mail
-        name: Name
-        phone: Telefon
-        fax: Fax
-        street: Straße
-        city: Ort
-        zip: PLZ
-        mglnr: Mitgliedsnummer
-        regional_organization_id: Landesverband
-
 
       contact_event: 
         <<: *member_event_labels
@@ -1119,56 +966,6 @@ de:
       festival_participant: &festival_participant_labels
         other: Festival-Teilnehmer
         one: Festival-Teilnehmer
-      festival_application: &festival_app_labels
-        one: "Festival-Bewerbung"
-        other: "Festival-Bewerbungen"
-        closed: "Eine Anmeldung ist nicht mehr möglich. Wir bitten um Ihr Verständnis."
-        group_list: Gruppen-Liste
-        soloist_tickets: Solisten-Tageskarten
-        stage_time: Auftrittszeit
-        contact_phone: Kontakt-Telefon
-        open_issues: Offene Posten
-
-        invoice: Rechnung
-        payment_status: Zahlungsstatus
-        payment_states:
-          N: "Nicht bezahlt"
-          P: "Anzahlung erhalten"
-          F: "Volle Zahlung erhalten"
-          S: "Sondervereinbarung"
-        amount: "Bisherige Zahlung"
-        country_id: "Herkunftsland"
-        orchestra: Orchester
-        orch_name: Name der Gruppe
-        conductor: Dirigent
-        bdz_member: BDZ Mitglied
-        tickets: Festivalkarten
-        tickets_red: "Festivalkarten (ermäßigt)"
-        bdz_tickets: "Festivalkarten (BDZ-Mitglied)"
-        bdz_tickets_red: "Festivalkarten (BDZ-Mitglied), ermäßigt"
-        permission: "Zulassung zum Festival"
-        festival_concert_id: "Konzert"
-        permission_granted: "zugelassen"
-        num_players: "Anzahl Spieler"
-        equipment: "Benötigte Ausrüstung"
-        special_cast: "Spezielle Besetzung"
-        contact_person: "Kontaktperson"
-        add_piece: "Stück hinzufügen"
-        group_type: "Art der Gruppe"
-        group_types:
-          O: Orchester
-          E: Ensemble
-          S: Solist
-          D: Duo 
-          T: Trio
-        visitor_type: "Besucher-Typ"
-        visitor_types:
-          R: "Regulärer Teilnehmer"
-          G: "Gast"
-          V: "Teilnehmer mit Sondervereinbarung"
-          Y: "Jugend musiziert Ensemble"
-          O: "OpenAir Teilnehmer"
-        rehearsal_time: "Einspiel-Beginn"
       festival_concert: &festival_concert_labels
         other: Festival-Konzerte
         one: Festival-Konzert
@@ -1185,7 +982,7 @@ de:
         last_name: Name
         street: "Straße"
         zip: Postleitzahl
-        country_id: Land
+        country_code: Land
         city: Stadt
         phone: Telefon
         fax: Fax
@@ -1222,13 +1019,6 @@ de:
         display_entries: "Zeige Einträge <b>%{first}&nbsp;-&nbsp;%{last}</b> von <b>%{total}</b>"
   festival_perticipant:
     <<: *festival_participant_labels
-  festival_application:
-    <<: *festival_app_labels
-    new: "Neue Festival-Bewerbung"
-    planned_programme: "Geplantes musikalisches Programm (max. 20 Minuten)"
-    step2_title: "Festival Bewerbung (Teil 2)"
-    finalize_title: "Festival Bewerbung"
-    confirm: "Vielen Dank für Ihre Festival-Bewerbung. Wir werden sie kontaktieren sobald Ihre Bewerbung ausgewertet wurde."
   festival_mail:
     <<: *festival_mail_labels
   festival_concert: 
@@ -1246,6 +1036,7 @@ de:
   activemodel:
     models:
       report_sheet: Meldebogen
+      orchestra_member: Orchestermitglied
     errors:
       models:
         sepa/credit_transfer_transaction:
@@ -1263,4 +1054,14 @@ de:
             transactions:
               blank: "No transactions to generate."
 
-
+  mongoid:
+    errors:
+      messages:
+        message_title: "Mongoid Meldung"
+        no_client_config:
+          message: No client config
+        summary_title:
+          no_client_config:
+            summary: Zusammenfassung
+            resolution: Lösung
+        resolution_title: Lösungsüberschrift

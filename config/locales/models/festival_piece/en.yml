@@ -1,0 +1,17 @@
+en:
+  festival_piece:
+    one: "Piece"
+    other: "Pieces"
+    create_festival_piece: "Add piece"
+    add_piece: "Add piece"
+  activerecord:
+    attributes:
+      festival_piece: &festival_piece_labels
+        composer: Composer
+        title: Title
+        duration: Duration
+ 
+  helpers:
+    label:
+      festival_piece:
+        <<: *festival_piece_labels

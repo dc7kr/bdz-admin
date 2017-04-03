@@ -1,0 +1,36 @@
+en:
+  festival_application: 
+    other: "Festival applications"
+    one: "Festival application"
+    general_panel_title: "General Information"
+    new: "New festival application"
+    planned_programme: "Planned programme (max. 20 minutes)"
+    step2_title: "Festival application (part 2)"
+    finalize_title: "Festival application - finalize"
+    add_piece: "Add piece"
+    confirm: "Thank you for your application. We will contact you with further details after your application has been processed."
+    group_types:
+      O: Orchestra
+      E: Ensemble
+      S: "Soloist"
+      D: Duo 
+      T: Trio
+  activerecord:
+    attributes:
+      festival_application: &festival_app_labels
+        country_code: "Country of origin"
+        orchestra: Orchestra
+        orch_name: Group name
+        conductor: Conductor
+        num_players: "Number of players"
+        equipment: "Required equipment"
+        special_cast: "Special cast"
+        contact_person: "Contact person"
+        group_type: "Group type"
+        stage_time: Stage time
+        rehearsal_time: Rehearsal time
+  helpers:
+    label:  
+      festival_application:
+        <<: *festival_app_labels
+

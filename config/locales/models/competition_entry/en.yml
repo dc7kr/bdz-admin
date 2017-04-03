@@ -1,0 +1,30 @@
+en:
+  competition_entry:
+    one: "Competition entry"
+    other: "Competition entries"
+    question1: "Who is currently president of the BDZ?"
+    question2: "Who is currently secretary of the BDZ?"
+    question3: "Who is currently national youth leader of the BDZ?"
+    question4: "Who is currently national musical leader of the BDZ?"
+
+    feedback:
+      title: "Festival-Feedback"
+      hint: "The feedback is entirely voluntary. We are happy to receive your feedback."
+      like: "What did you like on the festival?"
+      missing: "What should the „BDZ eurofestival zupfmusik“ offer in addition?"
+      improve: "What needs to be improved from your perspective?"
+
+
+    questions:
+      title: "Questions"
+    personal_data:
+      title: "Personal Data"
+    success:
+      title: "Thanks for your participation."
+      text: "We are happy that you participated with our competition and wish you good luck for the drawing."
+      winner_id_is: "Your lucky number is: "
+
+    submit: "Submit response"
+
+
+

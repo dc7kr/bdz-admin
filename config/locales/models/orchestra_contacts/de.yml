@@ -20,5 +20,11 @@ de:
         phone: Telefon
         role: Rolle
         salutation: Anrede
+  helpers:
+    label:
+      orchestra_contact:
+        role: Rolle        
+        phone: Telefon
+        email: E-Mail
 
 
