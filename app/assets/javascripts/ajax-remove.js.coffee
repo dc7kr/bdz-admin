@@ -1,6 +1,7 @@
 $ ->
   $("a[data-remote]").on "ajax:success", (e, data, status, xhr) ->
     if data.type == 'data' 
+      console.log("Data!")
     else if data.status=='ok' 
       target = $('#row'+data.entityId)
 

@@ -1,0 +1,30 @@
+.concert_data {
+    clear: both;
+    display: block;
+    float: left;
+    overflow: hidden;
+    white-space: nowrap;
+  padding-bottom: 6px;
+
+  .concert_date {
+      font-weight: bold;
+  }
+
+  .concert_title {
+      clear: both;
+      color: #008fac;
+      display: block;
+  }
+
+  p.concert_descr {
+    clear: both;
+    display: block;
+    font-style: italic; 
+    width:100%;  
+  }
+
+  .concert_location {
+    clear: both;
+    display: block;
+  }
+}

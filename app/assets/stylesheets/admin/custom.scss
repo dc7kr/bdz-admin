@@ -72,6 +72,11 @@ h2.error {
 	font-weight:bold;
 }
 
+td.faulty {
+  color: #ffffff;
+  background: #ff0000;
+}
+
 table.border {
 	border:solid silver 1px;
 	margin:0;
@@ -171,4 +176,11 @@ hr.calc_final {
   margin-bottom:20px;
   margin-top:0px;
   border-top: 3px double #999; 
+}
+
+.error-with-icon {
+  font-size: 5em;
+  span.glyphicon {
+    color:red;
+  }
 }

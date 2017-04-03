@@ -14,7 +14,7 @@ td.title {
 	font-size:18pt;
 }
 
-p { 
+p.content { 
 	width: 90%;
 	text-align:justify;
 	margin-left:auto;
@@ -106,7 +106,7 @@ table.wv_overview {
 	width:100%;
 }
 
-table {
+table.content {
 	width: 90%;
 	margin: auto;
 }
@@ -210,12 +210,12 @@ a.button:active span {
     background-position: bottom left;
     padding: 6px 0 4px 18px; /* push text down 1px */
 } 
-.required { color:#ff0000;font-weight:bold; }
+.required:after { color:#ff8000; content: ' (*)'; }
 div.form { position:absolute; left:100px; }
 .form_label { font-weight:bold; font-size:10pt; }
 .form_field { }
 .form_required { color:red;font-weight:bold; }
-div.form_required{ position:relative; left:0px; top:5px;color:#ff0000;}
+div.form_required{ position:relative; left:0px; top:5px;color:#ff8000;}
 
 a.Item, a.Item:visited
   {
@@ -427,4 +427,24 @@ td.label_required {
     content: " *";
     color:#ff0000;
   }
+}
+
+h2 {
+    color:#000000;
+    text-align:left;
+    font-weight:bold;
+    /* font-weight:bold; */
+    font-size:10pt;
+    margin-top:5px;
+    margin-bottom:5px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    margin-left:0px;
+    letter-spacing:0.1em;
+    width:100%;
+    letter-spacing: 0.05em;
+
+    border-top: solid $blue 2px;
+    border-bottom: solid $blue 2px;
+    clear:both;
 }
