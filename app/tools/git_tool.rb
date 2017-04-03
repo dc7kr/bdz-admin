@@ -12,6 +12,10 @@ class GitTool
     	{}
   		end
 	end
+
+  def current
+    `git describe --dirty --abbrev=6 --always`
+  end
   private 
   def gitparse(commit_count) 
     cmd = "git log --abbrev-commit --max-count=#{commit_count}" 
