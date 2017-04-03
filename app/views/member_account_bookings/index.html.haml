@@ -4,8 +4,11 @@
   .content
     %h2.title
       = t("booking.index")
-      #{@name} (#{@member.mglnr})
+      - if not @member.nil? then 
+        #{@name} (#{@member.mglnr})
     .inner
+      #entry_info
+        = page_entries_info @bookings
       %table.table.table-hover.table-condensed
         %thead
           %tr
@@ -18,5 +21,7 @@
             %th.last
         %tbody#member_account_bookings
           = render @bookings
+      #paginator
+        = paginate @bookings, { :remote=>true, :type=>"script"}
 
 - content_for :sidebar, render(:partial => 'sidebar')

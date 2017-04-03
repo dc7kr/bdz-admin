@@ -6,20 +6,20 @@
     %h2.title
       = @ensemble.name
     .inner
-      %table
-        %tr
-          %td.label=t('ensemble.homepage')
-          %td= link_to @ensemble.homepage, @ensemble.homepage
-        %tr
-          %td.label=t('ensemble.beschreibung')
-          %td= @ensemble.beschreibung
-        %tr
-          %td.label=t('ensemble.email')
-          %td= mail_to @ensemble.email,@ensemble.email
-        %tr
-          %td.label=t('ensemble.owner')
-          %td= @ensemble.owner
-        %tr
-          %td.label=t('ensemble.visible')
-          %td= @ensemble.visible
+      .container
+        .row
+          .col-md-3.text-right=label :ensemble, :homepage
+          .col-md-9=link_to @ensemble.homepage, sanitize_url(@ensemble.homepage)
+        .row
+          .col-md-3.text-right=label :ensemble, :beschreibung
+          .col-md-9= @ensemble.beschreibung
+        .row
+          .col-md-3.text-right=label :ensemble, :email
+          .col-md-9= mail_to @ensemble.email,@ensemble.email
+        .row
+          .col-md-3.text-right=label :ensemble, :owner
+          .col-md-9= @ensemble.owner
+        .row
+          .col-md-3.text-right=label :ensemble, :visible
+          .col-md-9= @ensemble.visible
       

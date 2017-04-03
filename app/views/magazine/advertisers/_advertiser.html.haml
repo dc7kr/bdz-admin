@@ -6,6 +6,6 @@
     %td=advertiser.contact.company
     %td= mail_to  advertiser.contact.email, advertiser.contact.email
     %td
-      = link_to_show advertiser
-      = link_to_edit advertiser
-      = link_to_delete advertiser
+      = link_to_show [:magazine,advertiser]
+      = link_to_edit [:magazine, advertiser ]
+      = link_to_delete [:magazine,advertiser]

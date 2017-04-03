@@ -4,7 +4,7 @@
       .panel-heading Orchesterdaten
       .panel-body
         = f.text_field :orchName, :required=>true
-        = f.select :orch_type,   options_for_select([["Vereinsorchester", "O"], ["Kooperativ", "K"],  ["Landesorchester", "L"]],:selected=>@orchestra.orch_type)
+        = f.select :orch_type,   options_for_select([["Vereinsorchester", "O"], ["Kooperativ", "K"],  ["Landesorchester", "L"],["Auslandsorchester","A"],["Außerordentliche Mitglieder","X"]],:selected=>@orchestra.orch_type)
         = f.url_field :url
         = f.date_field :gruendung
 

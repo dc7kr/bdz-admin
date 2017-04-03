@@ -1,0 +1,15 @@
+= f.text_field :company
+= f.text_field :department
+= f.select :salutation, get_salutation_options(contact.salutation)
+= f.text_field :title
+= f.text_field :first_name
+= f.text_field :last_name
+= f.text_field :street
+= f.text_field :zip
+= f.text_field :city
+= contact.country_code
+= f.select :country_code, get_country_options
+= f.text_field :phone
+= f.text_field :fax
+= f.text_field :office_phone
+= f.text_field :email

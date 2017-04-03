@@ -1,0 +1,7 @@
+= bootstrap_form_for(@address, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10") do |f| 
+  .container-fluid
+    = render :partial => "contacts/contact_form", :locals => { :f => f,:contact=>@address}
+
+  .actions
+    = submit_button
+    = cancel_button

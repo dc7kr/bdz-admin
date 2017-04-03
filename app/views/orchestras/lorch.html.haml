@@ -14,4 +14,7 @@
         %th.last &nbsp;
       %tbody#orchestras
         =render @orchestras
+    #paginator
+      = paginate @orchestras, { :remote=>true, :type=>"script"}
+    .actions-bar.wat-cf
 - content_for :sidebar, render(:partial => 'sidebar')

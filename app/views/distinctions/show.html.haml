@@ -20,5 +20,5 @@
       .actions-bar.wat-cf
         .actions
           = edit_button edit_orchestra_distinction_path(@distinction.orchestra,@distinction), @distinction
-          - if (@distinction.member_account_booking == nil)
+          - if not @distinction.has_booking? then
             = generate_button t('distinction.generate_invoice'), gen_invoice_orchestra_distinction_path(@orchestra,@distinction)

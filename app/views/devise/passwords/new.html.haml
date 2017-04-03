@@ -1,15 +1,11 @@
-.block
-  .secondary-navigation
-    =render :partial=>'links'
-  .content
-    %h2.title
+.panel.panel-primary
+  .panel-heading
+    .panel-title
       =t("devise.forgot_pw")
-    = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f|
+  .panel-body
+    = bootstrap_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f|
       = devise_error_messages!
-      .field
-        = f.label :email
-        %br/
-        = f.email_field :email, autofocus: true
+      = f.email_field :email, autofocus: true
       .actions
         = f.submit t("devise.send_reset_instructions")
     = render "devise/shared/links"

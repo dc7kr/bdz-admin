@@ -1,29 +1,36 @@
-%table
-  %tr
-    %td
-    %td{:colspan=>2,:align=>:center} Mittag
-    %td{:colspan=>2, :align=>:center} Abend
-  %tr
-    %td
-    %td Vegetarisch
-    %td Gesamt
-    %td Vegetarisch
-    %td Gesamt
-  %tr
-    %td Donnerstag 
-    %td=@counts[:do][:mittag][:veg]
-    %td=@counts[:do][:mittag][:tln]
-    %td=@counts[:do][:abend][:veg]
-    %td=@counts[:do][:abend][:tln]
-  %tr
-    %td Freitag
-    %td=@counts[:fr][:mittag][:veg]
-    %td=@counts[:fr][:mittag][:tln]
-    %td=@counts[:fr][:abend][:veg]
-    %td=@counts[:fr][:abend][:tln]
-  %tr
-    %td Samstag
-    %td=@counts[:sa][:mittag][:veg]
-    %td=@counts[:sa][:mittag][:tln]
-    %td=@counts[:sa][:abend][:veg]
-    %td=@counts[:sa][:abend][:tln]
+.block
+  .secondary-navigation
+    =render :partial=>'nav'
+  .content
+    %h2.title
+      = t("event_meal.arrival_overview")
+    .inner
+      %table.table.table-condensed.table-hover
+        %tr
+          %th
+          %th{:colspan=>2,:align=>:center} Mittag
+          %th{:colspan=>2, :align=>:center} Abend
+        %tr
+          %th
+          %th Vegetarisch
+          %th Gesamt
+          %th Vegetarisch
+          %th Gesamt
+        %tr
+          %td Donnerstag 
+          %td=@counts[:do][:mittag][:veg]
+          %td=@counts[:do][:mittag][:tln]
+          %td=@counts[:do][:abend][:veg]
+          %td=@counts[:do][:abend][:tln]
+        %tr
+          %td Freitag
+          %td=@counts[:fr][:mittag][:veg]
+          %td=@counts[:fr][:mittag][:tln]
+          %td=@counts[:fr][:abend][:veg]
+          %td=@counts[:fr][:abend][:tln]
+        %tr
+          %td Samstag
+          %td=@counts[:sa][:mittag][:veg]
+          %td=@counts[:sa][:mittag][:tln]
+          %td=@counts[:sa][:abend][:veg]
+          %td=@counts[:sa][:abend][:tln]

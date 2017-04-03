@@ -5,7 +5,7 @@
       = t("common.error_500")
     .inner
       %p= @exception 
-      -if current_user != nil and current_user.admin?
+      -if current_user != nil and current_user.admin? or Rails.env != 'production'
         %pre
           =@exception.backtrace.join("\n")
         %h2 Cause

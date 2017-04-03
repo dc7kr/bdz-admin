@@ -1,11 +1,22 @@
-%h2 Doppelmitgliedschaftscheck
-
-%h3 Fehlerhaft:
-%table
-  = render @faulty_members
-%h3 Erfolgreich geprüft:
-%table
-  = render @checked_members
-- if @checked_members.count > 0 then
-  = wizard_img_button(update_double_members_orchestra_report_sheet_path(@orchestra,@orchestra.currentReportSheet,:dm=>@checked_members.count), t('report_sheet.update_double_members'), "/assets/icons/check.png")
-
+.content
+  .inner
+    %h2.title 
+      Doppelmitgliedschaftscheck
+      - if @needs_update then 
+        %span.label.label-danger=t("report_sheet.update_needed")
+      - else
+        %span.label.label-info=t("report_sheet.no_update_needed")
+    - if @faulty_members.count > 0 then
+      %h3 Fehlerhaft:
+      %table
+        = render @faulty_members
+    - if @checked_members.count > 0 then 
+      %h3 Erfolgreich geprüft:
+      %table
+        = render @checked_members
+    - if @neutral_members.count > 0 then 
+      %h3 Ignoriert:
+      %table
+        = render @neutral_members
+    - if @needs_update  then
+      = wizard_img_button(update_double_members_orchestra_report_sheet_path(@orchestra,@current_report_sheet,:dm=>@checked_members.count), t('report_sheet.update_double_members'), "/assets/icons/check.png")

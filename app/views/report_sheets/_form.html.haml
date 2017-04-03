@@ -1,4 +1,6 @@
 =bootstrap_form_for [@orchestra,@report_sheet], layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10" do |f| 
+  -@report_sheet.errors.each do |err|
+    =err.to_s
   .container-fluid
     = f.text_field :report_date_str
     = f.number_field :year 

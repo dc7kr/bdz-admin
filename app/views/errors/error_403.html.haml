@@ -1,0 +1,10 @@
+.content
+  .inner
+    .jumbotron
+      %h1
+        %span.glyphicon.glyphicon-lock
+        = t("common.error_403")
+      Der Benutzer #{@exception.user} hat keinen Zugriff auf #{@exception.resource.to_s.pluralize}.
+      -if current_user != nil and current_user.admin?
+        %pre
+          =@exception.backtrace.join("\n")

@@ -1,0 +1,12 @@
+Hallo #{@recipient.name},
+
+ein neues Rundschreiben wurde von #{@triggeredBy} erstellt.
+- if @letterUrl
+  Die verbleibenden Briefe können unter #{@letterUrl} heruntergeladen werden.
+  \.
+- else
+  Sämtliche Schreiben wurde per E-Mail versandt.
+Ergebnisse:
+- @results.each do |res|
+  - if not res.nil? then
+    |#{res[:mode]}|#{res[:entity].id}|#{res[:entity].email}|

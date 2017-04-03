@@ -14,6 +14,7 @@
           %th=t("member.fullname")
           %th=t("member.email")
           %th=t("booking.balance")
+          %th=t("member.last_payment")
           %th.last &nbsp;
         - @members.each do |member|
           %tr{:class => cycle("odd", "even")}
@@ -22,6 +23,12 @@
             %td= member.fullname
             %td=mail_to member.email, member.email
             %td=format_currency(@accounts[member.id],'€')
+            %td
+              -lp = member.last_payment
+              -if lp.nil? then
+                ="---"
+              -else
+                =l member.last_payment, format: :date_only
             %td.last
               = link_to_show member.member_entity
               = link_to_edit member.member_entity

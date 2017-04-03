@@ -18,6 +18,7 @@
           %th=t("member.email")
           %th=t("booking.balance")
           %th=t("orchestra.last_invoice")
+          %th=t("orchestra.last_payment")
           %th.last=t("common.links")
         - @members.each do |member| 
           - orchestra = member.member_entity
@@ -26,7 +27,14 @@
             %td=orchestra.orchName
             %td=mail_to member.email, member.email
             %td=format_currency(@accounts[member.id],'€')
-            %td=l orchestra.last_invoice
+            %td=l orchestra.last_invoice, format: :date_only
+            %td
+              -lp = member.last_payment
+              -if lp.nil? then
+                ="---"
+              -else
+                =l member.last_payment, format: :date_only
+            %td.last
             %td=link_to_orchestra_acct orchestra, t("orchestra.member_account")
       .actions-bar.wat-cf
         .actions

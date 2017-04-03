@@ -25,8 +25,8 @@
             %td.last
               = link_to_show(person_member_path(person_member), "#{t("web-app-theme.show", :default => "Show")}")
               |
-              \#{link_to_edit(edit_person_member_path(person_member), "#{t("web-app-theme.edit", :default => "Edit")}")} |
-              \#{link_to_delete(person_member_path(person_member), "#{t("web-app-theme.delete", :default => "Delete")}", "#{t("web-app-theme.confirm", :default => "Are you sure?")}")}
+              \#{link_to_edit(person_member, "#{t("web-app-theme.edit", :default => "Edit")}")} |
+              \#{link_to_delete(person_member, "#{t("web-app-theme.delete", :default => "Delete")}", "#{t("web-app-theme.confirm", :default => "Are you sure?")}")}
       = paginate @person_members
       .actions-bar.wat-cf
       .actions-bar.wat-cf

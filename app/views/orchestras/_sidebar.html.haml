@@ -7,6 +7,6 @@
       %li
         =link_to "Säumige GJ #{@previousYear}", nopayment_orchestras_path( :lastyear=> @previousYear)
       %li= link_to "GEMA Zahlen", "/orchestras/gema.csv"
-      %li= link_to "Jugendleiter-Adressen",  reports_youth_addresses_path
+      %li= link_to "Jugendleiter-Adressen",  reports_youth_addresses_path, data: { turbolinks:false }
       %li= link_to "Vereine ueber 90",  pro_musica_orchestras_path
 

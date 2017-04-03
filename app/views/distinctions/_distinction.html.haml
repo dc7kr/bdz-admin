@@ -10,7 +10,7 @@
     = link_to_show_path orchestra_distinction_path(@orchestra,distinction), t("common.show"), distinction
     - if (distinction.member_account_booking == nil or isAdmin?) then
       = link_to_edit_path edit_orchestra_distinction_path(@orchestra,distinction),  t("common.edit"), distinction
-      = link_to_del_path orchestra_distinction_path(@orchestra,distinction), t("common.delete"), t("common.delete_confirm"), distinction
+      = link_to_del_path orchestra_distinction_path(@orchestra,distinction), distinction, t("common.delete"), t("common.delete_confirm"), distinction
     - if (distinction.member_account_booking == nil)
       = link_to_generate_path t('distinction.generate_invoice'), gen_invoice_orchestra_distinction_path(@orchestra,distinction)
     - else

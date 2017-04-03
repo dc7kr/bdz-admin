@@ -9,12 +9,12 @@
       %table.table.table-hover.table-condensed
         %tr
           %th.first 
-            = sortable "datum", attr_heading(EnsembleConcert, :datum")
-          %th= attr_heading(EnsembleConcert, :zeit")
-          %th= sortable "stadt", attr_heading(EnsembleConcert, :stadt")
-          %th= sortable "ort", attr_heading(EnsembleConcert, :ort")
-          %th= attr_heading(EnsembleConcert, :interpret")
-          %th= attr_heading(EnsembleConcert, :url")
+            = sortable "datum", attr_heading(EnsembleConcert, :datum)
+          %th= attr_heading(EnsembleConcert, :zeit)
+          %th= sortable "stadt", attr_heading(EnsembleConcert, :stadt)
+          %th= sortable "ort", attr_heading(EnsembleConcert, :ort)
+          %th= attr_heading(EnsembleConcert, :interpret)
+          %th= attr_heading(EnsembleConcert, :url)
           %th.last &nbsp;
         %tbody#ensemble_concerts
           =render @ensemble_concerts

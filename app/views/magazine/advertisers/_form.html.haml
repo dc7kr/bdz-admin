@@ -1,0 +1,12 @@
+= bootstrap_form_for([:magazine,@advertiser], layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10") do |f| 
+  .container-fluid
+    =f.text_field :customer_number
+    = f.fields_for :contact do |contact_form|
+      = render :partial => "contacts/contact_form", :locals => { :f => contact_form,:contact=>@advertiser.contact}
+    = f.text_field :iban
+    = f.text_field :bic
+    = f.text_field :account_owner
+    = f.check_box :direct_debit
+    .actions
+      = submit_button
+      = cancel_button

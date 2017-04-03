@@ -1,31 +1,11 @@
-.block
-  = f.error_messages :message => "", :header_tag => :h3
-.group
-  %table
-    %tr
-      %td= f.label :participant_id
-      %td= f.text_field :participant_id
-    %tr
-      %td=f.label :name
-      %td=f.text_field :name
-    %tr
-      %td=f.label :email
-      %td=f.text_field :email
-
-    %tr 
-      %td=f.label :arrival_time
-      %td=f.text_field :arrival_time, :id => 'festival_arrival_time'
-    %tr
-      %td=f.label :tln
-      %td=f.number_field :tln 
-    %tr
-      %td=f.label :veg
-      %td=f.number_field :veg
-    %tr
-      %td=f.label :orderdate
-      %td=f.text_field :orderdate
-  %button.button{:type => "submit"}
-    = image_tag("web-app-theme/icons/tick.png", :alt => "#{t("web-app-theme.save", :default => "Save")}")
-    = t("web-app-theme.save", :default => "Save")
-  %span.text_button_padding= t("web-app-theme.or", :default => "or")
-  = cancel_button()
+= bootstrap_form_for :event_meal, :layout => :horizontal do |f|
+  = f.text_field :participant_id
+  =f.text_field :name
+  =f.email_field :email
+  =f.text_field :arrival_time, :id => 'festival_arrival_time'
+  =f.number_field :tln 
+  =f.number_field :veg
+  =f.text_field :orderdate
+  
+  = f.submit
+  = cancel_button

@@ -4,5 +4,6 @@
     .panel-heading Automatisierung
     .panel-body
       %ul.navigation
-        %li
-          =link_to "Datenübernahme aus Vorjahr", copy_from_last_year_orchestra_report_sheets_path( @orchestra ) 
+        - if @orchestra
+          %li
+            =link_to "Datenübernahme aus Vorjahr", copy_from_last_year_orchestra_report_sheets_path( @orchestra ) 

@@ -1,9 +1,9 @@
 = bootstrap_form_for @report_sheet_input, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10", :url => url_for(:action => :submit1, :id=> @report_sheet_input) do |f|
   = f.fields_for @report_sheet_input.report_sheet do |rs|
-    =form_my_field(rs,@report_sheet_input,:uv,:checkbox) 
+    =rs.check_box :uv
   = f.fields_for @report_sheet_input.orchestra do |orch|
     = orch.text_field :orchName
-    = form_my_field(orch,@report_sheet_input.orchestra, :gruendung,:date)
+    = orch.date_field :gruendung
     - member = @report_sheet_input.orchestra.member
     = orch.fields_for :member do |mf|
       = mf.select :anrede, get_salutation_options(member.anrede)

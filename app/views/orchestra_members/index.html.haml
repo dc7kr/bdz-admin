@@ -7,6 +7,9 @@
       = t("orchestra_member",:count=>3)
     .inner
 
+      #entry_info
+        = page_entries_info @orchestra_members
+      = link_to_generated_download_path(t('common.download'),orchestra_orchestra_members_path(@orchestra,:format=>:ods))
       %table.table.table-hover.table-condensed
         %thead
           %th.first= sortable "first_name", attr_heading(OrchestraMember,:first_name)

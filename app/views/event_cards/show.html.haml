@@ -3,28 +3,18 @@
     =render :partial=>'nav'
   .content
     %h2.title
-      #{t("event_card")} Nr. #{@event_card.id} 
+      #{t("event_card",:count=>1)} Nr. #{@event_card.id} 
       - if @event_card.pickup then
         (bereits abgeholt)
     .inner
       %h3=mail_to @event_card.email, @event_card.name
 
-      %table 
-        %tr
-          %td=label_tag :event_card, :company
-          %td=@event_card.company
-        %tr
-          %td=label_tag :event_card, :street
-          %td=@event_card.street
-        %tr
-          %td=label_tag :event_card, :zip
-          %td=@event_card.zip
-        %tr
-          %td=label_tag :event_card, :city
-          %td=@event_card.city
-        %tr
-          %td=label_tag :event_card, :country_code
-          %td=@event_card.country_code
+      =entity_row(@event_card,:company)
+      =entity_row(@event_card, :street)
+      =entity_row(@event_card, :zip)
+      =entity_row(@event_card, :city)
+      =entity_row(@event_card, :country_code,:country)
+      
       %h4 #{t('event_card.orderdate')}:  #{format_date @event_card.orderdate}
       %table 
         %tr

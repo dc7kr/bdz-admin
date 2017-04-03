@@ -1,0 +1,9 @@
+.block
+  .secondary-navigation
+    = render :partial => 'nav'
+  .content
+    %h2.title
+      =t("common.edit")
+      =t("magazine_issue",:count=>1)
+    .inner
+      = render :partial => "form"

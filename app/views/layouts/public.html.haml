@@ -2,22 +2,20 @@
 %html
   %head
     %title BDZ Online
-    = stylesheet_link_tag :public
-    = javascript_include_tag :application
-    = csrf_meta_tag
+    = stylesheet_link_tag :public, 'data-turbolinks-track'=>true, media: :all
+    = javascript_include_tag :application, 'data-turbolinks-track'=>true
+    = javascript_include_tag :application, params[:controller], 'data-turbolinks-track'=>true
+    = csrf_meta_tags
   %body
     .container
       #user-navigation
         -if (current_user)
           Eingeloggt als #{current_user.email}
           %a.logout{:href => "/logout"}= t("web-app-theme.logout", :default => "Logout")
-      #main-navigation
-        %ul.wat-cf
-      #wrapper.wat-cf
+      #wrapper
         .flash
           - flash.each do |type, message|
             %div{:class => "message #{type}"}
               %p= message
         #main
           = yield
-

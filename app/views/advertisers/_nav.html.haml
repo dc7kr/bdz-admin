@@ -1,7 +1,0 @@
-%ul.nav.nav-tabs
-  %li{ :class => 'first'}= link_to_up_path t("common.up"), home_magazine_data_path
-  %li{ :class=> tabActiveClass(@current_action,'index','first')}= link_to "#{t("common.list", :default => "List")}", advertisers_path
-  - if (@advertiser)
-    %li{ :class => tabActiveClass(@current_action,'show',nil)}= link_to t("common.show"), '#'
-  %li= link_to "#{t("common.new", :default => "New")}", new_advertiser_path
-

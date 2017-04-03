@@ -1,22 +1,16 @@
-= form_for @festival,:html => { :class => "form-horizontal"} do |f|
-  -if @festival.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@festival.errors.count, "error")} prohibited this festival from being saved:"
-      %ul
-        - @festival.errors.full_messages.each do |msg|
-          %li= msg
+= bootstrap_form_for(@festival, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10") do |f| 
   .container-fluid
-    =form_my_field(f,@festival, :startdate)
-    =form_my_field(f,@festival, :bland)
-    =form_my_field(f,@festival, :name)
-    =form_my_field(f,@festival, :description)
-    =form_my_field(f,@festival, :anmeldung)
-    =form_my_field(f,@festival, :gebuehren)
-    =form_my_field(f,@festival, :stadt)
-    =form_my_field(f,@festival, :homepage)
-    =form_my_field(f,@festival, :ort)
-    =form_my_field(f,@festival, :ortdetails)
-    =form_my_field(f,@festival, :visible,:checkbox)
+    =f.date_field :startdate
+    =f.text_field :bland
+    =f.text_field :name
+    =f.text_field :description
+    =f.text_field :anmeldung
+    =f.text_field :gebuehren
+    =f.text_field :stadt
+    =f.url_field :homepage
+    =f.text_field :ort
+    =f.text_field :ortdetails
+    =f.check_box :visible
     .actions
       = f.submit 'Save'
       = cancel_button()

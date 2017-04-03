@@ -5,8 +5,8 @@
   %td=member_event.comment
   %td
     -if (@isOrchestra) then
-      = link_to_edit_path( edit_orchestra_member_event_path(@member,member_event),'Edit',member_event)
-      = link_to_del_path( orchestra_member_event_path(@member,member_event), 'Del',t('common.delete_confirm'),member_event)
+      = link_to_edit_path( edit_orchestra_member_event_path(@member,member_event),"edit",member_event)
+      = link_to_del_path( orchestra_member_event_path(@member,member_event), member_event, 'Del',t('common.delete_confirm'),member_event)
       = link_to_download_path(t('common.download'),download_orchestra_member_event_path(@member,member_event),member_event)
     -else
       = link_to_edit_path( edit_person_member_member_event_path(@member,member_event),'Edit',member_event)

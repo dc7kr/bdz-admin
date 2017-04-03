@@ -1,0 +1,13 @@
+%ul.dropdown-menu{ :aria => {:labelledby=>"dropdownMenu2"}}
+  %li= link_to t('festival_application',:count=>3), festival_applications_path
+  %li= link_to t('festival_perticipant',:count=>3), permitted_festival_applications_path
+  %li= link_to t('festival_concert',:count=>3), festival_concerts_path
+  %li.divider{:role=>"separator"}
+  %li= link_to t('event_meal',:count=>3), event_meals_path
+  %li= link_to t('event_card',:count=>3), event_cards_path
+  %li= link_to t('event_meal.arrival_overview'), arrival_overview_event_meals_path
+  %li= link_to t('competition_entry',:count=>3), competition_entries_path
+  %li.divider{:role=>"separator"}
+  %li= link_to t('festival_mail',:count=>3), festival_mails_path
+  %li= link_to t('festival_mail.gen_invoices'), invoices_festival_mails_path
+  %li= link_to t('festival_mail.reservation_invoices'), reservation_invoices_festival_mails_path

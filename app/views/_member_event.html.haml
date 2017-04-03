@@ -1,9 +1,0 @@
-%tr
-  %td= member_event.event_type
-  %td= member_event.event_date
-  %td= member_event.event_id
-  %td= member_event.comment
-  %td= link_to_show member_event, t('common.show')
-  %td= link_to 'Edit', edit_member_event_path(member_event)
-  %td= link_to 'Destroy', member_event, :confirm => 'Are you sure?', :method => :delete
-

@@ -1,0 +1,12 @@
+.block
+  .secondary-navigation
+    = render :partial=>'nav'
+  .content
+    %h2.title
+      =t("magazine_advert",:count=>1)
+    .inner
+      = entity_row(@magazine_advert.magazine_issue,:full_number)
+      = entity_row(@magazine_advert.advertiser,:customer_number)
+      = entity_row(@magazine_advert.advertiser.contact,:company)
+      = entity_row(@magazine_advert,:advert_type)
+

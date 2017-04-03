@@ -3,8 +3,9 @@
     =render :partial=>'nav'
   .content
     %h2.title
-      = t("common.all")
-      = t("festival_application.plural")
+      = t("festival_application",:count=>3)
+      - 
+      = t("festival_application.open_issues")
     .inner
 
       %table

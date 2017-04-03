@@ -8,7 +8,10 @@
     %br
     #{t('festival_application.conductor')}: #{festival_application.conductor}
     %br
-    = mail_to festival_application.contact_person.email, festival_application.contact_person.email
+    -if festival_application.contact_person.nil? then
+      nix
+    -else
+      = mail_to festival_application.contact_person.email, festival_application.contact_person.email
   %td= festival_application.num_players
   %td= t("festival_application.payment_states.#{festival_application.payment_status}")
   %td= festival_application.amount

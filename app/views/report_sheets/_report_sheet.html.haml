@@ -6,7 +6,7 @@
       -else
         =link_to report_sheet.year.to_s, orchestra_report_sheet_path(@orchestra,report_sheet)
   -else
-    %td=report_sheet.orchestra.mglnr
+    %td=report_sheet.orchestra.member.mglnr
   %td #{report_sheet.children} - #{report_sheet.teens} - #{report_sheet.youth} - #{report_sheet.adult} - #{report_sheet.senior}
   %td=format_bool(report_sheet.uv ) 
   %td=report_sheet.zusatz_uv

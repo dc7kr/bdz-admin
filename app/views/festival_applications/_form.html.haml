@@ -1,99 +1,42 @@
-.block
-  = f.error_messages :message => "", :header_tag => :h3
-.group
-  %table
-    %tr
-      %td= f.label :country_code, :class=> :label
-      %td=f.country_select :country_code,  iso_codes:true
-    %tr
-      %td= f.label :group_type, :class => :label
-      %td= f.select :group_type, get_group_type_options(@festival_application.group_type)
-    %tr
-      %td= f.label :visitor_type, :class => :label
-      %td= f.select :visitor_type, get_visitor_type_options(@festival_application.visitor_type)
-    %tr
-      %td= f.label :orch_name, :class => :label
-      %td= f.text_field :orch_name
-    %tr
-      %td= f.label :conductor, :class => :label
-      %td= f.text_field :conductor
-    %tr
-      %td= f.label :num_players, :class => :label
-      %td= f.number_field :num_players
-    %tr
-      %td= f.label :contact_phone, :class => :label
-      %td= f.text_field :contact_phone
-    %tr
-      %td= f.label :permission, :class=> :label
-      %td= f.check_box :permission
-    %tr
-      %td= f.label :bdz_tickets, :class=> :label
-      %td= f.number_field :bdz_tickets
-    %tr
-      %td= f.label :bdz_tickets_red, :class=> :label
-      %td= f.number_field :bdz_tickets_red
-    %tr
-      %td= f.label :tickets, :class=> :label
-      %td= f.number_field :tickets
-    %tr
-      %td= f.label :tickets_red, :class=> :label
-      %td= f.number_field :tickets_red
-    %tr
-      %td= f.label :soloist_tickets, :class=> :label
-      %td= f.number_field :soloist_tickets
-    %tr
-      %td= f.label :payment_status, :class=> :label
-      %td= f.select :payment_status, get_payment_status_options(@festival_application.payment_status)
-    %tr
-      %td= f.label :amount, :class=> :label
-      %td= f.number_field :amount
-    %tr
-      %td= f.label :concert, :class => :label
-      %td= collection_select(:festival_application, :festival_concert_id, FestivalConcert.all, :id, :label) 
-    %tr
-      %td= f.label :rehearsal_time, :class => :label
-      %td= f.text_field :rehearsal_time
-    %tr
-      %td= f.label :stage_time, :class => :label
-      %td= f.text_field :stage_time
-    %tr
-      %td= f.label :contact_person, :class => :label
-      %td
-        =  fields_for(:contact_person, @festival_application.contact_person)  do |person_f|
-          %table
-            %tr
-              %td=person_f.label :salutation
-              %td=person_f.select :salutation, get_salutation_options(@festival_application.contact_person.salutation)
-            %tr
-              %td=person_f.label :first_name
-              %td=person_f.text_field :first_name 
-            %tr
-              %td=person_f.label :last_name
-              %td=person_f.text_field :last_name
-            %tr
-              %td=person_f.label :street
-              %td=person_f.text_field :street
-            %tr
-              %td=person_f.label :zip
-              %td=person_f.text_field :zip
-            %tr
-              %td=person_f.label :city
-              %td=person_f.text_field :city
-            %tr
-              %td=person_f.label :country_code
-              %td=person_f.country_select(:country_code, iso_codes: true)
-            %tr
-              %td=person_f.label :phone
-              %td=person_f.text_field :phone
-            %tr
-              %td=person_f.label :email
-              %td=person_f.text_field :email
-    %tr
-      %td= f.label :equipment, :class => :label
-      %td= f.text_field :equipment
-    %tr
-      %td= f.label :special_cast, :class => :label
-      %td= f.text_field :special_cast
+= bootstrap_form_for(@festival_application, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10") do |f| 
+  = country_select :festival_application, :country_code
+  = f.select :group_type, get_group_type_options(@festival_application.group_type)
+  = f.select :visitor_type, get_visitor_type_options(@festival_application.visitor_type)
+  = f.text_field :orch_name
+  = f.text_field :conductor
+  = f.number_field :num_players
+  = f.text_field :contact_phone
+  = f.check_box :permission
+  = f.number_field :bdz_tickets
+  = f.number_field :bdz_tickets_red
+  = f.number_field :tickets
+  = f.number_field :tickets_red
+  = f.number_field :soloist_tickets
+  = f.select :payment_status, get_payment_status_options(@festival_application.payment_status)
+  = f.number_field :amount
+  = collection_select(:festival_application, :festival_concert_id, FestivalConcert.all, :id, :label) 
+  = f.text_field :rehearsal_time
+  = f.text_field :stage_time
+
+  .panel.panel-default
+    .panel-heading
+      %h3.panel-title=t("helpers.label.contact_person",:count=>1)
+    .panel-body
+      =  f.fields_for(@festival_application.contact_person)  do |person_f|
+        =person_f.select :salutation, get_salutation_options( @festival_application.contact_person.salutation)
+        =person_f.text_field :first_name 
+        =person_f.text_field :last_name
+        =person_f.text_field :street
+        =person_f.text_field :zip
+        =person_f.text_field :city
+        .form-group
+          =person_f.label :country_code, { class: "control-label col-md-2" }
+          .col-md-10=person_f.country_select( :country_code ,{ iso_codes:true}, {class: "form-control"}) 
+        =person_f.text_field :phone
+        =person_f.text_field :email
+
+  = f.text_field :equipment
+  = f.text_field :special_cast
 
   %button.button{:type => "submit"}
     = image_tag("web-app-theme/icons/tick.png", :alt => t("common.save"))

@@ -4,8 +4,7 @@
   .content
     %h2.title
       = t("common.edit")
-      = t("event_card")
+      = t("event_card",:count=>1)
     .inner
-      = form_for @event_card, :url => event_card_path(@event_card), :html => { :class => :form } do |f|
-        = render :partial => "form", :locals => {:f => f}
+      = render :partial => "form"
 - content_for :sidebar, render(:partial => 'sidebar')

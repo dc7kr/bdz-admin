@@ -9,18 +9,23 @@
       =t("common.due_date")
       =l @before
     .inner
-      %table
+      %table.table.table-condensed
+        %tr
+          %th &nbsp;
+          %th{:colspan=>3} LV Anteile
+          %th{:colspan=>2} Gesamt
+          %th{:colspan=>4} SEPA Verfahren
         %tr
           %th=t('regional_organization.name')
-          %th=t('report_sheet.lv_em_part')
-          %th=t('report_sheet.lv_orch_part')
-          %th=t('report_sheet.lv_sum')
+          %th EM
+          %th Orchester
+          %th Summe
           %th=t('report_sheet.sum')
-          %th=t('report_sheet.uv')
-          %th=t('share_overview.dd_em_part')
-          %th=t('share_overview.dd_orch_part')
-          %th=t('share_overview.dd_sum')
-          %th=t('share_overview.dd_uv')
+          %th UV
+          %th EM
+          %th Orchester
+          %th Summe
+          %th UV
         - @regional_organization_shares.each do |s|
           %tr
             %td=s[:regional_organization].name
@@ -41,6 +46,10 @@
           %td.currency
             %b=format_currency @s[:lv_orch_sum]
           %td.currency
+            %b=format_currency @s[:lv_sum]
+          %td.currency
+            %b=format_currency @s[:full_sum]
+          %td.currency
             %b=format_currency @s[:uv_sum]
           %td.currency
             %b=format_currency @s[:dd_em_sum]
@@ -50,11 +59,3 @@
             %b=format_currency @s[:dd_sum]
           %td.currency
             %b=format_currency @s[:dd_uv_sum]
-      %table
-        -@s.each do |k|
-          %tr
-            %td=k[0]
-            %td=format_currency k[1]
-        
-
-

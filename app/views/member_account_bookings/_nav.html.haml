@@ -4,7 +4,7 @@
     %li{ :class => tabActiveClass(@current_action,'index','first')}= link_to "#{t("common.list")}", orchestra_member_account_bookings_path(@member_entity)
     - if current_user.accounting_permission?
       %li{:class => tabActiveClass(@current_action,'new',nil)}= link_to "#{t("common.new")}", new_orchestra_member_account_booking_path(@member_entity)
-  - else
+  - elsif not @member.nil?
     %li{ :class => 'first'}= link_to_up_path t("common.up"), person_member_path(@member_entity)
     %li{ :class => tabActiveClass(@current_action,'index','first')}= link_to "#{t("common.list")}", person_member_member_account_bookings_path(@member_entity)
     - if current_user.accounting_permission?
