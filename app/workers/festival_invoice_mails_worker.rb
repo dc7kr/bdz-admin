@@ -43,11 +43,11 @@ class FestivalInvoiceMailsWorker
 
         inv_type = "festival.en"
         locale = :en
-        subject = "eurofestival zupfmusik 2014 ticket invoice no. #{invoice.invoice_number} for participant no. #{appl.id}"
+        subject = "eurofestival zupfmusik 2014 ticket invoice no. #{invoice.number} for participant no. #{appl.id}"
 
         if invoice.customer.country == 'de' or invoice.customer.country=='at' then
           inv_type = "festival.de"
-          subject = "eurofestival zupfmusik 2014 - Ticket Rechnung Nr. #{invoice.invoice_number} fuer Teilnehmer Nr. #{appl.id}"
+          subject = "eurofestival zupfmusik 2014 - Ticket Rechnung Nr. #{invoice.number} fuer Teilnehmer Nr. #{appl.id}"
           locale = :de
         end
 
