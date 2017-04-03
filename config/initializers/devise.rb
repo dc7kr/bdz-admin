@@ -212,7 +212,11 @@ Devise.setup do |config|
   config.http_authenticatable_on_xhr = false
   config.navigational_formats = [:html, :json]
 
-  config.secret_key = '***REMOVED***'
+  if Rails.env.production?
+    config.secret_key = ENV['DEVISE_SECRET_KEY']
+  else
+    config.secret_key = 'x' * 128
+  end
 
 
 end
