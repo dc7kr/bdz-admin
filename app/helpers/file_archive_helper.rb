@@ -5,9 +5,17 @@ module FileArchiveHelper
 
     target = MailingFile.new(filename,filename,year)
 
-    FileUtils.mv(File.join(srcdir, filename), target.full_path)
+    srcFileName = File.join(srcdir, filename)
 
-    return target
+
+    if File.exist? srcFileName then
+      Rails.logger.debug("move #{srcFileName} to #{target.full_path}")
+      FileUtils.mv(srcFileName, target.full_path)
+      return target
+    else
+      Rails.logger.error("Source file not found: "+srcFileName)
+      return nil
+    end
   end
 
   # all parameters are MailingFile instances!
