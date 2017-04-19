@@ -1,0 +1,24 @@
+de:
+  activerecord: 
+    models:
+      member_event: &member_event_labels
+        event_type: Event-Typ
+        event_date: Event-Datum
+        event: Event-ID
+        event_types:
+          E: E-Mail
+          L: Brief
+          F: E-Mail-Fehler
+        filename: Dateiname
+        other: Kontakt-Events
+
+  member_event: 
+    <<: *member_event_labels
+
+  helpers:
+    label:
+      contact_event: 
+        <<: *member_event_labels
+
+  contact_event: 
+    <<: *member_event_labels

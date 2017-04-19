@@ -1,5 +1,5 @@
 de:
-  orchestra:
+  orchestra: &orchestra_labels
     one: Orchester
     other: Orchester
     create_success: "Orchester erfolgreich angelegt."
@@ -28,4 +28,14 @@ de:
     err_invalid_report_sheet_upload: "Ungültiges Dateiformat hochgeladen!"
     report_sheet_upload_success: "%{success} Mitgliedsdaten erfolgreich hochgeladen!"
     report_sheet_upload_warning: "%{success} Datensätze OK, %{error} Datensätze waren fehlerhaft!"
+
+  helpers:
+    label:
+      orchestra:
+        <<: *orchestra_labels
+
+        orchName: Orchestername
+        orch_name: Orchestername
+        gruendung: Gründungsdatum
+        anrede: Anrede
 

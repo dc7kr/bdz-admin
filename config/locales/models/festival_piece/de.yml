@@ -1,0 +1,15 @@
+de:
+  helpers:
+    label:
+      festival_piece: &festival_piece_labels
+        composer: Komponist
+        title: Titel
+        duration: Dauer
+        add_piece: "Stück hinzufügen"
+        one: "Gemeldetes Stück"
+        other: "Gemeldete Stücke"
+
+  festival_piece:
+    <<: *festival_piece_labels
+    create_festival_piece: "Stück hinzufügen"
+

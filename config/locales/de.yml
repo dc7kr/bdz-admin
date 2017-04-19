@@ -35,20 +35,6 @@ de:
     tickets: "Tickets"
     food: "Essen"
 
-  feature_request:
-    other: Feature Requests
-    one: Feature Request
-    open: Offene
-    owner: Eigentümer
-    title: Thema
-    description: Details
-    priority: Priorität
-    status:
-      title: Status
-      D: Erledigt
-      P: In Arbeit
-      O: Angehalten
-      N: Nicht begonnen
   tariff:
     one: Beitrag
     other: Beiräge
@@ -603,17 +589,6 @@ de:
         honorType: Ehrungstyp
         honorDate: Ehrungs-Datum
         deceased: Verstorben
-      member_event: &member_event_labels
-        event_type: Event-Typ
-        event_date: Event-Datum
-        event: Event-ID
-        event_types:
-          E: E-Mail
-          L: Brief
-          F: E-Mail-Fehler
-        filename: Dateiname
-        other: Kontakt-Events
-
   
       distinction:
         one: Ehrung
@@ -809,9 +784,6 @@ de:
     other: Bemusterungen
     count: Anzahl
     print_list: "Liste für Druck"
-  board_contact:
-    one: Vorstandskontakt
-    other: Vorstandskontakte
   contact:
     one: Adresse
     other: Adressen
@@ -832,16 +804,6 @@ de:
     zip: PLZ
     
     
-  function:
-    one: Funktion
-    other: Funktionen   
-    label: Eindeutiges Label
-    bund: Bund
-    jugend: Jugend
-    nr: Nr
-    funktion: Funktion
-    fkt_subtitle: Untertitel
-    untertitel: Untertitel
   subscriber:
     other: Abonnenten
     one: Abonnent
@@ -879,69 +841,6 @@ de:
       truncate: "&hellip;"
   helpers:
     label:
-      report_sheet:
-        child_ens: Kinderensembles
-        youth_ens: Jugendensembles
-        adult_ens: Erwachsenenensembles
-        senior_ens: Seniorenensembles
-        chamber_ens: Kammermusikensembles
-        other_ens: Sonstige Ensembles
-        azubi_child: "Aktive bis 14 Jahre"
-        azubi_teens: "Aktive 15 – 18 Jahre"
-        azubi_youth: "Aktive 19 – 27 Jahre"
-        azubi_adult: "Aktive 28 – 64 Jahre"
-        azubi_senior: "Aktive ab 65 Jahren"
-        children: Kinder
-        teens: Jugendliche 15-18
-        youth: Erw. 19-27
-        adult: Erw. 28-64
-        senior: Erw. 65+ 
-        passive: Passiv
-        supporters: "Fördervereinmitglieder"
-        zo: Zupforchester
-        zi_o: Zitherorchester
-        go: Gitarrenorchester
-        oz: "Sonstige Zupfinstrumente"
-        uv: Unfallversicherung
-        calcGemaCount: GEMA
-        calcZeitungen: Zeitungen
-        calcInvoice: Rechnungsbetrag
-        calcUV: Unfallversicherung
-        calcUvCount: Unfallversicherung
-        totalActiveMembers: Gesamt Aktiv
-        calcBeitrag: Mitgliedsbeiträge
-        year: Jahr
-        gema: GEMA
-        report_date: Datum
-        generated: Generiert
-        korr_ztg: Zeitungen Korrektur (+/-)
-        invoiced: Abgerechnet
-        children: Kinder
-        azubi: Beitragsfrei
-        uv: Unfallversicherung
-        zusatz_uv: Zusätzl. UV
-        teens: Jugendliche 15-18
-        youth: Erw. 19-27
-        adult: Erw. 28-64
-        senior: Erw. 65+ 
-        passive: Passiv
-        supporters: "Fördervereinmitglieder"
-
-      orchestra:
-        orchName: Orchestername
-        orch_name: Orchestername
-        gruendung: Gründungsdatum
-        anrede: Anrede
-
-      contact_event: 
-        <<: *member_event_labels
-      festival_piece: &festival_piece_labels
-        composer: Komponist
-        title: Titel
-        duration: Dauer
-        add_piece: "Stück hinzufügen"
-        one: "Gemeldetes Stück"
-        other: "Gemeldete Stücke"
       advertiser:
         customer_number: Kundennummer
       festival_mail: &festival_mail_labels
@@ -966,14 +865,6 @@ de:
       festival_participant: &festival_participant_labels
         other: Festival-Teilnehmer
         one: Festival-Teilnehmer
-      festival_concert: &festival_concert_labels
-        other: Festival-Konzerte
-        one: Festival-Konzert
-        title: Titel
-        location: Veranstaltungsort
-        event_time: Veranstaltungszeit
-        outdoor: "Open-Air Veranstaltung"
-        programme: "Konzertprogramm"
       contact_person: &contact_person_labels
         other: Kontakt-Personen
         one: Kontakt-Person
@@ -1021,18 +912,8 @@ de:
     <<: *festival_participant_labels
   festival_mail:
     <<: *festival_mail_labels
-  festival_concert: 
-    <<: *festival_concert_labels
-  festival_piece:
-    <<: *festival_piece_labels
-    create_festival_piece: "Stück hinzufügen"
   contact_person:
     <<: *contact_person_labels
-  contact_event: 
-    <<: *member_event_labels
-  member_event: 
-    <<: *member_event_labels
-
   activemodel:
     models:
       report_sheet: Meldebogen
