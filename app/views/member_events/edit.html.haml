@@ -1,7 +1,9 @@
-%h1 Event bearbeiten
-
-= link_back('Back')
-
-= form_for ([@member,@member_event]) do |f|
-  = f.hidden_field :member_id, :value=>@member.member.id
-  = render :partial => "form", :locals => {:f => f}
+.block
+  .secondary-navigation
+    = render :partial =>'nav'
+  .content
+    %h2.title
+      = t("common.edit")
+      = t("member_event",:count=>1)
+    .inner
+      = render 'form'

@@ -1,5 +1,9 @@
-%h1 New member_event
-
-= render 'form'
-
-= link_to 'Back', member_events_path
+.block
+  .secondary-navigation
+    = render :partial =>'nav'
+  .content
+    %h2.title
+      = t("common.new")
+      = t("member_event",:count=>1)
+    .inner
+      = render 'form'

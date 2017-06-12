@@ -1,8 +1,9 @@
-= f.hidden_field :member_id, :value=>@member.member.id
-.container-fluid
-  =form_my_select(f,@member_event, :event_type, options_for_select([["Telefonat", "T"], ["Email", "E"],  ["Brief", "B"]],:selected=>@member_event.event_type))
-  =form_my_field(f,@member_event, :event_date, :date)
-  =form_my_field(f,@member_event, :event_id)
-  .actions      
-    =submit_button
-    =cancel_button
+= bootstrap_form_for([@member_entity,@member_event], layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10") do |f| 
+  = f.hidden_field :member_id, :value=>@member_entity.member.id
+  .container-fluid
+    = f.select :event_type, options_for_select([["Telefonat", "T"], ["Email", "E"],  ["Brief", "B"]],:selected=>@member_event.event_type)
+    = f.date_field :event_date
+    = f.text_field :event_id
+    .actions      
+      =submit_button
+      =cancel_button
