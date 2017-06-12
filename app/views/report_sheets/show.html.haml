@@ -8,6 +8,11 @@
         %br
         = t("report_sheet",:count=>1)
         = @report_sheet.year
+        - if @needs_update
+          %span.label.label-danger=t("report_sheet.needs_new_invoice")
+        - if @inconsistent
+          %span.label.label-danger=t("report_sheet.inconsistent")
+      = @booking.amount+@invoice.sum
       =entity_row(@report_sheet,:report_date,:date)
       =entity_row(@report_sheet,:generated)
       =calculation_row(@report_sheet,:children, Prices.childrenRate)
