@@ -4,7 +4,7 @@
     -if board_contact.contact.nil? then
       INCONSISTENT
     -else 
-      = board_contact.contact.email
+      = mail_to board_contact.contact.email,board_contact.contact.email
   %td
     = link_to_show board_contact
     = link_to_edit board_contact
