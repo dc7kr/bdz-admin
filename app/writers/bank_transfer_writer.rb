@@ -1,20 +1,15 @@
 class BankTransferWriter
-  attr_accessor :datePrefix, :outfile
+  attr_accessor :date_prefix, :outfile,:workdir
 
-	def self.workdir
-		BDZ_SETTINGS['invoice_workdir']+"/"
-	end
-
-
-	def initialize(datePrefix=nil)
-    if datePrefix.nil? then
-      @datePrefix = Time.now.strftime '%Y%m%d%H%M%S'
+	def initialize(date_prefix=nil, workdir)
+    if date_prefix.nil? then
+      self.date_prefix = Time.now.strftime '%Y%m%d%H%M%S'
     else
-		  @datePrefix=datePrefix
+		  self.date_prefix=date_prefix
     end
 	end
 
 	def overrideDate(pref)
-		@datePrefix=pref+"_"
+		self.date_prefix=pref+"_"
 	end
 end
