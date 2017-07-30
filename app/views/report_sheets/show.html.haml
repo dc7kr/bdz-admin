@@ -12,7 +12,7 @@
           %span.label.label-danger=t("report_sheet.needs_new_invoice")
         - if @inconsistent
           %span.label.label-danger=t("report_sheet.inconsistent")
-      = @booking.amount+@invoice.sum
+
       =entity_row(@report_sheet,:report_date,:date)
       =entity_row(@report_sheet,:generated)
       =calculation_row(@report_sheet,:children, Prices.childrenRate)
@@ -28,6 +28,9 @@
       %hr.calc
       =calculation_sum(label(:report_sheet,:calcInvoice), @report_sheet.calcInvoice)
       %hr.calc_final
+      - if @needs_update
+        =calculation_sum(label(:report_sheet,:delta_invoice), @booking.amount+@invoice.sum)
+
 
       .panel.panel-default
         =entity_row(@report_sheet,:calcZeitungen)
@@ -38,4 +41,9 @@
         .row 
           .col-md-3=label(:report_sheet,:total)
           .col-md-9= @report_sheet.passive+@report_sheet.totalActiveMembers
+
+      - if @inconsistent
+        =link_to( t("report_sheet.update_from_members"), update_from_members_orchestra_report_sheet_path(@orchestra,@report_sheet), :class=>"btn btn-primary")
+      - if @needs_update and not @inconsistent
+        =link_to(t("report_sheet.update_invoice"), update_invoice_orchestra_report_sheet_path(@orchestra,@report_sheet), :class=>"btn btn-primary", :method=> :post)
 - content_for :sidebar, render(:partial => 'sidebar')
