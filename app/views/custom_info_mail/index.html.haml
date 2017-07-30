@@ -3,30 +3,15 @@
     
   .content
     .inner
-      %h2=t('custom_info_mail.s')
-      = form_for :email, :url => { :controller => 'custom_info_mail', :action => 'send_mail' } do |f|
-        %table.table.table-hover.table-condensed
-          %tr
-            %td= f.label :event_id
-            %td= f.text_field :event_id, :size => 60 
-          %tr
-            %td= f.label :group
-            %td= f.select :group, group_options
-          %tr
-            %td= f.label :subject 
-            %td= f.text_field :subject, :size => 60 
-          %tr
-            %td= f.label :body 
-            %td= f.text_area :body, :rols => 10, :cols => 60 
-          %tr
-            %td= f.label :via_paper
-            %td= f.check_box :via_paper
-          %tr
-            %td= f.label :datafile
-            %td= f.file_field :datafile
-          %tr
-            %td= f.label :attachment
-            %td= f.file_field :attachment
-          %br
-        = submit_tag t('custom_info_mail.submit')
+      %h2=t('custom_info_mail',:count=>1)
+      = bootstrap_form_for :email,  layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10" , :url => { :controller => 'custom_info_mail', :action => 'send_mail' } do |f|
+        = f.text_field :event_id, :size => 60 
+        = f.select :group, group_options
+        = f.text_field :subject, :size => 60 
+        = f.text_area :body, :rols => 10, :cols => 60 
+        = f.check_box :via_paper
+        = f.file_field :datafile
+        = f.file_field :attachment
+        %br
+        = f.submit t('custom_info_mail.submit')
 
