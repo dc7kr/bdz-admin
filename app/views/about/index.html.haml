@@ -6,21 +6,19 @@
       =t('common.about')
       =@git_info[:application].html_safe
     .inner
-      .block.notice
-        .content
-          %b Config
-          %table
+      %b Config
+      %table
+        %tr
+          %td.label SEPA-Mode
+          %td= @sepa
+      %p
+        %b #{t('about.last_commits')}: 
+        %table.table
+          - @git_info[:last_commits].each do |commit|
             %tr
-              %td.label SEPA-Mode
-              %td= @sepa
-          %p
-            %b #{t('about.last_commits')}: 
-            %table
-              - @git_info[:last_commits].each do |commit|
-                %tr
-                  %td=commit[:id]
-                  %td=commit[:date]
-                  %td
-                    %pre
-                      -commit[:lines].each do |line|
-                        =line.html_safe
+              %td=commit[:id]
+              %td=commit[:date]
+              %td
+                %pre
+                  -commit[:lines].each do |line|
+                    =line.html_safe
