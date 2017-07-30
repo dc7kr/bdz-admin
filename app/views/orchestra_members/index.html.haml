@@ -5,6 +5,7 @@
     %h2.title
       = t("common.all")
       = t("orchestra_member",:count=>3)
+      =link_to content_tag(:span,"",:class=>"glyphicon glyphicon-transfer"), exchange_all_orchestra_orchestra_members_path(@orchestra), {:class=>"btn btn-xs btn-default",:method=>:post}
     .inner
 
       #entry_info
@@ -28,6 +29,6 @@
           - if (@orchestra_members != nil and @orchestra_members.count > 0) then
             = wizard_del_button(delete_all_orchestra_orchestra_members_path(@orchestra), t('orchestra_member.delete_all'),@orchestra_members[0]);
             - if @orchestra.is_lorch?
-              = wizard_img_button(check_double_orchestra_orchestra_members_path(@orchestra), t('orchestra_member.check_double'), "/assets/icons/check.png")
+              = icon_link_to "glyphicon-ok-circle", t('orchestra_member.check_double'), check_double_orchestra_orchestra_members_path(@orchestra)
 
 - content_for :sidebar, render(:partial => 'sidebar')

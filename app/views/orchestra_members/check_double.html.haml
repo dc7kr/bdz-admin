@@ -7,16 +7,19 @@
       - else
         %span.label.label-info=t("report_sheet.no_update_needed")
     - if @faulty_members.count > 0 then
-      %h3 Fehlerhaft:
-      %table
+      %h3
+        %span.label.label-danger Fehlerhaft:
+      %table.table.table-collapsed
         = render @faulty_members
     - if @checked_members.count > 0 then 
-      %h3 Erfolgreich geprüft:
-      %table
+      %h3 
+        %span.label.label-success Erfolgreich geprüft:
+      %table.table.table-collapsed
         = render @checked_members
     - if @neutral_members.count > 0 then 
-      %h3 Ignoriert:
-      %table
+      %h3 
+        %span.label.label-warning Ignoriert:
+      %table.table.table-collapsed
         = render @neutral_members
     - if @needs_update  then
       = wizard_img_button(update_double_members_orchestra_report_sheet_path(@orchestra,@current_report_sheet,:dm=>@checked_members.count), t('report_sheet.update_double_members'), "/assets/icons/check.png")
