@@ -7,7 +7,7 @@
     -else
       = form_my_field(f,member, :regional_organization_id,:static)
 
-    = f.date_field :eintritt
+    = f.date_field :eintritt, :class => "datetimepicker"
     = f.date_field :austritt_zum
 .panel.panel-default
   .panel-heading Kontaktdaten
