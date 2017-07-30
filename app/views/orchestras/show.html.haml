@@ -15,6 +15,10 @@
       .row
         .col-md-3.text-right=label :orchestra,:url
         .col-md-9=link_to @orchestra.url, sanitize_url(@orchestra.url)
+      .row
+        .col-md-3.text-right=label :orchestra,:gema_kdnr
+        .col-md-9=@orchestra.gema_kdnr
+
 
       = render @orchestra.member,:partial=>"member"
       = entity_row(@orchestra,:bemerkung)
