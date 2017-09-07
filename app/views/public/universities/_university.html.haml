@@ -1,0 +1,30 @@
+.row
+  %h4.col-md-12.dataTitle 
+    = university.name
+    - if university.institut.present?
+      , #{university.institut}
+- if university.studiengang.present?
+  .row
+    .col-md-2=label(:university,:studiengang)
+    .col-md-10 #{university.studiengang}
+- if university.strasse.present?
+  .row
+    .col-md-2=label(:university,:address)
+    .col-md-10 #{university.strasse}, #{university.plz} #{university.ort}
+- if university.dozent.present?
+  .row
+    .col-md-2=label(:university,:dozent)
+    .col-md-10 #{university.dozent}
+- if university.telefon.present?
+  .row
+    .col-md-2=label(:university,:telefon)
+    .col-md-10 #{university.telefon}
+- if university.homepage.present?
+  .row
+    .col-md-2=label(:university,:homepage)
+    .col-md-10=link_to university.homepage, university.homepage
+- if university.email.present?
+  .row
+    .col-md-2=label(:university,:email)
+    .col-md-10 #{university.email}
+%hr

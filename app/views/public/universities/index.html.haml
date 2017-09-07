@@ -1,0 +1,12 @@
+- country = ISO3166::Country.new("de")
+.heading #{t("university",:count=>3)} #{t("common.in")} #{country.translation(I18n.locale)}
+.container-liquid
+  =render @universities["de"]
+
+- @universities.keys.each do |cc|
+  - country =  ISO3166::Country.new(cc)
+  - if cc != 'de' 
+    - list = @universities[cc]
+    .heading #{t("university",:count=>3)} #{t("common.in")} #{country.translation(I18n.locale)}
+    = render @universities[cc]
+
