@@ -1,5 +1,5 @@
 require 'valid_email'
-class Orchestra < ActiveRecord::Base
+class Orchestra < ApplicationRecord
   include Authority::Abilities
 
   acts_as_paranoid
@@ -19,10 +19,10 @@ class Orchestra < ActiveRecord::Base
 
   scope :regional, -> { where("orch_type = 'L' ") }  
 
-  scope :no_report_sheet, ->(year) { includes([:member]).joins('LEFT JOIN report_sheets ON report_sheets.orchestra_id = orchestras.id AND report_sheets.year='+String(year)).where(['report_sheets.id IS NULL']) }
+  scope :no_report_sheet, ->(year) { includes([:member]).joins('LEFT JOIN report_sheets ON report_sheets.orchestra_id = orchestras.id AND report_sheets.year='+String(year)).where(['report_sheets.id IS NULL AND orchestras.orch_type in ( "L","O")']) }
 
   def self.no_payment(before=nil)
-    data = MemberAccountBooking.unbalanced_before(before)
+    data = MemberAccountBooking.unbalanced_before_year(before)
 
     ids = data[:ids]
     accounts = data[:accounts]
@@ -46,8 +46,6 @@ class Orchestra < ActiveRecord::Base
       member.member_entity
     end
   end
-
-  #has_many :current_report_sheet, :class_name => 'ReportSheet', :where => ['year = ?',Time.now.year]
 
   #inherits_from :member
 
@@ -74,7 +72,7 @@ class Orchestra < ActiveRecord::Base
 
   def self.search(search)
 	if (search)
-		where('members.mglnr = ? or orchestras.orchName like ?',"#{search}","%#{search}%");
+		where('members.mglnr = ? or orchestras.orchName like ? or members.email like ?',"#{search}","%#{search}%","%#{search}%");
 	else
 		where(1) 
 	end
@@ -400,5 +398,54 @@ class Orchestra < ActiveRecord::Base
     else
       "http://"+url
     end
+  end
+
+  def get_member_fee_booking(year)
+    MemberAccountBooking.where("member_id = :member_id AND booking_type='B' AND mb.booking_year = :booking_year", :member_id => member.id, :booking_year => :year)
+  end
+
+  def check_double
+    result = Hash.new
+
+    result[:faulty] = Array.new
+    result[:verified] = Array.new
+    result[:neutral] = Array.new
+
+    self.orchestra_members.each do |o|
+      if o.mglnr != nil and o.mglnr != 0 and o.mglnr != self.member.mglnr then
+        orch = Orchestra.joins(:member).where("members.mglnr = ?",o.mglnr)	
+
+        if (orch != nil and orch[0] != nil ) then
+          Rails.logger.info("Found orchestra")
+          matching = OrchestraMember.where("orchestra_id = ? and first_name like ? and last_name like ?",orch[0].id,o.first_name,o.last_name).first
+
+          if ( matching != nil  ) then 
+            other_orch = matching.orchestra
+
+            if other_orch.is_coop? or other_orch.is_lorch? then
+              result[:faulty] << o 
+            else
+              result[:verified] << o
+            end
+          else 
+            result[:faulty] << o
+          end
+        else
+          Rails.logger.info("Invalid mglnr: "+o.mglnr.to_s)
+          result[:faulty] << o
+        end
+      else 
+        result[:neutral] << o
+      end
+	  end
+
+    result
+  end
+
+
+  def has_faulty_double_members?
+    result = check_double
+
+    result[:faulty].count != 0
   end
 end

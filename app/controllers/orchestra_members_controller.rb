@@ -7,7 +7,6 @@ class OrchestraMembersController < AuthenticatedController
   # GET /orchestra_members
   # GET /orchestra_members.json
   def index
-
     @orchestra = nil
 
     if not params[:orchestra_id].nil? then
@@ -109,14 +108,23 @@ class OrchestraMembersController < AuthenticatedController
     end
   end
 
+  def exchange_all 
+    orchestra = Orchestra.find(params[:orchestra_id])
+    
+    orchestra.orchestra_members.each do |om|
+      om.exchange_first_and_lastname
+      om.save
+    end
+
+    format.html { 
+      redirect_to orchestra_orchestra_members_url(orchestra) 
+    }
+  end
+
   def exchange
     @orchestra_member = OrchestraMember.find(params[:id])
 
-	name = @orchestra_member.last_name
-	first = @orchestra_member.first_name
-
-	@orchestra_member.last_name=first
-	@orchestra_member.first_name=name
+    @orchestra_member.exchange_first_and_lastname
 
     respond_to do |format|
       if @orchestra_member.save
@@ -127,47 +135,14 @@ class OrchestraMembersController < AuthenticatedController
 
   def check_double
     @orchestra = Orchestra.find(params[:orchestra_id])
-    @orchestra_members = @orchestra.orchestra_members
-
-    @current_report_sheet = @orchestra.currentReportSheet
+    @current_report_sheet = @orchestra.currentReportSheet 
     @needs_update = false
 
-    @faulty_members = Array.new
-    @checked_members = Array.new
-    @neutral_members = Array.new
+    @result =  @orchestra.check_double
 
-    @orchestra_members.each do |o|
-      if o.mglnr != nil and o.mglnr != 0 and o.mglnr != @orchestra.member.mglnr then
-        orch = Orchestra.joins(:member).where("members.mglnr = ?",o.mglnr)	
-
-        if (orch != nil and orch[0] != nil ) then
-          Rails.logger.info("Found orchestra")
-          @matching = OrchestraMember.where("orchestra_id = ? and first_name like ? and last_name like ?",orch[0].id,o.first_name,o.last_name).first
-
-          if ( @matching != nil  ) then 
-            other_orch = @matching.orchestra
-
-            if other_orch.is_coop? or other_orch.is_lorch? then
-              @faulty_members << o 
-            else
-              @checked_members << o
-            end
-          else 
-            @faulty_members << o
-          end
-        else
-          Rails.logger.info("Invalid mglnr: "+o.mglnr.to_s)
-          @faulty_members << o
-        end
-      else 
-        @neutral_members << o
-      end
-	  end
-
-    if @checked_members.count != @current_report_sheet.azubi then
+    if not @current_report_sheet.nil? and @result[:verified].count != @current_report_sheet.azubi then
       @needs_update = true
     end
-      
   end
 
   # DELETE /orchestra_members/1
@@ -233,7 +208,7 @@ class OrchestraMembersController < AuthenticatedController
 
     Rails.logger.debug("TMP File: "+filename)
 
-	  ODF::Spreadsheet.file(filename) do
+	  RODF::Spreadsheet.file(filename) do
 
       table "Mitglieder"  do
         row {
