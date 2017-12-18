@@ -1,6 +1,5 @@
 = bootstrap_form_for(@magazine_issue, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10") do |f| 
   =f.number_field :year
   =f.number_field :number
-  .actions
-    = submit_button
-    = cancel_button
+  = submit_button
+  = cancel_button

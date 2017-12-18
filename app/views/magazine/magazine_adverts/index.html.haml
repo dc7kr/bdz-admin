@@ -8,7 +8,7 @@
     .inner
       %table.table.table-hover.table-condensed
         %thead
-          %th.first=t('advertiser')
+          %th.first=t('advertiser',:count=>1)
           %th=attr_heading(MagazineIssue,:number)
           %th=attr_heading(MagazineIssue,:year)
           %th=attr_heading(MagazineAdvert,:advert_type)

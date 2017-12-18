@@ -10,3 +10,4 @@
       = entity_row(@magazine_advert.advertiser.contact,:company)
       = entity_row(@magazine_advert,:advert_type)
 
+    = link_to "Generate Invoice", gen_invoice_magazine_advert(@magazine_advert)

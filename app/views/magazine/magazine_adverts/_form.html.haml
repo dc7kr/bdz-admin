@@ -1,7 +1,7 @@
 .container-liquid
-  =form_wrapped_field(f,@magazine_advert, :advertiser, f.collection_select(:advertiser_id, Advertiser.all, :adv_id, :customer_name))
-  =form_wrapped_field(f,@magazine_advert, :magazine_issue, f.collection_select(:magazine_issue_id, MagazineIssue.all, :id, :full_number))
-  =form_my_select(f,@magazine_advert, :advert_type, options_for_select([[t('magazine_advert.advert_types.F'),"F"],[t('magazine_advert.advert_types.H'), "H"],[t('magazine_advert.advert_types.T'),"T"],[t('magazine_advert.advert_types.Q'), "Q"]],:selected=>@magazine_advert.advert_type))
-  .actions
-    =submit_button
-    =cancel_button
+  = bootstrap_form_for([:magazine,@magazine_issue,@magazine_advert], layout: :horizontal) do |f|
+    = f.collection_select(:advertiser_id, Advertiser.all, :adv_id, :customer_name)
+    =form_my_select(f,@magazine_advert, :advert_type, options_for_select([[t('magazine_advert.advert_types.F'),"F"],[t('magazine_advert.advert_types.H'), "H"],[t('magazine_advert.advert_types.T'),"T"],[t('magazine_advert.advert_types.Q'), "Q"]],:selected=>@magazine_advert.advert_type))
+    .actions
+      =submit_button
+      =cancel_button
