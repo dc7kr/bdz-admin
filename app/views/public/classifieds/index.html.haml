@@ -1,0 +1,17 @@
+%h2.heading Kleinanzeigen
+
+%div
+  / Nav tabs
+  %ul.nav.nav-tabs{:role => "tablist"}
+    %li.active{:role => "presentation"}
+      %a{"aria-controls" => "home", "data-toggle" => "tab", :href => "#offer_cfd", :role => "tab"} Biete
+    %li{:role => "presentation"}
+      %a{"aria-controls" => "profile", "data-toggle" => "tab", :href => "#search_cfd", :role => "tab"} Suche
+    %li{:role => "presentation"}
+      %a{"aria-controls" => "profile", :href => new_public_classified_path, :role => "presentation"}=t("classified.new")
+  / Tab panes
+  .tab-content
+    #offer_cfd.tab-pane.active{:role => "tabpanel"} 
+      = render @offer_classifieds
+    #search_cfd.tab-pane{:role => "tabpanel"} 
+      = render @search_classifieds

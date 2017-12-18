@@ -6,6 +6,7 @@
           = l @concert.concert_date
           = @concert.titel
         .panel-body 
+          = entity_row @concert,:titel
           = entity_row @concert,:interpret
           = entity_row @concert,:ort
           = entity_row @concert,:stadt

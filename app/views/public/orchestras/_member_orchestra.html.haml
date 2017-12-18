@@ -3,13 +3,15 @@
 
 -o = member_orchestra.member_entity
 .orchestra_entry
-  #{o.orchName} | #{o.member.strasse}, #{o.member.plz} #{o.member.ort}
-  %br
-  -if not o.member.telefon.nil? and not o.member.telefon.empty? then
-    Tel. #{o.member.telefon} #{"|"} 
-  
-  #{o.member.email} 
+  #{o.orchName} | 
+  -if o.publish_address
+    #{o.member.strasse}, #{o.member.plz} #{o.member.ort}
+    %br
+    -if not o.member.telefon.nil? and not o.member.telefon.empty? then
+      Tel. #{o.member.telefon} #{"|"} 
+    
+    #{o.member.email} 
   -if not o.url.nil?  and not o.url.empty?
     |
-    = link_to o.full_url, o.full_url
+    = link_to o.full_url, o.full_url, :target => "_blank"
   %br

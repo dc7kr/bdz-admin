@@ -1,0 +1,13 @@
+.cfd_entry
+  %a{name: "A#{classified.id}"}
+  %span.cfd_obj=classified.object
+  %pre.cfd_descr=classified.description
+  aufgegeben am #{l classified.entrydate}
+  %br
+  von
+  =mail_to classified.email,classified.name, encode: "hex"
+  -if not classified.url.nil? and not classified.url.empty?
+    \-
+    =link_to classified.url, classified.url
+  .cfd_expiry Ablaufdatum: #{l classified.validuntil}
+

@@ -1,8 +1,8 @@
 .content
   %h2 Mitgliedsorchester im Landesverband #{@regional_organization.name}
--alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("")
--alpha.each do |l|
-  %a{:href=>"##{l}", data: { turbolinks:false }}=l
-%br
+  -alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("")
+  -alpha.each do |l|
+    %a{:href=>"##{l}", :data => { :turbolinks => "false" }}=l
+  %br
 
-= render partial: "member_orchestra", collection: @members
+  = render partial: "member_orchestra", collection: @members
