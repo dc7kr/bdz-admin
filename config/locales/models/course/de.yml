@@ -1,0 +1,20 @@
+de:
+  course: &course_labels
+    startdate: Beginn-Datum
+    enddate: End-Datum
+    bland: Bundesland
+    anmeldung:  "Infos und Anmeldung"
+    reported: 
+    email: Ihre E-Mail
+    deadline: Anmeldeschluss
+    more_dates: "Weitere Termine"
+    gebuehr: "Kursgebühr"
+    enddate_hint_one_day: "Falls der Kurs nur einen Tag dauert geben Sie bitte das Startdatum auch als Enddatum ein."
+    enddate_hint_open_end: "Für einen Kurs mit offenem Ende (Anzeige ´ab #Startdatum´) lassen Sie dieses Feld frei."
+  
+
+  helpers:
+    label:
+      course:
+        <<: *course_labels
+

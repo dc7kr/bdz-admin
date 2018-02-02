@@ -6,6 +6,7 @@ de:
         one: Festival-Konzert
         title: Titel
         location: Veranstaltungsort
+        concert_type: Konzert-Typ
         event_time: Veranstaltungszeit
         outdoor: "Open-Air Veranstaltung"
         programme: "Konzertprogramm"

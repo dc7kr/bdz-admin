@@ -48,6 +48,7 @@ de:
           Y: "Jugend musiziert Ensemble"
           O: "OpenAir Teilnehmer"
         rehearsal_time: "Einspiel-Beginn"
+        comment: "Kommentar"
 
   festival_application:
     <<: *festival_app_labels

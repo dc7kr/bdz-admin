@@ -10,6 +10,8 @@ de:
     search: "Suche nach Mitgliedsnummer oder Teil des Orchesternamens"
     update_success: "Orchester wurde erfolgreich aktualisiert."
     orch_type: Orchestertyp
+    orchName: Orchestername
+    orch_name: Orchestername
     koopMitglied: Kooperativ
     schreibenVom: Schreiben vom 
     bemerkung: Bemerkung
@@ -24,6 +26,7 @@ de:
     type_X: Außerordentliches Mitglied
     member_account: Mitgliedskonto
     contact: Kontakt
+    gema_kdnr: GEMA-Kd.-Nr.
     invalid_report_sheet_upload: "Das hochgeladene Dokument konnte nicht verarbeitet werden! Bitte verwenden Sie ausschließlich die Originalvorlage."
     err_invalid_report_sheet_upload: "Ungültiges Dateiformat hochgeladen!"
     report_sheet_upload_success: "%{success} Mitgliedsdaten erfolgreich hochgeladen!"
@@ -34,8 +37,6 @@ de:
       orchestra:
         <<: *orchestra_labels
 
-        orchName: Orchestername
-        orch_name: Orchestername
         gruendung: Gründungsdatum
         anrede: Anrede
 

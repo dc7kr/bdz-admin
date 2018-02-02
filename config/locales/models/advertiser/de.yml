@@ -6,6 +6,14 @@ de:
   advertiser:
     <<: *advertiser_labels
   activerecord:
+    errors:
+      models:
+        advertiser:
+          attributes:
+            customer_number:
+              taken: Kundennummer bereits vergeben
+              blank: Kundennummer darf nicht leer sein
     attributes:
       advertiser:
         <<: *advertiser_labels
+

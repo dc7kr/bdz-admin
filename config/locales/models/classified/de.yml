@@ -1,0 +1,28 @@
+de:
+  classified: &classified_labels
+    adv_type: "Typ"
+    name: "Ihr Name"  
+    email: "E-Mail"
+    url: "Ihre URL"
+    object: "Gegenstand"
+    description: "Beschreibung"
+    validuntil: "Gültig bis"
+    create_success: "Kleinanzeige wurde erfolgreich angelegt. Bestätigung durch die Redaktion ausstehend."
+    new: "Anzeige aufgeben"
+  helpers:
+    label:
+      classified:
+        <<: *classified_labels
+  activerecord:
+    errors:
+      models:
+        classified:
+          attributes:
+            name:
+              blank: Bitte geben Sie Ihren Namen ein
+            email: 
+              blank: Bitte geben Sie Ihre Mail-Adresse ein
+            object: 
+              blank: Bitte geben Sie einen Gegenstand der Anzeige ein
+            description: 
+              blank: Bitte geben Sie eine Beschreibung ein

@@ -1,9 +1,10 @@
 de:
-  report_sheet_input:
+  report_sheet_input: &report_sheet_input_labels
     one: "Meldebogeneingabe"
     other: "Meldebogeneingabe-Objekte"
     login: Anmelden
     login_title: Meldebogenerfassung
+    token: Passwort
     save_success: "Daten erfolgreich gespeichert"
     current_members: "Aktuelle Mitgliederliste"
     page_1: "Mitgliedermeldung %{year} - Schritt 1"
@@ -18,8 +19,16 @@ de:
     member_delete_success: "Alle Orchestermitglieder wurden gelöscht."
     generated: "%{count} Meldebogen-Eingabe-Vorlagen erzeugt."
     dd_to_sepa_valid: "Ihr bereits erteiltes SEPA-Mandat bleibt weiterhin gültig. Wir buchen von ihrem Konto mit der IBAN %{iban} und BIC %{bic} mit der SEPA Mandatsreferenz %{mref} im SEPA Verfahren ab."
+    not_authorized: "Zugriff verweigert"
 
   activerecord:
     attributes:
       report_sheet_input:
         token: "Passwort"
+
+  helpers:
+    label:
+      report_sheet_input:
+        <<: *report_sheet_input_labels
+
+        gruendung: Gründungsdatum

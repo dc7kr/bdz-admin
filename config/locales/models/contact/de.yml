@@ -1,0 +1,25 @@
+de:
+  contact: &contact_labels
+    one: Adresse
+    other: Adressen
+    office_phone: Telefon dienstl.
+    company: Firma
+    department: Abteilung
+    title: Titel
+    first_name: Vorname
+    last_name: Nachname
+    city: Stadt
+    country_code: Land
+    salutation: Anrede
+    first_name: Vorname
+    last_name: Name
+    phone: Telefon
+    fax: Fax
+    email: E-Mail
+    street: "Straße"
+    zip: PLZ
+ 
+  helpers:
+    label:      
+      contact: 
+        <<: *contact_labels

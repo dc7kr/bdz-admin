@@ -1,5 +1,5 @@
 de:
-  feature_request:
+  feature_request: &feature_request_labels
     other: Feature Requests
     one: Feature Request
     open: Offene
@@ -7,10 +7,15 @@ de:
     title: Thema
     description: Details
     priority: Priorität
-    status:
-      title: Status
+    status: Status
+    status_values:
       D: Erledigt
       P: In Arbeit
       O: Angehalten
       N: Nicht begonnen
+
+  helpers:
+    label:
+      feature_request:
+        <<: *feature_request_labels
 

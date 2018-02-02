@@ -1,0 +1,14 @@
+de:
+  university: &university_labels
+    one: Studienmöglichkeit
+    other: Studienmöglichkeiten
+    name: Name
+    institut: Institut
+    dozent: Dozent 
+    address: Adresse
+
+  helpers:
+    label:
+      university:
+        <<: *university_labels
+

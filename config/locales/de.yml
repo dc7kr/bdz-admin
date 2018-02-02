@@ -66,6 +66,9 @@ de:
     admin_data: Administration
     cron: Tasks
   common:
+
+    fineprint: "Das Kleingedruckte"
+    in: "in"
     count: "Anzahl"
     yes_: "Ja"
     no_: "Nein"
@@ -365,12 +368,6 @@ de:
     downloads:
       file_does_not_exist: "Die Datei existiert nicht."
 
-  university:
-    one: Studienmöglichkeit
-    other: Studienmöglichkeiten
-    name: Name
-    institut: Institut
-    dozent: Dozent 
   course:
     one: Kurs
     other: Kurse
@@ -422,26 +419,6 @@ de:
     ort: Ort
     interpret: Interpret
     url: URL
-
-  booking:
-    one: Buchung
-    other: Buchungen
-    index: Mitgliedskonto
-    create_success: Buchung wurde erfolgreich angelegt.
-    update_success: Buchung wurde erfolgreich aktualisiert.
-    balance: Saldo
-    booking_type: Buchungstyp
-    booking_type_A: Beitragszahlung
-    booking_type_B: Beitrag
-    booking_type_L: Lastschrift
-    booking_type_G: Gutschrift
-    booking_type_E: Ehrungsrechnung
-    booking_type_R: Rücklastschrift
-    booking_type_Z: Zahlungseingang
-    booking_year: Geschäftsjahr
-    booking_date: Buchungsdatum
-    booking_text: Buchungstext
-    amount: Betrag
 
   address:
     one: Adresse
@@ -784,25 +761,7 @@ de:
     other: Bemusterungen
     count: Anzahl
     print_list: "Liste für Druck"
-  contact:
-    one: Adresse
-    other: Adressen
-    office_phone: Telefon dienstl.
-    company: Firma
-    department: Abteilung
-    title: Titel
-    first_name: Vorname
-    last_name: Nachname
-    city: Stadt
-    salutation: Anrede
-    first_name: Vorname
-    last_name: Name
-    phone: Telefon
-    fax: Fax
-    email: E-Mail
-    street: "Straße"
-    zip: PLZ
-    
+   
     
   subscriber:
     other: Abonnenten
@@ -878,13 +837,6 @@ de:
         phone: Telefon
         fax: Fax
         email: E-Mail
-      member_account_booking:
-        booking_type: Buchungstyp
-        booking_year: "Geschäftsjahr"
-        booking_date: Buchungsdatum
-        booking_txt: Buchungstext	
-        amount: Betrag
-        filename: "Dateiname"
       contact:
         firma: Contact Firma
       magazine_sampling:
