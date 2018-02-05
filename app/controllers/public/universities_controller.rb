@@ -1,4 +1,4 @@
-class Public::UniversitiesController < ApplicationController
+class Public::UniversitiesController < Public::ApplicationController
   def index
     universities_de = University.where(:country_code=>'de').order(:country_code,:plz)
 
