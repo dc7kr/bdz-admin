@@ -59,7 +59,7 @@ class TariffsController < AuthenticatedController
     @tariff = Tariff.find(params[:id])
 
     respond_to do |format|
-      if @tariff.update_attributes(params[:tariff])
+      if @tariff.update_attributes(tariff_params)
         format.html { redirect_to @tariff, notice: 'Tariff was successfully updated.' }
         format.json { head :no_content }
       else
@@ -79,5 +79,9 @@ class TariffsController < AuthenticatedController
       format.html { redirect_to tariffs_url }
       format.json { head :no_content }
     end
+  end
+
+  def tariff_params
+    params.require(:tariff).permit(:tariff_type,:description,:amount)
   end
 end
