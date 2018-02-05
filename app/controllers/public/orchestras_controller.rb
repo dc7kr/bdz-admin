@@ -1,4 +1,4 @@
-class Public::OrchestrasController  < ApplicationController
+class Public::OrchestrasController  < Public::ApplicationController
 
   def index
     @regional_organization = RegionalOrganization.find(params[:lv_id])
@@ -8,12 +8,14 @@ class Public::OrchestrasController  < ApplicationController
     firstLetter =""
  
     @members.each do |m|
-      f = m.member_entity.orchName[0].upcase
-      if (firstLetter != f) 
-        @alpha_links[m.id] = f
-        firstLetter = f
+      if m.member_entity.publish_url 
+        f = m.member_entity.orchName[0].upcase
+        
+        if (firstLetter != f) 
+          @alpha_links[m.id] = f
+          firstLetter = f
+        end
       end
     end
-
   end
 end
