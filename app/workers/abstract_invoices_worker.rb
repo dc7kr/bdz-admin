@@ -1,5 +1,4 @@
 require 'tex_writer'
-require 'sepa_writer'
 require 'dtaus_writer'
 require 'invoice_helper'
 require 'fileutils.rb'
@@ -29,8 +28,8 @@ class AbstractInvoicesWorker
     self.generator_session_id = SecureRandom.uuid
     self.date_prefix = Time.now.strftime '%Y%m%d%H%M%S'
 
-	  self.tex_writer = InvoiceTexWriter.new
-    self.sepa_writer = SEPAWriter.new(self.date_prefix, BDZ_SETTINGS)
+	  self.tex_writer = CorikaInvoices::TexWriter.new(INVOICE_CONFIG)
+    self.sepa_writer = CorikaInvoices::SEPAWriter.new(self.date_prefix, INVOICE_CONFIG)
     self.triggered_by = User.find(user_id)
   end
 
@@ -55,30 +54,4 @@ class AbstractInvoicesWorker
       logger.info 'Admin notify sent to %s' % user.email
     end
   end
-
-  protected
-  def create_invoice_booking(member_entity, year, invoice, filename, booking_txt)
-		booking = MemberAccountBooking.newInvoice(booking_txt,-1*invoice.sum,member_entity.member.mglnr.to_s)
-		booking.member_id = member_entity.member.id
-    booking.booking_year=year
-    booking.filename = filename
-		booking.save
-  end
-
-  protected
-  def create_dd_booking(member_entity, invoice, year)
-    member = member_entity.member
-    customer = member_entity.to_customer
-
-    booking_txt = "Rechnung Nr. #{invoice.number} #{member.mglnr}"
-		if (member.is_direct_debit?) then
-			self.sepa_writer.addBooking(customer,invoice.sum,booking_txt,"RCUR")
-			booking = MemberAccountBooking.newWithdrawal("Lastschrift "+booking_txt,invoice.sum)
-			booking.member_id = member.id
-      booking.booking_year = year
-			booking.save
-    end
-  end
-
-
 end
