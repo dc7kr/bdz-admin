@@ -14,7 +14,7 @@ class Member < ApplicationRecord
   belongs_to :member_entity, polymorphic: true
 
   def self.nested_params
-    [ :id, :regional_organization_id, :mglnr, :title, :anrede, :vorname, :name, :strasse, :plz, :ort, :email, :eintritt, :austritt_zum, :za, :konto, :blz, :zahler, :telefon, :fax, :bic, :iban, :country_code ]
+    [ :id, :regional_organization_id, :mglnr, :title, :anrede, :vorname, :name, :strasse, :plz, :ort, :email, :eintritt, :austritt_zum, :za, :konto, :blz, :zahler, :telefon, :fax, :bic, :iban, :country_code, :dsgvo, :dsgvo_date ]
   end
 
   include CountryHelper
