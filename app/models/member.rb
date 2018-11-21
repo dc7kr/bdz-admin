@@ -1,12 +1,15 @@
 require 'blz_validator'
 require 'iban_validator'
 
-class Member < ActiveRecord::Base
+class Member < ApplicationRecord
 
   acts_as_paranoid
   #acts_as_superclass
   resourcify
   #include Authority::Abilities
+
+  #attr_encrypted :iban, key: Rails.application.secrets.member_iban_key
+  #attr_encrypted :bic, key: Rails.application.secrets.member_bic_key
 
   belongs_to :member_entity, polymorphic: true
 
@@ -102,7 +105,7 @@ class Member < ActiveRecord::Base
 
   def to_customer
     dd = is_direct_debit? 
-    c = InvoiceCustomer.new
+    c = CorikaInvoices::Customer.new
     c.customer_id = mglnr
     c.direct_debit = dd
     c.first_name = vorname
@@ -231,5 +234,80 @@ class Member < ActiveRecord::Base
     else
       booking.booking_date
     end
+  end
+
+  
+  def create_invoice_delta_booking(year, amount, filename, booking_txt)
+		booking = MemberAccountBooking.newInvoice(booking_txt,-1*amount,mglnr.to_s)
+		booking.member_id = id
+    booking.booking_year=year
+    booking.filename = filename
+		booking.save
+
+    booking
+  end
+  
+  def create_invoice_booking(year, invoice, filename, booking_txt)
+		booking = MemberAccountBooking.newInvoice(booking_txt,-1*invoice.sum,mglnr.to_s)
+		booking.member_id = id
+    booking.booking_year=year
+    booking.filename = filename
+		booking.save
+
+    booking
+  end
+
+  def create_credit_transfer(sepa_writer, year, booking_txt, amount) 
+    if amount < 0 
+      Rails.logger.warn("Credit transfer amount must not be negative!")
+      return false
+    end
+
+    customer = member_entity.to_customer
+
+		if (is_direct_debit?) then
+			if sepa_writer.add_credit_transfer(customer,booking_txt,amount)
+        booking = MemberAccountBooking.newCreditTransfer("Überweisung "+booking_txt,amount)
+        booking.member_id = id
+        booking.booking_year = year
+        booking.save
+
+        booking
+      else 
+        Rails.logger.warn("Could not create credit transfer")
+        false
+      end
+    else
+      false
+    end
+  end
+
+  def create_dd_booking(sepa_writer, invoice, year, delta_amount=nil)
+    customer = member_entity.to_customer
+    
+    booking_txt = "Rechnung Nr. #{invoice.number} #{self.mglnr}"
+
+    if not delta_amount.nil? then
+      amount = delta_amount
+      booking_txt+=" Nachzahlung"
+    else
+      amount = invoice.sum
+    end
+
+		if (is_direct_debit?) then
+			sepa_writer.add_direct_debit(customer,amount,booking_txt,"RCUR")
+			booking = MemberAccountBooking.newWithdrawal("Lastschrift "+booking_txt,amount)
+			booking.member_id = id
+      booking.booking_year = year
+			booking.save
+
+      booking
+    end
+  end
+
+  def zero_member_fee_balance?
+    booking_sum = MemberAccountBooking.where("member_id = ? and booking_type in ('B','A','L')",id).sum(:amount)
+
+    return booking_sum >-0.1
   end
 end
