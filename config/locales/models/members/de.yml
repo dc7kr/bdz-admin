@@ -22,6 +22,8 @@ de:
     zip: PLZ
     mglnr: Mitgliedsnummer
     regional_organization_id: Landesverband
+    dsgvo: DSGVO-Zustimmung
+    dsgvo_date: DSGVO Datum
     
     nopayment: Säumige Zahler
     nonzero_balance: "Zahlungsrückstand im Beitragskonto!"

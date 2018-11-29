@@ -12,6 +12,7 @@ de:
     page_3: "Mitgliedermeldung %{year} - Schritt 3"
     page_4: "Mitgliedermeldung %{year} - Schritt 4"
     no_file_selected: "Bitte wählen Sie zuerst eine Datei zum Hochladen aus!"
+    dsgvo: Wir sind damit einverstanden, dass unsere Daten nach der aktuellen BDZ Datenschutzverordnung wie auf der Webseite veröffentlicht verarbeitet werden. 
     invalid_upload: "Das Format der hochgeladenen Datei wurde nicht erkannt!"
     invalid_token: "Ungültige Zugangsdaten"
     login_first: "Bitte melden Sie sich an!"
@@ -20,6 +21,7 @@ de:
     generated: "%{count} Meldebogen-Eingabe-Vorlagen erzeugt."
     dd_to_sepa_valid: "Ihr bereits erteiltes SEPA-Mandat bleibt weiterhin gültig. Wir buchen von ihrem Konto mit der IBAN %{iban} und BIC %{bic} mit der SEPA Mandatsreferenz %{mref} im SEPA Verfahren ab."
     not_authorized: "Zugriff verweigert"
+    please_confirm_dsgvo: Wenn sie der Verarbeitung Ihrer Daten nicht zustimmen können wir sie nicht als Mitglied im BDZ führen.  
 
   activerecord:
     attributes:
