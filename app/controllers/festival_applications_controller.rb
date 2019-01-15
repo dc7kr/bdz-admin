@@ -9,9 +9,24 @@ class FestivalApplicationsController < AuthenticatedController
   layout :choose_layout
   # GET /festival_applications
   # GET /festival_applications.json
+
+  def calc_sums
+    result = FestivalApplication.select("SUM(num_players) as players, SUM(tickets) as tickets, SUM(tickets_red) as tickets_red, SUM(bdz_tickets) as bdz_tickets, SUM(bdz_tickets_red) as bdz_tickets_red").first
+
+    sums = Hash.new
+    sums[:tickets]=result[:tickets]
+    sums[:tickets_red]=result[:tickets_red]
+    sums[:bdz_tickets]=result[:bdz_tickets]
+    sums[:bdz_tickets_red]=result[:bdz_tickets_red]
+    sums[:players]=result[:players]
+    sums[:no_ticket] = sums[:players] - sums[:tickets] - sums[:tickets_red] - sums[:bdz_tickets] - sums[:bdz_tickets_red]
+
+    sums
+  end
   def index
     @festival_applications = FestivalApplication.order(sort_column+ " "+ sort_direction).search(params[:search]).page(params[:page]).per(20)
-    @sum_players = FestivalApplication.sum(:num_players)
+
+    @sums = calc_sums
 
     respond_to do |format|
 	 		format.js
@@ -21,8 +36,11 @@ class FestivalApplicationsController < AuthenticatedController
   end
 
   def permitted 
+    @sums = calc_sums
+
     now = Time.new
 	  currDate = now.strftime("%d.%m.%Y")
+    @sum_players = FestivalApplication.sum(:num_players)
 
     respond_to do |format|
       @festival_applications = FestivalApplication.where(:permission=>true).order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
@@ -134,7 +152,7 @@ class FestivalApplicationsController < AuthenticatedController
     if @festival_application.contact_person.save
       respond_to do |format|
         if @festival_application.save
-          format.html { redirect_to step2_festival_application_path(@festival_application), notice: 'Festival application was successfully created.' }
+          format.html { redirect_to @festival_application, notice: 'Festival application was successfully created.' }
           format.json { render json: @festival_application, status: :created, location: @festival_application }
         else
           format.html { render action: "new" }
@@ -155,11 +173,11 @@ class FestivalApplicationsController < AuthenticatedController
     Rails.logger.debug("Params: #{contact_person_params}")
     contact =  @festival_application.contact_person
 
-    @festival_application.contact_person.update_attributes!(contact_person_params)
+    @festival_application.contact_person.update_attributes(contact_person_params)
 
 
     respond_to do |format|
-      if @festival_application.update_attributes!(festival_application_params)
+      if @festival_application.update_attributes(festival_application_params)
         format.html { redirect_to @festival_application, notice: 'Festival application was successfully updated.' }
         format.json { head :no_content }
       else
@@ -271,23 +289,14 @@ class FestivalApplicationsController < AuthenticatedController
   end
 
   def gen_invoice
-    @festival_application = FestivalApplication.find(params[:id])
-    tw = TexWriter.new
+    @festival_application = FestivalApplication.find_by token: params[:token]
+    tw = CorikaInvoices::TexWriter.new(INVOICE_CONFIG)
 
     prefix = Time.now.strftime("%Y%m%d%H%M%S_")
     year = Time.now.year
     invoice = @festival_application.invoice 
-    tw.writeInvoice(invoice,'festival',year)
 
-    inv_type = "festival.en"
-    if invoice.customer.country == 'de' or invoice.customer.country=='at' then
-      inv_type = "festival.de"
-    end
-
-    work_pdf_file = tw.gen_pdf(inv_type,prefix,invoice.customer.id)
-
-    workdir = BDZ_SETTINGS["invoice_workdir"]
-    invoice_file = archive_file(workdir,work_pdf_file,year)  
+    invoice_file = invoice.gen_pdf(tw)
 
     send_file(invoice_file.full_path, :filename => invoice_file.orig_filename, :type => "application/octet-stream")
 
@@ -338,8 +347,10 @@ class FestivalApplicationsController < AuthenticatedController
         :soloist_tickets,
         :amount,
         :stage_time,
+        :festival_concert_id,
         :rehearsal_time,
-        :payment_status)
+        :payment_status,
+        :comment)
   end
 
   def contact_person_params

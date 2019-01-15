@@ -137,7 +137,7 @@ class EventCardsController < AuthenticatedController
 
     work_pdf_file = tw.gen_pdf(inv_type,prefix,invoice.customer.id)
 
-    workdir = BDZ_SETTINGS["invoice_workdir"]
+    workdir = INVOICE_CONFIG.work_dir
     invoice_file = archive_file(workdir,work_pdf_file,year)  
 
     send_file(invoice_file.full_path, :filename => invoice_file.orig_filename, :type => "application/octet-stream")
@@ -185,7 +185,7 @@ class EventCardsController < AuthenticatedController
 
     work_pdf_file = tw.gen_pdf(invoice_type,datePrefix, invoice.customer.customer_id)
 
-    workdir = BDZ_SETTINGS["invoice_workdir"]
+    workdir = INVOICE_CONFIG.work_dir
     invoice_file = archive_file(workdir,work_pdf_file,year)
 
     invoice_file

@@ -43,7 +43,7 @@ class FestivalConcertsController < AuthenticatedController
   # POST /festival_concerts
   # POST /festival_concerts.json
   def create
-    @festival_concert = FestivalConcert.new(params[:festival_concert])
+    @festival_concert = FestivalConcert.new(festival_concert_params)
 
     respond_to do |format|
       if @festival_concert.save
@@ -62,7 +62,7 @@ class FestivalConcertsController < AuthenticatedController
     @festival_concert = FestivalConcert.find(params[:id])
 
     respond_to do |format|
-      if @festival_concert.update_attributes(params[:festival_concert])
+      if @festival_concert.update_attributes(festival_concert_params)
         format.html { redirect_to @festival_concert, notice: 'Festival concert was successfully updated.' }
         format.json { head :no_content }
       else
@@ -96,5 +96,9 @@ class FestivalConcertsController < AuthenticatedController
       format.html
     end
 
+  end
+
+  def festival_concert_params
+    params.require(:festival_concert).permit( :concert_type, :number, :title, :location, :event_time, :outdoor)
   end
 end

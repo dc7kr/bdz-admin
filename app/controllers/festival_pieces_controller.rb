@@ -50,9 +50,11 @@ class FestivalPiecesController < AuthenticatedController
   # POST /festival_pieces.json
   def create
   	@festival_application = FestivalApplication.find_by(token: params[:festival_application_token])
-    @festival_piece = @festival_application.festival_pieces.create(params[:festival_piece])
+    @festival_piece = FestivalPiece.new(festival_piece_params)
+    @festival_application.festival_pieces << @festival_piece
+    @festival_piece.save
 
-	logger.debug("New piece: "+@festival_piece.id.to_s)
+	  logger.debug("New piece: "+@festival_piece.id.to_s)
 
     respond_with @festival_piece, :location => festival_application_festival_pieces_url(@festival_application)
   end
@@ -64,7 +66,7 @@ class FestivalPiecesController < AuthenticatedController
     @festival_piece = FestivalPiece.find(params[:id])
 
     respond_to do |format|
-      if @festival_piece.update_attributes(params[:festival_piece])
+      if @festival_piece.update_attributes(festival_piece_params)
         format.html { redirect_to festival_application_festival_piece_url(@festival_application,@festival_piece), notice: t('festival_piece.update_success') }
         format.json { head :no_content }
       else
@@ -82,5 +84,15 @@ class FestivalPiecesController < AuthenticatedController
     @festival_piece.destroy
 
     respond_with @festival_piece, :location => festival_application_festival_pieces_url(@festival_application)
+  end
+
+
+  private 
+  def festival_piece_params
+    params.require(:festival_piece).permit(
+        :composer,
+        :title,
+        :duration
+    )
   end
 end
