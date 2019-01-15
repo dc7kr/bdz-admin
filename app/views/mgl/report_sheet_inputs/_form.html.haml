@@ -1,25 +1,39 @@
 = bootstrap_form_for @report_sheet_input, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10", :url => url_for(:action => :submit1, :id=> @report_sheet_input) do |f|
   = f.fields_for @report_sheet_input.report_sheet do |rs|
-    =rs.check_box :uv
-  = f.fields_for @report_sheet_input.orchestra do |orch|
-    = orch.text_field :orchName
-    = orch.date_field :gruendung
-    - member = @report_sheet_input.orchestra.member
-    = orch.fields_for :member do |mf|
-      = mf.select :anrede, get_salutation_options(member.anrede)
-      = mf.text_field :vorname
-      = mf.text_field :name
-      = mf.text_field :strasse
-      = mf.text_field :plz
-      = mf.text_field :ort
-      = mf.text_field :telefon
-      = mf.text_field :fax
-      = mf.text_field :email
-      - if ( member.za == 'R' ) then 
-        =mf.select :za, options_for_select([["Lastschrift", "L"], ["Rechnung", "R"]],:selected=>member.za) 
-      = mf.text_field :iban
-      = mf.text_field :bic
-      = mf.text_field :zahler
+    .panel.panel-default
+      .panel-heading
+        Unfallversicherung
+      .panel-body
+        .form-group
+          %label.control-label.col-sm-2=t("report_sheet.uv")
+          .col-sm-10
+            =rs.check_box :uv,  label: ''
 
-    = submit_button(t("common.save_and_continue"))
+
+
+  = f.fields_for @report_sheet_input.orchestra do |orch|
+    .panel.panel-default
+      .panel-heading
+        Adressdaten
+      .panel-body
+        = orch.text_field :orchName
+        = orch.date_field :gruendung
+        - member = @report_sheet_input.orchestra.member
+        = orch.fields_for :member do |mf|
+          = mf.select :anrede, get_salutation_options(member.anrede)
+          = mf.text_field :vorname
+          = mf.text_field :name
+          = mf.text_field :strasse
+          = mf.text_field :plz
+          = mf.text_field :ort
+          = mf.text_field :telefon
+          = mf.text_field :fax
+          = mf.text_field :email
+          - if ( member.za == 'R' ) then 
+            =mf.select :za, options_for_select([["Lastschrift", "L"], ["Rechnung", "R"]],:selected=>member.za) 
+          = mf.text_field :iban
+          = mf.text_field :bic
+          = mf.text_field :zahler
+
+        = submit_button(t("common.save_and_continue"))
   

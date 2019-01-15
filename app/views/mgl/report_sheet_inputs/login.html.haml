@@ -14,6 +14,11 @@
               =label(:report_sheet_input,:token, :class=>"control-label col-md-2 col-sm-2")
             .col-md-6.col-sm-12=password_field_tag(:token,@token,:class=>"form-control")
           .row
+            .col-md-2.col-sm-12
+            .col-md-10.col-sm-12
+              =check_box_tag(:dsgvo,1,false)
+              %b=t('report_sheet_input.dsgvo')
+          .row
             .col-md-2
             .col-md-5.col-sm-12
               =submit_button(t('report_sheet_input.login'))

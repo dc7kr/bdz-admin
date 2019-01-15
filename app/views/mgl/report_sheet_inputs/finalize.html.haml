@@ -48,6 +48,12 @@
           =entity_row(@rs,:youth)
           =entity_row(@rs,:adult)
           =entity_row(@rs,:senior)
+
+          %h3
+            -if not @rs.uv
+              %span.label.label-warning Unfallversicherung wurde NICHT gewählt!
+            -else
+              %span.label.label-success Unfallversicherung wurde gewählt!
       .panel.panel-default
         .panel-heading Sonstige Mitglieder
         .panel-body
