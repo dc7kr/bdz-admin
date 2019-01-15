@@ -1,3 +1,3 @@
-class University < ActiveRecord::Base
+class University < ApplicationRecord
 
 end

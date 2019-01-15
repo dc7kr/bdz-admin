@@ -7,7 +7,6 @@ $grey70    : rgba(148,154,158,0.7);
 $white     : rgb(255,255,255);
 $black     : rgb(0,0,0);
 
-
 td.form_descr { font-size:10pt;  }
 
 td.title {
@@ -81,7 +80,7 @@ div.heading,td.title_row {
   margin-left:auto;
   margin-right:auto;
   letter-spacing:0.1em;
-  width:90%;
+  width:100%;
   letter-spacing: 0.05em;
 
   border-top: solid rgb(0,143,172) 2px;
@@ -447,4 +446,15 @@ h2 {
     border-top: solid $blue 2px;
     border-bottom: solid $blue 2px;
     clear:both;
+}
+
+.fineprint {
+  display:block;
+  font-size: 8pt;
+  background: $blue;
+  border-radius: 5px;
+  border-color: $blue;
+  margin-top: 10px;
+  padding: 10px;
+  color: white;
 }

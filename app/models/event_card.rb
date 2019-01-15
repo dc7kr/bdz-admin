@@ -1,4 +1,4 @@
-class EventCard < ActiveRecord::Base
+class EventCard < ApplicationRecord
   # attr_accessible :title, :body
   validates :email, :email_format => true 
   validates_presence_of :name
@@ -112,26 +112,26 @@ class EventCard < ActiveRecord::Base
     renr = ts+"-EC#{id}"
     locale = :de
 
-    ivoice = Invoice.new(renr)
+    invoice = CorikaInvoices::Invoice.new(renr)
     customer = self.to_customer 
-    ivoice.customer = customer
+    invoice.customer = customer
 
     prices = BDZ_SETTINGS["festival_prices"]
 
-    ivoice.considerItem( nr_fest,prices["fest"], I18n.t("event_card.fest"))
-    ivoice.considerItem( nr_fest_erm,prices["fest_erm"],I18n.t("event_card.fest_erm"))
-    ivoice.considerItem( nr_fest_bdz,prices["fest_bdz"],I18n.t("event_card.fest_bdz"))
-    ivoice.considerItem( nr_fest_bdz_erm,prices["fest_bdz_erm"],I18n.t("event_card.fest_bdz_erm"))
-    ivoice.considerItem( nr_do,prices["tageskarte"],I18n.t("event_card.do"))
-    ivoice.considerItem( nr_fr,prices["tageskarte"],I18n.t("event_card.fr"))
-    ivoice.considerItem( nr_sa,prices["tageskarte"],I18n.t("event_card.sa"))
-    ivoice.considerItem( nr_do_erm,prices["tageskarte_erm"],I18n.t("event_card.do_erm"))
-    ivoice.considerItem( nr_fr_erm,prices["tageskarte_erm"],I18n.t("event_card.fr_erm"))
-    ivoice.considerItem( nr_sa_erm,prices["tageskarte_erm"],I18n.t("event_card.sa_erm"))
-    ivoice.considerItem( nr_concert_so,prices["concert"],I18n.t("event_card.concert_so"))
-    ivoice.considerItem( nr_concert_so_erm,prices["concert_erm"],I18n.t("event_card.concert_so_erm"))
+    invoice.considerItem( nr_fest,prices["fest"], I18n.t("event_card.fest"))
+    invoice.considerItem( nr_fest_erm,prices["fest_erm"],I18n.t("event_card.fest_erm"))
+    invoice.considerItem( nr_fest_bdz,prices["fest_bdz"],I18n.t("event_card.fest_bdz"))
+    invoice.considerItem( nr_fest_bdz_erm,prices["fest_bdz_erm"],I18n.t("event_card.fest_bdz_erm"))
+    invoice.considerItem( nr_do,prices["tageskarte"],I18n.t("event_card.do"))
+    invoice.considerItem( nr_fr,prices["tageskarte"],I18n.t("event_card.fr"))
+    invoice.considerItem( nr_sa,prices["tageskarte"],I18n.t("event_card.sa"))
+    invoice.considerItem( nr_do_erm,prices["tageskarte_erm"],I18n.t("event_card.do_erm"))
+    invoice.considerItem( nr_fr_erm,prices["tageskarte_erm"],I18n.t("event_card.fr_erm"))
+    invoice.considerItem( nr_sa_erm,prices["tageskarte_erm"],I18n.t("event_card.sa_erm"))
+    invoice.considerItem( nr_concert_so,prices["concert"],I18n.t("event_card.concert_so"))
+    invoice.considerItem( nr_concert_so_erm,prices["concert_erm"],I18n.t("event_card.concert_so_erm"))
 
-    ivoice
+    invoice
   end
 
 

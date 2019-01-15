@@ -1,5 +1,5 @@
 require 'rodf'
-class ReportSheet < ActiveRecord::Base
+class ReportSheet < ApplicationRecord
 
   validates_presence_of :report_date , :unless => lambda { self.orchestra.blank? }
   validates_presence_of :adult
@@ -156,7 +156,7 @@ class ReportSheet < ActiveRecord::Base
 
 	def calcGemaCount
 		# TODO: need a clean solution for the double members
-		if orchestra.is_lorch? then
+		if not orchestra.nil? and orchestra.is_lorch? then
 			return youth+teens+adult+senior-azubi
 		else
 			return youth+teens+adult+senior
@@ -224,21 +224,36 @@ class ReportSheet < ActiveRecord::Base
     end
   end
 
+  def gen_invoice_pdf(tex_writer,invoice,generator_session_id=nil)
+    if generator_session_id.nil? then
+      generator_session_id = SecureRandom.uuid
+    end
+
+    invoice.generator_session_id = generator_session_id
+    invoice.save
+
+    invoice_file = invoice.gen_pdf(self.tex_writer)
+
+		booking_txt = 'Beitrag '+String(self.year)
+
+    invoice_file
+  end
+
   def gen_invoice
-    @invoice = Invoice.new
+    @invoice = CorikaInvoices::Invoice.new
     @invoice.invoice_type = "beitragsrechnung"
     @invoice.invoice_date = Time.now
     @invoice.number = "#{orchestra.member.mglnr}-BEITRAG#{year}"
+
+    # this ensures that the invoice number is unique (generates -XX suffix)
+    @invoice.make_distinct
+   
     @invoice.customer = orchestra.to_customer
 
 		if ( orchestra.is_coop? ) then
-			@invoice.addItem(1,Prices.lvOrchRate,'Beitrag kooperativ')
+			@invoice.addItem(1,Prices.coopRate,'Beitrag kooperativ')
 		elsif (orchestra.is_lorch? ) then
 			@invoice.addItem(1,Prices.lvOrchRate,'Landesorchesterbeitrag')
-			count = calcGemaCount
-			if ( count > 0 ) then
-				@invoice.addItem(count,Prices.lvMember,'GEMA+Haftpflichtbeitrag je Mitglied')
-			end
 		else
 			if ( isMinTariff? or isMaxTariff? ) then
 				@invoice.addItem(children,0, 'Beitrag Kinder')
@@ -270,6 +285,19 @@ class ReportSheet < ActiveRecord::Base
     end
 
     @invoice
+  end
+
+  def gen_delta_booking(sepa_writer,invoice,delta_value)
+    booking_txt = nil
+
+    if delta_value < 0 then
+      booking_txt = 'Beitragserstattung '+String(year)
+      booking = orchestra.member.create_credit_transfer(sepa_writer, year, booking_txt, -1*delta_value)
+    else
+      booking_txt = 'Beitragsnachzahlung '+String(year)
+      booking = orchestra.member.create_dd_booking(sepa_writer, invoice, year, delta_value)
+    end
+    booking
   end
 
   def total_ensembles
@@ -361,6 +389,96 @@ class ReportSheet < ActiveRecord::Base
     end
   end
 
+  def find_booking
+    bookings = orchestra.member.member_account_bookings.where(:booking_year => year, :booking_type=>'B')
+    if not bookings.nil? and bookings.count >=1 
+      bookings.first
+    else
+      nil
+    end
+  end
+
+  def orchestra_members_to_age_categories(orchestra_members)
+			age_categories = ReportSheet.age_categories
+			ages = Hash.new
+
+			age_categories.each do |c| 
+				ages[c]=0
+			end
+			
+
+			orchestra_members.each do |m|
+				ages[m.age_category(self.year)]+=1
+			end
+
+      ages
+  end
+
+  def update_from_orchestra_members(orchestra_members)
+    age_categories = orchestra_members_to_age_categories(orchestra_members)
+    
+    update_from_age_categories
+  end
+
+  def update_from_age_categories(age_categories)
+			self.children = age_categories["C"];
+			self.teens = age_categories["T"];
+			self.youth = age_categories["Y"];
+			self.adult = age_categories["A"];
+			self.senior= age_categories["S"];
+			self.save
+  end
+
+  def is_consistent_with_age_categories(age_categories) 
+			if self.children != age_categories["C"]
+        return false
+      end
+			if self.teens != age_categories["T"]
+        return false
+      end
+			if self.youth != age_categories["Y"]
+        return false
+      end
+			if self.adult != age_categories["A"]
+        return false
+      end
+			if self.senior!= age_categories["S"]
+        return false
+      end
+
+      true
+  end
+  def update_from_orchestra_members(orchestra_members)
+      age_categories = orchestra_members_to_age_categories(orchestra_members)
+
+      update_from_age_categories(age_categories)
+  end
+
+
+  def is_consistent?
+    @age_categories = orchestra_members_to_age_categories(orchestra.orchestra_members)
+
+    if is_consistent_with_age_categories(@age_categories)
+      true
+    else
+      false
+    end
+  end
+
+  def is_invoiced? 
+      not find_booking.nil?
+  end
+
+  def invoice_delta
+    booking = find_booking
+
+    if booking.nil? then
+      0
+    else
+      invoice = gen_invoice
+      booking.amount + invoice.sum 
+    end
+  end
 
 #	TODO: def scoped for easier retrieval!
 #   def orchestras 

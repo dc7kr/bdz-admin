@@ -1,4 +1,4 @@
-class EventMeal < ActiveRecord::Base
+class EventMeal < ApplicationRecord
   # attr_accessible :title, :body
   belongs_to :festival_application, :foreign_key => "participant_id"
 

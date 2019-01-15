@@ -1,4 +1,4 @@
-class RegionalOrganizationBooking < ActiveRecord::Base
+class RegionalOrganizationBooking < ApplicationRecord
   belongs_to :regional_organization
 
   def has_attachment?

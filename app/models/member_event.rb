@@ -1,4 +1,4 @@
-class MemberEvent < ActiveRecord::Base
+class MemberEvent < ApplicationRecord
 	belongs_to :member
 
 	def has_attachment?

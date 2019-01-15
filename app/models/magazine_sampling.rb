@@ -1,4 +1,4 @@
-class MagazineSampling < ActiveRecord::Base
+class MagazineSampling < ApplicationRecord
   #attr_accessible :count
   has_one :contact, as: :contact_entity
   accepts_nested_attributes_for :contact

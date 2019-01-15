@@ -1,6 +1,6 @@
 require 'set'
 
-class User < ActiveRecord::Base
+class User < ApplicationRecord
   rolify
 
   include Authority::UserAbilities

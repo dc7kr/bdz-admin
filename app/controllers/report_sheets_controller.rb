@@ -129,7 +129,20 @@ class ReportSheetsController < AuthenticatedController
   # GET /report_sheets/1.json
   def show
     @report_sheet = ReportSheet.find(params[:id])
+
     @orchestra = @report_sheet.orchestra
+
+    @booking = @report_sheet.find_booking
+    @invoice = @report_sheet.gen_invoice
+
+    @age_categories = @report_sheet.orchestra_members_to_age_categories(@orchestra.orchestra_members)
+
+    @consistent = @report_sheet.is_consistent?
+
+    @invoiced = @report_sheet.is_invoiced?
+    @invoice_delta = @report_sheet.invoice_delta
+
+    @needs_update = @invoice_delta!= 0
 
     respond_to do |format|
       format.html # show.html.erb
@@ -259,6 +272,81 @@ class ReportSheetsController < AuthenticatedController
         format.json { render :json => @report_sheet.errors, :status => :unprocessable_entity }
   	  end
   	end
+  end
+
+  def gen_invoice_pdf
+    @report_sheet = ReportSheet.find(params[:id])
+
+	  tex_writer = CorikaInvoices::TexWriter.new
+    invoice = @report_sheet.gen_invoice
+
+
+    @report_sheet.gen_invoice_pdf(tex_writer,invoice,nil)
+ 
+    invoice_file = @report_sheet.gen_invoice_pdf(invoice)
+    send_file(invoice_file.path, :filename => invoice_file.orig_filename, :type => "application/octet-stream")
+  end
+
+  def update_from_members
+    @orchestra = Orchestra.find(params[:orchestra_id])
+    @report_sheet = ReportSheet.find(params[:id])
+
+    respond_to do |format|
+        if @report_sheet.update_from_orchestra_members(@orchestra.orchestra_members)
+          format.html { redirect_to orchestra_report_sheet_path(@report_sheet.orchestra,@report_sheet), :notice => t('report_sheet.update_from_memberssuccess') }
+        else
+          format.html { redirect_to orchestra_report_sheet_path(@report_sheet.orchestra,@report_sheet), :warning => t('report_sheet.update_from_members_failed') }
+        end
+    end
+  end
+
+  def update_invoice 
+    @orchestra = Orchestra.find(params[:orchestra_id])
+    @report_sheet = ReportSheet.find(params[:id])
+
+    year = @report_sheet.year
+    
+    @delta_value = @report_sheet.invoice_delta
+
+
+    if @delta_value == 0 then
+      respond_to do |format|
+            format.html { redirect_to orchestra_report_sheet_path(@report_sheet.orchestra,@report_sheet), :notice => t('report_sheet.no_update_needed') }
+      end
+      return
+    end
+
+    date_prefix = Time.now.strftime '%Y%m%d%H%M%S'
+    sepa_writer = CorikaInvoices::SEPAWriter.new(date_prefix, INVOICE_CONFIG)
+
+    tw = CorikaInvoices::TexWriter.new(INVOICE_CONFIG)
+    
+    invoice = @report_sheet.gen_invoice 
+    invoice_file = invoice.gen_pdf(tw)
+
+    booking = @report_sheet.find_booking
+
+    # booking is negative - so original invoice inverted
+    old_invoice_sum = -1*booking.amount 
+
+		booking_txt = 'Beitrag '+String(year)
+    @orchestra.member.create_invoice_booking(year, invoice, invoice_file.orig_filename,booking_txt)
+
+    booking.destroy
+
+    @report_sheet.gen_delta_booking(sepa_writer,invoice,@delta_value)
+
+    sepa_file = sepa_writer.generate_file
+
+		users = User.for_admin_notify
+
+   	users.each do |user|
+      AdminNotifier.invoice_update(user, invoice, invoice_file, sepa_file, @delta_value, @report_sheet).deliver
+   	end
+
+    respond_to do |format|
+          format.html { redirect_to orchestra_report_sheet_path(@report_sheet.orchestra,@report_sheet), :notice => t('report_sheet.invoice_update_success') }
+    end
   end
 
   private 

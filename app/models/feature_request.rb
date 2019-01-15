@@ -1,4 +1,4 @@
-class FeatureRequest < ActiveRecord::Base
+class FeatureRequest < ApplicationRecord
   #attr_accessible :description, :priority, :title,:status,:user_id
 
   belongs_to :user

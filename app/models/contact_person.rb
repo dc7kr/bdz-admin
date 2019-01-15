@@ -1,4 +1,4 @@
-class ContactPerson < ActiveRecord::Base
+class ContactPerson < ApplicationRecord
 
   belongs_to :festival_application
   include CountryHelper

@@ -1,4 +1,4 @@
-class Upload < ActiveRecord::Base
+class Upload < ApplicationRecord
   #attr_accessible :upload
   has_attached_file :upload
 

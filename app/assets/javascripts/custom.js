@@ -3,10 +3,10 @@ $(function() {
   $('input.ui-datepicker').datepicker({ dateFormat: 'yy-mm-dd' });
   $.ajaxSetup({ dataType: 'json' });
 
-  Turbolinks.enableProgressBar();
+  // PRE 5: Turbolinks.enableProgressBar();
 
-  $('.dateTimePicker').datetimepicker();
-  $('.timePicker').timepicker();
+  //$('.dateTimePicker').datetimepicker();
+  // $('.timePicker').timepicker();
 
   $('a[data-popup]').on('click', function(e) { window.open($(this).attr('href')); e.preventDefault(); });
 });

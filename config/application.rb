@@ -24,5 +24,10 @@ module BDZAdmin
   config.i18n.default_locale = :de
 
   config.action_controller.include_all_helpers = false
+
+  config.action_dispatch.default_headers = {
+    'X-Frame-Options' => "ALLOW-FROM http://www.bdz-online.de/"
+  }
+
   end
 end

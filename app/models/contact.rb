@@ -1,4 +1,4 @@
-class Contact < ActiveRecord::Base
+class Contact < ApplicationRecord
 
   include CountryHelper
 
@@ -28,7 +28,7 @@ class Contact < ActiveRecord::Base
   end
 
   def to_customer
-    c = InvoiceCustomer.new
+    c = CorikaInvoices::Customer.new
     c.salutation  = salutation
     c.first_name = vorname
     c.last_name = name

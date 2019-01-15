@@ -1,4 +1,4 @@
-class Festival < ActiveRecord::Base
+class Festival < ApplicationRecord
   include Authority::Abilities
 	belongs_to :state, :foreign_key => "bland"
 

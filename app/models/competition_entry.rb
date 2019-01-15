@@ -1,4 +1,4 @@
-class CompetitionEntry < ActiveRecord::Base
+class CompetitionEntry < ApplicationRecord
   #attr_accessible :contact, :date_of_birth, :response1, :response2, :response3, :response4, :first_name, :last_name, :street, :zip, :city, :country_code, :email, :like, :missing, :improve, :winner
 
   validates_presence_of :first_name,:last_name,:date_of_birth,:response1,:response2,:response3,:response4

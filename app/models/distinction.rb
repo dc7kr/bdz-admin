@@ -1,4 +1,4 @@
-class Distinction < ActiveRecord::Base
+class Distinction < ApplicationRecord
   belongs_to :orchestra
   belongs_to :member_account_booking
 
@@ -33,7 +33,7 @@ class Distinction < ActiveRecord::Base
 
 
   def gen_invoice
-    invoice = Invoice.new
+    invoice = CorikaInvoices::Invoice.new
     invoice.invoice_type="ehrungsrechnung"
     invoice.our_contact = "distinction"
     invoice.customer = orchestra.to_customer

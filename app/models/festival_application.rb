@@ -1,4 +1,4 @@
-class FestivalApplication < ActiveRecord::Base
+class FestivalApplication < ApplicationRecord
 
   include CountryHelper
 
@@ -31,7 +31,7 @@ class FestivalApplication < ActiveRecord::Base
 
 
   def to_customer
-    cust = InvoiceCustomer.new
+    cust = CorikaInvoices::Customer.new
     cust.customer_id = id
     cust.direct_debit = false
 
@@ -70,7 +70,7 @@ class FestivalApplication < ActiveRecord::Base
       locale = :en
     end
 
-    inv = Invoice.new
+    inv = CorikaInvoices::Invoice.new
     inv.number = renr
     inv.customer = to_customer
     inv.considerItem(tickets,prices["fest"],I18n.t("event_card.fest", :locale=>locale))
@@ -78,7 +78,7 @@ class FestivalApplication < ActiveRecord::Base
     inv.considerItem(bdz_tickets,prices["fest_bdz"],I18n.t("event_card.fest_bdz",:locale=>locale))
     inv.considerItem(bdz_tickets_red,prices["fest_bdz_erm"],I18n.t("event_card.fest_bdz_erm",:locale=>locale))
     if not amount.nil? then
-      inv.addItem(InvoiceItem.new(1, -1*amount, I18n.t("common.advance_payment",:locale=>locale)))
+      inv.considerItem(1, -1*amount, I18n.t("common.advance_payment",:locale=>locale))
     end
 
     inv

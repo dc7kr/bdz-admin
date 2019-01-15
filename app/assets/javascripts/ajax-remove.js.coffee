@@ -7,7 +7,6 @@ $ ->
 
       if data.op == 'delete' 
         target.fadeOut(500, -> target.remove())
-      end
     else 
       console.log("Event:")
       console.log(e) 

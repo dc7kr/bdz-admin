@@ -1,4 +1,4 @@
-class ReportSheetInput < ActiveRecord::Base
+class ReportSheetInput < ApplicationRecord
   belongs_to :report_sheet
   belongs_to :orchestra
 

@@ -1,3 +1,3 @@
-class HonorMember < ActiveRecord::Base
+class HonorMember < ApplicationRecord
   include ActiveModel::ForbiddenAttributesProtection
 end

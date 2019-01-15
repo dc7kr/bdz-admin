@@ -1,4 +1,4 @@
-class Ensemble < ActiveRecord::Base
+class Ensemble < ApplicationRecord
 	belongs_to :user, :foreign_key => "owner"
 	has_many :ensemble_concerts
 

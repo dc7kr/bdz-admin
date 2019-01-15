@@ -1,4 +1,4 @@
-class Contest < ActiveRecord::Base
+class Contest < ApplicationRecord
   include Authority::Abilities
   
   def self.inactive

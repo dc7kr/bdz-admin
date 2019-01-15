@@ -1,14 +1,16 @@
-class Concert < ActiveRecord::Base
+class Concert < ApplicationRecord
   include Authority::Abilities
   self.authorizer = PublicEntityAuthorizer
 
   validates_presence_of :eintritt
 
+  validates_uniqueness_of :uid
+
   def self.future 
     where('concert_date >= ?', Time.now).order(:concert_date)
   end
 
-  scope :published, -> { where('visible=1 and concert_date >= ?',Time.now) }
+  scope :published, -> { where('visible=1 and concert_date >= ?',Time.now).order(:concert_date) }
 	scope :inactive, -> { where('visible=0') }
   #scope :future, -> { where('concert_date >= ?', Time.now) }
 

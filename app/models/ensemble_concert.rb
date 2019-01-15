@@ -1,4 +1,4 @@
-class EnsembleConcert < ActiveRecord::Base
+class EnsembleConcert < ApplicationRecord
 	belongs_to :festival
 	belongs_to :ensemble
 	belongs_to :bundesland

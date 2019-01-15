@@ -1,10 +1,10 @@
-class MagazineAdvert < ActiveRecord::Base
+class MagazineAdvert < ApplicationRecord
 
   belongs_to :advertiser
   belongs_to :magazine_issue
 
   def gen_invoice
-    invoice = Invoice.new
+    invoice = CorikaInvoices::Invoice.new
     invoice_date = Time.now
     invoice.number = invoice_number
     invoice.invoice_type="werberechnung"

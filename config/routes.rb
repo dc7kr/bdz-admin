@@ -1,6 +1,15 @@
 require 'sidekiq/web'
 
 BDZAdmin::Application.routes.draw do
+
+  resources :gema_events do 
+    collection do 
+      post :import
+    end
+  end
+  mount CorikaInvoices::Engine, at: "/invoice_engine"
+
+  get '/auth/:provider/callback', to: 'sessions#create'
   resources :orchestra_members do
     collection do
       get :search
@@ -49,20 +58,21 @@ BDZAdmin::Application.routes.draw do
 
 
   # MAGAZINE
-  resources :magazine_samplings do
-    collection do
-      get :print_list
+  namespace :magazine do
+    resources :magazine_issues, :path => :issues, :as => :issues do
+      resources :magazine_adverts, :path => :adverts, :as => :adverts, :shallow=>true
+      member do 
+        get :gen_advert_invoices
+        get :counts
+      end
+    end
+    resources :advertisers
+    resources :samplings, controller: 'magazine_samplings' do
+      collection do
+        get :print_list
+      end
     end
   end
-
-  resources :magazine_adverts
-  resources :magazine_issues do
-    member do 
-      get :gen_advert_invoices
-      get :counts
-    end
-  end
-  resources :advertisers
 
   #resources :mgl, :controller => "member_area"
     # BEGIN member namespace
@@ -94,7 +104,6 @@ BDZAdmin::Application.routes.draw do
     end
   end
 
-
   resources :report_sheet_inputs do
     collection do 
       get :lockdown
@@ -111,45 +120,39 @@ BDZAdmin::Application.routes.draw do
   
   end
 
-
-  resources :festival_pieces do
-  
-  end
-
-  resources :festival_applications do
-    collection do
-      post :grp_list
-      get :list
-      get :permitted
-      get :participant_overview
-      get :gen_participant_sheets
-      get :open_issues
-    end
-    member do 
-      get :gen_invoice
-      get :gen_participant_sheet
-    end
     resources :festival_pieces
-    resources :festival_application_attachments
-  end
-
-
-  resources :event_cards  do
-    member do 
-      get :gen_invoice
-      get :pickup
+    resources :festival_applications, param: :token do
+      collection do
+        post :grp_list
+        get :list
+        get :permitted
+        get :participant_overview
+        get :gen_participant_sheets
+        get :open_issues
+      end
+      member do 
+        get :gen_invoice
+        get :gen_participant_sheet
+      end
+      resources :festival_pieces
+      resources :festival_application_attachments
     end
-    collection do 
-      get :overview
-      get :open_orders
+    resources :event_cards  do
+      member do 
+        get :gen_invoice
+        get :pickup
+      end
+      collection do 
+        get :overview
+        get :open_orders
+      end
     end
-  end
 
-  resources :event_meals do 
-    collection do 
-      get :arrival_overview
+    resources :event_meals do 
+      collection do 
+        get :arrival_overview
+      end
     end
-  end
 
 
   resources :uploaded_files
@@ -159,6 +162,7 @@ BDZAdmin::Application.routes.draw do
 
   get 'api/rsm/gen_data' => 'report_sheet_mailings#gen_data'
   get 'api/rsm/gen_mailings' => 'report_sheet_mailings#gen_mailings'
+  get 'api/rsm/test' => 'report_sheet_mailings#test'
 
   resources :uploads
 
@@ -179,7 +183,6 @@ BDZAdmin::Application.routes.draw do
   resources :classifieds do
     collection do 
       get :inactive
-      get :public
     end
     member do 
       get :publish
@@ -223,7 +226,7 @@ BDZAdmin::Application.routes.draw do
 
   get 'custom_info_mail' => 'custom_info_mail#index'
   get 'custom_info_mail/test' => 'custom_info_mail#test'
-  get 'custom_info_mail/send_mail' => 'custom_info_mail#send_mail'
+  post 'custom_info_mail/send_mail' => 'custom_info_mail#send_mail'
   get 'custom_info_mail/template_test' => 'custom_info_mail#template_test'
 
   resources :festival_mails do
@@ -246,6 +249,7 @@ BDZAdmin::Application.routes.draw do
       end
   end
   resources :states
+
   resources :regional_organizations  do 
     resources :regional_organization_reports, :path => :reports do 
       collection do 
@@ -259,6 +263,20 @@ BDZAdmin::Application.routes.draw do
       end
     end
 
+    resources :orchestras do
+      collection do 
+        get :nopayment
+        get :notinvoiced
+      end
+    end
+    resources :person_members do
+      collection do 
+        get :nopayment
+        get :notinvoiced
+      end
+    end
+
+    resources :report_sheets
     resources :functions do
     end
     member do
@@ -273,10 +291,16 @@ BDZAdmin::Application.routes.draw do
       get :share_overview
     end
     resources :regional_organization_bookings, :shallow=>true do
-    member do 
-      get 'download'
+      member do 
+        get 'download'
+      end
     end
-  end
+    resources :member_account_bookings, :shallow=>true do
+      member do 
+        get 'download'
+      end
+    end
+
   end
   resources :tariffs
 
@@ -308,6 +332,7 @@ BDZAdmin::Application.routes.draw do
     # person member collections
     collection do 
       get :nopayment
+      get :nomail
       get :notinvoiced
       get :magazine
       get :addresses
@@ -330,6 +355,10 @@ BDZAdmin::Application.routes.draw do
       collection do
         get :copy_from_last_year
       end
+      member do 
+        get :update_from_members
+        post :update_invoice
+      end
     end
 
     resources :member_account_bookings do
@@ -346,6 +375,7 @@ BDZAdmin::Application.routes.draw do
     resources :orchestra_members do
       collection do 
         get 'delete_all'
+        post :exchange_all
         get 'check_double'
         get 'upload_report'
         post 'upload'
@@ -366,6 +396,7 @@ BDZAdmin::Application.routes.draw do
     collection do 
       get :lorch
       get :noreport
+      get :nomail
       get :nopayment
       get :notinvoiced
       get :gema
@@ -523,22 +554,24 @@ BDZAdmin::Application.routes.draw do
   end
 
   namespace :adm do 
+    resources :letter_file_regeneration
     resources :sepa_regeneration do
       collection do
         post :regenerate
         post :regenerate_by_date_and_type
       end
     end
+    resources :member_account_bookings
   end
   # BEGIN PUBLIC NAMESPACE
   namespace :public do 
-    resources :regional_organizations, :as => "lv"   
-    resources :honor_members
-    resources :orchestras do
-      collection do
-        get :by_lv
-      end
+    resources :regional_organizations, :as => "lv" do 
+      resources :orchestras 
+      resources :concerts 
     end
+
+    resources :honor_members
+
     resources :functions do
       collection do 
         get :federal
@@ -568,10 +601,13 @@ BDZAdmin::Application.routes.draw do
       end
     end
 
-    resources :festival_applications do
+    resources :festival_applications, param: :token  do
       member do 
         get :step2
         get :finalize
+      end
+      collection do 
+        get :closed
       end
       resources :festival_pieces 
     end
@@ -642,5 +678,5 @@ BDZAdmin::Application.routes.draw do
     end
   end # END NAMESPACE PUBLIC
 
-
+  
 end

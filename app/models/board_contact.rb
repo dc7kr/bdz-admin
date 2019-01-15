@@ -1,4 +1,4 @@
-class BoardContact < ActiveRecord::Base
+class BoardContact < ApplicationRecord
 
   has_one :contact, as: :contact_entity
 
