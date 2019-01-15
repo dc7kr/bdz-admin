@@ -1,0 +1,21 @@
+en:
+  event_meal: &event_meal_labels
+    one: Meal report
+    other: Meal reports
+
+    participant_id: participant number
+    meals: Overall festival tickets
+    veg: "- thereof vegetarian"
+    name: name
+    email: e-mail
+    arrival_time: Estimated arrival time
+    order_form:
+      title: Meal order 
+    binding_note: Please note that for organisational reasons the decision for a vegetarian meal is binding.
+    additional_note: You can purchase additional meal vouchers at the info desk.
+
+  helpers:
+    label:
+      event_meal:
+        <<: *event_meal_labels
+

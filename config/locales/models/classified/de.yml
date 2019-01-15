@@ -1,5 +1,7 @@
 de:
   classified: &classified_labels
+    one: "Kleinanzeige"
+    other: "Kleinanzeigen"
     adv_type: "Typ"
     name: "Ihr Name"  
     email: "E-Mail"

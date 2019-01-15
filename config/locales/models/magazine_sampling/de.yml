@@ -1,0 +1,22 @@
+de:
+  magazine_sampling: &magazine_sampling_labels
+    one: Bemusterung
+    other: Bemusterungen
+    count: Anzahl
+    print_list: "Liste für Druck"
+    firma: Firma
+    abteilung: Abteilung
+    anrede: Anrede
+    vorname: Vorname
+    name: Name
+    strasse: Strasse
+    plz: PLZ
+    ort: Ort
+    telefon: Telefon
+    fax: Fax
+    email: E-Mail
+    count: Anzahl
+  helpers:
+    label:
+      magazine_sampling:
+        <<: *magazine_sampling_labels

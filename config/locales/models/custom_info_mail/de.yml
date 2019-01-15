@@ -1,0 +1,18 @@
+de:
+  custom_info_mail: &custom_info_mail_labels
+    one: Rundschreiben
+    other: Rundschreiben
+    submit: Rundschreiben absenden
+    group: Zielgruppe
+    groups:
+      A: "Alle Mitglieder"
+      O: "Orchester"
+      E: "Einzelmitglieder"
+      T: "Test"
+    datafile: "Anschreiben"
+    via_paper: "auch Briefe generieren"
+    attachment: "Anlage"
+  helpers:
+    label:
+      custom_info_mail:
+        <<: *custom_info_mail_labels

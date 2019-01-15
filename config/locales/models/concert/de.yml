@@ -1,0 +1,41 @@
+de:
+  concert: &concert_labels
+    other: Konzerte
+    one: Konzert
+    future: "Zukünftige"
+    publish_success: "Konzert erfolgreich veröffentlicht"
+    datum: Datum
+    concert_date: Datum und Uhrzeit
+    zeit: Zeit
+    interpret: Interpret
+    titel: Titel
+    ort: Veranstaltungsort
+    mglnr: BDZ-Mitgiedsnummer
+    stadt: Stadt
+    state: Bundesland
+    bland: Bundesland
+    festival: Festival
+    country_code: Land
+    eintritt: Eintritt
+    url: Webseite
+    email: E-Mail
+    comment: Bemerkung
+
+  helpers:
+    label:
+      concert:
+        <<: *concert_labels
+
+  activerecord:
+    errors:
+      models:
+        concert:
+          attributes:
+            concert_date:
+              blank: Bitte geben Sie ein Datum ein. 
+            stadt:
+              blank: Bitte geben Sie eine Stadt ein.
+            ort:
+              blank: Bitte geben Sie den Veranstaltungsort ein.
+            eintritt:
+              blank: Bitte geben Sie den Eintrittspreis ein.

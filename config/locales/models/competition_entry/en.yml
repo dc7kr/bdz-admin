@@ -1,5 +1,5 @@
 en:
-  competition_entry:
+  competition_entry: &competition_entry_labels
     one: "Competition entry"
     other: "Competition entries"
     question1: "Who is currently president of the BDZ?"
@@ -27,4 +27,7 @@ en:
     submit: "Submit response"
 
 
-
+  helpers:
+    label:
+      competition_entry:
+        <<: *competition_entry_labels

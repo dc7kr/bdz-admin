@@ -1,0 +1,43 @@
+de:
+  competition_entry: &competition_entry_labels
+    other: "Gewinnspiel-Teilnehmer"
+    one: "Gewinnspiel-Teilnehmer"
+    response1: "Antwort 1:" 
+    response2: "Antwort 2:"
+    response3: "Antwort 3:"
+    response4: "Antwort 4:"
+    first_name: Vorname
+    last_name: Nachname
+    street: Straße
+    zip: PLZ
+    city: Ort
+    country_code: Land
+    date_of_birth: Geburtsdatum
+    email: E-Mail Adresse
+
+    questions:
+      title: "Quizfragen"
+    personal_data:
+      title: "Persönliche Daten"
+    success:
+      title: "Danke für Deine Teilnahme am Gewinnspiel"
+      text: "Wir freuen uns, dass Du an unserem Gewinnspiel teilgenommen hast und wünschen Dir viel Glück für die Ziehung."
+      winner_id_is: "Deine Gewinn-Nummer lautet:"
+    question1: "Wer ist aktuell Präsident des BDZ?"
+    question2: "Wer ist aktuell Geschäftsführer des BDZ?"
+    question3: "Wer ist aktuell Bundesjugendleiter des BDZ?"
+    question4: "Wer ist aktuell Bundesmusikleiter des BDZ?"
+
+    feedback:
+      title: "Festival-Feedback"
+      voluntary: "Diese Angaben sind freiwillig, wür würden uns aber sehr über Euer Feedback freuen."
+      hint: "Diese Angaben sind freiwillig, wir würden uns aber sehr über Feedback freuen. Schreibe uns jeweils einen Satz."
+      like: "Was hat Ihnen am besten im Festival gefallen?"
+      missing: "Was sollte auf dem „BDZ eurofestival zupfmusik“ noch angeboten werden?"
+      improve: "Was ist verbesserungsfähig aus Ihrer Sicht?"
+    submit: "Eintrag absenden"
+
+  helpers:
+    label:
+      competition_entry:
+        <<: *competition_entry_labels    

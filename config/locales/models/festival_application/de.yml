@@ -60,5 +60,7 @@ de:
     one: "Festival-Bewerbung"
     other: "Festival-Bewerbungen"
     general_panel_title: "Allgemeine Angaben"
-
+  festival_participant:
+    one: "Festival-Teilnehmer"
+    other: "Festival-Teilnehmer"
 

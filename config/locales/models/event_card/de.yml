@@ -1,0 +1,41 @@
+de:
+  event_card: &event_card_labels
+    order_form:
+        title: "Kartenbestellung für das eurofestival 2018"
+        submit: "Bestellen"
+        info1: "Die Tageskarten enthalten keine Verpflegung. Essensbons können nur an der Infotheke des BÜZ erworben werden."
+
+        info2: "Bestellte Karten werden für Sie unter dem angegebenen Namen an der Infotheke im Bürgerzentrum zurückgelegt. Kontingente für Kinderkonzert und Jugendmusiktheater am Freitag, den 11.05.2018 erhalten sie unter geschaeftsstelle@bdz-online.de"
+        info3: "Die Bezahlung der Karten erfolgt in bar bei Abholung an der Infotheke"
+    order_confirm:
+      thanks: "Vielen Dank für Ihre Kartenbestellung. Sie erhalten in Kürze eine Bestätigungs-Email an %{email}. Ihre Bestellung wird bei uns unter der Nummer %{nr} geführt."
+      heading: "Kartenbestellung Nr. %{nr} für das eurofestival Zupfmusik 2018 in Bruchsal"
+    one: Kartenbestellung
+    other: Kartenbestellungen
+    regular: "Regulär:"
+    orderdate: Bestelldatum
+    pickup_success: "Abholung erfolgreich eingetragen"
+    reduced: "Ermäßigt:"
+    fest: Festivalkarten
+    fest_bdz: "Festival-Karte (BDZ-Mitglieder)"
+    fest_erm: "Festivalkarten ermäßigt"
+    fest_bdz_erm: "Festivalkarten (BDZ-Mitglieder) ermäßigt"
+    do: "Tageskarte Donnerstag"
+    fr: "Tageskarte Freitag"
+    sa: "Tageskarte Samstag"
+    concert_so: "Konzertkarte Schneerunzel Sonntag 1.6."
+    concert_so_erm: "Konzertkarte Schneerunzel Sonntag 1.6. (ermäßigt)"
+    do_erm: "Tageskarte Donnerstag ermäßigt"
+    fr_erm: "Tageskarte Freitag ermäßigt"
+    sa_erm: "Tageskarte Samstag ermäßigt"
+    each_price: "à %{price} €"
+    card_type: "Kartentyp"
+    single_price: "Einzelpreis"
+    total_price: "Gesamtpreis"
+
+  helpers:
+    label:
+      event_card:
+        <<: *event_card_labels
+
+

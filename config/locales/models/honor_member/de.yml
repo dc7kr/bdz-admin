@@ -1,0 +1,10 @@
+de:
+  honor_member:
+    nr: Nummer
+    vorname: Vorname
+    name: Name
+    ort: Ort
+    honorType: Ehrungstyp
+    honorDate: Ehrungs-Datum
+    deceased: Verstorben
+

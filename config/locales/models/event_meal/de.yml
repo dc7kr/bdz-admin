@@ -1,0 +1,21 @@
+de:
+  event_meal: &event_meal_labels
+    one: Essensmeldung
+    other: Essensmeldungen
+    meals: "Anzahl der bestellten Festivalkarten"
+    veg: "Anzahl vegetarisches Essen"
+    name: Name
+    email: "E-Mail Adresse"
+    arrival_time: "Ankunft in Bruchsal"
+    arrival_overview: "Essen-Übersicht"
+    participant_id: "Teilnehmer Nr."
+    order_form:
+      title: Essenbestellung
+    binding_note: Bitte beachten Sie, dass aus organisatorischen Gründen eine Entscheidung für vegetarisches Essen bindend ist.
+    additional_note: "Zusätzliche Essen können an der Infotheke im Bürgerzentrum erworben werden."
+
+  helpers:
+    label:
+      event_meal:
+        <<: *event_meal_labels
+

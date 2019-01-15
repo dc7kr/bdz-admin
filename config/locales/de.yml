@@ -1,57 +1,18 @@
+---
 de:
   about:
     last_commits: "Letzte Änderungen"
-
-  festival_mails:
-    send_invoices_button: "Rechnungen generieren"
-  competition_entry:
-    other: "Gewinnspiel-Teilnehmer"
-    one: "Gewinnspiel-Teilnehmer"
-    questions:
-      title: "Quizfragen"
-    personal_data:
-      title: "Persönliche Daten"
-    success:
-      title: "Danke für Deine Teilnahme am Gewinnspiel"
-      text: "Wir freuen uns, dass Du an unserem Gewinnspiel teilgenommen hast und wünschen Dir viel Glück für die Ziehung."
-      winner_id_is: "Deine Gewinn-Nummer lautet:"
-    question1: "Wer ist aktuell Präsident des BDZ?"
-    question2: "Wer ist aktuell Geschäftsführer des BDZ?"
-    question3: "Wer ist aktuell Bundesjugendleiter des BDZ?"
-    question4: "Wer ist aktuell Bundesmusikleiter des BDZ?"
-
-    feedback:
-      title: "Festival-Feedback"
-      voluntary: "Diese Angaben sind freiwillig, wür würden uns aber sehr über Euer Feedback freuen."
-      hint: "Diese Angaben sind freiwillig, wir würden uns aber sehr über Feedback freuen. Schreibe uns jeweils einen Satz."
-      like: "Was hat Ihnen am besten im Festival gefallen?"
-      missing: "Was sollte auf dem „BDZ eurofestival zupfmusik“ noch angeboten werden?"
-      improve: "Was ist verbesserungsfähig aus Ihrer Sicht?"
-    submit: "Eintrag absenden"
-
   participant_sheet:
     performance: Auftritt
     meals: "Essensmarken"
     tickets: "Tickets"
     food: "Essen"
-
   tariff:
     one: Beitrag
     other: Beiräge
   country:
     one: Land
     other: Länder
-  custom_info_mail:
-    one: Rundschreiben
-    other: Rundschreiben
-    submit: Rundschreiben absenden
-    group: Zielgruppe
-    groups:
-      A: "Alle Mitglieder"
-      O: "Orchester"
-      E: "Einzelmitglieder"
-      T: "Test"
-    
   account:
     logout: Abmelden
     settings: Einstellungen
@@ -66,7 +27,7 @@ de:
     admin_data: Administration
     cron: Tasks
   common:
-
+    please_select_country: "Bitte wählen Sie ein Land"
     fineprint: "Das Kleingedruckte"
     in: "in"
     count: "Anzahl"
@@ -86,7 +47,6 @@ de:
     exchange: Austauschen
     fullname: Name
     links: Links
-    delete: Löschen
     back: Zurück
     save: Speichern
     send: "Absenden"
@@ -115,7 +75,6 @@ de:
     show: Anzeigen
     publish: Veröffentlichen
     edit: Bearbeiten
-    delete: Löschen
     update_success: wurde erfolgreich aktualisiert.
     download: Download
     up: Eine Ebene höher
@@ -135,62 +94,10 @@ de:
       M: "Sehr geehrter Herr"
       W: "Sehr geehrte Frau"
       F: "Sehr geehrte Damen und Herren"
-
   event_cards_mailer:
-    subject: "Ihre Kartenbestellung Nr. %{id} fuer das Eurofestival 2014"
-  event_meals_mailer: 
-    subject: "Ihre Essensmeldung Nr. %{id} fuer das Eurofestival 2014"
-  event_meal:
-    one: Essensmeldung
-    other: Essensmeldungen
-    meals: "Anzahl der bestellten Festivalkarten"
-    veg: "Anzahl vegetarisches Essen"
-    name: Name
-    email: "E-Mail Adresse"
-    arrival_time: "Ankunft in Bruchsal"
-    arrival_overview: "Essen-Übersicht"
-    participant_id: "Teilnehmer Nr."
-
-
-
-    order_form:
-      title: Essenbestellung
-    binding_note: Bitte beachten Sie, dass aus organisatorischen Gründen eine Entscheidung für vegetarisches Essen bindend ist.
-    additional_note: "Zusätzliche Essen können an der Infotheke im Bürgerzentrum erworben werden."
-  event_card:
-    order_form:
-        title: "Kartenbestellung für das eurofestival 2014"
-        submit: "Bestellen"
-        info1: "Die Tageskarten enthalten keine Verpflegung. Essensbons können an der Getränkeausgabe des Cateringzelts vor Ort erworben werden. "
-        info2: "Bestellte Karten werden für Sie unter dem angegebenen Namen an der Infotheke im Bürgerzentrum zurückgelegt."
-        info3: "Die Bezahlung der Karten erfolgt in bar bei Abholung an der Infotheke"
-    order_confirm:
-      thanks: "Vielen Dank für Ihre Kartenbestellung. Sie erhalten in Kürze eine Bestätigungs-Email an %{email}. Ihre Bestellung wird bei uns unter der Nummer %{nr} geführt."
-      heading: "Kartenbestellung Nr. %{nr} für das eurofestival Zupfmusik 2014 in Bruchsal"
-    one: Kartenbestellung
-    other: Kartenbestellungen
-    regular: "Regulär:"
-    orderdate: Bestelldatum
-    pickup_success: "Abholung erfolgreich eingetragen"
-    reduced: "Ermäßigt:"
-    fest: Festivalkarten
-    fest_bdz: "Festival-Karte (BDZ-Mitglieder)"
-    fest_erm: "Festivalkarten ermäßigt"
-    fest_bdz_erm: "Festivalkarten (BDZ-Mitglieder) ermäßigt"
-    do: "Tageskarte Donnerstag"
-    fr: "Tageskarte Freitag"
-    sa: "Tageskarte Samstag"
-    concert_so: "Konzertkarte Schneerunzel Sonntag 1.6."
-    concert_so_erm: "Konzertkarte Schneerunzel Sonntag 1.6. (ermäßigt)"
-    do_erm: "Tageskarte Donnerstag ermäßigt"
-    fr_erm: "Tageskarte Freitag ermäßigt"
-    sa_erm: "Tageskarte Samstag ermäßigt"
-    each_price: "à %{price} €"
-    card_type: "Kartentyp"
-    single_price: "Einzelpreis"
-    total_price: "Gesamtpreis"
-
-
+    subject: "Ihre Kartenbestellung Nr. %{id} fuer das Eurofestival 2018"
+  event_meals_mailer:
+    subject: "Ihre Essensmeldung Nr. %{id} fuer das Eurofestival 2018"
   time:
     formats:
       default: ! '%A, %d. %B %Y, %H:%M Uhr'
@@ -252,57 +159,57 @@ de:
       format:
   date:
     abbr_day_names:
-    - So
-    - Mo
-    - Di
-    - Mi
-    - Do
-    - Fr
-    - Sa
+      - So
+      - Mo
+      - Di
+      - Mi
+      - Do
+      - Fr
+      - Sa
     abbr_month_names:
-    - 
-    - Jan
-    - Feb
-    - Mär
-    - Apr
-    - Mai
-    - Jun
-    - Jul
-    - Aug
-    - Sep
-    - Okt
-    - Nov
-    - Dez
+      -
+      - Jan
+      - Feb
+      - Mär
+      - Apr
+      - Mai
+      - Jun
+      - Jul
+      - Aug
+      - Sep
+      - Okt
+      - Nov
+      - Dez
     day_names:
-    - Sonntag
-    - Montag
-    - Dienstag
-    - Mittwoch
-    - Donnerstag
-    - Freitag
-    - Samstag
+      - Sonntag
+      - Montag
+      - Dienstag
+      - Mittwoch
+      - Donnerstag
+      - Freitag
+      - Samstag
     formats:
       default: ! '%d.%m.%Y'
       long: ! '%e. %B %Y'
       short: ! '%e. %b'
     month_names:
-    - 
-    - Januar
-    - Februar
-    - März
-    - April
-    - Mai
-    - Juni
-    - Juli
-    - August
-    - September
-    - Oktober
-    - November
-    - Dezember
+      -
+      - Januar
+      - Februar
+      - März
+      - April
+      - Mai
+      - Juni
+      - Juli
+      - August
+      - September
+      - Oktober
+      - November
+      - Dezember
     order:
-    - :day
-    - :month
-    - :year
+      - :day
+      - :month
+      - :year
 
   datetime:
     distance_in_words:
@@ -356,8 +263,8 @@ de:
     bic:
       unknown: "BIC ist unbekannt!"
       required_for_dd: "BIC ist für Zahlungsart Lastschrift erforderlich!"
-    format: "%{message}"  
-    
+    format: "%{message}"
+
     konto:
       required_by_za: Zahlungsart Lastschrift erfordert Kontonummer
       invalid: Kontonummer ist ungültig
@@ -367,40 +274,19 @@ de:
       unknown: ist unbekannt
     downloads:
       file_does_not_exist: "Die Datei existiert nicht."
-
-  course:
-    one: Kurs
-    other: Kurse
-  classified:
-    other: Kleinanzeigen
-    one: Kleinanzeige
-    publish_success: "Kleinanzeige erfolgreich veröffentlicht"
-    adv_type: "Typ"
-    name: "Name"
-    email: "E-Mail"
-    url: "URL"
-    object: "Gegenstand"
-    description: "Beschreibung"
-    validuntil: "Gültig bis"
-    entrydate: Eingabe-Datum
-    visible: Sichtbar
-  concert:
-    other: Konzerte
-    one: Konzert
-    future: "Zukünftige"
-    publish_success: "Konzert erfolgreich veröffentlicht"
-    datum: Datum
-    zeit: Zeit
-    interpret: Interpret
-    titel: Titel
-    ort: Veranstaltungsort
-    stadt: Stadt
-    state: Bundesland
-    festival: Festival
-    eintritt: Eintritt
-    url: Webseite
-    email: E-Mail
-    comment: Bemerkung
+    classified:
+      other: Kleinanzeigen
+      one: Kleinanzeige
+      publish_success: "Kleinanzeige erfolgreich veröffentlicht"
+      adv_type: "Typ"
+      name: "Name"
+      email: "E-Mail"
+      url: "URL"
+      object: "Gegenstand"
+      description: "Beschreibung"
+      validuntil: "Gültig bis"
+      entrydate: Eingabe-Datum
+      visible: Sichtbar
   composer:
     other: Komponisten
     one: Komponist
@@ -422,7 +308,7 @@ de:
 
   address:
     one: Adresse
-    other: Adressen  
+    other: Adressen
   person_member:
     one: Einzelmitglied
     other: Einzelmitglieder
@@ -457,33 +343,12 @@ de:
     check_double: "Doppel-Mitgliedschaft prüfen"
   member_account:
     balance: Saldo
-  contest:
-    one: Wettbewerb
-    other: Wettbewerbe
-    startdate: Beginn Datum
-    enddate: Ende Datum
-    deadline: Anmeldeschluss
-    title: Titel
-    inhalt: Lehrgangsinhalte
-    zielgruppe: Zielgruppe
-    termine: Termine der Arbeitsphasen
-    gebuehr: Teilnahmegebühr
-    dozenten: DozentInnen
-    preis: Preis
-    more_dates: Termine
-    anmeldung: Infos und Anmeldung
-    publish_success: "Wettbewerb erfolgreich veröffentlicht"
-
   regional_organization:
     other: Landesverbände
     one: Landesverband
     share_overview: Beitragsanteile
     name: LV-Name
     homepage: Homepage
-  regional_organization_booking:
-    index: Landesverbandskonto
-    booking_type_S: Sollstellung
-    booking_type_G: Gutschrift
   regional_organization_booking:
     index: Landesverbandskonto
     booking_type_S: Sollstellung
@@ -503,9 +368,6 @@ de:
     insurance_title: Versicherungsdaten
     uv_count: Unfallversicherung
     haft_count: Haftpflichtversicherung
-    uv_count: Unfallversicherung
-    haft_count: Haftpflichtversicherung
-
   cron:
     lv_fee_bookings: "LV Beitragsanteile buchen"
     invoice_orchestras: "Rechnungslauf Orchester starten"
@@ -533,7 +395,7 @@ de:
     change_password: "Passwort ändern"
     new_password: "Neues Passwort"
     confirm_new_password: "Neues Passwort bestätigen"
-    
+
   users:
     profile:
       title: "Benutzerprofil"
@@ -545,9 +407,9 @@ de:
       current_password: "Aktuelles Passwort"
       current_password_hint: "(wird zum Bestätigen der Änderungen benötigt)"
       cancel_account: "Benutzeraccount löschen"
-  activerecord: 
+  activerecord:
     models:
-      orchestra_member: 
+      orchestra_member:
         one: Orchestermitglied
         other: Orchestermitglieder
     attributes:
@@ -558,15 +420,7 @@ de:
         body: Inhalt
         via_paper: auch per Post verschicken?
         datafile: Dateianhang
-      honor_member:
-        nr: Nummer
-        vorname: Vorname
-        name: Name
-        ort: Ort
-        honorType: Ehrungstyp
-        honorDate: Ehrungs-Datum
-        deceased: Verstorben
-  
+
       distinction:
         one: Ehrung
         other: Ehrungen
@@ -595,19 +449,6 @@ de:
         ort: "Stadt"
         ortdetails: "Veranstaltungsort"
         visible: "Freigegeben"
-      competition_entry:
-        response1: "Antwort 1:" 
-        response2: "Antwort 2:"
-        response3: "Antwort 3:"
-        response4: "Antwort 4:"
-        first_name: Vorname
-        last_name: Nachname
-        street: Straße
-        zip: PLZ
-        city: Ort
-        country_code: Land
-        date_of_birth: Geburtsdatum
-        email: E-Mail Adresse
       event_card:
         company: "Firma/Gruppe"
         pickup_success: "Abholung erfolgreich eingetragen."
@@ -621,10 +462,10 @@ de:
         street: "Straße"
         payment_received: Bezahlt
       event_meal:
-        participant_id: 
+        participant_id:
           one: "Teilnehmer Nr."
           other: "{{count}} Participant IDs"
-        tln: 
+        tln:
           one: "Anzahl der bestellten Festivalkarten"
         arrival_time:
           one: "Ankunft in Bruchsal"
@@ -639,7 +480,7 @@ de:
     errors:
       template:
         header: Fehler im Formular
-        body: Betroffene Felder 
+        body: Betroffene Felder
       messages:
         record_invalid: "Datensatz ist ungültig"
       models:
@@ -654,7 +495,7 @@ de:
               blank: "Buchungstext darf nicht leer sein"
         event_meal:
           attributes:
-            participant_id: 
+            participant_id:
               blank: "Teilnehmernummer darf nicht leer sein"
             veg:
               blank: "Bitte geben Sie die Anzahl der Vegatrier ein."
@@ -715,20 +556,16 @@ de:
          nummer: LV-Nummer
          homepage: Homepage
          jugend_url: Jugend-Homepage
-         konto: Konto
-         blz: BLZ
          zahler: Konto-Inhaber
-      magazine_sampling:
-         firma: Firma
       contact:
          firma: Contact Firma ATTR
-      state: 
+      state:
          country_id: Land
          name: Name
       regional_organization:
         name: LV-Name
       url:
-        attributes: 
+        attributes:
           url_category:
             blank: "URL Kategorie muss gesetzt sein!"
   member_account:
@@ -737,37 +574,6 @@ de:
     one: Werbekunde
     other: Werbekunden
     customer_number: Kundennummer
-  magazine_advert:
-    one: Werbebuchung
-    other: Werbebuchungen
-    advert_type: Typ
-    advert_types:
-     F: Ganze Seite
-     H: 1/2 Seite
-     T: 1/3 Seite
-     Q: 1/4 Seite
-    
-  magazine_issue:
-    one: Ausgabe
-    other: Ausgaben
-    number: Nummer
-    year: Jahr
-    gen_advert_invoices: Inserenten-Rechnungen generieren
-    gen_subscriber_invoices: Abonnenten-Rechnungen generieren
-    counts: Auflage
-
-  magazine_sampling:
-    one: Bemusterung
-    other: Bemusterungen
-    count: Anzahl
-    print_list: "Liste für Druck"
-   
-    
-  subscriber:
-    other: Abonnenten
-    one: Abonnent
-    account: Konto
-    bic: "BLZ"
   url:
     one: URL
     other: URLs
@@ -802,56 +608,11 @@ de:
     label:
       advertiser:
         customer_number: Kundennummer
-      festival_mail: &festival_mail_labels
-        reservation_invoice_success: "Rechnungslauf für Kartenreservierungen wurde gestartet."
-        reservation_invoices: "Reservierungs-Rechnungen versenden"
-        gen_invoices: "Teilnehmer Rechnungen versenden"
-        other: Festival-Rundmails
-        one: Festival-Rundmail
-        event_id: Event ID
-        group: Gruppe
-        groups:
-          FG: "Festival-Gäste"
-          FA: "Festival-Bewerber"
-          FP: "Festival-Zulassungen"
-          FJ: "Jugend musiziert Ensembles"
-          FO: "OpenAir Teilnehmer"
-          FR: "Reguläre Teilnehmer"
-          FS: "Teilnehemer mit Sondervereinbarungen"
-        subject: Thema
-        body: Mail-Inhalt
-        datafile: Datei-Anhang
       festival_participant: &festival_participant_labels
         other: Festival-Teilnehmer
         one: Festival-Teilnehmer
-      contact_person: &contact_person_labels
-        other: Kontakt-Personen
-        one: Kontakt-Person
-        salutation: Anrede
-        first_name: Vorname
-        last_name: Name
-        street: "Straße"
-        zip: Postleitzahl
-        country_code: Land
-        city: Stadt
-        phone: Telefon
-        fax: Fax
-        email: E-Mail
       contact:
         firma: Contact Firma
-      magazine_sampling:
-        abteilung: 
-        anrede: Anrede
-        vorname: Vorname
-        name: Name
-        strasse: Strasse
-        plz: PLZ
-        ort: Ort
-        telefon: Telefon
-        fax: Fax
-        email: E-Mail
-        count: Anzahl
-
     page_entries_info:
       one_page:
         display_entries:
@@ -860,12 +621,6 @@ de:
           other: "<b>Alle %{count}</b> %{entry_name}"
       more_pages:
         display_entries: "Zeige Einträge <b>%{first}&nbsp;-&nbsp;%{last}</b> von <b>%{total}</b>"
-  festival_perticipant:
-    <<: *festival_participant_labels
-  festival_mail:
-    <<: *festival_mail_labels
-  contact_person:
-    <<: *contact_person_labels
   activemodel:
     models:
       report_sheet: Meldebogen

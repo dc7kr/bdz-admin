@@ -1,0 +1,23 @@
+de:
+  contest: &contest_labels
+    one: Wettbewerb
+    other: Wettbewerbe
+    startdate: Beginn Datum
+    enddate: Ende Datum
+    deadline: Anmeldeschluss
+    title: Titel
+    inhalt: Lehrgangsinhalte
+    zielgruppe: Zielgruppe
+    termine: Termine der Arbeitsphasen
+    gebuehr: Teilnahmegebühr
+    dozenten: DozentInnen
+    preis: Preis
+    more_dates: Termine
+    anmeldung: Infos und Anmeldung
+    publish_success: "Wettbewerb erfolgreich veröffentlicht"
+
+  helpers:
+    label:
+      contest:
+        <<: *contest_labels
+

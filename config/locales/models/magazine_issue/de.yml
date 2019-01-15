@@ -1,0 +1,11 @@
+de:
+  magazine_issue:
+    one: Ausgabe
+    other: Ausgaben
+    number: Nummer
+    year: Jahr
+    gen_advert_invoices: Inserenten-Rechnungen generieren
+    gen_subscriber_invoices: Abonnenten-Rechnungen generieren
+    counts: Auflage
+
+

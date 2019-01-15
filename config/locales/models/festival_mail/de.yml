@@ -1,0 +1,25 @@
+de:
+  festival_mail: &festival_mail_labels
+    reservation_invoice_success: "Rechnungslauf für Kartenreservierungen wurde gestartet."
+    reservation_invoices: "Reservierungs-Rechnungen versenden"
+    gen_invoices: "Teilnehmer Rechnungen versenden"
+    other: Festival-Rundmails
+    one: Festival-Rundmail
+    event_id: Event ID
+    group: Gruppe
+    groups:
+      FG: "Festival-Gäste"
+      FA: "Festival-Bewerber"
+      FP: "Festival-Zulassungen"
+      FJ: "Jugend musiziert Ensembles"
+      FO: "OpenAir Teilnehmer"
+      FR: "Reguläre Teilnehmer"
+      FS: "Teilnehemer mit Sondervereinbarungen"
+    subject: Thema
+    body: Mail-Inhalt
+    datafile: Datei-Anhang
+    send_invoices_button: "Rechnungen generieren"
+  helpers:
+    label:
+      festival_mail:
+        <<: *festival_mail_labels

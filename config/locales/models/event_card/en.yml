@@ -1,0 +1,39 @@
+en:
+  event_card: &event_card_labels
+    order_form:
+        title: "Ticket order for the eurofestival 2014"
+        submit: "Order"
+        info1: "The day passes don't include meals. Meal vouchers can be purchased at the info desk"
+        info2: "Ordered tickets are reserved for the entered name at the info desk in the Bürgerzentrum. Tickets for children concert and youth music theatre on Friday, May 11th 2018 can be ordered at geschaeftsstelle@bdz-online.de"
+        info3: "The ticket payment is expected in cash on pickup at the info desk"
+    order_confirm:
+      thanks: "Thank you for your ticket order. You will receive a confirmation e-mail to %{email} shortly. Your order is referenced on our side as number %{nr}."
+      heading: "Ticket order No. %{nr} for the eurofestival Zupfmusik 2014 in Bruchsal"
+    one: Ticket order
+    other: Ticket orders 
+    regular: "Regular:"
+    orderdate: Order date
+    reduced: "Reduced:"
+    fest: Festival ticket
+    fest_bdz: "Festival ticket (BDZ members)"
+    fest_erm: "Festival ticket (reduced)"
+    fest_bdz_erm: "Festival ticket (BDZ member) reduced"
+    do: "day pass Thursday"
+    fr: "day pass Friday"
+    sa: "day pass Saturday"
+    do_erm: "day pass Donnerstag (reduced)"
+    fr_erm: "day pass Freitag (reduced)"
+    sa_erm: "day pass Samstag (reduced)"
+    concert_so: "concert 'Schneerunzel' Sunday 1.6. "
+    concert_so_erm: "concert 'Schneerunzel' Sunday 1.6. (reduced)"
+    each_price: "à %{price} €"
+    card_type: "Ticket type"
+    single_price: "unit price"
+    total_price: "all round price"
+
+  helpers:
+    label:
+      event_card:
+        <<: *event_card_labels
+
+

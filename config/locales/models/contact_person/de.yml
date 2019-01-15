@@ -1,0 +1,18 @@
+de:
+  contact_person: &contact_person_labels
+    other: Kontakt-Personen
+    one: Kontakt-Person
+    salutation: Anrede
+    first_name: Vorname
+    last_name: Name
+    street: "Straße"
+    zip: Postleitzahl
+    country_code: Land
+    city: Stadt
+    phone: Telefon
+    fax: Fax
+    email: E-Mail
+  helpers:
+    label:
+      contact_person:
+        <<: *contact_person_labels
