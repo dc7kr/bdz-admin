@@ -1,0 +1,28 @@
+.secondary-navigation
+  =render :partial=>'nav'
+.content
+  %h2.title
+    = t("common.all")
+    = t("gema_event",:count=>3)
+  .inner
+    #entry_info
+      = page_entries_info @gema_events
+    %table.table.table-hover.table-condensed
+      %thead
+        %th.first Nf
+        %th Kdnr
+        %th Date
+        %th Title
+        %th Name
+        %th Amount
+        %th.last &nbsp;
+
+      %tbody#gema_events
+        =render @gema_events
+    #paginator
+      = paginate @gema_events, { :remote=>true, :type=>"script"}
+    .actions-bar.wat-cf
+      .actions
+- content_for :sidebar, render(:partial => 'sidebar')
+      
+

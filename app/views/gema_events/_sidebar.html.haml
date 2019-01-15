@@ -1,0 +1,9 @@
+.panel.panel-primary
+  .panel-heading=t("common.import")
+  .panel-body
+    %p
+    .block
+      = bootstrap_form_tag url: import_gema_events_path, :method=>:post do |f|
+        = f.file_field :xls_file
+        = submit_tag "Import", :name => nil
+  

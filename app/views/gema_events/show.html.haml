@@ -1,0 +1,49 @@
+.block
+  .secondary-navigation
+    = render :partial=>'nav'
+  .content
+    .inner
+      %table
+        %tr
+          %td=f.label :kdnr
+          %td=@gema_event.kdnr
+        %tr
+          %td=f.label :name
+          %td=@gema_event.name
+        %tr
+          %td=f.label :zip
+          %td=@gema_event.zip
+        %tr
+          %td=f.label :city
+          %td=@gema_event.city
+        %tr
+          %td=f.label :date
+          %td=@gema_event.date
+        %tr
+          %td=f.label :title
+          %td=@gema_event.title
+        %tr
+          %td=f.label :tariff
+          %td=@gema_event.tariff
+        %tr
+          %td=f.label :amount
+          %td=@gema_event.amount
+        %tr
+          %td=f.label :location
+          %td=@gema_event.location
+        %tr
+          %td=f.label :location_city
+          %td=@gema_event.location_city
+        %tr
+          %td=f.label :program_available
+          %td=@gema_event.program_available
+        %tr
+          %td=f.label :source
+          %td=@gema_event.source
+        %tr
+          %td=f.label :par_mgl
+          %td=@gema_event.par_mgl
+        %tr
+          %td=f.label :nf_id
+          %td=@gema_event.nf_id
+
