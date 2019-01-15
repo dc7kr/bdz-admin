@@ -6,6 +6,6 @@
   =f.text_field :object
   =f.text_area :description
   = f.submit t("common.save")
-  = cancel_button()
+  = link_to t("common.cancel"), url_for(:back), :class => "btn btn-default"
 
 

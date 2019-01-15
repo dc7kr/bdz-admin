@@ -13,5 +13,4 @@
 
 
       %div 
-      = form_for @event_meal, :url => order_success_public_event_meals_path, :html => { :class => :form } do |f|
-        = render :partial => "form", :locals => {:f => f}
+      = render :partial => "form"

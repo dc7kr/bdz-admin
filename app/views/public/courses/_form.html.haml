@@ -1,20 +1,20 @@
 = bootstrap_form_for(@course, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10") do |f| 
   .container-fluid
-    = f.date_field :startdate
-    = f.date_field :enddate
     = f.text_field :titel
+    = f.collection_select :bland, State.all, :id, :name
+    = form_my_field(f,@course, :startdate,:datetime)
+    = form_my_field(f,@course, :enddate,:datetime)
+    %small.form-text.text-muted= t("course.enddate_hint_one_day")
+    %small.form-text.text-muted= t("course.enddate_hint_open_end")
     = f.text_area :beschreibung, rows:5, cols:80
     = f.text_area  :inhalt,rows:5,cols:80
+    = f.text_area :more_dates
+    = f.text_field :gebuehr
     = f.text_area  :zielgruppe,rows:5,cols:80
     = f.text_area  :dozenten,rows:5,cols:80
-    = f.text_area :more_dates
-    = f.collection_select :bland, State.all, :id, :name
-    = f.text_field :gebuehr
     = f.text_field :anmeldung
     = f.date_field :deadline
-    = f.datetime_field :reported
     = f.email_field :email
-    = f.check_box(:visible)
   .actions
     = submit_button
     = cancel_button

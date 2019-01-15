@@ -10,7 +10,11 @@
         = f.text_field :stadt
         = f.text_field :ort
         = f.select :bland, options_from_collection_for_select(@states, "id", "name")
-        = form_wrapped_field(f,@concert, :country_code, country_select(:concert, :country_code, iso_codes:true))
+        .form-group
+          = f.label :country_code, {class: "control-label col-sm-2"}
+          .col-md-10
+            = f.country_select(:country_code, { iso_codes:true }, { class:  "form-control"})
+
         = f.text_field :eintritt
         = f.select :festival, options_from_collection_for_select(@festivals, "id", "name")
         = f.text_area :comment

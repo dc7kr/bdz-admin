@@ -6,11 +6,12 @@
 %table 
 
   - @event_card.ordered_cards.each do |c|
-    %tr
-      %td.number=c.count
-      %td=t('event_card.'+c.key)
-      %td=t('event_card.each_price', { :price => c.price})
-      %td.number="%.2f EUR" % c.total
+    -if c.count >0 
+      %tr
+        %td.number=c.count
+        %td=t('event_card.'+c.key)
+        %td=t('event_card.each_price', { :price => c.price})
+        %td.number="%.2f EUR" % c.total
 
   %tr
     %td &nbsp;

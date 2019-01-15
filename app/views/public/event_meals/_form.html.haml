@@ -1,24 +1,8 @@
-.block
-  = f.error_messages :message => "", :header_tag => :h3
-%table
-  %tr
-    %td=f.label :participant_id
-    %td=f.number_field :participant_id
-  %tr
-    %td=f.label :name
-    %td=f.text_field :name
-  %tr
-    %td=f.label :email
-    %td=f.text_field :email
-
-  %tr 
-    %td=f.label :arrival_time
-    %td=f.text_field :arrival_time, :id => 'festival_arrival_time'
-  %tr
-    %td=f.label :tln
-    %td=f.number_field :tln 
-  %tr
-    %td=f.label :veg
-    %td=f.number_field :veg
-  %tr
-    %td=f.submit t('common.submit')
+= bootstrap_form_for @event_meal, :layout=> :horizontal, :url => order_success_public_event_meals_path  do |f|
+  =f.number_field :participant_id
+  =f.text_field :name
+  =f.text_field :email
+  =f.text_field :arrival_time, :id => 'festival_arrival_time'
+  =f.number_field :tln 
+  =f.number_field :veg
+  =f.primary t('common.submit')
