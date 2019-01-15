@@ -1,5 +1,4 @@
 class Public::FestivalApplicationsController < ApplicationController
-  layout :choose_layout
 
   def show
     @festival_application = FestivalApplication.find_by token: params[:token]
@@ -14,6 +13,10 @@ class Public::FestivalApplicationsController < ApplicationController
     @festival_application = FestivalApplication.find_by token: params[:token]
   end
 
+  def closed
+
+  end
+
   # GET /festival_applications/new
   # GET /festival_applications/new.json
   def new
@@ -25,8 +28,8 @@ class Public::FestivalApplicationsController < ApplicationController
 
     respond_to do |format|
     format.html { 
-      if not BDZ_SETTINGS["config"]["festival_application_open"] then
-        render :partial => "closed";
+      if not BDZ_SETTINGS["config"]["festival_application_open"] and current_user.nil? 
+          redirect_to(closed_public_festival_applications_path, notice: 'Festival application is currently closed.') 
       end
       }
       format.json { render json: @festival_application }
