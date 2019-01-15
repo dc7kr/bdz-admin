@@ -3,6 +3,7 @@ class Concert < ApplicationRecord
   self.authorizer = PublicEntityAuthorizer
 
   validates_presence_of :eintritt
+  validates_presence_of :ort,:stadt,:concert_date
 
   validates_uniqueness_of :uid
 
