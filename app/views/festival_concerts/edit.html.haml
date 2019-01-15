@@ -4,8 +4,7 @@
   .content
     %h2.title
       = t("common.edit")
-      = t('festival_concert.s')
+      = t('festival_concert',:count=>1)
     .inner
-      = form_for @festival_concert do |f|
-        = render :partial => "form", :locals => {:f => f}
+      = render :partial => "form"
 - content_for :sidebar, render(:partial => 'sidebar')

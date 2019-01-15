@@ -8,7 +8,7 @@
         (#{t('festival_application.permission_granted')})
       %br
       =@festival_application.orch_name
-    =link_to "Datenblatt", gen_participant_sheet_festival_application_path(@festival_application),:class=>"btn btn-default btn-sm"
+    =link_to "Datenblatt", gen_participant_sheet_festival_application_path(@festival_application),:class=>"btn btn-default btn-sm", data: { turbolinks:false }
     .container-fluid
 
       #accordion.panel-group{:role=>"tablist", :aria=>{:multiselectable=>"true"}}
@@ -57,7 +57,7 @@
             = calculation_sum(t("common.sum"), invoice.sum)
             =entity_row(@festival_application,:amount)
             =custom_entity_row(t("festival_application.payment_status"), t("festival_application.payment_states.#{@festival_application.payment_status}"))
-            =link_to "PDF", gen_invoice_festival_application_path(@festival_application),:class=>"btn btn-default btn-sm"
+            =link_to "PDF", gen_invoice_festival_application_path(@festival_application),:class=>"btn btn-default btn-sm", data: { turbolinks:false }
         - if not @festival_application.event_meal.nil?
           -@event_meal = @festival_application.event_meal
           .panel.panel-default

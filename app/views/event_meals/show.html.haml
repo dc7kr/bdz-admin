@@ -3,24 +3,24 @@
     =render :partial=>'nav'
   .content
     %h2.title
-      = t("event_meal.title")
+      = t("event_meal", count: 1)
+      = @event_meal.participant_id
     .inner
-      %table
-        %tr
-          %td.label=t('event_meal.participant_id')
-          %td=link_to @event_meal.participant_id , festival_application_path(@event_meal.participant_id)
-        %tr
-          %td.label=t('event_meal.meals')
-          %td=@event_meal.tln
-        %tr
-          %td.label=t('event_meal.veg')
-          %td=@event_meal.veg
-        %tr
-          %td.label=t('event_meal.name')
-          %td=@event_meal.name
-        %tr
-          %td.label=t('event_meal.email')
-          %td=mail_to @event_meal.email,@event_meal.email
-        %tr
-          %td.label=t('event_meal.orderdate')
-          %td=format_date @event_meal.orderdate
+      .row
+        .col-md-3.text-right=t('event_meal.participant_id')
+        .col-md-9=link_to @event_meal.participant_id , festival_application_path(@event_meal.participant_id)
+      .row
+        .col-md-3.text-right=t('event_meal.meals')
+        .col-md-9=@event_meal.tln
+      .row
+        .col-md-3.text-right=t('event_meal.veg')
+        .col-md-9=@event_meal.veg
+      .row
+        .col-md-3.text-right=t('event_meal.name')
+        .col-md-9=@event_meal.name
+      .row
+        .col-md-3.text-right=t('event_meal.email')
+        .col-md-9=mail_to @event_meal.email,@event_meal.email
+      .row
+        .col-md-3.text-right=t('event_meal.orderdate')
+        .col-md-9=format_date @event_meal.orderdate

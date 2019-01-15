@@ -1,7 +1,7 @@
 %ul.nav.nav-tabs
   %li{ :class => 'first'}= link_to_up_path t("common.up"), home_festival_data_path
   %li{ :class => tabActiveClass(@current_action,'index','first')}= link_to "#{t("common.list", :default => "List")}", festival_concerts_path
-  -if (@festival_concert)
+  -if (@festival_concert and not @festival_concert.id.nil?)
     %li{ :class => tabActiveClass(@current_action,'show',nil)}= link_to t("common.show"), festival_concert_path(@festival_concert)
     %li{ :class => tabActiveClass(@current_action,'edit',nil)}= link_to t("common.edit"), edit_festival_concert_path(@festival_concert)
   %li{:class => tabActiveClass(@current_action,'new',nil)}= link_to "#{t("common.new", :default => "New")}", new_festival_concert_path

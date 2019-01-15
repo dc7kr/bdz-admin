@@ -8,9 +8,24 @@
     .inner
 
       %table.table.table-hover.table-condensed
+        %tr
+          %th &nbsp;
+          %th Regulär
+          %th Ermäßigt
+        %tr
+          %td Festivalkarten
+          %td=@sums[:tickets]
+          %td=@sums[:tickets_red]
+        %tr
+          %td BDZ-Festivalkarten
+          %td=@sums[:bdz_tickets]
+          %td=@sums[:bdz_tickets_red]
         %tr 
           %td Gesamtanzahl Spieler:
-          %td=@sum_players
+          %td=@sums[:players]
+        %tr 
+          %td Spieler ohne Karte
+          %td=@sums[:no_ticket]
       %table.table#festival_applications
         %thead
           %tr

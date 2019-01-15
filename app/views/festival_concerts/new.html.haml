@@ -1,5 +1,10 @@
-%h1 New festival_concert
+.block
+  .secondary-navigation
+    = render :partial =>'nav'
+  .content
+    %h2.title
+      = t("common.new")
+      = t("festival_concert",:count=>1)
+    .inner
+      = render 'form'
 
-= render 'form'
-
-= link_to 'Back', festival_concerts_path

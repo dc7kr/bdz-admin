@@ -3,8 +3,9 @@ Herzlichen Dank fuer Ihre Kartenbestellung bei eurofestival-zupfmusik.de
 Wir bestaetigen hiermit Ihre Bestellung Nr. #{@card_data.id} wie folgt:
 
 -@card_data.ordered_cards.each do |cards|
-  #{cards.count} #{I18n.t("event_card."+cards.key)} à #{"%.2f EUR" % cards.price}    = #{"%.2f EUR" % cards.total}
-=============================
+  -if cards.count >0 
+    #{cards.count} #{I18n.t("event_card."+cards.key)} à #{"%.2f EUR" % cards.price}    = #{"%.2f EUR" % cards.total}
+  =============================
 Gesamtbetrag: #{ "%4.2f EUR" % @card_data.sum}
 
 

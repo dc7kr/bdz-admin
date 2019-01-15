@@ -3,7 +3,7 @@
     = render :partial=>'nav'
   .content
     %h2.title
-      #{t("festival_concert")} Nr. #{@festival_concert.number}
+      #{t("festival_concert",:count=>1)} Nr. #{@festival_concert.concert_type} #{@festival_concert.number}
     .inner
       %table
         %tr

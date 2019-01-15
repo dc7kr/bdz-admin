@@ -1,20 +1,10 @@
-= form_for @festival_concert do |f|
-  %table 
-    %tr
-      %td=f.label :number
-      %td=f.text_field :number
-    %tr
-      %td=f.label :title
-      %td=f.text_field :title
-    %tr
-      %td=f.label :location
-      %td=f.text_field :location
-    %tr
-      %td=f.label :event_time
-      %td=f.text_field :event_time
-    %tr
-      %td=f.label :outdoor
-      %td=f.check_box :outdoor
+= bootstrap_form_for(@festival_concert, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10") do |f| 
+  = f.select :concert_type,  options_for_select([["Bürgerzentrum", "B"], ["Open-Air", "O"],  ["Workshop", "W"],["Stadtkirche","K"],["Schloss","S"]],:selected=>@festival_concert.concert_type)
+  =f.text_field :number
+  =f.text_field :title
+  =f.text_field :location
+  =f.datetime_local_field :event_time
+  =f.check_box :outdoor
 
   =submit_button()
   %span.text_button_padding &nbsp;
