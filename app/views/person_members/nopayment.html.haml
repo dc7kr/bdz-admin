@@ -19,7 +19,10 @@
         - @members.each do |member|
           %tr{:class => cycle("odd", "even")}
             %td
-              = link_to member.mglnr, person_member_path(member.member_entity)
+              - if not member.member_entity.nil?
+                = link_to member.mglnr, person_member_path(member.member_entity)
+              -else
+                INTERNAL ERROR 
             %td= member.fullname
             %td=mail_to member.email, member.email
             %td=format_currency(@accounts[member.id],'€')
@@ -30,9 +33,12 @@
               -else
                 =l member.last_payment, format: :date_only
             %td.last
-              = link_to_show member.member_entity
-              = link_to_edit member.member_entity
-              = link_to_delete member.member_entity
+              - if not member.member_entity.nil? 
+                = link_to_show member.member_entity
+                = link_to_edit member.member_entity
+                = link_to_delete member.member_entity
+              - else 
+                INTERNAL ERROR
       .actions-bar.wat-cf
         .actions
 //- content_for :sidebar, render(:partial => 'sidebar')
