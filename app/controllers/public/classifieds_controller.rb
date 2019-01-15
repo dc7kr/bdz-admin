@@ -1,14 +1,19 @@
-class Public::ClassifiedsController < ApplicationController
+class Public::ClassifiedsController < Public::ApplicationController
   helper_method :sort_column, :sort_direction
 
+  require "button_helper"
+
   def index
+    @offer_classifieds = Classified.not_expired.active.where("adv_type=1").order("entrydate desc")
+    @search_classifieds = Classified.not_expired.active.where("adv_type=0").order("entrydate desc")
+ 
     @classifieds= Classified.search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
 
 
     respond_to do |format|
       format.html # index.html.erb
       format.js
-      format.json { render json: @classifieds }
+      format.json { render json: @offer_classifieds }
     end
   end
   
@@ -25,6 +30,7 @@ class Public::ClassifiedsController < ApplicationController
   # GET /classifieds/new.json
   def new
     @classified = Classified.new
+    @classified.adv_type=1
 
     respond_to do |format|
       format.html # new.html.erb
@@ -40,11 +46,17 @@ class Public::ClassifiedsController < ApplicationController
   # POST /classifieds
   # POST /classifieds.json
   def create
-    @classified = Classified.new(params[:classified])
+    @classified = Classified.new(classified_params)
+
+    @classified.entrydate = Time.now
+    @classified.validuntil = @classified.entrydate+3.months
+    @classified.ip = request.remote_ip
+
+    Rails.logger.debug("Remote IP: <#{request.remote_ip}")
 
     respond_to do |format|
       if @classified.save
-        format.html { redirect_to @classified, notice: 'Classified was successfully created.' }
+        format.html { redirect_to public_classifieds_path, notice: I18n.t('classified.create_success') }
         format.json { render json: @classified, status: :created, location: @classified }
       else
         format.html { render action: "new" }
@@ -76,5 +88,9 @@ class Public::ClassifiedsController < ApplicationController
   
   def sort_direction
     %w[asc desc].include?(params[:direction]) ? params[:direction] : "desc"
+  end
+
+  def classified_params
+    params.require(:classified).permit(:adv_type,:object,:description,:name,:email,:url)
   end
 end

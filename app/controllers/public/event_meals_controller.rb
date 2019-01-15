@@ -40,7 +40,7 @@ class Public::EventMealsController < Public::ApplicationController
   # POST /event_meals
   # POST /event_meals.json
   def create
-    @event_meal = EventMeal.new(params[:event_meal])
+    @event_meal = EventMeal.new(event_meal_params)
 
     respond_to do |format|
       if @event_meal.save
@@ -86,16 +86,20 @@ class Public::EventMealsController < Public::ApplicationController
   end
 
   def order_success
-    @event_meal = EventMeal.new(params[:event_meal])
+    @event_meal = EventMeal.new(event_meal_params)
 
     @event_meal.orderdate = Time.now
 
     timestr = params[:event_meal][:arrival_time]
 
     if not timestr.empty? then 
+      begin
       arrival = Time.parse(timestr)
+        @event_meal.arrival_time = arrival
+      rescue ArgumentError
+        Rails.logger.error("Invalid arrival time: #{arrival}")
+      end
 
-      @event_meal.arrival_time = arrival
     end
 
     respond_to do |format|
@@ -113,6 +117,6 @@ class Public::EventMealsController < Public::ApplicationController
   end
 
   def event_meal_params
-    require(:event_meal).permit( :orchName, :url, :gruendung, :orch_type, :bemerkung, :zweitanschrift, :name2, :kuendigungErfasst ,member_attributes: Member.nested_params) 
+    params.require(:event_meal).permit( :participant_id, :name, :email, :arrival_time, :tln, :veg)
   end
 end

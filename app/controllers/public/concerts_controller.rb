@@ -5,6 +5,12 @@ class Public::ConcertsController < ApplicationController
 
   # override
   def index
+    lv_id = params[:lv_id]
+
+    if lv_id.nil? then 
+      lv_id = params[:regional_organization_id]
+    end
+
     if not params[:lv_id].nil? then
       @concerts = Concert.published.search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
       @ensemble_concerts = EnsembleConcert.all
@@ -27,6 +33,7 @@ class Public::ConcertsController < ApplicationController
       format.json { render :json => @concerts }
     end
   end
+
   # GET /concerts/1
   # GET /concerts/1.json
   def show
@@ -55,8 +62,12 @@ class Public::ConcertsController < ApplicationController
 
   # POST /concerts.json
   def create
-    @concert = Concert.new(params[:concert])
+    @concert = Concert.new(concert_params)
     @concert.reported=Time.now
+    @concert.uid = SecureRandom.uuid
+    @states = State.all
+    @festivals = Festival.where("startdate > ? or id=0",Time.now)
+
 
     respond_to do |format|
       if @concert.save
@@ -70,7 +81,10 @@ class Public::ConcertsController < ApplicationController
   end
 
   def edit 
-	redirect_to edit_concert_path(params[:id])
+    @concert = Concert.find_by :uid => params[:id]
+    @lvs = RegionalOrganization.all
+    @states = State.all
+    @festivals = Festival.where("startdate > ? or id=0",Time.now)
   end
   
   def destroy
@@ -86,5 +100,10 @@ class Public::ConcertsController < ApplicationController
   private 
   def sort_column
     Concert.column_names.include?(params[:sort]) ? params[:sort] : "datum"
+  end
+
+  private
+  def concert_params
+    params.require(:concert).permit(:eintritt, :token, :stadt, :titel, :ort, :festival_id, :interpret, :url, :comment, :bundesland, :bland, :email, :owner, :visible, :orchestra_id, :uid, :country_code, :concert_date, :mglnr)
   end
 end
