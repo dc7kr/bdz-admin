@@ -36,14 +36,14 @@ class Ability
           can :read, OrchestraMember
         end
 
-        if ( user.has_role?(:regional)) then
-          lv = RegionalOrganization.with_role(:regional, user)
-          lv_restriction = { :regional_organization_id => lv.first.id }
-          can :read, lv.first
-          can [:read,:lorch], Orchestra, :member => lv_restriction 
-          can :read, PersonMember, :member => lv_restriction
-          can [:read], RegionalOrganization, :id => lv.first.id
-          can :read, RegionalOrganizationBooking, :regional_organization => lv.first
+        if ( user.has_role?(:regional,:any)) then
+          lv = RegionalOrganization.with_role(:regional, user).first
+          lv_restriction = { :regional_organization_id => lv.id }
+          can :read, lv
+          can [:read,:lorch,:nopayment], Orchestra, :member => lv_restriction 
+          can [:read, :nopayment], PersonMember, :member => lv_restriction
+          can [:read], RegionalOrganization, :id => lv.id
+          can :read, RegionalOrganizationBooking, :regional_organization => lv
           can [:read,:search], OrchestraMember
           can [:read,:download], MemberAccountBooking, :member => lv_restriction
           can :read, Distinction
