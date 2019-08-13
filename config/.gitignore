@@ -3,3 +3,4 @@ database.yml
 mongoid.yml
 redis.yml
 secrets.yml
+sidekiq.yml
