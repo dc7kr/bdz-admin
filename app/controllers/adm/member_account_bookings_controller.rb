@@ -139,7 +139,7 @@ class Adm::MemberAccountBookingsController < AuthenticatedController
 
   def download
     @booking = MemberAccountBooking.find(params[:id])
-	  fullPath = BDZ_SETTINGS['invoice_archive_dir']+"/"+String(@booking.booking_year)+"/"+@booking.filename
+	  fullPath = INVOICE_CONFIG.archive_dir+"/"+String(@booking.booking_year)+"/"+@booking.filename
 	  send_file(fullPath, :filename => @booking.filename, :type => "application/pdf", :x_sendfile=>true)
   end
 
