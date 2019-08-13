@@ -133,6 +133,10 @@ class ConcertsController < AuthorityController
   def update
     @concert = Concert.find(params[:id])
 
+    if @concert.uid.nil? then
+      @concert.uid= SecureRandom.uuid
+    end
+
     respond_to do |format|
       if @concert.update(concert_params)
         format.html { redirect_to @concert, :notice => 'Concert was successfully updated.' }
@@ -147,7 +151,6 @@ class ConcertsController < AuthorityController
   # DELETE /concerts/1
   # DELETE /concerts/1.json
   def destroy
-    @concert = Concert.find(params[:id])
     @concert.destroy
 
     respond_to do |format|
@@ -155,13 +158,6 @@ class ConcertsController < AuthorityController
       format.json { head :ok }
     end
   end
-
-  # OVERRIDE 
-  protected
-  def noAuthActions 
-		["index","show","public"]
-  end
-
 
   private 
   def sort_column
