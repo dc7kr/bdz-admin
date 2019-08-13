@@ -16,7 +16,7 @@ class DistinctionsController < AuthenticatedController
 
     datePrefix = Time.now.strftime '%Y%m%d%H%M%S'
 
-    ddWriter = SEPAWriter.new(datePrefix, BDZ_SETTINGS)
+    ddWriter = CorikaInvoices::SEPAWriter.new(datePrefix, INVOICE_CONFIG)
 
     invoice = distinction.gen_invoice 
     invoice.save
@@ -31,7 +31,7 @@ class DistinctionsController < AuthenticatedController
     booking.save
 
     if (invoice.customer.is_direct_debit?) then
-      @wdbooking = MemberAccountBooking.newWithdrawal("Lastschrift "+booking_txt,distinction.calcSum)
+      @wdbooking = MemberAccountBooking.newWithdrawal("Lastschrift "+booking_txt,distinction.calcSum,sepa.orig_filename)
       @wdbooking.member_id = orchestra.member.id
       @wdbooking.save
     end
@@ -39,7 +39,7 @@ class DistinctionsController < AuthenticatedController
     distinction.member_account_booking = booking
     distinction.save
 
-    send_mail(invoice)
+    send_mail(invoice,sepa)
     shortprefix = Time.now.strftime("%Y%m%d-")
 
     redirect_to(download_orchestra_member_account_booking_path(orchestra,booking))
@@ -113,7 +113,7 @@ class DistinctionsController < AuthenticatedController
     @distinction = Distinction.find(params[:id])
 
     respond_to do |format|
-      if @distinction.update_attributes!(distinction_params)
+      if @distinction.update_attributes(distinction_params)
         format.html { redirect_to orchestra_distinction_path(@orchestra,@distinction), notice: t('distinction.update_success') }
 
         format.json { head :no_content }
@@ -143,18 +143,17 @@ class DistinctionsController < AuthenticatedController
     Orchestra.column_names.include?(params[:sort]) ? params[:sort] : "distinctions.dist_date"
   end
 
-  def send_mail(invoice) 
+  def send_mail(invoice,sepa) 
 
     #ddFile, invoiceNr, orch )
     #sepa, invoice.number, distinction.orchestra)
 
     pdf = invoice.pdf_filename
-    sepa = invoice.sepa_filename
 
     base_url = cron_downloads_url
 
     if not sepa.nil?
-  	  dd_url = base_url+"?year="+year+"&filename="+sepa.orig_filename
+  	  dd_url = base_url+"?year="+invoice.invoice_date.year.to_s+"&filename="+sepa.orig_filename
     end
 
 	  AdminNotifier.newdistinction_notification(invoice).deliver
