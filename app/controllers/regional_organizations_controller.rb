@@ -25,6 +25,7 @@ class RegionalOrganizationsController < AuthorityController
 	  @lastYear = Time.now.year-1
 
     @functions = Function.includes(:board_contact).where(:regional_organization_id=>@regional_organization.id)
+    @functions_lv_filtered=true
 
     respond_to do |format|
       format.html # show.html.erb
