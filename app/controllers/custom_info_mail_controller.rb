@@ -6,6 +6,7 @@ class CustomInfoMailController < AuthenticatedNonResourceController
 
   def index
     authorize! :member, :edit
+    @event_id = SecureRandom.uuid
   end
 
   def test
@@ -18,7 +19,7 @@ class CustomInfoMailController < AuthenticatedNonResourceController
 
   def template_test
     authorize! :member, :edit
-    form_params = params[:email]
+    form_params = params[:custom_info_mail]
 
     date_prefix = Time.now.strftime '%Y%m%d'
     cur_year = Time.now.strftime "%Y"
@@ -75,7 +76,7 @@ class CustomInfoMailController < AuthenticatedNonResourceController
     
   def send_mail
     authorize! :member, :edit
-    form_params = params[:email]
+    form_params = params[:custom_info_mail]
 
     letterfile = form_params[:datafile]
     attachment = form_params[:attachment]
