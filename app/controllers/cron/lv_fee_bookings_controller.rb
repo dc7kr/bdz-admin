@@ -17,13 +17,17 @@ class Cron::LvFeeBookingsController < AuthenticatedNonResourceController
     end
 
     datePrefix = Time.now.strftime '%Y%m%d%H%M%S'
-    ctw = CreditTransferWriter.new(datePrefix,BDZ_SETTINGS)
+    ctw = CreditTransferWriter.new(datePrefix)
 
     @lvs.each do |lv|
       fee_shares = lv.member_fee_share_for_year
 
-      amount = fee_shares[:em_part]+fee_shares[:orch_part]
-      logger.debug "Amount: "+lv.id.to_s+"->"+amount.to_s
+      amount = fee_shares[:em_part]+fee_shares[:orch_part]-fee_shares[:pre_paid]
+      logger.debug "Amount: #{lv.id} -> #{amount}"
+
+      if fee_shares[:pre_paid]!=0 
+        logger.debug "Pre-paid: #{fee_shares[:pre_paid]}"
+      end
 
       saldo = @lvHash[lv.id]
       if saldo == nil then
@@ -33,10 +37,10 @@ class Cron::LvFeeBookingsController < AuthenticatedNonResourceController
       Rails.logger.debug "LV: "+lv.id.to_s+" AMOUNT:"+amount.to_s+" SALDO:"+saldo.to_s
       if ( amount != nil ) then	
         if ( amount > 0.1 ) then
-          @booking = RegionalOrganizationBooking.newCredit("Gutschrift Beitragsanteil "+year, amount)
+          booking = MemberAccountBooking.newCreditTransfer("Gutschrift Beitragsanteil "+year, amount)
           ctw.addCreditTransfer(lv, "LV-Beitragsanteil "+year,amount)
-          @booking.regional_organization_id = lv.id
-          @booking.save
+          booking.member = lv.member
+          booking.save
         else
           Rails.logger.info "Negative amount for LV: "+lv.name
         end
