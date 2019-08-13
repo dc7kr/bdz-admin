@@ -75,7 +75,7 @@ class EventMealsController < AuthenticatedController
   # POST /event_meals
   # POST /event_meals.json
   def create
-    @event_meal = EventMeal.new(params[:event_meal])
+    @event_meal = EventMeal.new(event_meal_params)
     @event_meal.orderdate = Time.now
 
     respond_to do |format|
@@ -95,7 +95,7 @@ class EventMealsController < AuthenticatedController
     @event_meal = EventMeal.find(params[:id])
 
     respond_to do |format|
-      if @event_meal.update_attributes(params[:event_meal])
+      if @event_meal.update_attributes(event_meal_params)
         format.html { redirect_to @event_meal, notice: 'Event meal was successfully updated.' }
         format.json { head :no_content }
       else
@@ -127,9 +127,9 @@ class EventMealsController < AuthenticatedController
     @counts[:sa] = { :mittag=>{:tln=>0,:veg=>0}, :abend => {:tln=>0,:veg=>0} }
 
     @event_meals.each do |e|
-      update_hash(29,@counts[:do],e)
-      update_hash(30,@counts[:fr],e)
-      update_hash(31,@counts[:sa],e)
+      update_hash(10,@counts[:do],e)
+      update_hash(11,@counts[:fr],e)
+      update_hash(12,@counts[:sa],e)
     end  
   end
 
@@ -168,5 +168,8 @@ class EventMealsController < AuthenticatedController
       end
     end
   end
-
+  
+  def event_meal_params
+    params.require(:event_meal).permit( :participant_id, :name, :email, :arrival_time, :tln, :veg)
+  end
 end
