@@ -1,5 +1,4 @@
 require 'tex_writer'
-require 'sepa_writer'
 require 'dtaus_writer'
 require 'invoice_helper'
 require 'fileutils.rb'
@@ -22,24 +21,19 @@ class RegionalOrchestraInvoicesWorker < AbstractInvoicesWorker
 
   def perform(year,user_id)
 
-	  tw = TexWriter.new
-    datePrefix = Time.now.strftime '%Y%m%d%H%M%S'
-    sw = SEPAWriter.new(datePrefix, BDZ_SETTINGS)
-
-    triggered_by = User.find(user_id)
-
-    @orchestras = Orchestra.notinvoiced(year).where("orch_type='L'")
+    init_fields(year,user_id)
 
     invoices = Array.new
-
     letters = Array.new
 
+
+    @orchestras = Orchestra.notinvoiced(year).where("orch_type='L'")
     tool =  MailingTool.new(year, "gs", "RECHNUNG#{year}", "Beitragsrechnung #{year}")
 
 	  @orchestras.each do |orch|
       mglnr = orch.member.mglnr
       Rails.logger.debug("Gen invoice for: #{mglnr}")
-      invoice_file = orchestraInvoice(datePrefix, orch,year,tw,sw)
+      invoice_file = orchestraInvoice(orch,year)
       logger.debug("PDF File archived as #{invoice_file}")
 
       add_mailer_params = { :year => year, :mglnr=>mglnr }
@@ -50,24 +44,18 @@ class RegionalOrchestraInvoicesWorker < AbstractInvoicesWorker
     pdf_merged_file = nil
 
     if letters.size > 0 then
-      pdf_filename = "#{datePrefix}-lorch-beitragsrechnungen.pdf"
+      pdf_filename = "#{self.date_prefix}-lorch-beitragsrechnungen.pdf"
       pdf_merged_file = MailingFile.new(pdf_filename,pdf_filename,year.to_s)
       merge_pdfs(letters, pdf_merged_file)
     end
 
-    ddFile = sw.generateFile
+    ddFile = self.sepa_writer.generate_file
 
-#    tw.moveGeneratedFiles(sw.datePrefix)
-    send_mail(ddFile, pdf_merged_file,triggered_by)
+    send_mail(ddFile, pdf_merged_file,self.triggered_by)
   end
 
   private
-  def orchestraInvoice(datePrefix, orch, year, tw, sw)
-		booking_txt = "BDZ-Beitrag "+String(year)
-
-    invoice_type = "beitragsrechnung"
-
-    mglnr = orch.member.mglnr
+  def orchestraInvoice(orch, year)
 
 		sheet = orch.sheet_for_year(year)
 
@@ -77,21 +65,14 @@ class RegionalOrchestraInvoicesWorker < AbstractInvoicesWorker
     end
 
     invoice = sheet.gen_invoice
+    invoice.generator_session_id = self.generator_session_id
+    invoice.save
 
-		tw.writeInvoice(invoice, 'gs',year)
+    invoice_file = invoice.gen_pdf(self.tex_writer)
 
-    work_pdf_file = tw.gen_pdf(invoice_type,datePrefix, mglnr)
-
-    workdir = BDZ_SETTINGS["invoice_workdir"]
-    invoice_file = archive_file(workdir,work_pdf_file,year)
-
-		booking = MemberAccountBooking.newInvoice(booking_txt,-1*invoice.sum,mglnr.to_s)
-		booking.member_id = orch.member.id
-    booking.booking_year=year
-    booking.filename = invoice_file.orig_filename
-		booking.save
-
-    gen_dd_booking(sw, orch, invoice, year)
+		booking_txt = 'Beitrag '+String(year)
+    orch.member.create_invoice_booking(year, invoice, invoice_file.orig_filename,booking_txt)
+    orch.member.create_dd_booking(sepa_writer,invoice, year)
 
     invoice_file
   end

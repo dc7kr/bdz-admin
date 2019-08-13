@@ -25,7 +25,7 @@ class FestivalInvoiceMailsWorker
 
     letterArray = Array.new
 
-    tw = TexWriter.new
+    tw = CorikaInvoices::TexWriter.new(INVOICE_CONFIG)
 
     prefix = Time.now.strftime("%Y%m%d%H%M%S_")
 
@@ -35,26 +35,19 @@ class FestivalInvoiceMailsWorker
 
       invoice = appl.invoice 
 
-
       if ( invoice.sum <= 0) then
         Rails.logger.info("Skipped invoice for TLN #{invoice.customer.id} because of zero or negative invoice.")
       else
-        tw.writeInvoice(invoice,'festival',cur_year)
 
-        inv_type = "festival.en"
         locale = :en
-        subject = "eurofestival zupfmusik 2014 ticket invoice no. #{invoice.number} for participant no. #{appl.id}"
+        subject = "eurofestival zupfmusik 2018 ticket invoice no. #{invoice.number} for participant no. #{appl.id}"
 
         if invoice.customer.country == 'de' or invoice.customer.country=='at' then
-          inv_type = "festival.de"
-          subject = "eurofestival zupfmusik 2014 - Ticket Rechnung Nr. #{invoice.number} fuer Teilnehmer Nr. #{appl.id}"
+          subject = "eurofestival zupfmusik 2018 - Ticket Rechnung Nr. #{invoice.number} fuer Teilnehmer Nr. #{appl.id}"
           locale = :de
         end
 
-        work_pdf_file = tw.gen_pdf(inv_type,prefix,invoice.customer.id)
-
-        workdir = BDZ_SETTINGS["invoice_workdir"]
-        invoice_file = archive_file(workdir,work_pdf_file,cur_year)  
+        invoice_file = invoice.gen_pdf(tw)
 
         contact = appl.contact_person
 

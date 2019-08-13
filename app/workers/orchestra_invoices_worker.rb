@@ -1,5 +1,4 @@
 require 'tex_writer'
-require 'sepa_writer'
 require 'dtaus_writer'
 require 'invoice_helper'
 require 'fileutils.rb'
@@ -20,37 +19,53 @@ class OrchestraInvoicesWorker < AbstractInvoicesWorker
     }
   end
 
-  def perform(year,user_id)
+  def perform(year,user_id,regional)
 
     init_fields(year,user_id)
 
     invoices = Array.new
     letters = Array.new
 
-	  @orchestras = Orchestra.notinvoiced(year).where("NOT orch_type='L'")
+    if regional 
+      @orchestras = Orchestra.notinvoiced(year).where("orch_type='L'")
+    else
+	    @orchestras = Orchestra.notinvoiced(year).where("NOT orch_type='L'")
+    end
 
     tool =  MailingTool.new(year, "gs", "RECHNUNG#{year}", "Beitragsrechnung #{year}")
 
 	  @orchestras.each do |orch|
       mglnr = orch.member.mglnr
       Rails.logger.debug("Gen invoice for: #{mglnr}")
-      invoice_file = orchestraInvoice(orch,year,self.tex_writer,self.sepa_writer)
-      logger.debug("PDF File archived as #{invoice_file}")
+      invoice_file = orchestraInvoice(orch,year)
 
-      add_mailer_params = { :year => year, :mglnr=>mglnr }
+      if not invoice_file.nil? then 
+        logger.debug("PDF File archived as #{invoice_file}")
 
-      tool.deliver_mailing(InvoiceMail, orch.to_addressee, invoice_file,nil, letters, add_mailer_params)  
+        add_mailer_params = { :year => year, :mglnr=>mglnr }
+
+        tool.deliver_mailing(InvoiceMail, orch.to_addressee, invoice_file,nil, letters, add_mailer_params)  
+      else
+        logger.error("No invoice generated for mglnr: #{mglnr}")
+      end
 		end
 
     pdf_merged_file = nil
 
     if letters.size > 0 then
-      pdf_filename = "#{self.date_prefix}-orch-beitragsrechnungen.pdf"
+      pdf_filename = nil
+
+      if regional
+        pdf_filename = "#{self.date_prefix}-lzo-beitragsrechnungen.pdf"
+      else
+        pdf_filename = "#{self.date_prefix}-orch-beitragsrechnungen.pdf"
+      end
+
       pdf_merged_file = MailingFile.new(pdf_filename,pdf_filename,year.to_s)
       merge_pdfs(letters, pdf_merged_file)
     end
 
-    ddFile = self.sepa_writer.generateFile
+    ddFile = self.sepa_writer.generate_file
 
     send_mail(ddFile, pdf_merged_file,self.triggered_by)
   end
@@ -70,9 +85,13 @@ class OrchestraInvoicesWorker < AbstractInvoicesWorker
 
     invoice_file = invoice.gen_pdf(self.tex_writer)
 
+    if invoice_file.nil? then
+      return nil
+    end
+
 		booking_txt = 'Beitrag '+String(year)
-    create_invoice_booking(person, year, invoice, invoice_file.orig_filename,booking_txt)
-    create_dd_booking(orch, invoice, year)
+    orch.member.create_invoice_booking(year, invoice, invoice_file.orig_filename,booking_txt)
+    orch.member.create_dd_booking(sepa_writer,invoice, year)
 
     invoice_file
   end

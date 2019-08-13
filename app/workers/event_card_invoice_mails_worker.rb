@@ -52,7 +52,7 @@ class EventCardInvoiceMailsWorker
 
         work_pdf_file = tw.gen_pdf(inv_type,prefix,invoice.customer.id)
 
-        workdir = BDZ_SETTINGS["invoice_workdir"]
+        workdir = INVOICE_CONFIG.work_dir
         invoice_file = archive_file(workdir,work_pdf_file,cur_year)  
 
         mailer_params = { :subject => subject , :cc => BDZ_SETTINGS["contacts"]["treasurer"]["mail"], :bcc => "webmaster@bdz-online.de", :invoice => invoice, :locale => locale }
