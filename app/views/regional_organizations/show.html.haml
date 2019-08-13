@@ -16,16 +16,10 @@
 
       = render @regional_organization.member,:partial=>"member"
 
-      =entity_row(@regional_organization, :iban)
-      =entity_row(@regional_organization,:bic)
-
 
       .wat-cf
         = link_to_edit @regional_organization
         = del_button @regional_organization,@regional_organization
-
-    %table
-      = render @functions
-
+    = render :partial => "function_table"
 
 - content_for :sidebar, render(:partial => 'sidebar.show')

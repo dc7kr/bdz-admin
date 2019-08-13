@@ -10,7 +10,8 @@
   -else
     - if current_user.national_permission?
       %li{ :class => tabActiveClass(@current_action,'noreport',nil)}= link_to t("orchestra.noreport", :default => "No Report"), noreport_orchestras_path
-      %li{ :class => tabActiveClass(@current_action,'nopayment',nil)}= link_to t("member.nopayment", :default => "#no payment#"), nopayment_orchestras_path
+      %li{ :class => tabActiveClass(@current_action,'nopayment',nil)}= link_to t("member.nopayment"), nopayment_orchestras_path
+      %li{ :class => tabActiveClass(@current_action,'nomail',nil)}= link_to t("member.nomail"), nomail_orchestras_path
       %li{ :class => tabActiveClass(@current_action,'notinvoiced',nil)}= link_to t("member.notinvoiced"), notinvoiced_orchestras_path
   - if can? :create, Orchestra
     %li{:class => tabActiveClass(@current_action,'new',nil)}= link_to t("common.new", :default => "New"), new_orchestra_path

@@ -5,7 +5,7 @@
         INCONSISTENT
       - else
         = link_to orchestra.member.mglnr, orchestra_path(orchestra)
-        - if orchestra.currentReportSheet.nil? then
+        - if orchestra.report_sheet_required? and orchestra.currentReportSheet.nil? then
           %span.label.label-primary kein Meldebogen
           
     %td

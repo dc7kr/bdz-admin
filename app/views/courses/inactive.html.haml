@@ -7,11 +7,11 @@
     .inner
       %table.table
         %tr
-          %th.first= t("contest.startDate")
-          %th.first= t("contest.endDate")
-          %th.first= t("contest.title")
-          %th.first= t("contest.deadline")
-          %th.first= t("contest.visible")
+          %th.first= t("course.startDate")
+          %th= t("course.endDate")
+          %th= t("course.title")
+          %th= t("course.deadline")
+          %th= t("course.visible")
           
           %th.last &nbsp;
         = render @courses

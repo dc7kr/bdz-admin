@@ -1,8 +1,11 @@
 = bootstrap_form_for(@classified, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10") do |f| 
   .container-fluid
+    =f.select :adv_type, options_for_select([["Biete", "1"], ["Suche", "0"]],:selected=>@classified.adv_type)
     =f.text_field :object
     =f.text_area :description, cols: 80, rows: 5
     =f.date_field :validuntil
+    =f.text_field :ip
+    =f.date_field :entrydate
     =f.check_box :visible 
   .actions
     = f.submit t("common.save")

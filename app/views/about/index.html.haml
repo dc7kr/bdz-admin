@@ -6,7 +6,17 @@
       =t('common.about')
       =@git_info[:application].html_safe
     .inner
-      %b Config
+      %b Docs Config
+      %table
+        %tr
+          %td Archive Dir
+          %td= DOCS_CONFIG.archive_dir
+        %tr
+          %td Work Dir
+          %td= DOCS_CONFIG.work_dir
+        %tr
+          %td Template Dir
+          %td= DOCS_CONFIG.template_dir
       %table
         %tr
           %td.label SEPA-Mode

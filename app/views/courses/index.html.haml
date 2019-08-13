@@ -8,10 +8,10 @@
       %table.table.table-hover.table-condensed
         %tr
           %th.first= attr_heading(Course, :startDate)
-          %th.first= attr_heading(Course, :endDate)
-          %th.first= attr_heading(Course, :title)
-          %th.first= attr_heading(Course, :deadline)
-          %th.first= attr_heading(Course, :visible)
+          %th= attr_heading(Course, :endDate)
+          %th= attr_heading(Course, :title)
+          %th= attr_heading(Course, :deadline)
+          %th= attr_heading(Course, :visible)
           
           %th.last &nbsp;
         = render @courses

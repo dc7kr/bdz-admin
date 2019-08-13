@@ -1,0 +1,11 @@
+%tr
+  %td=person_member.member.mglnr
+  %td=t("common.salutations."+person_member.member.anrede)
+  %td=person_member.member.vorname
+  %td=person_member.member.name
+  %td=person_member.member.strasse
+  %td=person_member.member.plz
+  %td=person_member.member.ort
+  %td
+    -if person_member.member.country_code != 'DE' 
+      =person_member.member.t_country("en")

@@ -1,0 +1,14 @@
+%table.table
+  %thead.thead-dark
+    %tr
+      %th{:scope=>'col'}=t('function.label')
+      %th{:scope=>'col'} 
+        =t('board_contact.last_name')
+        ,
+        =t('board_contact.first_name')
+      %th{:scope=>'col'}=t('function.bund')
+      %th{:scope=>'col'}=t('function.jugend') 
+      %th{:scope=>'col'} &nbsp;
+  = render @functions
+
+

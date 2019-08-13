@@ -1,6 +1,10 @@
 %tr
   %td.first= homepage.abbrev
-  %td= homepage.mitglnr
+  %td
+    - if ! homepage.member_exists?
+      %span.label.label-danger kein Mitglied
+
+    = homepage.mitglnr
   %td= homepage.name
   %td= l homepage.created_at unless homepage.created_at.nil?
   %td= l homepage.updated_at unless homepage.updated_at.nil?

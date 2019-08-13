@@ -1,7 +1,7 @@
 .container-fluid
   = bootstrap_form_for([@member_entity,@booking], layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10") do |f|
     = f.hidden_field :member_id, :value=>@member.id
-    =f.select :booking_type, options_for_select([[t('booking.booking_type_A'),"A"],[t('booking.booking_type_B'), "B"], [t('booking.booking_type_L'), "L"],  [t('booking.booking_type_G'), "G"], [t('booking.booking_type_E'),"E"],[t('booking.booking_type_R'),"R"],[t('booking.booking_type_Z'),"Z"]],:selected=>@booking.booking_type)
+    =f.select :booking_type, options_for_select(booking_type_options, :selected=>@booking.booking_type)
     =f.number_field :booking_year
     =f.date_field :booking_date
     =f.text_field :booking_txt

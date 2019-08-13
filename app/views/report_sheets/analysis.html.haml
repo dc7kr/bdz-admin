@@ -18,10 +18,13 @@
         - @warning_sheets.each do |w|
           %tr
             %td
-              =link_to w["cur"].orchestra.orchName, orchestra_report_sheet_path(w["cur"].orchestra,w["cur"])
-              -if w["cur"].orchestra.orch_type == "K"
-                %span.label.label-primary Kooperativ
-              -elsif w["cur"].orchestra.orch_type == "L"
-                %span.label.label-primary Landesorchester
+              -if w["cur"].orchestra.nil? 
+                UNGÜLTIG, KEIN ORCHESTER
+              -else
+                =link_to w["cur"].orchestra.orchName, orchestra_report_sheet_path(w["cur"].orchestra,w["cur"])
+                -if w["cur"].orchestra.orch_type == "K"
+                  %span.label.label-primary Kooperativ
+                -elsif w["cur"].orchestra.orch_type == "L"
+                  %span.label.label-primary Landesorchester
             %td=w["last"].calcGemaCount
             %td=w["cur"].calcGemaCount

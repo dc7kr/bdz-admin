@@ -6,6 +6,7 @@
       %h2
         = t("classified",:count=>1)
         = @classified.object
+      = entity_row(@classifie,:type)
       = entity_row(@classified,:name)
       = entity_row(@classified,:email)
       = entity_row(@classified,:url,:url)

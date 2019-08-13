@@ -1,7 +1,7 @@
 .content
   .container-float
     .row
-      -if current_user.is_admin? 
+      -if current_user.is_admin? or current_user.has_role? :accounting
         .col-md-4
           .panel.panel-default
             .panel-heading=t('report_sheet',:count=>3)

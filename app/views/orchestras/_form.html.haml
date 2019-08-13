@@ -7,6 +7,12 @@
         = f.select :orch_type,   options_for_select([["Vereinsorchester", "O"], ["Kooperativ", "K"],  ["Landesorchester", "L"],["Auslandsorchester","A"],["Außerordentliche Mitglieder","X"]],:selected=>@orchestra.orch_type)
         = f.text_field :gema_kdnr
         = f.url_field :url
+        .form-group
+          = f.label :publish_url, :class=>"control-label col-sm-2"
+          = f.check_box :publish_url
+        .form-group
+          = f.label :publish_address, :class=>"control-label col-sm-2"
+          = f.check_box :publish_address
         = f.date_field :gruendung, :class => "datetimepicker"
 
 

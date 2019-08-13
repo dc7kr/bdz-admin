@@ -4,14 +4,19 @@
     %title BDZ Online
     = stylesheet_link_tag :public, 'data-turbolinks-track'=>true, media: :all
     = javascript_include_tag :application, 'data-turbolinks-track'=>true
-    = javascript_include_tag :application, params[:controller], 'data-turbolinks-track'=>true
+    //= javascript_include_tag :application, params[:controller], 'data-turbolinks-track'=>true
     = csrf_meta_tags
   %body
     .container
       #user-navigation
         -if (current_user)
-          Eingeloggt als #{current_user.email}
-          %a.logout{:href => "/logout"}= t("web-app-theme.logout", :default => "Logout")
+          %nav.navbar.navbar-inverse
+            .container-fluid
+              / Brand and toggle get grouped for better mobile display
+              .navbar-header
+                %button.navbar-toggle.collapsed{"aria-expanded" => "false", "data-target" => "#bs-example-navbar-collapse-1", "data-toggle" => "collapse", :type => "button"}
+                %p.navbar-text.navbar-right Eingeloggt als #{current_user.email}
+                %a.btn.btn-danger.navbar-btn.navbar-right{:href => "/logout"}= t("web-app-theme.logout", :default => "Logout")
       #wrapper
         .flash
           - flash.each do |type, message|

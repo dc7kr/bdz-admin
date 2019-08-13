@@ -1,22 +1,12 @@
-%table
-  %tr
-    -if current_user.admin? then
-      %td=f.label :user
-      %td=f.collection_select(:user_id, User.all, :id, :email, :selected=>@feature_request.user_id)
-    -else
-      %td=f.hidden_field :user_id
-  %tr
-    %td=f.label :title
-    %td=f.text_field :title
-  %tr
-    %td= f.label :status,:class=>:label
-    %td= f.select :status, options_for_select([[t('feature_request.status.P'),"P"],[t('feature_request.status.O'), "O"],[t('feature_request.status.D'),'D'],[t('feature_request.status.N'),"N"]],:selected=>@feature_request.status)
-  %tr
-    %td=f.label :description
-    %td=f.text_area :description
-  %tr
-    %td=f.label :priority
-    %td=f.number_field :priority
-= submit_button
-= cancel_button
+= bootstrap_form_for @feature_request, layout: :horizontal  do |f|
+  -if current_user.admin? then
+    =f.collection_select(:user_id, User.all, :id, :email, :selected=>@feature_request.user_id)
+  -else
+    =f.hidden_field :user_id
+  =f.text_field :title
+  = f.select :status, options_for_select([[t('feature_request.status_values.P'),"P"],[t('feature_request.status_values.O'), "O"],[t('feature_request.status_values.D'),'D'],[t('feature_request.status_values.N'),"N"]],:selected=>@feature_request.status)
+  =f.text_area :description
+  =f.number_field :priority
+  = submit_button
+  = cancel_button
 

@@ -1,6 +1,8 @@
 %tr
   %td= function.label
-  %td= function.regional_organization.name
+
+  - if @functions_lv_filtered.nil? or ! @functions_lv_filtered 
+    %td= function.regional_organization.name
   %td
     - if function.board_contact.nil? then
       .error NIL

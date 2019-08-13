@@ -1,0 +1,12 @@
+%tr
+  %td=orchestra.member.mglnr
+  %td=orchestra.orchName
+  %td= t("common.salutations."+orchestra.member.anrede)
+  %td=orchestra.member.vorname
+  %td=orchestra.member.name
+  %td=orchestra.member.strasse
+  %td=orchestra.member.plz
+  %td=orchestra.member.ort
+  %td
+    -if orchestra.member.country_code != 'DE' 
+      =orchestra.member.t_country("en")

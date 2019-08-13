@@ -8,14 +8,16 @@
       %li= link_to( "Kontakt-Adressen", orchestra_orchestra_contacts_url(@orchestra)) 
       %li= link_to( "Orchestermitglieder", orchestra_orchestra_members_url(@orchestra)) 
       %li= link_to( "Meldebögen", orchestra_report_sheets_url(@orchestra)) 
-      %li= link_to( "Meldebogen-Eingabe-Objekte", report_sheet_inputs_url(:orch=>@orchestra.id))
+      -if current_user.has_any_role? :national,:admin
+        %li= link_to( "Meldebogen-Eingabe-Objekte", report_sheet_inputs_url(:orch=>@orchestra.id))
       - if @orchestra.is_regular?
         %li= link_to( "Ehrungen", orchestra_distinctions_url(@orchestra)) 
 
-.panel.panel-primary
-  .panel-heading Aktionen
-  .panel-body
-    %ul.nav.nav-pills.nav-stacked
-      %li= link_to("Meldebogen-Anschreiben erzeugen", gen_rsi_orchestra_url(@orchestra))
+- if current_user.has_role? :bulk
+  .panel.panel-primary
+    .panel-heading Aktionen
+    .panel-body
+      %ul.nav.nav-pills.nav-stacked
+        %li= link_to("Meldebogen-Anschreiben erzeugen", gen_rsi_orchestra_url(@orchestra))
 
 

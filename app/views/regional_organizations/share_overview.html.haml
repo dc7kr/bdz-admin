@@ -31,7 +31,13 @@
             %td=s[:regional_organization].name
             %td.currency=format_currency s[:em_part]
             %td.currency=format_currency s[:orch_part]
-            %td.currency=format_currency s[:orch_part]+s[:em_part]
+            %td.currency
+              =format_currency s[:orch_part]+s[:em_part]
+              - if s[:pre_paid] != 0
+                %br
+                Vorauszahung: 
+                %br
+                =format_currency s[:pre_paid]
             %td.currency=format_currency s[:sum]
             %td.currency=format_currency s[:uv]
             %td.currency=format_currency s[:dd_em_part]

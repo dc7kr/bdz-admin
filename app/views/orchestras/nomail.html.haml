@@ -1,0 +1,17 @@
+.secondary-navigation
+  =render :partial=>'nav'
+.content
+  %h2.title
+    Orchester ohne E-Mail
+  .inner
+    %table.table.table-hover.table-condensed
+      %thead
+        %th.first= sortable "mglnr", attr_heading(Member,:mglnr)
+        %th= sortable "orchName", attr_heading(Orchestra,:orchName)
+        %th= sortable "email", attr_heading(Member,:email)
+        %th.last &nbsp;
+      %tbody#orchestras
+        = render partial: "orchestra.nomail", collection: @members
+    .actions-bar.wat-cf
+      .actions
+- content_for :sidebar, render(:partial => 'sidebar')

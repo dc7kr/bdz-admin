@@ -1,0 +1,14 @@
+Hallo <%= @recipient.name %>, 
+
+die Rechnung für Mitgliedsnummer <%= @invoice.customer.customer_id %> wurde aktualisiert. 
+
+<% if @delta_amount < 0 %>
+Es ergibt sich ein Erstattungsanspruch von <%= number_to_currency(-1*@delta_amount,:precision => 2,:locale => :de) %> bitte ggf. mit anhängender SEPA Datei erstatten. 
+<% else %>
+Es ergibt sich eine Nachzahlung von <%= number_to_currency(@delta_amount,:precision => 2,:locale => :de) %> bitte ggf. mit anhängender SEPA Datei einziehen.
+<% end %>
+
+Unbedingt Mitgliedskonto auf Rücklastschriften prüfen - diese sind NICHT berücksichtigt!
+
+Direkter Link zum Meldebogen: <%= orchestra_report_sheet_url(@report_sheet.orchestra,@report_sheet) %>
+

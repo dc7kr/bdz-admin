@@ -3,25 +3,15 @@
     = render :partial=>'nav'
   .content
     .inner
-      %table
-        %tr
-          %td.label=t('feature_request.owner')
-          %td=@feature_request.owner_s
-        %tr
-          %td.label=t('feature_request.priority')
-          %td=@feature_request.priority
-        %tr
-          %td.label=t('feature_request.status.title')
-          %td=t('feature_request.status.'+@feature_request.status)
 
-        %tr
-          %td.label=t('feature_request.title')
-          %td=@feature_request.title
-        %tr
-          %td.label=t('feature_request.description')
-          %td
-            %pre.pre-wrap=@feature_request.description
-        %tr
-          %td.label=t('feature_request.priority')
-          %td=@feature_request.priority
+      %h2 #{t("feature_request",:count=>1)} #{@feature_request.id}
+      %h3 #{@feature_request.title} 
+      = entity_row(@feature_request,:owner_s, nil, t("feature_request.owner"))
+      = entity_row(@feature_request,:priority)
+      = entity_row(@feature_request,:status)
+      .row
+        .col-md-3.text-right
+          %label=t('feature_request.description')
+        .col-md-9
+          %pre.pre-wrap=@feature_request.description
 
