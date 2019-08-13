@@ -2,7 +2,8 @@ class Magazine::MagazineAdvertsController < AuthenticatedController
   # GET /magazine_adverts
   # GET /magazine_adverts.json
   def index
-    @magazine_adverts = MagazineAdvert.all
+    @magazine_issue = MagazineIssue.find(params[:issue_id])
+    @magazine_adverts = @magazine_issue.magazine_adverts
 
     respond_to do |format|
       format.html # index.html.erb
@@ -25,6 +26,7 @@ class Magazine::MagazineAdvertsController < AuthenticatedController
   # GET /magazine_adverts/new.json
   def new
     @magazine_advert = MagazineAdvert.new
+    @magazine_issue = MagazineIssue.find(params[:issue_id])
 
     respond_to do |format|
       format.html # new.html.erb

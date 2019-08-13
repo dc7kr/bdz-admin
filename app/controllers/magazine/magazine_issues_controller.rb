@@ -1,8 +1,9 @@
-class Magazine::MagazineIssuesController < AuthenticatedController
+class Magazine::MagazineIssuesController < AuthorityController
   # GET /magazine_issues
   # GET /magazine_issues.json
   def index
-    @magazine_issues = MagazineIssue.where(1).page(params[:page]).per(3)
+    @magazine_issues = MagazineIssue.order(year: :desc, number: :desc).page(params[:page]).per(3)
+    authorize_action_for(@magazine_issues)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -14,6 +15,7 @@ class Magazine::MagazineIssuesController < AuthenticatedController
   # GET /magazine_issues/1.json
   def show
     @magazine_issue = MagazineIssue.find(params[:id])
+    authorize_action_for(@magazine_issue)
 
     respond_to do |format|
       format.html # show.html.erb
@@ -41,6 +43,7 @@ class Magazine::MagazineIssuesController < AuthenticatedController
   # GET /magazine_issues/new.json
   def new
     @magazine_issue = MagazineIssue.new
+    authorize_action_for(@magazine_issue)
 
     respond_to do |format|
       format.html # new.html.erb
@@ -57,6 +60,7 @@ class Magazine::MagazineIssuesController < AuthenticatedController
   # POST /magazine_issues.json
   def create
     @magazine_issue = MagazineIssue.new(magazine_params)
+    authorize_action_for(@magazine_issue)
 
     respond_to do |format|
       if @magazine_issue.save
@@ -88,6 +92,7 @@ class Magazine::MagazineIssuesController < AuthenticatedController
   # DELETE /magazine_issues/1
   # DELETE /magazine_issues/1.json
   def destroy
+    authorize_action_for(@magazine_issue)
     @magazine_issue = MagazineIssue.find(params[:id])
     @magazine_issue.destroy
 

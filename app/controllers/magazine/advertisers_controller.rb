@@ -1,8 +1,10 @@
-class Magazine::AdvertisersController < AuthenticatedController
+class Magazine::AdvertisersController < AuthorityController
+
   # GET /advertisers
   # GET /advertisers.json
   def index
     @advertisers = Advertiser.all
+    authorize_action_for(@advertisers)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -14,6 +16,7 @@ class Magazine::AdvertisersController < AuthenticatedController
   # GET /advertisers/1.json
   def show
     @advertiser = Advertiser.find(params[:id])
+    authorize_action_for(@advertiser)
 
     respond_to do |format|
       format.html # show.html.erb
@@ -26,6 +29,7 @@ class Magazine::AdvertisersController < AuthenticatedController
   def new
     @advertiser = Advertiser.new
     @advertiser.contact = Contact.new
+    authorize_action_for(@advertiser)
 
     respond_to do |format|
       format.html # new.html.erb
@@ -36,6 +40,7 @@ class Magazine::AdvertisersController < AuthenticatedController
   # GET /advertisers/1/edit
   def edit
     @advertiser = Advertiser.find(params[:id])
+    authorize_action_for(@advertiser)
   end
 
   # POST /advertisers
@@ -60,7 +65,7 @@ class Magazine::AdvertisersController < AuthenticatedController
     @advertiser = Advertiser.find(params[:id])
 
     respond_to do |format|
-      if @advertiser.update_attributes!(advertiser_params)
+      if @advertiser.update_attributes(advertiser_params)
         format.html { redirect_to [:magazine,@advertiser], notice: 'Advertiser was successfully updated.' }
         format.json { head :no_content }
       else
