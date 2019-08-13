@@ -42,7 +42,7 @@ class FestivalMailsWorker
       logger.error("NO GROUP identified: "+group)
     end
 
-    tool = MailingTool.new(cur_year.to_s,"gs",event_id,subject,via_paper);
+    tool = MailingTool.new(cur_year.to_s,"festival",event_id,subject,via_paper);
 
     letterArray = Array.new
 
