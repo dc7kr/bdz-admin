@@ -2,19 +2,21 @@ class MemberAccountBookingsController < AuthenticatedController
   # GET /bookings
   # GET /bookings.json
   def index
-    @isOrchestra
     @member
     @name=nil
     
+    @member_type = member_type_from_params(params)
+
     if ( params[:orchestra_id]) then
       @member = Member.includes(:member_entity).find_by "member_entity_id = ? and member_entity_type='Orchestra'" , params[:orchestra_id]
       @orchestra = @member.member_entity
       @name = @orchestra.orchName
-      @isOrchestra=true
     elsif (params[:person_member_id]) then
       @member = Member.includes(:member_entity).find_by "member_entity_id = ? and member_entity_type='PersonMember'", params[:person_member_id]
       @name = @member.member_entity.fullname
-      @isOrchestra=false
+    elsif (params[:regional_organization_id]) then
+      @member = Member.includes(:member_entity).find_by "member_entity_id = ? and member_entity_type='RegionalOrganization'", params[:regional_organization_id]
+      @name = @member.member_entity.name
     end
 
     if not @member.nil? then
@@ -51,8 +53,10 @@ class MemberAccountBookingsController < AuthenticatedController
     if ( params[:orchestra_id] ) 
       @member_entity = Orchestra.find(params[:orchestra_id])
       @isOrchestra=true
-    else 
+    elsif ( params[:person_member_id] ) 
       @member_entity = PersonMember.find(params[:person_member_id])
+    elsif ( params[:regional_organization_id] ) 
+      @member_entity = RegionalOrganization.find(params[:regional_organization_id])
     end
     @member = @member_entity.member
     @booking = MemberAccountBooking.new(:member=>@member,:booking_date=>Time.now,:booking_year=>Time.now.year,:booking_mode=>'M',:booking_type=>'Z')
@@ -77,21 +81,23 @@ class MemberAccountBookingsController < AuthenticatedController
       @member = Member.includes(:member_entity).find(@booking.member_id)
       @isOrchestra=true
     end
-
-    @member_entity = @member.member_entity
-	
   end
 
   # POST /bookings
   # POST /bookings.json
   def create
+
+    @member_type = member_type_from_params(params)
+
     if params[:person_member_id] then
       @member = PersonMember.find(params[:person_member_id])
 	    @isOrchestra=false
-    else
+    elsif params[:orchestra_id] then
       @member = Orchestra.find(params[:orchestra_id])
-	    @isOrchestra=true
+    else 
+      @member = RegionalOrganization.find(params[:regional_organization_id])
     end
+
     @booking = MemberAccountBooking.new(member_account_booking_params)
 
   	@booking.booking_mode='M'
@@ -99,10 +105,12 @@ class MemberAccountBookingsController < AuthenticatedController
     respond_to do |format|
       if @booking.save
         format.html { 
-			if ( @isOrchestra )
+			if ( @member_type == :orchestra)
 				redirect_to orchestra_member_account_bookings_path(@booking.member.member_entity), :notice => t('member_account_booking.create_success')
-			else 
+			elsif @member_type == :person_member
 				redirect_to person_member_member_account_bookings_path(@booking.member.member_entity), :notice => t('member_account_booking.create_success')
+      else
+				redirect_to regional_organization_member_account_bookings_path(@booking.member.member_entity), :notice => t('member_account_booking.create_success')
 			end
 		}
         format.json { render :json => @booking, :status => :created, :location => @booking }
@@ -117,19 +125,22 @@ class MemberAccountBookingsController < AuthenticatedController
   # PUT /bookings/1.json
   def update
     @booking = MemberAccountBooking.find(params[:id])
-	@isOrchestra = params[:orchestra_id]
+
+    member_entity = @booking.member.member_entity
+    
+    @member_type = member_type_from_params(params)
 
 	  params[:member_account_booking][:booking_mode]='M'
 	
     respond_to do |format|
       if @booking.update(member_account_booking_params)
         format.html { 
-          if ( params[:orchestra_id] ) then 
-             @orchestra = Orchestra.find(params[:orchestra_id])
-             redirect_to orchestra_member_account_bookings_path(@orchestra), :notice => t('member_account_booking.update_success')
-          else
-             @person_member = PersonMember.find(params[:person_member_id])
-             redirect_to person_member_member_account_bookings_path(@person_member), :notice => t('member_account_booking.update_success')
+          if @member_type == :orchestra 
+             redirect_to orchestra_member_account_bookings_path(member_entity), :notice => t('member_account_booking.update_success')
+          elsif @member_type == :person_member
+             redirect_to person_member_member_account_bookings_path(member_entity), :notice => t('member_account_booking.update_success')
+          else 
+            redirect_to regional_organization_member_account_bookings_path(member_entity), :notice => t('member_account_booking.update_success')
           end
 		    }
         format.json { head :ok }
@@ -161,7 +172,7 @@ class MemberAccountBookingsController < AuthenticatedController
   def download
      x_sendfile=false
     @booking = MemberAccountBooking.find(params[:id])
-	  fullPath = BDZ_SETTINGS['invoice_archive_dir']+"/"+String(@booking.booking_year)+"/"+@booking.filename
+	  fullPath = INVOICE_CONFIG.archive_dir+"/"+String(@booking.booking_year)+"/"+@booking.filename
 	  #send_file(fullPath, :filename => @booking.filename, :type => "application/pdf", :x_sendfile=>true)
 	  #send_file(fullPath, :filename => @booking.filename, :x_sendfile=>true,:type=>"application/octet-stream")
 	  send_file(fullPath, filename: @booking.filename, x_sendfile: x_sendfile,type: "application/octet-stream")
@@ -172,5 +183,13 @@ class MemberAccountBookingsController < AuthenticatedController
     params.require(:member_account_booking).permit(:booking_type, :booking_year, :booking_mode, :booking_date, :booking_txt, :filename, :amount, :ref_booking_id)
   end
 
-
+  def member_type_from_params(params)
+    if params[:orchestra_id]
+      :orchestra
+    elsif params[:person_member_id]
+      :person_member
+    else
+      :regional_organization
+    end
+  end
 end
