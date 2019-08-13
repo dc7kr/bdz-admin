@@ -16,11 +16,11 @@ class Cron::RemindersController < AuthenticatedNonResourceController
     @tw = TexWriter.new 
     pdfs = Array.new
 
-    tmpdir = BDZ_SETTINGS["docs_work_dir"]
+    tmpdir = DOCS_CONFIG.work_dir
 
     @orchestras.each do |orch|
       @tw.writeReportSheetReminderData(orch.to_customer)
-      filename = `/opt/bdz-rechnung/bin/create_pdf.sh #{orch.mglnr} mahnung-meldebogen`
+      filename = `/opt/bdz-rechnung/bin/create_pdf.sh #{orch.member.mglnr} mahnung-meldebogen`
       filename = filename.chomp
 
       out_file = archive_file(tmpdir,filename, year);
@@ -42,6 +42,7 @@ class Cron::RemindersController < AuthenticatedNonResourceController
     datePrefix = Time.now.strftime("%Y%m%d_")
     year = Time.now.strftime("%Y")
 
+    min_age = Time.now - 30.days
     pm_data = PersonMember.no_payment
     orch_data = Orchestra.no_payment
 
@@ -50,7 +51,7 @@ class Cron::RemindersController < AuthenticatedNonResourceController
     @orchestras = orch_data[:members]
 
     pdfs = Array.new
-    tmpdir = BDZ_SETTINGS["docs_work_dir"]
+    tmpdir = DOCS_CONFIG.work_dir
 
     @tw = TexWriter.new 
     @orchestras.each do |orch_member|
@@ -87,7 +88,7 @@ class Cron::RemindersController < AuthenticatedNonResourceController
 	  year = Time.now.strftime('%Y')
 	  pdf_prefix= Time.now.strftime '%Y%m%d'
 
-    @users = User.with_any_role(:admin, :gs)
+    @users = User.with_any_role(:admin, :bulk_notify)
     base_url = cron_downloads_url
 	  reminders_url = base_url+"?year="+year+"&filename="+pdf_file
 	  @users.each do |user| 
