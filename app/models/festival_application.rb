@@ -64,15 +64,21 @@ class FestivalApplication < ApplicationRecord
     austria = ISO3166::Country["AT"]
 
     renr = ts+"-TLN#{id}"
-    if (contact_person.country_code == germany.alpha2 or country_code == austria.alpha2) then 
-      locale = :de
-    else 
-      locale = :en
-    end
 
     inv = CorikaInvoices::Invoice.new
     inv.number = renr
+    inv.our_contact = "festival_gs"
+
+    if (contact_person.country_code == germany.alpha2 or country_code == austria.alpha2) then 
+      locale = :de
+      inv.invoice_type = "festival.de"
+    else 
+      locale = :en
+      inv.invoice_type = "festival.en"
+    end
+
     inv.customer = to_customer
+
     inv.considerItem(tickets,prices["fest"],I18n.t("event_card.fest", :locale=>locale))
     inv.considerItem(tickets_red,prices["fest_erm"],I18n.t("event_card.fest_erm",:locale=>locale))
     inv.considerItem(bdz_tickets,prices["fest_bdz"],I18n.t("event_card.fest_bdz",:locale=>locale))

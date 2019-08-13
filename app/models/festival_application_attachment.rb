@@ -1,4 +1,4 @@
-class FestivalApplicationAttachment < ActiveRecord::Base
+class FestivalApplicationAttachment < ApplicationRecord
   #attr_accessible :name
   has_attached_file :attached_file 
 

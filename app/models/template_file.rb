@@ -21,7 +21,7 @@ class TemplateFile
   end
 
   def full_dir
-    File.join(BDZ_SETTINGS["template_dir"],@archive_folder)
+    File.join(DOCS_CONFIG.template_dir,@archive_folder)
   end
 
   def relative_filename

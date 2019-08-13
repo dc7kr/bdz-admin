@@ -5,7 +5,7 @@ class EventMeal < ApplicationRecord
   validates_presence_of  :participant_id, :tln, :veg, :email, :name, :arrival_time
   validates :email, :email_format => true 
 
-  #validates :arrival_time, :datetime => true
+  validates :arrival_time, :datetime => true
   validates :tln, :meal => true
   validates :veg, :meal => true
 

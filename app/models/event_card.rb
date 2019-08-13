@@ -112,7 +112,8 @@ class EventCard < ApplicationRecord
     renr = ts+"-EC#{id}"
     locale = :de
 
-    invoice = CorikaInvoices::Invoice.new(renr)
+    invoice = CorikaInvoices::Invoice.new
+    invoice.number = renr
     customer = self.to_customer 
     invoice.customer = customer
 
@@ -140,7 +141,10 @@ class EventCard < ApplicationRecord
   end
 
   def to_customer
-    cust = Customer.new(id,name, false)  
+    cust = CorikaInvoices::Customer.new
+    cust.customer_id
+    cust.last_name
+    
     if street.nil? then
       cust.street = "- via mail -"
     else
@@ -151,7 +155,7 @@ class EventCard < ApplicationRecord
     cust.city=city
     cust.country = country_code
     
-    cust.preferred_lang = preferred_lang
+    #cust.preferred_lang = preferred_lang
 
     if email.end_with? ".de" or email.end_with? ".at" then
       cust.country = "de"

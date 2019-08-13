@@ -1,4 +1,4 @@
-class OrchestraMember < ActiveRecord::Base
+class OrchestraMember < ApplicationRecord
   belongs_to :orchestra
 
   validates_presence_of :date_of_birth
@@ -37,18 +37,24 @@ class OrchestraMember < ActiveRecord::Base
 
 
   def age_category(year)
-	if age(year) <= 14 then
-		return "C"
-	elsif age(year) <= 19 then 
-		return "T"
-	elsif age(year) <= 27 then
-		return "Y"
-	elsif age(year) <= 65 then
-		return "A"
-	else 
-		return "S"
-	end
+    if age(year) <= 14 then
+      return "C"
+    elsif age(year) <= 18 then 
+      return "T"
+    elsif age(year) <= 27 then
+      return "Y"
+    elsif age(year) <= 65 then
+      return "A"
+    else 
+      return "S"
+    end
   end
-		
-	
+
+  def exchange_first_and_lastname
+  	name = self.last_name
+	  first = self.first_name
+
+	  self.last_name=first
+	  self.first_name=name
+  end
 end

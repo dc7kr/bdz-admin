@@ -17,12 +17,21 @@ class Orchestra < ApplicationRecord
     joins(:member).where("members.austritt_zum is not null and members.austritt_zum != '0000-00-00' and austritt_zum < now()") 
   }
 
+  scope :nomail, -> {
+    joins(:member).where("members.email is null or members.email=''").order("members.mglnr")
+  }
+
+  scope :mail, -> {
+    joins(:member).where("members.email is not null and members.email <>''")
+  }
+
+  scope :regular, -> { where("orch_type <> ? ","X") }
   scope :regional, -> { where("orch_type = 'L' ") }  
 
   scope :no_report_sheet, ->(year) { includes([:member]).joins('LEFT JOIN report_sheets ON report_sheets.orchestra_id = orchestras.id AND report_sheets.year='+String(year)).where(['report_sheets.id IS NULL AND orchestras.orch_type in ( "L","O")']) }
 
-  def self.no_payment(before=nil)
-    data = MemberAccountBooking.unbalanced_before_year(before)
+  def self.no_payment(before=nil,lv=nil)
+    data = MemberAccountBooking.unbalanced_before_year(before,lv)
 
     ids = data[:ids]
     accounts = data[:accounts]
@@ -65,9 +74,6 @@ class Orchestra < ApplicationRecord
 
   def self.mail
     Member.mail(Orchestra)
-  end
-  def self.nomail
-    Member.nomail(Orchestra)
   end
 
   def self.search(search)
@@ -440,6 +446,10 @@ class Orchestra < ApplicationRecord
 	  end
 
     result
+  end
+
+  def report_sheet_required?
+    self.orch_type != "X"
   end
 
 

@@ -1,4 +1,4 @@
-class PersonMember < ActiveRecord::Base
+class PersonMember < ApplicationRecord
   belongs_to :tariff
 
   validates_presence_of :tariff
@@ -6,12 +6,21 @@ class PersonMember < ActiveRecord::Base
   has_one :member, as: :member_entity
   accepts_nested_attributes_for :member
 
+
+  scope :nomail, -> {
+    joins(:member).where("members.email is null or members.email=''").order("members.mglnr")
+  }
+
+  scope :mail, -> {
+    joins(:member).where("members.email is not null and members.email <>''")
+  }
+
   def self.cancelled 
     PersonMember.joins(:member).where("members.austritt_zum is not null and members.austritt_zum != '0000-00-00' and austritt_zum < ?", Time.now) 
   end
 
-  def self.no_payment(before=nil)
-    data = MemberAccountBooking.unbalanced_before(before)
+  def self.no_payment(before=nil,lv=nil)
+    data = MemberAccountBooking.unbalanced_before_year(before,lv)
 
     ids = data[:ids]
     accounts = data[:accounts]
@@ -62,7 +71,7 @@ class PersonMember < ActiveRecord::Base
 
   def self.search(search)
 	  if (search)
-		  where('members.mglnr = ? or members.name like ?',"#{search}","%#{search}%")
+		  where('members.mglnr = ? or members.name like ? or members.email like ?',"#{search}","%#{search}%","%#{search}%")
 	  else
 		  where(1)
 	  end
@@ -207,7 +216,7 @@ class PersonMember < ActiveRecord::Base
       year = Time.now.year
     end
 
-    invoice = Invoice.new
+    invoice = CorikaInvoices::Invoice.new
     invoice.invoice_date = Time.now
     invoice.invoice_type = "beitragsrechnung"
 
@@ -217,10 +226,6 @@ class PersonMember < ActiveRecord::Base
     invoice.addItem(1,tariff.amount, 'Beitrag '+ tariff.description)
 
     invoice
-  end
-
-  def self.nomail
-    Member.nomail(PersonMember)
   end
 
   def to_addressee
