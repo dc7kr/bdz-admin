@@ -5,7 +5,7 @@ class Cron::DownloadsController < AuthenticatedNonResourceController
 
 	fNam = params[:filename]
 
-    fullPath = BDZ_SETTINGS['docs_archive_dir']+"/"+params[:year]+"/"+fNam
+    fullPath = DOCS_CONFIG.archive_dir+"/"+params[:year]+"/"+fNam
     
     if File.exists?(fullPath) 
       send_file(fullPath, :filename => fNam, :type => "application/octet-stream")
@@ -15,5 +15,4 @@ class Cron::DownloadsController < AuthenticatedNonResourceController
       end
     end
   end
-
 end
