@@ -91,7 +91,7 @@ class ClassifiedsController < AuthenticatedController
     @classified = Classified.find(params[:id])
 
     respond_to do |format|
-      if @classified.update_attributes(params[:classified])
+      if @classified.update_attributes(classified_params)
         format.html { redirect_to @classified, notice: 'Classified was successfully updated.' }
         format.json { head :no_content }
       else
@@ -121,5 +121,9 @@ class ClassifiedsController < AuthenticatedController
   
   def sort_direction
     %w[asc desc].include?(params[:direction]) ? params[:direction] : "desc"
+  end
+
+  def classified_params
+    params.require(:classified).permit(:adv_type,:visible,:object,:description,:ip,:entrydate,:confirmed,:url,:email,:name)
   end
 end

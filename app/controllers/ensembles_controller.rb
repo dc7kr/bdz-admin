@@ -80,7 +80,7 @@ class EnsemblesController < AuthenticatedController
     @ensemble = Ensemble.find(params[:id])
 
     respond_to do |format|
-      if @ensemble.update_attributes!(ensemble_params)
+      if @ensemble.update_attributes(ensemble_params)
         format.html { redirect_to @ensemble, :notice => 'Ensemble was successfully updated.' }
         format.json { head :ok }
       else

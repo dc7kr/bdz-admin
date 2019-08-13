@@ -47,7 +47,7 @@ class HomepagesController < AuthorityController
   # POST /homepages
   # POST /homepages.json
   def create
-    @homepage = Homepage.new(params[:homepage])
+    @homepage = Homepage.new(homepage_params)
 
     respond_to do |format|
       if @homepage.save
@@ -66,7 +66,7 @@ class HomepagesController < AuthorityController
     @homepage = Homepage.find(params[:id])
 
     respond_to do |format|
-      if @homepage.update_attributes(params[:homepage])
+      if @homepage.update_attributes(homepage_params)
         format.html { redirect_to @homepage, notice: 'Homepage was successfully updated.' }
         format.json { head :no_content }
       else
@@ -95,4 +95,8 @@ class HomepagesController < AuthorityController
     authorize_action_for @homepage
   end
 
+
+  def homepage_params
+    params.require(:homepage).permit( :abbrev, :mitglnr, :name, :kontakt, :proben, :descr, :redir_url)
+  end
 end

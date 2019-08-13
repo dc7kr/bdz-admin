@@ -70,7 +70,7 @@ class FunctionsController < AuthenticatedController
     @function = Function.find(params[:id])
 
     respond_to do |format|
-      if @function.update_attributes!(function_params)
+      if @function.update_attributes(function_params)
         format.html { redirect_to @function, :notice => 'Function was successfully updated.' }
         format.json { head :ok }
       else

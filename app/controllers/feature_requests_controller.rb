@@ -49,7 +49,7 @@ class FeatureRequestsController < AuthenticatedController
   # POST /feature_requests
   # POST /feature_requests.json
   def create
-    @feature_request = FeatureRequest.new(params[:feature_request])
+    @feature_request = FeatureRequest.new(feature_request_params)
     @feature_request.user = current_user
 
     respond_to do |format|
@@ -73,7 +73,7 @@ class FeatureRequestsController < AuthenticatedController
     end
 
     respond_to do |format|
-      if @feature_request.update_attributes(params[:feature_request])
+      if @feature_request.update_attributes(feature_request_params)
         format.html { redirect_to @feature_request, error: 'Feature request successfully updated.' }
         format.json { head :no_content }
       else
@@ -93,5 +93,9 @@ class FeatureRequestsController < AuthenticatedController
       format.html { redirect_to feature_requests_url }
       format.json { head :no_content }
     end
+  end
+
+  def feature_request_params
+    params.require(:feature_request).permit(:title,:description,:status,:priority,:user_id)
   end
 end
