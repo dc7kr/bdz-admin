@@ -81,7 +81,7 @@ class Mgl::OrchestrasController < AuthenticatedController
 
     url = "http://www.bdz-online.de/meldebogen/"
 
-	target = BDZ_SETTINGS['invoice_archive_dir']+"/"+year.to_s+"/"+dateprefix+"_"+@orchestra.mglnr.to_s+"_meldebogen_anschreiben.pdf"
+	target = INVOICE_CONFIG.archive_dir+"/"+year.to_s+"/"+dateprefix+"_"+@orchestra.mglnr.to_s+"_meldebogen_anschreiben.pdf"
 
 	gen_anschreiben(@orchestra,@rsi,url,target,year);
     send_file(target, :filename => target, :type => "application/octet-stream")
