@@ -1,5 +1,4 @@
 require 'tex_writer'
-require 'sepa_writer'
 require 'dtaus_writer'
 require 'invoice_helper'
 require 'fileutils.rb'
@@ -32,7 +31,7 @@ class Cron::InvoicesController < AuthenticatedNonResourceController
 	  else
 		  year = Time.now.year
 	  end
-    RegionalOrchestraInvoicesWorker.perform_async(year,@current_user.id)  
+    OrchestraInvoicesWorker.perform_async(year,@current_user.id,true)  
 
     respond_to do |format|
         format.html { redirect_to home_cron_path, :notice => t('cron.invoice_lorch_success') }
@@ -46,7 +45,7 @@ class Cron::InvoicesController < AuthenticatedNonResourceController
 	  else
 		  year = Time.now.year
 	  end
-    OrchestraInvoicesWorker.perform_async(year,@current_user.id)  
+    OrchestraInvoicesWorker.perform_async(year,@current_user.id,false)  
 
     respond_to do |format|
         format.html { redirect_to home_cron_path, :notice => t('cron.invoice_orchestras_success') }
@@ -87,7 +86,7 @@ class Cron::InvoicesController < AuthenticatedNonResourceController
     dtaFile = nil
 
     datePrefix = Time.now.strftime '%Y%m%d%H%M%S'
-    @sw = SEPAWriter.new(datePrefix,BDZ_SETTINGS)
+    @sw = CorikaInvoices::SEPAWriter.new(datePrefix,INVOICE_CONFIG)
 
 	  @person_members.each do |person|
       next if ( person.tariff.amount == 0 )
@@ -104,7 +103,7 @@ class Cron::InvoicesController < AuthenticatedNonResourceController
 			
 		  if (person.is_direct_debit?) then
         remittance_txt = "BDZ-Beitrag "+year.to_s+" "+person.mglnr.to_s
-        @sw.addBooking(person, person.tariff.amount, remittance_txt)
+        @sw.addDirectDebit(person, person.tariff.amount, remittance_txt)
 
 			  @booking = MemberAccountBooking.newWithdrawal("Lastschrift "+@booking_txt,person.tariff.amount)
 			  @booking.member_id = person.id
