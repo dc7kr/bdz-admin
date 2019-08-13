@@ -1,9 +1,10 @@
 class AuthenticatedController < ApplicationController 
   protect_from_forgery
 
+  load_and_authorize_resource 
+
   before_filter :authnUser
   #ensure_authorization_performed :except => [:index, :search], :if => :auditing_security?, :unless => :devise_controller?
-  load_and_authorize_resource 
 
   def auditing_security?
     Rails.env != 'production'
@@ -12,7 +13,16 @@ class AuthenticatedController < ApplicationController
 #  skip_authorize_resource :only => [noAuthActions]
 
   rescue_from CanCan::AccessDenied do |exception|
-    flash[:error] = exception.message
+    Rails.logger.warn(exception.message)
+
+    msg = exception.message
+
+    if Rails.env != 'production' then
+      msg=" CANCAN: "+msg
+    end
+    
+    flash[:error] = msg
+
     redirect_to root_url
     #redirect_to home_landing_page_url 
   end
@@ -29,10 +39,10 @@ class AuthenticatedController < ApplicationController
 
   private 
   def authnUser
-	if ! noAuthActions.include?(@current_action) then
-		#render :text => @current_action	
-		authenticate_user!
-	end
+    if ! noAuthActions.include?(@current_action) then
+      #render :text => @current_action	
+      authenticate_user!
+    end
   end
 
   # override for CANCAN 
