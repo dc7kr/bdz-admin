@@ -8,7 +8,7 @@ class ReportSheetConfirmationMail < ActionMailer::Base
 
     @orchestra = @rsi.orchestra
 
-    @salutation = t('common.salutation_full.'+@orchestra.anrede)
+    @salutation = t('common.salutation_full.'+@orchestra.member.anrede)
 
     if (personalized_file != nil ) then
       attachment_data = File.new(personalized_file.full_path).read
