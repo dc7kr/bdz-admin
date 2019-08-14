@@ -122,4 +122,9 @@ module ButtonHelper
       link_to content_tag(:span,"",:class=>"glyphicon glyphicon-remove")+txt,path,:confirm => t("common.delete_confirm"), :class=>"btn btn-danger"
   end
 
+  def icon_link_to(glyph, txt, path)
+      link_to content_tag(:span,"",:class=>"glyphicon "+glyph)+" "+txt,path,:class=>"btn btn-default"
+    
+  end
+
 end
