@@ -48,7 +48,7 @@ module BulkMailHelper
   end
 
   def store_pdf(date_prefix, year, suffix,doc)
-    arch_dir = File.join(BDZ_SETTINGS['invoice_archive_dir'],year.to_s)
+    arch_dir = File.join(DOCS_CONFIG.archive_dir,year.to_s)
   end
 
 

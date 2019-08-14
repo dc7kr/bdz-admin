@@ -20,7 +20,7 @@ module PDFHelper
 
     file = MailingFile.new("meldebogen_anschreiben.pdf", filename, Time.now.strftime("%Y"))
 
-		template_file = BDZ_SETTINGS['template_dir']+"/meldebogen_anschreiben."+year.to_s+".template.pdf"
+		template_file = DOCS_CONFIG.template_dir+"/meldebogen_anschreiben."+year.to_s+".template.pdf"
 
 		if ( anrede != nil and anrede.length > 0 ) then
 			anrede = t('common.salutation_d.'+anrede)

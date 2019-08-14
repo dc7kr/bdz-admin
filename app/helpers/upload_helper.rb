@@ -1,7 +1,7 @@
 module UploadHelper
 
   def storeUploadedFile(target_dir,target_name, datafile)
-    storage_root = BDZ_SETTINGS["invoice_archive_dir"]
+    storage_root = DOCS_CONFIG.archive_dir
 
     path = File.join(target_dir,target_name)
     full_path = File.join(storage_root,path)
