@@ -102,21 +102,23 @@ class ParticipantSheetPdf < Prawn::Document
     move_down 20
     text I18n.t('participant_sheet.performance') , style: :bold
 
-    text "#{I18n.t('festival_application.num_players')} #{app.num_players}" 
+    text "#{I18n.t('festival_application.num_players')}: #{app.num_players}"
     concert = app.festival_concert
 
     if not concert.nil? then
-      text "#{I18n.t('festival_application.festival_concert_id')} #{app.festival_concert.title} #{@view.l app.festival_concert.event_time}" 
+      text "#{I18n.t('festival_application.festival_concert_id')}: #{app.festival_concert.title} #{@view.l app.festival_concert.event_time}" 
     else
-      text "#{I18n.t('festival_application.festival_concert_id')} N/A"
+      text "#{I18n.t('festival_application.festival_concert_id')}: N/A"
     end
 
     if not app.rehearsal_time.nil? 
-      text "#{I18n.t('festival_application.rehearsal_time')} #{app.rehearsal_time.localtime.strftime("%H:%M")}" 
+      text "#{I18n.t('festival_application.rehearsal_time')}: #{app.rehearsal_time.localtime.strftime("%H:%M")}" 
     end
     if not app.stage_time.nil?
-      text "#{I18n.t('festival_application.stage_time')} #{app.stage_time.strftime("%H:%M")}"
+      text "#{I18n.t('festival_application.stage_time')}: #{app.stage_time.strftime("%H:%M")}"
     end
+    text "#{I18n.t('festival_application.equipment')}: #{app.equipment}"
+    text "#{I18n.t('festival_application.comment')}: #{app.comment}"
   end
   def food(app)
     move_down 20
