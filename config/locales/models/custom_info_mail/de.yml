@@ -4,6 +4,8 @@ de:
     other: Rundschreiben
     submit: Rundschreiben absenden
     group: Zielgruppe
+    subject: Betreff-Zeile
+    body: Body
     groups:
       A: "Alle Mitglieder"
       O: "Orchester"
