@@ -11,7 +11,7 @@ class DtausWriter  < BankTransferWriter
 	end
 
 	def self.workdir
-		BDZ_SETTINGS['invoice_workdir']+"/"
+		INVOICE_CONFIG.work_dir
 	end
 
 	def writeDtausPersonEntry(member,zweck)
@@ -66,7 +66,7 @@ class DtausWriter  < BankTransferWriter
 
   private
 	def genDtaus()
-		workdir = BDZ_SETTINGS['invoice_workdir']+"/"
+		workdir = INVOICE_CONFIG.work_dir+"/"
 		dtaFName = workdir+@datePrefix+"dtaus0.txt"
 		bglFName = workdir+@datePrefix+"dta_zettel.txt"
 		sumFName = workdir+@datePrefix+"dta_summen.txt"
@@ -88,8 +88,8 @@ class DtausWriter  < BankTransferWriter
 	end
 
   def moveGeneratedFiles()
-	  workDir = BDZ_SETTINGS['invoice_workdir']
-	  archiveDir= BDZ_SETTINGS['invoice_archive_dir']
+	  workDir = INVOICE_CONFIG.work_dir
+	  archiveDir= INVOICE_CONFIG.archive_dir
 	  tgtDir= archiveDir +"/"+String(Time.now.year)
 
 	  if ( ! Dir.exists? tgtDir) then
