@@ -4,11 +4,12 @@ class SEPATool
   attr_accessor :company,:bic,:iban,:creditor_id,:message_prefix
 
   def initialize(settings)
-    @company = settings["company"]
-    @bic = settings["bic"]
-    @iban = settings["iban"].gsub(/ /,"")
-    @creditor_id = settings["creditor_id"]
-    @message_prefix = settings["message_prefix"]
+    @company = settings.company
+    @bic = settings.bic
+    @iban = settings.iban.gsub(/ /,"")
+    @creditor_id = settings.creditor_id
+    @message_prefix = settings.message_prefix
+
     if @message_prefix.nil? then
       @message_prefix="KRI"
     end
@@ -71,7 +72,7 @@ class SEPATool
       Rails.logger.debug("Credit Transfer: #{c.iban} BIC: #{c.bic}")
       # Second: Add transactions
       sct.add_transaction(
-        name:                   c.customer.name,
+        name:                   c.customer.account_owner,
         bic:                    c.bic,
         iban:                   c.iban,
         amount:                 c.amount,
