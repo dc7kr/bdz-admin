@@ -1,8 +1,8 @@
 class CreditTransferWriter < BankTransferWriter
 
-  def initialize(datePrefix,settings)
+  def initialize(datePrefix)
     super(datePrefix)
-    @tool = SEPATool.new(settings)
+    @tool = SEPATool.new(INVOICE_CONFIG)
     @credit_transfers = Array.new
   end
 
@@ -32,7 +32,7 @@ class CreditTransferWriter < BankTransferWriter
     
     sepaxml = @tool.create_credit_transfer(@credit_transfers)
 
-    filename = @datePrefix+"_sepa_ct.xml"
+    filename = @date_prefix+"_sepa_ct.xml"
     outfile = MailingFile.new(filename,filename,Time.now.year.to_s)
     sepaFile = File.open(outfile.full_path,"w")
     sepaFile << sepaxml
