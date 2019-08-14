@@ -26,14 +26,21 @@ module FestivalMailsHelper
   def prepare_body(appl,body)
     @festival_concert = appl.festival_concert
 
+    
     substitutes = {
       "%id%" => appl.id.to_s,
-      "%konzert%" => @festival_concert.label.to_s,
-      "%konzert_zeit%" => I18n.l(@festival_concert.event_time),
-      "%konzert_ort%" => @festival_concert.location,
-      "%teilnehmer_name%" => appl.orch_name,
-      "%probenzeit%" => appl.rehearsal_time.to_s
+      "%teilnehmer_name%" => appl.orch_name
     }
+
+    if not appl.rehearsal_time.nil? 
+      substitutes["%probenzeit%"] = appl.rehearsal_time.to_s
+    end
+
+    if not @festival_concert.nil? 
+      substitutes["%konzert%"] = @festival_concert.label.to_s
+      substitutes["%konzert_zeit%"] = I18n.l(@festival_concert.event_time)
+      substitutes["%konzert_ort%"] = @festival_concert.location
+    end
 
     return replace_body(body,substitutes)
   end
