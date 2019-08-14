@@ -1,12 +1,12 @@
 class FestivalMail < ActionMailer::Base
-  default from: "geschaeftsstelle@bdz-online.de"
+  default from: "info@eurofestival-zupfmusik.de"
 
   def notify(recipient, personalized_file, attachment_file, params) 
 
     subject = params[:subject]
     @body = params[:body]
 
-    storage_dir = BDZ_SETTINGS["invoice_archive_dir"]
+    storage_dir = DOCS_CONFIG.archive_dir
 
     if (personalized_file != nil ) then
       attachment_data = File.new(personalized_file.full_path).read

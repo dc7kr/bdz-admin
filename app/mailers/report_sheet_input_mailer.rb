@@ -21,7 +21,7 @@ class ReportSheetInputMailer < ActionMailer::Base
 
 	  @from = BDZ_SETTINGS['contacts']['gs']
 
-    storage_dir = BDZ_SETTINGS["invoice_archive_dir"]
+    storage_dir = DOCS_CONFIG.archive_dir
 
     if (personalized_file != nil ) then
       attachment_data = File.new(personalized_file.full_path).read
