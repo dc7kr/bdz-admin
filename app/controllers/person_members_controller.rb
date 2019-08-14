@@ -12,11 +12,15 @@ class PersonMembersController < AuthenticatedController
   def index
     @person_members = @person_members.includes(:member).search(params[:search]).order(sort_column+" "+sort_direction).page(params[:page]).per(20)
 
-
     respond_to do |format|
       format.js # index.html.erb
       format.html # index.html.erb
       format.json { render :json => @person_members }
+      format.ods {
+        @person_members = PersonMember.includes(:member).order(sort_column+" "+sort_direction)
+        renderOds("/tmp/em.ods", @person_members);
+          send_file("/tmp/em.ods", :filename => "em_"+Time.now.year.to_s+".ods", :type => "application/octet-stream")
+      }
     end
   end
 
@@ -45,7 +49,10 @@ class PersonMembersController < AuthenticatedController
   end
 
   def nopayment
-    data = PersonMember.no_payment(params[:before])
+    if not params[:regional_organization_id].nil?
+      @regional_organization = RegionalOrganization.find(params[:regional_organization_id])
+    end
+    data = @person_members.no_payment(params[:before], @regional_organization)
 
     @members = data[:members]
     @accounts = data[:accounts]
@@ -169,6 +176,15 @@ class PersonMembersController < AuthenticatedController
   end
 
 
+  def nomail 
+    @members = PersonMember.nomail
+    	respond_to do |format|
+      format.html
+    end
+  end
+	
+
+
   private 
   def sort_column
     Member.column_names.include?(params[:sort]) ? "members."+params[:sort] :
@@ -193,6 +209,24 @@ class PersonMembersController < AuthenticatedController
 					end
   				end
 			end
+  end
+
+  def renderOds(filename,person_members)
+    RODF::Spreadsheet.file(filename) do
+			table "EM"  do
+	   		person_members.each do |m|
+          row {
+            cell m.member.mglnr.to_s
+            cell I18n.t("common.salutations.#{m.member.anrede}")
+            cell m.member.vorname+" "+m.member.name
+            cell m.member.strasse
+            cell m.member.plz
+            cell m.member.ort
+            cell m.member.email
+          }
+			  end
+  		end
+		end
   end
 
   def person_member_params()
