@@ -8,7 +8,7 @@ class InvoiceMail < ActionMailer::Base
 
     subject = "BDZ-Beitragsrechnung #{year} Mglnr. #{mglnr}"
 
-    storage_dir = BDZ_SETTINGS["invoice_archive_dir"]
+    storage_dir = INVOICE_CONFIG.archive_dir
 
     attachment_data = File.new(invoice_file.full_path).read
 		attachments[invoice_file.orig_filename ] = attachment_data
