@@ -2,7 +2,7 @@ class TexWriter
 	include ApplicationHelper
 	include ActionView::Helpers::NumberHelper
 
-  	@@workdir = BDZ_SETTINGS['invoice_workdir']
+  	@@workdir = DOCS_CONFIG.work_dir
 
 	def self.workdir
 		@@workdir
@@ -14,8 +14,8 @@ class TexWriter
 			writeOurData(f,contact)
 			writeCommon(f,invoice.customer)
       f.write('\newcommand{\jahr}{'+year.to_s+"}\n")
-			f.write('\newcommand{\renummer}{'+invoice.invoice_number+"}\n")
-			f.write('\newcommand{\zweck}{'+invoice.invoice_number+"}\n")
+			f.write('\newcommand{\renummer}{'+invoice.number+"}\n")
+			f.write('\newcommand{\zweck}{'+invoice.number+"}\n")
 		end
 		File.open(TexWriter.workdir+"/posten.tex",'w') do |f|
       invoice.items.each do |i|
@@ -95,7 +95,7 @@ class TexWriter
 			f.write('\newcommand{\bic}{'+customer.bic.to_s+"}\n")
 
 			f.write('\newcommand{\mandateRef}{'+customer.mandate_id.to_s+"}\n")
-			f.write('\newcommand{\glaeubigerId}{'+BDZ_SETTINGS["creditor_id"]+"}\n")
+			f.write('\newcommand{\glaeubigerId}{'+BDZ_SETTINGS["invoice_config"]["creditor_id"]+"}\n")
 		else
 			f.write('\newcommand{\directDebit}{0}'+"\n")
 		end
@@ -104,7 +104,7 @@ class TexWriter
 		else
 			f.write('\newcommand{\firma}{'+breakName(tex_escape(customer.company))+'}'+"\n")
 		end
-		f.write('\newcommand{\name}{'+"#{customer.fullname}}\n")
+		f.write('\newcommand{\name}{'+"#{customer.full_name}}\n")
 		f.write('\newcommand{\strasse}{'+"#{customer.street}}\n")
 		full_ort=""
 		if ( customer.zip) then 
@@ -128,11 +128,11 @@ class TexWriter
     f.write('\newcommand{\country}{'+country_en+"}\n")
 
 		lastname=""
-		if (customer.name) 
+		if (customer.last_name) 
 				if ( customer.salutation == 'Herr' ) then
-					f.write('\newcommand{\anredetxt}{r Herr '+customer.name+"}\n")
+					f.write('\newcommand{\anredetxt}{r Herr '+customer.last_name+"}\n")
 				elsif ( customer.salutation == 'Frau' ) then
-					f.write('\newcommand{\anredetxt}{ Frau '+customer.name+"}\n")
+					f.write('\newcommand{\anredetxt}{ Frau '+customer.last_name+"}\n")
 				else
 					f.write('\newcommand{\anredetxt}{ Damen und Herren}'+"\n")
 				end
@@ -145,15 +145,16 @@ class TexWriter
 
 	def writeOurData(f,contact) 
     our_contact = BDZ_SETTINGS['contacts'][contact]
+    invoice_config = BDZ_SETTINGS['invoice_config']
 
-		f.write('\newcommand{\myFirma}{'+BDZ_SETTINGS['company']+"}\n")
-		f.write('\newcommand{\myFirmaShort}{'+BDZ_SETTINGS['companyShort']+"}\n")
-		f.write('\newcommand{\myKonto}{'+BDZ_SETTINGS['konto']+"}\n")
-		f.write('\newcommand{\myBLZ}{'+BDZ_SETTINGS['blz']+"}\n")
+		f.write('\newcommand{\myFirma}{'+invoice_config['company']+"}\n")
+		f.write('\newcommand{\myFirmaShort}{'+invoice_config['company_short']+"}\n")
+		f.write('\newcommand{\myKonto}{'+invoice_config['konto']+"}\n")
+		f.write('\newcommand{\myBLZ}{'+invoice_config['blz']+"}\n")
     if ( our_contact['iban'].nil? ) then
-		  f.write('\newcommand{\myBank}{'+BDZ_SETTINGS['bank']+"}\n")
-		  f.write('\newcommand{\myIBAN}{'+BDZ_SETTINGS['iban']+"}\n")
-		  f.write('\newcommand{\myBIC}{'+BDZ_SETTINGS['bic']+"}\n")
+		  f.write('\newcommand{\myBank}{'+invoice_config['bank']+"}\n")
+		  f.write('\newcommand{\myIBAN}{'+invoice_config['iban']+"}\n")
+		  f.write('\newcommand{\myBIC}{'+invoice_config['bic']+"}\n")
     else
 		  f.write('\newcommand{\myIBAN}{'+our_contact['iban']+"}\n")
 		  f.write('\newcommand{\myBIC}{'+our_contact['bic']+"}\n")
@@ -185,8 +186,8 @@ class TexWriter
 	end
 
   def moveGeneratedFiles(datePrefix)
-	  workDir = BDZ_SETTINGS['invoice_workdir']
-	  archiveDir= BDZ_SETTINGS['invoice_archive_dir']
+	  workDir = DOCS_CONFIG.work_dir
+	  archiveDir= DOCS_CONFIG.archive_dir
 	  tgtDir= archiveDir +"/"+String(Time.now.year)
 
 	  shortprefix = Time.now.strftime("%Y%m%d-")
