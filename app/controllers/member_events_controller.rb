@@ -1,26 +1,13 @@
 class MemberEventsController < AuthenticatedController
   helper_method :sort_column, :sort_direction
 
+  before_action :set_member_entity, only: [:index,:new,:show, :edit, :update, :destroy]
+
   # GET /member_events
   # GET /member_events.json
   def index
-    @isOrchestra
-    @member
-    @name=nil
-    @mglnr=nil
-    if ( params[:orchestra_id]) then
-      @member = Orchestra.includes(:member).find(params[:orchestra_id])
-      @orchestra = @member
-      @name = @member.orchName
-      @isOrchestra=true
-    elsif (params[:person_member_id]) then
-      @member= PersonMember.includes(:member).find(params[:person_member_id])
-      @name = @member.fullname
-      @isOrchestra=false
-    end
-
-    if (@member) then
-      @member_events= MemberEvent.where("member_id=?",@member.member.id)
+    if (@member_entity) then
+      @member_events= MemberEvent.where("member_id=?",@member_entity.member.id)
     else 
     @member_events= MemberEvent.all
     end
@@ -121,7 +108,7 @@ class MemberEventsController < AuthenticatedController
 
   def download
     @event= MemberEvent.find(params[:id])
-	fullPath = BDZ_SETTINGS['invoice_archive_dir']+"/"+@event.filename
+	fullPath = INVOICE_CONFIG.archive_dir+"/"+@event.filename
 	send_file(fullPath, :filename => File.basename(@event.filename), :type => "application/pdf", :x_sendfile=>true)
   end
 
@@ -132,5 +119,18 @@ class MemberEventsController < AuthenticatedController
   private
   def member_event_params
     params.require(:member_event).permit( :event_type, :event_date, :event_id)
+  end
+
+  def set_member_entity
+    if ( params[:orchestra_id]) then
+      @member_entity = Orchestra.includes(:member).find(params[:orchestra_id])
+      @orchestra = @member_entity
+      @name = @member_entity.orchName
+      @isOrchestra=true
+    elsif (params[:person_member_id]) then
+      @member_entity= PersonMember.includes(:member).find(params[:person_member_id])
+      @name = @member_entity.fullname
+      @isOrchestra=false
+    end
   end
 end
