@@ -81,7 +81,7 @@ class RegionalOrganizationPdf < Prawn::Document
 
     if ( member.eintritt and member.eintritt.year == @year) then
       str+=" (N)"
-    elsif member.austritt_zum != nil then
+    elsif member.austritt_zum != nil && member.austritt_zum.year != 0 then
       str+=" (A)"
     end
     str
