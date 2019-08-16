@@ -15,10 +15,13 @@ class FestivalApplicationsPdf < Prawn::Document
   end
   
   def head(app)
-    text "#{@view.t('festival_application.s')} Nr. #{app.id}", size: 20, style: :bold
-    text "#{app.orch_name} (#{@view.t('festival_application.group_types.'+app.group_type)})", size: 20, style: :bold
+    text "#{I18n.t('festival_application',:count=>1)} Nr. #{app.id}", size: 20, style: :bold
+    text "#{app.orch_name} (#{I18n.t('festival_application.group_types.'+app.group_type)})", size: 20, style: :bold
 	text "Herkunftsland: "+app.t_country, size:16
 	text "Dirigent: "+app.conductor
+    if (not app.event_meal.nil?) then
+      text "Ankunftszeit: "+I18n.l(app.event_meal.arrival_time)
+    end
   end
 
   def address(contact)
@@ -27,7 +30,7 @@ class FestivalApplicationsPdf < Prawn::Document
 	if contact == nil then
 		return
 	end
-	text @view.t('common.salutations.'+contact.salutation)+" "+ contact.first_name+" "+contact.last_name
+	text I18n.t('common.salutations.'+contact.salutation)+" "+ contact.first_name+" "+contact.last_name
 	text contact.street
 	text contact.zip+" "+contact.city
 	text contact.phone
@@ -37,7 +40,7 @@ class FestivalApplicationsPdf < Prawn::Document
   
   def pieces(app)
     move_down 20
-	text @view.t('festival_piece.p'), style: :bold
+	text I18n.t('festival_piece',:count=>3), style: :bold
 	
 	if  app.festival_pieces.count > 0 then 
     	table piece_rows(app) do
@@ -53,7 +56,7 @@ class FestivalApplicationsPdf < Prawn::Document
   end
 
   def piece_rows(app)
-    [[@view.t('festival_piece.composer'), @view.t('festival_piece.title'),@view.t('festival_piece.duration') ]] +
+    [[I18n.t('festival_piece.composer'), I18n.t('festival_piece.title'),I18n.t('festival_piece.duration') ]] +
 	
 	app.festival_pieces.map do |p| 
 	    [p.composer,p.title,p.duration] 
