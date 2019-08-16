@@ -37,17 +37,26 @@ class Mgl::ReportSheetInputsController < ApplicationController
 		#session[:report_sheet_token] = params[:token]
     @mglnr = params[:mglnr]
     @token = params[:token]
+    @dsgvo=false
+
   end
 
   def submit_login
 		@report_sheet_input = ReportSheetInput.find_by_token(params[:token])
-
-		if ( @report_sheet_input.nil? ) then
+    
+    @dsgvo = params[:dsgvo]
+    if not @dsgvo then
+      flash[:error] =  t('report_sheet_input.please_confirm_dsgvo')
+			redirect_to :action=>:login
+    elsif ( @report_sheet_input.nil? ) then
 			Rails.logger.warn('Invalid token: ')
       flash[:error] =  t('report_sheet_input.invalid_token')
 			redirect_to :action=>:login
 		else
 			@orchestra = @report_sheet_input.orchestra
+      @orchestra.member.dsgvo=true
+      @orchestra.member.dsgvo_date=Time.now
+      @orchestra.member.save!
 			session[:report_sheet_input_id]=@report_sheet_input.id
 			session[:report_sheet_input_token]=params[:token]
 
@@ -127,28 +136,31 @@ class Mgl::ReportSheetInputsController < ApplicationController
   end
 
   def submit2
-	data = params[:report_sheet_input];
+    data = params.require("report_sheet_input")
 
-	@contacts = data["contact"] 
+    #params[:report_sheet_input];
 
-	@contacts.each do |idx,c|
-		if ( c["id"] != "" ) then 
-			oc = OrchestraContact.find(c["id"])
-			if ( oc.orchestra_id == @report_sheet_input.orchestra.id ) then
-				oc.update_attributes(c)
-				#oc.save
-				Rails.logger.warn(oc)
-			else
-				Rails.logger.warn('ID has been tampered with!: '+c["id"])
-			end
-		else
-			if (c["last_name"].length >1) then
-				oc = OrchestraContact.new(c)
-				oc.orchestra_id = @report_sheet_input.orchestra_id
-				oc.save
-			end
-		end
-	end
+    @contacts = data["contact"] 
+
+    @contacts.each do |idx,c|
+      if ( c["id"] != "" ) then 
+        oc = OrchestraContact.find(c["id"])
+        if ( oc.orchestra_id == @report_sheet_input.orchestra.id ) then
+          oc.update_attributes(contact_params(c))
+          oc.save
+          Rails.logger.warn("Created orchestra contact")
+          Rails.logger.warn(oc)
+        else
+          Rails.logger.warn('ID has been tampered with!: '+c["id"])
+        end
+      else
+        if (c["last_name"].length >1) then
+          oc = OrchestraContact.new(contact_params(c))
+          oc.orchestra_id = @report_sheet_input.orchestra_id
+          oc.save
+        end
+      end
+    end
 
     respond_to do |format|
         format.html { redirect_to :action=>:step3, :id=> @report_sheet_input, notice: t('report_sheet_input.save_success') }
@@ -209,24 +221,8 @@ class Mgl::ReportSheetInputsController < ApplicationController
 			@report_sheet_input = ReportSheetInput.find(params[:id])
 			@rs = @report_sheet_input.report_sheet
 
-			age_categories = ReportSheet.age_categories
-			ages = Hash.new
+      @rs.update_from_orchestra_members(@report_sheet_input.orchestra.orchestra_members)
 
-			age_categories.each do |c| 
-				ages[c]=0
-			end
-			
-
-			@report_sheet_input.orchestra.orchestra_members.each do |m|
-				ages[m.age_category(@rs.year)]+=1
-			end
-
-			@rs.children = ages["C"];
-			@rs.teens = ages["T"];
-			@rs.youth = ages["Y"];
-			@rs.adult = ages["A"];
-			@rs.senior= ages["S"];
-			@rs.save
 
 			respond_to do |format|
 				format.html { 
@@ -307,7 +303,7 @@ class Mgl::ReportSheetInputsController < ApplicationController
 			@rs = @rsi.report_sheet
 
       cur_year = Time.now.strftime '%Y'
-      event_id = "MB_#{cur_year}_CONFIRM"
+      event_id = "MB_#{@rs.year}_CONFIRM"
 
       tool = MailingTool.new(cur_year.to_s,"gs",event_id,"Bestaetigung Meldebogeneingabe",false);
 
@@ -433,6 +429,10 @@ class Mgl::ReportSheetInputsController < ApplicationController
           return
         end
 
+        # delete previous entries
+
+        @orchestra.orchestra_members.destroy_all
+
         read_report(doc,@orchestra)
 
         if ( @error_count > 0 ) then 
@@ -492,5 +492,9 @@ class Mgl::ReportSheetInputsController < ApplicationController
 
   def orchestra_params root
     root.require(:orchestra).permit( :orchName, :gruendung, :member_attributes => [ :id, :title, :anrede, :vorname, :name, :strasse, :plz, :ort, :email, :za, :zahler, :telefon, :fax, :bic, :iban, :country_code ]  )
+  end
+
+  def contact_params(params)
+    params.permit(OrchestraContact.permitted_params)
   end
 end
