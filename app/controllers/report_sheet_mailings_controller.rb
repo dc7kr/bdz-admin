@@ -43,7 +43,7 @@ class ReportSheetMailingsController < AuthenticatedNonResourceController
 
 				mailing_pdf = gen_anschreiben(orchestra,@rsi);
 
-        doc_dir = BDZ_SETTINGS["invoice_archive_dir"]+"/"
+        doc_dir = DOCS_CONFIG.archive_dir+"/"
 
         mailer_params = { :rsi => @rsi }
 
@@ -101,7 +101,7 @@ class ReportSheetMailingsController < AuthenticatedNonResourceController
 
     orchestra = Orchestra.joins(:member).where("members.mglnr = ?",1045).first
 
-    orchestra.member.email = "karsten.richter@bdz-online.de"
+    orchestra.member.email = "kr@corika.com"
 
     @rsi = ReportSheetInput.for_orchestra_and_year(orchestra,rs_year)
 

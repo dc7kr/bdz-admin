@@ -18,9 +18,9 @@ class OrchestrasController < AuthenticatedController
   #
   def addresses
     if (params[:nomail]) then
-		@orchestras = Orchestra.includes(:member).nomail
+		@orchestras = Orchestra.nomail
 	elsif (params[:mailonly]) then
-		@orchestras = Orchestra.includes(:member).mail
+		@orchestras = Orchestra.mail
     else
 		@orchestras = Orchestra.includes(:member).all
 	end
@@ -104,7 +104,12 @@ class OrchestrasController < AuthenticatedController
   end
 
   def nopayment
-    data = Orchestra.no_payment(params[:before])
+    
+    if not params[:regional_organization_id].nil?
+      @regional_organization = RegionalOrganization.find(params[:regional_organization_id])
+    end
+    
+    data = @orchestras.no_payment(params[:before],@regional_organization)
 
     @members = data[:members]
     @accounts = data[:accounts]
@@ -185,7 +190,15 @@ class OrchestrasController < AuthenticatedController
   end
 
   def noreport
-    @orchestras = @orchestras.no_report_sheet(Time.now.year.to_s).order("members.mglnr").page(params[:page]).per(20)
+    if params[:year].nil? then
+      year= Time.now.year
+    else
+      year = params[:year]
+    end
+
+    Rails.logger.debug("Year: #{params[:year]}")
+
+    @orchestras = @orchestras.no_report_sheet(year).order("members.mglnr").page(params[:page]).per(20)
 
     respond_to do |format|
       format.html 
@@ -248,7 +261,7 @@ class OrchestrasController < AuthenticatedController
     @orchestra = Orchestra.find(params[:id])
 
     respond_to do |format|
-      if @orchestra.update_attributes!(orchestra_params)
+      if @orchestra.update_attributes(orchestra_params)
         format.html { redirect_to @orchestra, :notice => t('orchestra.update_success') }
         format.json { head :ok }
       else
@@ -285,7 +298,7 @@ class OrchestrasController < AuthenticatedController
 
     url = "http://www.bdz-online.de/meldebogen/"
 
-	  target = BDZ_SETTINGS['invoice_archive_dir']+"/"+year.to_s+"/"+dateprefix+@orchestra.mglnr.to_s+"_meldebogen_anschreiben.pdf"
+	  target = INVOICE_CONFIG.archive_dir+"/"+year.to_s+"/"+dateprefix+@orchestra.mglnr.to_s+"_meldebogen_anschreiben.pdf"
 
 	  gen_anschreiben(@orchestra,@rsi);
     send_file(target, :filename => target, :type => "application/octet-stream")
@@ -303,6 +316,12 @@ class OrchestrasController < AuthenticatedController
     end
   end
 
+  def nomail 
+    @members = Orchestra.nomail
+    	respond_to do |format|
+      format.html
+    end
+  end
 	
   private 
   def sort_column
@@ -326,6 +345,6 @@ class OrchestrasController < AuthenticatedController
     end
   end
   def orchestra_params
-    params.require(:orchestra).permit( :orchName, :url, :gruendung, :orch_type, :bemerkung, :zweitanschrift, :name2, :kuendigungErfasst ,member_attributes: Member.nested_params) 
+    params.require(:orchestra).permit( :orchName, :url, :gruendung, :orch_type, :bemerkung, :zweitanschrift, :name2, :kuendigungErfasst , :gema_kdnr, member_attributes: Member.nested_params) 
   end
 end
