@@ -384,6 +384,13 @@ JS1
     options = ISO3166::Country.all.collect {|c| [ c.translations["en"], c.alpha2 ] }
   end
 
+  def wrapped_no_label(form,resource,field, input)
+      if not resource.is_a? Symbol then
+      end
+
+      content_tag(:div, input)
+  end
+
   def form_wrapped_field(form,resource,field, input) 
       label = form.label field, nil,:class => "col-sm-12 col-md-3 control-label"
       css_class="form-group row"
@@ -431,7 +438,7 @@ JS1
         input = content_tag(:p , resource[field],class: "form-control-static")
       end
 
-      form_wrapped_field(form, resource, field, input)
+      wrapped_no_label(form, resource, field, input)
   end
 
   def form_my_textarea(form, resource, field, cols,rows)
@@ -473,8 +480,16 @@ JS1
     end
   end
  
-  def entity_row(entity, field,type=nil) 
+  def entity_row(entity, field,type=nil, label_sym=nil) 
+
     sym = entity.class.name.underscore.to_sym
+
+    if label_sym.nil? then 
+      label = label(sym, field)
+    else
+      label = label(sym, label_sym)
+    end
+
     content_tag :div, :class => "row" do
 
       data = nil
@@ -509,7 +524,7 @@ JS1
         end
       end 
 
-      concat(content_tag(:div, label(sym, field), :class => "col-md-3 text-right"))
+      concat(content_tag(:div, label, :class => "col-md-3 text-right"))
       concat(content_tag(:div, data,:class => "col-md-9"))
     end
   end
@@ -532,22 +547,27 @@ JS1
 
   def calculation_row(entity, field, unit_price) 
     sym = entity.class.name.underscore.to_sym
+    count=nil
+
+    count = entity.send(field)
+
+    if count.nil? then
+      count = 0
+    end
+
+    calculation_row_fixed(label(sym,field),count,unit_price)
+  end
+
+  def calculation_row_fixed(label,count, unit_price) 
     content_tag :div, :class => "row" do
-      count=nil
-
-      count = entity.send(field)
-
-      if count.nil? then
-        count = 0
-      end
-
-      concat(content_tag(:div, label(sym, field), :class => "col-md-3 text-right"))
+      concat(content_tag(:div, label, :class => "col-md-3 text-right"))
       concat(content_tag(:div, count.to_s,:class => "col-md-1 text-right"))
       concat(content_tag(:div, "x",:class => "col-md-1"))
       concat(content_tag(:div, format_currency(unit_price,'€'), :class => "col-md-2 text-right"))
       concat(content_tag(:div, format_currency(count *unit_price,'€'), :class => "col-md-2 text-right"))
     end
   end
+
   def calculation_sum(label, price)
     content_tag :div, :class => "row" do
       concat(content_tag(:div, label, :class => "col-md-3 text-right"))
