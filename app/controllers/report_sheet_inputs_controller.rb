@@ -72,7 +72,7 @@ class ReportSheetInputsController < AuthenticatedController
 			@report_sheet_input = ReportSheetInput.find(params[:id])
 
 			respond_to do |format|
-			  if @report_sheet_input.update_attributes(params[:report_sheet_input])
+			  if @report_sheet_input.update_attributes(report_sheet_input_params)
 				format.html { redirect_to @report_sheet_input, notice: 'Report sheet input was successfully updated.' }
 				format.json { head :no_content }
 			  else
@@ -103,24 +103,25 @@ class ReportSheetInputsController < AuthenticatedController
     end
 
     @count = 0
-    @orchestras = Orchestra.includes(:member)
+    @orchestras = Orchestra.regular.includes(:member)
     
     @orchestras.each do |o|
-      @rsi = ReportSheetInput.for_orchestra_and_year(o,rs_year)
-      if ( @rsi == nil ) then
-        @rsi = ReportSheetInput.new_for_orchestra(o,rs_year)
-      
-        if @rsi.report_sheet.save then
-  	      @rsi.save
-        else 
-          logger.warn(@rsi.report_sheet.errors.full_messages.join("\n"))
-          logger.warn("Something went wrong during save of report sheet!")
-        end
+      if @orchestra.report_sheet_required? 
+        @rsi = ReportSheetInput.for_orchestra_and_year(o,rs_year)
+        if ( @rsi == nil ) then
+          @rsi = ReportSheetInput.new_for_orchestra(o,rs_year)
+        
+          if @rsi.report_sheet.save then
+            @rsi.save
+          else 
+            logger.warn(@rsi.report_sheet.errors.full_messages.join("\n"))
+            logger.warn("Something went wrong during save of report sheet!")
+          end
 
-        @count+=1
+          @count+=1
+        end
       end
     end
-
     respond_to do |format|
       format.html {
         redirect_to  :back, notice: t('report_sheet_input.generated', count: @count ) 
