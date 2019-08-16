@@ -65,11 +65,14 @@ BDZAdmin::Application.configure do
 
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
-  config.action_mailer.default_url_options = { :host =>'admin.bdz-online.de' , :protocol=>'https'}
 
   config.action_mailer.delivery_method = :sendmail
   config.action_mailer.perform_deliveries = true
   config.action_mailer.logger = nil
+
+
+  config.log_level = :info
+
 
  config.time_zone = 'Berlin'
 end

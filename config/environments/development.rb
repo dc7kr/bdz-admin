@@ -25,18 +25,8 @@ BDZAdmin::Application.configure do
   # Expands the lines which load the assets
   config.assets.debug = true
 
-  config.action_mailer.default_url_options = { :host =>'admin-dev.bdz-online.de', :protocol => 'https' }
   config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = {
-  :address              => "mail.corika.com",
-  :port                 => 587,
-  :domain               => 'bdz-online.de',
-  :user_name            => '***REMOVED***',
-  :password             => '***REMOVED***',
-  :authentication       => 'plain',
-  :enable_starttls_auto => true  }
-
-  
+    
   #
   # this disabled Mail sending entirely when set to false !!!
   #
