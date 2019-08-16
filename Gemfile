@@ -1,7 +1,7 @@
 source 'http://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.1.0'
+gem 'rails', '~> 4.2.0'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
@@ -14,6 +14,9 @@ gem 'therubyracer',  platforms: :ruby
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
+
+gem 'jquery-turbolinks'
+
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
@@ -23,6 +26,10 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 
 # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
 gem 'spring',        group: :development
+
+# to obfuscate mails
+gem 'actionview-encoded_mail_to'
+
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
@@ -72,7 +79,7 @@ gem 'jquery-ui-rails'
 # 0.3.2 works fine :)
 # 0.3.5 works fine :)
 # 0.3.6 has encoding issues!
-gem "rodf", "= 0.3.5"
+gem "rodf", "~> 1.0.0"
 #gem "rodf", '= 0.3'
 
 #gem 'roo', :git => 'git://github.com/dc7kr/roo.git'
@@ -104,22 +111,26 @@ gem "roo-xls"
 
 group :development do
   gem 'sqlite3'
+  gem 'web-console', '~> 2.0'
 end
 
-gem 'mysql2', '~> 0.3.18'
-
-
-#gem 'mongoid', '~> 3.0.0'
+gem 'mysql2', '~> 0.3.21'
 
 gem 'rails-asset-jqueryui'
 
 # authenticate
 gem 'devise'
 #gem 'devise-async'
+
 # authorize
-gem 'cancancan' ,'~> 1.10'
+gem 'cancancan', '~> 2.0'
+gem 'cancancan-mongoid'
+
 #paginator
 gem 'kaminari'
+
+gem 'kaminari-mongoid' 
+
 gem 'rolify'
 gem 'authority'
 
@@ -135,10 +146,24 @@ gem 'hpricot'
 
 gem 'parseconfig'
 
+gem 'mongoid', '~> 5.0.0'
+
 # Bootstrap css 
 gem 'bootstrap-sass', '~> 3.3.6'
 gem 'momentjs-rails', '>= 2.9.0'
-gem 'bootstrap3-datetimepicker-rails', '~> 4.17.37'
+gem 'bootstrap3-datetimepicker-rails', '~> 4.17.47'
 
-gem 'bootstrap_form'
+gem 'bootstrap_form', "~> 2.7"
+gem 'bootstrap_form-datetimepicker'
 
+# for soft delete
+gem "paranoia", "~> 2.2"
+
+# Google libphonenumber
+gem 'telephone_number'
+
+# TODO: CHANGE TO THE REAL PATH ONCE IT IS FINAL!
+gem 'corika_invoices', path: "/home/kasi/corika_invoices"
+
+# crypto
+gem "attr_encrypted", "~> 3.0.0"
