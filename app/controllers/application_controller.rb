@@ -5,8 +5,6 @@ class ApplicationController < ActionController::Base
 
   after_filter :flash_to_headers
 
-  after_filter :allow_iframe
-
 
   layout :choose_layout
 
@@ -56,10 +54,6 @@ class ApplicationController < ActionController::Base
   include SessionHelper
 
 	helper_method :current_area
-
-  def allow_iframe
-    response.headers["X-FRAME-OPTIONS"] = "ALLOW-FROM http://www.bdz-online.de"
-  end
 
   def goto_login_page
     flash[:error] = "Please login first."
@@ -152,6 +146,8 @@ class ApplicationController < ActionController::Base
 		  "public"
     elsif namespace == "mgl"
       "member_area"
+    elsif namespace == "invoice_engine"
+      "corika_invoices/application"
 	  else 
 		  "application"
 	  end
@@ -166,13 +162,15 @@ class ApplicationController < ActionController::Base
     def render_error(status, exception)
       #	if ( current_user == nil or current_user.admin?)
 	    begin 
-	      Rails.logger.error("Encountered error status:"+status.to_s)
+	      logger.error("Encountered error status:"+status.to_s)
         if is_production? then
           ErrorMailer.deliver_snapshot( exception, Rails.env, current_user)
-          Rails.logger.error("ERROR: "+exception.to_s)
+          logger.error("ERROR: "+exception.to_s)
+          logger.error exception.message + "\n " + exception.backtrace.join("\n ")
         end
       rescue => e
-        logger.error(e)
+        logger.error e
+        logger.error e.message + "\n " + e.backtrace.join("\n ")
       end
 
 	    @exception = exception
@@ -194,25 +192,20 @@ class ApplicationController < ActionController::Base
 	if @@web_area[@current_controller] then
 		@@web_area[@current_controller]
 	else
-		Rails.logger.error("Unmapped controller: "+@current_controller.to_s)
+		logger.error("Unmapped controller: "+@current_controller.to_s)
 	end
   end
-
-  # Send 'em back where they came from with a slap on the wrist
 
   def set_locale
     logger.debug "* Accept-Language: #{request.env['HTTP_ACCEPT_LANGUAGE']}"
 
     locale = extract_locale_from_accept_language_header
-    Rails.logger.debug "Extracted locale: #{locale}"
 
     begin 
       I18n.locale = locale
     rescue 
       I18n.locale = "en"
     end
-
-    logger.debug "* Locale set to '#{I18n.locale}'"
   end
 
   private
