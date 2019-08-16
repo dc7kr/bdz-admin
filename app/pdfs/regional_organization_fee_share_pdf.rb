@@ -9,7 +9,16 @@ class RegionalOrganizationFeeSharePdf < Prawn::Document
 		@view = view
     @cur_year = Time.now.year
 
-		font "Helvetica", :size => 10
+    font_dir = "/usr/share/fonts/truetype/liberation"
+    font_families.update("LiberationSans" => {
+      :normal => File.join(font_dir,"LiberationSans-Regular.ttf"),
+      :italic => File.join(font_dir,"LiberationSans-Italic.ttf"),
+      :bold => File.join(font_dir,"LiberationSans-Bold.ttf"),
+      :bold_italic => File.join(font_dir,"LiberationSans-BoldItalic.ttf")
+    })
+    font "LiberationSans", :size => 10
+
+
 		heading
 		orchestra_list
 		move_down(30)
@@ -34,14 +43,22 @@ class RegionalOrganizationFeeSharePdf < Prawn::Document
 
     @result = Array.new
 		@result <<[ "Mitgl.Nr.","Name" ]
+
     
     @result += @person_members.map do |item|
       @count+=1
+
+      suffix = ""
+      if not item.member.zero_member_fee_balance?
+        suffix="nicht abgerechnet"
+      end
+
       @sum+=item.lvPart
 			[
         mglnr(item.member),
 				item.fullname,
-        @view.format_currency(item.lvPart,'EUR')
+        @view.format_currency(item.lvPart,'EUR'),
+        suffix
 			]
 		end
 
@@ -73,13 +90,19 @@ class RegionalOrganizationFeeSharePdf < Prawn::Document
 
       @count+=member_count
       @sum+=lv_part 
+      suffix = nil
+      if not item.zero_member_fee_balance?
+        suffix = " nicht abgrechnet"
+      end
 			[ mglnr(item.member),
 				item.orchName,
 				member_count,
-				@view.format_currency(lv_part) 
+				@view.format_currency(lv_part) ,
+        suffix
       ]
     end
 
+      
     @result << [ "", "Summe",@count,@view.format_currency(@sum)] 
 
     @result
