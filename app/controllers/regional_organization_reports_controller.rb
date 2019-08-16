@@ -32,6 +32,8 @@ class RegionalOrganizationReportsController < AuthorityController
         end
           orchestras.each do |o|
             oc = o.contacts_by_role
+            last_report = o.lastReportSheet
+
             t.row do 
               cell o.member.mglnr
               cell o.orchName
@@ -287,8 +289,36 @@ class RegionalOrganizationReportsController < AuthorityController
           cell "PLZ"
           cell "Ort"
           cell "Email"
+          cell "Meldebogen-Jahr"
+          cell I18n.t("report_sheet.children")
+          cell I18n.t("report_sheet.teens")
+          cell I18n.t("report_sheet.youth")
+          cell I18n.t("report_sheet.adult")
+          cell I18n.t("report_sheet.senior")
+          cell I18n.t("report_sheet.gema")
+          cell I18n.t("report_sheet.azubi")
+          cell I18n.t("report_sheet.azubi_child")
+          cell I18n.t("report_sheet.azubi_teens")
+          cell I18n.t("report_sheet.azubi_youth")
+          cell I18n.t("report_sheet.azubi_adult")
+          cell I18n.t("report_sheet.azubi_senior")
+          cell I18n.t("report_sheet.passive")
+          cell I18n.t("report_sheet.supporters")
+          cell I18n.t("report_sheet.child_ens")
+          cell I18n.t("report_sheet.youth_ens")
+          cell I18n.t("report_sheet.adult_ens")
+          cell I18n.t("report_sheet.senior_ens")
+          cell I18n.t("report_sheet.chamber_ens")
+          cell I18n.t("report_sheet.other_ens")
+          cell I18n.t("report_sheet.zo")
+          cell I18n.t("report_sheet.zi_o")
+          cell I18n.t("report_sheet.go")
+          cell I18n.t("report_sheet.oz")
+
         end
         orchestras.each do |o|
+          last_report = o.lastReportSheet
+
           t.row do 
             cell o.member.mglnr
             cell o.cleanOrchName
@@ -297,6 +327,34 @@ class RegionalOrganizationReportsController < AuthorityController
             cell o.member.plz
             cell o.member.ort
             cell o.member.email
+            if not last_report.nil?
+              cell last_report.year
+              cell last_report.children
+              cell last_report.teens
+              cell last_report.youth
+              cell last_report.adult
+              cell last_report.senior
+              cell last_report.gema
+              cell last_report.azubi
+              cell last_report.azubi_child
+              cell last_report.azubi_teens
+              cell last_report.azubi_youth
+              cell last_report.azubi_adult
+              cell last_report.azubi_senior
+              cell last_report.passive
+              cell last_report.supporters
+              cell last_report.child_ens
+              cell last_report.youth_ens
+              cell last_report.adult_ens
+              cell last_report.senior_ens
+              cell last_report.chamber_ens
+              cell last_report.other_ens
+              cell last_report.zo
+              cell last_report.zi_o
+              cell last_report.go
+              cell last_report.oz
+            end
+
           end
         end
       end
