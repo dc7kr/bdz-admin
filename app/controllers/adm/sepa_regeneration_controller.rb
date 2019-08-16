@@ -11,7 +11,7 @@ class Adm::SepaRegenerationController < AuthenticatedNonResourceController
     max_mglnr = params[:sepa][:max_mglnr]
 
     datePrefix = Time.now.strftime '%Y%m%d%H%M%S'
-    sw = SEPAWriter.new(datePrefix,BDZ_SETTINGS)
+    sw = CorikaInvoices::SEPAWriter.new(datePrefix,INVOICE_CONFIG)
 
     logger.debug(params)
 
@@ -34,11 +34,11 @@ class Adm::SepaRegenerationController < AuthenticatedNonResourceController
         Rails.logger.debug("Entity account: #{entity.account_owner} - fullname: #{entity.fullname}")
 
         customer = b.member.member_entity.to_customer
-        sw.addBooking(customer,b.amount,txt,"RCUR")
+        sw.add_direct_debit(customer,b.amount,txt,"RCUR")
       end
     end
 
-    dd_file = sw.generateFile
+    dd_file = sw.generate_file
 
     send_file(dd_file.full_path, :filename => dd_file.orig_filename, :type => "application/octet-stream")
   end
@@ -48,7 +48,7 @@ class Adm::SepaRegenerationController < AuthenticatedNonResourceController
     @bookings = MemberAccountBooking.includes(:member).where('booking_txt = ?',params[:sepa][:booking_txt])
 
     datePrefix = Time.now.strftime '%Y%m%d%H%M%S'
-    sw = SEPAWriter.new(datePrefix,BDZ_SETTINGS)
+    sw = CorikaInvoices::SEPAWriter.new(datePrefix,INVOICE_CONFIG)
 
     @bookings.each do |b|
       member = Member.find(b.member_id)
@@ -62,7 +62,7 @@ class Adm::SepaRegenerationController < AuthenticatedNonResourceController
 
       logger.debug("Booking: #{orch.account_owner} #{mglnr} #{orch.iban} #{orch.bic}")
       if ( orch.is_direct_debit? ) then
-        sw.addBooking(orch,invoice.sum,booking_txt+" "+mglnr.to_s,"RCUR")
+        sw.addDirectDebit(orch,invoice.sum,booking_txt+" "+mglnr.to_s,"RCUR")
       end
 
       ddFile = sw.generateFile
