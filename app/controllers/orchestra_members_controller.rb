@@ -14,15 +14,27 @@ class OrchestraMembersController < AuthenticatedController
       @orchestra_members = @orchestra_members.where("orchestra_id = ?", params[:orchestra_id])
     end
 
-    @orchestra_members = @orchestra_members.order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
+    
 
     respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @orchestra_members }
-	    format.js
+      format.html {
+        @orchestra_members = @orchestra_members.order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
+      }
+
+      format.json { 
+        @orchestra_members = @orchestra_members.order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
+        render json: @orchestra_members 
+      }
+	    format.js {
+        @orchestra_members = @orchestra_members.order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
+      }
       format.ods {
-        filename = gen_sheet(@orchestra_members)
-        Rails.logger.debug("TMP File 2: "+ filename)
+        @orchestra_members = @orchestra_members.order(:last_name,:first_name)
+
+        sheet = OrchestraMembersSpreadsheet.new(@orchestra_members)
+        sheet.render
+        filename = sheet.gen_file 
+
         send_file(filename, :filename => "orchestra_members.ods", :type => "application/octet-stream")
       }
     end
@@ -201,36 +213,4 @@ class OrchestraMembersController < AuthenticatedController
     params.require(:orchestra_member).permit(:first_name,:last_name,:date_of_birth,:instrument,:mglnr)
   end
 
-  def gen_sheet(orchestra_members)
-    tmpfile = Tempfile.new("mgl")
-    
-    filename = tmpfile.path
-
-    Rails.logger.debug("TMP File: "+filename)
-
-	  RODF::Spreadsheet.file(filename) do
-
-      table "Mitglieder"  do
-        row {
-          cell "Vorname"
-          cell "Name"
-          cell "Mgl.Nr. des Vereins (*)"
-          cell "Geburtsjahr"
-          cell "Instrument"
-          cell "(*) Nur für Landesorchester ausfüllen!"
-        }
-
-        orchestra_members.each do |om|
-          row {
-            cell om.first_name
-            cell om.last_name
-            cell om.mglnr
-            cell om.date_of_birth
-            cell om.instrument
-          }
-        end
-      end
-    end
-    filename
-  end
 end
