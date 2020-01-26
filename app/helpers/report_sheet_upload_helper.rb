@@ -44,18 +44,16 @@ module ReportSheetUploadHelper
       first_name = doc.cell(line,'A')
       last_name = doc.cell(line,'B')
       
-      member_id = doc.cell(line,'C')
-
-	    dob_celltype = doc.celltype(line,'D')
+	    dob_celltype = doc.celltype(line,'C')
 	    date_of_birth=nil
 
 	    if ( dob_celltype == :date ) then 
-        date_of_birth =doc.cell(line,'D')
+        date_of_birth =doc.cell(line,'C')
 	    elsif (dob_celltype == :string ) then 
-		    year_of_birth = doc.cell(line,'D').to_i
+		    year_of_birth = doc.cell(line,'C').to_i
 		    date_of_birth = Date.new(year_of_birth,1,1)
 	    else 
-      	year_of_birth = float_to_int(doc.cell(line,'D'))
+      	year_of_birth = float_to_int(doc.cell(line,'C'))
 
 		    if (year_of_birth != nil ) then
           date_of_birth = Date.new(year_of_birth,1,1)
@@ -65,7 +63,7 @@ module ReportSheetUploadHelper
         end
       end
 
-      instrument = doc.cell(line,'E')
+      instrument = doc.cell(line,'D')
 
       if instrument == nil then
         instrument = ''
@@ -77,9 +75,10 @@ module ReportSheetUploadHelper
       c.last_name = last_name
       c.date_of_birth = date_of_birth
 
-      if member_id != nil then
-        c.mglnr = member_id
-      end
+      #DEPRECATED
+      #if member_id != nil then
+      #  c.mglnr = member_id
+      #end
 
 	    c.instrument = instrument
 	    c.orchestra = orchestra
