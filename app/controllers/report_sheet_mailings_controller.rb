@@ -38,23 +38,26 @@ class ReportSheetMailingsController < AuthenticatedNonResourceController
 		@orchestras.each do |orchestra|
 			if ( orchestra.has_notify_event?(event_id))
 				@skipCount+=1
+      elsif not orchestra.report_sheet_required? 
+        Rails.logger.info("Skipping #{orchestra.member.mglnr} - no report sheet required")
 			else 
 				@rsi = ReportSheetInput.for_orchestra_and_year(orchestra,rs_year)
+        
+        if @rsi.nil? 
+          Rails.logger.error("Report sheet input is nil!: #{orchestra.member.mglnr}")
+        else
+          mailing_pdf = gen_anschreiben(orchestra,@rsi);
+          doc_dir = DOCS_CONFIG.archive_dir+"/"
+          mailer_params = { :rsi => @rsi }
+          result = tool.deliver_mailing(ReportSheetInputMailer, orchestra.to_addressee,  mailing_pdf,  nil, letterArray, mailer_params)  
 
-				mailing_pdf = gen_anschreiben(orchestra,@rsi);
+          results << result
 
-        doc_dir = DOCS_CONFIG.archive_dir+"/"
-
-        mailer_params = { :rsi => @rsi }
-
-        result = tool.deliver_mailing(ReportSheetInputMailer, orchestra.to_addressee,  mailing_pdf,  nil, letterArray, mailer_params)  
-
-        results << result
-
-        if result[:success]==true then
-            @orchCount+=1;
-        else 
-            @orchFailCount+=1;
+          if result[:success]==true then
+              @orchCount+=1;
+          else 
+              @orchFailCount+=1;
+          end
         end
 			end # not yet handled
 		end # orchestras.each 
