@@ -1,8 +1,8 @@
 %tr{:id=>"row#{member_event.id}"}
   %td=l member_event.event_date.to_date, :format => :long
   %td=member_event.event_type
-  %td=member_event.event_id
-  %td=member_event.comment
+  %td=truncate member_event.event_id, length: 15
+  %td=truncate member_event.comment, length:40
   %td
     -if (@isOrchestra) then
       = link_to_edit_path( edit_orchestra_member_event_path(@member_entity,member_event),"edit",member_event)
