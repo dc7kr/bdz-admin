@@ -106,9 +106,9 @@ class ReportSheetInputsController < AuthenticatedController
     @orchestras = Orchestra.regular.includes(:member)
     
     @orchestras.each do |o|
-      if @orchestra.report_sheet_required? 
+      if not o.nil? and o.report_sheet_required? 
         @rsi = ReportSheetInput.for_orchestra_and_year(o,rs_year)
-        if ( @rsi == nil ) then
+        if @rsi.nil? then
           @rsi = ReportSheetInput.new_for_orchestra(o,rs_year)
         
           if @rsi.report_sheet.save then
@@ -119,6 +119,12 @@ class ReportSheetInputsController < AuthenticatedController
           end
 
           @count+=1
+        end
+      else
+        if o.nil? then
+          logger.warn("Nil orchestra detected!!!")
+        else
+          logger.info("NO report sheet required: #{o.member.mglnr}") 
         end
       end
     end
