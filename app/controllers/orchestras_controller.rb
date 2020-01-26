@@ -291,12 +291,10 @@ class OrchestrasController < AuthenticatedController
     @orchestra = Orchestra.includes(:member).find(params[:id])
 
 	  year = Time.now.year
-    anrede = t('common.salutation_d.'+@orchestra.anrede)
-	  Rails.logger.info(anrede)
 	  dateprefix = Time.now.strftime '%Y%m%d%H%M%S_'
-	  @rsi = ReportSheetInput.includes(:report_sheet).where('report_sheet_inputs.orchestra_id = :orchestra_id and report_sheets.year = :year',:orchestra_id=>@orchestra.id, :year=>year+1).first
+	  @rsi = ReportSheetInput.joins(:report_sheet).where('report_sheet_inputs.orchestra_id = :orchestra_id and report_sheets.year = :year',:orchestra_id=>@orchestra.id, :year=>year+1).first
 
-    url = "http://www.bdz-online.de/meldebogen/"
+    url = BDZ_SETTINGS['meldebogen_url']
 
 	  target = INVOICE_CONFIG.archive_dir+"/"+year.to_s+"/"+dateprefix+@orchestra.mglnr.to_s+"_meldebogen_anschreiben.pdf"
 
