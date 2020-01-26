@@ -7,9 +7,6 @@
             %span.glyphicon.glyphicon-home
         -if ( current_user ) then
           %li{:role => "presentation", :class=>"dropdown"}
-            %a.dropdown-toggle{:href=>"#", :role=>"button" ,:data=> { :toggle=> "dropdown" }}=t("main_menu.public_data")
-            =render :partial => "public_data_dropdown"
-          %li{:role => "presentation", :class=>"dropdown"}
             %a.dropdown-toggle{:href=>"#", :role=>"button" ,:data=> { :toggle=> "dropdown" }}=t("main_menu.member_data")
             =render :partial => "member_data_dropdown"
 
