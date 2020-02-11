@@ -14,6 +14,12 @@ class ReportSheetInput < ApplicationRecord
     pass_chars+= ('A'..'Z').to_a
     pass_chars+= ('a'..'z').to_a
 
+    pass_chars.delete('I')
+    pass_chars.delete('1')
+    pass_chars.delete('l')
+    pass_chars.delete('0')
+    pass_chars.delete('O')
+
 	  @report_sheet_input.token = pass_chars.shuffle.first(12).join
 	  @report_sheet_input.orchestra = orchestra
 	  @report_sheet = ReportSheet.new_for_year(year)
