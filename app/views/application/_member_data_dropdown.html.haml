@@ -2,6 +2,7 @@
   %li= link_to "Landesverbände", regional_organizations_path
   %li= link_to "Orchester", orchestras_path 
   %li= link_to "Einzelmitglieder", person_members_path 
+  %li= link_to "Ehrungen", honor_members_path 
   %li{ :role=>"separator", :class=>"divider" }
   - if current_user and (current_user.has_role?(:admin) or current_user.has_role?(:national) )
     %li= link_to "Mitgliederbericht", "/member_report"

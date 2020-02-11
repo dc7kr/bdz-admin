@@ -6,7 +6,7 @@
   =f.text_field :honorType
   =f.date_field :honorDate
   .row
-    .control-label.col-sm-2=label :honor_member, :deceased
+    .control-label.col-sm-2=label(:honor_member, :deceased)
     .col-sm-10=f.check_box :deceased, { inline: true, hide_label: true, label: ""  }
   .actions
     = submit_button

@@ -3,7 +3,7 @@
     =render :partial=>'nav'
   .content
     %h2.title
-      = t("honor_member.title")
+      = t("honor_member",:count=>99)
     .inner
       %table.table.table-hover.table-condensed
         %thead
@@ -11,8 +11,8 @@
           %th= attr_heading(HonorMember,:vorname)
           %th= attr_heading(HonorMember,:name)
           %th= attr_heading(HonorMember,:ort)
-          %th= sortable "honortype", attr_heading(HonorMember,:honortype)
-          %th= attr_heading(HonorMember,:honordate)
+          %th= sortable "honortype", attr_heading(HonorMember,:honorType)
+          %th= attr_heading(HonorMember,:honorDate)
           %th.last &nbsp;
         %tbody#orchestras
           = render @honor_members

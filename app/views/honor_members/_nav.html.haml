@@ -1,5 +1,5 @@
 %ul.nav.nav-tabs
-  %li{ :class => 'first'}= link_to_up_path t("common.up"), home_public_data_path
+  %li{ :class => 'first'}= link_to_up_path t("common.up"), home_member_data_path
   %li{ :class => tabActiveClass(@current_action,'index','first')}= link_to "#{t("common.list", :default => "List")}", honor_members_path
   -if (@honor_member)
     %li{ :class => tabActiveClass(@current_action,'show',nil)}= link_to t("common.show"), @honor_member
