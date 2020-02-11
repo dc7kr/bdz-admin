@@ -323,12 +323,12 @@ class Mgl::ReportSheetInputsController < ApplicationController
 
 
 				# admin notify about new RS
-				@users = User.for_admin_notify
+				#@users = User.for_admin_notify
 
-   				@users.each do |user|
-					AdminNotifier.new_report_sheet(user,@rs).deliver
-       		Rails.logger.info 'sent to %s' % user.email
-   				end
+   			#	@users.each do |user|
+			  # 		AdminNotifier.new_report_sheet(user,@rs).deliver
+       	#	Rails.logger.info 'sent to %s' % user.email
+   			#	end
 			end
 
       mglnr = @rsi.orchestra.member.mglnr
