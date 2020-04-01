@@ -291,7 +291,13 @@ class Orchestra < ApplicationRecord
 
   def self.with_zero_balance
     ids = Member.ids_with_non_zero_balance(Orchestra)
-	  Orchestra.includes(:report_sheets).joins(:member).where("NOT (members.id  in (?) )",ids)
+
+    # nasty workaround for ActiveRecord bug (KR 24.2.20)
+    if (ids.size ==0 ) then
+  	  Orchestra.includes(:report_sheets).joins(:member)
+    else
+  	  Orchestra.includes(:report_sheets).joins(:member).where("NOT (members.id  in (?) )",ids)
+    end
   end
 
   #for address interface
@@ -457,5 +463,24 @@ class Orchestra < ApplicationRecord
     result = check_double
 
     result[:faulty].count != 0
+  end
+
+  def gen_rsi(rs_year)
+
+    rsi = ReportSheetInput.for_orchestra_and_year(self,rs_year)
+
+    if not rsi.nil? then
+      logger.warn("Report sheet already exists for %s",rs_year.to_s)
+      return rsi
+    end
+
+    rsi = ReportSheetInput.new_for_orchestra(self,rs_year)
+        
+    if rsi.report_sheet.save then
+      rsi.save
+    else 
+      logger.warn(@rsi.report_sheet.errors.full_messages.join("\n"))
+      logger.warn("Something went wrong during save of report sheet!")
+    end
   end
 end
