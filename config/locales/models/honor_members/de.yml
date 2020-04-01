@@ -1,0 +1,16 @@
+de:
+  honor_member: &honor_member_labels
+    one: Ehrenmitglied
+    other: Ehrenmitglieder
+    nr: Nummer
+    vorname: Vorname
+    name: Name
+    ort: Ort
+    honorType: Ehrungstyp
+    honorDate: Ehrungs-Datum
+    deceased: Verstorben
+  helpers:
+    label:
+      honor_member:
+        <<: *honor_member_labels
+

@@ -323,9 +323,6 @@ de:
     update_success: Ehrung erfolgreich aktualisiert
     generate_invoice: Rechnung generieren
     invoice_already_exists: Die Ehrungsrechnung wurde bereits erstellt!
-  honor_member:
-    one: Ehrenmitglieder
-    other: Ehrenmitglieder
   orchestra_member:
     one: Orchestermitglied
     other: Orchestermitglieder

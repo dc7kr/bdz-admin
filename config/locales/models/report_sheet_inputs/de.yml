@@ -11,6 +11,7 @@ de:
     page_2: "Mitgliedermeldung %{year} - Schritt 2"
     page_3: "Mitgliedermeldung %{year} - Schritt 3"
     page_4: "Mitgliedermeldung %{year} - Schritt 4"
+    already_exists: "Meldebogen-Eingabe existiert bereits"
     no_file_selected: "Bitte wählen Sie zuerst eine Datei zum Hochladen aus!"
     dsgvo: Wir sind damit einverstanden, dass unsere Daten nach der aktuellen BDZ Datenschutzverordnung wie auf der Webseite veröffentlicht verarbeitet werden. 
     invalid_upload: "Das Format der hochgeladenen Datei wurde nicht erkannt!"
