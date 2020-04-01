@@ -108,16 +108,10 @@ class ReportSheetInputsController < AuthenticatedController
     @orchestras.each do |o|
       if not o.nil? and o.report_sheet_required? 
         @rsi = ReportSheetInput.for_orchestra_and_year(o,rs_year)
-        if @rsi.nil? then
-          @rsi = ReportSheetInput.new_for_orchestra(o,rs_year)
-        
-          if @rsi.report_sheet.save then
-            @rsi.save
-          else 
-            logger.warn(@rsi.report_sheet.errors.full_messages.join("\n"))
-            logger.warn("Something went wrong during save of report sheet!")
-          end
 
+        if @rsi.nil? then
+          @rsi = o.gen_rsi(rs_year)
+          
           @count+=1
         end
       else
