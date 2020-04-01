@@ -73,6 +73,11 @@ class RegionalOrganization < ApplicationRecord
 		@sheets = ReportSheet.final(year).includes(orchestra: [ :member ]).where("year = ? and report_date < ? ",year, before)
 		@sheets.each do |s|
       orch = s.orchestra
+      if s.orchestra.nil?
+        Rails.logger.warn("Reportsheet with null orchestra found and skipped: "+s.id.to_s+ "orchestra_id: "+s.orchestra_id.to_s) 
+        next
+      end
+
 			if orch.member.regional_organization_id == self.id and orch.zero_member_fee_balance? then
         share[:orch_ids] << orch.member.mglnr
 	      share[:uv]+= s.calcUV
