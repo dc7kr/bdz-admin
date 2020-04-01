@@ -290,13 +290,40 @@ class OrchestrasController < AuthenticatedController
   def gen_rsi
     @orchestra = Orchestra.includes(:member).find(params[:id])
 
-	  year = Time.now.year
+
+    if @orchestra.nil?
+      logger.warn("Orchestra is nil!: "+params[:id].to_s)
+    	respond_to do |format|
+      format.html { redirect_to orchestras_url, :notice => t('orchestra.nil') }
+      end
+      return
+    end
+
+    if not @orchestra.report_sheet_required?
+      logger.info("No report sheet required: "+@orchestra.member.mglnr.to_s)
+    	respond_to do |format|
+        format.html { redirect_to orchestras_url, :notice => t('report_sheet.no_rs_required') }
+      end
+      return
+    end
+
+	  rs_year = Time.now.year
+
 	  dateprefix = Time.now.strftime '%Y%m%d%H%M%S_'
-	  @rsi = ReportSheetInput.joins(:report_sheet).where('report_sheet_inputs.orchestra_id = :orchestra_id and report_sheets.year = :year',:orchestra_id=>@orchestra.id, :year=>year+1).first
-
     url = BDZ_SETTINGS['meldebogen_url']
+	  target = INVOICE_CONFIG.archive_dir+"/"+rs_year.to_s+"/"+dateprefix+@orchestra.member.mglnr.to_s+"_meldebogen_anschreiben.pdf"
 
-	  target = INVOICE_CONFIG.archive_dir+"/"+year.to_s+"/"+dateprefix+@orchestra.mglnr.to_s+"_meldebogen_anschreiben.pdf"
+    @rsi = ReportSheetInput.for_orchestra_and_year(@orchestra,rs_year)
+
+    if not @rsi.nil? then
+      logger.info("RSI already exists: "+@orchestra.member.mglnr.to_s)
+    	respond_to do |format|
+        format.html { redirect_to @orchestra, :notice => t('report_sheet_input.already_exists') }
+      end
+      return
+    end
+
+    @rsi = @orchestra.gen_rsi(rs_year)
 
 	  gen_anschreiben(@orchestra,@rsi);
     send_file(target, :filename => target, :type => "application/octet-stream")
