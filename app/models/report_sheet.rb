@@ -71,26 +71,26 @@ class ReportSheet < ApplicationRecord
 	end
 
 	def self.new_for_year(year)
-		@report_sheet = ReportSheet.new
-		@report_sheet.init_empty
-		@report_sheet.orchestra=nil
-		@report_sheet.year=year
+		report_sheet = ReportSheet.new
+		report_sheet.init_empty
+		report_sheet.orchestra=nil
+		report_sheet.year=year
 
-		@report_sheet
+		report_sheet
 	end
 
 	def self.for_orchestra_and_year(orchestra,year)
 
-		@report_sheet = ReportSheet.where("orchestra_id = ? and year = ?",orchestra.id, year).first
+		report_sheet = ReportSheet.where("orchestra_id = ? and year = ?",orchestra.id, year).first
 
-		if ( @report_sheet == nil ) then 
-			@report_sheet = ReportSheet.new
-			@report_sheet.init_empty
-			@report_sheet.orchestra=orchestra
-			@report_sheet.year=year
+		if ( report_sheet == nil ) then 
+			report_sheet = ReportSheet.new
+			report_sheet.init_empty
+			report_sheet.orchestra=orchestra
+			report_sheet.year=year
 		end
 
-		return @report_sheet
+		return report_sheet
 	end
 
     def report_date_str=(newval)
@@ -254,6 +254,8 @@ class ReportSheet < ApplicationRecord
 			@invoice.addItem(1,Prices.coopRate,'Beitrag kooperativ')
 		elsif (orchestra.is_lorch? ) then
 			@invoice.addItem(1,Prices.lvOrchRate,'Landesorchesterbeitrag')
+    elsif (orchestra.is_foreign_coop? ) then
+      @invoice.addItem(1,Prices.foreignCoopRate,'Auslandsorchesterbeitrag')
 		else
 			if ( isMinTariff? or isMaxTariff? ) then
 				@invoice.addItem(children,0, 'Beitrag Kinder')
