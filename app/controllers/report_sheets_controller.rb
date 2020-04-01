@@ -69,6 +69,7 @@ class ReportSheetsController < AuthenticatedController
     @cur.init_empty
     @cur.generated=true
     @cur.comment= t("report_sheet.data_from_last_year")
+    @cur.orchestra = @orchestra
   
     if  not @cur.valid? then
       @cur.errors.each do |e|
