@@ -13,7 +13,7 @@
       - if @orchestra.is_regular?
         %li= link_to( "Ehrungen", orchestra_distinctions_url(@orchestra)) 
 
-- if current_user.has_role? :bulk
+- if current_user.has_any_role? :bulk,:admin
   .panel.panel-primary
     .panel-heading Aktionen
     .panel-body
