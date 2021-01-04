@@ -14,8 +14,6 @@ class OrchestraMembersController < AuthenticatedController
       @orchestra_members = @orchestra_members.where("orchestra_id = ?", params[:orchestra_id])
     end
 
-    
-
     respond_to do |format|
       format.html {
         @orchestra_members = @orchestra_members.order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
@@ -82,7 +80,7 @@ class OrchestraMembersController < AuthenticatedController
   def edit
     session[:return_to] ||= request.referer
     @orchestra_member = OrchestraMember.find(params[:id])
-	@orchestra = Orchestra.find(@orchestra_member.orchestra)
+	  @orchestra = @orchestra_member.orchestra
   end
 
   # POST /orchestra_members
