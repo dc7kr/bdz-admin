@@ -5,7 +5,9 @@
     = t("common.all")
     = t("orchestra.regional_orchestra",:count=>3)
   .inner
-    %table.table
+    #entry_info
+      = page_entries_info @orchestras
+    %table.table.table-hover.table-condensed
       %thead
         %th.first= sortable "mglnr", t("member.mglnr")
         %th= sortable "orchName", t("orchestra.orchName")

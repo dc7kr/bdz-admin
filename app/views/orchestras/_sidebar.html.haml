@@ -1,12 +1,13 @@
 =render :partial=>'search'
+%br
 =render :partial=>'search_members'
-.panel.panel-primary
-  .panel-heading Berichte
-  .panel-body
+%br
+.card
+  .card-header Berichte
+  .card-body
     %ul.nav.nav-pills.nav-stacked
-      %li
-        =link_to "Säumige GJ #{@previousYear}", nopayment_orchestras_path( :lastyear=> @previousYear)
-      %li= link_to "GEMA Zahlen", "/orchestras/gema.csv"
-      %li= link_to "Jugendleiter-Adressen",  reports_youth_addresses_path, data: { turbolinks:false }
-      %li= link_to "Vereine ueber 90",  pro_musica_orchestras_path
+      %li.nav-item=link_to "Säumige GJ #{@previousYear}", nopayment_orchestras_path( :lastyear=> @previousYear), :class => "nav-link"
+      %li.nav-item=link_to "GEMA Zahlen", "/orchestras/gema.csv", :class => "nav-link"
+      %li.nav-item=link_to "Jugendleiter-Adressen",  reports_youth_addresses_path, data: { turbolinks:false }, :class => "nav-link"
+      %li.nav-item=link_to "Vereine ueber 90",  pro_musica_orchestras_path, :class => "nav-link"
 

@@ -10,10 +10,10 @@
       %table.table
         %tr
           %th.first 
-            = sortable "mglnr", t("orchestra.mglnr")
+            = sortable "mglnr", t("member.mglnr")
           %th= sortable "orchName", t("orchestra.orchName")
-          %th= t("orchestra.email")
-          %th.last &nbsp;
+          %th= t("member.email")
+          %th &nbsp;
         =render @orchestras
 
       = paginate @orchestras

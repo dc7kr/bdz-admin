@@ -1,8 +1,5 @@
-.block
-  .content
-    %h2.title
-      = t("report_sheet_input.page_4", :year => @report_sheet_input.report_sheet.year.to_s)
-    .inner
-      = render :partial => "progress", :locals => { max: 100, value:60}
-      = render 'form4'
+.container
+  %h2.title= t("report_sheet_input.page_4", :year => @report_sheet_input.report_sheet.year.to_s)
+  = render :partial => "progress", :locals => { max: 100, value:60}
+  = render 'form4'
 

@@ -1,14 +1,14 @@
-.panel.panel-default
-  .panel-heading Mitgliedsdaten
-  .panel-body
+.card
+  .card-header Mitgliedsdaten
+  .card-body
     =entity_row(member.regional_organization,:name)
     =entity_row(member,:eintritt)
     =entity_row(member,:austritt_zum,:date)
     =entity_row(member,:dsgvo,:boolean)
     =entity_row(member,:dsgvo_date,:date)
-.panel.panel-default
-  .panel-heading Kontaktdaten
-  .panel-body
+.card
+  .card-header Kontaktdaten
+  .card-body
     .row
       .col-md-3.text-right=label :member,:salutation
       .col-md-9= t("common.salutations."+member.anrede)
@@ -22,9 +22,9 @@
     =entity_row(member,:email,:mailto)
     =entity_row(member,:telefon)
     =entity_row(member,:fax)
-.panel.panel-default
-  .panel-heading Zahlungsdaten
-  .panel-body
+.card
+  .card-header Zahlungsdaten
+  .card-body
     .row
       .col-md-3.text-right=label :member,:za
       .col-md-9=t("common.za_"+member.za)

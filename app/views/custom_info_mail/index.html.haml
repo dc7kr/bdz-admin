@@ -3,7 +3,7 @@
     
   .content
     .inner
-      %h2=t('custom_info_mail',:count=>1)
+      %h2=t('custom_info_mail.one')
       = bootstrap_form_for :custom_info_mail,  layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10" , :url => { :controller => 'custom_info_mail', :action => 'send_mail' } do |f|
         = f.text_field :event_id, value: @event_id, :size => 60, help: "Event ist eine EINDEUTIGE, maschinenlesbare ID, wird diese erneut verwendet, werden nur Mitglieder angeschrieben die im letzten Lauf noch nicht dabei waren."
         = f.select :group, group_options

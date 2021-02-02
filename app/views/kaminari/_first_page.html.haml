@@ -1,2 +1,2 @@
-%li
-  = link_to_unless current_page.first?, raw(t 'views.pagination.first'), url, :remote => remote,:"data-type"=> remote ? "script" : ""
+%li.page-item
+  = link_to_unless current_page.first?, "&laquo".html_safe, url, {:class=>"page-link",:data=>{ :remote => remote}}

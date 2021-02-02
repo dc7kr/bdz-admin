@@ -1,10 +1,13 @@
-.panel.panel-primary
-  .panel-heading=t("common.search")
-  .panel-body
-    .notice=t("orchestra.search")
-    %p
-      = form_tag orchestras_path, :method => 'get' do
-        = hidden_field_tag :direction, params[:direction]
-        = hidden_field_tag :sort, params[:sort]
-        = text_field_tag :search, params[:search]
-        = submit_tag "Suchen", :name => nil
+.card
+  .card-header.bg-primary.text-white=t("common.search")
+  .card-body
+    .text-muted=t("orchestra.search")
+    = form_tag orchestras_path, :method => 'get' do
+      = hidden_field_tag :direction, params[:direction]
+      = hidden_field_tag :sort, params[:sort]
+
+      .input-group.mb-3
+        = text_field_tag :search, params[:search], :class=>"form-control"
+        .input-group-append
+          = button_tag(type: 'submit', class: "btn btn-sm btn-primary") do 
+            = fa_icon("search")

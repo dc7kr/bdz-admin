@@ -2,11 +2,17 @@
   .container-fluid
     =f.text_field :label 
     =f.collection_select :regional_organization_id, RegionalOrganization.all.order("name ASC"), :id, :name
-    %tr
-      %td= t("contact",:count=>1)
-      %td= f.collection_select :board_contact_id, BoardContact.includes(:contact).order("contacts.last_name ASC, contacts.first_name ASC"), :id, :to_s
-    =form_my_field(f,@function, :bund,:checkbox)
-    =form_my_field(f,@function, :jugend,:checkbox)
+    = f.collection_select :board_contact_id, BoardContact.includes(:contact).order("contacts.last_name ASC, contacts.first_name ASC"), :id, :to_s
+    .row
+      .col-sm-2=t("function.bund")
+      .col-sm-10
+        = f.check_box :bund, custom: :switch, label: "&nbsp;".html_safe
+        .custom-control.custom-switch
+    .row
+      .col-sm-2=t("function.jugend")
+      .col-sm-10
+        = f.check_box :jugend, custom: :switch, label: "&nbsp;".html_safe
+        .custom-control.custom-switch
     =f.number_field :nr
     =f.text_field :funktion
     =f.text_field :fkt_subtitle

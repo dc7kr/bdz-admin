@@ -16,9 +16,16 @@
         =entity_row @distinction, :honorletters
         =entity_row @distinction, :medals
         =entity_row @distinction, :porto, :currency
+
+
+        - if @distinction.invoice_id.nil?
+          %b ***VORSCHAU*** 
+          = render :partial=>"invoice", :locals => { :invoice=> @distinction.gen_invoice }
+        -else 
+          = render :partial=>"invoice", :locals => { :invoice=> CorikaInvoices::Invoice.find(@distinction.invoice_id) }
   
       .actions-bar.wat-cf
         .actions
           = edit_button edit_orchestra_distinction_path(@distinction.orchestra,@distinction), @distinction
           - if not @distinction.has_booking? then
-            = generate_button t('distinction.generate_invoice'), gen_invoice_orchestra_distinction_path(@orchestra,@distinction)
+            = generate_button(t('distinction.generate_invoice'), gen_invoice_orchestra_distinction_path(@orchestra,@distinction), @distinction)

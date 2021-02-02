@@ -1,16 +1,15 @@
-.panel.panel-info
-  .panel-heading
-    Hinweis
-  .panel-body
+.card.mb-3
+  .card-header.text-white.bg-info.mb-3 Hinweis
+  .card-body
     Die hier gemeldeten Vorstandsmitglieder werden nicht automatisch in der Beitragsberechnung als aktive Mitglieder berücksichtigt. Bitte melden Sie die aktiven Vorstandsmitglieder im nächsten Schritt erneut als aktive Mitglieder.
 = bootstrap_form_for @report_sheet_input, :url=> url_for(:action => :submit2, :id=> @report_sheet_input), layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10", :html => { :class => "form form-horizontal" } do |f|
+   
   -OrchestraContact.roles.each_with_index do |role,i|
     - contact = @contact_hash[role]
     = f.fields_for 'contact['+i.to_s+']',contact do |cf|
-      .panel.panel-default
-        .panel-heading
-          =t('orchestra_contact.role_'+role)
-        .panel-body
+      .card.mb-3
+        .card-header=t('orchestra_contact.role_'+role)
+        .card-body
           = cf.hidden_field(:id)
           = cf.hidden_field(:role)
           = cf.select :salutation, get_salutation_options(contact.salutation)
@@ -23,4 +22,6 @@
           = cf.text_field :phone
       
   = wizard_back_button(url_for(:action=>:step1, :id=>@report_sheet_input))
-  = submit_button(t("common.save_and_continue"))
+  = submit_button do  
+    =t("common.save_and_continue")
+    =fa_icon("step-forward")

@@ -1,15 +1,17 @@
-.panel.panel-primary
-  .panel-heading=t("orchestra_member.search")
-  .panel-body
-    .notice=t("orchestra_member.search_txt")
+.card
+  .card-header.bg-primary.text-white=t("orchestra_member.search")
+  .card-body
+    .text-muted=t("orchestra_member.search_txt")
     = form_tag search_orchestra_members_path, :method => 'get' do
-      %table
-        %tr
-          %td
-            %label=t("orchestra_member.first_name")
-          %td= text_field_tag :first_name, params[:first_name]
-        %tr
-          %td
-            %label=t("orchestra_member.last_name")
-          %td= text_field_tag :last_name, params[:last_name]
-      = submit_tag "Suchen", :name => nil
+      .form-group
+        %label=t("orchestra_member.first_name")
+        = text_field_tag :first_name, params[:first_name], :class=>"form-control"
+      .form-group
+        %label=t("orchestra_member.last_name")
+        %br
+        = text_field_tag :last_name, params[:last_name], :class=>"form-control"
+        %br
+      %button.btn.btn-primary{ :type=> "submit" } 
+        = fa_icon("search")
+        &nbsp;
+        Suchen

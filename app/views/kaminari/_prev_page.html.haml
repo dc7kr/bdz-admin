@@ -1,2 +1,5 @@
-%li
-  = link_to_unless current_page.first?, raw(t 'views.pagination.previous'), url, :rel => 'prev', :remote => remote, :"data-type"=> remote ? "script" : ""
+%li.page-item
+  - if not current_page.first?
+    = link_to url, { :rel => 'prev', :data=> { :remote => remote},:class=>"page-link"} do
+      %span{:aria-hidden=>"true"} &lt;
+      %span.sr-only Previous

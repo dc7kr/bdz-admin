@@ -1,0 +1,24 @@
+
+%b Rechnung Nr. #{invoice.number} vom #{invoice.invoice_date}
+
+- invoice.items.each do |i|
+  .row
+    .col-md-3.text-right
+      %label=i.label
+    .col-md-1.text-right=i.count
+    .col-md-1 x
+    .col-md-2.text-right=format_currency(i.price)
+    .col-md-2.text-right=format_currency(i.count*i.price)
+%hr.calc
+.row
+  .col-md-3.text-right
+    %label=t("common.sum")
+  .col-md-4.text-right
+  .col-md-2.text-right=format_currency(invoice.sum)
+.row
+  .col-md-3.text-right
+    %label=t("common.incl_tax",:tax_rate=>invoice.taxrate)
+  .col-md-4.text-right
+  .col-md-2.text-right=format_currency(invoice.sum-invoice.net_sum)
+%hr.calc_final
+

@@ -1,23 +1,25 @@
 =render :partial=>'orchestras/search'
-.panel.panel-primary
-  .panel-heading Links
-  .panel-body
+%br
+.card
+  .card-header Links
+  .card-body
     %ul.nav.nav-pills.nav-stacked
-      %li= link_to( "Mitgliedskonto", orchestra_member_account_bookings_url(@orchestra)) 
-      %li= link_to( "Events", orchestra_member_events_url(@orchestra)) 
-      %li= link_to( "Kontakt-Adressen", orchestra_orchestra_contacts_url(@orchestra)) 
-      %li= link_to( "Orchestermitglieder", orchestra_orchestra_members_url(@orchestra)) 
-      %li= link_to( "Meldebögen", orchestra_report_sheets_url(@orchestra)) 
+      %li.nav-item= link_to( "Mitgliedskonto", orchestra_member_account_bookings_url(@orchestra), :class => "nav-link")
+      %li.nav-item= link_to( "Events", orchestra_member_events_url(@orchestra), :class => "nav-link")
+      %li.nav-item= link_to( "Kontakt-Adressen", orchestra_orchestra_contacts_url(@orchestra), :class => "nav-link")
+      %li.nav-item= link_to( "Orchestermitglieder", orchestra_orchestra_members_url(@orchestra), :class => "nav-link")
+      %li.nav-item= link_to( "Meldebögen", orchestra_report_sheets_url(@orchestra), :class => "nav-link")
       -if current_user.has_any_role? :national,:admin
-        %li= link_to( "Meldebogen-Eingabe-Objekte", report_sheet_inputs_url(:orch=>@orchestra.id))
+        %li.nav-item= link_to( "Meldebogen-Eingabe-Objekte", report_sheet_inputs_url(:orch=>@orchestra.id), :class => "nav-link")
       - if @orchestra.is_regular?
-        %li= link_to( "Ehrungen", orchestra_distinctions_url(@orchestra)) 
+        %li.nav-item= link_to( "Ehrungen", orchestra_distinctions_url(@orchestra), :class => "nav-link")
 
+%br
 - if current_user.has_any_role? :bulk,:admin
-  .panel.panel-primary
-    .panel-heading Aktionen
-    .panel-body
+  .card
+    .card-header Aktionen
+    .card-body
       %ul.nav.nav-pills.nav-stacked
-        %li= link_to("Meldebogen-Anschreiben erzeugen", gen_rsi_orchestra_url(@orchestra))
+        %li.nav-item= link_to("Meldebogen-Anschreiben erzeugen", gen_rsi_orchestra_url(@orchestra), :class => "nav-link")
 
 

@@ -1,3 +1,3 @@
-%ul.dropdown-menu{ :aria => {:labelledby=>"dropdownMenu3"}}
-  %li= link_to "Bundesländer", states_path 
-  %li= link_to "Beiträge", tariffs_path 
+.dropdown-menu{ :aria => {:labelledby=>"dropdownMenu3"}}
+  = link_to "Bundesländer", states_path , :class=>"dropdown-item"
+  = link_to "Beiträge", tariffs_path , :class=>"dropdown-item"

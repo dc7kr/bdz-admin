@@ -1,21 +1,16 @@
 = bootstrap_form_for @report_sheet_input, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10", :url => url_for(:action => :submit1, :id=> @report_sheet_input) do |f|
+
   = f.fields_for @report_sheet_input.report_sheet do |rs|
-    .panel.panel-default
-      .panel-heading
-        Unfallversicherung
-      .panel-body
+    .card.mb-3
+      .card-header Unfallversicherung
+      .card-body
         .form-group
-          %label.control-label.col-sm-2=t("report_sheet.uv")
-          .col-sm-10
-            =rs.check_box :uv,  label: ''
-
-
+          =rs.check_box :uv,  label: ''
 
   = f.fields_for @report_sheet_input.orchestra do |orch|
-    .panel.panel-default
-      .panel-heading
-        Adressdaten
-      .panel-body
+    .card.mb-3
+      .card-header Adressdaten
+      .card-body
         = orch.text_field :orchName
         = orch.date_field :gruendung
         - member = @report_sheet_input.orchestra.member
@@ -35,5 +30,5 @@
           = mf.text_field :bic
           = mf.text_field :zahler
 
-        = submit_button(t("common.save_and_continue"))
+        = submit_button t("common.save_and_continue")
   

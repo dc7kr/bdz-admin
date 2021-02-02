@@ -1,6 +1,7 @@
-- if page.current?
-  %li.active
-    = content_tag :a, page, remote: remote, :"data-type"=> remote ? "script" : "", rel: (page.next? ? 'next' : (page.prev? ? 'prev' : nil))
-- else
-  %li
-    = link_to page, url, remote: remote, :"data-type"=> remote ? "script" : "", rel: (page.next? ? 'next' : (page.prev? ? 'prev' : nil))
+-if page.current?
+  %li.page-item.active
+    %span.page-link
+      =page
+      %span.sr-only (current)
+-else
+  %li.page-item= link_to page, url, {:class=> "page-link", :remote => remote, :rel => page.next? ? 'next' : page.prev? ? 'prev' : nil }

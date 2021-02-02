@@ -9,7 +9,7 @@
         %th.first= sortable "mglnr", attr_heading(Member,:mglnr)
         %th= sortable "orchName", attr_heading(Orchestra,:orchName)
         %th= sortable "email", attr_heading(Member,:email)
-        %th.last &nbsp;
+        %th &nbsp;
       %tbody#person_members
         = render partial: "person_member.nomail", collection: @members
     .actions-bar.wat-cf

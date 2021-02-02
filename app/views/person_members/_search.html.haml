@@ -1,12 +1,12 @@
-.panel.panel-primary
-  .panel-heading=t("common.search",:default=>"Search")
-  .panel-body
-    %ul.nav.nav-pills.nav-stacked
-      %li
-        %p Suche nach Mitgliedsnummer oder Teil des Nachnamens
-        %p
-          = form_tag person_members_path, :method => 'get' do
-            = hidden_field_tag :direction, params[:direction]
-            = hidden_field_tag :sort, params[:sort]
-            = text_field_tag :search, params[:search]
-            = submit_tag "Suchen", :name => nil
+.card
+  .card-header.bg-primary.text-white=t("common.search")
+  .card-body
+    .text-muted Suche nach Mitgliedsnummer oder Teil des Nachnamens
+    = form_tag person_members_path, :method => 'get' do
+      = hidden_field_tag :direction, params[:direction]
+      = hidden_field_tag :sort, params[:sort]
+      .input-group.mb-3
+        = text_field_tag :search, params[:search], :class=>"form-control"
+        .input-group-append
+          = button_tag(type: 'submit', class: "btn btn-sm btn-primary") do 
+            = fa_icon("search")

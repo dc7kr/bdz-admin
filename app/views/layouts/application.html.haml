@@ -2,22 +2,23 @@
 %html
   %head
     %title #{title}
-    = stylesheet_link_tag :application, 'data-turbolinks-track'=>true, media: :all
-    = javascript_include_tag :application, 'data-turbolinks-track'=>true
     = csrf_meta_tags
+    = csp_meta_tag
+    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
     %meta{:name=>"viewport", :content=>"width=device-width, initial-scale=1, shrink-to-fit=no"}
   %body
-    #header{:class=>Rails.env}
-      #main-nav
-        = render :partial => "main_menu"
+    - if not current_user.nil?
+      = render :partial => "main_menu"
     #flash-message
       = flash_messages
-    #main
-      = yield
-    #sidebar
-      = yield :sidebar
-    #footer
-      .block
-        %p
-          Copyright &copy; 2011-#{Time.now.year} by Karsten Richter - rev. #{GIT_REVISION}
-
+    .wrapper
+      #content.pb-5
+        .container-fluid
+          #main
+            = yield
+      - if not current_user.nil?
+        %nav#sidebar.collapse.d-print-none
+          = yield :sidebar
+      %footer.page-footer.fixed-bottom.font-small.blue.d-print-none
+        %p.text-center Copyright &copy; 2011-#{Time.now.year} by Karsten Richter - rev. #{GIT_REVISION} 

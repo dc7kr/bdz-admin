@@ -4,22 +4,20 @@
   .content
     %h2.title
       = t("member.nopayment")
-      (#{t("orchestra",:count=>3)})
+      (#{t("orchestra.other")})
       - if @lastyear != nil 
         bis Ende GJ #{@lastyear}
     .inner
       = link_to_generated_download_path(t('common.download'),nopayment_orchestras_path(:format=>:ods))
-
-      %table.table
+      %table.table.table-hover.table-condensed
         %tr
           %th.first 
             = sortable "mglnr", t("orchestra.mglnr", :default => "Mglnr")
           %th=t("orchestra.orchName",:default => "#orchName")
           %th=t("member.email")
-          %th=t("booking.balance")
+          %th=t("member_account_booking.balance")
           %th=t("orchestra.last_invoice")
-          %th=t("orchestra.last_payment")
-          %th.last=t("common.links")
+          %th=t("member.last_payment")
         - @members.each do |member| 
           - orchestra = member.member_entity
           %tr

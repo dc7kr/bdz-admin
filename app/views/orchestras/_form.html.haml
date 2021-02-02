@@ -1,23 +1,40 @@
 = bootstrap_form_for(@orchestra, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10") do |f| 
   .container-fluid
-    .panel.panel-default
-      .panel-heading Orchesterdaten
-      .panel-body
-        = f.text_field :orchName, :required=>true
-        = f.select :orch_type,   options_for_select([["Vereinsorchester", "O"], ["Kooperativ", "K"],  ["Landesorchester", "L"],["Auslandsorchester","A"],["Außerordentliche Mitglieder","X"]],:selected=>@orchestra.orch_type)
-        = f.text_field :gema_kdnr
-        = f.url_field :url
-        .form-group
-          = f.label :publish_url, :class=>"control-label col-sm-2"
-          = f.check_box :publish_url
-        .form-group
-          = f.label :publish_address, :class=>"control-label col-sm-2"
-          = f.check_box :publish_address
-        = f.date_field :gruendung, :class => "datetimepicker"
+    %nav#formNavBar.navbar-example2.navbar.navbar-light.bg-light
+      %ul.nav.nav-pills
+        %li.nav-item
+          %a.nav-link{ :href=>"#orchData" } 
+            Orchesterdaten
+        %li.nav-item
+          %a.nav-link{:href=>"#memberData" }
+            Mitgliedsdaten
+        %li.nav-item
+          %a.nav-link{:href=>"#contactData" }
+            Kontaktdaten
+        %li.nav-item
+          %a.nav-link{:href=>"#paymentData" }
+            Zahlungsdaten
+    %div{:data => { :spy=>"scroll", :target=>"#formNavBar", :offset=>"0"}}
+      .card
+        .card-body
+          %h5.card-heading#orchData Orchesterdaten
+          = f.text_field :orchName, :required=>true
+          = f.select :orch_type,   options_for_select([["Vereinsorchester", "O"], ["Kooperativ", "K"],  ["Landesorchester", "L"],["Auslandsorchester","A"],["Außerordentliche Mitglieder","X"]],:selected=>@orchestra.orch_type)
+          = f.text_field :gema_kdnr
+          = f.url_field :url
+          .form-group.row
+            =f.label :publish_url, :class =>"col-form-label col-sm-2"
+            .col-sm-10
+              = f.check_box :publish_url, custom: :switch, label: "&nbsp;".html_safe
+          .form-group.row
+            =f.label :publish_address, :class =>"col-form-label col-sm-2"
+            .col-sm-10
+              = f.check_box :publish_address , custom: :switch, label: "&nbsp;".html_safe
+          = f.date_field :gruendung, :class => "datetimepicker"
 
 
-    = f.fields_for :member do |member_form|
-      = render :partial => "members/member_form", :locals => { :f => member_form,:member=>@orchestra.member}
+      = f.fields_for :member do |member_form|
+        = render :partial => "members/member_form", :locals => { :f => member_form,:member=>@orchestra.member}
 
     = f.text_area(:bemerkung,  cols: 80, rows: 5) 
     = submit_button()

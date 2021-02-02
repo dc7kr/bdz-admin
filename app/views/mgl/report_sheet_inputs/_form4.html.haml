@@ -1,33 +1,35 @@
 = bootstrap_form_for @report_sheet , layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10", :url=> url_for(:action=>:submit4,:id=>@report_sheet_input) do |f|
-  .panel.panel-default
-    .panel-heading
+ 
+  .card.mb-3
+    .card-header
       1. Mitglieder in Ausbildung
-    .panel-body
+    .card-body
       = f.text_field :azubi_child
       = f.text_field :azubi_teens
       = f.text_field :azubi_youth
       = f.text_field :azubi_adult
       = f.text_field :azubi_senior
-  .panel.panel-default
-    .panel-heading
+  
+  .card.mb-3
+    .card-header
       2. Anzahl der passiven Mitglieder (nicht beitragspflichtig)
-    .panel-body
+    .card-body
       = f.text_field :passive
       = f.text_field :supporters
 
-    .panel.panel-default
-      .panel-heading
+    .card.mb-3
+      .card-header
         3. Anzahl der Ensembles / Orchester im Verein
-      .panel-body
+      .card-body
         = f.text_field :child_ens
         = f.text_field :youth_ens
         = f.text_field :adult_ens
         = f.text_field :senior_ens
         = f.text_field :other_ens
 
-  .panel.panel-default
-    .panel-heading 4. Instrumentierung
-    .panel-body
+  .card.mb-3
+    .card-header 4. Instrumentierung
+    .card-body
       .form-group
         .col-sm-2=f.label :zo
         .col-sm-10= f.check_box :zo, label: ""
@@ -41,6 +43,7 @@
         .col-sm-2=f.label :oz
         .col-sm-10= f.check_box :oz, label: ""
   
+  %br
   = wizard_back_button( url_for(:action=>:step3, :id=>@report_sheet_input))
   = submit_button( t("common.save_and_continue"))
   

@@ -6,12 +6,12 @@
       - else
         = link_to orchestra.member.mglnr, orchestra_path(orchestra)
         - if orchestra.report_sheet_required? and orchestra.currentReportSheet.nil? then
-          %span.label.label-primary kein Meldebogen
+          %span.badge.badge-primary kein Meldebogen
           
     %td
       - if not orchestra.valid? 
         = image_tag('/assets/icons/warning.svg', {:size=>'16x16',:title=>orchestra.errors.to_a.join("\n")} )
-      = orchestra.orchName
+      = truncate(orchestra.orchName,:length => 50)
 
     - if orchestra.member.nil? then
       %td INCONSISTENT

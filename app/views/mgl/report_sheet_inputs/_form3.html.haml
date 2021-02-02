@@ -1,23 +1,8 @@
-.block
-  %h3 1. Mitgliedertabelle hochladen
-  .panel.panel-info
-    .panel-heading
-      Hinweis
-    .panel-body
-      In der Tabelle sind nur aktive Mitglieder einzutragen. 
-      %br 
-      Bitte beachten Sie auch, dass die gemeldeten Vorstandsmitglieder ebenfalls einzutragen sind, sofern sie aktive Mitglieder des Orchesters sind.
-
-  %p Bitte verwenden Sie eine der folgenden Vorlagen, füllen Sie diese aus und laden Sie die Datei wieder hoch:
-  %ul
-    %li= link_to "OpenOffice/LibreOffice", "https://admin.bdz-online.de/static/downloads/meldebogen-vorlage.ods"
-    %li= link_to "MS Excel 97 oder höher", "https://admin.bdz-online.de/static/downloads/meldebogen-vorlage.xls"
-
-
-
-  = form_tag url_for(:action=> :upload, :id => @report_sheet_input), :method => 'post', :multipart=>true do
-    .btn.btn-default.btn-file
-      Datei auswählen
-      = file_field_tag :datafile
-    = submit_button("Hochladen")
-    
+= bootstrap_form_with(url: url_for(:action=> :upload, :id => @report_sheet_input), method: "post", multipart: true) do |f|
+  .row
+    .col-md-8
+      .custom-file
+        Datei auswählen
+        = file_field_tag :datafile, :class => "custom-file-input"
+        %label.custom-file-label#datafile-label{:for=>"datafile"} Datei wählen
+    .col-md-4= submit_button("Hochladen")

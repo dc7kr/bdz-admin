@@ -1,2 +1,4 @@
-%li.disabled
-  = content_tag :a, raw(t 'views.pagination.truncate')
+%li.page-item.disabled
+  %span.page-link
+    = raw(t 'views.pagination.truncate')
+    %span.sr-only (gap)

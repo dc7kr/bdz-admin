@@ -1,6 +1,7 @@
-.panel.panel-default
-  .panel-heading Mitgliedsdaten
-  .panel-body
+.card
+  .card-header#memberData
+    Mitgliedsdaten
+  .card-body
     = f.number_field :mglnr
     - if current_user.national_permission? then
       =f.collection_select(:regional_organization_id, RegionalOrganization.all, :id, :name) 
@@ -9,11 +10,16 @@
 
     = f.date_field :eintritt, :class => "datetimepicker"
     = f.date_field :austritt_zum
-    = f.check_box :dsgvo
+    .form-group.row
+      =f.label :dsgvo, :class =>"col-form-label col-sm-2"
+      .col-sm-10
+        = f.check_box :dsgvo, custom: :switch, label: "&nbsp;".html_safe
     = f.date_field :dsgvo_date,:class=> "datetimepicker"
-.panel.panel-default
-  .panel-heading Kontaktdaten
-  .panel-body
+
+.card
+  .card-header#contactData
+    Kontaktdaten
+  .card-body
     = f.select :anrede, get_salutation_options(member.anrede)
     = f.text_field :title
     = f.text_field :vorname
@@ -28,13 +34,11 @@
     = f.phone_field :fax
     = f.email_field :email
 
-
-.panel.panel-default
-  .panel-heading Zahlungsdaten
-  .panel-body
+.card
+  .card-header#paymentData
+    Zahlungsdaten
+  .card-body
     = f.select :za, options_for_select([["Lastschrift", "L"], ["Rechnung", "R"]],:selected=>member.za)
     = f.text_field :iban
     = f.text_field :bic
     = f.text_field :zahler
-    
-

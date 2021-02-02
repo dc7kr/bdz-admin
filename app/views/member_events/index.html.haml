@@ -4,7 +4,7 @@
   .content
     %h2.title
       = t("common.all")
-      = t('member_event',:count=>3)
+      = t('member_event.other')
     .inner
       %table.table.table-hover.table-condensed
         %thead
@@ -15,5 +15,7 @@
           %th.last &nbsp;
         %tbody#member_events
           =render @member_events
+    #paginator
+      = paginate @member_events, { :remote=>true, :type=>"script"}
  
 - content_for :sidebar, render(:partial => 'sidebar')

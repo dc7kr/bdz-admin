@@ -14,7 +14,7 @@
       = entity_row(@person_member,:kuendigungVom,:date)
       = entity_row(@person_member,:zusatzzeitung)
       .wat-cf
-        = edit_button(edit_person_member_path(@person_member),@person_member)
+        = edit_glyph_link(edit_person_member_path(@person_member),@person_member)
         = del_button(person_member_path(@person_member),@person_member)
 
 - content_for :sidebar, render(:partial => 'sidebar.show')
