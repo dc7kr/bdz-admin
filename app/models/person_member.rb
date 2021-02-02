@@ -73,7 +73,7 @@ class PersonMember < ApplicationRecord
 	  if (search)
 		  where('members.mglnr = ? or members.name like ? or members.email like ?',"#{search}","%#{search}%","%#{search}%")
 	  else
-		  where(1)
+		  where("1")
 	  end
   end
 
@@ -219,6 +219,11 @@ class PersonMember < ApplicationRecord
     invoice = CorikaInvoices::Invoice.new
     invoice.invoice_date = Time.now
     invoice.invoice_type = "beitragsrechnung"
+
+    # taxfree
+    invoice.tax_type = "X"
+    invoice.taxrate = 0
+    invoice.taxrate_reduced = 0
 
     invoice.number = "#{member.mglnr}-BEITRAG#{year}"
     invoice.customer = to_customer

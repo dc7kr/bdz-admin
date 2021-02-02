@@ -19,6 +19,7 @@ class ReportSheet < ApplicationRecord
   validates_presence_of :zusatz_ztg
 
   has_one :member, through: :orchestra
+	belongs_to :orchestra, optional: true
 
   has_one :regional_organization, through: :member
 
@@ -32,7 +33,6 @@ class ReportSheet < ApplicationRecord
 
 	scope :final, lambda { |year| where('year = ? and orchestra_id is not null', year) }
 	scope :not_final, -> { where(:orchestra_id=> nil) }
-	belongs_to :orchestra
 
 
 
@@ -94,7 +94,7 @@ class ReportSheet < ApplicationRecord
 	end
 
     def report_date_str=(newval)
-  		self.report_date = Date.parse_with_i18n(newval)
+  		self.report_date = Date.parse(newval)
     end
 
     def report_date_str
@@ -247,6 +247,11 @@ class ReportSheet < ApplicationRecord
 
     # this ensures that the invoice number is unique (generates -XX suffix)
     @invoice.make_distinct
+    
+    # taxfree
+    @invoice.tax_type ="X"
+    @invoice.taxrate  = 0
+    @invoice.taxrate_reduced = 0
    
     @invoice.customer = orchestra.to_customer
 

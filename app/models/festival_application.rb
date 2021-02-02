@@ -69,6 +69,11 @@ class FestivalApplication < ApplicationRecord
     inv.number = renr
     inv.our_contact = "festival_gs"
 
+    # taxfree
+    inv.tax_type="X"
+    inv.taxrate = 0
+    inv_taxrate_reduced = 0
+
     if (contact_person.country_code == germany.alpha2 or country_code == austria.alpha2) then 
       locale = :de
       inv.invoice_type = "festival.de"
