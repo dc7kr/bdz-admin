@@ -17,6 +17,10 @@ class Orchestra < ApplicationRecord
     joins(:member).where("members.austritt_zum is not null and members.austritt_zum != '0000-00-00' and austritt_zum < now()") 
   }
 
+  scope :member_next_year, -> {
+    joins(:member).where("members.austritt_zum is null or members.austritt_zum = '0000-00-00' or year(members.austritt_zum) > year(now())") 
+  }
+
   scope :nomail, -> {
     joins(:member).where("members.email is null or members.email=''").order("members.mglnr")
   }
@@ -80,7 +84,7 @@ class Orchestra < ApplicationRecord
 	if (search)
 		where('members.mglnr = ? or orchestras.orchName like ? or members.email like ?',"#{search}","%#{search}%","%#{search}%");
 	else
-		where(1) 
+		where('1') 
 	end
   end
 
@@ -116,20 +120,23 @@ class Orchestra < ApplicationRecord
   end
 
   def currentMagazines
-	  if ( orch_type=='K') then
-		  return 2;
+	  if is_coop?
+		  return BDZ_SETTINGS["tariff"]["koopZtgCount"].to_i
 	  end
 
-	  if ( currentReportSheet ) then
+	  if ( currentReportSheet ) 
 		  return currentReportSheet.calcZeitungen
-	  else 
-		  return lastReportSheet.calcZeitungen	
-	  end
+	  elsif lastReportSheet.nil? 
+      Rails.logger.info("No reportsheet for orchestra : "+member.mglnr.to_s)
+      return 0
+    else
+	   return lastReportSheet.calcZeitungen	
+    end
   end
 
   def gema(year=nil)
     rs = report_sheet_for_year(year)
-    if ( rs ) then 
+    if ( rs ) 
         return rs.calcGemaCount
     end
   end
@@ -137,7 +144,7 @@ class Orchestra < ApplicationRecord
   def total(year=nil)
     rs = report_sheet_for_year(year)
 
-	  if ( rs ) then 
+	  if ( rs ) 
 	    return rs.totalActiveMembers
 	  end
   end
@@ -479,7 +486,7 @@ class Orchestra < ApplicationRecord
     if rsi.report_sheet.save then
       rsi.save
     else 
-      logger.warn(@rsi.report_sheet.errors.full_messages.join("\n"))
+      logger.warn(rsi.report_sheet.errors.full_messages.join("\n"))
       logger.warn("Something went wrong during save of report sheet!")
     end
   end
