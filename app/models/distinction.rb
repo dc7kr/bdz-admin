@@ -39,6 +39,12 @@ class Distinction < ApplicationRecord
     invoice.customer = orchestra.to_customer
     invoiceNumber = "E-"+Time.now.strftime("%Y%m%d-")+invoice.customer.customer_id
     invoice.number = invoiceNumber
+
+    # Brutto Rechnung 
+    invoice.tax_type = "B"
+    invoice.taxrate = INVOICE_CONFIG.taxrate
+    invoice.taxrate_reduced = INVOICE_CONFIG.taxrate_reduced
+
     invoice.considerItem(certificates,Prices.certificate,"Urkunden")
     invoice.considerItem(silver_needles,Prices.silverNeedle, 'Silbernadel')
     invoice.considerItem(gold_needles,Prices.goldenNeedle, 'Goldnadel')
@@ -61,5 +67,9 @@ class Distinction < ApplicationRecord
 
   def has_booking? 
     not member_account_booking.nil?
+  end
+
+  def has_generated_invoice?
+    not invoice_id.nil?
   end
 end
