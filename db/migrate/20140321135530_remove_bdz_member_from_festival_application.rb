@@ -1,4 +1,4 @@
-class RemoveBdzMemberFromFestivalApplication < ActiveRecord::Migration
+class RemoveBdzMemberFromFestivalApplication < ActiveRecord::Migration[4.2]
   def up
     remove_column :festival_applications, :bdz_member
   end

@@ -1,4 +1,4 @@
-class MigrateAdvertisersPolymorphic < ActiveRecord::Migration
+class MigrateAdvertisersPolymorphic < ActiveRecord::Migration[4.2]
   def up
 
     Advertiser.all.each do |adv|

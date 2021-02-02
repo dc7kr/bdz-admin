@@ -1,4 +1,4 @@
-class CleanupOrchestras < ActiveRecord::Migration
+class CleanupOrchestras < ActiveRecord::Migration[4.2]
   def up
     change_table :orchestras do |t|
     t.remove  :mglnr

@@ -1,4 +1,4 @@
-class CreateMemberAccountBookings < ActiveRecord::Migration
+class CreateMemberAccountBookings < ActiveRecord::Migration[4.2]
   def change
     create_table "member_account_bookings" do |t|
       t.integer :member_id,      :null => false

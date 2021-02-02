@@ -1,4 +1,4 @@
-class PopulateRegionalOrganizationBic < ActiveRecord::Migration
+class PopulateRegionalOrganizationBic < ActiveRecord::Migration[4.2]
   def up
     bic_finder = BicFinder.new
 

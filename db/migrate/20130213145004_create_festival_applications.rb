@@ -1,4 +1,4 @@
-class CreateFestivalApplications < ActiveRecord::Migration
+class CreateFestivalApplications < ActiveRecord::Migration[4.2]
   def change
     create_table :festival_applications do |t|
       t.integer :country_id

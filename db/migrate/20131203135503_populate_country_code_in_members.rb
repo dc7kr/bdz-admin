@@ -1,4 +1,4 @@
-class PopulateCountryCodeInMembers < ActiveRecord::Migration
+class PopulateCountryCodeInMembers < ActiveRecord::Migration[4.2]
   def up
     Member.all.each do |m|
       m.update_attribute(:country_code,m.country.ccode)

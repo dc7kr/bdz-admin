@@ -1,4 +1,4 @@
-class AddMemberToMemberEvents < ActiveRecord::Migration
+class AddMemberToMemberEvents < ActiveRecord::Migration[4.2]
 
  def up
     change_table :member_events do |t|

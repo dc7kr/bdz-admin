@@ -1,4 +1,4 @@
-class AddFeedbackToCompetitionEntries < ActiveRecord::Migration
+class AddFeedbackToCompetitionEntries < ActiveRecord::Migration[4.2]
   def change
     add_column :competition_entries, :like, :string
     add_column :competition_entries, :missing, :string

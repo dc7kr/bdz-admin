@@ -1,4 +1,4 @@
-class RemoveCountryIdColumn < ActiveRecord::Migration
+class RemoveCountryIdColumn < ActiveRecord::Migration[4.2]
 
   def drop_if_exists(table,col)
     if column_exists? table,col then 

@@ -1,4 +1,4 @@
-class RegionalAccountBookingsToMemberBookings < ActiveRecord::Migration
+class RegionalAccountBookingsToMemberBookings < ActiveRecord::Migration[4.2]
   def change
     RegionalOrganizationBooking.all.each do |rb|
       lv = rb.regional_organization

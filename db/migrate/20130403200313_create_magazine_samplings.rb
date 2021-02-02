@@ -1,4 +1,4 @@
-class CreateMagazineSamplings < ActiveRecord::Migration
+class CreateMagazineSamplings < ActiveRecord::Migration[4.2]
   def change
     create_table :magazine_samplings do |t|
       t.integer :count

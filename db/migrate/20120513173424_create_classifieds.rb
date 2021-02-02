@@ -1,4 +1,4 @@
-class CreateClassifieds < ActiveRecord::Migration
+class CreateClassifieds < ActiveRecord::Migration[4.2]
   def change
     create_table "classifieds" do |t|
       t.integer  "adv_type",                  :default => 0,     :null => false

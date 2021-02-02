@@ -1,4 +1,4 @@
-class AddNewFieldsToDistinction < ActiveRecord::Migration
+class AddNewFieldsToDistinction < ActiveRecord::Migration[4.2]
   def change
 	add_column :distinctions, :gold_needles, :integer
 	add_column :distinctions, :silver_needles, :integer

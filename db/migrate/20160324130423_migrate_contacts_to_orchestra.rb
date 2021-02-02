@@ -1,4 +1,4 @@
-class MigrateContactsToOrchestra < ActiveRecord::Migration
+class MigrateContactsToOrchestra < ActiveRecord::Migration[4.2]
   def change
     OrchestraContact.all.each do |oc|
       if oc.orchestra_id_old.nil? then 

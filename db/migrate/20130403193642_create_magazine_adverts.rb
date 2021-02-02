@@ -1,4 +1,4 @@
-class CreateMagazineAdverts < ActiveRecord::Migration
+class CreateMagazineAdverts < ActiveRecord::Migration[4.2]
   def change
     create_table :magazine_adverts do |t|
       t.integer :advertiser_id

@@ -1,4 +1,4 @@
-class CreateMagazineIssues < ActiveRecord::Migration
+class CreateMagazineIssues < ActiveRecord::Migration[4.2]
   def change
     create_table :magazine_issues do |t|
       t.integer :year

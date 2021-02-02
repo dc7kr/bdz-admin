@@ -1,4 +1,4 @@
-class CreateEnsembles < ActiveRecord::Migration
+class CreateEnsembles < ActiveRecord::Migration[4.2]
   def change
     create_table :ensembles do |t|
       t.string :name

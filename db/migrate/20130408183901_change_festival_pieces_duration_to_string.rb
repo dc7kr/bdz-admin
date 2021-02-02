@@ -1,4 +1,4 @@
-class ChangeFestivalPiecesDurationToString < ActiveRecord::Migration
+class ChangeFestivalPiecesDurationToString < ActiveRecord::Migration[4.2]
   def up
 		change_column(:festival_pieces, :duration, :string)
   end

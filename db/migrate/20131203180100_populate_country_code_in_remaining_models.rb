@@ -1,4 +1,4 @@
-class PopulateCountryCodeInRemainingModels< ActiveRecord::Migration
+class PopulateCountryCodeInRemainingModels< ActiveRecord::Migration[4.2]
   def up
 
     models = [ FestivalApplication, EnsembleConcert ]

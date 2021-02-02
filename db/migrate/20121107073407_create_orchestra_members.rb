@@ -1,4 +1,4 @@
-class CreateOrchestraMembers < ActiveRecord::Migration
+class CreateOrchestraMembers < ActiveRecord::Migration[4.2]
   def change
     create_table :orchestra_members do |t|
       t.references :orchestra

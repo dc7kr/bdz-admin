@@ -1,4 +1,4 @@
-class PopulateBicMembers < ActiveRecord::Migration
+class PopulateBicMembers < ActiveRecord::Migration[4.2]
   def up
 
     bic_finder = BicFinder.new

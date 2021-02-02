@@ -1,4 +1,4 @@
-class CreateComposers < ActiveRecord::Migration
+class CreateComposers < ActiveRecord::Migration[4.2]
   def change
     create_table :composers do |t|
       t.string :name

@@ -1,4 +1,4 @@
-class CreateHonorMembers < ActiveRecord::Migration
+class CreateHonorMembers < ActiveRecord::Migration[4.2]
   def change
     create_table :honor_members do |t|
       t.integer :nr

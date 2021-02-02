@@ -1,4 +1,4 @@
-class AddEnsembleCountsToReportSheets < ActiveRecord::Migration
+class AddEnsembleCountsToReportSheets < ActiveRecord::Migration[4.2]
   def change
     add_column :report_sheets, :child_ens, :integer, :default =>0, :null=>false
     add_column :report_sheets, :youth_ens, :integer, :default =>0, :null=>false

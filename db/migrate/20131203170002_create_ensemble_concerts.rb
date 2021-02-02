@@ -1,4 +1,4 @@
-class CreateEnsembleConcerts < ActiveRecord::Migration
+class CreateEnsembleConcerts < ActiveRecord::Migration[4.2]
   def change
 
     create_table "ensemble_concerts" do |t|

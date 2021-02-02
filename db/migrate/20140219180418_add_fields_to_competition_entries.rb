@@ -1,4 +1,4 @@
-class AddFieldsToCompetitionEntries < ActiveRecord::Migration
+class AddFieldsToCompetitionEntries < ActiveRecord::Migration[4.2]
   def change
     add_column :competition_entries, :first_name, :string
     add_column :competition_entries, :last_name, :string

@@ -1,4 +1,4 @@
-class AddAttachmentAttachedFileToFestivalApplicationAttachments < ActiveRecord::Migration
+class AddAttachmentAttachedFileToFestivalApplicationAttachments < ActiveRecord::Migration[4.2]
   def self.up
     change_table :festival_application_attachments do |t|
       t.attachment :attached_file

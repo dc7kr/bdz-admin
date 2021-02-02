@@ -1,4 +1,4 @@
-class AddAzubiToReportSheet < ActiveRecord::Migration
+class AddAzubiToReportSheet < ActiveRecord::Migration[4.2]
   def change
     add_column :report_sheets, :azubi_child, :integer
     add_column :report_sheets, :azubi_teens, :integer

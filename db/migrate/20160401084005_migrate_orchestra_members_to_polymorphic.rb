@@ -1,4 +1,4 @@
-class MigrateOrchestraMembersToPolymorphic < ActiveRecord::Migration
+class MigrateOrchestraMembersToPolymorphic < ActiveRecord::Migration[4.2]
   def change
     OrchestraMember.where("orchestra_id_old is not null").each do  |om|
       if not om.orchestra_id_old.nil? then

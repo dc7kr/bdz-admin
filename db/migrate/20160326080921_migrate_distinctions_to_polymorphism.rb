@@ -1,4 +1,4 @@
-class MigrateDistinctionsToPolymorphism < ActiveRecord::Migration
+class MigrateDistinctionsToPolymorphism < ActiveRecord::Migration[4.2]
   def change
     Distinction.all.each do |dist|
       if dist.orchestra_id_old.nil? then 

@@ -1,4 +1,4 @@
-class MigrateMemberSuperClassToPolymorphism < ActiveRecord::Migration
+class MigrateMemberSuperClassToPolymorphism < ActiveRecord::Migration[4.2]
   def up
     execute <<-SQL
       UPDATE members set member_entity_type=subtype

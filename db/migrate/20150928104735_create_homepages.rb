@@ -1,4 +1,4 @@
-class CreateHomepages < ActiveRecord::Migration
+class CreateHomepages < ActiveRecord::Migration[4.2]
   def change
     create_table :homepages do |t|
       t.string :abbrev, :limit=>20

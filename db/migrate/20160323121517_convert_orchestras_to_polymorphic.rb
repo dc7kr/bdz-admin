@@ -1,6 +1,5 @@
-class ConvertOrchestrasToPolymorphic < ActiveRecord::Migration
+class ConvertOrchestrasToPolymorphic < ActiveRecord::Migration[4.2]
   def up
-    rename_column :orchestras, :member_id, :member_id_off
     Orchestra.all.each do |o|
       m = Member.find_by_id(o.member_id)
       if not m.nil?  and m.subtype=='Orchestra'
@@ -11,6 +10,7 @@ class ConvertOrchestrasToPolymorphic < ActiveRecord::Migration
       p "Inconsistent"
       end
     end
+    rename_column :orchestras, :member_id, :member_id_off
   end
 
   def down

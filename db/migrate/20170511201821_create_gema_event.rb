@@ -1,4 +1,4 @@
-class CreateGemaEvent < ActiveRecord::Migration
+class CreateGemaEvent < ActiveRecord::Migration[4.2]
   def change
     create_table :gema_events do |t|
       t.integer :kdnr

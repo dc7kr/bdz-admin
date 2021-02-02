@@ -1,4 +1,4 @@
-class CreateRegionalOrganizations < ActiveRecord::Migration
+class CreateRegionalOrganizations < ActiveRecord::Migration[4.2]
   def change
     create_table :landesverband do |t|
       t.integer :nummer

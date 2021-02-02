@@ -1,4 +1,4 @@
-class AddZtgFieldsToReportSheets < ActiveRecord::Migration
+class AddZtgFieldsToReportSheets < ActiveRecord::Migration[4.2]
   def change
     add_column :report_sheets, :korr_ztg, :integer
     add_column :report_sheets, :senior, :integer

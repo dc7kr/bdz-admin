@@ -1,4 +1,4 @@
-class CreateDistinctions < ActiveRecord::Migration
+class CreateDistinctions < ActiveRecord::Migration[4.2]
   def change
     create_table :distinctions do |t|
       t.date    :dist_date

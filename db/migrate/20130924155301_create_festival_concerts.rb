@@ -1,4 +1,4 @@
-class CreateFestivalConcerts < ActiveRecord::Migration
+class CreateFestivalConcerts < ActiveRecord::Migration[4.2]
   def change
     create_table :festival_concerts do |t|
       t.string :location

@@ -1,4 +1,4 @@
-class AddInstrToReportSheet < ActiveRecord::Migration
+class AddInstrToReportSheet < ActiveRecord::Migration[4.2]
   def change
     add_column :report_sheets, :zo, :boolean
 

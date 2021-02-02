@@ -1,4 +1,4 @@
-class MigrateReportSheetInputsToPolymorphic < ActiveRecord::Migration
+class MigrateReportSheetInputsToPolymorphic < ActiveRecord::Migration[4.2]
   def change
     ReportSheetInput.all.where("orchestra_id_old is not null").each do  |rsi|
       if not rsi.orchestra_id_old.nil? then

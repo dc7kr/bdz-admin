@@ -1,4 +1,4 @@
-class AddCountryCodeToMembers < ActiveRecord::Migration
+class AddCountryCodeToMembers < ActiveRecord::Migration[4.2]
   def up
     add_column :members, :country_code, :string, :limit=>2
   end

@@ -1,4 +1,4 @@
-class CreateMemberForRegionalOrganizations < ActiveRecord::Migration
+class CreateMemberForRegionalOrganizations < ActiveRecord::Migration[4.2]
   def up
     RegionalOrganization.all.each do |r|
       if r.nummer == 0 or not r.member.nil? then

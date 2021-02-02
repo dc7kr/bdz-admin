@@ -1,4 +1,4 @@
-class CreateTariffs < ActiveRecord::Migration
+class CreateTariffs < ActiveRecord::Migration[4.2]
   def change
     create_table :tariffs do |t|
       t.integer :tariff_type

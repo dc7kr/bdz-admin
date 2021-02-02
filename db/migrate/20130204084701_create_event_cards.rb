@@ -1,4 +1,4 @@
-class CreateEventCards < ActiveRecord::Migration
+class CreateEventCards < ActiveRecord::Migration[4.2]
   def change
     create_table :event_cards do |t|
 

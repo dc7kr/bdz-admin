@@ -1,4 +1,4 @@
-class RemoveDeprecatedColumnsFromPersonMembers < ActiveRecord::Migration
+class RemoveDeprecatedColumnsFromPersonMembers < ActiveRecord::Migration[4.2]
   def up
     remove_column :person_members, :mitgliedsnummer
     remove_column :person_members, :anrede

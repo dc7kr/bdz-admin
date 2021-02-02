@@ -1,4 +1,4 @@
-class AddPortoToDistinctions < ActiveRecord::Migration
+class AddPortoToDistinctions < ActiveRecord::Migration[4.2]
   def change
     add_column :distinctions, :porto, :float
 

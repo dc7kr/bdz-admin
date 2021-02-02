@@ -1,4 +1,4 @@
-class CreateReportSheets < ActiveRecord::Migration
+class CreateReportSheets < ActiveRecord::Migration[4.2]
   def change
     create_table :report_sheets do |t|
       t.integer 	:year 	

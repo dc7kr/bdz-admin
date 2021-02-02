@@ -1,4 +1,4 @@
-class CreateContactEvents < ActiveRecord::Migration
+class CreateContactEvents < ActiveRecord::Migration[4.2]
   def change
     create_table :contact_events do |t|
       t.string :event_type

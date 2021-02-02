@@ -1,4 +1,4 @@
-class CreatePersonMembers < ActiveRecord::Migration
+class CreatePersonMembers < ActiveRecord::Migration[4.2]
   def change
     create_table :person_members do |t|
   t.integer :mitgliedsnummer

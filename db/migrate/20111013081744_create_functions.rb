@@ -1,4 +1,4 @@
-class CreateFunctions < ActiveRecord::Migration
+class CreateFunctions < ActiveRecord::Migration[4.2]
   def change
     create_table :functions do |t|
       t.string :label

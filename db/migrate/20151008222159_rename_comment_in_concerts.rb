@@ -1,4 +1,4 @@
-class RenameCommentInConcerts < ActiveRecord::Migration
+class RenameCommentInConcerts < ActiveRecord::Migration[4.2]
   def up
     rename_column :concerts, :bemerkung, :comment
   end

@@ -1,4 +1,4 @@
-class CreateReportSheetInputs < ActiveRecord::Migration
+class CreateReportSheetInputs < ActiveRecord::Migration[4.2]
   def change
     create_table :report_sheet_inputs do |t|
       t.references :report_sheet

@@ -1,4 +1,4 @@
-class MigrateReportSheetToOrchestra < ActiveRecord::Migration
+class MigrateReportSheetToOrchestra < ActiveRecord::Migration[4.2]
   def change
     ReportSheet.all.each do |rs|
       if rs.orchestra_id_old.nil? then 

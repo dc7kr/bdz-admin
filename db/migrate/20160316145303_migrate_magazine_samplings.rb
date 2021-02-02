@@ -1,4 +1,4 @@
-class MigrateMagazineSamplings < ActiveRecord::Migration
+class MigrateMagazineSamplings < ActiveRecord::Migration[4.2]
   def up
     MagazineSampling.all.each do |ms|
       c = Contact.find_by_id(ms.contact_id)

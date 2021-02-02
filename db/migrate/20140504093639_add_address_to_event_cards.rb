@@ -1,4 +1,4 @@
-class AddAddressToEventCards < ActiveRecord::Migration
+class AddAddressToEventCards < ActiveRecord::Migration[4.2]
   def change
     add_column :event_cards, :street, :string, :null=>true
     add_column :event_cards, :city, :string, :null=>true

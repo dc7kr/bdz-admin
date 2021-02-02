@@ -1,4 +1,4 @@
-class CreateOrchestras < ActiveRecord::Migration
+class CreateOrchestras < ActiveRecord::Migration[4.2]
   def change
     create_table :orchestras do |t|
       t.integer :mglnr

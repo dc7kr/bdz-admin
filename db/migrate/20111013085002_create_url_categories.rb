@@ -1,4 +1,4 @@
-class CreateUrlCategories < ActiveRecord::Migration
+class CreateUrlCategories < ActiveRecord::Migration[4.2]
   def change
     create_table :url_categories do |t|
       t.references :parent

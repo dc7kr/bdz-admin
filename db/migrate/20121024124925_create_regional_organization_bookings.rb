@@ -1,4 +1,4 @@
-class CreateRegionalOrganizationBookings < ActiveRecord::Migration
+class CreateRegionalOrganizationBookings < ActiveRecord::Migration[4.2]
   def change
     create_table :regional_organization_bookings do |t|
       t.references :regional_organization

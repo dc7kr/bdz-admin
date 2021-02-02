@@ -1,4 +1,4 @@
-class PopulateCountryCodeInModels< ActiveRecord::Migration
+class PopulateCountryCodeInModels< ActiveRecord::Migration[4.2]
   def up
 
     models = [ State, Url, Concert, Festival, ContactPerson, Contact, University ]

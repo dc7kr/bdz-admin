@@ -1,4 +1,4 @@
-class RemovePasswdFromUsers < ActiveRecord::Migration
+class RemovePasswdFromUsers < ActiveRecord::Migration[4.2]
 
 
   def up
