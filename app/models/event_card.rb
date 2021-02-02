@@ -117,6 +117,10 @@ class EventCard < ApplicationRecord
     customer = self.to_customer 
     invoice.customer = customer
 
+    invoice.tax_type="B"
+    invoice.taxrate = INVOICE_CONFIG.taxrate
+    invoice_taxrate_reduced = INVOICE_CONFIG.taxrate_reduced
+
     prices = BDZ_SETTINGS["festival_prices"]
 
     invoice.considerItem( nr_fest,prices["fest"], I18n.t("event_card.fest"))

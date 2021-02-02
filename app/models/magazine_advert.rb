@@ -9,6 +9,10 @@ class MagazineAdvert < ApplicationRecord
     invoice.number = invoice_number
     invoice.invoice_type="werberechnung"
 
+    invoice.tax_type = "B"
+    invoice.taxrate = INVOICE_CONFIG.taxrate
+    invoice.taxrate_reduced = INVOICE_CONFIG.taxrate_reduced
+
     invoice.customer = advertiser.to_customer
 
     invoice.addItem(1,get_advert_price, "Werbebuchung Ausgabe #{magazine_issue.full_number} #{advert_type}")
