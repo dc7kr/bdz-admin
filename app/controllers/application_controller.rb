@@ -1,9 +1,8 @@
 class ApplicationController < ActionController::Base
-  protect_from_forgery with: :exception
 
-  before_filter :set_locale
+  before_action :set_locale
 
-  after_filter :flash_to_headers
+  after_action :flash_to_headers
 
 
   layout :choose_layout
@@ -88,7 +87,7 @@ class ApplicationController < ActionController::Base
 
 
 	protected
-      before_filter :instantiate_controller_and_action_names
+      before_action :instantiate_controller_and_action_names
      
       def instantiate_controller_and_action_names
         @current_action = action_name
@@ -116,7 +115,7 @@ class ApplicationController < ActionController::Base
 
   # override static error page
   def render_optional_error_file(status_code) 
-	@exception = exception
+  	@exception = exception
     #log_error(exception)
     respond_to do |format| 
       format.html { render :template => "/errors/error_500", :layout => 'application', :status => 500 } 
@@ -154,8 +153,8 @@ class ApplicationController < ActionController::Base
   end
 
   #unless Rails.application.config.consider_all_requests_local
-    rescue_from Exception, with: lambda { |exception| render_error 500, exception }
-    rescue_from ActionController::RoutingError, ActionController::UnknownController, ::AbstractController::ActionNotFound, ActiveRecord::RecordNotFound, with: lambda { |exception| render_error 404, exception }
+    rescue_from StandardError, with: lambda { |exception| render_error 500, exception }
+    rescue_from ActionController::RoutingError, ActiveRecord::RecordNotFound, with: lambda { |exception| render_error 404, exception }
   #end
 
   protected
