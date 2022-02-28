@@ -1,6 +1,6 @@
 class Distinction < ApplicationRecord
   belongs_to :orchestra
-  belongs_to :member_account_booking
+  belongs_to :member_account_booking, optional:true
 
   def calcSum 
     sum = 0
