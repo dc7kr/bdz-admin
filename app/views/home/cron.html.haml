@@ -26,6 +26,7 @@
           %li.nav-item= link_to t('cron.lv_fee_bookings'), cron_lv_fee_bookings_index_path, class: "nav-link"
       #members.tab-pane.fade#members{:role => "tabpanel", :'aria-labelledby'=>"member-tab"}
         %ul.nav.flex-column
+          %li.nav-item= link_to "Rundschreiben", custom_info_mail_path, class: "nav-link"
           %li.nav-item=link_to t('cron.remove_resigned'), cron_cleanup_remove_resigned_path, class: "nav-link"
 
   
