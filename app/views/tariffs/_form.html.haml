@@ -1,12 +1,12 @@
-=form_for @tariff do |f|
+= bootstrap_form_for(@tariff, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10") do |f|
   %ul
     - @tariff.errors.full_messages.each do |msg|
       %li= msg
 
   .container-fluid
-    = form_my_field(f,@tariff, :tariff_type)
-    = form_my_field(f,@tariff, :description)
-    = form_my_field(f,@tariff, :amount)
+    = f.text_field(:tariff_type)
+    = f.text_field(:description)
+    = f.number_field(:amount)
     .actions
       = submit_button
       = cancel_button

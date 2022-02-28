@@ -8,6 +8,5 @@
       = t("distinction",:count=>1)
     .inner
       %h3= @orchestra.orchName
-      = bootstrap_form_for [@orchestra,@distinction],  :layout=> :horizontal, :url => orchestra_distinction_path(@orchestra,@distinction), :html => { :class => :form } do |f|
-        = render :partial => "form", :locals => {:f => f}
+      = render :partial => "form", :locals => {:f => f}
 - content_for :sidebar, render(:partial => 'sidebar')

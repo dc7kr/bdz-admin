@@ -2,11 +2,11 @@
   -if(@isOrchestra)
     %li.nav-item= link_to_up_path t("common.up"), orchestra_path(params[:orchestra_id]) 
     %li.nav-item=link_to t("common.list"), orchestra_member_events_path(@member_entity), :class =>tabActiveClass(@current_action,'index','nav-link')
-    %li.nav-item= link_to "#{t("common.new", :default => "New")}", new_orchestra_member_event_path(@member_entity),:class => tabActiveClass(@current_action,'new',)
+    %li.nav-item= link_to t("common.new"), new_orchestra_member_event_path(@member_entity),:class => tabActiveClass(@current_action,'new',)
   - else
     %li.nav-item= link_to_up_path t("common.up"), person_member_path(@member_entity)
     %li.nav-item{ :class => tabActiveClass(@current_action,'index','first')}= link_to "#{t("common.list", :default => "List")}", person_member_member_events_path(@member_entity)
-    %li.nav-item=nav_to_new MemberEntity, new_person_member_member_event_path(@member_entity)
+    %li.nav-item=link_to t("common.new"), new_person_member_member_event_path(@member_entity), :class =>  tabActiveClass(@current_action,'new',)
   -if ( @event != nil and @event.id != nil) then
     %li.nav-item{ :class => tabActiveClass(@current_action,'show',nil)}= link_to t("common.show"),'#'
 

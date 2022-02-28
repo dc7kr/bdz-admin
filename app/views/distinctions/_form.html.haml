@@ -1,12 +1,14 @@
 .container-fluid
-  = form_my_field(f,@distinction, :dist_date, :date)
-  = form_my_field(f,@distinction, :gold_needles,:number)
-  = form_my_field(f,@distinction, :silver_needles,:number)
-  = form_my_field(f,@distinction, :national_needles,:number)
-  = form_my_field(f,@distinction, :certificates,:number)
-  = form_my_field(f,@distinction, :honorletters,:number)
-  = form_my_field(f,@distinction, :medals,:number)
-  = form_my_field(f,@distinction, :porto,:currency)
-  .actions
-    =submit_button
-    =cancel_button
+  = bootstrap_form_for([@orchestra,@distinction],  :layout=> :horizontal) do |f|
+    = f.date_field :dist_date
+    = f.number_field :gold_needles
+    = f.number_field :silver_needles
+    = f.number_field :national_needles
+    = f.number_field :certificates
+    = f.number_field :honorletters
+    = f.number_field :medals
+
+    = form_my_field(f,@distinction, :porto,:currency)
+    .actions
+      =f.submit 
+      =cancel_button

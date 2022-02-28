@@ -18,7 +18,7 @@
         =entity_row @distinction, :porto, :currency
 
 
-        - if @distinction.invoice_id.nil?
+        - if not @distinction.invoice_id.present?
           %b ***VORSCHAU*** 
           = render :partial=>"invoice", :locals => { :invoice=> @distinction.gen_invoice }
         -else 
