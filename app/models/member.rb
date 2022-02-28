@@ -305,6 +305,21 @@ class Member < ApplicationRecord
     end
   end
 
+  def is_bic_valid?
+    if bic.nil? or bic.length() < 8
+      return false
+    end
+
+    country = bic[4..5]
+
+    if country != "DE"
+      # we can only verify german BICs
+      return true
+    end
+    
+    return BIC_FINDER.exists?(bic)
+  end
+
   def zero_member_fee_balance?
     booking_sum = MemberAccountBooking.where("member_id = ? and booking_type in ('B','A','L')",id).sum(:amount)
 
