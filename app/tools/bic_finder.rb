@@ -22,7 +22,19 @@ class BicFinder
   end
 
   def exists?(bic)
-    not @bichash[bic].nil?
+    if bic.nil? or bic.empty? or bic.length <8
+      return false
+    end
+  
+    found = not(@bichash[bic].nil?)
+
+    if found
+      return true
+    end
+
+    # strip freely definable parts and replace with "XXX"
+    tmp = bic[0..7]+"XXX"
+    return not(@bichash[tmp].nil?)
   end
 
 
