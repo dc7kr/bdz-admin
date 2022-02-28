@@ -1,0 +1,21 @@
+Hallo #{@recipient.name},
+\
+es wurden fehlerhafte BICs bei folgenden Mitgliedern festgestelt: 
+
+\
+Orchester:
+\
+- @orch_invalid.each do |o|
+   #{o[:mglnr]}: #{o[:bic]}
+
+\
+\
+Einzelmitglieder:
+\
+- @em_invalid.each do |em|
+   #{em[:mglnr]}: #{em[:bic]}
+
+\
+\
+Bitte prüfen!
+
