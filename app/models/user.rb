@@ -43,6 +43,12 @@ class User < ApplicationRecord
   def self.for_admin_notify
     User.with_any_role(:admin, :accounting)
   end
+  
+  def self.for_developer_notify
+    retval = Array.new
+    retval << User.find(1)
+  end
+
 
   def first_role
     if (roles.empty?)
