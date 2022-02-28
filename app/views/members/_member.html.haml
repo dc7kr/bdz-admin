@@ -29,5 +29,10 @@
       .col-md-3.text-right=label :member,:za
       .col-md-9=t("common.za_"+member.za)
     =entity_row(member,:iban)
-    =entity_row(member,:bic)
+    .row
+      .col-md-3.text-right=label :member, :bic
+      .col-md-9
+        =member.bic
+        - if not BIC_FINDER.exists?(member.bic)
+          %span.badge.badge-danger=t("member.bic_invalid")
     =entity_row(member,:zahler)
