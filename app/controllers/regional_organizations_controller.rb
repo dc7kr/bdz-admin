@@ -3,7 +3,7 @@ class RegionalOrganizationsController < AuthorityController
   before_action :set_regional_organization, only: [:show, :edit, :update, :destroy]
   # GET /regional_organizations
   # GET /regional_organizations.json
-  before_filter :authenticate_user!#, :except => [:index]
+  before_action :authenticate_user!#, :except => [:index]
 
   authority_actions :orch=> 'read'
   authority_actions :share_overview => 'read'

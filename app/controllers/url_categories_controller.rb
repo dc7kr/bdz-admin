@@ -1,7 +1,7 @@
 class UrlCategoriesController < AuthenticatedController
   # GET /url_categories
   # GET /url_categories.json
-  before_filter :authenticate_user!#, :except => [:index]
+  before_action :authenticate_user!#, :except => [:index]
   def index
     @url_categories = UrlCategory.all
 

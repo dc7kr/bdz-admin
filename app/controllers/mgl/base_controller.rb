@@ -1,5 +1,5 @@
 class Mgl::BaseController < ApplicationController
-  before_filter :restrict_user_by_role
+  before_action :restrict_user_by_role
 
   # edit valid roles here      
   VALID_ROLES = ['super_admin', 'admin']

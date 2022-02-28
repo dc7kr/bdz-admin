@@ -1,7 +1,7 @@
 class FunctionsController < AuthenticatedController
   # GET /functions
   # GET /functions.json
-  before_filter :authenticate_user!#, :except => [:index]
+  before_action :authenticate_user!#, :except => [:index]
   helper_method :sort_column, :sort_direction
   def index
 

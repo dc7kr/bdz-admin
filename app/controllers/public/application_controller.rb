@@ -4,8 +4,8 @@ class Public::ApplicationController  < ActionController::Base
   
   layout "public"
 
-  before_filter :set_locale
-  after_filter :allow_iframe_requests
+  before_action :set_locale
+  after_action :allow_iframe_requests
 
   def allow_iframe_requests
     response.headers.delete('X-Frame-Options')

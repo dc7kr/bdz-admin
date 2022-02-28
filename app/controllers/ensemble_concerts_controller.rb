@@ -7,7 +7,7 @@ class EnsembleConcertsController < AuthenticatedController
 
   # GET /ensembles
   # GET /ensembles.json
-  before_filter :authenticate_user!, :except => [:some_action_without_auth]
+  before_action :authenticate_user!, :except => [:some_action_without_auth]
 
   def publish
 	@ensemble_concert = EnsembleConcert.find(params[:id])

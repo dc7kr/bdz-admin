@@ -1,7 +1,7 @@
 class ContestsController < AuthenticatedController
   layout :choose_layout
   helper_method :sort_column, :sort_direction
-  before_filter :authenticate_user!, :except => [:index,:show,:public]
+  before_action :authenticate_user!, :except => [:index,:show,:public]
   skip_authorize_resource :only => [:public]
 
 

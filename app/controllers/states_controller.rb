@@ -1,10 +1,10 @@
 class StatesController < AuthenticatedController
 
-  before_filter :determine_scope
+  before_action :determine_scope
 
   # GET /states
   # GET /states.json
-  before_filter :authenticate_user!#, :except => [:index]
+  before_action :authenticate_user!#, :except => [:index]
 
   def index
     @states = @scope.all 

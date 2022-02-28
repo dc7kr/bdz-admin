@@ -3,7 +3,7 @@ class AuthenticatedController < ApplicationController
 
   load_and_authorize_resource 
 
-  before_filter :authnUser
+  before_action :authnUser
   #ensure_authorization_performed :except => [:index, :search], :if => :auditing_security?, :unless => :devise_controller?
 
   def auditing_security?
