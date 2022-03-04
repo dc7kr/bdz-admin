@@ -1,59 +1,56 @@
-#sidebar {
-  width: 25%;
-  float: right;
-  margin-bottom: 20px;
-  padding-bottom: 10px;
-
-  .block { 
-    border-radius: 10px 10px 5px 5px;
-    box-shadow: 5px 5px 5px #888;
-    margin-bottom: 20px;
-    
-    ul.navigation {
-      list-style-type: none;
-      padding: 5px;
-
-      ul {
-        margin: 0;
-        padding: 0;
-        list-style-type: none;
-      }
-
-      li { 
-        a:visited {
-          display: block;
-          padding: 5px 5px;
-          color: #202020;
-        }
-        a:link {
-          display: block;
-          padding: 5px 5px;
-        }
-      }
-    }
-
-    .sidebar-block {
-      padding: 10px;
-    }
-
-    .notice {
-      padding:5px 10px;
-      font-size: 8pt;
-      border-radius: 10px;
-      margin: 10px 0;
-    }
-
-
-    .content {
-      padding: 0 15px;
-    }
-
-    h3 {  
-      padding: 10px 15px;
-      margin: 0;
-      font-size: 13px;
-      border-radius: 10px 10px 0 0;
-    }
-  }
+.wrapper {
+    display: flex;
+    width: 100%;
 }
 
+#sidebar {
+  width: 300px;
+  position: relative;
+  margin-left: auto;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  z-index: 999;
+  transition: all 0.3s;
+  padding: 10px;
+  right: -300px;
+}
+
+#sidebar-toggle {
+  position: absolute;
+  left: -24px;
+}
+
+#sidebar.show {
+  right:0;
+  margin-right: 10px;
+}
+
+.overlay {
+    display: none;
+    position: fixed;
+    /* full screen */
+    width: 100vw;
+    height: 100vh;
+    /* transparent black */
+    background: rgba(0, 0, 0, 0.7);
+    /* middle layer, i.e. appears below the sidebar */
+    z-index: 998;
+    opacity: 0;
+    /* animate the transition */
+    transition: all 0.5s ease-in-out;
+}
+/* display .overlay when it has the .active class */
+.overlay.active {
+    display: block;
+    opacity: 1;
+}
+
+#dismiss {
+    width: 35px;
+    height: 35px;
+    position: absolute;
+    /* top right corner of the sidebar */
+    top: 10px;
+    right: 10px;
+}

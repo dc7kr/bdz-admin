@@ -1,22 +1,8 @@
 $(function() {
-  $('.datePicker').datepicker({ dateFormat: 'yy-mm-dd' });
-  $('input.ui-datepicker').datepicker({ dateFormat: 'yy-mm-dd' });
   $.ajaxSetup({ dataType: 'json' });
-
-  // PRE 5: Turbolinks.enableProgressBar();
-
-  //$('.dateTimePicker').datetimepicker();
-  // $('.timePicker').timepicker();
 
   $('a[data-popup]').on('click', function(e) { window.open($(this).attr('href')); e.preventDefault(); });
 });
-
-var fade_flash = function() {
-    $("#flash_notice").delay(2000).fadeOut(500);
-    $("#flash_alert").delay(2000).fadeOut(500);
-    $("#flash_error").delay(2000).fadeOut(500);
-}
-fade_flash();
 
 var show_ajax_message = function(msg, type) {
     $("#flash-message").html('<div class="message '+type+'" id="flash_'+type+'"><p>BLABLA'+msg+'</p></div>');
@@ -98,8 +84,4 @@ $(document).ready( function() {
         }
         
     });
-});
-
-$(function () {
-  $('.datetimepicker').datetimepicker();
 });

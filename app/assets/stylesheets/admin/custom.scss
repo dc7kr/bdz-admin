@@ -24,11 +24,11 @@ color:#ffffff;
 }*/
 
 .row {
-  label {
+  label.show {
     font-weight:bold;
     text-align:right;	
   }
-  label::after {
+  label.show::after {
     content: ':'
   }
 
@@ -58,12 +58,6 @@ td.label_l {
 	-webkit-shadow: 10px 10px 5px #888;
 	
 	margin-top:25px;	
-}
-
-#sidebar {
-	position:relative;
-	top:0px;
-	float:right;
 }
 
 h2.error {
