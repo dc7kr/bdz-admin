@@ -37,6 +37,7 @@ class DistinctionsController < AuthenticatedController
     end
 
     distinction.member_account_booking = booking
+    distinction.invoice_id=invoice.id.to_s
     distinction.save
 
     send_mail(invoice,sepa)
