@@ -1,5 +1,5 @@
 class Mgl::ReportSheetInputsController < ApplicationController
-  before_filter :authorize, :except => [:login,:submit_login]
+  before_action :authorize, :except => [:login,:submit_login]
 
   include NotifyHelper  
   include UploadHelper
