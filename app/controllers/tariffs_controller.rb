@@ -40,7 +40,7 @@ class TariffsController < AuthenticatedController
   # POST /tariffs
   # POST /tariffs.json
   def create
-    @tariff = Tariff.new(params[:tariff])
+    @tariff = Tariff.new(tariff_params)
 
     respond_to do |format|
       if @tariff.save
