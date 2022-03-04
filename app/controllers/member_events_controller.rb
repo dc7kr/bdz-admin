@@ -6,15 +6,19 @@ class MemberEventsController < AuthenticatedController
   # GET /member_events
   # GET /member_events.json
   def index
+    page = params[:page]
+
     if (@member_entity) then
-      @member_events= MemberEvent.where("member_id=?",@member_entity.member.id)
+      @member_events= MemberEvent.where("member_id=?",@member_entity.member.id).page(page).per(20)
     else 
-    @member_events= MemberEvent.all
+      @member_events= MemberEvent.all.page(page).per(20)
     end
 
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @member_events }
+      format.js
+	  format.js
     end
   end
 
