@@ -212,5 +212,6 @@ Devise.setup do |config|
   config.http_authenticatable_on_xhr = false
   config.navigational_formats = [:html, :json]
 
-  config.secret_key = ENV["DEVISE_SECRET_KEY"]
+  config.secret_key = Rails.application.credentials.send(Rails.env)[:devise_secret_key]
+
 end
