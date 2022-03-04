@@ -1,65 +1,66 @@
 de:
-  helpers:
-    label:      
-      festival_application: &festival_app_labels
-        closed: "Eine Anmeldung ist nicht mehr möglich. Wir bitten um Ihr Verständnis."
-        group_list: Gruppen-Liste
-        soloist_tickets: Solisten-Tageskarten
-        stage_time: Auftrittszeit
-        contact_phone: Kontakt-Telefon
-        open_issues: Offene Posten
-        invoice: Rechnung
-        payment_status: Zahlungsstatus
-        payment_states:
-          N: "Nicht bezahlt"
-          P: "Anzahlung erhalten"
-          F: "Volle Zahlung erhalten"
-          S: "Sondervereinbarung"
-        amount: "Bisherige Zahlung"
-        country_code: "Herkunftsland"
-        orchestra: Orchester
-        orch_name: Name der Gruppe
-        conductor: Dirigent
-        bdz_member: BDZ Mitglied
-        tickets: Festivalkarten
-        tickets_red: "Festivalkarten (ermäßigt)"
-        bdz_tickets: "Festivalkarten (BDZ-Mitglied)"
-        bdz_tickets_red: "Festivalkarten (BDZ-Mitglied), ermäßigt"
-        permission: "Zulassung zum Festival"
-        festival_concert_id: "Konzert"
-        permission_granted: "zugelassen"
-        num_players: "Anzahl Spieler"
-        equipment: "Benötigte Ausrüstung"
-        special_cast: "Spezielle Besetzung"
-        contact_person: "Kontaktperson"
-        add_piece: "Stück hinzufügen"
-        group_type: "Art der Gruppe"
-        group_types:
-          O: Orchester
-          E: Ensemble
-          S: Solist
-          D: Duo 
-          T: Trio
-        visitor_type: "Besucher-Typ"
-        visitor_types:
-          R: "Regulärer Teilnehmer"
-          G: "Gast"
-          V: "Teilnehmer mit Sondervereinbarung"
-          Y: "Jugend musiziert Ensemble"
-          O: "OpenAir Teilnehmer"
-        rehearsal_time: "Einspiel-Beginn"
-        comment: "Kommentar"
-
-  festival_application:
-    <<: *festival_app_labels
+  festival_application: &festival_app_labels
+    one: "Eine festival-Bewerbung"
+    other: "%{count} Festival-Bewerbungen"
+    zero: "Keine Festival-Bewerbung"
     new: "Neue Festival-Bewerbung"
     planned_programme: "Geplantes musikalisches Programm (max. 20 Minuten)"
     step2_title: "Festival Bewerbung (Teil 2)"
     finalize_title: "Festival Bewerbung"
     confirm: "Vielen Dank für Ihre Festival-Bewerbung. Wir werden sie kontaktieren sobald Ihre Bewerbung ausgewertet wurde."
-    one: "Festival-Bewerbung"
-    other: "Festival-Bewerbungen"
     general_panel_title: "Allgemeine Angaben"
+    visitor_type: "Besucher-Typ"
+    visitor_types:
+      R: "Regulärer Teilnehmer"
+      G: "Gast"
+      V: "Teilnehmer mit Sondervereinbarung"
+      Y: "Jugend musiziert Ensemble"
+      O: "OpenAir Teilnehmer"
+    rehearsal_time: "Einspiel-Beginn"
+    comment: "Kommentar"
+    closed: "Eine Anmeldung ist nicht mehr möglich. Wir bitten um Ihr Verständnis."
+    group_list: Gruppen-Liste
+    soloist_tickets: Solisten-Tageskarten
+    stage_time: Auftrittszeit
+    contact_phone: Kontakt-Telefon
+    open_issues: Offene Posten
+    invoice: Rechnung
+    payment_status: Zahlungsstatus
+    payment_states:
+      N: "Nicht bezahlt"
+      P: "Anzahlung erhalten"
+      F: "Volle Zahlung erhalten"
+      S: "Sondervereinbarung"
+    amount: "Bisherige Zahlung"
+    country_code: "Herkunftsland"
+    orchestra: Orchester
+    orch_name: Name der Gruppe
+    conductor: Dirigent
+    bdz_member: BDZ Mitglied
+    tickets: Festivalkarten
+    tickets_red: "Festivalkarten (ermäßigt)"
+    bdz_tickets: "Festivalkarten (BDZ-Mitglied)"
+    bdz_tickets_red: "Festivalkarten (BDZ-Mitglied), ermäßigt"
+    permission: "Zulassung zum Festival"
+    festival_concert_id: "Konzert"
+    permission_granted: "zugelassen"
+    num_players: "Anzahl Spieler"
+    equipment: "Benötigte Ausrüstung"
+    special_cast: "Spezielle Besetzung"
+    contact_person: "Kontaktperson"
+    add_piece: "Stück hinzufügen"
+    group_type: "Art der Gruppe"
+    group_types:
+      O: Orchester
+      E: Ensemble
+      S: Solist
+      D: Duo 
+      T: Trio
+
+  helpers:
+    label:      
+      festival_application: 
+        <<: *festival_app_labels
   festival_participant:
     one: "Festival-Teilnehmer"
     other: "Festival-Teilnehmer"

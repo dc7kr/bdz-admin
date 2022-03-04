@@ -1,6 +1,7 @@
 en:
   festival_application: 
-    other: "Festival applications"
+    zero: "No festival applications"
+    other: "%{count} festival applications"
     one: "Festival application"
     general_panel_title: "General Information"
     new: "New festival application"

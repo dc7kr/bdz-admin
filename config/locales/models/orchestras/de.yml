@@ -25,6 +25,7 @@ de:
     type_A: Auslandsorchester
     type_X: Außerordentliches Mitglied
     member_account: Mitgliedskonto
+    last_invoice: "Letzte Rechnung"
     contact: Kontakt
     gema_kdnr: GEMA-Kd.-Nr.
     invalid_report_sheet_upload: "Das hochgeladene Dokument konnte nicht verarbeitet werden! Bitte verwenden Sie ausschließlich die Originalvorlage."
@@ -36,7 +37,6 @@ de:
     label:
       orchestra:
         <<: *orchestra_labels
-
         gruendung: Gründungsdatum
         anrede: Anrede
 

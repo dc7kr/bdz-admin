@@ -24,8 +24,10 @@ de:
     regional_organization_id: Landesverband
     dsgvo: DSGVO-Zustimmung
     dsgvo_date: DSGVO Datum
+    bic_invalid: BIC ist ungültig
     
     nopayment: Säumige Zahler
+    last_payment: "Letzte Zahlung"
     nonzero_balance: "Zahlungsrückstand im Beitragskonto!"
     is_direct_debit: "Lastschrift"
     notinvoiced: Keine Rechnung
@@ -42,6 +44,7 @@ de:
     kuendigungErfasst: Kündigung erfasst
     comment: Bemerkung
     kuendigung_vom: Kündigung vom
+    nomail: "Keine Mail"
 
   helpers:
     label:
