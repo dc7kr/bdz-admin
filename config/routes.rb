@@ -1,6 +1,14 @@
+# For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 require 'sidekiq/web'
+require 'sidekiq/cron/web'
 
 BDZAdmin::Application.routes.draw do
+
+  # custom errors
+  match "/403", :to => "errors#forbidden", :via=>:all
+  match "/404", :to => "errors#not_found", :via=>:all
+  match "/500", :to => "errors#internal_server_error", :via=>:all
+
 
   # Start page
   root :to => "home#landing_page"
@@ -22,7 +30,7 @@ BDZAdmin::Application.routes.draw do
     end
   end
 
-  mount CorikaInvoices::Engine, at: "/invoice_engine"
+  mount CorikaInvoices::Engine, at: "/invoice_engine", :as => 'invoice_engine'
 
   get '/auth/:provider/callback', to: 'sessions#create'
 
