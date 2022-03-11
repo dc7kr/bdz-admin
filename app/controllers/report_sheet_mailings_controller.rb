@@ -1,66 +1,68 @@
 class ReportSheetMailingsController < AuthenticatedNonResourceController
 
-	include PDFHelper
+  include PDFHelper
   include BulkMailHelper
   include FileArchiveHelper
 
 
-	def gen_mailings
-  	authorize! :index, Orchestra
+  def gen_mailings
+    authorize! :index, Orchestra
 
-		@skipCount =0;
-		@orchCount =0;
-		@orchFailCount=0;
-		@letterCount = 0;
-		@results =  Array.new
+    @skipCount =0;
+    @orchCount =0;
+    @orchFailCount=0;
+    @letterCount = 0;
+    @results =  Array.new
 
-    date_prefix = Time.now.strftime '%Y%m%d'
-    cur_year = Time.now.strftime "%Y"
+    now = Time.now
+    date_prefix = now.strftime '%Y%m%d'
+    cur_year = now.strftime "%Y"
 
-		rs_year = nil
-		if params[:year].nil? then
-			rs_year = Time.now.year+1
-		else
-			rs_year = params[:year].to_i
-		end
+    rs_year = nil
+    if params[:year].nil? then
+      rs_year = Time.now.year
+    else
+      rs_year = params[:year].to_i
+    end
 
-		event_id = "MB_"+rs_year.to_s
+    event_id = "MB_"+rs_year.to_s
+
     subject="Meldebogen Anschreiben "+rs_year.to_s
 
     tool = MailingTool.new(cur_year.to_s,"gs",event_id,subject);
 
-    @orchestras = Orchestra.joins(:member)
+    @orchestras = Orchestra.member_next_year
 
     results = Array.new
 
     letterArray = Array.new
 
-		@orchestras.each do |orchestra|
-			if ( orchestra.has_notify_event?(event_id))
-				@skipCount+=1
+    @orchestras.each do |orchestra|
+      if ( orchestra.has_notify_event?(event_id))
+        @skipCount+=1
       elsif not orchestra.report_sheet_required? 
         Rails.logger.info("Skipping #{orchestra.member.mglnr} - no report sheet required")
-			else 
-				@rsi = ReportSheetInput.for_orchestra_and_year(orchestra,rs_year)
-        
+      else 
+        @rsi = ReportSheetInput.for_orchestra_and_year(orchestra,rs_year)
+          
         if @rsi.nil? 
           Rails.logger.error("Report sheet input is nil!: #{orchestra.member.mglnr}")
         else
-          mailing_pdf = gen_anschreiben(orchestra,@rsi);
-          doc_dir = DOCS_CONFIG.archive_dir+"/"
-          mailer_params = { :rsi => @rsi }
-          result = tool.deliver_mailing(ReportSheetInputMailer, orchestra.to_addressee,  mailing_pdf,  nil, letterArray, mailer_params)  
+            mailing_pdf = gen_anschreiben(orchestra,@rsi);
+            doc_dir = DOCS_CONFIG.archive_dir+"/"
+            mailer_params = { :rsi => @rsi }
+            result = tool.deliver_mailing(ReportSheetInputMailer, orchestra.to_addressee,  mailing_pdf,  nil, letterArray, mailer_params)  
 
-          results << result
+            results << result
 
-          if result[:success]==true then
-              @orchCount+=1;
-          else 
-              @orchFailCount+=1;
+            if result[:success]==true then
+                @orchCount+=1;
+            else 
+                @orchFailCount+=1;
+            end
           end
-        end
-			end # not yet handled
-		end # orchestras.each 
+                          end # not yet handled
+                  end # orchestras.each 
 
 
     pdf_merged_file = nil
