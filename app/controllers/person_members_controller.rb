@@ -1,7 +1,7 @@
 require 'rodf'
 
 class PersonMembersController < AuthenticatedController
-#  before_filter :authenticate_user!, :except => @publicActions
+#  before_action :authenticate_user!, :except => @publicActions
 #[:some_action_without_auth]
   helper_method :sort_column, :sort_direction
   include MagazineReportHelper
@@ -38,7 +38,7 @@ class PersonMembersController < AuthenticatedController
   end
 
   def notinvoiced 
-    @person_members = PersonMember.notinvoiced(Time.now.year).page(params[:page]).per(20)
+    @person_members = @person_members.notinvoiced(Time.now.year).page(params[:page]).per(20)
 
 	
     respond_to do |format|
