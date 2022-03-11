@@ -85,7 +85,7 @@ module MagazineReportHelper
           cell I18n.t("member.street")
           cell I18n.t("contact.zip")
           cell I18n.t("contact.city")
-          cell I18n.t("country.s")
+          cell I18n.t("country")
           cell "Zeitungen"
         }
 
