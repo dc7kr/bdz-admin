@@ -1,4 +1,3 @@
-require "prawn/table"
 
 class ReportSheetInputPdf< Prawn::Document
   include TranslationHelper
