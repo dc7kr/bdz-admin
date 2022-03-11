@@ -2,7 +2,7 @@ class MemberReportController < AuthenticatedNonResourceController
 
   def index
 	  authorize! :member, :edit
-	  @sums = ReportSheet.select("year, count(*) as anzahl, sum(report_sheets.children) as sum_children , sum(report_sheets.teens) as sum_teens, sum(report_sheets.youth) as sum_youth ,sum(report_sheets.adult) as sum_adult, sum(report_sheets.senior) as sum_senior , sum(report_sheets.azubi) as sum_azubi, sum(report_sheets.passive) as sum_passive").group(:year).order(:year)
+	  @sums = ReportSheet.select("year, count(*) as anzahl, sum(report_sheets.children) as sum_children , sum(report_sheets.teens) as sum_teens, sum(report_sheets.youth) as sum_youth ,sum(report_sheets.adult) as sum_adult, sum(report_sheets.senior) as sum_senior , sum(report_sheets.azubi) as sum_azubi, sum(report_sheets.passive) as sum_passive, sum(child_ens) as sum_child_ens, sum(youth_ens) as sum_youth_ens, sum(adult_ens) as sum_adult_ens, sum(senior_ens) as sum_senior_ens, sum(chamber_ens) as sum_chamber_ens, sum(other_ens) as sum_other_ens").group(:year).order(:year)
 
     @em_count = PersonMember.all.count
 
