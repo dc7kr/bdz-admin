@@ -1,4 +1,5 @@
 module ApplicationHelper
+  include FontAwesome::Rails::IconHelper
 
   include CountryHelper
   include ButtonHelper
@@ -60,12 +61,12 @@ end
 
 
 def link_to_up_path(txt,path)
-	link_to content_tag(:span,"",:class=>"glyphicon glyphicon-arrow-up"), path
+	link_to fa_icon("arrow-up"), path, :class => "nav-link"
 end
 
 def link_to_generated_download_path(txt,path)
 	if can? :read, path then
-    link_to content_tag(:span,"",:class=>"glyphicon glyphicon-download"),path,:class =>"btn btn-xs btn-default"
+    link_to fa_icon("download"),path,:class =>"btn btn-sm btn-outline-default", data: { turbolinks:false }
 	end
 end
 
@@ -84,27 +85,6 @@ def back_button(path)
   link_to image_tag("icons/back.png", :alt => t("common.back"))+" "+t("common.back"), path, :class => "button"
 end
 
-def link_to_edit(entity, txt=nil)
-	if txt == nil then
-		txt = t('common.edit')
-	end
-
-  
-  if entity.kind_of?(Array) then 
-    namespace = entity[0]
-    entity = entity[1]
-    path = "edit_#{namespace}_#{entity.class.name.singularize.underscore}_path"
-  else 
-    namespace = nil
-    path = "edit_#{entity.class.name.singularize.underscore}_path"
-  end
-
-  if can? :update, entity
-    link_to content_tag(:span,"",:class=>"glyphicon glyphicon-edit"), 
-          send(path, entity), :class =>"btn btn-xs btn-default"
-  end
-end
-
 
 def label_or_default(txt, key)
 	if (txt == nil ) then
@@ -112,18 +92,6 @@ def label_or_default(txt, key)
 	end
 
 	txt
-end
-
-def link_to_del_path(path, entity, remote=false, authorize=true, cfm=true,txt=nil, confirm=nil )
-
-  link_class = "delete-#{entity.class.model_name}"
-	txt=label_or_default(txt,'common.delete')
-	confirm=label_or_default(confirm,'common.confirm_delete')
-    if can? :delete, entity or not authorize
-      img = '/assets/icons/delete.png'
-      img_hash = {:size=>'16x16',:alt=>txt,:title=>txt,:class=>'btn'}
-      link_to content_tag(:span,"",:class=>"glyphicon glyphicon-remove-sign"), path, :confirm => cfm ? confirm : nil, :method => :delete, :remote => remote,:class =>"btn btn-xs btn-danger #{link_class}"
-    end
 end
 
 
@@ -196,19 +164,22 @@ def sortable(column, title = nil)
   title ||= column.titleize
   css_class = column == sort_column ? "sort current #{sort_direction}" : "sort"
   direction = column == sort_column && sort_direction == "asc" ? "desc" : "asc"
-  link_to title , params.merge(:sort => column, :direction => direction, :page => nil), {:class => css_class }
+  link_to title , params.merge(:sort => column, :direction => direction, :page => nil).permit(:sort,:direction,:page), {:class => css_class }
 end
 
-def tabActiveClass(current, expected, prefix)
+def tabActiveClass(current,expected, prefix=nil)
+	retval =""
+  if prefix.nil? 
+    prefix = "nav-link"
+  end
 
-	@retval =""
-	if ( prefix ) then 
-		@retval = prefix+" "
+	retval = prefix+" "
+
+	if current == expected 
+		retval << "active"
 	end
-	if ( current == expected ) then
-		@retval << "active"
-	end
-	return @retval
+
+	return retval
 end
 
 def isAdmin?
