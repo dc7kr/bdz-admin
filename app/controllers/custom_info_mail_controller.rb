@@ -76,6 +76,7 @@ class CustomInfoMailController < AuthenticatedNonResourceController
     
   def send_mail
     authorize! :member, :edit
+
     form_params = params[:custom_info_mail]
 
     letterfile = form_params[:datafile]
@@ -87,8 +88,16 @@ class CustomInfoMailController < AuthenticatedNonResourceController
     subject = form_params[:subject]
     body = form_params[:body]
 
-    cur_year = Time.now.year
+    @mail_params =  { :subject => subject, :body=> body, :event_id => event_id }
 
+    if event_id.nil? or event_id.empty? or event_id.include? " "
+      respond_to do |format|
+        format.html { render :action => "index", :warning => "custom_info_mail.event_id_invalid" }
+      end
+      return
+    end
+
+    cur_year = Time.now.year
 
     if ( letterfile != nil) then
       letter_file = storeUploadedFile(cur_year.to_s, letterfile.original_filename, letterfile)
