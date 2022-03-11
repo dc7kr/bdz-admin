@@ -6,7 +6,23 @@ class AdminNotifier < ActionMailer::Base
     @resigned_persons = resigned_persons
     @resigned_orchestras= resigned_orchestras
 
-    mail(:to => user.email, :subject => "Automatische Austritte")
+    mail(:to => user.email, :subject => "[BDZDB] Automatische Austritte")
+  end
+
+  def invalid_member_notification(user,orch_invalid,em_invalid)
+    @recipient = user
+    @em_invalid = em_invalid
+    @orch_invalid = orch_invalid
+    mail(:to => user.email, :subject => "[BDZDB] Ungültige Mitgliedsdaten")
+  end
+
+  def em_tariff_fix_notification(user, digital, normal, changed, unchanged)
+    @recipient = user
+    @normal = normal
+    @digital = digital 
+    @changed = changed
+    @unchanged = unchanged
+    mail(:to => user.email, :subject => "[BDZDB] EM Tarifanpassung")
   end
 
   def invoice_update(user, invoice, invoice_file, sepa_file, delta_amount, report_sheet)
