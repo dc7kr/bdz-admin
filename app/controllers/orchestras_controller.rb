@@ -46,7 +46,7 @@ class OrchestrasController < AuthenticatedController
 
   # GET /orchestras
   # GET /orchestras.json
-#sample  before_filter :authenticate_user!, :except => [:some_action_without_auth]
+#sample  before_action :authenticate_user!, :except => [:some_action_without_auth]
   def notinvoiced 
     year = params[:year]
 
@@ -71,28 +71,26 @@ class OrchestrasController < AuthenticatedController
 	  @result = Array.new
 
 	  @orchestras.each do |orchestra|
-      last_report = orchestra.lastReportSheet
-      if last_report.nil? then
-        logger.warn("Last Report sheet is NIL: #{orchestra.member.mglnr} #{orchestra.orchName}")
-      elsif ( last_report.calcZeitungen > 0) then
-			  mag_count=nil
-			  if ( orchestra.is_regular? or orchestra.is_lorch? ) then
-				  mag_count = orchestra.currentMagazines
-			  else
-				  mag_count = BDZ_SETTINGS["tariff"]["koopZtgCount"].to_i
-			  end
-		  @csvrow = {:name=> orchestra.orchName,
-			:mglnr=>orchestra.member.mglnr,
-			:fullname=>orchestra.fullname,
-			:name2=>'',
-			:strasse=>orchestra.member.strasse ,
-			:countryCode=>orchestra.member.countryCode,
-			:plz=>orchestra.member.plz,
-			:ort=>orchestra.member.ort,
-			:land=>orchestra.letterCountry,
-			:magazines=>mag_count }
+
+      mag_count = orchestra.currentMagazines
+      if (mag_count>0) 
+		  @csvrow = {
+        :name=> orchestra.orchName,
+			  :mglnr=>orchestra.member.mglnr,
+			  :fullname=>orchestra.fullname,
+			  :name2=>'',
+			  :strasse=>orchestra.member.strasse ,
+			  :countryCode=>orchestra.member.countryCode,
+			  :plz=>orchestra.member.plz,
+			  :ort=>orchestra.member.ort,
+			  :land=>orchestra.letterCountry,
+			  :magazines=>orchestra.currentMagazines 
+      }
       @result << @csvrow
-		  end
+      else
+        Rails.logger.warn("Magazine count is zero: "+orchestra.member.mglnr.to_s)
+      end
+
 	  end
   	filename = "magazine.orch." + Time.now.strftime("%m-%d-%Y") + ".ods"
   
