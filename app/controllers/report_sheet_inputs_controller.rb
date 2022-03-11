@@ -94,7 +94,7 @@ class ReportSheetInputsController < AuthenticatedController
     end
   end
 
-	def generate
+  def generate
     authorize! :index, Orchestra
     rs_year = params[:year].to_i
 
