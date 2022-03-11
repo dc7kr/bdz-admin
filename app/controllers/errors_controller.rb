@@ -1,12 +1,15 @@
 class ErrorsController < ApplicationController
-  def error_404
-	@not_found_path = params[:not_found]
+  def not_found
+    render(:status=>404)
   end
 
-  def error_500
+  def internal_server_error
 
-	# TODO: add NOT to admin case
-
-	
+          ErrorMailer.deliver_snapshot( exception, Rails.env, current_user)
+          logger.error("ERROR: "+exception.to_s)
+          logger.error exception.message + "\n " + exception.backtrace.join("\n ")
+    respond_to do |format|
+      format.html {  render(:status=>500) }
+    end
   end
 end
