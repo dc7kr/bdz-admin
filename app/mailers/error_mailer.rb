@@ -1,5 +1,5 @@
 class ErrorMailer < ActionMailer::Base
-  default from: "karsten.richter@bdz-online.de"
+  default from: "bdzdb@bdz-online.de"
 
 
   def deliver_snapshot( exception, env, current_user)
@@ -8,9 +8,10 @@ class ErrorMailer < ActionMailer::Base
       if (current_user) then
         email = current_user.email
       else 
-        email = "karsten.richter@bdz-online.de"
+        email = "bdzdb@bdz-online.de"
       end
 
-   		mail(:to => "webmaster@bdz-online.de", :subject => "Exception in "+env,:from=>email).deliver
+      admin_mail = BDZ_SETTINGS['contacts']['admin']['mail']
+   		mail(:to => admin_mail, :subject => "Exception in "+env,:from=>email).deliver
   end
 end
