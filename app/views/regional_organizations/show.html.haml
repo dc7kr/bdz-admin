@@ -13,6 +13,9 @@
       =entity_row(@regional_organization, :subname)
       =entity_row(@regional_organization,:homepage,:url)
       =entity_row(@regional_organization,:jugend_url,:url)
+      =entity_row(@regional_organization,:gema_kdnr)
+      =entity_row(@regional_organization,:gema_kdnr_new)
+
 
       = render @regional_organization.member,:partial=>"member"
 

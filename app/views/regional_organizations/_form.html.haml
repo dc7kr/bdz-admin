@@ -8,6 +8,8 @@
   = f.text_field :subname
   = f.url_field :homepage
   = f.url_field :jugend_url
+  = f.text_field :gema_kdnr
+  = f.text_field :gema_kdnr_new
   = f.fields_for :member do |member_form|
     = render :partial => "members/member_form", :locals => { :f => member_form,:member=>@regional_organization.member}
   = form_my_field(f,@regional_organization,:iban, :static)

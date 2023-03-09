@@ -152,6 +152,6 @@ class RegionalOrganizationsController < AuthorityController
 
   def regional_organization_params
     #logger.debug(params.to_s)
-    params.require(:regional_organization).permit( :nummer, :name, :subname, :homepage, :jugend_url,member_attributes: Member.nested_params )
+    params.require(:regional_organization).permit( :nummer, :name, :subname, :homepage, :jugend_url,:gema_kdnr, :gema_kdnr_new,member_attributes: Member.nested_params )
   end
 end
