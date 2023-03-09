@@ -21,6 +21,28 @@ class BicFinder
     end
   end
 
+  def valid?(bic) 
+    if bic.nil?
+      false
+    else 
+      ctry = get_country(bic)
+      if ctry == "DE"
+        return exists?(bic)
+      else
+        return true
+      end
+    end
+  end
+
+  def get_country(bic)
+
+    if bic.nil? 
+      nil
+    else
+      bic[4..5]
+    end
+  end
+
   def exists?(bic)
     if bic.nil? or bic.empty? or bic.length <8
       return false
