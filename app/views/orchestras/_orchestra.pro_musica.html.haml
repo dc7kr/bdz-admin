@@ -4,10 +4,10 @@
   %td
     = orchestra.orchName
   %td
+    = mail_to orchestra.member.email, orchestra.member.email
+  %td
     - if orchestra.gruendung.nil? then 
       NIL
     -else
-      = orchestra.gruendung
+      =l orchestra.gruendung
 
-  %td
-    = mail_to orchestra.member.email, orchestra.member.email

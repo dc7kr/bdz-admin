@@ -21,6 +21,7 @@
           = f.text_field :orchName, :required=>true
           = f.select :orch_type,   options_for_select([["Vereinsorchester", "O"], ["Kooperativ", "K"],  ["Landesorchester", "L"],["Auslandsorchester","A"],["Außerordentliche Mitglieder","X"]],:selected=>@orchestra.orch_type)
           = f.text_field :gema_kdnr
+          = f.text_field :gema_kdnr_new
           = f.url_field :url
           .form-group.row
             =f.label :publish_url, :class =>"col-form-label col-sm-2"
@@ -31,6 +32,7 @@
             .col-sm-10
               = f.check_box :publish_address , custom: :switch, label: "&nbsp;".html_safe
           = f.date_field :gruendung, :class => "datetimepicker"
+          = f.date_field :promusica
 
 
       = f.fields_for :member do |member_form|

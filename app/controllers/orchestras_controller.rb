@@ -368,6 +368,6 @@ class OrchestrasController < AuthenticatedController
     end
   end
   def orchestra_params
-    params.require(:orchestra).permit( :orchName, :url, :gruendung, :orch_type, :bemerkung, :zweitanschrift, :name2, :kuendigungErfasst , :gema_kdnr, member_attributes: Member.nested_params) 
+    params.require(:orchestra).permit( :orchName, :url, :gruendung, :orch_type, :bemerkung, :zweitanschrift, :name2, :kuendigungErfasst , :gema_kdnr, :gema_kdnr_new, :promusica, member_attributes: Member.nested_params) 
   end
 end

@@ -10,18 +10,18 @@
       %span.badge.badge-info=t("member.is_direct_debit")
   = entity_row(@orchestra,:fullname)
   = entity_row(@orchestra,:gruendung,:date)
+  = entity_row(@orchestra,:promusica,:date)
   .row
     .col-md-3.text-right=label :orchestra,:url
     .col-md-9=link_to @orchestra.url, sanitize_url(@orchestra.url)
-  .row
-    .col-md-3.text-right=label :orchestra,:gema_kdnr
-    .col-md-9=@orchestra.gema_kdnr
+  = entity_row(@orchestra,:gema_kdnr)
+  = entity_row(@orchestra,:gema_kdnr_new)
 
   = render @orchestra.member,:partial=>"member"
   = entity_row(@orchestra,:bemerkung)
   
   .btn-group{:role=>"group"}
-    = edit_button(edit_orchestra_path(@orchestra),@orchestra)
-    = del_button( orchestra_path(@orchestra),@orchestra)
+    = edit_glyph_link(edit_orchestra_path(@orchestra),@orchestra)
+    = del_glyph_link( orchestra_path(@orchestra),@orchestra)
 
 - content_for :sidebar, render(:partial => 'sidebar.show')
