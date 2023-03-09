@@ -30,18 +30,10 @@
   .card.mb-3
     .card-header 4. Instrumentierung
     .card-body
-      .form-group
-        .col-sm-2=f.label :zo
-        .col-sm-10= f.check_box :zo, label: ""
-      .form-group
-        .col-sm-2=f.label :zi_o
-        .col-sm-10= f.check_box :zi_o, label: ""
-      .form-group
-        .col-sm-2=f.label :go
-        .col-sm-10= f.check_box :go, label: ""
-      .form-group
-        .col-sm-2=f.label :oz
-        .col-sm-10= f.check_box :oz, label: ""
+      .col-sm-10= f.check_box :zo
+      .col-sm-10= f.check_box :zi_o
+      .col-sm-10= f.check_box :go
+      .col-sm-10= f.check_box :oz
   
   %br
   = wizard_back_button( url_for(:action=>:step3, :id=>@report_sheet_input))
