@@ -21,6 +21,7 @@ de:
     city: Ort
     zip: PLZ
     mglnr: Mitgliedsnummer
+    regional_organization: Landesverband
     regional_organization_id: Landesverband
     dsgvo: DSGVO-Zustimmung
     dsgvo_date: DSGVO Datum
@@ -50,4 +51,7 @@ de:
     label:
       member:
         <<: *member_labels
-
+  activerecord:
+    attributes:
+      member:
+        <<: *member_labels

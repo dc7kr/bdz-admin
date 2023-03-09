@@ -27,16 +27,23 @@ de:
     member_account: Mitgliedskonto
     last_invoice: "Letzte Rechnung"
     contact: Kontakt
+    publish_url: Homepage veröffentlichen
+    publish_address: Kontakt veröffentlichen
     gema_kdnr: GEMA-Kd.-Nr.
+    gema_kdnr_new: GEMA-Kd.-Nr. Neu
     invalid_report_sheet_upload: "Das hochgeladene Dokument konnte nicht verarbeitet werden! Bitte verwenden Sie ausschließlich die Originalvorlage."
     err_invalid_report_sheet_upload: "Ungültiges Dateiformat hochgeladen!"
     report_sheet_upload_success: "%{success} Mitgliedsdaten erfolgreich hochgeladen!"
     report_sheet_upload_warning: "%{success} Datensätze OK, %{error} Datensätze waren fehlerhaft!"
+    gruendung: Gründungsdatum
+    promusica: ProMusica-Plakette erhalten
 
   helpers:
     label:
       orchestra:
         <<: *orchestra_labels
-        gruendung: Gründungsdatum
         anrede: Anrede
-
+  activerecord:
+    attributes:
+      orchestra:
+        <<: *orchestra_labels

@@ -310,14 +310,6 @@ de:
   address:
     one: Adresse
     other: Adressen
-  person_member:
-    one: Einzelmitglied
-    other: Einzelmitglieder
-    telefonDienstl: Telefon (dienstl.)
-    zeitungen: Zeitungen
-    zusatzzeitung: Zusatz-Zeitung
-    birthday: Geburtstag
-    tarrif_id: Beitragstyp
   distinction:
     one: Ehrung
     other: Ehrungen
@@ -341,12 +333,6 @@ de:
     check_double: "Doppel-Mitgliedschaft prüfen"
   member_account:
     balance: Saldo
-  regional_organization:
-    other: Landesverbände
-    one: Landesverband
-    share_overview: Beitragsanteile
-    name: LV-Name
-    homepage: Homepage
   regional_organization_booking:
     index: Landesverbandskonto
     booking_type_S: Sollstellung
@@ -560,8 +546,6 @@ de:
       state:
          country_id: Land
          name: Name
-      regional_organization:
-        name: LV-Name
       url:
         attributes:
           url_category:
@@ -621,7 +605,6 @@ de:
         display_entries: "Zeige Einträge <b>%{first}&nbsp;-&nbsp;%{last}</b> von <b>%{total}</b>"
   activemodel:
     models:
-      report_sheet: Meldebogen
       orchestra_member: Orchestermitglied
     errors:
       models:
