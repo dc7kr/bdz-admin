@@ -138,6 +138,13 @@ module ButtonHelper
       glyph_button("pencil", path, t("common.edit"), true, :link, "btn btn-sm btn-outline-dark")
     end 
   end
+  
+  def del_glyph_link(path,entity) 
+    if can? :destroy, entity
+      glyph_button("trash-o", path, t("common.delete"), true, :link, "btn btn-sm btn-outline-dark")
+    end 
+  end
+
 
   def edit_button(path,entity) 
     if can? :update, entity
