@@ -63,9 +63,35 @@ class HomeController < AuthenticatedNonResourceController
 
   def cron
   	authorize! :member_account_booking, :show
+
+    @views = GenericView.public_views
+
     respond_to do |format|
       format.html
-	end
+	  end
+  end
+
+  def export_view
+  	authorize! :member_account_booking, :show
+
+    prefix = Time.now.strftime("%Y%m%d")+"_"
+
+    view_suffix = params[:view]
+
+    filename = prefix+view_suffix+".ods"
+
+    data = GenericView.connection.select_all("SELECT * from public_#{view_suffix}")
+
+    tmp = Tempfile.new('view')
+    writer = OdsViewWriter.new(data, view_suffix)
+    writer.write(tmp)
+    tmp.close
+
+    logger.debug("TMP PATH: #{tmp.path}")
+
+    send_file(tmp.path, :filename => filename, :type => "application/octet-stream")
+
+    
   end
 
   def current_area
