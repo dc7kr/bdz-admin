@@ -31,7 +31,7 @@ class DistinctionsController < AuthenticatedController
     booking.save
 
     if (invoice.customer.is_direct_debit?) then
-      @wdbooking = MemberAccountBooking.newWithdrawal("Lastschrift "+booking_txt,distinction.calcSum,sepa.orig_filename)
+      @wdbooking = MemberAccountBooking.newWithdrawal("Lastschrift "+booking_txt,invoice.sum,sepa.orig_filename)
       @wdbooking.member_id = orchestra.member.id
       @wdbooking.save
     end
