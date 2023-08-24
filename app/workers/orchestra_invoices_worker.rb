@@ -9,6 +9,10 @@ class OrchestraInvoicesWorker < AbstractInvoicesWorker
   include FileArchiveHelper
   include Rails.application.routes.url_helpers
 
+  sidekiq_options lock: :while_executing,
+    lock_timeout: 2,
+    on_conflict: :reject
+
   # sidekiq_options queue: "high"
   # sidekiq_options retry: false
 

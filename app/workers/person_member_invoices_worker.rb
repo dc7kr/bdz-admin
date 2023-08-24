@@ -1,4 +1,8 @@
 class PersonMemberInvoicesWorker  < AbstractInvoicesWorker
+
+  sidekiq_options lock: :while_executing,
+    lock_timeout: 2,
+    on_conflict: :reject
  
    
   def perform(year,user_id)
