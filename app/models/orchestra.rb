@@ -119,10 +119,14 @@ class Orchestra < ApplicationRecord
     end
   end
 
-  def currentMagazines
+  def currentMagazines(override=true)
 	  if is_coop?
 		  return BDZ_SETTINGS["tariff"]["koopZtgCount"].to_i
 	  end
+
+    if ( ztg_override > 0 and override) 
+      return ztg_override
+    end
 
 	  if ( currentReportSheet ) 
 		  return currentReportSheet.calcZeitungen
@@ -296,8 +300,8 @@ class Orchestra < ApplicationRecord
   end
 
 
-  def self.with_zero_balance
-    ids = Member.ids_with_non_zero_balance(Orchestra)
+  def self.with_zero_balance(year=nil)
+    ids = Member.ids_with_non_zero_balance(Orchestra,year)
 
     # nasty workaround for ActiveRecord bug (KR 24.2.20)
     if (ids.size ==0 ) then
