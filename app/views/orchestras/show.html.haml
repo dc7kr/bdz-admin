@@ -16,6 +16,18 @@
     .col-md-9=link_to @orchestra.url, sanitize_url(@orchestra.url)
   = entity_row(@orchestra,:gema_kdnr)
   = entity_row(@orchestra,:gema_kdnr_new)
+  .row
+    .col-md-3.text-right=label :orchestra,:ztg_override
+    .col-md-9
+      - if @orchestra.ztg_override > 0 
+        =@orchestra.ztg_override
+        %span.badge.badge-warning=t("orchestra.is_ztg_override")
+        ( berechnet: 
+        =@orchestra.currentMagazines(false)
+        )
+      - else
+        = @orchestra.currentMagazines(true)
+        %span.badge.badge-success=t("orchestra.ztg_calculated")
 
   = render @orchestra.member,:partial=>"member"
   = entity_row(@orchestra,:bemerkung)

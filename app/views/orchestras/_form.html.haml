@@ -33,6 +33,7 @@
               = f.check_box :publish_address , custom: :switch, label: "&nbsp;".html_safe
           = f.date_field :gruendung, :class => "datetimepicker"
           = f.date_field :promusica
+          = f.number_field :ztg_override
 
 
       = f.fields_for :member do |member_form|
