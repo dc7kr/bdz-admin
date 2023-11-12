@@ -9,11 +9,9 @@
       = entity_row(@person_member,:geburtstag,:date)
       = entity_row(@person_member,:telefonDienstl)
       = entity_row(@person_member.tariff,:description)
-      = entity_row(@person_member,:bemerkung)
       = entity_row(@person_member,:zeitungen)
       = entity_row(@person_member,:kuendigungVom,:date)
-      = entity_row(@person_member,:zusatzzeitung)
-      .wat-cf
-        = edit_glyph_link(edit_person_member_path(@person_member),@person_member)
+      = entity_row(@person_member,:bemerkung)
+      = edit_glyph_link(edit_person_member_path(@person_member),@person_member)
 
 - content_for :sidebar, render(:partial => 'sidebar.show')

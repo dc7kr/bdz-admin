@@ -12,7 +12,6 @@
 
       = f.collection_select(:tariff_id, Tariff.all, :id, :description,{})
       = f.number_field :zeitungen
-      = f.number_field :zusatzzeitung
       = f.date_field :kuendigungVom
       
       = f.text_area :bemerkung, cols: 80, rows:5

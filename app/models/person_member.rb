@@ -94,7 +94,7 @@ class PersonMember < ApplicationRecord
   end
 
   def currentMagazines
-		zeitungen+zusatzzeitung
+		zeitungen
   end
 
   comma :minimal do
