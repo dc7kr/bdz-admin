@@ -9,7 +9,7 @@
       =t("common.due_date")
       =l @before
     .inner
-      %table.table.table-condensed
+      %table.table-sm.table-condensed.table-bordered
         %tr
           %th &nbsp;
           %th{:colspan=>3} LV Anteile
@@ -26,24 +26,30 @@
           %th Orchester
           %th Summe
           %th UV
-        - @regional_organization_shares.each do |s|
+        - @regional_organization_shares.each do |fs|
           %tr
-            %td=s[:regional_organization].name
-            %td.currency=format_currency s[:em_part]
-            %td.currency=format_currency s[:orch_part]
+            %td=fs.regional_organization.name
+            %td.currency=format_currency fs.persons_share
+            %td.currency=format_currency fs.orchestras_share
             %td.currency
-              =format_currency s[:orch_part]+s[:em_part]
-              - if s[:pre_paid] != 0
+              -if fs.is_corrected?
+                =format_currency fs.corrected_share
+                (
+                =format_currency fs.real_share
+                )
+              -else
+                =format_currency fs.real_share
+              - if fs.pre_paid != 0
                 %br
                 Vorauszahung: 
                 %br
-                =format_currency s[:pre_paid]
-            %td.currency=format_currency s[:sum]
-            %td.currency=format_currency s[:uv]
-            %td.currency=format_currency s[:dd_em_part]
-            %td.currency=format_currency s[:dd_orch_part]
-            %td.currency=format_currency s[:dd_sum]
-            %td.currency=format_currency s[:dd_uv]
+                =format_currency fs.pre_paid
+            %td.currency=format_currency fs.total
+            %td.currency=format_currency fs.insurance_total
+            %td.currency=format_currency fs.direct_debit.persons
+            %td.currency=format_currency fs.direct_debit.orchestras
+            %td.currency=format_currency fs.direct_debit.total
+            %td.currency=format_currency fs.direct_debit.insurance
         %tr
           %td
             %b=t('common.sum')
