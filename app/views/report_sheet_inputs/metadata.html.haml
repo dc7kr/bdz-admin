@@ -1,7 +1,7 @@
 %h2
   #{t("report_sheet_input",:count=>1)} #{@report_sheet_input.report_sheet.year}
 %h3=@report_sheet_input.orchestra.orchName
-%table.table
+%table.table-sm
   %tr
     %td=t("member.mglnr")
     %td=@report_sheet_input.orchestra.member.mglnr

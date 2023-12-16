@@ -23,7 +23,7 @@
           %td= @sepa
       %p
         %b #{t('about.last_commits')}: 
-        %table.table
+        %table.table-sm
           - @git_info[:last_commits].each do |commit|
             %tr
               %td=commit[:id]

@@ -6,7 +6,7 @@
       = t("common.all")
       Konzerte
     .inner
-      %table.table.table-hover.table-condensed
+      %table.table-sm.table-hover.table-condensed
         %tr
           %th.first=sortable("concert_date", attr_heading(Concert, :concert_date))
           %th=attr_heading(Concert, :zeit)

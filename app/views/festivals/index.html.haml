@@ -6,9 +6,9 @@
       = t("common.all")
       = t("festival",:count=>3)
     .inner
-      #entry_info
+      #enty_info.text-center
         = page_entries_info @festivals
-      %table.table.table-hover.table-condensed
+      %table.table-sm.table-hover.table-condensed
         %thead
           %th.first= sortable "startdate", t("festival.startdate")
           %th= sortable "name", t("festival.name")

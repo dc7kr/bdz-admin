@@ -7,7 +7,7 @@
       = t("common.all", :default => "All")
       = t("ensemble",:count=>3)
     .inner
-      %table.table.table-hover.table-condensed
+      %table.table-sm.table-hover.table-condensed
         %tr
           %th.first 
             = sortable "id", attr_heading(Ensemble,:id)

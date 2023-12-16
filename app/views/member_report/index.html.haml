@@ -5,7 +5,7 @@
     %h2.title
       = t("member_report",:count=>1)
     .inner
-      %table.table.table-hover.table-condensed
+      %table.table-sm.table-hover.table-condensed
         %thead
           %th.first= attr_heading(ReportSheet,:year)
           %th= t("member_report.orchestra_count")
@@ -50,7 +50,7 @@
               %td= format_int sum_active
               %td= format_int (sum_active+sum.sum_passive)
 
-      %table.table
+      %table.table-sm
         %thead
           %th.first= attr_heading(ReportSheet,:year)
           %th= t("member_report.person_member_count")
@@ -80,7 +80,7 @@
               %td=format_int @lorch[lv[0]]
 
       %h3=t('member_report.insurance_title')
-      %table.table
+      %table.table-sm
         %thead
           %th.first= attr_heading(ReportSheet,:year)
           %th.number= t("member_report.uv_count")

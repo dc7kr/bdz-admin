@@ -9,7 +9,7 @@
         bis Ende GJ #{@lastyear}
     .inner
       = link_to_generated_download_path(t('common.download'),nopayment_orchestras_path(:format=>:ods))
-      %table.table.table-hover.table-condensed
+      %table.table-sm.table-hover.table-condensed
         %tr
           %th.first 
             = sortable "mglnr", t("orchestra.mglnr", :default => "Mglnr")

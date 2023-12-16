@@ -8,10 +8,10 @@
       =link_to content_tag(:span,"",:class=>"glyphicon glyphicon-transfer"), exchange_all_orchestra_orchestra_members_path(@orchestra), {:class=>"btn btn-xs btn-default",:method=>:post}
     .inner
 
-      #entry_info
+      #enty_info.text-center
         = page_entries_info @orchestra_members
       = link_to_generated_download_path(t('common.download'),orchestra_orchestra_members_path(@orchestra,:format=>:ods))
-      %table.table.table-hover.table-condensed
+      %table.table-sm.table-hover.table-condensed
         %thead
           %th.first= sortable "first_name", attr_heading(OrchestraMember,:first_name)
           %th= sortable "last_name", attr_heading(OrchestraMember,:last_name)

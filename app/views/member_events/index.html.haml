@@ -6,7 +6,7 @@
       = t("common.all")
       = t('member_event.other')
     .inner
-      %table.table.table-hover.table-condensed
+      %table.table-sm.table-hover.table-condensed
         %thead
           %th.first= sortable "event_date", attr_heading(MemberEvent,:event_date)
           %th= sortable "event_type", attr_heading(MemberEvent,:event_type)

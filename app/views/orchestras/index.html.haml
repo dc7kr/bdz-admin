@@ -5,9 +5,9 @@
     = t("common.all")
     = Orchestra.model_name.human
   .inner
-    #entry_info
+    #enty_info.text-center
       = page_entries_info @orchestras
-    %table.table.table-hover.table-condensed
+    %table.table-sm.table-hover.table-condensed
       %thead
         %th.first= sortable "mglnr", attr_heading(Member,:mglnr)
         %th= sortable "orchName", attr_heading(Orchestra,:orchName)

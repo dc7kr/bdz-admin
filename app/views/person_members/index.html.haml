@@ -6,7 +6,7 @@
       = t("common.all")
       = t("person_member",:count=>3)
     .inner
-      %table.table.table-hover.table-condensed
+      %table.table-sm.table-hover.table-condensed
         %thead
           %th.first= sortable "mglnr", attr_heading(Member,:mglnr)
           %th= sortable "name", attr_heading(Member,:fullname)

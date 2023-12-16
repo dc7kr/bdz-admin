@@ -9,17 +9,17 @@
     - if @result[:faulty].count > 0 then
       %h3
         %span.label.label-danger Fehlerhaft:
-      %table.table.table-collapsed
+      %table.table-sm.table-collapsed
         = render @result[:faulty]
     - if @result[:verified].count > 0 then 
       %h3 
         %span.label.label-success Erfolgreich geprüft:
-      %table.table.table-collapsed
+      %table.table-sm.table-collapsed
         = render @result[:verified]
     - if @result[:neutral].count > 0 then 
       %h3 
         %span.label.label-warning Ignoriert:
-      %table.table.table-collapsed
+      %table.table-sm.table-collapsed
         = render @result[:neutral]
     - if @needs_update  then
       = wizard_img_button(update_double_members_orchestra_report_sheet_path(@orchestra,@current_report_sheet,:dm=>@result[:verified].count), t('report_sheet.update_double_members'), "/assets/icons/check.png")

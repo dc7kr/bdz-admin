@@ -8,7 +8,7 @@
       = t("web-app-theme.all", :default => "All")
       States
     .inner
-      %table.table
+      %table.table-sm
         %tr
           %th.first ID
           %th

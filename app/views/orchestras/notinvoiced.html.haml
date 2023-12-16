@@ -6,9 +6,9 @@
       = t("common.all")
       Orchester
     .inner
-      #entry_info
+      #enty_info.text-center
         = page_entries_info @orchestras
-      %table.table.table-hover.table-condensed
+      %table.table-sm.table-hover.table-condensed
         %tr
           %th.first 
             = sortable "mglnr", t("orchestra.mglnr", :default => "Mglnr")

@@ -7,7 +7,7 @@
       = t("festival_application",:count=>3)
     .inner
 
-      %table.table.table-hover.table-condensed
+      %table.table-sm.table-hover.table-condensed
         %tr
           %th &nbsp;
           %th Regulär
@@ -26,7 +26,7 @@
         %tr 
           %td Spieler ohne Karte
           %td=@sums[:no_ticket]
-      %table.table#festival_applications
+      %table.table-sm#festival_applications
         %thead
           %tr
             %th=t("common.number")

@@ -6,9 +6,9 @@
       = t("common.all")
       = t('function',:count=>3)
     .inner
-      #entry_info
+      #enty_info.text-center
         = page_entries_info @functions
-      %table.table.table-hover.table-condensed
+      %table.table-sm.table-hover.table-condensed
         %thead
           %th.first= attr_heading(Function,:label)
           %th= sortable "regional_organization_id", t("regional_organization",:count=>1)

@@ -6,9 +6,9 @@
       = t("common.all")
       = t("board_contact",:count=>3)
     .inner
-      #entry_info
+      #enty_info.text-center
         = page_entries_info @board_contacts
-      %table.table.table-hover.table-condensed
+      %table.table-sm.table-hover.table-condensed
         %thead
           %th.first= attr_heading Contact, :last_name
           %th= sortable "email", attr_heading(Contact,:email )

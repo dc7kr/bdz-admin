@@ -7,7 +7,7 @@
       = t("member.mglnr")
       = @orchestra.member.mglnr
     .inner
-      %table.table.table-hover.table-condensed
+      %table.table-sm.table-hover.table-condensed
         %thead
           %th.first=attr_heading(OrchestraContact,:role)
           %th= sortable "first_name", attr_heading(OrchestraContact,:first_name)
