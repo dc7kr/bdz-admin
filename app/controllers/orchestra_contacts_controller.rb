@@ -31,6 +31,7 @@ class OrchestraContactsController < AuthenticatedController
   # GET /orchestra_contacts/new.json
   def new
     @orchestra_contact = OrchestraContact.new
+    @orchestra_contact.country_code= 'DE'
 
 	@orchestra = Orchestra.find(params[:orchestra_id])
 	@orchestra_contact.orchestra = @orchestra

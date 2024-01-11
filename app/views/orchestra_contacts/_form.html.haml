@@ -1,5 +1,5 @@
 = bootstrap_form_for([@orchestra,@orchestra_contact], layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10") do |f| 
-  =f.select :role, options_for_select(t_opts("orchestra_contact","role", ["V", "S", "G", "D", "J", "O"]), :selected=>@orchestra_contact.role) 
+  =f.select :role, options_for_select(t_opts("orchestra_contact","role", OrchestraContact.roles), :selected=>@orchestra_contact.role) 
   =f.select :salutation, options_for_select([["Herr", "M"], ["Frau", "W"]],:selected=>@orchestra_contact.salutation) 
   =f.text_field :first_name
   =f.text_field :last_name
@@ -7,8 +7,8 @@
   =f.text_field :zip
   =f.text_field :city
   .row
-    .col-md-2.text-right=label :member,:country
-    .col-md-10= f.country_select(:country_code, { iso_codes:true }, { class:  "form-control"})
+    .col-md-2=label :member,:country
+    .col-md-10= f.country_select(:country_code, { iso_codes:true }, { class:  "form-select"})
   =f.text_field :email
   =f.text_field :phone
 
