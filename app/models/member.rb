@@ -14,7 +14,7 @@ class Member < ApplicationRecord
   belongs_to :member_entity, polymorphic: true
 
   def self.nested_params
-    [ :id, :regional_organization_id, :mglnr, :title, :anrede, :vorname, :name, :strasse, :plz, :ort, :email, :eintritt, :austritt_zum, :za, :konto, :blz, :zahler, :telefon, :fax, :bic, :iban, :country_code, :dsgvo, :dsgvo_date ]
+    [ :id, :regional_organization_id, :mglnr, :title, :anrede, :vorname, :name, :strasse, :plz, :ort, :email, :eintritt, :austritt_zum, :za, :konto, :blz, :zahler, :telefon, :fax, :bic, :iban, :country_code, :dsgvo, :dsgvo_date, :sepa_date, :sepa_mandate_nr, :magazines ]
   end
 
   include CountryHelper
@@ -128,7 +128,11 @@ class Member < ApplicationRecord
   end
 
   def mandate_id 
-    "BDZBEITRAG"+mglnr.to_s
+    if not self.sepa_mandate_nr.nil? and not self.sepa_mandate_nr.empty?
+      self.sepa_mandate_nr
+    else
+      "BDZBEITRAG"+mglnr.to_s
+    end
   end
 
   def sig_date
