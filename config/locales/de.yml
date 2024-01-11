@@ -17,6 +17,10 @@ de:
     logout: Abmelden
     settings: Einstellungen
     profile: Profil
+  magazine:
+    zero: "keine Zeitungen"
+    one: "1 Zeitung"
+    other: "%{count} Zeitungen"
   main_menu:
     public_data: Öffentliche Daten
     member_data: Mitgliedsdaten

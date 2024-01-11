@@ -1,9 +1,16 @@
 = bootstrap_form_for(@magazine_sampling, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10") do |f| 
   .container-fluid
+    .card
+      .card-header#samplingData
+        Bemusterung
+      .card-body
+        =f.number_field :count
+        =f.check_box  :inactive
+   
     = f.fields_for :contact do |contact_form|
       = render :partial => "contacts/contact_form", :locals => { :f => contact_form,:contact=>@magazine_sampling.contact}
-    =f.number_field :count
-      
+
+     
     =submit_button()
     = cancel_button()
     %br

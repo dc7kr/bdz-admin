@@ -32,7 +32,10 @@ class Magazine::MagazineSamplingsController < AuthenticatedController
   def new
     @magazine_sampling = MagazineSampling.new
 
+    @magazine_sampling.count=1
+
     @magazine_sampling.contact = Contact.new
+    @magazine_sampling.contact.country_code="DE"
 
     respond_to do |format|
       format.html # new.html.erb
@@ -100,6 +103,6 @@ class Magazine::MagazineSamplingsController < AuthenticatedController
 
   private 
   def magazine_sampling_params
-    params.require(:magazine_sampling).permit(:count, contact_attributes: [:company,:department,:salutation,:title,:first_name,:last_name,:street,:zip,:city,:phone,:office_phone,:mobile,:fax,:email,:bic,:iban,:country_code])
+    params.require(:magazine_sampling).permit(:count, :inactive, contact_attributes: [:company,:department,:salutation,:title,:first_name,:last_name,:street,:zip,:city,:phone,:office_phone,:mobile,:fax,:email,:bic,:iban,:country_code,:id])
   end
 end
