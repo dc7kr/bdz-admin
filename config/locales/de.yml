@@ -31,6 +31,7 @@ de:
     admin_data: Administration
     cron: Tasks
   common:
+    identifier: "ID"
     please_select_country: "Bitte wählen Sie ein Land"
     fineprint: "Das Kleingedruckte"
     in: "in"
@@ -266,6 +267,8 @@ de:
       invalid_format: "Ungültiges IBAN-Format"
       required_for_dd: "IBAN ist für Zahlungsart Lastschrift erforderlich!"
     bic:
+      invalid: "BIC ist ungültig"
+      invalid_len: "BIC ungültig - nicht 11-stellig"
       unknown: "BIC ist unbekannt!"
       required_for_dd: "BIC ist für Zahlungsart Lastschrift erforderlich!"
     format: "%{message}"
@@ -591,6 +594,15 @@ de:
       next: "Nächste &rsaquo;"
       truncate: "&hellip;"
   helpers:
+    form_title: 
+        create: ! '%{model} anlegen'
+        edit: ! '%{model} bearbeiten'
+    select:
+      prompt: Bitte wählen
+    submit:
+      create: ! '%{model} erstellen'
+      submit: ! '%{model} speichern'
+      update: ! '%{model} aktualisieren'
     label:
       advertiser:
         customer_number: Kundennummer

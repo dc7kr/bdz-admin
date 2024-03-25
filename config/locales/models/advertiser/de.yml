@@ -1,14 +1,21 @@
 de:
+  magazine_advertiser: &advertiser_labels
+    one: "Werbekunde"
+    other: "Werbekunden"
+    magazines: "Zeitungen"
+    active: "Aktiviert"
+    account_owner: "Konto-Inhaber"
+
   helpers:
     label:      
-      advertiser: &advertiser_labels
-        account_owner: "Konto-Inhaber"
+      magazine_advertiser: 
+        <<: *advertiser_labels
   advertiser:
     <<: *advertiser_labels
   activerecord:
     errors:
       models:
-        advertiser:
+        magazine_advertiser:
           attributes:
             customer_number:
               taken: Kundennummer bereits vergeben

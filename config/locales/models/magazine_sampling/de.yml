@@ -1,22 +1,28 @@
 de:
   magazine_sampling: &magazine_sampling_labels
+    zero: Bemusterungen
     one: Bemusterung
     other: Bemusterungen
     count: Anzahl
+    inactive: Deaktiviert
     print_list: "Liste für Druck"
     firma: Firma
     abteilung: Abteilung
     anrede: Anrede
     vorname: Vorname
     name: Name
-    strasse: Strasse
-    plz: PLZ
-    ort: Ort
-    telefon: Telefon
+    street: Strasse
+    zip: PLZ
+    city: Ort
+    phone: Telefon
     fax: Fax
     email: E-Mail
     count: Anzahl
   helpers:
     label:
+      magazine_sampling:
+        <<: *magazine_sampling_labels
+  activerecord:
+    attributes:
       magazine_sampling:
         <<: *magazine_sampling_labels

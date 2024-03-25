@@ -30,7 +30,7 @@ de:
     publish_url: Homepage veröffentlichen
     publish_address: Kontakt veröffentlichen
     gema_kdnr: GEMA-Kd.-Nr.
-    gema_kdnr_new: GEMA-Kd.-Nr. Neu
+    gema_kdnr_new: GEMA-SAP-Kd.-Nr.
     invalid_report_sheet_upload: "Das hochgeladene Dokument konnte nicht verarbeitet werden! Bitte verwenden Sie ausschließlich die Originalvorlage."
     err_invalid_report_sheet_upload: "Ungültiges Dateiformat hochgeladen!"
     report_sheet_upload_success: "%{success} Mitgliedsdaten erfolgreich hochgeladen!"
@@ -44,6 +44,8 @@ de:
         <<: *orchestra_labels
         anrede: Anrede
   activerecord:
+    models:
+      orchestras: "Orchester"
     attributes:
       orchestra:
         <<: *orchestra_labels

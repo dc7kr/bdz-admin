@@ -26,6 +26,10 @@ de:
     dsgvo: DSGVO-Zustimmung
     dsgvo_date: DSGVO Datum
     bic_invalid: BIC ist ungültig
+    is_ztg_override: überschrieben
+    ztg_calculated: berechnet
+    magazines: Anzahl Zeitungen
+    magazine_help: "Sonderwerte: 0: keine Zeitungen, -1: automatischen Wert beibehalten"
     
     nopayment: Säumige Zahler
     last_payment: "Letzte Zahlung"
@@ -41,6 +45,8 @@ de:
     konto: Konto-Nr.
     blz: BLZ
     zahler: Konto-Inhaber
+    sepa_date: Datum SEPA Mandat
+    sepa_mandate_nr: SEPA Mandat Nr.
     vorname: Vorname
     kuendigungErfasst: Kündigung erfasst
     comment: Bemerkung

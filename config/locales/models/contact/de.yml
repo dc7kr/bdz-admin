@@ -8,6 +8,7 @@ de:
     title: Titel
     first_name: Vorname
     last_name: Nachname
+    fullname: Name
     city: Stadt
     country_code: Land
     salutation: Anrede
@@ -22,4 +23,8 @@ de:
   helpers:
     label:      
       contact: 
+        <<: *contact_labels
+  activerecord:
+    attributes:
+      contact:
         <<: *contact_labels

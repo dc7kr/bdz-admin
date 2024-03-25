@@ -8,11 +8,13 @@ de:
     role_D: "Dirigent"
     role_J: "Jugendleitung"
     role_O: "Seniorenbeauftragter"
+    role_Z: "Versandanschrift"
   activerecord:
     attributes:
       orchestra_contact:
         first_name: Vorname
         last_name: Nachname
+        fullname: "Name"
         street: Straße
         zip: PLZ
         city: Ort
