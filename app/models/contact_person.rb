@@ -54,5 +54,5 @@ class ContactPerson < ApplicationRecord
     addressee.entity = self
 
     addressee
-  end
+ end
 end

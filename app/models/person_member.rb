@@ -85,16 +85,22 @@ class PersonMember < ApplicationRecord
     end
   end
 
-  def letterCountry
-	  member.letterCountry
+  def letter_country
+	  member.letter_country
   end
 
   def countryCode
 	  member.countryCode
   end
 
-  def currentMagazines
-		zeitungen
+  def currentMagazines(override=true)
+    if member.magazines > 0 and override 
+  		member.magazines
+    elsif member.magazines < 0
+      1
+    else 
+      0
+    end
   end
 
   comma :minimal do
@@ -104,7 +110,7 @@ class PersonMember < ApplicationRecord
 	  strasse
 	  plz
   	ort
-	  letterCountry
+	  letter_country
   end
 
   comma :magazine do
@@ -114,7 +120,7 @@ class PersonMember < ApplicationRecord
     strasse
     plz
     ort
-	  letterCountry
+	  letter_country
 	  currentMagazines 'Zeitungen'
   end
 
@@ -241,6 +247,26 @@ class PersonMember < ApplicationRecord
     addressee.event_class = self.event_class
 
     addressee
+  end
+
+  def magazine_address_list_row
+    if ( currentMagazines >0) then
+      csvrow = {
+        :identifier=>member.mglnr,
+        :company=> '',
+        :department=>'',
+        :fullname=>member.fullname,
+        :street=>member.strasse ,
+        :countryCode=>member.countryCode,
+        :zip=>member.plz,
+        :city=>member.ort,
+        :country=>member.letter_country,
+        :magazines=>currentMagazines
+      }
+      return csvrow
+    else
+      nil
+    end
   end
 
 end

@@ -1,6 +1,3 @@
-require 'blz_validator'
-require 'iban_validator'
-
 class Member < ApplicationRecord
 
   acts_as_paranoid
@@ -55,7 +52,7 @@ class Member < ApplicationRecord
      return result
   end
 
-  def letterCountry
+  def letter_country
 	  if country_code == nil 
 		  return ""
 	  else

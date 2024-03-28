@@ -3,6 +3,11 @@ class MagazineSampling < ApplicationRecord
   has_one :contact, as: :contact_entity, dependent: :destroy
   accepts_nested_attributes_for :contact
 
+  scope :active, -> {
+    joins(:contact).where("inactive=0")
+  }
+
+
   def fullname
     contact.fullname
   end
@@ -10,15 +15,15 @@ class MagazineSampling < ApplicationRecord
   def magazine_address_list_row
     if ( current_count >0) then
       csvrow = {
-        :mglnr=>member.mglnr,
-        :name=> contact.company,
-        :name2=>contact.department,
+        :identifier=> "B_"+id.to_s,
+        :company=> contact.company,
+        :department=>contact.department,
         :fullname=>contact.fullname,
-        :strasse=>contact.street,
-        :countryCode=>contact.countryCode,
-        :plz=>contact.zip,
-        :ort=>contact.city,
-        :land=>contact.letterCountry,
+        :street=>contact.street,
+        :countryCode=>contact.country_code,
+        :zip=>contact.zip,
+        :city=>contact.city,
+        :country=>contact.letter_country,
         :magazines=>count
       }
       return csvrow
@@ -41,5 +46,9 @@ class MagazineSampling < ApplicationRecord
     else
       0
     end
+  end
+
+  def one_line_addr
+    contact.one_line_addr
   end
 end

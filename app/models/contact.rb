@@ -27,6 +27,13 @@ class Contact < ApplicationRecord
     translated_country(country_code,locale)
   end
 
+  def letter_country
+	  if country_code == nil 
+		  return ""
+	  else
+		  return country_code.upcase
+	  end
+  end
   def to_customer
     c = CorikaInvoices::Customer.new
     c.salutation  = salutation
@@ -41,4 +48,15 @@ class Contact < ApplicationRecord
 
     c
   end
+
+  def one_line_addr
+    components = Array.new
+    components << company unless (company.nil? or company.empty?)
+    components << fullname unless (fullname.nil? or fullname.empty?)
+    components << street
+    components << zip+ " "+ city
+
+    components.join(", ")
+  end
+
 end

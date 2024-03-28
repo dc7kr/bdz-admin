@@ -17,6 +17,10 @@ class Orchestra < ApplicationRecord
     joins(:member).where("members.austritt_zum is not null and members.austritt_zum != '0000-00-00' and austritt_zum < now()") 
   }
 
+  scope :this_year, -> {
+    joins(:member)
+  }
+
   scope :member_next_year, -> {
     joins(:member).where("members.austritt_zum is null or members.austritt_zum = '0000-00-00' or year(members.austritt_zum) > year(now())") 
   }
@@ -65,7 +69,10 @@ class Orchestra < ApplicationRecord
   #validates :mglnr, :orch_mglnr => true
 
   def self.notinvoiced(year)
-    joins([:report_sheets,:member]).joins("LEFT JOIN member_account_bookings mb ON members.id=mb.member_id AND mb.booking_type='B' and mb.booking_year = #{year}").where("mb.id IS NULL and report_sheets.year= ?",year).order("members.mglnr")
+    normal =  joins(:member).joins("LEFT JOIN member_account_bookings mb ON members.id=mb.member_id AND mb.booking_type='B' and mb.booking_year = #{year}").where("mb.id IS NULL AND orchestras.orch_type <> 'X'").order("members.mglnr")
+    coop =  joins(:member).joins("LEFT JOIN member_account_bookings mb ON members.id=mb.member_id AND mb.booking_type='B' and mb.booking_year = #{year}").where("mb.id IS NULL AND orch_type='K'")
+
+    normal
   end
 
   def self.mailForEvent(event,via_paper)
@@ -124,8 +131,8 @@ class Orchestra < ApplicationRecord
 		  return BDZ_SETTINGS["tariff"]["koopZtgCount"].to_i
 	  end
 
-    if ( ztg_override > 0 and override) 
-      return ztg_override
+    if ( member.magazines >= 0 and override) 
+      return member.magazines
     end
 
 	  if ( currentReportSheet ) 
@@ -220,7 +227,7 @@ class Orchestra < ApplicationRecord
     strasse
     plz
     ort
-	  letterCountry
+	  letter_country
   end
   
   comma :lv do
@@ -233,20 +240,33 @@ class Orchestra < ApplicationRecord
 	  member.email
   end
 
-  def letterCountry
-	  member.letterCountry
+  def letter_country(delivery=nil)
+    if not delivery.nil? and not delivery_contact.nil?
+      delivery_contact.letter_country
+    else
+	    member.letter_country
+    end
   end
 
-  def countryCode
-	  member.countryCode
+  def countryCode(delivery=nil)
+    if not delivery.nil? and not delivery_contact.nil?
+	    delivery_contact.country_code
+    else
+      member.countryCode
+    end
   end
 
-  def fullname
-	  if ( member.anrede != nil && member.anrede.length > 0 ) then
-		  I18n.t("common.salutation_d."+member.anrede)+" "+member.fullname
-	  else
-		  member.fullname
-	  end
+  def fullname(delivery=nil)
+
+    if not delivery.nil? and not delivery_contact.nil?
+      delivery_contact.fullname
+    else
+      if ( member.anrede != nil && member.anrede.length > 0 ) then
+        I18n.t("common.salutation_d."+member.anrede)+" "+member.fullname
+      else
+        member.fullname
+      end
+    end
   end
 
   def address
@@ -316,14 +336,28 @@ class Orchestra < ApplicationRecord
     orchName
   end
 
-  def street
-    member.strasse
+  def street(delivery=nil)
+    if not delivery.nil? and not delivery_contact.nil?
+      delivery_contact.street
+    else
+      member.strasse
+    end
   end
-  def zip
-    plz
+
+  def zip(delivery=nil)
+    if not delivery.nil? and not delivery_contact.nil?
+      delivery_contact.zip
+    else
+      member.plz
+    end
   end
-  def city
-    ort
+
+  def city(delivery=nil)
+    if not delivery.nil? and not delivery_contact.nil?
+      delivery_contact.city
+    else
+      member.ort
+    end
   end
 
   def mandate_id
@@ -476,6 +510,15 @@ class Orchestra < ApplicationRecord
     result[:faulty].count != 0
   end
 
+  def current_rsi
+    year = Time.now.year
+    ReportSheetInput.for_orchestra_and_year(self,year)
+  end
+
+  def has_rsi?
+    not current_rsi.nil?   
+  end
+    
   def gen_rsi(rs_year)
 
     rsi = ReportSheetInput.for_orchestra_and_year(self,rs_year)
@@ -493,5 +536,33 @@ class Orchestra < ApplicationRecord
       logger.warn(rsi.report_sheet.errors.full_messages.join("\n"))
       logger.warn("Something went wrong during save of report sheet!")
     end
+  end
+
+  def magazine_address_list_row
+
+      mag_count = currentMagazines
+      if (mag_count>0) 
+  
+        csvrow = {
+          :identifier=>member.mglnr,
+          :company=> orchName,
+          :fullname=>fullname(:delivery),
+          :department=>'',
+          :street=>street(:delivery),
+          :countryCode=>countryCode(:delivery),
+          :zip=>zip(:delivery),
+          :city=>city(:delivery),
+          :country=>letter_country,
+          :magazines=>currentMagazines
+       }
+
+       return csvrow
+      else 
+        nil
+    end
+  end
+
+  def delivery_contact
+    orchestra_contacts.where("role='Z'").first
   end
 end
