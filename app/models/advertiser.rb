@@ -1,5 +1,3 @@
-require 'iban_validator'
-
 class Advertiser < ApplicationRecord
 	#attr_accessible :advert_type
 
@@ -13,6 +11,11 @@ class Advertiser < ApplicationRecord
   has_one :contact, as: :contact_entity
 
   accepts_nested_attributes_for :contact
+
+  scope :active, -> {
+    joins(:contact).where("active=1")
+  }
+
 
 
   self.authorizer_name = 'MagazineContextAuthorizer'
@@ -38,4 +41,34 @@ class Advertiser < ApplicationRecord
 
     c
   end
+
+
+  def current_count
+    if active
+      magazines
+    else  
+      0
+    end
+  end
+
+  def magazine_address_list_row
+    if ( current_count >0) then
+      csvrow = {
+        :company=> contact.company,
+        :identifier => customer_number,
+        :department=>contact.department,
+        :fullname=>contact.fullname,
+        :street=>contact.street,
+        :countryCode=>contact.country_code,
+        :zip=>contact.zip,
+        :city=>contact.city,
+        :country=>contact.letter_country,
+        :magazines=>magazines
+      }
+      return csvrow
+    else
+      nil
+    end
+  end
+
 end
