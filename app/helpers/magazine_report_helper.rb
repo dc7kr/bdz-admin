@@ -2,112 +2,60 @@ require 'rodf'
 
 module MagazineReportHelper
 
-  def renderPersonMembersMagazineListOds(filename,person_members)
+  def render_magazine_address_list(filename,de_rows,ext_rows)
 
     RODF::Spreadsheet.file(filename) do
 
-      table "EM" do
-        row {
-          cell "Lfd Nr"
-          cell I18n.t("member.mglnr")
-          cell ""
-          cell ""
-          cell I18n.t("member.fullname")
-          cell I18n.t("member.strasse")
-          cell I18n.t("contact.zip")
-          cell I18n.t("contact.city")
-          cell I18n.t("country")
-          cell "Zeitungen"
-        }
-
-        nr=1
-        person_members.sort_by { |item| [item[:magazines],item[:mglnr]]}.each do |data|
-          row {
-            cell nr
-            cell data[:mglnr]
-            cell data[:name]
-            cell data[:name2]
-            cell "#{data[:vorname]} #{data[:nachname]}"
-            cell data[:strasse]
-            cell data[:plz]
-            cell data[:ort]
-            cell data[:land]
-            cell data[:magazines]
-          }
-          nr+=1
-        end
+      table "Inland" do |t|
+        MagazineReportHelper._add_heading(t)
+        MagazineReportHelper._add_data(t,de_rows)
       end
+
+      table "Ausland" do |t|
+        MagazineReportHelper._add_heading(t)
+        MagazineReportHelper._add_data(t,ext_rows)
+      end
+
     end
   end
-  
-  def renderSamplingListOds(filename,samplings)
-    RODF::Spreadsheet.file(filename) do
-      table "Samplings"  do |t|
-        t.row {
-          cell "Lfd Nr"
-          cell I18n.t("contact.company")
-          cell I18n.t("contact.department")
-          cell I18n.t("contact.fullname")
-          cell I18n.t("contact.street")
-          cell I18n.t("contact.city")
-          cell I18n.t("country")
-          cell "Zeitungen"
-        }
-        rownr=1
-        samplings.each do |s|
-          row {
-            cell rownr
-            cell s.contact.company
-            cell s.contact.department
-            cell s.contact.fullname
-            cell s.contact.street
-            cell s.contact.zip+" "+s.contact.city
-            cell s.contact.t_country
-            cell s.count , :type=> :float
-          }
-          rownr+=1
-        end
-      end
+ 
+  ###########
+  # Private 
+  ########### 
+  private 
+
+  def self._add_heading(table)
+    table.row do
+      cell "Lfd Nr"
+      cell I18n.t("common.identifier")
+      cell I18n.t("contact.company")
+      cell I18n.t("contact.department")
+      cell I18n.t("contact.fullname")
+      cell I18n.t("contact.street")
+      cell I18n.t("contact.zip")
+      cell I18n.t("contact.city")
+      cell I18n.t("country.one")
+      cell "Zeitungen"
     end
   end
-  
-  def renderOrchestraMagazineListOds(filename,orchestras)
 
-    RODF::Spreadsheet.file(filename) do
+  def self._add_data(table,rows)
+    nr=1
 
-      table "Orchester" do
-        row {
-          cell    "Lfd Nr"
-          cell I18n.t("member.mglnr")
-          cell I18n.t("orchestra.orch_name")
-          cell "Orchester2"
-          cell I18n.t("member.fullname")
-          cell I18n.t("member.street")
-          cell I18n.t("contact.zip")
-          cell I18n.t("contact.city")
-          cell I18n.t("country")
-          cell "Zeitungen"
-        }
-
-     	  nr=1
-        orchestras.sort_by { |item| [item[:magazines],item[:mglnr]]}.each do |data|
-
-          Rails.logger.debug(data)
-          row {
-            cell nr
-            cell data[:mglnr]
-            cell data[:name]
-            cell data[:name2]
-            cell data[:fullname]
-            cell data[:strasse]
-            cell data[:plz]
-            cell data[:ort]
-            cell data[:land]
-            cell data[:magazines]
-          }
-		      nr+=1
-        end
+    rows.sort_by { |item| [item[:zip],item[:magazines]]}.each do |data|
+      table.row do
+        cell nr
+        cell data[:identifier]
+        cell data[:company]
+        cell data[:department]
+        cell data[:fullname]
+        cell data[:street]
+        cell data[:zip]
+        cell data[:city]
+        cell data[:country]
+        cell data[:magazines]
       end
-	  end
+      nr+=1
+    end
   end
 end

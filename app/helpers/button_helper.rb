@@ -15,27 +15,27 @@ module ButtonHelper
     end
 
     if can? :update, entity
-      link_to fa_icon("pencil"), send(path, entity), :class =>"btn btn-sm btn-outline-dark"
+      link_to my_fa_icon("edit"), send(path, entity), :class =>"btn btn-sm btn-outline-dark"
     end
   end
 
 
   def link_to_edit_path(path,txt,entity)
       if can? :update, entity
-          link_to fa_icon("pencil"), path,:class =>"btn btn-sm btn-outline-dark"
+          link_to my_fa_icon("edit"), path,:class =>"btn btn-sm btn-outline-dark"
       end
   end
 
 
   def link_to_download_path(txt,path,entity)
     if entity.has_attachment? and can? :read, entity then
-      link_to fa_icon("download"),path,:class =>"btn btn-sm btn-outline-dark", data: { turbolinks:false }
+      link_to my_fa_icon("download"),path,:class =>"btn btn-sm btn-outline-dark", data: { turbolinks:false }
     end
   end
 
   def link_to_show_path(path,txt,entity)
     if can? :read, entity
-      link_to fa_icon("eye"),path,:class =>"btn btn-sm btn-outline-dark"
+      link_to my_fa_icon("eye"),path,:class =>"btn btn-sm btn-outline-dark"
     end
   end
 
@@ -44,16 +44,25 @@ module ButtonHelper
       txt = t('common.show')
     end
     if can? :read, entity
-          link_to fa_icon("eye"), entity, :class=> "btn btn-sm btn-outline-dark"
+          link_to my_fa_icon("eye"), entity, :class=> "btn btn-sm btn-outline-dark"
       end
   end
 
   def link_to_new(path, txt, clazz)
     if can? :create, clazz
   #    if user_signed_in?
-          link_to fa_icon("plus"), path, :class => "btn btn-sm btn-outline-dark"
+          link_to my_fa_icon("plus"), path, :class => "btn btn-sm btn-outline-dark"
   #    end
     end
+  end
+
+  def nav_to_show(entity) 
+    path = { :action=>"show", :controller=> entity.class.name.underscore.pluralize }
+
+    if can? :show, entity
+      link_to my_fa_icon("eye"), path, :class => tabActiveClass(@current_action,"new", "nav-link")
+    end
+
   end
 
   def nav_to_new(entity_clazz,path=nil)
@@ -61,8 +70,16 @@ module ButtonHelper
       path = { :action=>"new", :controller=> entity_clazz.name.underscore.pluralize }
     end
     if can? :create, entity_clazz
-      link_to fa_icon("plus"), path, :class => tabActiveClass(@current_action,"new", "nav-link")
+      link_to my_fa_icon("plus"), path, :class => tabActiveClass(@current_action,"new", "nav-link")
     end
+  end
+
+  def nav_to_list(entity_clazz,path=nil)
+    if path.nil?
+      path = { :action=>"index", :controller=> entity_clazz.name.underscore.pluralize }
+    end
+
+    link_to my_fa_icon("list"), path, :class => tabActiveClass(@current_action,"index", "nav-link")
   end
 
   def link_to_publish(entity,txt) 
@@ -76,9 +93,7 @@ module ButtonHelper
     txt=label_or_default(txt,'common.delete')
     confirm=label_or_default(confirm,'common.confirm_delete')
       if can? :delete, entity or not authorize
-        img = '/assets/icons/delete.png'
-        img_hash = {:size=>'16x16',:alt=>txt,:title=>txt,:class=>'btn'}
-        link_to fa_icon("times"), path, :confirm => cfm ? confirm : nil, :method => :delete, :remote => remote,:class =>"btn btn-sm btn-danger #{link_class}"
+        link_to my_fa_icon("trash-alt"), path, data: { "turbo-method": :delete, "turbo-confirm": cfm ? confirm : nil },:class =>"btn btn-sm btn-danger #{link_class}"
       end
   end
 
@@ -101,8 +116,8 @@ module ButtonHelper
       end
 
       if can? :delete, entity
-        link_to fa_icon("trash-o"),
-        send(path, entity), method: :delete, remote: true, data: {confirm: confirm }, class: "btn btn-sm btn-danger"
+        link_to my_fa_icon("trash-alt"),
+        send(path, entity), data: { "turbo-method": :delete, "turbo-confirm": confirm }, class: "btn btn-sm btn-danger"
       end
   end
 
@@ -112,7 +127,7 @@ module ButtonHelper
 
   def del_button(path,entity)
     if can? :destroy, entity  
-      glyph_button("trash-o", path, t("common.delete"),true,:button,"btn btn-sm btn-danger")
+      glyph_button("trash-alt", path, t("common.delete"),true,:button,"btn btn-sm btn-danger")
     end
   end
 
@@ -123,36 +138,36 @@ module ButtonHelper
 
     if type == :link 
       link_to path, :class => "btn "+clazz do 
-        fa_icon(glyph)+" #{txt}"
+        my_fa_icon(glyph)+" #{txt}"
       end
     elsif type == :button
       
       button_tag(:link=>path,:class=>"btn #{clazz}") do 
-        fa_icon(glyph)+" "+txt
+        my_fa_icon(glyph)+" "+txt
       end
     end
   end
 
   def edit_glyph_link(path,entity) 
     if can? :update, entity
-      glyph_button("pencil", path, t("common.edit"), true, :link, "btn btn-sm btn-outline-dark")
+      glyph_button("edit", path, t("common.edit"), true, :link, "btn btn-sm btn-outline-dark")
     end 
   end
   
   def del_glyph_link(path,entity) 
     if can? :destroy, entity
-      glyph_button("trash-o", path, t("common.delete"), true, :link, "btn btn-sm btn-outline-dark")
+      glyph_button("trash-alt", path, t("common.delete"), true, :link, "btn btn-sm btn-outline-dark")
     end 
   end
 
 
   def edit_button(path,entity) 
     if can? :update, entity
-      glyph_button("pencil", path, t("common.edit"), true, :button, "btn btn-sm btn-outline-dark")
+      glyph_button("edit", path, t("common.edit"), true, :button, "btn btn-sm btn-outline-dark")
     end
   end
 
-  def submit_button(txt=t('common.save'))
+  def submit_button(txt=t('common.save'),form=nil)
     glyph_button("check", "submit", txt,true,:button, "btn btn-primary")
   end
 
@@ -173,11 +188,11 @@ module ButtonHelper
   end
 
   def wizard_del_button(path,txt,entity)
-      link_to fa_icon("times")+txt,path,:confirm => t("common.delete_confirm"), :class=>"btn btn-danger"
+      link_to my_fa_icon("times")+txt,path,:confirm => t("common.delete_confirm"), :class=>"btn btn-danger"
   end
 
   def icon_link_to(glyph, txt, path)
-      link_to fa_icon(glyph)+" "+txt,path,:class=>"btn btn-default"
+      link_to my_fa_icon(glyph)+" "+txt,path,:class=>"btn btn-default"
   end
 
 end

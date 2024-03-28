@@ -1,7 +1,7 @@
 require 'prawn' 
 require 'pdf/toolkit'
 
-module PDFHelper
+module PdfHelper
 
 	def gen_anschreiben(orchestra,rsi)
 		year = rsi.report_sheet.year

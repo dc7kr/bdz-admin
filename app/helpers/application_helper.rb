@@ -1,8 +1,8 @@
 module ApplicationHelper
-  include FontAwesome::Rails::IconHelper
 
   include CountryHelper
   include ButtonHelper
+  include FontAwesomeHelper
 
   def is_production?
 	  ENV["RAILS_ENV"] == "production"
@@ -61,12 +61,12 @@ end
 
 
 def link_to_up_path(txt,path)
-	link_to fa_icon("arrow-up"), path, :class => "nav-link"
+	link_to my_fa_icon("arrow-up"), path, :class => "nav-link"
 end
 
 def link_to_generated_download_path(txt,path)
 	if can? :read, path then
-    link_to fa_icon("download"),path,:class =>"btn btn-sm btn-outline-default", data: { turbolinks:false }
+    link_to my_fa_icon("download"),path,:class =>"btn btn-sm btn-outline-default", data: { turbolinks:false }
 	end
 end
 
@@ -351,7 +351,7 @@ JS1
       :selected=>selected)
   end
 
-  def get_country_options
+  def get_country_options(selected=nil)
     options = ISO3166::Country.all.collect {|c| [ c.translations["en"], c.alpha2 ] }
   end
 
