@@ -70,6 +70,10 @@ class User < ApplicationRecord
     return has_role? :admin
   end
 
+  def tools_permission?
+	  return (has_role? :admin or has_role? :accounting)
+  end
+
   def bulk_permission?
 	  return (has_role? :admin or has_role? :bulk)
   end
