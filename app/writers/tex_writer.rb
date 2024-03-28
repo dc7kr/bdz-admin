@@ -1,4 +1,4 @@
-class TexWriter 
+class TexWriter
 	include ApplicationHelper
 	include ActionView::Helpers::NumberHelper
 
@@ -192,7 +192,7 @@ class TexWriter
 
 	  shortprefix = Time.now.strftime("%Y%m%d-")
 
-	  if ( ! Dir.exists? tgtDir) then
+	  if ( ! Dir.exist? tgtDir) then
     	FileUtils.mkdir tgtDir
 	  end
 
