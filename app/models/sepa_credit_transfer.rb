@@ -1,4 +1,4 @@
-class SEPACreditTransfer 
+class SepaCreditTransfer 
 
   attr_accessor :end_to_end_id,:amount,:remittance_txt,:sequence_type,:customer,:amount
 
