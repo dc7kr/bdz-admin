@@ -29,7 +29,7 @@ class TicketOrderOverviewPdf < Prawn::Document
     end
   end
 
-	def format_orders
+  def format_orders
     @result = Array.new
 
     @result << [ "Nr.","Name","Tickets" , "Summe", "Bezahlt"] 
