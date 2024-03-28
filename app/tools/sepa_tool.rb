@@ -1,6 +1,6 @@
 require "sepa_king" 
 
-class SEPATool
+class SepaTool
   attr_accessor :company,:bic,:iban,:creditor_id,:message_prefix
 
   def initialize(settings)
@@ -22,7 +22,7 @@ class SEPATool
       requested_date = 5.day.from_now.to_date
     end
 
-    sdd = SEPA::DirectDebit.new(
+    sdd = Sepa::DirectDebit.new(
       name:       @company,
       bic:        @bic,
       iban:       @iban,
@@ -61,7 +61,7 @@ class SEPATool
 
   def create_credit_transfer credit_transfers
     # First: Create the main object
-    sct = SEPA::CreditTransfer.new(
+    sct = Sepa::CreditTransfer.new(
       name:       @company,
       bic:        @bic,
       iban:       @iban,
