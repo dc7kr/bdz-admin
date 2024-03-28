@@ -189,15 +189,35 @@ class ReportSheet < ApplicationRecord
 		return calcBeitrag*BDZ_SETTINGS['tariff']['lvPart']
 	end
 
+  def kronenberger_algorithm
+    case calcGemaCount
+      when 1..8
+        1
+      when 9..16
+        2
+      when 17..28
+        4
+      when 29..40
+        5
+      when 41..99
+        10
+      else
+        20
+    end
+  end
+
+
 	def calcZeitungen
 		if (orchestra.is_lorch? ) then
 			return Prices.loZtgCount
 		end
-		@ztg = (calcGemaCount*Prices.ztgRate).ceil
-		if ( korr_ztg != nil ) then
-			@ztg += korr_ztg;
-		end
-		return @ztg
+
+    return kronenberger_algorithm
+    #		@ztg = (calcGemaCount*Prices.ztgRate).ceil
+    #		if ( korr_ztg != nil ) then
+    #			@ztg += korr_ztg;
+    #		end
+    #  return @ztg
 	end
 
     # gema report sheet CSV
