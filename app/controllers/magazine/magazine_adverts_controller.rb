@@ -49,7 +49,7 @@ class Magazine::MagazineAdvertsController < AuthenticatedController
         format.html { redirect_to @magazine_advert, notice: 'Magazine advert was successfully created.' }
         format.json { render json: @magazine_advert, status: :created, location: @magazine_advert }
       else
-        format.html { render action: "new" }
+        format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @magazine_advert.errors, status: :unprocessable_entity }
       end
     end
@@ -61,7 +61,7 @@ class Magazine::MagazineAdvertsController < AuthenticatedController
     @magazine_advert = MagazineAdvert.find(params[:id])
 
     respond_to do |format|
-      if @magazine_advert.update_attributes(params[:magazine_advert])
+      if @magazine_advert.update(params[:magazine_advert])
         format.html { redirect_to @magazine_advert, notice: 'Magazine advert was successfully updated.' }
         format.json { head :no_content }
       else

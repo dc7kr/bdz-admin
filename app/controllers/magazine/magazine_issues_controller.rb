@@ -67,7 +67,7 @@ class Magazine::MagazineIssuesController < AuthorityController
         format.html { redirect_to @magazine_issue, notice: 'Magazine issue was successfully created.' }
         format.json { render json: @magazine_issue, status: :created, location: @magazine_issue }
       else
-        format.html { render action: "new" }
+        format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @magazine_issue.errors, status: :unprocessable_entity }
       end
     end
@@ -79,7 +79,7 @@ class Magazine::MagazineIssuesController < AuthorityController
     @magazine_issue = MagazineIssue.find(params[:id])
 
     respond_to do |format|
-      if @magazine_issue.update_attributes(magazine_params)
+      if @magazine_issue.update(magazine_params)
         format.html { redirect_to @magazine_issue, notice: 'Magazine issue was successfully updated.' }
         format.json { head :no_content }
       else

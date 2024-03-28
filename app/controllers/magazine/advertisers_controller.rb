@@ -3,7 +3,14 @@ class Magazine::AdvertisersController < AuthorityController
   # GET /advertisers
   # GET /advertisers.json
   def index
-    @advertisers = Advertiser.all
+
+    per_page = params[:per_page]
+
+    if per_page.nil?
+      per_page=20
+    end
+
+    @advertisers = Advertiser.includes(:contact).order('contacts.company, contacts.last_name,contacts.first_name').page(params[:page]).per(per_page)
     authorize_action_for(@advertisers)
 
     respond_to do |format|
@@ -29,6 +36,7 @@ class Magazine::AdvertisersController < AuthorityController
   def new
     @advertiser = Advertiser.new
     @advertiser.contact = Contact.new
+    @advertiser.contact.country_code = "DE"
     authorize_action_for(@advertiser)
 
     respond_to do |format|
@@ -46,14 +54,14 @@ class Magazine::AdvertisersController < AuthorityController
   # POST /advertisers
   # POST /advertisers.json
   def create
-    @advertiser = Advertiser.new(params[:advertiser])
+    @advertiser = Advertiser.new(advertiser_params)
 
     respond_to do |format|
       if @advertiser.save
         format.html { redirect_to [:magazine,@advertiser], notice: 'Advertiser was successfully created.' }
         format.json { render json: @advertiser, status: :created, location: @advertiser }
       else
-        format.html { render action: "new" }
+        format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @advertiser.errors, status: :unprocessable_entity }
       end
     end
@@ -65,11 +73,11 @@ class Magazine::AdvertisersController < AuthorityController
     @advertiser = Advertiser.find(params[:id])
 
     respond_to do |format|
-      if @advertiser.update_attributes(advertiser_params)
+      if @advertiser.update(advertiser_params)
         format.html { redirect_to [:magazine,@advertiser], notice: 'Advertiser was successfully updated.' }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
+        format.html { render action: "edit", status: :unprocessable_entity }
         format.json { render json: @advertiser.errors, status: :unprocessable_entity }
       end
     end
@@ -88,6 +96,6 @@ class Magazine::AdvertisersController < AuthorityController
   end
 
   def advertiser_params
-    params.require(:advertiser).permit( :iban, :bic, :account_owner, :direct_debit, :customer_number, contact_attributes: Contact.nested_attributes) 
+    params.require(:advertiser).permit( :magazines,:active, :iban, :bic, :account_owner, :direct_debit, :customer_number, contact_attributes: Contact.nested_attributes) 
   end
 end

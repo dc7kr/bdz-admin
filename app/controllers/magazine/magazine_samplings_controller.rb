@@ -7,7 +7,14 @@ class Magazine::MagazineSamplingsController < AuthenticatedController
 
 
   def index
-    @magazine_samplings = MagazineSampling.includes(:contact).order('contacts.company, contacts.last_name,contacts.first_name').page(params[:page]).per(20)
+    per_page = params[:per_page]
+
+    if per_page.nil?
+      per_page=20
+    end
+
+    @magazine_samplings = MagazineSampling.includes(:contact).order('contacts.company, contacts.last_name,contacts.first_name').page(params[:page]).per(per_page)
+
 
     respond_to do |format|
       format.html # index.html.erb
@@ -58,7 +65,7 @@ class Magazine::MagazineSamplingsController < AuthenticatedController
         format.html { redirect_to @magazine_sampling, notice: 'Magazine sampling was successfully created.' }
         format.json { render json: @magazine_sampling, status: :created, location: @magazine_sampling }
       else
-        format.html { render action: "new" }
+        format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @magazine_sampling.errors, status: :unprocessable_entity }
       end
     end
