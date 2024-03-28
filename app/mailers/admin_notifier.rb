@@ -1,6 +1,18 @@
 class AdminNotifier < ActionMailer::Base
   default from: "bdzdb@bdz-online.de"
 
+  def gen_rsi_notification(args)
+    @year = args[0]
+    @user_id = args[1]
+
+    if not @user_id.nil?
+      @user = User.find(user_id)
+      mail(:to => user.email, :subject => "[BDZDB] Meldebogen Eingabe Objekte wurden erzeugt.")
+    else
+      # bulk job
+    end
+  end
+
   def cleanup_notification(user, resigned_persons, resigned_orchestras)
     @recipient = user
     @resigned_persons = resigned_persons
