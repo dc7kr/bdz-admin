@@ -10,9 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200625111208) do
+ActiveRecord::Schema.define(version: 2022_04_01_064047) do
 
-  create_table "Inserenten", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "Inserenten", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.string "Firmenname", limit: 35
     t.string "Titel", limit: 5
     t.string "Vorname", limit: 12
@@ -23,7 +23,7 @@ ActiveRecord::Schema.define(version: 20200625111208) do
     t.integer "Stückzahl"
   end
 
-  create_table "advertisers", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "advertisers", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.integer "contact_id_off"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -36,19 +36,19 @@ ActiveRecord::Schema.define(version: 20200625111208) do
     t.index ["contact_id_off"], name: "contact_id"
   end
 
-  create_table "blacklist", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", comment: "IP Blacklist " do |t|
+  create_table "blacklist", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC", comment: "IP Blacklist ", force: :cascade do |t|
     t.string "ip", limit: 16, null: false
     t.datetime "blacklisted", null: false
     t.index ["ip"], name: "ip", unique: true
   end
 
-  create_table "board_contacts", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "board_contacts", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "contact_id_off"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "bundeslaender", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "bundeslaender", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.string "name", null: false, collation: "latin1_swedish_ci"
     t.date "created_on", null: false
     t.datetime "created_at", null: false
@@ -57,7 +57,7 @@ ActiveRecord::Schema.define(version: 20200625111208) do
     t.string "country_code", limit: 2
   end
 
-  create_table "classifieds", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci" do |t|
+  create_table "classifieds", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_swedish_ci", force: :cascade do |t|
     t.integer "adv_type", default: 0, null: false
     t.string "name", default: "", null: false, collation: "latin1_swedish_ci"
     t.string "email", default: "", null: false, collation: "latin1_swedish_ci"
@@ -71,7 +71,7 @@ ActiveRecord::Schema.define(version: 20200625111208) do
     t.boolean "visible", default: false, null: false
   end
 
-  create_table "competition_entries", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "competition_entries", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.date "date_of_birth"
     t.integer "contact_id"
     t.datetime "created_at", null: false
@@ -94,7 +94,7 @@ ActiveRecord::Schema.define(version: 20200625111208) do
     t.boolean "winner", default: false
   end
 
-  create_table "composers", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci" do |t|
+  create_table "composers", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_swedish_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.string "name"
     t.string "vorname"
     t.string "gebjahr"
@@ -109,11 +109,11 @@ ActiveRecord::Schema.define(version: 20200625111208) do
     t.index ["fk_ref_komp_id"], name: "index_composers_on_fk_ref_komp_id"
   end
 
-  create_table "concertino_category", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "concertino_category", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.string "title", null: false
   end
 
-  create_table "concertino_inhalt", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "concertino_inhalt", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "year", null: false
     t.integer "volume", null: false
     t.bigint "category", null: false
@@ -124,20 +124,20 @@ ActiveRecord::Schema.define(version: 20200625111208) do
     t.index ["category"], name: "category"
   end
 
-  create_table "concerts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "concerts", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.date "datum"
     t.time "zeit", default: "2000-01-01 00:00:00"
     t.decimal "eintritt", precision: 10, null: false
     t.datetime "reported", null: false
     t.datetime "confirmed"
     t.string "token", null: false
-    t.string "stadt", null: false, collation: "utf8_general_ci"
-    t.text "titel", null: false, collation: "utf8_bin"
-    t.string "ort", null: false, collation: "utf8_swedish_ci"
+    t.string "stadt", null: false, collation: "utf8mb3_general_ci"
+    t.text "titel", null: false, collation: "utf8mb3_bin"
+    t.string "ort", null: false, collation: "utf8mb3_swedish_ci"
     t.bigint "festival_id", default: 0, null: false
-    t.string "interpret", null: false, collation: "utf8_general_ci"
-    t.string "url", null: false, collation: "utf8_general_ci"
-    t.string "comment", null: false, collation: "utf8_general_ci"
+    t.string "interpret", null: false, collation: "utf8mb3_general_ci"
+    t.string "url", null: false, collation: "utf8mb3_general_ci"
+    t.string "comment", null: false, collation: "utf8mb3_general_ci"
     t.string "bundesland", default: "", null: false
     t.bigint "bland", default: 0
     t.string "email", default: "", null: false
@@ -157,7 +157,7 @@ ActiveRecord::Schema.define(version: 20200625111208) do
     t.index ["user_id"], name: "fk_owner"
   end
 
-  create_table "contact_events", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "contact_events", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.string "event_type"
     t.datetime "event_date"
     t.string "event_id"
@@ -168,7 +168,7 @@ ActiveRecord::Schema.define(version: 20200625111208) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "contact_people", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "contact_people", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.string "salutation"
     t.string "first_name"
     t.string "last_name"
@@ -184,7 +184,7 @@ ActiveRecord::Schema.define(version: 20200625111208) do
     t.index ["festival_application_id"], name: "index_contact_people_on_festival_application_id"
   end
 
-  create_table "contacts", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "contacts", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.string "subtype", limit: 50, null: false
     t.string "company", limit: 100
     t.string "department", limit: 100
@@ -212,7 +212,7 @@ ActiveRecord::Schema.define(version: 20200625111208) do
     t.index ["contactable_id"], name: "index_contacts_on_contactable_id"
   end
 
-  create_table "country", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "country", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.string "name", default: "", null: false
     t.string "ccode", limit: 5, default: "", null: false
     t.date "created_on", null: false
@@ -222,7 +222,7 @@ ActiveRecord::Schema.define(version: 20200625111208) do
     t.index ["name"], name: "name", unique: true
   end
 
-  create_table "courses", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "courses", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.datetime "startdate", null: false
     t.datetime "enddate", null: false
     t.datetime "reported", null: false
@@ -245,50 +245,50 @@ ActiveRecord::Schema.define(version: 20200625111208) do
     t.string "country_code", limit: 2
   end
 
-  create_table "dboerse_addr", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", comment: "Dozentenboerse Adressen" do |t|
+  create_table "dboerse_addr", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC", comment: "Dozentenboerse Adressen", force: :cascade do |t|
     t.bigint "fk_bland_id", null: false
-    t.string "vorname", limit: 100, null: false, collation: "utf8_general_ci"
-    t.string "name", limit: 100, null: false, collation: "utf8_general_ci"
-    t.string "gebjahr", limit: 100, null: false, collation: "utf8_general_ci"
-    t.text "bereich", null: false, collation: "utf8_general_ci"
-    t.string "homepage", limit: 100, null: false, collation: "utf8_general_ci"
-    t.string "email", limit: 100, null: false, collation: "utf8_general_ci"
-    t.string "telefon", limit: 100, null: false, collation: "utf8_general_ci"
-    t.string "fax", limit: 100, null: false, collation: "utf8_general_ci"
-    t.text "tmp_quali", null: false, collation: "utf8_general_ci"
-    t.text "tmp_bland", null: false, collation: "utf8_general_ci"
+    t.string "vorname", limit: 100, null: false, collation: "utf8mb3_general_ci"
+    t.string "name", limit: 100, null: false, collation: "utf8mb3_general_ci"
+    t.string "gebjahr", limit: 100, null: false, collation: "utf8mb3_general_ci"
+    t.text "bereich", null: false, collation: "utf8mb3_general_ci"
+    t.string "homepage", limit: 100, null: false, collation: "utf8mb3_general_ci"
+    t.string "email", limit: 100, null: false, collation: "utf8mb3_general_ci"
+    t.string "telefon", limit: 100, null: false, collation: "utf8mb3_general_ci"
+    t.string "fax", limit: 100, null: false, collation: "utf8mb3_general_ci"
+    t.text "tmp_quali", null: false, collation: "utf8mb3_general_ci"
+    t.text "tmp_bland", null: false, collation: "utf8mb3_general_ci"
   end
 
-  create_table "dboerse_addr2cat", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "dboerse_addr2cat", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.bigint "fk_addr_id", null: false
     t.bigint "fk_bereich_id", null: false
   end
 
-  create_table "dboerse_addr2instr", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "dboerse_addr2instr", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.bigint "fk_addr_id", null: false
     t.bigint "fk_instr_id", null: false
     t.index ["fk_addr_id"], name: "fk_addr_id"
     t.index ["fk_instr_id"], name: "fk_instr_id"
   end
 
-  create_table "dboerse_addr2quali", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "dboerse_addr2quali", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.bigint "fk_addr_id", null: false
     t.bigint "fk_quali_id", null: false
   end
 
-  create_table "dboerse_cat", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
-    t.string "category", limit: 100, null: false, collation: "utf8_bin"
+  create_table "dboerse_cat", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC", force: :cascade do |t|
+    t.string "category", limit: 100, null: false, collation: "utf8mb3_bin"
   end
 
-  create_table "dboerse_instr", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
-    t.string "instrument", limit: 100, null: false, collation: "utf8_general_ci"
+  create_table "dboerse_instr", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC", force: :cascade do |t|
+    t.string "instrument", limit: 100, null: false, collation: "utf8mb3_general_ci"
   end
 
-  create_table "dboerse_quali", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "dboerse_quali", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.string "qualification", limit: 100, null: false
   end
 
-  create_table "distinctions", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci" do |t|
+  create_table "distinctions", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_swedish_ci", force: :cascade do |t|
     t.date "dist_date"
     t.integer "certificates"
     t.integer "honorletters"
@@ -300,14 +300,14 @@ ActiveRecord::Schema.define(version: 20200625111208) do
     t.integer "silver_needles"
     t.integer "national_needles"
     t.integer "member_account_booking_id"
-    t.float "porto", limit: 24
+    t.float "porto"
     t.integer "orchestra_id"
     t.string "invoice_id"
     t.index ["member_account_booking_id"], name: "index_distinctions_on_member_account_booking_id"
     t.index ["orchestra_id_old"], name: "index_distinctions_on_orchestra_id_old"
   end
 
-  create_table "ensemble_concerts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "ensemble_concerts", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.datetime "datum", null: false
     t.time "zeit", default: "2000-01-01 00:00:00", null: false
     t.datetime "reported", null: false
@@ -333,7 +333,7 @@ ActiveRecord::Schema.define(version: 20200625111208) do
     t.index ["state_id"], name: "bundesland"
   end
 
-  create_table "ensembles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "ensembles", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.string "name", default: "", null: false
     t.string "homepage", default: "", null: false
     t.string "beschreibung", default: "", null: false
@@ -344,7 +344,7 @@ ActiveRecord::Schema.define(version: 20200625111208) do
     t.index ["owner"], name: "owner"
   end
 
-  create_table "event_cards", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin" do |t|
+  create_table "event_cards", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.datetime "orderdate", null: false
     t.string "name", limit: 100, null: false, collation: "latin1_swedish_ci"
     t.string "email", limit: 100, null: false, collation: "latin1_swedish_ci"
@@ -371,7 +371,7 @@ ActiveRecord::Schema.define(version: 20200625111208) do
     t.boolean "pickup", default: false, null: false
   end
 
-  create_table "event_food", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci" do |t|
+  create_table "event_food", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_swedish_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "tln", null: false
     t.integer "veg", null: false
     t.string "name", null: false
@@ -381,7 +381,7 @@ ActiveRecord::Schema.define(version: 20200625111208) do
     t.datetime "arrival_time"
   end
 
-  create_table "feature_requests", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "feature_requests", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.string "title"
     t.text "description"
     t.integer "priority"
@@ -391,7 +391,7 @@ ActiveRecord::Schema.define(version: 20200625111208) do
     t.integer "user_id"
   end
 
-  create_table "festival_application_attachments", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "festival_application_attachments", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -402,7 +402,7 @@ ActiveRecord::Schema.define(version: 20200625111208) do
     t.integer "festival_application_id"
   end
 
-  create_table "festival_applications", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "festival_applications", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.integer "orchestra_id"
     t.text "orch_name"
     t.text "conductor"
@@ -433,7 +433,7 @@ ActiveRecord::Schema.define(version: 20200625111208) do
     t.string "comment"
   end
 
-  create_table "festival_concerts", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "festival_concerts", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.string "location"
     t.datetime "event_time"
     t.integer "number"
@@ -444,7 +444,7 @@ ActiveRecord::Schema.define(version: 20200625111208) do
     t.string "concert_type"
   end
 
-  create_table "festival_pieces", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "festival_pieces", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "festival_application_id"
     t.string "composer"
     t.string "title"
@@ -453,7 +453,7 @@ ActiveRecord::Schema.define(version: 20200625111208) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "festivals", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "festivals", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.date "startdate", null: false
     t.date "enddate", null: false
     t.bigint "bland", null: false
@@ -472,7 +472,7 @@ ActiveRecord::Schema.define(version: 20200625111208) do
     t.index ["land"], name: "land"
   end
 
-  create_table "functions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin" do |t|
+  create_table "functions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.string "label", limit: 10, collation: "latin1_swedish_ci"
     t.bigint "regional_organization_id", null: false
     t.bigint "board_contact_id", null: false
@@ -486,7 +486,7 @@ ActiveRecord::Schema.define(version: 20200625111208) do
     t.index ["regional_organization_id", "board_contact_id"], name: "fk_lv_id"
   end
 
-  create_table "gema_events", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "gema_events", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.integer "kdnr"
     t.string "name"
     t.string "zip"
@@ -494,7 +494,7 @@ ActiveRecord::Schema.define(version: 20200625111208) do
     t.date "date"
     t.string "title"
     t.string "tariff"
-    t.float "amount", limit: 24
+    t.float "amount"
     t.string "location"
     t.string "location_city"
     t.boolean "program_available"
@@ -503,7 +503,7 @@ ActiveRecord::Schema.define(version: 20200625111208) do
     t.string "nf_id"
   end
 
-  create_table "geo_orte", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin" do |t|
+  create_table "geo_orte", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.bigint "loc_id", null: false
     t.string "ags", limit: 10, null: false
     t.string "ascii", limit: 50, null: false
@@ -526,7 +526,7 @@ ActiveRecord::Schema.define(version: 20200625111208) do
     t.index ["plz"], name: "plz"
   end
 
-  create_table "guestbook", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "guestbook", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.string "name", limit: 50, null: false
     t.string "email", limit: 50, null: false
     t.datetime "date", null: false
@@ -537,7 +537,7 @@ ActiveRecord::Schema.define(version: 20200625111208) do
     t.boolean "visible", null: false
   end
 
-  create_table "homepages", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci" do |t|
+  create_table "homepages", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_swedish_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.string "abbrev", limit: 20, null: false
     t.string "mitglnr", limit: 6, null: false
     t.string "name", limit: 100, null: false
@@ -549,7 +549,7 @@ ActiveRecord::Schema.define(version: 20200625111208) do
     t.string "redir_url"
   end
 
-  create_table "honor_members", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "honor_members", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3", force: :cascade do |t|
     t.bigint "nr"
     t.string "anrede", limit: 100
     t.string "vorname", limit: 100
@@ -560,7 +560,7 @@ ActiveRecord::Schema.define(version: 20200625111208) do
     t.boolean "deceased"
   end
 
-  create_table "jugend_artikel", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "jugend_artikel", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.string "titel", null: false
     t.string "autor", null: false
     t.string "file", null: false
@@ -568,7 +568,7 @@ ActiveRecord::Schema.define(version: 20200625111208) do
     t.integer "ausgabe", limit: 1, null: false
   end
 
-  create_table "komponisten", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin" do |t|
+  create_table "komponisten", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.string "name", limit: 100, null: false
     t.string "vorname", limit: 100, null: false
     t.string "gebjahr", limit: 11, null: false
@@ -579,12 +579,12 @@ ActiveRecord::Schema.define(version: 20200625111208) do
     t.string "comment", limit: 200, null: false
   end
 
-  create_table "konzert2ensemble", primary_key: ["fk_konz_id", "fk_ens_id"], force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "konzert2ensemble", primary_key: ["fk_konz_id", "fk_ens_id"], options: "ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.bigint "fk_konz_id", null: false
     t.bigint "fk_ens_id", null: false
   end
 
-  create_table "magazine_adverts", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "magazine_adverts", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "advertiser_id"
     t.integer "magazine_issue_id"
     t.string "advert_type", limit: 1, null: false
@@ -594,21 +594,21 @@ ActiveRecord::Schema.define(version: 20200625111208) do
     t.index ["magazine_issue_id"], name: "magazine_issue_id"
   end
 
-  create_table "magazine_issues", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "magazine_issues", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "year"
     t.integer "number"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "magazine_samplings", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "magazine_samplings", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "count"
     t.integer "contact_id_off"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "member_account_bookings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci" do |t|
+  create_table "member_account_bookings", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_swedish_ci", force: :cascade do |t|
     t.bigint "member_id", null: false
     t.string "booking_type", limit: 1, null: false
     t.integer "booking_year", null: false
@@ -616,14 +616,14 @@ ActiveRecord::Schema.define(version: 20200625111208) do
     t.datetime "booking_date", null: false
     t.string "booking_txt", null: false
     t.string "filename", limit: 100
-    t.float "amount", limit: 24, null: false
+    t.float "amount", null: false
     t.integer "ref_booking_id"
     t.string "invoice_id"
     t.index ["member_id"], name: "member_id"
     t.index ["ref_booking_id"], name: "index_member_account_bookings_on_ref_booking_id"
   end
 
-  create_table "member_events", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "member_events", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.string "event_type"
     t.datetime "event_date"
     t.string "event_id"
@@ -635,7 +635,7 @@ ActiveRecord::Schema.define(version: 20200625111208) do
     t.index ["member_id"], name: "member_id"
   end
 
-  create_table "members", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci" do |t|
+  create_table "members", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_swedish_ci", force: :cascade do |t|
     t.string "subtype", limit: 50, null: false
     t.bigint "regional_organization_id", null: false
     t.bigint "mglnr", null: false
@@ -672,7 +672,7 @@ ActiveRecord::Schema.define(version: 20200625111208) do
     t.index ["mglnr"], name: "mglnr", unique: true
   end
 
-  create_table "orchestra_contacts", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "orchestra_contacts", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.bigint "orchestra_id_old"
     t.string "salutation"
     t.string "first_name"
@@ -690,7 +690,7 @@ ActiveRecord::Schema.define(version: 20200625111208) do
     t.index ["orchestra_id_old"], name: "index_orchestra_contacts_on_orchestra_id_old"
   end
 
-  create_table "orchestra_members", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "orchestra_members", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.integer "orchestra_id_old"
     t.string "first_name"
     t.string "last_name"
@@ -704,7 +704,7 @@ ActiveRecord::Schema.define(version: 20200625111208) do
     t.index ["orchestra_id_old"], name: "index_orchestra_members_on_orchestra_id_old"
   end
 
-  create_table "orchestras", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "orchestras", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3", force: :cascade do |t|
     t.bigint "member_id_off", null: false
     t.string "orchName", limit: 200
     t.string "land", limit: 510
@@ -718,14 +718,14 @@ ActiveRecord::Schema.define(version: 20200625111208) do
     t.datetime "created_on", null: false
     t.datetime "updated_on", null: false
     t.datetime "deleted_at"
-    t.integer "gema_kdnr"
+    t.string "gema_kdnr"
     t.boolean "publish_url", default: true
     t.boolean "publish_address", default: false
     t.index ["deleted_at"], name: "index_orchestras_on_deleted_at"
     t.index ["member_id_off"], name: "member_id"
   end
 
-  create_table "orte", primary_key: "ID", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "orte", primary_key: "ID", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.string "PLZ", limit: 11, default: "-", null: false
     t.string "Ort", limit: 50, default: "-", null: false
     t.string "Land", limit: 3, default: "-", null: false
@@ -739,7 +739,7 @@ ActiveRecord::Schema.define(version: 20200625111208) do
     t.index ["fk_bland_id"], name: "fk_bland_id"
   end
 
-  create_table "pages_language_overlay", primary_key: "uid", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "pages_language_overlay", primary_key: "uid", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "pid", default: 0, null: false
     t.integer "t3ver_oid", default: 0, null: false
     t.integer "t3ver_id", default: 0, null: false
@@ -778,7 +778,7 @@ ActiveRecord::Schema.define(version: 20200625111208) do
     t.index ["t3ver_oid", "t3ver_wsid"], name: "t3ver_oid"
   end
 
-  create_table "person_members", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "person_members", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3", force: :cascade do |t|
     t.bigint "member_id_off", null: false
     t.date "geburtstag"
     t.string "telefonDienstl", limit: 60
@@ -796,7 +796,7 @@ ActiveRecord::Schema.define(version: 20200625111208) do
     t.index ["deleted_at"], name: "index_person_members_on_deleted_at"
   end
 
-  create_table "plz2bl", primary_key: "loc_id", id: :bigint, default: nil, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "plz2bl", primary_key: "loc_id", id: :bigint, default: nil, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.string "plz", limit: 5, null: false
     t.string "name", null: false
     t.string "bl", limit: 30, null: false
@@ -804,7 +804,7 @@ ActiveRecord::Schema.define(version: 20200625111208) do
     t.index ["bl_id"], name: "bl_id"
   end
 
-  create_table "plz_geodb", primary_key: "loc_id", id: :bigint, default: nil, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin" do |t|
+  create_table "plz_geodb", primary_key: "loc_id", id: :bigint, default: nil, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.string "plz", limit: 50, null: false
     t.float "lat", limit: 53, null: false
     t.float "lon", limit: 53, null: false
@@ -814,7 +814,7 @@ ActiveRecord::Schema.define(version: 20200625111208) do
     t.index ["plz"], name: "plz", unique: true
   end
 
-  create_table "regional_organization_bookings", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "regional_organization_bookings", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "regional_organization_id"
     t.string "booking_type"
     t.integer "booking_year"
@@ -822,13 +822,13 @@ ActiveRecord::Schema.define(version: 20200625111208) do
     t.datetime "booking_date"
     t.string "booking_txt"
     t.string "filename"
-    t.float "amount", limit: 24
+    t.float "amount"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["regional_organization_id"], name: "index_regional_organization_bookings_on_regional_organization_id"
   end
 
-  create_table "regional_organizations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "regional_organizations", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "nummer", null: false
     t.string "name", limit: 40, null: false
     t.string "subname", limit: 50, null: false
@@ -842,7 +842,7 @@ ActiveRecord::Schema.define(version: 20200625111208) do
     t.string "bic"
   end
 
-  create_table "report_sheet_inputs", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "report_sheet_inputs", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.integer "report_sheet_id"
     t.integer "orchestra_id_old"
     t.string "token"
@@ -854,7 +854,7 @@ ActiveRecord::Schema.define(version: 20200625111208) do
     t.index ["report_sheet_id"], name: "index_report_sheet_inputs_on_report_sheet_id"
   end
 
-  create_table "report_sheets", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci" do |t|
+  create_table "report_sheets", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_swedish_ci", force: :cascade do |t|
     t.integer "year", null: false
     t.bigint "orchestra_id_old"
     t.integer "children", null: false
@@ -896,7 +896,7 @@ ActiveRecord::Schema.define(version: 20200625111208) do
     t.index ["year", "orchestra_id_old"], name: "oneperyear", unique: true
   end
 
-  create_table "roles", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "roles", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.string "name"
     t.integer "resource_id"
     t.string "resource_type"
@@ -906,7 +906,7 @@ ActiveRecord::Schema.define(version: 20200625111208) do
     t.index ["name"], name: "index_roles_on_name"
   end
 
-  create_table "static_tsconfig_help", primary_key: "uid", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "static_tsconfig_help", primary_key: "uid", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "guide", default: 0, null: false
     t.string "md5hash", limit: 32, default: "", null: false
     t.text "description"
@@ -916,7 +916,7 @@ ActiveRecord::Schema.define(version: 20200625111208) do
     t.index ["guide", "md5hash"], name: "guide"
   end
 
-  create_table "subscribers", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "subscribers", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.string "account"
     t.string "bic"
     t.integer "contact_id"
@@ -924,7 +924,7 @@ ActiveRecord::Schema.define(version: 20200625111208) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "table_meta_data", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "table_meta_data", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.string "table_name", limit: 50, null: false
     t.string "field_name", limit: 50, null: false
     t.integer "type", null: false
@@ -934,13 +934,13 @@ ActiveRecord::Schema.define(version: 20200625111208) do
     t.integer "field_order", limit: 1, null: false
   end
 
-  create_table "tariffs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci" do |t|
+  create_table "tariffs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_swedish_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "tariff_type", null: false
     t.string "description", limit: 50, null: false
     t.decimal "amount", precision: 10, null: false
   end
 
-  create_table "universities", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci" do |t|
+  create_table "universities", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_swedish_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.string "name", null: false
     t.string "institut", null: false
     t.string "strasse", limit: 50, null: false
@@ -956,7 +956,7 @@ ActiveRecord::Schema.define(version: 20200625111208) do
     t.string "instrument"
   end
 
-  create_table "uploaded_files", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "uploaded_files", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.string "filename"
     t.integer "report_sheet_input_id"
     t.integer "correct_ds"
@@ -965,7 +965,7 @@ ActiveRecord::Schema.define(version: 20200625111208) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "uploads", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "uploads", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.string "upload_file_name"
     t.string "upload_content_type"
     t.integer "upload_file_size"
@@ -974,30 +974,30 @@ ActiveRecord::Schema.define(version: 20200625111208) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "url2cat", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci" do |t|
+  create_table "url2cat", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_swedish_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.bigint "url_id", null: false
     t.bigint "cat_id", null: false
     t.index ["url_id", "cat_id"], name: "url_id", unique: true
   end
 
-  create_table "url_categories", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "url_categories", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.bigint "parent", default: 0, null: false
     t.boolean "leaf", default: false, null: false
     t.boolean "hascountry", default: false, null: false
     t.string "description", default: "", null: false
   end
 
-  create_table "urls", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "urls", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.bigint "category", default: 0, null: false
     t.string "url", default: "", null: false
-    t.string "titel", null: false, collation: "utf8_bin"
-    t.string "descr", default: "", null: false, collation: "utf8_bin"
-    t.string "sprache", default: "", null: false, collation: "utf8_bin"
+    t.string "titel", null: false, collation: "utf8mb3_bin"
+    t.string "descr", default: "", null: false, collation: "utf8mb3_bin"
+    t.string "sprache", default: "", null: false, collation: "utf8mb3_bin"
     t.bigint "country_id", default: 0, null: false
     t.bigint "bland", default: 0, null: false
     t.string "email", default: "", null: false
     t.bigint "fk_user", default: 1, null: false
-    t.timestamp "lastchange", default: -> { "CURRENT_TIMESTAMP" }
+    t.timestamp "lastchange", default: -> { "current_timestamp()" }
     t.datetime "confirmed", null: false
     t.string "ip", limit: 100, null: false
     t.integer "visible", default: 0, null: false
@@ -1008,7 +1008,7 @@ ActiveRecord::Schema.define(version: 20200625111208) do
     t.index ["fk_user"], name: "fk_user"
   end
 
-  create_table "user", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci" do |t|
+  create_table "user", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_swedish_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.string "username", null: false
     t.string "passwd", null: false
     t.string "email", null: false
@@ -1016,7 +1016,7 @@ ActiveRecord::Schema.define(version: 20200625111208) do
     t.index ["username"], name: "username", unique: true
   end
 
-  create_table "users", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci" do |t|
+  create_table "users", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_swedish_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string "email", default: "", null: false
@@ -1038,13 +1038,13 @@ ActiveRecord::Schema.define(version: 20200625111208) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  create_table "users_roles", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "users_roles", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "user_id"
     t.integer "role_id"
     t.index ["user_id", "role_id"], name: "index_users_roles_on_user_id_and_role_id"
   end
 
-  create_table "wettbewerbe", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "wettbewerbe", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.date "startdate", null: false
     t.date "enddate", null: false
     t.text "titel", null: false
