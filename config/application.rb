@@ -1,6 +1,6 @@
-require_relative 'boot' 
+require_relative "boot" 
 
-require 'rails/all'
+require "rails/all"
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -9,17 +9,25 @@ Bundler.require(*Rails.groups)
 module BDZAdmin
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 5.2
+    config.load_defaults 7.1
 
-    # Settings in config/environments/* take precedence over those specified here.
-    # Application configuration can go into files in config/initializers
-    # -- all .rb files in that directory are automatically loaded after loading
-    # the framework and any gems in your application.
+    # Please, add to the `ignore` list any other `lib` subdirectories that do
+    # not contain `.rb` files, or that should not be reloaded or eager loaded.
+    # Common ones are `templates`, `generators`, or `middleware`, for example.
+    config.autoload_lib(ignore: %w(assets tasks))
+
+    # Configuration for the application, engines, and railties goes here.
+    #
+    # These settings can be overridden in specific environments using the files
+    # in config/environments, which are processed later.
+    #
+    # config.time_zone = "Central Time (US & Canada)"
+    # config.eager_load_paths << Rails.root.join("extras")
 
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
-    # config.time_zone = 'Central Time (US & Canada)'
-    config.time_zone = 'Berlin'
+    # config.time_zone = "Central Time (US & Canada)"
+    config.time_zone = "Berlin"
 
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
@@ -33,11 +41,13 @@ module BDZAdmin
       'X-Frame-Options' => "ALLOW-FROM http://www.bdz-online.de/"
     }
 
-  # custom error handling
-  config.exceptions_app = self.routes
+    # custom error handling
+    config.exceptions_app = self.routes
+    config.active_job.queue_adapter = :sidekiq
 
-      config.active_job.queue_adapter = :sidekiq
-
+    config.autoload_paths += Dir["#{config.root}/app/writers/*"]
+    #config.autoload_paths << Rails.root.join("lib")
+    #config.eager_load_paths << Rails.root.join("lib")
 
   end
 end

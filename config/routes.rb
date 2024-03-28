@@ -2,12 +2,17 @@
 require 'sidekiq/web'
 require 'sidekiq/cron/web'
 
-BDZAdmin::Application.routes.draw do
+Rails.application.routes.draw do
+  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+
 
   # custom errors
   match "/403", :to => "errors#forbidden", :via=>:all
   match "/404", :to => "errors#not_found", :via=>:all
   match "/500", :to => "errors#internal_server_error", :via=>:all
+
+  # test for exception notification via Mail
+  get 'test_exception_notifier' => 'application#test_exception_notifier'
 
 
   # Start page
@@ -189,6 +194,8 @@ BDZAdmin::Application.routes.draw do
   get 'home/magazine_data' => 'home#magazine_data'
   get 'home/festival_data' => 'home#festival_data'
   get 'home/cron' => 'home#cron'
+  get 'home/tools' => 'home#tools'
+  post 'home/export_view' => 'home#export_view'
 
   get 'modify_pdf' => 'modify_pdf#index'
 
@@ -494,6 +501,7 @@ BDZAdmin::Application.routes.draw do
 
   # MAGAZINE
   namespace :magazine do
+    get 'address_list', to: 'address_list#index'
     resources :magazine_issues, :path => :issues, :as => :issues do
       resources :magazine_adverts, :path => :adverts, :as => :adverts, :shallow=>true do
         member do
