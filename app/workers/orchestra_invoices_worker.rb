@@ -1,6 +1,3 @@
-require 'tex_writer'
-require 'dtaus_writer'
-require 'invoice_helper'
 require 'fileutils.rb'
 
 class OrchestraInvoicesWorker < AbstractInvoicesWorker
@@ -30,6 +27,7 @@ class OrchestraInvoicesWorker < AbstractInvoicesWorker
     invoices = Array.new
     letters = Array.new
 
+    # regional and coop
     if regional 
       @orchestras = Orchestra.notinvoiced(year).where("orch_type='L'")
     else

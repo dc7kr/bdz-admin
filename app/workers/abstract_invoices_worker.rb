@@ -1,6 +1,3 @@
-require 'tex_writer'
-require 'dtaus_writer'
-require 'invoice_helper'
 require 'fileutils.rb'
   
 class AbstractInvoicesWorker 
@@ -29,7 +26,7 @@ class AbstractInvoicesWorker
     self.date_prefix = Time.now.strftime '%Y%m%d%H%M%S'
 
 	  self.tex_writer = CorikaInvoices::TexWriter.new(INVOICE_CONFIG)
-    self.sepa_writer = CorikaInvoices::SEPAWriter.new(self.date_prefix, INVOICE_CONFIG)
+    self.sepa_writer = CorikaInvoices::SepaWriter.new(self.date_prefix, INVOICE_CONFIG)
     self.triggered_by = User.find(user_id)
   end
 

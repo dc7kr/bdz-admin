@@ -5,7 +5,7 @@ class EventCardInvoiceMailsWorker
   include FileArchiveHelper
   include Rails.application.routes.url_helpers
 
-  include PDFHelper
+  include PdfHelper
   include UploadHelper
   include FestivalMailsHelper
 

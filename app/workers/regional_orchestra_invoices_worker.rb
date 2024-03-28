@@ -1,6 +1,3 @@
-require 'tex_writer'
-require 'dtaus_writer'
-require 'invoice_helper'
 require 'fileutils.rb'
 
 class RegionalOrchestraInvoicesWorker < AbstractInvoicesWorker

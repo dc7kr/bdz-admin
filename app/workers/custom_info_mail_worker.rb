@@ -4,7 +4,7 @@ class CustomInfoMailWorker
   include FileArchiveHelper
   include Rails.application.routes.url_helpers
 
-  include PDFHelper
+  include PdfHelper
   include BulkMailHelper
   include UploadHelper
 
