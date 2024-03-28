@@ -1,6 +1,8 @@
-gh = GitTool.new
-GIT_INFO = gh.git_info(2)
+Rails.application.config.to_prepare do
+  gh = GitTool.new
+  GIT_INFO = gh.git_info(2)
 
-last_commit = GIT_INFO[:last_commits]
+  last_commit = GIT_INFO[:last_commits]
 
-GIT_REVISION =  gh.current
+  GIT_REVISION =  gh.current
+end
