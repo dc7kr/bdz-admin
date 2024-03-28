@@ -45,7 +45,7 @@ class GitTool
         if commit[:lines].nil? then
           commit[:lines] = Array.new
         end
-        commit[:lines] << c
+        commit[:lines] << c+"\n"
       end
     end
   
