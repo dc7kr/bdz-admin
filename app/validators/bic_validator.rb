@@ -11,7 +11,7 @@ class BicValidator < ActiveModel::EachValidator
       end
     end
 
-    record.errors.add attribute, I18n.t('errors.bic.invalid') unless value.length == 11
+    record.errors.add attribute, I18n.t('errors.bic.invalid_len') unless value.length == 11
 
     # only BIC lookup for DE works 
     if record.iban.nil? or record.iban.empty? or not record.iban.start_with? "DE" then
