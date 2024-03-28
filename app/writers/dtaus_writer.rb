@@ -92,7 +92,7 @@ class DtausWriter  < BankTransferWriter
 	  archiveDir= INVOICE_CONFIG.archive_dir
 	  tgtDir= archiveDir +"/"+String(Time.now.year)
 
-	  if ( ! Dir.exists? tgtDir) then
+	  if ( ! Dir.exist? tgtDir) then
       	FileUtils.mkdir tgtDir
 	  end
 
