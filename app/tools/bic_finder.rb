@@ -27,7 +27,7 @@ class BicFinder
     else 
       ctry = get_country(bic)
       if ctry == "DE"
-        return exists?(bic)
+        return exist?(bic)
       else
         return true
       end
@@ -43,7 +43,7 @@ class BicFinder
     end
   end
 
-  def exists?(bic)
+  def exist?(bic)
     if bic.nil? or bic.empty? or bic.length <8
       return false
     end
