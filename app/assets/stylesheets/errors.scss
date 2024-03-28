@@ -9,30 +9,13 @@
   height: 600px;
   width: 600px;
   position: relative;
-}
 
-.err {
-    font-family: "Montserrat";
-    font-size: 10.5rem;
-    position:absolute;
-    left: 20%;
-    top: 5%;
-}
-
-.far {
-  position: absolute;
-  font-size: 8.5rem;
-  left: 42%;
-  top: 15%;
-}
-
-.err2 {
-    font-family: "Montserrat";
-    font-size: 10.5rem;
-    position:absolute;
-    left: 63%;
-    top: 5%;
-}
+  #error-icon {
+    position: absolute;
+    font-size: 8.5rem;
+    left: 42%;
+    top: 15%;
+  }
 
 .err-msg {
     text-align: center;
@@ -50,5 +33,25 @@
     text-decoration: underline;
   }
 }
+
+}
+
+.err {
+    font-family: "Montserrat";
+    font-size: 10.5rem;
+    position:absolute;
+    left: 20%;
+    top: 5%;
+}
+
+
+.err2 {
+    font-family: "Montserrat";
+    font-size: 10.5rem;
+    position:absolute;
+    left: 63%;
+    top: 5%;
+}
+
 
 

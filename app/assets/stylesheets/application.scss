@@ -1,8 +1,10 @@
 /* ...
 */
 @import "bootstrap";
-@import "font-awesome";
+@import 'font_awesome5_webfont';
+
 @import "google_fonts";
 @import "errors";
 @import "admin/*";
 @import "common/*";
+@import "sidebar";
