@@ -11,7 +11,7 @@ class OrchestrasController < AuthenticatedController
 
   include UploadHelper
   include ReportSheetUploadHelper
-  include PDFHelper
+  include PdfHelper
   include MagazineReportHelper
   #
   #  JSON ONLY 
@@ -72,21 +72,10 @@ class OrchestrasController < AuthenticatedController
 
 	  @orchestras.each do |orchestra|
 
-      mag_count = orchestra.currentMagazines
-      if (mag_count>0) 
-		  @csvrow = {
-        :name=> orchestra.orchName,
-			  :mglnr=>orchestra.member.mglnr,
-			  :fullname=>orchestra.fullname,
-			  :name2=>'',
-			  :strasse=>orchestra.member.strasse ,
-			  :countryCode=>orchestra.member.countryCode,
-			  :plz=>orchestra.member.plz,
-			  :ort=>orchestra.member.ort,
-			  :land=>orchestra.letterCountry,
-			  :magazines=>orchestra.currentMagazines 
-      }
-      @result << @csvrow
+      csvrow = Orchestra.magazine_address_list_row
+
+      if not csvrow.nil? then
+        @result << @csvrow
       else
         Rails.logger.warn("Magazine count is zero: "+orchestra.member.mglnr.to_s)
       end
@@ -135,11 +124,11 @@ class OrchestrasController < AuthenticatedController
       tmpfile = Tempfile.new("gema")
       #send_data(sheet.sheet.bytes, :filename => "gema.ods", :type => "application/octet-stream")
       sheet.sheet.write_to tmpfile
-      send_file(stmpfile, :filename => "gema.ods", :type => "application/octet-stream")
+      send_file(tmpfile, :filename => "gema.ods", :type => "application/octet-stream")
     }
 
       format.csv { render :csv => @orchestras, :style=>:gema, :filename => "gema"+Time.now.year.to_s }
-		format.json { render :json => @orchestras }
+		 format.json { render :json => @orchestras }
     end
   end
 
@@ -247,7 +236,7 @@ class OrchestrasController < AuthenticatedController
         format.html { redirect_to @orchestra, :notice => t('orchestra.create_success') }
         format.json { render :json => @orchestra, :status => :created, :location => @orchestra }
       else
-        format.html { render :action => "new" }
+        format.html { render :new, status: :unprocessable_entity }
         format.json { render :json => @orchestra.errors, :status => :unprocessable_entity }
       end
     end
@@ -259,11 +248,11 @@ class OrchestrasController < AuthenticatedController
     @orchestra = Orchestra.find(params[:id])
 
     respond_to do |format|
-      if @orchestra.update_attributes(orchestra_params)
+      if @orchestra.update(orchestra_params)
         format.html { redirect_to @orchestra, :notice => t('orchestra.update_success') }
         format.json { head :ok }
       else
-        format.html { render :action => "edit" }
+        format.html { render :edit, status: :unprocessable_entity }
         format.json { render :json => @orchestra.errors, :status => :unprocessable_entity }
       end
     end
@@ -288,42 +277,41 @@ class OrchestrasController < AuthenticatedController
   def gen_rsi
     @orchestra = Orchestra.includes(:member).find(params[:id])
 
-
     if @orchestra.nil?
       logger.warn("Orchestra is nil!: "+params[:id].to_s)
-    	respond_to do |format|
-      format.html { redirect_to orchestras_url, :notice => t('orchestra.nil') }
+      respond_to do |format|
+        format.html { redirect_to orchestras_url, status: :unprocessable_entity, notice: t('orchestra.nil')  }
       end
       return
     end
 
     if not @orchestra.report_sheet_required?
       logger.info("No report sheet required: "+@orchestra.member.mglnr.to_s)
-    	respond_to do |format|
-        format.html { redirect_to orchestras_url, :notice => t('report_sheet.no_rs_required') }
+      respond_to do |format|
+        format.html { redirect_to @orchestra, status:  :unprocessable_entity, notice: t('report_sheet.no_rs_required') }
       end
       return
     end
 
-	  rs_year = Time.now.year
+    rs_year = Time.now.year
 
-	  dateprefix = Time.now.strftime '%Y%m%d%H%M%S_'
+    dateprefix = Time.now.strftime '%Y%m%d%H%M%S_'
     url = BDZ_SETTINGS['meldebogen_url']
-	  target = INVOICE_CONFIG.archive_dir+"/"+rs_year.to_s+"/"+dateprefix+@orchestra.member.mglnr.to_s+"_meldebogen_anschreiben.pdf"
+    target = INVOICE_CONFIG.archive_dir+"/"+rs_year.to_s+"/"+dateprefix+@orchestra.member.mglnr.to_s+"_meldebogen_anschreiben.pdf"
 
     @rsi = ReportSheetInput.for_orchestra_and_year(@orchestra,rs_year)
 
     if not @rsi.nil? then
       logger.info("RSI already exists: "+@orchestra.member.mglnr.to_s)
     	respond_to do |format|
-        format.html { redirect_to @orchestra, :notice => t('report_sheet_input.already_exists') }
+        format.html { redirect_to @orchestra, status: :unprocessable_entity, notice: t('report_sheet_input.already_exists') }
       end
       return
     end
 
     @rsi = @orchestra.gen_rsi(rs_year)
 
-	  gen_anschreiben(@orchestra,@rsi);
+    gen_anschreiben(@orchestra,@rsi);
     send_file(target, :filename => target, :type => "application/octet-stream")
   end
 

@@ -47,7 +47,7 @@ class ComposersController < AuthenticatedController
         format.html { redirect_to @composer, notice: 'Composer was successfully created.' }
         format.json { render json: @composer, status: :created, location: @composer }
       else
-        format.html { render action: "new" }
+        format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @composer.errors, status: :unprocessable_entity }
       end
     end
@@ -59,11 +59,11 @@ class ComposersController < AuthenticatedController
     @composer = Composer.find(params[:id])
 
     respond_to do |format|
-      if @composer.update_attributes(params[:composer])
+      if @composer.update(params[:composer])
         format.html { redirect_to @composer, notice: 'Composer was successfully updated.' }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
+        format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @composer.errors, status: :unprocessable_entity }
       end
     end

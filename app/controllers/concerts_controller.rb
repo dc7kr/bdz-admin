@@ -26,7 +26,7 @@ class ConcertsController < AuthorityController
         format.js {} 
         format.json { render :json=>{ :status=>"ok", :op=> 'delete', :entityId=>@concert.id } }
       else
-        format.html { render :action => "new" }
+        format.html { render :new, status: :unprocessable_entity }
         format.json { render :json => @concert.errors, :status => :unprocessable_entity }
       end
     end
@@ -122,7 +122,7 @@ class ConcertsController < AuthorityController
         format.html { redirect_to @concert, :notice => 'Concert was successfully created.' }
         format.json { render :json => @concert, :status => :created, :location => @concert }
       else
-        format.html { render :action => "new" }
+        format.html { render :new, status: :unprocessable_entity }
         format.json { render :json => @concert.errors, :status => :unprocessable_entity }
       end
     end
@@ -142,7 +142,7 @@ class ConcertsController < AuthorityController
         format.html { redirect_to @concert, :notice => 'Concert was successfully updated.' }
         format.json { head :ok }
       else
-        format.html { render :action => "edit" }
+        format.html { render :edit, status: :unprocessable_entity }
         format.json { render :json => @concert.errors, :status => :unprocessable_entity }
       end
     end

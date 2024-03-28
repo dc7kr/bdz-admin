@@ -68,7 +68,7 @@ class EnsemblesController < AuthenticatedController
         format.html { redirect_to @ensemble, :notice => 'Ensemble was successfully created.' }
         format.json { render :json => @ensemble, :status => :created, :location => @ensemble }
       else
-        format.html { render :action => "new" }
+        format.html { render :new, status: :unprocessable_entity }
         format.json { render :json => @ensemble.errors, :status => :unprocessable_entity }
       end
     end
@@ -80,11 +80,11 @@ class EnsemblesController < AuthenticatedController
     @ensemble = Ensemble.find(params[:id])
 
     respond_to do |format|
-      if @ensemble.update_attributes(ensemble_params)
+      if @ensemble.update(ensemble_params)
         format.html { redirect_to @ensemble, :notice => 'Ensemble was successfully updated.' }
         format.json { head :ok }
       else
-        format.html { render :action => "edit" }
+        format.html { render :edit, status: :unprocessable_entity }
         format.json { render :json => @ensemble.errors, :status => :unprocessable_entity }
       end
     end

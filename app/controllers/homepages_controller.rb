@@ -54,7 +54,7 @@ class HomepagesController < AuthorityController
         format.html { redirect_to @homepage, notice: 'Homepage was successfully created.' }
         format.json { render json: @homepage, status: :created, location: @homepage }
       else
-        format.html { render action: "new" }
+        format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @homepage.errors, status: :unprocessable_entity }
       end
     end
@@ -66,11 +66,11 @@ class HomepagesController < AuthorityController
     @homepage = Homepage.find(params[:id])
 
     respond_to do |format|
-      if @homepage.update_attributes(homepage_params)
+      if @homepage.update(homepage_params)
         format.html { redirect_to @homepage, notice: 'Homepage was successfully updated.' }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
+        format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @homepage.errors, status: :unprocessable_entity }
       end
     end

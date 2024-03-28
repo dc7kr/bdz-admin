@@ -56,11 +56,11 @@ class Public::FestivalPiecesController < ApplicationController
     @festival_piece = FestivalPiece.find(params[:id])
 
     respond_to do |format|
-      if @festival_piece.update_attributes(params[:festival_piece])
+      if @festival_piece.update(params[:festival_piece])
         format.html { redirect_to @festival_piece, notice: 'Festival piece was successfully updated.' }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
+        format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @festival_piece.errors, status: :unprocessable_entity }
       end
     end

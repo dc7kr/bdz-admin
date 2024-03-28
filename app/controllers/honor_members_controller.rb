@@ -49,7 +49,7 @@ class HonorMembersController < AuthenticatedController
         format.html { redirect_to @honor_member, notice: 'Honor member was successfully created.' }
         format.json { render json: @honor_member, status: :created, location: @honor_member }
       else
-        format.html { render action: "new" }
+        format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @honor_member.errors, status: :unprocessable_entity }
       end
     end
@@ -65,7 +65,7 @@ class HonorMembersController < AuthenticatedController
         format.html { redirect_to @honor_member, notice: 'Honor member was successfully updated.' }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
+        format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @honor_member.errors, status: :unprocessable_entity }
       end
     end

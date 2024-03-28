@@ -58,7 +58,7 @@ class FunctionsController < AuthenticatedController
         format.html { redirect_to @function, :notice => 'Function was successfully created.' }
         format.json { render :json => @function, :status => :created, :location => @function }
       else
-        format.html { render :action => "new" }
+        format.html { render :new, status: :unprocessable_entity }
         format.json { render :json => @function.errors, :status => :unprocessable_entity }
       end
     end
@@ -70,11 +70,11 @@ class FunctionsController < AuthenticatedController
     @function = Function.find(params[:id])
 
     respond_to do |format|
-      if @function.update_attributes(function_params)
+      if @function.update(function_params)
         format.html { redirect_to @function, :notice => 'Function was successfully updated.' }
         format.json { head :ok }
       else
-        format.html { render :action => "edit" }
+        format.html { render :edit, status: :unprocessable_entity }
         format.json { render :json => @function.errors, :status => :unprocessable_entity }
       end
     end

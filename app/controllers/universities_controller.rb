@@ -48,7 +48,7 @@ class UniversitiesController < AuthenticatedController
         format.html { redirect_to @university, :notice => 'University was successfully created.' }
         format.json { render :json => @university, :status => :created, :location => @university }
       else
-        format.html { render :action => "new" }
+        format.html { render :new, status: :unprocessable_entity }
         format.json { render :json => @university.errors, :status => :unprocessable_entity }
       end
     end
@@ -60,11 +60,11 @@ class UniversitiesController < AuthenticatedController
     @university = University.find(params[:id])
 
     respond_to do |format|
-      if @university.update_attributes(params[:university])
+      if @university.update(params[:university])
         format.html { redirect_to @university, :notice => 'University was successfully updated.' }
         format.json { head :ok }
       else
-        format.html { render :action => "edit" }
+        format.html { render :edit, status: :unprocessable_entity }
         format.json { render :json => @university.errors, :status => :unprocessable_entity }
       end
     end

@@ -74,7 +74,7 @@ class UrlsController < AuthenticatedController
         format.html { redirect_to @url, :notice => 'Url was successfully created.' }
         format.json { render :json => @url, :status => :created, :location => @url }
       else
-        format.html { render :action => "new" }
+        format.html { render :new, status: :unprocessable_entity }
         format.json { render :json => @url.errors, :status => :unprocessable_entity }
       end
     end
@@ -86,11 +86,11 @@ class UrlsController < AuthenticatedController
     @url = Url.find(params[:id])
 
     respond_to do |format|
-      if @url.update_attributes(params[:url])
+      if @url.update(params[:url])
         format.html { redirect_to @url, :notice => 'Url was successfully updated.' }
         format.json { head :ok }
       else
-        format.html { render :action => "edit" }
+        format.html { render :edit, status: :unprocessable_entity }
         format.json { render :json => @url.errors, :status => :unprocessable_entity }
       end
     end

@@ -20,16 +20,18 @@ class Cron::LvFeeBookingsController < AuthenticatedNonResourceController
     ctw = CreditTransferWriter.new(datePrefix)
 
     @lvs.each do |lv|
-      fee_shares = lv.member_fee_share_for_year
+      fee_shares = lv.member_fees_for_year
 
-      amount = fee_shares[:em_part]+fee_shares[:orch_part]-fee_shares[:pre_paid]
-      logger.debug "Amount: #{lv.id} -> #{amount}"
+      sum =  fee_shares.corrected_share
 
-      if fee_shares[:pre_paid]!=0 
-        logger.debug "Pre-paid: #{fee_shares[:pre_paid]}"
+      amount = fee_shares.corrected_share - fee_shares.pre_paid
+
+      if fee_shares.pre_paid !=0 
+        logger.debug "Pre-paid: #{fee_shares.pre_paid}"
       end
 
       saldo = @lvHash[lv.id]
+
       if saldo == nil then
         saldo=0
       end

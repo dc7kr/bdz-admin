@@ -85,7 +85,7 @@ class CoursesController < AuthenticatedController
         format.html { redirect_to @course, :notice => 'Course was successfully created.' }
         format.json { render :json => @course, :status => :created, :location => @course }
       else
-        format.html { render :action => "new" }
+        format.html { render :new, status: :unprocessable_entity }
         format.json { render :json => @course.errors, :status => :unprocessable_entity }
       end
     end
@@ -102,7 +102,7 @@ class CoursesController < AuthenticatedController
         format.html { redirect_to @course, :notice => t('course.publish_success') }
         format.json { render :json => @course, :status => :created, :location => @course }
       else
-        format.html { render :action => "new" }
+        format.html { render :new, status: :unprocessable_entity }
         format.json { render :json => @course.errors, :status => :unprocessable_entity }
       end
     end
@@ -118,7 +118,7 @@ class CoursesController < AuthenticatedController
         format.html { redirect_to @course, :notice => 'Course was successfully updated.' }
         format.json { head :ok }
       else
-        format.html { render :action => "edit" }
+        format.html { render :edit, status: :unprocessable_entity }
         format.json { render :json => @course.errors, :status => :unprocessable_entity }
       end
     end

@@ -39,7 +39,7 @@ class EventCardsController < AuthenticatedController
         format.js {} 
         format.json { render :json=>{ :status=>"ok", :op=> 'delete', :entityId=>@event_card.id } }
       else
-        format.html { render :action => "new" }
+        format.html { render :new, status: :unprocessable_entity }
         format.json { render :json => @event_card.errors, :status => :unprocessable_entity }
       end
     end
@@ -86,7 +86,7 @@ class EventCardsController < AuthenticatedController
         format.html { redirect_to @event_card, notice: 'Event card was successfully created.' }
         format.json { render json: @event_card, status: :created, location: @event_card }
       else
-        format.html { render action: "new" }
+        format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @event_card.errors, status: :unprocessable_entity }
       end
     end
@@ -98,11 +98,11 @@ class EventCardsController < AuthenticatedController
     @event_card = EventCard.find(params[:id])
 
     respond_to do |format|
-      if @event_card.update_attributes(params[:event_card])
+      if @event_card.update(params[:event_card])
         format.html { redirect_to @event_card, notice: 'Event card was successfully updated.' }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
+        format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @event_card.errors, status: :unprocessable_entity }
       end
     end

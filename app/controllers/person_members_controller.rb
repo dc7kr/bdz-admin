@@ -84,8 +84,8 @@ class PersonMembersController < AuthenticatedController
   def new
     @person_member = PersonMember.new
     @person_member.build_member
-    @person_member.zeitungen=1
     @person_member.member.country_code = ISO3166::Country['DE'].alpha2
+    @person_member.member.magazines=-1
 
     respond_to do |format|
       format.html # new.html.erb
@@ -108,7 +108,7 @@ class PersonMembersController < AuthenticatedController
         format.html { redirect_to @person_member, :notice => 'Person member was successfully created.' }
         format.json { render :json => @person_member, :status => :created, :location => @person_member }
       else
-        format.html { render :action => "new" }
+        format.html { render :new, status: :unprocessable_entity }
         format.json { render :json => @person_member.errors, :status => :unprocessable_entity }
       end
     end
@@ -124,8 +124,8 @@ class PersonMembersController < AuthenticatedController
         format.html { redirect_to @person_member, :notice => 'Person member was successfully updated.' }
         format.json { head :ok }
       else
-        format.html { render :action => "edit" }
-        format.json { render :json => @person_member.errors, :status => :unprocessable_entity }
+        format.html { render :edit, status: :unprocessable_entity }
+        format.json { render :json => @person_member.errors,  status: :unprocessable_entity } 
       end
     end
   end
@@ -143,31 +143,18 @@ class PersonMembersController < AuthenticatedController
   end
 
   def magazine 
-    @person_members = PersonMember.with_zero_balance
-    @result = Array.new
+    person_members = PersonMember.with_zero_balance
+    result = Array.new
 
-    @person_members.each do |person_member|
-      if ( person_member.currentMagazines >0) then
-        member = person_member.member
-        @csvrow = {
-          :mglnr=>member.mglnr,
-          :name=> '',
-          :name2=>'',
-          :vorname=>member.vorname,
-          :nachname=>member.name,
-          :strasse=>member.strasse ,
-          :countryCode=>member.countryCode,
-          :plz=>member.plz,
-          :ort=>member.ort,
-          :land=>member.letterCountry,
-          :magazines=>1
-        }
-        @result << @csvrow
+    person_members.each do |person_member|
+      row = person_member.magazine_address_list_row
+      if not row.nil?
+        result << row
       end
     end
     
     filename = "magazine.em." + Time.now.strftime("%m-%d-%Y") + ".ods"
-    renderPersonMembersMagazineListOds("/tmp/"+filename,@result)
+    render_magazine_address_list("/tmp/"+filename,result)
 
     send_file("/tmp/"+filename, :filename => filename, :type => "application/octet-stream")
 

@@ -75,7 +75,7 @@ class CompetitionEntriesController < AuthenticatedController
         format.html { redirect_to success_public_competition_entry(@competition_entry), notice: 'CompetitionEntry was successfully created.' }
         format.json { render json: @competition_entry, status: :created, location: @competition_entry }
       else
-        format.html { render action: "new" }
+        format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @competition_entry.errors, status: :unprocessable_entity }
       end
     end
@@ -91,11 +91,11 @@ class CompetitionEntriesController < AuthenticatedController
     
 
     respond_to do |format|
-      if @competition_entry.update_attributes(params[:competition_entry])
+      if @competition_entry.update(params[:competition_entry])
         format.html { redirect_to @competition_entry, notice: 'CompetitionEntry was successfully updated.' }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
+        format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @competition_entry.errors, status: :unprocessable_entity }
       end
     end

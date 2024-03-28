@@ -66,11 +66,11 @@ class FestivalPiecesController < AuthenticatedController
     @festival_piece = FestivalPiece.find(params[:id])
 
     respond_to do |format|
-      if @festival_piece.update_attributes(festival_piece_params)
+      if @festival_piece.update(festival_piece_params)
         format.html { redirect_to festival_application_festival_piece_url(@festival_application,@festival_piece), notice: t('festival_piece.update_success') }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
+        format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @festival_piece.errors, status: :unprocessable_entity }
       end
     end

@@ -68,7 +68,7 @@ class MemberEventsController < AuthenticatedController
         format.html { redirect_to @member_event, notice: 'Member event was successfully created.' }
         format.json { render json: @member_event, status: :created, location: @member_event }
       else
-        format.html { render action: "new" }
+        format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @member_event.errors, status: :unprocessable_entity }
       end
     end
@@ -84,7 +84,7 @@ class MemberEventsController < AuthenticatedController
         format.html { redirect_to @member_event, notice: 'Member event was successfully updated.' }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
+        format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @member_event.errors, status: :unprocessable_entity }
       end
     end

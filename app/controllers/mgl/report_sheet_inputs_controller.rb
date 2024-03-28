@@ -105,7 +105,7 @@ class Mgl::ReportSheetInputsController < ApplicationController
   def step1
 
     @report_sheet_input = ReportSheetInput.find(params[:id])
-	@contacts = @report_sheet_input.orchestra.orchestra_contacts
+	  @contacts = @report_sheet_input.orchestra.orchestra_contacts
 
   end
 
@@ -146,7 +146,7 @@ class Mgl::ReportSheetInputsController < ApplicationController
       if ( c["id"] != "" ) then 
         oc = OrchestraContact.find(c["id"])
         if ( oc.orchestra_id == @report_sheet_input.orchestra.id ) then
-          oc.update_attributes(contact_params(c))
+          oc.update(contact_params(c))
           oc.save
           Rails.logger.warn("Created orchestra contact")
           Rails.logger.warn(oc)
@@ -171,6 +171,7 @@ class Mgl::ReportSheetInputsController < ApplicationController
 	@report_sheet_input = ReportSheetInput.find(params[:id])
 	@contacts =  @report_sheet_input.orchestra.orchestra_contacts
 	roles = OrchestraContact.roles
+  roles.delete("Z")
 
 	@contact_hash = Hash.new
 
@@ -179,7 +180,8 @@ class Mgl::ReportSheetInputsController < ApplicationController
 	end
 
 	roles.each do |r|
-		if ( @contact_hash[r]==nil ) then
+    # create empty contact, exept "Versandadresse"
+		if ( @contact_hash[r]==nil and r != "Z" ) then
 			contact = OrchestraContact.new
 			contact.role = r
 			@contact_hash[r] = contact
@@ -368,7 +370,7 @@ class Mgl::ReportSheetInputsController < ApplicationController
 				format.html { redirect_to @report_sheet_input, notice: 'Report sheet input was successfully created.' }
 				format.json { render json: @report_sheet_input, status: :created, location: @report_sheet_input }
 			  else
-				format.html { render action: "new" }
+				format.html { render :new, status: :unprocessable_entity }
 				format.json { render json: @report_sheet_input.errors, status: :unprocessable_entity }
 			  end
 			end
@@ -380,11 +382,11 @@ class Mgl::ReportSheetInputsController < ApplicationController
 			@report_sheet_input = ReportSheetInput.find(params[:id])
 
 			respond_to do |format|
-			  if @report_sheet_input.update_attributes(params[:report_sheet_input])
+			  if @report_sheet_input.update(params[:report_sheet_input])
 				format.html { redirect_to @report_sheet_input, notice: 'Report sheet input was successfully updated.' }
 				format.json { head :no_content }
 			  else
-				format.html { render action: "edit" }
+				format.html { render :edit, status: :unprocessable_entity }
 				format.json { render json: @report_sheet_input.errors, status: :unprocessable_entity }
 			  end
 			end

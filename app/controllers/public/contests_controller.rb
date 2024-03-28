@@ -43,7 +43,7 @@ class Public::ContestsController < ApplicationController
         format.html { redirect_to @contest, :notice => 'Contest was successfully created.' }
         format.json { render :json => @contest, :status => :created, :location => @contest }
       else
-        format.html { render :action => "new" }
+        format.html { render :new, status: :unprocessable_entity }
         format.json { render :json => @contest.errors, :status => :unprocessable_entity }
       end
     end

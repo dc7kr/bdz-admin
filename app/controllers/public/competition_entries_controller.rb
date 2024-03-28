@@ -45,11 +45,11 @@ class Public::CompetitionEntriesController < Public::ApplicationController
     @competition_entry = CompetitionEntry.find(params[:id])
 
     respond_to do |format|
-      if @competition_entry.update_attributes(params[:competition])
+      if @competition_entry.update(params[:competition])
         format.html { redirect_to @competition_entry, notice: 'CompetitionEntry was successfully updated.' }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
+        format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @competition_entry.errors, status: :unprocessable_entity }
       end
     end

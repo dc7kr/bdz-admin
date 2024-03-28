@@ -50,7 +50,7 @@ class FestivalConcertsController < AuthenticatedController
         format.html { redirect_to @festival_concert, notice: 'Festival concert was successfully created.' }
         format.json { render json: @festival_concert, status: :created, location: @festival_concert }
       else
-        format.html { render action: "new" }
+        format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @festival_concert.errors, status: :unprocessable_entity }
       end
     end
@@ -62,11 +62,11 @@ class FestivalConcertsController < AuthenticatedController
     @festival_concert = FestivalConcert.find(params[:id])
 
     respond_to do |format|
-      if @festival_concert.update_attributes(festival_concert_params)
+      if @festival_concert.update(festival_concert_params)
         format.html { redirect_to @festival_concert, notice: 'Festival concert was successfully updated.' }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
+        format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @festival_concert.errors, status: :unprocessable_entity }
       end
     end

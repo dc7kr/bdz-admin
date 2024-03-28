@@ -47,7 +47,7 @@ class UploadedFilesController < ApplicationController
         format.html { redirect_to @uploaded_file, notice: 'Uploaded file was successfully created.' }
         format.json { render json: @uploaded_file, status: :created, location: @uploaded_file }
       else
-        format.html { render action: "new" }
+        format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @uploaded_file.errors, status: :unprocessable_entity }
       end
     end
@@ -59,11 +59,11 @@ class UploadedFilesController < ApplicationController
     @uploaded_file = UploadedFile.find(params[:id])
 
     respond_to do |format|
-      if @uploaded_file.update_attributes(params[:uploaded_file])
+      if @uploaded_file.update(params[:uploaded_file])
         format.html { redirect_to @uploaded_file, notice: 'Uploaded file was successfully updated.' }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
+        format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @uploaded_file.errors, status: :unprocessable_entity }
       end
     end

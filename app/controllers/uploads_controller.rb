@@ -51,7 +51,7 @@ class UploadsController < AuthenticatedController
         }
         format.json { render json: [@upload.to_jq_upload].to_json, status: :created, location: @upload }
       else
-        format.html { render action: "new" }
+        format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @upload.errors, status: :unprocessable_entity }
       end
     end
@@ -63,11 +63,11 @@ class UploadsController < AuthenticatedController
     @upload = Upload.find(params[:id])
 
     respond_to do |format|
-      if @upload.update_attributes(params[:upload])
+      if @upload.update(params[:upload])
         format.html { redirect_to @upload, notice: 'Upload was successfully updated.' }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
+        format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @upload.errors, status: :unprocessable_entity }
       end
     end

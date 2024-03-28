@@ -1,11 +1,19 @@
+require "error/error_handler.rb"
+
 class ApplicationController < ActionController::Base
 
   before_action :set_locale
 
   after_action :flash_to_headers
 
-
   layout :choose_layout
+
+  include Error::ErrorHandler
+  include SessionHelper
+
+  def test_exception_notifier
+    raise 'Test Exception. This is a test exception to make sure the exception notifier is working.'
+  end
 
   @@web_area = {
 		"about" => "public_data",
@@ -45,14 +53,12 @@ class ApplicationController < ActionController::Base
 		"magazine_adverts" => "magazine_data",
 		"advertisers" => "magazine_data",
 		"calendar_sync" => "admin_data",
-    "contact_events" => "festival_data",
-    "festival_applications"=> "festival_data",
-    "festival_mails" => "festival_data"
-	}
+                "contact_events" => "festival_data",
+                "festival_applications"=> "festival_data",
+                "festival_mails" => "festival_data"
+}
 
-  include SessionHelper
-
-	helper_method :current_area
+  helper_method :current_area
 
   def goto_login_page
     flash[:error] = "Please login first."
@@ -151,11 +157,6 @@ class ApplicationController < ActionController::Base
 		  "application"
 	  end
   end
-
-  #unless Rails.application.config.consider_all_requests_local
-    rescue_from StandardError, with: lambda { |exception| render_error 500, exception }
-    rescue_from ActionController::RoutingError, ActiveRecord::RecordNotFound, with: lambda { |exception| render_error 404, exception }
-  #end
 
   protected
     def render_error(status, exception)

@@ -16,7 +16,7 @@ class DistinctionsController < AuthenticatedController
 
     datePrefix = Time.now.strftime '%Y%m%d%H%M%S'
 
-    ddWriter = CorikaInvoices::SEPAWriter.new(datePrefix, INVOICE_CONFIG)
+    ddWriter = CorikaInvoices::SepaWriter.new(datePrefix, INVOICE_CONFIG)
 
     invoice = distinction.gen_invoice 
     invoice.save
@@ -101,7 +101,7 @@ class DistinctionsController < AuthenticatedController
         format.html { redirect_to orchestra_distinction_path(params[:orchestra_id],@distinction), notice: 'Distinction was successfully created.' }
         format.json { render json: @distinction, status: :created, location: @distinction }
       else
-        format.html { render action: "new" }
+        format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @distinction.errors, status: :unprocessable_entity }
       end
     end
@@ -114,12 +114,12 @@ class DistinctionsController < AuthenticatedController
     @distinction = Distinction.find(params[:id])
 
     respond_to do |format|
-      if @distinction.update_attributes(distinction_params)
+      if @distinction.update(distinction_params)
         format.html { redirect_to orchestra_distinction_path(@orchestra,@distinction), notice: t('distinction.update_success') }
 
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
+        format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @distinction.errors, status: :unprocessable_entity }
       end
     end

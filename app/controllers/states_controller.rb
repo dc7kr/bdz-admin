@@ -52,7 +52,7 @@ class StatesController < AuthenticatedController
         format.html { redirect_to @state, :notice => 'State was successfully created.' }
         format.json { render :json => @state, :status => :created, :location => @state }
       else
-        format.html { render :action => "new" }
+        format.html { render :new, status: :unprocessable_entity }
         format.json { render :json => @state.errors, :status => :unprocessable_entity }
       end
     end
@@ -64,11 +64,11 @@ class StatesController < AuthenticatedController
     @state = State.find(params[:id])
 
     respond_to do |format|
-      if @state.update_attributes(params[:state])
+      if @state.update(params[:state])
         format.html { redirect_to @state, :notice => t('state.update_success') }
         format.json { head :ok }
       else
-        format.html { render :action => "edit" }
+        format.html { render :edit, status: :unprocessable_entity }
         format.json { render :json => @state.errors, :status => :unprocessable_entity }
       end
     end

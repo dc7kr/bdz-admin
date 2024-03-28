@@ -61,10 +61,18 @@ class HomeController < AuthenticatedNonResourceController
 	end
   end
 
+  def tools
+  	authorize! :member_account_booking, :show
+    @views = GenericView.public_views
+
+    respond_to do |format|
+      format.html
+	  end
+  end
+
   def cron
   	authorize! :member_account_booking, :show
 
-    @views = GenericView.public_views
 
     respond_to do |format|
       format.html
@@ -78,6 +86,8 @@ class HomeController < AuthenticatedNonResourceController
 
     view_suffix = params[:view]
 
+    Rails.logger.info("Exporting view #{view_suffix}")
+
     filename = prefix+view_suffix+".ods"
 
     data = GenericView.connection.select_all("SELECT * from public_#{view_suffix}")
@@ -87,9 +97,9 @@ class HomeController < AuthenticatedNonResourceController
     writer.write(tmp)
     tmp.close
 
-    logger.debug("TMP PATH: #{tmp.path}")
+    logger.info("TMP PATH: #{tmp.path}")
 
-    send_file(tmp.path, :filename => filename, :type => "application/octet-stream")
+    send_file(tmp.path, filename: filename, type: "application/octet-stream")
 
     
   end

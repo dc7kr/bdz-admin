@@ -1,6 +1,3 @@
-require 'tex_writer'
-require 'dtaus_writer'
-require 'invoice_helper'
 class Cron::RemindersController < AuthenticatedNonResourceController
 
   include FileArchiveHelper

@@ -1,2 +1,2 @@
-class Adm::CalendarSyncController < AuthenticatedNonResourceController
+class Adm::OrchestraMemberCleanupController < AuthenticatedNonResourceController
 end

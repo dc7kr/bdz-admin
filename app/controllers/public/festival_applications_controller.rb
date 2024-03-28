@@ -58,13 +58,13 @@ class Public::FestivalApplicationsController < ApplicationController
           format.html { redirect_to step2_public_festival_application_path(@festival_application), notice: 'Festival application was successfully created.' }
           format.json { render json: @festival_application, status: :created, location: @festival_application }
         else
-          format.html { render action: "new" }
+          format.html { render :new, status: :unprocessable_entity }
           format.json { render json: @festival_application.errors, status: :unprocessable_entity }
         end
       end
     else
       respond_to do |format|
-        format.html { render action: "new" }
+        format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @contact_person.errors, status: :unprocessable_entity }
       end
     end
@@ -76,11 +76,11 @@ class Public::FestivalApplicationsController < ApplicationController
     @festival_application = FestivalApplication.find_by params[:token]
 
     respond_to do |format|
-      if @festival_application.update_attributes(params[:festival_application])
+      if @festival_application.update(params[:festival_application])
         format.html { redirect_to @festival_application, notice: 'Festival application was successfully updated.' }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
+        format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @festival_application.errors, status: :unprocessable_entity }
       end
     end

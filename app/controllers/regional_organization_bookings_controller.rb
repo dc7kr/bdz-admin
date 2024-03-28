@@ -44,7 +44,7 @@ class RegionalOrganizationBookingsController < AuthenticatedController
         format.html { redirect_to regional_organization_acct_bookings_path(@booking.regional_organization), notice: 'Regional organization booking was successfully created.' }
         format.json { render json: @booking, status: :created, location: @booking }
       else
-        format.html { render action: "new" }
+        format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @booking.errors, status: :unprocessable_entity }
       end
     end
@@ -56,11 +56,11 @@ class RegionalOrganizationBookingsController < AuthenticatedController
     @booking = RegionalOrganizationBooking.find(params[:id])
 
     respond_to do |format|
-      if @booking.update_attributes(params[:regional_organization_booking])
+      if @booking.update(params[:regional_organization_booking])
         format.html { redirect_to regional_organization_acct_bookings_path(@booking.regional_organization), notice: t('regional_organization.change_success') }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
+        format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @booking.errors, status: :unprocessable_entity }
       end
     end

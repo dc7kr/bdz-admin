@@ -57,7 +57,7 @@ class BoardContactsController < AuthenticatedController
         format.html { redirect_to @board_contact, notice: 'Board contact was successfully created.' }
         format.json { render json: @board_contact, status: :created, location: @board_contact }
       else
-        format.html { render action: "new" }
+        format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @board_contact.errors, status: :unprocessable_entity }
       end
     end
@@ -72,7 +72,7 @@ class BoardContactsController < AuthenticatedController
         format.html { redirect_to @board_contact, notice: 'Board contact was successfully updated.' }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
+        format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @board_contact.errors, status: :unprocessable_entity }
       end
     end

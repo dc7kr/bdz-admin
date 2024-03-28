@@ -60,7 +60,7 @@ class ReportSheetInputsController < AuthenticatedController
 				format.html { redirect_to @report_sheet_input, notice: 'Report sheet input was successfully created.' }
 				format.json { render json: @report_sheet_input, status: :created, location: @report_sheet_input }
 			  else
-				format.html { render action: "new" }
+				format.html { render :new, status: :unprocessable_entity }
 				format.json { render json: @report_sheet_input.errors, status: :unprocessable_entity }
 			  end
 			end
@@ -72,11 +72,11 @@ class ReportSheetInputsController < AuthenticatedController
 			@report_sheet_input = ReportSheetInput.find(params[:id])
 
 			respond_to do |format|
-			  if @report_sheet_input.update_attributes(report_sheet_input_params)
+			  if @report_sheet_input.update(report_sheet_input_params)
 				format.html { redirect_to @report_sheet_input, notice: 'Report sheet input was successfully updated.' }
 				format.json { head :no_content }
 			  else
-				format.html { render action: "edit" }
+				format.html { render :edit, status: :unprocessable_entity }
 				format.json { render json: @report_sheet_input.errors, status: :unprocessable_entity }
 			  end
 			end
@@ -96,38 +96,21 @@ class ReportSheetInputsController < AuthenticatedController
 
   def generate
     authorize! :index, Orchestra
-    rs_year = params[:year].to_i
 
-    if params[:year]== nil then
-      rs_year = Time.now.year+1
+    rs_year = Time.now.year+1 
+
+    if not params[:year].nil? then
+      rs_year = params[:year].to_i
     end
 
-    @count = 0
-    @orchestras = Orchestra.regular.includes(:member)
-    
-    @orchestras.each do |o|
-      if not o.nil? and o.report_sheet_required? 
-        @rsi = ReportSheetInput.for_orchestra_and_year(o,rs_year)
+    GenerateReportSheetInputsJob.perform_later(rs_year)
 
-        if @rsi.nil? then
-          @rsi = o.gen_rsi(rs_year)
-          
-          @count+=1
-        end
-      else
-        if o.nil? then
-          logger.warn("Nil orchestra detected!!!")
-        else
-          logger.info("NO report sheet required: #{o.member.mglnr}") 
-        end
-      end
-    end
     respond_to do |format|
       format.html {
         redirect_to  :back, notice: t('report_sheet_input.generated', count: @count ) 
-			}
+      }
     end
-	end
+  end
 
   def metadata
     @report_sheet_input = ReportSheetInput.find(params[:id])

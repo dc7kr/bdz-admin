@@ -57,7 +57,7 @@ class ContactEventsController < AuthenticatedController
         format.html { redirect_to @contact_event, notice: 'Contact event was successfully created.' }
         format.json { render json: @contact_event, status: :created, location: @contact_event }
       else
-        format.html { render action: "new" }
+        format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @contact_event.errors, status: :unprocessable_entity }
       end
     end
@@ -69,11 +69,11 @@ class ContactEventsController < AuthenticatedController
     @contact_event = ContactEvent.find(params[:id])
 
     respond_to do |format|
-      if @contact_event.update_attributes(params[:contact_event])
+      if @contact_event.update(params[:contact_event])
         format.html { redirect_to @contact_event, notice: 'Contact event was successfully updated.' }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
+        format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @contact_event.errors, status: :unprocessable_entity }
       end
     end

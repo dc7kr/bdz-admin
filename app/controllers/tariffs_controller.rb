@@ -47,7 +47,7 @@ class TariffsController < AuthenticatedController
         format.html { redirect_to @tariff, notice: 'Tariff was successfully created.' }
         format.json { render json: @tariff, status: :created, location: @tariff }
       else
-        format.html { render action: "new" }
+        format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @tariff.errors, status: :unprocessable_entity }
       end
     end
@@ -59,11 +59,11 @@ class TariffsController < AuthenticatedController
     @tariff = Tariff.find(params[:id])
 
     respond_to do |format|
-      if @tariff.update_attributes(tariff_params)
+      if @tariff.update(tariff_params)
         format.html { redirect_to @tariff, notice: 'Tariff was successfully updated.' }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
+        format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @tariff.errors, status: :unprocessable_entity }
       end
     end

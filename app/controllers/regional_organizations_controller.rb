@@ -61,7 +61,7 @@ class RegionalOrganizationsController < AuthorityController
         format.html { redirect_to @regional_organization, :notice => 'Regional organization was successfully created.' }
         format.json { render :json => @regional_organization, :status => :created, :location => @regional_organization }
       else
-        format.html { render :action => "new" }
+        format.html { render :new, status: :unprocessable_entity }
         format.json { render :json => @regional_organization.errors, :status => :unprocessable_entity }
       end
     end
@@ -78,7 +78,7 @@ class RegionalOrganizationsController < AuthorityController
         format.html { redirect_to @regional_organization, :notice => 'Regional organization was successfully updated.' }
         format.json { head :ok }
       else
-        format.html { render :action => "edit" }
+        format.html { render :edit, status: :unprocessable_entity }
         format.json { render :json => @regional_organization.errors, :status => :unprocessable_entity }
       end
     end
@@ -124,22 +124,25 @@ class RegionalOrganizationsController < AuthorityController
     @s[:dd_uv_sum]= 0
     @s[:dd_orch_sum]= 0
     @s[:full_sum]= 0
+    @s[:total] = 0
 
     @regional_organizations.each do |ro|
 
-      share = ro.member_fee_share_for_year(@year,@before)
-      @s[:uv_sum]+=share[:uv]
-      @s[:lv_sum]+=share[:orch_part]+share[:em_part]
-      @s[:lv_em_sum]+=share[:em_part]
-      @s[:lv_orch_sum]+=share[:orch_part]
-      @s[:full_sum]+=share[:sum]
-      @s[:dd_sum]+= share[:dd_em_part]+share[:dd_orch_part] 
-      @s[:dd_em_sum]+= share[:dd_em_part]
-      @s[:dd_orch_sum]+= share[:dd_orch_part]
-      @s[:dd_uv_sum]+= share[:dd_uv] 
+      share = ro.member_fees_for_year(year: @year, before: @before)
+
+      @s[:lv_sum]+= share.corrected_share
+
+      @s[:total]+= share.total
+
+      @s[:dd_sum]+= share.direct_debit.total
+      @s[:dd_em_sum]+= share.direct_debit.persons
+      @s[:dd_orch_sum]+= share.direct_debit.orchestras
+
+      @s[:uv_sum]+=share.insurance_total
+      @s[:dd_uv_sum]+= share.direct_debit.insurance
+      
 
       @regional_organization_shares << share
-
     end
   end
 

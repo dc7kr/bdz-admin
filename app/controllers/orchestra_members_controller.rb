@@ -95,7 +95,7 @@ class OrchestraMembersController < AuthenticatedController
         format.html { redirect_to orchestra_orchestra_member_path(@orchestra_member.orchestra,@orchestra_member), notice: 'Orchestra member was successfully created.' }
         format.json { render json: @orchestra_member, status: :created, location: @orchestra_member }
       else
-        format.html { render action: "new" }
+        format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @orchestra_member.errors, status: :unprocessable_entity }
       end
     end
@@ -112,7 +112,7 @@ class OrchestraMembersController < AuthenticatedController
           redirect_to session.delete(:return_to), notice: t('orchestra_member.update_success') }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
+        format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @orchestra_member.errors, status: :unprocessable_entity }
       end
     end

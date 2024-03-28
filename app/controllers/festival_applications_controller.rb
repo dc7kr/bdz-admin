@@ -155,12 +155,12 @@ class FestivalApplicationsController < AuthenticatedController
           format.html { redirect_to @festival_application, notice: 'Festival application was successfully created.' }
           format.json { render json: @festival_application, status: :created, location: @festival_application }
         else
-          format.html { render action: "new" }
+          format.html { render :new, status: :unprocessable_entity }
           format.json { render json: @festival_application.errors, status: :unprocessable_entity }
         end
       end
     else
-      format.html { render action: "new" }
+      format.html { render :new, status: :unprocessable_entity }
       format.json { render json: @festival_application.errors, status: :unprocessable_entity }
     end
   end
@@ -173,15 +173,15 @@ class FestivalApplicationsController < AuthenticatedController
     Rails.logger.debug("Params: #{contact_person_params}")
     contact =  @festival_application.contact_person
 
-    @festival_application.contact_person.update_attributes(contact_person_params)
+    @festival_application.contact_person.update(contact_person_params)
 
 
     respond_to do |format|
-      if @festival_application.update_attributes(festival_application_params)
+      if @festival_application.update(festival_application_params)
         format.html { redirect_to @festival_application, notice: 'Festival application was successfully updated.' }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
+        format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @festival_application.errors, status: :unprocessable_entity }
       end
     end

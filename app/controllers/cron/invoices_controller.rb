@@ -1,6 +1,3 @@
-require 'tex_writer'
-require 'dtaus_writer'
-require 'invoice_helper'
 require 'fileutils.rb'
 
 class Cron::InvoicesController < AuthenticatedNonResourceController
@@ -86,7 +83,7 @@ class Cron::InvoicesController < AuthenticatedNonResourceController
     dtaFile = nil
 
     datePrefix = Time.now.strftime '%Y%m%d%H%M%S'
-    @sw = CorikaInvoices::SEPAWriter.new(datePrefix,INVOICE_CONFIG)
+    @sw = CorikaInvoices::SepaWriter.new(datePrefix,INVOICE_CONFIG)
 
 	  @person_members.each do |person|
       next if ( person.tariff.amount == 0 )

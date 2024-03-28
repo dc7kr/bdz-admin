@@ -48,7 +48,7 @@ class UrlCategoriesController < AuthenticatedController
         format.html { redirect_to @url_category, :notice => 'Url category was successfully created.' }
         format.json { render :json => @url_category, :status => :created, :location => @url_category }
       else
-        format.html { render :action => "new" }
+        format.html { render :new, status: :unprocessable_entity }
         format.json { render :json => @url_category.errors, :status => :unprocessable_entity }
       end
     end
@@ -60,11 +60,11 @@ class UrlCategoriesController < AuthenticatedController
     @url_category = UrlCategory.find(params[:id])
 
     respond_to do |format|
-      if @url_category.update_attributes(params[:url_category])
+      if @url_category.update(params[:url_category])
         format.html { redirect_to @url_category, :notice => 'Url category was successfully updated.' }
         format.json { head :ok }
       else
-        format.html { render :action => "edit" }
+        format.html { render :edit, status: :unprocessable_entity }
         format.json { render :json => @url_category.errors, :status => :unprocessable_entity }
       end
     end

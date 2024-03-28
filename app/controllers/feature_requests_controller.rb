@@ -57,7 +57,7 @@ class FeatureRequestsController < AuthenticatedController
         format.html { redirect_to @feature_request, notice: 'Feature request was successfully created.' }
         format.json { render json: @feature_request, status: :created, location: @feature_request }
       else
-        format.html { render action: "new" }
+        format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @feature_request.errors, status: :unprocessable_entity }
       end
     end
@@ -73,11 +73,11 @@ class FeatureRequestsController < AuthenticatedController
     end
 
     respond_to do |format|
-      if @feature_request.update_attributes(feature_request_params)
+      if @feature_request.update(feature_request_params)
         format.html { redirect_to @feature_request, error: 'Feature request successfully updated.' }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
+        format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @feature_request.errors, status: :unprocessable_entity }
       end
     end

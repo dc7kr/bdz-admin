@@ -74,7 +74,7 @@ class Public::ConcertsController < ApplicationController
         format.html { redirect_to @concert, :notice => 'Concert was successfully created.' }
         format.json { render :json => @concert, :status => :created, :location => @concert }
       else
-        format.html { render :action => "new" }
+        format.html { render :new, status: :unprocessable_entity }
         format.json { render :json => @concert.errors, :status => :unprocessable_entity }
       end
     end

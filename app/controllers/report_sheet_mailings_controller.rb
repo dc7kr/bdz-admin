@@ -1,6 +1,6 @@
 class ReportSheetMailingsController < AuthenticatedNonResourceController
 
-  include PDFHelper
+  include PdfHelper
   include BulkMailHelper
   include FileArchiveHelper
 
@@ -20,7 +20,7 @@ class ReportSheetMailingsController < AuthenticatedNonResourceController
 
     rs_year = nil
     if params[:year].nil? then
-      rs_year = Time.now.year
+      rs_year = now.year
     else
       rs_year = params[:year].to_i
     end
@@ -31,7 +31,13 @@ class ReportSheetMailingsController < AuthenticatedNonResourceController
 
     tool = MailingTool.new(cur_year.to_s,"gs",event_id,subject);
 
-    @orchestras = Orchestra.member_next_year
+    @orchestras = nil
+
+    if now.year == rs_year
+      @orchestras = Orchestra.this_year
+    else 
+      @orchestras = Orchestra.member_next_year
+    end
 
     results = Array.new
 
@@ -60,9 +66,9 @@ class ReportSheetMailingsController < AuthenticatedNonResourceController
             else 
                 @orchFailCount+=1;
             end
-          end
-                          end # not yet handled
-                  end # orchestras.each 
+        end
+      end # not yet handled
+    end # orchestras.each 
 
 
     pdf_merged_file = nil

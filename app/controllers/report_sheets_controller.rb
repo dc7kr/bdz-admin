@@ -186,7 +186,7 @@ class ReportSheetsController < AuthenticatedController
         format.html { redirect_to orchestra_report_sheet_path(@report_sheet.orchestra,@report_sheet), :notice => t('report_sheet.create_success') }
         format.json { render :json => @report_sheet, :status => :created, :location => @report_sheet }
       else
-        format.html { render :action => "new" }
+        format.html { render :new, status: :unprocessable_entity }
         format.json { render :json => @report_sheet.errors, :status => :unprocessable_entity }
       end
     end
@@ -202,7 +202,7 @@ class ReportSheetsController < AuthenticatedController
         format.html { redirect_to orchestra_report_sheet_path(@report_sheet.orchestra,@report_sheet), :notice => I18n.t('report_sheet.title')+' '+t('common.update_success') }
         format.json { head :ok }
       else
-        format.html { render :action => "edit" }
+        format.html { render :edit, status: :unprocessable_entity }
         format.json { render :json => @report_sheet.errors, :status => :unprocessable_entity }
       end
     end
@@ -318,7 +318,7 @@ class ReportSheetsController < AuthenticatedController
     end
 
     date_prefix = Time.now.strftime '%Y%m%d%H%M%S'
-    sepa_writer = CorikaInvoices::SEPAWriter.new(date_prefix, INVOICE_CONFIG)
+    sepa_writer = CorikaInvoices::SepaWriter.new(date_prefix, INVOICE_CONFIG)
 
     tw = CorikaInvoices::TexWriter.new(INVOICE_CONFIG)
     

@@ -13,7 +13,7 @@ class ClassifiedsController < AuthenticatedController
         format.html { redirect_to inactive_classifieds_path, :notice => t('classified.publish_success') }
         format.json { render :json=>{ :status=>"ok", :entityId=>@classified.id } }
       else
-        format.html { render :action => "edit" }
+        format.html { render :edit, status: :unprocessable_entity }
         format.json { render :json => @classified.errors, :status => :unprocessable_entity }
       end
     end
@@ -79,7 +79,7 @@ class ClassifiedsController < AuthenticatedController
         format.html { redirect_to @classified, notice: 'Classified was successfully created.' }
         format.json { render json: @classified, status: :created, location: @classified }
       else
-        format.html { render action: "new" }
+        format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @classified.errors, status: :unprocessable_entity }
       end
     end
@@ -91,11 +91,11 @@ class ClassifiedsController < AuthenticatedController
     @classified = Classified.find(params[:id])
 
     respond_to do |format|
-      if @classified.update_attributes(classified_params)
+      if @classified.update(classified_params)
         format.html { redirect_to @classified, notice: 'Classified was successfully updated.' }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
+        format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @classified.errors, status: :unprocessable_entity }
       end
     end

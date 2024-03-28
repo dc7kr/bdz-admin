@@ -83,7 +83,7 @@ class EventMealsController < AuthenticatedController
         format.html { redirect_to @event_meal, notice: 'Event meal was successfully created.' }
         format.json { render json: @event_meal, status: :created, location: @event_meal }
       else
-        format.html { render action: "new" }
+        format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @event_meal.errors, status: :unprocessable_entity }
       end
     end
@@ -95,11 +95,11 @@ class EventMealsController < AuthenticatedController
     @event_meal = EventMeal.find(params[:id])
 
     respond_to do |format|
-      if @event_meal.update_attributes(event_meal_params)
+      if @event_meal.update(event_meal_params)
         format.html { redirect_to @event_meal, notice: 'Event meal was successfully updated.' }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
+        format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @event_meal.errors, status: :unprocessable_entity }
       end
     end

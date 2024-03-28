@@ -1,7 +1,6 @@
 class Public::ClassifiedsController < Public::ApplicationController
   helper_method :sort_column, :sort_direction
 
-  require "button_helper"
 
   def index
     @offer_classifieds = Classified.not_expired.active.where("adv_type=1").order("entrydate desc")
@@ -59,7 +58,7 @@ class Public::ClassifiedsController < Public::ApplicationController
         format.html { redirect_to public_classifieds_path, notice: I18n.t('classified.create_success') }
         format.json { render json: @classified, status: :created, location: @classified }
       else
-        format.html { render action: "new" }
+        format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @classified.errors, status: :unprocessable_entity }
       end
     end
@@ -71,11 +70,11 @@ class Public::ClassifiedsController < Public::ApplicationController
     @classified = Classified.find(params[:id])
 
     respond_to do |format|
-      if @classified.update_attributes(params[:classified])
+      if @classified.update(params[:classified])
         format.html { redirect_to @classified, notice: 'Classified was successfully updated.' }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
+        format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @classified.errors, status: :unprocessable_entity }
       end
     end

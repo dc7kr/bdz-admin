@@ -49,7 +49,7 @@ class ContactsController < AuthenticatedController
         format.html { redirect_to @contact, :notice => 'Contact was successfully created.' }
         format.json { render :json => @contact, :status => :created, :location => @contact }
       else
-        format.html { render :action => "new" }
+        format.html { render :new, status: :unprocessable_entity }
         format.json { render :json => @contact.errors, :status => :unprocessable_entity }
       end
     end
@@ -61,11 +61,11 @@ class ContactsController < AuthenticatedController
     @contact = Contact.find(params[:id])
 
     respond_to do |format|
-      if @contact.update_attributes(params[:contact])
+      if @contact.update(params[:contact])
         format.html { redirect_to @contact, :notice => 'Contact was successfully updated.' }
         format.json { head :ok }
       else
-        format.html { render :action => "edit" }
+        format.html { render :edit, status: :unprocessable_entity }
         format.json { render :json => @contact.errors, :status => :unprocessable_entity }
       end
     end

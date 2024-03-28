@@ -47,7 +47,7 @@ class FestivalApplicationAttachmentsController < ApplicationController
         format.html { redirect_to @festival_application_attachment, notice: 'Festival application attachment was successfully created.' }
         format.json { render json: @festival_application_attachment, status: :created, location: @festival_application_attachment }
       else
-        format.html { render action: "new" }
+        format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @festival_application_attachment.errors, status: :unprocessable_entity }
       end
     end
@@ -59,11 +59,11 @@ class FestivalApplicationAttachmentsController < ApplicationController
     @festival_application_attachment = FestivalApplicationAttachment.find(params[:id])
 
     respond_to do |format|
-      if @festival_application_attachment.update_attributes(params[:festival_application_attachment])
+      if @festival_application_attachment.update(params[:festival_application_attachment])
         format.html { redirect_to @festival_application_attachment, notice: 'Festival application attachment was successfully updated.' }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
+        format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @festival_application_attachment.errors, status: :unprocessable_entity }
       end
     end

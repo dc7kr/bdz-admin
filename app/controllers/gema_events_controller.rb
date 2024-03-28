@@ -32,7 +32,7 @@ class GemaEventsController < ApplicationController
         format.html { redirect_to @gema_event, notice: 'Gema event was successfully created.' }
         format.json { render :show, status: :created, location: @gema_event }
       else
-        format.html { render :new }
+        format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @gema_event.errors, status: :unprocessable_entity }
       end
     end

@@ -21,7 +21,7 @@ class EnsembleConcertsController < AuthenticatedController
         format.html { redirect_to ensemble_ensemble_concert_path(@ensemble,@ensemble_concert), :notice => t('ensemble_concert.publish_success') }
         format.json { render :json => @ensemble_concert, :status => :created, :location => @ensemble_concert }
       else
-        format.html { render :action => "new" }
+        format.html { render :new, status: :unprocessable_entity }
         format.json { render :json => @ensemble_concert.errors, :status => :unprocessable_entity }
       end
     end
@@ -116,7 +116,7 @@ class EnsembleConcertsController < AuthenticatedController
         format.html { redirect_to ensemble_ensemble_concerts_path(@ensemble,@ensemble_concert), :notice => t('ensemble_concert.create_success') }
         format.json { render :json => @ensemble_concert, :status => :created, :location => @ensemble_concert }
       else
-        format.html { render :action => "new" }
+        format.html { render :new, status: :unprocessable_entity }
         format.json { render :json => @ensemble_concert.errors, :status => :unprocessable_entity }
       end
     end
@@ -129,11 +129,11 @@ class EnsembleConcertsController < AuthenticatedController
     @ensemble_concert = EnsembleConcert.find(params[:id])
 
     respond_to do |format|
-      if @ensemble_concert.update_attributes(params[:ensemble_concert])
+      if @ensemble_concert.update(params[:ensemble_concert])
         format.html { redirect_to ensemble_ensemble_concert_path(@ensemble,@ensemble_concert), :notice => t('ensemble_concert.update_success') }
         format.json { head :ok }
       else
-        format.html { render :action => "edit" }
+        format.html { render :edit, status: :unprocessable_entity }
         format.json { render :json => @ensemble_concert.errors, :status => :unprocessable_entity }
       end
     end

@@ -19,7 +19,7 @@ class OrchestraContactsController < AuthenticatedController
   # GET /orchestra_contacts/1.json
   def show
     @orchestra_contact = OrchestraContact.find(params[:id])
-	@orchestra = Orchestra.find(params[:orchestra_id])
+	  @orchestra = Orchestra.find(params[:orchestra_id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -33,8 +33,8 @@ class OrchestraContactsController < AuthenticatedController
     @orchestra_contact = OrchestraContact.new
     @orchestra_contact.country_code= 'DE'
 
-	@orchestra = Orchestra.find(params[:orchestra_id])
-	@orchestra_contact.orchestra = @orchestra
+	  @orchestra = Orchestra.find(params[:orchestra_id])
+	  @orchestra_contact.orchestra = @orchestra
 
     respond_to do |format|
       format.html # new.html.erb
@@ -52,15 +52,23 @@ class OrchestraContactsController < AuthenticatedController
   # POST /orchestra_contacts.json
   def create
     @orchestra_contact = OrchestraContact.new(orchestra_contact_params)
-	  @orchestra_contact.orchestra_id= params[:orchestra_id]
+	  @orchestra = Orchestra.find(params[:orchestra_id])
+
+    Rails.logger.info("Orchestra id: #{params[:orchestra_id]}")
+
+	  @orchestra_contact.orchestra = @orchestra
 	
 
     respond_to do |format|
       if @orchestra_contact.save
-        format.html { redirect_to orchestra_orchestra_contacts_path(@orchestra), notice: t('orchestra_contact.title_s')+' '+t('common.create_success') }
+        format.html { redirect_to orchestra_orchestra_contacts_path(@orchestra), notice: t('orchestra_contact.one')+' '+t('common.create_success') }
         format.json { render json: @orchestra_contact, status: :created, location: @orchestra_contact }
       else
-        format.html { render action: "new" }
+        Rails.logger.info(@orchestra_contact.errors)
+        @orchestra_contact.errors.each do |attr,message| 
+          Rails.logger.info("#{attr}: #{message}")
+        end
+        format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @orchestra_contact.errors, status: :unprocessable_entity }
       end
     end
@@ -79,7 +87,7 @@ class OrchestraContactsController < AuthenticatedController
         format.html { redirect_to orchestra_orchestra_contact_path(@orchestra,@orchestra_contact), notice: t('orchestra_contact.title_s')+' '+t('common.update_success') }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
+        format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @orchestra_contact.errors, status: :unprocessable_entity }
       end
     end

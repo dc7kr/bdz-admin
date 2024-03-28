@@ -1,6 +1,6 @@
 class CustomInfoMailController < AuthenticatedNonResourceController
 
-  include PDFHelper
+  include PdfHelper
   include BulkMailHelper
   include UploadHelper
 
