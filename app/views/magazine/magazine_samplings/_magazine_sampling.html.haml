@@ -1,13 +1,13 @@
 %tr
+  %td.text-truncate= magazine_sampling.one_line_addr
   %td
-    = magazine_sampling.contact.company
-    %br
-    = magazine_sampling.contact.first_name
-    = magazine_sampling.contact.last_name
-    %br
-    = magazine_sampling.contact.zip
-    = magazine_sampling.contact.city
-  %td= magazine_sampling.count
+    - if magazine_sampling.inactive
+      %span.badge.bg-secondary=t("magazine_sampling.inactive")
+      (
+      = magazine_sampling.count
+      )
+    -else 
+      = magazine_sampling.current_count
   %td
     = link_to_show magazine_sampling
     = link_to_edit magazine_sampling

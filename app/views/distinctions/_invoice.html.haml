@@ -19,6 +19,6 @@
   .col-md-3.text-right
     %label=t("common.incl_tax",:tax_rate=>invoice.taxrate)
   .col-md-4.text-right
-  .col-md-2.text-right=format_currency(invoice.sum-invoice.net_sum)
+  .col-md-2.text-right=format_currency(invoice.sum-invoice.net_sum_tax)
 %hr.calc_final
 

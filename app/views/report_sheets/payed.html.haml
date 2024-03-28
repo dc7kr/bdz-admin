@@ -15,6 +15,6 @@
         %tbody#report_sheets
           =render :collection=> @report_sheets,:partial=> 'report_sheet.payed'
       #paginator
-        = paginate @report_sheets, :remote=>true
+        = paginate @report_sheets
       .actions-bar.wat-cf
         .actions

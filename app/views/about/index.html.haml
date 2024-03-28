@@ -6,8 +6,11 @@
       =t('common.about')
       =@git_info[:application].html_safe
     .inner
+      %b Current selected locale:
+      =I18n.locale
+      %br
       %b Docs Config
-      %table
+      %table.table
         %tr
           %td Archive Dir
           %td= DOCS_CONFIG.archive_dir
@@ -26,9 +29,11 @@
         %table.table-sm
           - @git_info[:last_commits].each do |commit|
             %tr
-              %td=commit[:id]
-              %td=commit[:date]
-              %td
+              %td.align-top=commit[:id]
+              %td.align-top=l commit[:date]
+              %td.align-top
                 %pre
                   -commit[:lines].each do |line|
-                    =line.html_safe
+                    -if not line.html_safe.empty?
+                      =line.html_safe
+                      %br

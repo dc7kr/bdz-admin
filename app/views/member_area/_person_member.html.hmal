@@ -45,4 +45,4 @@
         = edit_button(edit_person_member_path(@person_member),@person_member)
         = del_button(person_member_path(@person_member),@person_member)
 
-- content_for :sidebar, render(:partial => 'sidebar.show')
+- content_for :sidebar, render(:partial => 'sidebar_show')

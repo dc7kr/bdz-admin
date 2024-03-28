@@ -15,12 +15,15 @@
       .col-sm-10
         = f.check_box :dsgvo, custom: :switch, label: "&nbsp;".html_safe
     = f.date_field :dsgvo_date,:class=> "datetimepicker"
+    = f.number_field :magazines, help: t("member.magazine_help")
+</div>
+
 
 .card
   .card-header#contactData
     Kontaktdaten
   .card-body
-    = f.select :anrede, get_salutation_options(member.anrede)
+    = f.select :anrede, get_salutation_options(member.anrede), class: "form-select"
     = f.text_field :title
     = f.text_field :vorname
     = f.text_field :name
@@ -28,8 +31,8 @@
     = f.text_field :plz
     = f.text_field :ort
     .row
-      .col-md-2.text-right=label :member,:country
-      .col-md-10= f.country_select(:country_code, { iso_codes:true }, { class:  "form-control"})
+      .col-md-2=f.label :country
+      .col-md-10= f.country_select(:country_code, { iso_codes:true }, { class:  "form-select"})
     = f.phone_field :telefon
     = f.phone_field :fax
     = f.email_field :email
@@ -42,3 +45,5 @@
     = f.text_field :iban
     = f.text_field :bic
     = f.text_field :zahler
+    = f.date_field :sepa_date
+    = f.text_field :sepa_mandate_nr

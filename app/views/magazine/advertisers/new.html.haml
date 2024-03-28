@@ -6,5 +6,6 @@
       = t("common.new")
       = t("magazine_advertiser",:count=>1)
     .inner
+      = render partial: "errors", locals: { entity: @advertiser }
       = render :partial => "form"
 

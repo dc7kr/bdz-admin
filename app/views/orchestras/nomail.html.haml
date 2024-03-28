@@ -11,7 +11,7 @@
         %th= sortable "email", attr_heading(Member,:email)
         %th.last &nbsp;
       %tbody#orchestras
-        = render partial: "orchestra.nomail", collection: @members
+        = render partial: "orchestra_nomail", collection: @members
     .actions-bar.wat-cf
       .actions
 - content_for :sidebar, render(:partial => 'sidebar')

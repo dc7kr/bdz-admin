@@ -1,15 +1,28 @@
-= f.text_field :company
-= f.text_field :department
-= f.select :salutation, get_salutation_options(contact.salutation)
-= f.text_field :title
-= f.text_field :first_name
-= f.text_field :last_name
-= f.text_field :street
-= f.text_field :zip
-= f.text_field :city
-= contact.country_code
-= f.select :country_code, get_country_options
-= f.text_field :phone
-= f.text_field :fax
-= f.text_field :office_phone
-= f.text_field :email
+.card
+  .card-header#nameData
+    Name
+  .card-body
+    = f.text_field :company
+    = f.text_field :department
+    = f.select :salutation, get_salutation_options(contact.salutation), class: "form-select"
+    = f.text_field :title
+    = f.text_field :first_name
+    = f.text_field :last_name
+.card
+  .card-header#addressData
+    Adresse
+  .card-body
+    = f.text_field :street
+    = f.text_field :zip
+    = f.text_field :city
+    .row
+      .col-md-2=f.label :country_code
+      .col-md-10=f.country_select(:country_code, { iso_codes:true }, { class:  "form-select"})
+.card
+  .card-header#addressData
+    Telefon und E-Mail
+  .card-body
+    = f.text_field :phone
+    = f.text_field :fax
+    = f.text_field :office_phone
+    = f.text_field :email

@@ -1,0 +1,16 @@
+.content
+  .container-float
+    %ul.nav.nav-tabs{:role=>"tablist"}
+      -if current_user.is_admin? or current_user.has_role? :accounting
+        %li.nav-item
+          %a#views-tab.nav-link.active{:data=> { :bs => {:toggle =>"tab" }}, :href=>"#generic_views", :aria => {:controls=>"views", :selected => true }, :role => "tab"} 
+            =t('generic_view',:count=>3)
+
+    #tabContent.tab-content
+      #generic_views.tab-pane.fade.show.active{:role => "tabpanel", :'aria-labelledby'=>"views-tab"}
+        = bootstrap_form_tag(url: home_export_view_path, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10") do |f| 
+          = f.select(:view,@views)  ##, { class: "selectpicker", multiple: true, data: { "live-search": true }})
+          = f.submit "Abrufen", data: { turbo: false }
+  
+- content_for :sidebar, render(:partial => 'sidebar_tools')
+

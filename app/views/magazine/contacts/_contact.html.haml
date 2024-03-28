@@ -1,13 +1,19 @@
-=entity_row(contact,:company)
-=entity_row(contact,:department)
-=entity_row(contact,:salutation)
-=entity_row(contact,:title)
-=entity_row(contact,:first_name)
-=entity_row(contact,:last_name)
-=entity_row(contact,:street)
-=entity_row(contact,:country_code)
-=entity_row(contact,:zip)
-=entity_row(contact,:city)
+
+.row
+  .col-md-3.text-right Adresse
+  .col-md-9
+    =contact.company
+    %br
+    =contact.department
+    =t("common.salutations.#{contact.salutation}")
+    =contact.fullname
+    %br
+    = contact.street
+    %br
+    = contact.zip 
+    =contact.city
+    %br
+    = contact.t_country("de")
 =entity_row(contact,:email,:mailto)
 =entity_row(contact,:phone)
 =entity_row(contact,:fax)

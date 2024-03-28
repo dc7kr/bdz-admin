@@ -4,4 +4,5 @@
   - if (@magazine_issue and @magazine_issue.id!=nil )
     %li{ :class => tabActiveClass(@current_action,'show',nil)}= link_to t("common.show"), magazine_issue_path(@magazine_issue)
   %li= link_to "#{t("common.new", :default => "New")}", new_magazine_issue_path
+  %li= nav_to_new MagazineIssue
 

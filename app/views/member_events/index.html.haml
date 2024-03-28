@@ -16,6 +16,6 @@
         %tbody#member_events
           =render @member_events
     #paginator
-      = paginate @member_events, { :remote=>true, :type=>"script"}
+      = paginate @member_events
  
 - content_for :sidebar, render(:partial => 'sidebar')

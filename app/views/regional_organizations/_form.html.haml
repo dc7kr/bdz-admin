@@ -1,8 +1,4 @@
 = bootstrap_form_for @regional_organization, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10" do |f|
-  - if @regional_organization.errors.any? then
-    - @regional_organization.errors.each do |k,v|
-      = k 
-      = v
   = f.number_field :nummer, :required=>true
   = f.text_field :name, :required=>true
   = f.text_field :subname
@@ -15,6 +11,5 @@
   = form_my_field(f,@regional_organization,:iban, :static)
   = form_my_field(f,@regional_organization,:bic, :static)
 
-  .actions
-    =submit_button
-    =cancel_button
+  =f.submit t("common.save")
+  =cancel_button

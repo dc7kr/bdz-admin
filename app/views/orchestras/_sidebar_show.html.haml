@@ -3,7 +3,7 @@
 .card
   .card-header Links
   .card-body
-    %ul.nav.nav-pills.nav-stacked
+    %ul.nav.flex-column
       %li.nav-item= link_to( "Mitgliedskonto", orchestra_member_account_bookings_url(@orchestra), :class => "nav-link")
       %li.nav-item= link_to( "Events", orchestra_member_events_url(@orchestra), :class => "nav-link")
       %li.nav-item= link_to( "Kontakt-Adressen", orchestra_orchestra_contacts_url(@orchestra), :class => "nav-link")
@@ -19,7 +19,10 @@
   .card
     .card-header Aktionen
     .card-body
-      %ul.nav.nav-pills.nav-stacked
-        %li.nav-item= link_to("Meldebogen-Anschreiben erzeugen", gen_rsi_orchestra_url(@orchestra), :class => "nav-link")
+      %ul.nav.flex-column
+        - if not @orchestra.has_rsi?
+          %li.nav-item= link_to("Meldebogen-Anschreiben erzeugen", gen_rsi_orchestra_url(@orchestra), :class => "nav-link")
+        -else 
+          %li.nav-item= link_to("Meldebogen-Anschreiben erzeugen", "#", :class => "nav-link disabled")
 
 

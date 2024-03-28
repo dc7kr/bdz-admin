@@ -2,10 +2,23 @@
   .card-header Mitgliedsdaten
   .card-body
     =entity_row(member.regional_organization,:name)
-    =entity_row(member,:eintritt)
+    =entity_row(member,:eintritt,:date)
     =entity_row(member,:austritt_zum,:date)
     =entity_row(member,:dsgvo,:boolean)
     =entity_row(member,:dsgvo_date,:date)
+    .row
+      .col-md-3.text-right=label :member,:magazines
+      .col-md-9
+        - if member.magazines >= 0 
+          = member.magazines
+          %span.badge.badge-warning=t("member.is_ztg_override")
+          ( berechnet: 
+          = member.member_entity.currentMagazines(false)
+          )
+        - else
+          = member.member_entity.currentMagazines(true)
+          %span.badge.badge-success=t("member.ztg_calculated")
+
 .card
   .card-header Kontaktdaten
   .card-body
@@ -33,6 +46,8 @@
       .col-md-3.text-right=label :member, :bic
       .col-md-9
         =member.bic
-        - if not BIC_FINDER.exists?(member.bic)
+        - if not BIC_FINDER.valid?(member.bic)
           %span.badge.badge-danger=t("member.bic_invalid")
     =entity_row(member,:zahler)
+    =entity_row(member,:sepa_date)
+    =entity_row(member,:sepa_mandate_nr)

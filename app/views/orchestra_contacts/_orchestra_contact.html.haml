@@ -8,5 +8,5 @@
     %td=orchestra_contact.phone
     %td.last
       = link_to_show_path orchestra_orchestra_contact_path(@orchestra,orchestra_contact), t('common.show') , orchestra_contact
-      = link_to_edit_path  edit_orchestra_orchestra_contact_path(@orchestra,orchestra_contact),'Edit',orchestra_contact
+      = link_to_edit_path  edit_orchestra_orchestra_contact_path(@orchestra,orchestra_contact), t('common.edit'), orchestra_contact
       = link_to_del_path orchestra_orchestra_contact_path(@orchestra,orchestra_contact), orchestra_contact

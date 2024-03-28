@@ -1,7 +1,7 @@
 %ul.nav.nav-tabs
-  %li{ :class => 'first'}= link_to_up_path t("common.up"), home_magazine_data_path
-  %li{ :class=> tabActiveClass(@current_action,'index')}= link_to t("common.list"), magazine_samplings_path
-  - if (@magazine_sampling)
-    %li{ :class => tabActiveClass(@current_action,'show',nil)}= link_to t("common.show"), '#'
-  %li= nav_to_new MagazineSampling
+  %li.nav-item= link_to_up_path t("common.up"), home_magazine_data_path
+  %li.nav-item=nav_to_list MagazineSampling 
+  - if @magazine_sampling and not @magazine_sampling.id.nil?
+    %li.nav-item=nav_to_show @magazine_sampling
+  %li.nav-item= nav_to_new MagazineSampling
 

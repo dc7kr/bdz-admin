@@ -1,11 +1,16 @@
-.content
-  .inner
-    .link-group
-      %h3 Daten
-      %ul.navigation
-        %li= link_to t('magazine_issue',:count=>3), magazine_issues_path 
-        %li= link_to t('advertiser',:count=>3), advertisers_path 
-        %li= link_to t('magazine_advert',:count=>3), magazine_adverts_path 
-        %li= link_to t('magazine_sampling',:count=>3), magazine_samplings_path 
-     
-- content_for :sidebar, render(:partial => 'sidebar.magazine_data')
+%h1 Auftakt!
+
+.accordion#magazine_data_acc
+  .accordion-item
+    %h2.accordion-header#acc_data
+      %button.accordion-button{ type: :button, "data-bs-toggle": "collapse", "data-bs-target": "#acc_data_collapse", "aria-expanded": true, "aria-controls": "acc_data_collapse"}
+        Daten
+    #acc_data_collapse
+      .accordion-body
+        %ul.navigation
+          %li= link_to t('magazine_issue',:count=>3), magazine_issues_path 
+          %li= link_to t('advertiser',:count=>3), magazine_advertisers_path
+          %li= link_to t('magazine_advert',:count=>3), advertisements_path
+          %li= link_to t('magazine_sampling',:count=>3), magazine_samplings_path 
+       
+- content_for :sidebar, render(:partial => 'sidebar_magazine_data')

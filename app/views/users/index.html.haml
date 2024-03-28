@@ -17,7 +17,7 @@
         %tbody#users
           =render @users
       #paginator
-        = paginate @users, :remote=>true
+        = paginate @users
       .actions-bar.wat-cf
         .actions
 - content_for :sidebar, render(:partial => 'sidebar')

@@ -1,7 +1,6 @@
-.dropdown-menu{ :aria => {:labelledby=>"dropdownMenuAdmin"}}
-  = link_to t('magazine_issue',:count=>3), magazine_issues_path , :class=>"dropdown-item"
-  = link_to t('advertiser',:count=>3), magazine_advertisers_path , :class=>"dropdown-item"
-  = link_to t('magazine_sampling',:count=>3), magazine_samplings_path , :class=>"dropdown-item"
+%ul.dropdown-menu{ :aria => {:labelledby=>"dropdownMenuAdmin"}}
+  %li= link_to t('magazine_issue',:count=>3), magazine_issues_path , :class=>"dropdown-item"
+  %li= link_to t('advertiser',:count=>3), magazine_advertisers_path , :class=>"dropdown-item"
+  %li= link_to t('magazine_sampling',:count=>3), magazine_samplings_path , :class=>"dropdown-item"
   .dropdown-divider
-  = link_to "Adressliste Orchester", magazine_orchestras_path, data: { turbolinks:false }, :class=>"dropdown-item"
-  = link_to "Adressliste EM", magazine_person_members_path, data: { turbolinks:false }, :class=>"dropdown-item"
+  %li= link_to "Adressliste gesamt", magazine_address_list_path, data: { turbolinks:false }, :class=>"dropdown-item"

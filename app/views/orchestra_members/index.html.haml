@@ -23,7 +23,7 @@
         %tbody#orchestra_members
           =render @orchestra_members
       #paginator
-        = paginate @orchestra_members, :remote=>true
+        = paginate @orchestra_members
       .actions-bar.wat-cf
         .actions
           - if (@orchestra_members != nil and @orchestra_members.count > 0) then

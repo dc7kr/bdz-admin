@@ -5,11 +5,18 @@
     %h2.title
       = t("common.all")
       = t("advertiser",:count=>3)
-    .inner
+    .container-fluid
+      #entity_info.text-center
+        = page_entries_info @advertisers
+      %table.table-sm.table-hover.table-condensed
+        %thead
       %table.table-sm.table-hover.table-condensed
         %thead
           %th.first=attr_heading Advertiser, :company
           %th=attr_heading Contact, :email
+          %th=t("magazine_sampling.count")
           %th.last
         = render @advertisers
+      #paginator
+        = paginate @advertisers
 

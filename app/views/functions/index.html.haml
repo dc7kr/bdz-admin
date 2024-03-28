@@ -21,7 +21,7 @@
         %tbody#functions
           =render @functions
       #paginator
-        = paginate @functions, :remote=>true
+        = paginate @functions
       .actions-bar.wat-cf
         .actions
 - content_for :sidebar, render(:partial => 'sidebar')

@@ -20,7 +20,7 @@
       %tbody#gema_events
         =render @gema_events
     #paginator
-      = paginate @gema_events, { :remote=>true, :type=>"script"}
+      = paginate @gema_events
     .actions-bar.wat-cf
       .actions
 - content_for :sidebar, render(:partial => 'sidebar')

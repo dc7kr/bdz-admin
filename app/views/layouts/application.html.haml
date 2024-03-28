@@ -2,23 +2,26 @@
 %html
   %head
     %title #{title}
+    %meta{:name=>"viewport", :content=>"width=device-width, initial-scale=1, shrink-to-fit=no"}
     = csrf_meta_tags
     = csp_meta_tag
-    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
-    = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
-    %meta{:name=>"viewport", :content=>"width=device-width, initial-scale=1, shrink-to-fit=no"}
+    = stylesheet_link_tag "application", "data-turbolinks-track": "reload"
+    = javascript_importmap_tags
   %body
     - if not current_user.nil?
       = render :partial => "main_menu"
     #flash-message
       = flash_messages
     .wrapper
-      #content.pb-5
-        .container-fluid
-          #main
-            = yield
+      #content.pb-5.w-100.container-fluid
+        #main
+          = yield
       - if not current_user.nil?
-        %nav#sidebar.collapse.d-print-none
-          = yield :sidebar
-      %footer.page-footer.fixed-bottom.font-small.blue.d-print-none
-        %p.text-center Copyright &copy; 2011-#{Time.now.year} by Karsten Richter - rev. #{GIT_REVISION} 
+        .offcanvas.offcanvas-end#offcanvasSidebar{ :data => { :bs => { :backdrop => "static"} }, :aria => { :labelledby=> "sidebarLabel" } }
+          .offcanvas-header
+            %h5.offcanvas-title#sidebarLabel Sidebar
+            %button.btn-close.text-reset{ :type=>"button", :data=> { :bs=> { :dismiss=> "offcanvas"}, :aria => {:label => "close"}}}
+          .offcanvas-body 
+            = yield :sidebar
+    %footer.page-footer.fixed-bottom.font-small.d-print-none.text-white.bg-dark
+      %p.text-center.p-1.mb-0 Copyright &copy; 2011-#{Time.now.year} by Karsten Richter - rev. #{GIT_REVISION} 

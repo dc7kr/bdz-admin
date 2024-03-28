@@ -22,6 +22,6 @@
         %tbody#member_account_bookings
           = render @bookings
       #paginator
-        = paginate @bookings, { :remote=>true, :type=>"script"}
+        = paginate @bookings
 
 - content_for :sidebar, render(:partial => 'sidebar')

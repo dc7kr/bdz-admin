@@ -1,0 +1,7 @@
+-if entity.errors.any?
+  .alert.alert-primary{ role: :alert }
+    %h3=t("common.errors")
+    - entity.errors.each do |e|
+      = I18n.t(a.class.to_s.downcase+"."+e.attribute.to_s)
+      = e.full_message
+      %br

@@ -1,26 +1,21 @@
 .block
   .secondary-navigation
     
-  .content
-    .inner
-      .panel.panel-default
-        .panel-heading
-          .panel-title
-            %h2 SEPA File regeneration Nach Buchungstext
-        .panel-body
-          = form_for :sepa, :url => { :controller => 'sepa_regeneration', :action => 'regenerate' } do |f|
-            %table
-              %tr
-                %td= label :member_account_booking, :booking_txt
-                %td= f.text_field :booking_txt, :size => 60 
-            = submit_tag t('common.send')
-      .panel.panel-default
-        .panel-heading
-          .panel-title Nach Datum
-        .panel-body
-          %h2 SEPA File regeneration
-          = bootstrap_form_for :sepa, :url => { :controller => 'sepa_regeneration', :action => 'regenerate_by_date_and_type' } do |f|
-            = f.text_field :booking_date, :size => 60 
-            = f.text_field :member_type, :size => 20
-            = f.text_field :max_mglnr, :size => 5
-            = submit_tag t('common.send')
+  %h2 SEPA File regeneration
+
+  .card
+    .card-body
+      %h5.card-title SEPA File regeneration Nach Buchungstext
+      = bootstrap_form_for :sepa, :url => { :controller => 'sepa_regeneration', :action => 'regenerate' } do |f|
+        = f.text_field :booking_txt, :size => 60 
+        = f.submit t('common.send'), data: {turbo: false}
+  .card
+    .card-body
+      %h5.card-title Nach Datum
+      = bootstrap_form_for :sepa, :url => { :controller => 'sepa_regeneration', :action => 'regenerate_by_date_and_type' } do |f|
+        = f.text_field :booking_date, :size => 60 
+        = f.select :member_type, [ ["Orchestra","Orchestra"],["PersonMember","PersonMember"]]
+
+        = f.select :member_sub_type, [["Any",""],["Vereinsorchester","O"],["Koop","K",],["Landesorchester","L"]]
+        = f.text_field :max_mglnr, :size => 5
+        = f.submit  t('common.send'), data: {turbo: false}

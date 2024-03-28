@@ -11,7 +11,7 @@
         %tbody#classifieds
           = render @classifieds
       #paginator
-        = paginate @classifieds, :remote=>true
+        = paginate @classifieds
       .actions-bar.wat-cf
         .actions
 - content_for :sidebar, render(:partial => 'sidebar')

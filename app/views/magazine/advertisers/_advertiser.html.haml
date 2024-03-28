@@ -6,6 +6,15 @@
     %td=advertiser.contact.company
     %td= mail_to  advertiser.contact.email, advertiser.contact.email
     %td
+      - if advertiser.active
+        = advertiser.current_count
+      - else
+        %span.badge.bg-secondary=t("magazine_sampling.inactive")
+        (
+        = advertiser.magazines
+        )
+          
+    %td
       = link_to_show [:magazine,advertiser]
       = link_to_edit [:magazine, advertiser ]
       = link_to_delete [:magazine,advertiser]

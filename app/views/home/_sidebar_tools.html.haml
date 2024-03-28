@@ -1,0 +1,13 @@
+.panel.panel-primary
+  .panel-heading=t('common.events')
+  .panel-body
+    %ul.nav.nav-pills.nav-stacked
+      %li= link_to "Rundschreiben", custom_info_mail_path
+
+-if current_user.is_admin?
+  .panel.panel-primary
+    .panel-heading=t('common.reminders')
+    .panel-body
+      %ul.nav.nav-pills.nav-stacked
+        %li= link_to "Mahnungen Meldebogen", cron_reminders_report_sheet_path
+

@@ -18,7 +18,7 @@
         %tbody#orchestra_contacts
           =render @orchestra_contacts
       #paginator
-        = paginate @orchestra_contacts, :remote=>true
+        = paginate @orchestra_contacts
       .actions-bar.wat-cf
         .actions
 - content_for :sidebar, render(:partial => 'sidebar')
