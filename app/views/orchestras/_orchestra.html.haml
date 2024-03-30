@@ -6,7 +6,7 @@
       - else
         = link_to orchestra.member.mglnr, orchestra_path(orchestra)
         - if orchestra.report_sheet_required? and orchestra.currentReportSheet.nil? then
-          %span.badge.badge-primary kein Meldebogen
+          %span.badge.bg-primary kein Meldebogen
           
     %td
       - if not orchestra.valid? 

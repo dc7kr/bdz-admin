@@ -5,9 +5,9 @@
   %h3
     =  @orchestra.orchName
     - if not @orchestra.zero_member_fee_balance?
-      %span.badge.badge-danger=t("member.nonzero_balance")
+      %span.badge.bg-danger=t("member.nonzero_balance")
     - if @orchestra.is_direct_debit? then
-      %span.badge.badge-info=t("member.is_direct_debit")
+      %span.badge.bg-info=t("member.is_direct_debit")
   = entity_row(@orchestra,:fullname)
   = entity_row(@orchestra,:gruendung,:date)
   = entity_row(@orchestra,:promusica,:date)

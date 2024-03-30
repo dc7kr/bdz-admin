@@ -11,13 +11,13 @@
       .col-md-9
         - if member.magazines >= 0 
           = member.magazines
-          %span.badge.badge-warning=t("member.is_ztg_override")
+          %span.badge.bg-warning=t("member.is_ztg_override")
           ( berechnet: 
           = member.member_entity.currentMagazines(false)
           )
         - else
           = member.member_entity.currentMagazines(true)
-          %span.badge.badge-success=t("member.ztg_calculated")
+          %span.badge.bg-success=t("member.ztg_calculated")
 
 .card
   .card-header Kontaktdaten
@@ -47,7 +47,7 @@
       .col-md-9
         =member.bic
         - if not BIC_FINDER.valid?(member.bic)
-          %span.badge.badge-danger=t("member.bic_invalid")
+          %span.badge.bg-danger=t("member.bic_invalid")
     =entity_row(member,:zahler)
     =entity_row(member,:sepa_date)
     =entity_row(member,:sepa_mandate_nr)
