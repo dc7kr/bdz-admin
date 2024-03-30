@@ -1,4 +1,13 @@
 GIT
+  remote: https://github.com/dc7kr/invoices-gem
+  revision: dbb51705f934aa78191c22dd7b276ae4638acb5f
+  specs:
+    corika_invoices (0.1)
+      kaminari
+      mongoid
+      rails (>= 5.0)
+
+GIT
   remote: https://github.com/salesking/sepa_king.git
   revision: 41d561362e7af4bcd7da7bfad97e6e5e2d32f7bb
   specs:
@@ -6,14 +15,6 @@ GIT
       activemodel (>= 4.2)
       iban-tools
       nokogiri
-
-PATH
-  remote: /home/kasi/corika_invoices
-  specs:
-    corika_invoices (0.1)
-      kaminari
-      mongoid
-      rails (>= 5.0)
 
 GEM
   remote: https://rubygems.org/
