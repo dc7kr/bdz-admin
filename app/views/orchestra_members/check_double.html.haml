@@ -3,22 +3,22 @@
     %h2.title 
       Doppelmitgliedschaftscheck
       - if @needs_update then 
-        %span.label.label-danger=t("report_sheet.update_needed")
+        %span.badge.bg-danger=t("report_sheet.update_needed")
       - else
-        %span.label.label-info=t("report_sheet.no_update_needed")
+        %span.badge.bg-info=t("report_sheet.no_update_needed")
     - if @result[:faulty].count > 0 then
       %h3
-        %span.label.label-danger Fehlerhaft:
+        %span.badge.bg-danger Fehlerhaft:
       %table.table-sm.table-collapsed
         = render @result[:faulty]
     - if @result[:verified].count > 0 then 
       %h3 
-        %span.label.label-success Erfolgreich geprüft:
+        %span.badge.bg-success Erfolgreich geprüft:
       %table.table-sm.table-collapsed
         = render @result[:verified]
     - if @result[:neutral].count > 0 then 
       %h3 
-        %span.label.label-warning Ignoriert:
+        %span.badge.bg-warning Ignoriert:
       %table.table-sm.table-collapsed
         = render @result[:neutral]
     - if @needs_update  then

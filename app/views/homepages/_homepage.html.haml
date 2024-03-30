@@ -2,7 +2,7 @@
   %td.first= homepage.abbrev
   %td
     - if ! homepage.member_exists?
-      %span.label.label-danger kein Mitglied
+      %span.badge.bg-danger kein Mitglied
 
     = homepage.mitglnr
   %td= homepage.name

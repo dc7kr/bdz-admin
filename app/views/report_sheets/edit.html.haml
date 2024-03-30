@@ -9,9 +9,9 @@
         = t("report_sheet",:count=>1)
         = @report_sheet.year
         - if @report_sheet.generated
-          %span.label.label-danger=t("report_sheet.generated")
+          %span.badge.bg-danger=t("report_sheet.generated")
         - if @report_sheet.invoiced then
-          %span.label.label-info=t("report_sheet.invoiced")
+          %span.badge.bg-info=t("report_sheet.invoiced")
       = render 'form'
 
 

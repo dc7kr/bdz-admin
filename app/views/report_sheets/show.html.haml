@@ -9,11 +9,11 @@
         = t("report_sheet",:count=>1)
         = @report_sheet.year
       - if @needs_update
-        %span.label.label-danger=t("report_sheet.tag.needs_new_invoice")
+        %span.badge.bg-danger=t("report_sheet.tag.needs_new_invoice")
       - if @inconsistent
-        %span.label.label-danger=t("report_sheet.tag.inconsistent")
+        %span.badge.bg-danger=t("report_sheet.tag.inconsistent")
       - if not @invoiced
-        %span.label.label-danger=t("report_sheet.tag.not_invoiced")
+        %span.badge.bg-danger=t("report_sheet.tag.not_invoiced")
 
       =entity_row(@report_sheet,:report_date,:date)
       =entity_row(@report_sheet,:generated)
@@ -36,5 +36,5 @@
       - if not @consistent
         =link_to( t("report_sheet.update_from_members"), update_from_members_orchestra_report_sheet_path(@orchestra,@report_sheet), :class=>"btn btn-primary")
       - if @needs_update and @consistent
-        =link_to(t("report_sheet.update_invoice"), update_invoice_orchestra_report_sheet_path(@orchestra,@report_sheet), :class=>"btn btn-primary", :method=> :post)
+        =button_to(t("report_sheet.update_invoice"), update_invoice_orchestra_report_sheet_path(@orchestra,@report_sheet), :class=>"btn btn-primary" )
 - content_for :sidebar, render(:partial => 'sidebar')
