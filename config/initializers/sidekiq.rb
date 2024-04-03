@@ -1,9 +1,8 @@
-REDIS_SETTINGS = YAML.load_file(Rails.root.join('config', 'redis.yml'))[Rails.env]
 
-server=REDIS_SETTINGS['server']
-port=REDIS_SETTINGS['port']
-user=REDIS_SETTINGS['user']
-password=REDIS_SETTINGS['password']
+server   = Rails.application.credentials.dig(:redis, :server) 
+port     = Rails.application.credentials.dig(:redis, :port) 
+user     = Rails.application.credentials.dig(:redis, :user) 
+password = Rails.application.credentials.dig(:redis, :password) 
 
 
 
@@ -21,7 +20,7 @@ Sidekiq.configure_server do |config|
         Sidekiq::Cron::Job.load_from_hash YAML.load_file(schedule_file)
     end   
   end    
-  config.redis = { :url => redis_url }
+  config.redis = { :url => Rails.application.credentials.dig(:redis_url) }
 end
 
 Sidekiq.configure_client do |config|
