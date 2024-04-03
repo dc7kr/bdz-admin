@@ -318,7 +318,7 @@ class Member < ApplicationRecord
       return true
     end
     
-    return BIC_FINDER.exists?(bic)
+    return BIC_FINDER.exist?(bic)
   end
 
   def zero_member_fee_balance?
