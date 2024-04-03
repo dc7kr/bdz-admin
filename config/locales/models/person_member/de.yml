@@ -1,0 +1,20 @@
+de:
+  person_member: &person_member_labels
+    one: Einzelmitglied
+    other: Einzelmitglieder
+    telefonDienstl: Telefon (dienstl.)
+    zeitungen: Zeitungen
+    zusatzzeitung: Zusatz-Zeitung
+    birthday: Geburtstag
+    tarrif_id: Beitragstyp
+
+  helpers:
+    label:
+      person_member:
+        <<: *person_member_labels
+  activerecord:
+    models:
+        person_member: "Einzelmitglied"
+    attributes:
+      person_member:
+        <<: *person_member_labels

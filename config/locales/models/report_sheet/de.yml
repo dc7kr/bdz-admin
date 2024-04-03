@@ -1,0 +1,96 @@
+de:
+  report_sheet: &report_sheet_labels
+    one: Meldebogen
+    other: Meldebögen
+    age_category:
+      C: "Kinder bis 14"
+      T: "Jugendliche 15-19"
+      Y: "Jugendliche 19-27"
+      A: "Erwachsene 28-64"
+      S: "Erwachsene 65+"
+
+    new: Neuer Meldebogen
+    create_success: Meldebogen erfolgreich angelegt
+    data_from_last_year: Automatische Datenübernahme aus Vorjahr
+    children_col: "<14"
+    teens_col: "15-17"
+    youth_col: "18-27"
+    adult_col: "28-64"
+    senior_col: "65+"
+    delay_fee: "Säumniszuschlag"
+    final: "Eingereichte Meldebögen"
+    analysis: "Auffällige Meldebögen"
+    no_update_needed: "Meldebogen ist aktuell"
+    update_double_members: "Meldebogen anpassen"
+    update_double_success: "Doppelmitglieder erfolgreich auf beitragsfrei gesetzt."
+    update_from_members_success: "Meldebogen erfolgreich abgeglichen"
+    update_from_members_failed: "Meldebogenabgleich fehlgeschlagen!"
+    update_invoice: "Neue Rechnung erzeugen"
+    update_from_members: "Meldebogen abgleichen"
+    calcGemaCount: GEMA
+    calcZeitungen: Zeitungen
+    calcInvoice: Rechnungsbetrag
+    calcUV: Unfallversicherung
+    calcUvCount: Unfallversicherung
+    totalActiveMembers: Gesamt Aktiv
+    calcBeitrag: Mitgliedsbeiträge
+    year: Jahr
+    gema: GEMA
+    comment: Kommentar
+    tariff: Tarif
+    distribution: Mitglieder
+    invsum: Rechnungsbetrag
+    invsum_short: Summe
+    sum: Mitgliedsbeiträge
+    sum_short: Beitrag
+    uvsum: Unfallversicherung
+    uvsum_short: UV
+    total_active: Gesamt Aktiv
+    total_youth: Gesamt Jugendlich
+    total: Gesamtzahl
+    zusatz_uv: Zusätzl. UV
+    zeitungen: Zeitungen
+    generated: Generiert
+    delta_invoice: "Differenz zur bishrigen Rechnung"
+    children: Kinder
+    teens: Jugendliche 15-17
+    youth: Erw. 18-27
+    adult: Erw. 28-64
+    senior: Erw. 65+ 
+    passive: Passiv
+    child_ens: Kinderensembles
+    youth_ens: Jugendensembles
+    adult_ens: Erwachsenenensembles
+    senior_ens: Seniorenensembles
+    chamber_ens: Kammermusikensembles
+    other_ens: Sonstige Ensembles
+    azubi_child: "Aktive bis 14 Jahre"
+    azubi_teens: "Aktive 15 – 17 Jahre"
+    azubi_youth: "Aktive 18 – 27 Jahre"
+    azubi_adult: "Aktive 28 – 64 Jahre"
+    azubi_senior: "Aktive ab 65 Jahren"
+    supporters: "Fördervereinmitglieder"
+    zo: Zupforchester
+    zi_o: Zitherorchester
+    go: Gitarrenorchester
+    oz: "Sonstige Zupfinstrumente"
+    report_date: Datum
+    report_date_str: Datum
+    generated: Generiert
+    korr_ztg: Zeitungen Korrektur (+/-)
+    invoiced: Abgerechnet
+    azubi: Beitragsfrei
+    uv: Unfallversicherung
+    tag:
+      not_invoiced: "keine Rechnung"
+      inconsistent: "Mitgliederzahl muss abgeglichen werden!"
+      update_needed: "Meldebogen muss aktualisiert werden"
+      needs_new_invoice: "Neue Rechnung erforderlich!"
+  activerecord:
+    attributes:
+      report_sheet:
+        <<: *report_sheet_labels
+  helpers:
+    label:
+      report_sheet: 
+        <<: *report_sheet_labels

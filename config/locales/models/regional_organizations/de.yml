@@ -1,0 +1,15 @@
+de:
+  regional_organization: &regional_organization_labels
+    one: Landesverband
+    other: Landesverbände
+    gema_kdnr: GEMA-Kd.-Nr.
+    gema_kdnr_new: GEMA-SAP-Kd.-Nr. 
+    share_overview: Beitragsanteile
+    name: LV-Name
+    homepage: Homepage
+    name: LV-Name
+
+  helpers:
+    label:
+      regional_organization:
+        <<: *regional_organization_labels
