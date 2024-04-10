@@ -3,7 +3,10 @@ source "https://rubygems.org"
 ruby '3.2.3'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails', branch: 'main'
-gem 'rails', '~> 7.1.2'
+gem 'rails', '~> 7.1.3',  ">= 7.1.3.2"
+
+# The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
+gem "sprockets-rails"
 
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3', '~> 1.4'
@@ -35,10 +38,6 @@ gem "redis", ">= 4.0.1"
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ windows jruby ]
  
-
-# Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
-gem 'turbolinks', '~> 5'
-
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', require: false
 
@@ -73,14 +72,35 @@ end
 gem 'haml'
 gem 'haml-rails', "~> 2.0"
 
-# DANGER: DONT OMIT iso otherwise it pollutes the default namespace
-gem 'countries'
-gem 'country_select'
+# localization defaults
+gem 'rails-i18n', '~> 7.0.0'
+
+#paginator
+gem 'kaminari'
+gem 'kaminari-mongoid' 
+
+# databases
+gem 'mysql2', '~> 0.5.0'
+gem 'mongoid'
 
 #ASYNC Execution 
 gem 'sidekiq', "~> 7.0"
 gem "sidekiq-cron", "~> 1.1"
 gem "redis-client"
+
+# authenticate
+gem 'devise'
+#gem 'devise-async'
+
+# authorize
+gem 'cancancan', '~> 3.3.0'
+gem 'cancancan-mongoid'
+gem 'rolify'
+gem 'authority'
+
+# DANGER: DONT OMIT iso otherwise it pollutes the default namespace
+gem 'countries'
+gem 'country_select'
 
 gem 'sinatra', require: false
 gem 'slim'
@@ -94,7 +114,6 @@ gem 'paperclip'
 gem 'icalendar' 
 
 gem 'rbktoblzcheck'
-#gem 'konto_check'
 
 # 0.3.1 seems to be broken
 # 0.3.5 works fine :)
@@ -110,6 +129,7 @@ gem 'http_accept_language'
 gem 'json'
 
 gem 'prawn'
+
 ##TODO: REPLACE! is antique
 gem 'prawn-table', '~> 0.2.2'
 
@@ -123,24 +143,6 @@ gem "spreadsheet"
 gem "roo-xls"
 #gem "to_xml-rails"
 
-gem 'mysql2', '~> 0.5.0'
-
-# authenticate
-gem 'devise'
-#gem 'devise-async'
-
-# authorize
-gem 'cancancan', '~> 3.3.0'
-gem 'cancancan-mongoid'
-
-#paginator
-gem 'kaminari'
-
-gem 'kaminari-mongoid' 
-
-gem 'rolify'
-gem 'authority'
-
 gem 'ruby_parser'
 gem 'hpricot'
 
@@ -148,19 +150,13 @@ gem 'hpricot'
 gem 'mini_racer'
 
 
-# testing
-#gem 'web-app-theme', '~> 0.8.0'
-#gem 'web-app-theme', :git => "git://github.com/pilu/web-app-theme.git"
-
 gem 'parseconfig'
 
-gem 'mongoid'
 
 # Bootstrap 5
 gem 'bootstrap', '~> 5.2.3'
 gem "bootstrap_form", "~> 5.4"
 gem "font_awesome5_rails"
-
 
 gem 'momentjs-rails', '>= 2.9.0'
 #gem 'bootstrap3-datetimepicker-rails', '~> 4.17.47'
@@ -180,9 +176,4 @@ gem "corika_invoices",  git: 'https://github.com/dc7kr/invoices-gem'
 # to obfuscate mails
 gem 'actionview-encoded_mail_to'
 
-
-# localization defaults
-gem 'rails-i18n', '~> 7.0.0'
-
 gem 'exception_notification'
-
