@@ -1,15 +1,15 @@
 
-server   = Rails.application.credentials.dig(:redis, :server) 
-port     = Rails.application.credentials.dig(:redis, :port) 
-user     = Rails.application.credentials.dig(:redis, :user) 
-password = Rails.application.credentials.dig(:redis, :password) 
 
+cfg = Rails.application.credentials[:redis]
 
+if cfg.nil?
+  return
+end
 
-if user.nil? then
-  redis_url = "redis://#{server}:#{port}/12"
+if cfg[:user].nil? then
+  redis_url = "redis://#{cfg[:server]}:#{cfg[:port]}/12"
 else
-  redis_url = "redis://#{user}:#{password}@#{server}:#{port}/12"
+  redis_url = "redis://#{cfg[:user]}:#{cfg[:password]}@#{cfg[:server]}:#{cfg[:port]}/12"
 end
 
 Sidekiq.configure_server do |config|
