@@ -1,9 +1,7 @@
 unless BDZAdmin::Application.config.action_mailer.nil?
 
-yml = YAML.load_file(Rails.root.join('config', 'smtp.yml'))[Rails.env]
-
-smtp_options= yml["smtp"]
-url_options= yml["url"]
+smtp_options = Rails.application.credentials[:smtp]
+url_options = Rails.application.credentials[:url]
 
 BDZAdmin::Application.config.action_mailer.smtp_settings = {}
 BDZAdmin::Application.config.action_mailer.default_url_options = {}
