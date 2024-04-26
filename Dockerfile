@@ -32,6 +32,8 @@ RUN bundle install && \
 # Copy application code
 COPY . .
 
+COPY ./config/database.yml.dummy /rails/config/database.yml
+
 # Precompile bootsnap code for faster boot times
 RUN bundle exec bootsnap precompile app/ lib/
 
@@ -44,7 +46,15 @@ FROM base
 
 # Install packages needed for deployment
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y curl libsqlite3-0 libvips && \
+    apt-get install --no-install-recommends -y \
+    curl \
+    libsqlite3-0 \
+    libvips \
+    libmariadb3 \
+    libktoblzcheck1v5 \
+    git \
+    vim \
+    fonts-liberation && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 # Copy built artifacts: gems, application
