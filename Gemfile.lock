@@ -1,8 +1,9 @@
 GIT
   remote: https://github.com/dc7kr/invoices-gem
-  revision: dbb51705f934aa78191c22dd7b276ae4638acb5f
+  revision: 9eb45a06f66fe0faa9416807c2ec79e69b0435e9
+  tag: 1.0
   specs:
-    corika_invoices (0.1)
+    corika_invoices (1.0)
       kaminari
       mongoid
       rails (>= 5.0)
