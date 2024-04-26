@@ -168,7 +168,7 @@ gem "paranoia", "~> 2.6"
 gem 'telephone_number'
 
 # TODO: CHANGE TO THE REAL PATH ONCE IT IS FINAL!
-gem "corika_invoices",  git: 'https://github.com/dc7kr/invoices-gem'
+gem "corika_invoices",  git: 'https://github.com/dc7kr/invoices-gem', tag: '1.0'
 
 # crypto
 #gem "attr_encrypted", "~> 3.1.0"
