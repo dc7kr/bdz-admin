@@ -57,6 +57,16 @@ RUN apt-get update -qq && \
     fonts-liberation && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
+
+RUN apt-get update -qq && \
+    apt-get --no-install-recommends -y install \
+        texlive-latex-extra \
+        texlive-lang-german \
+        texlive-xetex \
+        texlive-science \
+        texlive-plain-generic \
+        fonts-lato
+
 # Copy built artifacts: gems, application
 COPY --from=build /usr/local/bundle /usr/local/bundle
 COPY --from=build /rails /rails
