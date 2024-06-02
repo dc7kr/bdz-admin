@@ -299,7 +299,7 @@ class ReportSheet < ApplicationRecord
 			if ( isMinTariff? ) then
 				@invoice.addItem(1,Prices.minTariff,'Mindestbeitrag')
 			elsif ( isMaxTariff? ) 
-				@invoice.addItem(1,Prices.maxTariff,'H{"o}chstbeitrag')
+				@invoice.addItem(1,Prices.maxTariff,'Höchstbeitrag')
 			end
 		end
 
