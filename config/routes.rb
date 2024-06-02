@@ -154,6 +154,11 @@ Rails.application.routes.draw do
   get 'api/rsm/gen_mailings' => 'report_sheet_mailings#gen_mailings'
   get 'api/rsm/test' => 'report_sheet_mailings#test'
 
+  # Invoice generation checks
+  get '/adm/invoice_check/' => 'adm/invoice_check#index'
+  post '/adm/invoice_check/distinction' => 'adm/invoice_check#distinction'
+  post '/adm/invoice_check/orchestra' => 'adm/invoice_check#orchestra'
+
   resources :uploads
 
   get "errors/error_404"
