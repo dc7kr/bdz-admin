@@ -6,8 +6,10 @@
       = link_to event_meal.participant_id, festival_application_path(event_meal.participant_id)
   %td=event_meal.tln
   %td=event_meal.veg
-  %td=event_meal.name
-  %td=mail_to event_meal.email,event_meal.email
+  %td
+    =event_meal.name
+    %br
+    =mail_to event_meal.email,event_meal.email
   - if event_meal.arrival_time == nil then
     %td ---
   - else
