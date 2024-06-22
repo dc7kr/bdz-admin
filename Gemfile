@@ -14,6 +14,8 @@ gem 'sqlite3', '~> 1.4'
 # Use Puma as the app server
 gem 'puma', '~> 5.0'
 
+gem 'rack', '< 3.0'
+
 # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
 gem "importmap-rails"
 
@@ -168,7 +170,8 @@ gem "paranoia", "~> 2.6"
 gem 'telephone_number'
 
 # TODO: CHANGE TO THE REAL PATH ONCE IT IS FINAL!
-gem "corika_invoices",  git: 'https://github.com/dc7kr/invoices-gem', tag: '1.0'
+#gem "corika_invoices",  git: 'https://github.com/dc7kr/invoices-gem', branch: "main"
+gem "corika_invoices",  git: 'https://github.com/dc7kr/invoices-gem', tag: "1.2"
 
 # crypto
 #gem "attr_encrypted", "~> 3.1.0"
