@@ -14,7 +14,7 @@
       = mail_to festival_application.contact_person.email, festival_application.contact_person.email
   %td= festival_application.num_players
   %td= t("festival_application.payment_states.#{festival_application.payment_status}")
-  %td= festival_application.amount
+  %td=format_currency festival_application.amount
   %td
     =link_to_show festival_application
     =link_to_edit festival_application
