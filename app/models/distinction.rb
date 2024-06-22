@@ -12,8 +12,6 @@ class Distinction < ApplicationRecord
 
     # Brutto Rechnung 
     invoice.tax_type = "B"
-    invoice.taxrate = INVOICE_CONFIG.taxrate
-    invoice.taxrate_reduced = INVOICE_CONFIG.taxrate_reduced
 
     invoice.considerItem(certificates,Prices.certificate,"Urkunden")
     invoice.considerItem(silver_needles,Prices.silverNeedle, 'Silbernadel')
@@ -30,7 +28,9 @@ class Distinction < ApplicationRecord
       portoPrice = porto
     end
 
-    invoice.considerItem( 1, portoPrice , 'Porto und Verpackungskostenanteil')
+    item = invoice.considerItem( 1, portoPrice , 'Porto und Verpackungskostenanteil')
+    item.tax_rate = 0 
+    
 
     invoice
   end
