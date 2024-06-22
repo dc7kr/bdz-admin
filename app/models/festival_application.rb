@@ -24,7 +24,7 @@ class FestivalApplication < ApplicationRecord
     if (search)
       where('orch_name like ? or id = ?',"%#{search}%",search);
     else
-      where(1)
+      where("1")
     end
   end
 
@@ -71,8 +71,6 @@ class FestivalApplication < ApplicationRecord
 
     # taxfree
     inv.tax_type="X"
-    inv.taxrate = 0
-    inv_taxrate_reduced = 0
 
     if (contact_person.country_code == germany.alpha2 or country_code == austria.alpha2) then 
       locale = :de
