@@ -270,8 +270,6 @@ class ReportSheet < ApplicationRecord
     
     # taxfree
     @invoice.tax_type ="X"
-    @invoice.taxrate  = 0
-    @invoice.taxrate_reduced = 0
    
     @invoice.customer = orchestra.to_customer
 
