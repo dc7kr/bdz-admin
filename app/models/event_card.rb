@@ -13,7 +13,7 @@ class EventCard < ApplicationRecord
     if (search)
       where('name like ? or id = ?',"%#{search}%",search);
     else
-      where(1)
+      where("1")
     end
   end
 
@@ -118,8 +118,6 @@ class EventCard < ApplicationRecord
     invoice.customer = customer
 
     invoice.tax_type="B"
-    invoice.taxrate = INVOICE_CONFIG.taxrate
-    invoice_taxrate_reduced = INVOICE_CONFIG.taxrate_reduced
 
     prices = BDZ_SETTINGS["festival_prices"]
 
