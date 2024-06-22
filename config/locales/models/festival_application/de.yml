@@ -1,7 +1,7 @@
 de:
   festival_application: &festival_app_labels
     one: "Eine festival-Bewerbung"
-    other: "%{count} Festival-Bewerbungen"
+    other: "Festival-Bewerbungen"
     zero: "Keine Festival-Bewerbung"
     new: "Neue Festival-Bewerbung"
     planned_programme: "Geplantes musikalisches Programm (max. 20 Minuten)"
