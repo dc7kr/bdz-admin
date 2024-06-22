@@ -1,27 +1,30 @@
 .content
   .inner
     .container-fluid
+      %h2 Festival Daten
       .row
         .col-md-4
-          .panel.panel-default
-            .panel-heading Musik
-            %ul.nav.nav-pills.nav-stacked
-              %li{:role=>"navigation"}= link_to t('festival_application',:count=>3), festival_applications_path
-              %li{:role=>"navigation"}= link_to t('festival_perticipant',:count=>3), permitted_festival_applications_path
-              %li{:role=>"navigation"}= link_to t('festival_concert',:count=>3), festival_concerts_path
+          .card
+            .card-body
+              %h5.card-heading Musik
+              %ul
+                %li{:role=>"navigation"}= link_to t('festival_application',:count=>3), festival_applications_path
+                %li{:role=>"navigation"}= link_to t('festival_participant',:count=>3), permitted_festival_applications_path
+                %li{:role=>"navigation"}= link_to t('festival_concert',:count=>3), festival_concerts_path
         .col-md-4
-          .panel.panel-default
-            .panel-heading Administration
-            %ul.nav.nav-pills.nav-stacked
-              %li{:role=>"navigation"}= link_to t('event_meal',:count=>3), event_meals_path
-              %li{:role=>"navigation"}= link_to t('event_card',:count=>3), event_cards_path
-              %li{:role=>"navigation"}= link_to t('event_meal.arrival_overview'), arrival_overview_event_meals_path
-              %li{:role=>"navigation"}= link_to t('competition_entry',:count=>3), competition_entries_path
+          .card
+            .card-body
+              %h5.card-heading Administration
+              %ul
+                %li{:role=>"navigation"}= link_to t('event_meal',:count=>3), event_meals_path
+                %li{:role=>"navigation"}= link_to t('event_card',:count=>3), event_cards_path
+                %li{:role=>"navigation"}= link_to t('event_meal.arrival_overview'), arrival_overview_event_meals_path
         .col-md-4
-          .panel.panel-default
-            .panel-heading Tasks
-            %ul.nav.nav-pills.nav-stacked
-              %li{:role=>"navigation"}= link_to t('festival_mail',:count=>3), festival_mails_path
-              %li{:role=>"navigation"}= link_to t('festival_mail.gen_invoices'), invoices_festival_mails_path
-              %li{:role=>"navigation"}= link_to t('festival_mail.reservation_invoices'), reservation_invoices_festival_mails_path
-- content_for :sidebar, render(:partial => 'sidebar.festival')
+          .card
+            .card-body
+              %h5.card-heading Tasks
+              %ul
+                %li{:role=>"navigation"}= link_to t('festival_mail',:count=>3), festival_mails_path
+                %li{:role=>"navigation"}= link_to t('festival_mail.gen_invoices'), invoices_festival_mails_path
+                %li{:role=>"navigation"}= link_to t('festival_mail.reservation_invoices'), reservation_invoices_festival_mails_path
+- content_for :sidebar, render(:partial => 'sidebar_festival')
