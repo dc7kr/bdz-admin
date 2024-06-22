@@ -3,6 +3,8 @@
   %td= festival_piece.title
   %td= festival_piece.duration
   %td
-    = link_to_show_path festival_application_festival_piece_path(festival_piece.festival_application.token,festival_piece),t('common.show'), festival_piece
-    = link_to_edit_path edit_festival_application_festival_piece_path(festival_piece.festival_application.token, festival_piece),t('common.edit'), festival_piece
-    = link_to_del_path festival_application_festival_piece_path(festival_piece.festival_application.token,festival_piece),  festival_piece
+    - f_appl = festival_piece.festival_application
+    - if not f_appl.nil?
+      = link_to_show_path festival_application_festival_piece_path(f_appl.token,festival_piece),t('common.show'), festival_piece
+      = link_to_edit_path edit_festival_application_festival_piece_path(f_appl.token, festival_piece),t('common.edit'), festival_piece
+      = link_to_del_path festival_application_festival_piece_path(f_appl.token,festival_piece),  festival_piece
