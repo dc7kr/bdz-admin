@@ -1,5 +1,4 @@
-class EventCardsMailer < ActionMailer::Base
-  default from: "geschaeftsstelle@bdz-online.de"
+class EventCardsMailer < ApplicationMailer
 
   def notify(card_data, cc)
 

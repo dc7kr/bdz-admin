@@ -1,5 +1,4 @@
-class EventMealsMailer < ActionMailer::Base
-  default from: "geschaeftsstelle@bdz-online.de"
+class EventMealsMailer < ApplicationMailer
 
   def notify(meal_data, cc)
 

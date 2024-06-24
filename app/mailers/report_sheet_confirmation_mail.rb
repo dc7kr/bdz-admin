@@ -1,5 +1,4 @@
-class ReportSheetConfirmationMail < ActionMailer::Base
-  default from: "geschaeftsstelle@bdz-online.de"
+class ReportSheetConfirmationMail < ApplicationMailer
 
   def notify(recipient, personalized_file, attachment_file, params) 
 

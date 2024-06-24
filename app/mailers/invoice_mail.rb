@@ -1,5 +1,4 @@
-class InvoiceMail < ActionMailer::Base
-  default from: "geschaeftsstelle@bdz-online.de"
+class InvoiceMail < ApplicationMailer
 
   def notify(recipient, invoice_file, attachment_file, params) 
 

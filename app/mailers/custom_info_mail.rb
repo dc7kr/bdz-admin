@@ -1,5 +1,4 @@
-class CustomInfoMail < ActionMailer::Base
-  default from: "geschaeftsstelle@bdz-online.de"
+class CustomInfoMail < ApplicationMailer
 
   def notify(recipient, letter, attachment, params) 
 

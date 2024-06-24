@@ -1,5 +1,5 @@
-class DistinctionNotifier < ActionMailer::Base
-  default from: "bdzdb@bdz-online.de"
+class DistinctionNotifier < ApplicationMailer
+  default from: "bdzdb@zupfmusiker.de"
 
   def newdistinction_notification(user, invoices, dtaus)
 	 @recipient = user

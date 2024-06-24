@@ -1,5 +1,4 @@
-class EventCardInvoiceMail < ActionMailer::Base
-  default from: "geschaeftsstelle@bdz-online.de"
+class EventCardInvoiceMail < ApplicationMailer
 
   def notify(recipient, personalized_file, attachment_file, params) 
 

@@ -1,5 +1,5 @@
-class AdminNotifier < ActionMailer::Base
-  default from: "bdzdb@bdz-online.de"
+class AdminNotifier < ApplicationMailer
+  default from: "bdzdb@zupfmusiker.de"
 
   def gen_rsi_notification(args)
     @year = args[0]
@@ -103,6 +103,10 @@ class AdminNotifier < ActionMailer::Base
 
     @current_user = current_user 
     mail(:to => user.email, :subject => "BDZ LV Beitragsanteile SEPA CT")
+  end
+
+  def test_notification(current_user)
+    mail(:to => current_user.email, :subject => "[BDZDB] Test Notification")
   end
   
   def newdistinction_notification(invoice,sepa_file)
