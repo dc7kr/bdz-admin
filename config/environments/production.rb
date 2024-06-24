@@ -111,7 +111,7 @@ Rails.application.configure do
   # Disable delivery errors, bad email addresses will be ignored
   # config.action_mailer.raise_delivery_errors = false
 
-  config.action_mailer.delivery_method = :sendmail
+  config.action_mailer.delivery_method = :smtp
   config.action_mailer.perform_deliveries = true
   config.action_mailer.logger = nil
 
@@ -123,7 +123,7 @@ Rails.application.configure do
   Rails.application.config.middleware.use ExceptionNotification::Rack,
     email: {
     email_prefix: '[BDZDB] ', # Default: [ERROR]
-    sender_address: %{'Notifier' <bdzdb@bdz-online.de>},
+    sender_address: %{'Notifier' <bdzdb@zupfmusiker.de>},
     exception_recipients: %w{kr@corika.com}
   }
 
