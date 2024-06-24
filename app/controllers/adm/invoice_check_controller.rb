@@ -24,6 +24,7 @@ class Adm::InvoiceCheckController < AuthenticatedNonResourceController
 
     pdf = invoice.gen_pdf
 
+    send_file(pdf.full_path, :filename => "test_ehrungsrechnung.pdf", :type => "application/octet-stream")
   end
 
   def orchestra
@@ -34,7 +35,7 @@ class Adm::InvoiceCheckController < AuthenticatedNonResourceController
     tw = CorikaInvoices::TexWriter.new(INVOICE_CONFIG)
     pdf = invoice.gen_pdf(tw)
 
-    send_file(pdf, :filename => "test_rs.pdf", :type => "application/octet-stream")
+    send_file(pdf.full_path, :filename => "test_beitragsrechnung.pdf", :type => "application/octet-stream")
   end
 
   def person_member
