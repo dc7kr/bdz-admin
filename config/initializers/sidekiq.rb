@@ -1,17 +1,3 @@
-
-
-cfg = Rails.application.credentials[:redis]
-
-if cfg.nil?
-  return
-end
-
-if cfg[:user].nil? then
-  redis_url = "redis://#{cfg[:server]}:#{cfg[:port]}/12"
-else
-  redis_url = "redis://#{cfg[:user]}:#{cfg[:password]}@#{cfg[:server]}:#{cfg[:port]}/12"
-end
-
 Sidekiq.configure_server do |config|
   config.on(:startup) do
     schedule_file = "config/schedule.yml"
@@ -24,5 +10,5 @@ Sidekiq.configure_server do |config|
 end
 
 Sidekiq.configure_client do |config|
-  config.redis = { :url => redis_url }
+  config.redis = { :url => Rails.application.credentials.dig(:redis_url) }
 end
