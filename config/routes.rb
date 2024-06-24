@@ -155,9 +155,10 @@ Rails.application.routes.draw do
   get 'api/rsm/test' => 'report_sheet_mailings#test'
 
   # Invoice generation checks
-  get '/adm/invoice_check/' => 'adm/invoice_check#index'
-  post '/adm/invoice_check/distinction' => 'adm/invoice_check#distinction'
-  post '/adm/invoice_check/orchestra' => 'adm/invoice_check#orchestra'
+  get '/adm/invoice_check' => 'adm/invoice_check#index'
+  get '/adm/invoice_check/distinction' => 'adm/invoice_check#distinction'
+  get '/adm/invoice_check/orchestra' => 'adm/invoice_check#orchestra'
+  get '/adm/mail_check/admin' => 'adm/mail_check#admin_notify'
 
   resources :uploads
 
