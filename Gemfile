@@ -149,7 +149,7 @@ gem 'ruby_parser'
 gem 'hpricot'
 
 # JS exec environment for asset precompile
-gem 'mini_racer'
+gem 'mini_racer', "~> 0.9.0" 
 
 
 gem 'parseconfig'
