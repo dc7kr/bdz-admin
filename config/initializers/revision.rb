@@ -1,11 +1,10 @@
 Rails.application.config.to_prepare do
-  yml= YAML.load_file(Rails.root.join('config','version.yml'))
-  
-  GIT_REVISION =  yml["version_info"]["current"]
+  yml = YAML.load_file(Rails.root.join('config', 'version.yml'), aliases: true )
 
-  gh = GitTool.new
-  GIT_INFO = gh.git_info(2)
+  if not yml.nil?
+    data = yml["version_info"]
 
-  last_commit = GIT_INFO[:last_commits]
-
+    GIT_REVISION =  data["current"]
+    IMAGE_VERSION = data["image"]
+  end
 end
