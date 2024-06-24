@@ -5,4 +5,6 @@
   = link_to "Invoice check", adm_invoice_check_path, :class=>"dropdown-item"
   = link_to "SideKiq", "/sidekiq", :class=>"dropdown-item"
   = link_to "Invoice Engine", "/invoice_engine/invoices", :class=>"dropdown-item"
-  = link_to "Invoice test", "/invoice_engine/invoices", :class=>"dropdown-item"
+  .dropdown-divider
+  = link_to "Invoice test", "/adm/invoice_check/", :class=>"dropdown-item"
+  = link_to "Mail test", "/adm/mail_check/admin", :class=>"dropdown-item"
