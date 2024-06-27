@@ -228,8 +228,6 @@ class PersonMember < ApplicationRecord
 
     # taxfree
     invoice.tax_type = "X"
-    invoice.taxrate = 0
-    invoice.taxrate_reduced = 0
 
     invoice.number = "#{member.mglnr}-BEITRAG#{year}"
     invoice.customer = to_customer
