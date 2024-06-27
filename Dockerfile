@@ -65,7 +65,9 @@ RUN apt-get update -qq && \
         texlive-xetex \
         texlive-science \
         texlive-plain-generic \
-        fonts-lato
+        fonts-lato \
+	netcat-openbsd \
+	bind9-dnsutils
 
 # Copy built artifacts: gems, application
 COPY --from=build /usr/local/bundle /usr/local/bundle
