@@ -54,20 +54,13 @@ class RegionalOrchestraInvoicesWorker < AbstractInvoicesWorker
   private
   def orchestraInvoice(orch, year)
 
-		sheet = orch.sheet_for_year(year)
-
-    if sheet.nil? then
-      Rails.logger.info("No Sheet for orchestra #{orch} and year#{year}")
-      return
-    end
-
-    invoice = sheet.gen_invoice
+    invoice = orch.gen_invoice(year)
     invoice.generator_session_id = self.generator_session_id
     invoice.save
 
     invoice_file = invoice.gen_pdf(self.tex_writer)
 
-		booking_txt = 'Beitrag '+String(year)
+    booking_txt = 'Beitrag '+String(year)
     orch.member.create_invoice_booking(year, invoice, invoice_file.orig_filename,booking_txt)
     orch.member.create_dd_booking(sepa_writer,invoice, year)
 
