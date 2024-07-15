@@ -218,7 +218,7 @@ class Orchestra < ApplicationRecord
 
       if sheet.nil? and not is_coop? then
         Rails.logger.info("No Sheet for orchestra #{self} and year#{year}")
-        return
+        return nil
       end
 
       sheet.add_invoice_items(invoice)
