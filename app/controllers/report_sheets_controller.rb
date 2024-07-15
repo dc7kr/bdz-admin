@@ -278,9 +278,8 @@ class ReportSheetsController < AuthenticatedController
   def gen_invoice_pdf
     @report_sheet = ReportSheet.find(params[:id])
 
-	  tex_writer = CorikaInvoices::TexWriter.new
+    tex_writer = CorikaInvoices::TexWriter.new
     invoice = @report_sheet.gen_invoice
-
 
     @report_sheet.gen_invoice_pdf(tex_writer,invoice,nil)
  
