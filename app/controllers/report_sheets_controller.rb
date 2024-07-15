@@ -134,7 +134,7 @@ class ReportSheetsController < AuthenticatedController
     @orchestra = @report_sheet.orchestra
 
     @booking = @report_sheet.find_booking
-    @invoice = @report_sheet.gen_invoice
+    @invoice = @report_sheet.orchestra.gen_invoice(@report_sheet.year)
 
     @age_categories = @report_sheet.orchestra_members_to_age_categories(@orchestra.orchestra_members)
 
