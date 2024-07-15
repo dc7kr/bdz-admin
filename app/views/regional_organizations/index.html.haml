@@ -1,19 +1,14 @@
-.block
-  .secondary-navigation
-    = render :partial => 'nav'
-  .content
-    %h2.title
-      = t("common.all")
-      =t("regional_organization",:count=>3)
-    .inner
-      %table.table-sm.table-hover.table-condensed
-        %tr
-          %th.first ID
-          %th
-            = attr_heading(RegionalOrganization,:name)
-          %th= attr_heading(RegionalOrganization,:homepage)
-          %th.last &nbsp;
-        = render @regional_organizations
-      .actions-bar.wat-cf
-        .actions
+.secondary-navigation
+  = render :partial => 'nav'
+.container
+  %h2
+    = t("common.all")
+    =t("regional_organization",:count=>3)
+  %table.table-sm.table-hover.table-condensed
+    %tr
+      %th ID
+      %th= attr_heading(RegionalOrganization,:name)
+      %th= attr_heading(RegionalOrganization,:homepage)
+      %th.last &nbsp;
+    = render @regional_organizations
 - content_for :sidebar, render(:partial => 'sidebar')
