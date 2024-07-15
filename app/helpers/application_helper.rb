@@ -162,7 +162,7 @@ end
 
 def sortable(column, title = nil)
   title ||= column.titleize
-  css_class = column == sort_column ? "sort current #{sort_direction}" : "sort"
+  css_class = column == sort_column ? "link-light sort current #{sort_direction}" : "link-light sort"
   direction = column == sort_column && sort_direction == "asc" ? "desc" : "asc"
   link_to title , params.merge(:sort => column, :direction => direction, :page => nil).permit(:sort,:direction,:page), {:class => css_class }
 end
