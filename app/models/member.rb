@@ -322,8 +322,7 @@ class Member < ApplicationRecord
   end
 
   def zero_member_fee_balance?
-    booking_sum = MemberAccountBooking.where("member_id = ? and booking_type in ('B','A','L')",id).sum(:amount)
-
+    booking_sum = MemberAccountBooking.where("member_id = ? and booking_type in ('B','A','L','Z')",id).sum(:amount)
     return booking_sum >-0.1
   end
 end
