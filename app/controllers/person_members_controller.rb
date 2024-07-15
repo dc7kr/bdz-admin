@@ -175,8 +175,8 @@ class PersonMembersController < AuthenticatedController
 
 
   def nomail 
-    @members = PersonMember.nomail
-    	respond_to do |format|
+    @members = PersonMember.nomail.page(params["page"]).per(20)
+    respond_to do |format|
       format.html
     end
   end

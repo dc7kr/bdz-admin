@@ -341,7 +341,7 @@ class OrchestrasController < AuthenticatedController
   end
 
   def nomail 
-    @members = Orchestra.nomail
+    @orchestras = Orchestra.nomail
     	respond_to do |format|
       format.html
     end

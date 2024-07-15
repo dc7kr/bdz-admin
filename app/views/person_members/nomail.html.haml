@@ -1,17 +1,21 @@
 .secondary-navigation
   =render :partial=>'nav'
-.content
-  %h2.title
-    EM ohne Email
-  .inner
-    %table.table-sm.table-hover.table-condensed
-      %thead
-        %th.first= sortable "mglnr", attr_heading(Member,:mglnr)
-        %th= sortable "orchName", attr_heading(Orchestra,:orchName)
-        %th= sortable "email", attr_heading(Member,:email)
-        %th &nbsp;
-      %tbody#person_members
-        = render partial: "person_member.nomail", collection: @members
-    .actions-bar.wat-cf
-      .actions
+.container
+  %h2
+    =t("member.nomail")
+    ="(#{t("person_member", count: 3)})"
+
+  #enty_info.text-center= page_entries_info @members
+  #paginator= paginate @members
+  %table.table.table-sm.table-hover.table-condensed
+    %thead.table-dark
+      %th= sortable "mglnr", attr_heading(Member,:mglnr)
+      %th=t("member.salutation")
+      %th=t("member.vorname")
+      %th=t("member.name")
+      %th=t("member.strasse")
+      %th=t("member.ort")
+      %th &nbsp;
+    %tbody#person_members
+      = render partial: "person_member_nomail", collection: @members, :as => :person_member
 - content_for :sidebar, render(:partial => 'sidebar')

@@ -1,34 +1,28 @@
-.block
-  .secondary-navigation
-    =render :partial=>'nav'
-  .content
-    %h2.title
-      = t("common.all")
-      = t("person_member.notinvoiced.title")
-    .inner
-      %table.table-sm
-        %tr
-          %th.first 
-            = sortable "mglnr", t("member.mglnr", :default =>"#mglr#")
-          %th
-            = sortable "name", t("member.fullname", :default => "Name")
-          %th= t("member.email", :default => "#email")
-          %th.last &nbsp;
-        - @person_members.each do |person_member|
-          %tr{:class => cycle("odd", "even")}
-            %td
-              = link_to person_member.member.mglnr, person_member_path(person_member)
-            %td
-              = person_member.fullname
-            %td
-              = mail_to person_member.member.email, person_member.member.email
-            %td.last
-              = link_to_show(person_member_path(person_member), "#{t("web-app-theme.show", :default => "Show")}")
-              |
-              \#{link_to_edit(person_member, "#{t("web-app-theme.edit", :default => "Edit")}")} |
-              \#{link_to_delete(person_member, "#{t("web-app-theme.delete", :default => "Delete")}", "#{t("web-app-theme.confirm", :default => "Are you sure?")}")}
-      = paginate @person_members
-      .actions-bar.wat-cf
-      .actions-bar.wat-cf
-        .actions
+.secondary-navigation
+  =render :partial=>'nav'
+.container
+  %h2
+    = t("member.notinvoiced")
+    ="(#{t("person_member", count: 3)})"
+  #pagination= paginate @person_members
+  %table.table.table-sm.table-condensed
+    %thead.table-dark
+      %tr
+        %th= sortable "mglnr", t("member.mglnr", :default =>"#mglr#")
+        %th= sortable "name", t("member.fullname", :default => "Name")
+        %th= t("member.email", :default => "#email")
+        %th.last &nbsp;
+    - @person_members.each do |person_member|
+      %tr{:class => cycle("odd", "even")}
+        %td
+          = link_to person_member.member.mglnr, person_member_path(person_member)
+        %td
+          = person_member.fullname
+        %td
+          = mail_to person_member.member.email, person_member.member.email
+        %td.last
+          = link_to_show(person_member_path(person_member), "#{t("web-app-theme.show", :default => "Show")}")
+          |
+          \#{link_to_edit(person_member, "#{t("web-app-theme.edit", :default => "Edit")}")} |
+          \#{link_to_delete(person_member, "#{t("web-app-theme.delete", :default => "Delete")}", "#{t("web-app-theme.confirm", :default => "Are you sure?")}")}
 - content_for :sidebar, render(:partial => 'sidebar')

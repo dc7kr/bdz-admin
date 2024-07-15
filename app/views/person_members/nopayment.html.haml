@@ -1,44 +1,41 @@
-.block
-  .secondary-navigation
-    =render :partial=>'nav'
-  .content
-    %h2.title
-      = t("member.nopayment")
-      (#{t("person_member",:count=>3)})
-    .inner
-      = link_to_generated_download_path(t('common.download'),nopayment_person_members_path(:format=>:ods))
-      %table.table-sm
+.secondary-navigation
+  =render :partial=>'nav'
+.container
+  %h2.title
+    = t("member.nopayment")
+    (#{t("person_member",:count=>3)})
+  = link_to_generated_download_path(t('common.download'),nopayment_person_members_path(:format=>:ods))
+  %table.table.table-sm.table-condensed
+    %thead.table-dark
+      %tr
+        %th= sortable "mglnr", t("member.mglnr", :default =>"#mglr#")
+        %th=t("member.fullname")
+        %th=t("member.email")
+        %th=t("member_account_booking.balance")
+        %th=t("member.last_payment")
+        %th.last &nbsp;
+    %tbody
+      - @members.each do |member|
         %tr
-          %th.first 
-            = sortable "mglnr", t("member.mglnr", :default =>"#mglr#")
-          %th=t("member.fullname")
-          %th=t("member.email")
-          %th=t("member_account_booking.balance")
-          %th=t("member.last_payment")
-          %th.last &nbsp;
-        - @members.each do |member|
-          %tr{:class => cycle("odd", "even")}
-            %td
-              - if not member.member_entity.nil?
-                = link_to member.mglnr, person_member_path(member.member_entity)
-              -else
-                INTERNAL ERROR 
-            %td= member.fullname
-            %td=mail_to member.email, member.email
-            %td=format_currency(@accounts[member.id],'€')
-            %td
-              -lp = member.last_payment
-              -if lp.nil? then
-                ="---"
-              -else
-                =l member.last_payment, format: :date_only
-            %td.last
-              - if not member.member_entity.nil? 
-                = link_to_show member.member_entity
-                = link_to_edit member.member_entity
-                = link_to_delete member.member_entity
-              - else 
-                INTERNAL ERROR
-      .actions-bar.wat-cf
-        .actions
+          %td
+            - if not member.member_entity.nil?
+              = link_to member.mglnr, person_member_path(member.member_entity)
+            -else
+              INTERNAL ERROR 
+          %td= member.fullname
+          %td=mail_to member.email, member.email
+          %td=format_currency(@accounts[member.id],'€')
+          %td
+            -lp = member.last_payment
+            -if lp.nil? then
+              ="---"
+            -else
+              =l member.last_payment, format: :date_only
+          %td
+            - if not member.member_entity.nil? 
+              = link_to_show member.member_entity
+              = link_to_edit member.member_entity
+              = link_to_delete member.member_entity
+            - else 
+              INTERNAL ERROR
 //- content_for :sidebar, render(:partial => 'sidebar')

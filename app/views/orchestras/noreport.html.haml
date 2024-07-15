@@ -1,22 +1,18 @@
 .block
   .secondary-navigation
     =render :partial => 'nav'
-  .content
-    %h2.title
-      = t("orchestra.noreport")
-    .inner
-      #enty_info.text-center
-        = page_entries_info @orchestras
-      %table.table-sm
+  .container
+    %h2= t("orchestra.noreport")
+    #enty_info.text-center
+      = page_entries_info @orchestras
+    #paginator
+      = paginate @orchestras
+    %table.table.table-sm
+      %thead.table-dark
         %tr
-          %th.first 
-            = sortable "mglnr", t("member.mglnr")
+          %th= sortable "mglnr", t("member.mglnr")
           %th= sortable "orchName", t("orchestra.orchName")
           %th= t("member.email")
           %th &nbsp;
-        =render @orchestras
-
-      = paginate @orchestras
-      .actions-bar.wat-cf
-        .actions
+      =render @orchestras
 //- content_for :sidebar, render(:partial => 'sidebar')

@@ -1,26 +1,23 @@
-.block
-  .secondary-navigation
-    =render :partial=>'nav'
-  .content
-    %h2.title
-      = t("common.all")
-      = t("distinction",:count=>3)
-      = @orchestra.orchName
-    .inner
-      %table.table-sm.table-hover.table-condensed
-        %thead
-          %th.first= sortable "dist_date", attr_heading(Distinction, :dist_date)
-          %th=attr_heading Distinction, :silver_needles
-          %th=attr_heading Distinction, :gold_needles
-          %th=attr_heading Distinction, :national_needles
-          %th=attr_heading Distinction, :certificates
-          %th=attr_heading Distinction, :honorletters
-          %th=attr_heading Distinction, :medals
-          %th.last &nbsp;
-        %tbody#distinctions
-          =render @distinctions
-      #paginator
-        = paginate @distinctions
-      .actions-bar.wat-cf
-        .actions
+.secondary-navigation
+  =render :partial=>'nav'
+.container
+  %h2= @orchestra.orchName
+  %h2
+    = t("common.all")
+    = t("distinction",:count=>3)
+  %table.table.table-sm.table-hover.table-condensed.table-bordered
+    %thead.table-dark
+      %tr.border-0
+        %th.text-center=attr_heading(Distinction, :dist_date)
+        %th.text-center=attr_heading Distinction, :silver_needles
+        %th.text-center=attr_heading Distinction, :gold_needles
+        %th.text-center=attr_heading Distinction, :national_needles
+        %th.text-center=attr_heading Distinction, :certificates
+        %th.text-center=attr_heading Distinction, :honorletters
+        %th.text-center=attr_heading Distinction, :medals
+        %th.bg-transparent.border-0 &nbsp;
+    %tbody#distinctions
+      =render @distinctions
+  #paginator
+    = paginate @distinctions
 - content_for :sidebar, render(:partial => 'sidebar')

@@ -1,8 +1,8 @@
 %ul.nav.nav-tabs
-  %li{ :class => 'first'}= link_to_up_path t("common.up"), home_member_data_path
-  %li{ :class => tabActiveClass(@current_action,'index','first')}= link_to "#{t("common.list", :default => "List")}", honor_members_path
+  %li{ :class => 'nav-tab'}= link_to_up_path t("common.up"), home_member_data_path
+  %li{ :class => tabActiveClass(@current_action,'index','nav-tab')}= link_to "#{t("common.list")}", honor_members_path, class: "nav-link"
   -if (@honor_member)
-    %li{ :class => tabActiveClass(@current_action,'show',nil)}= link_to t("common.show"), @honor_member
+    %li{ :class => tabActiveClass(@current_action,'show','nav-tab')}= link_to t("common.show"), @honor_member, class: "nav-link"
     - if (@honor_member.id) then
-      %li{ :class => tabActiveClass(@current_action,'edit',nil)}= link_to t("common.edit"), edit_honor_member_path(@honor_member)
-  %li{:class => tabActiveClass(@current_action,'new',nil)}= link_to "#{t("common.new", :default => "New")}", new_honor_member_path
+      %li{ :class => tabActiveClass(@current_action,'edit','nav-tab')}= link_to t("common.edit"), edit_honor_member_path(@honor_member), class: "nav-link"
+  %li{:class => tabActiveClass(@current_action,'new','nav-tab')}= link_to "#{t("common.new", :default => "New")}", new_honor_member_path, class: "nav-link"
