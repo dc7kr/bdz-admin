@@ -90,7 +90,7 @@ class RegionalOrganizationFeeSharePdf < Prawn::Document
       @count+=member_count
       @sum+=lv_part 
       suffix = nil
-      if not item.zero_member_fee_balance?
+      if not item.member.zero_member_fee_balance?
         suffix = " nicht abgrechnet"
       end
 			[ mglnr(item.member),

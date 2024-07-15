@@ -1,0 +1,32 @@
+= render layout: 'layouts/modal', locals: { title: 'Rechnungsvorschau' } do 
+  %h2=@invoice.number
+  .row
+    .col Rechnungsdatum
+    .col=l @invoice.invoice_date
+
+  .row
+    .col invoice_type
+    .col=@invoice.invoice_type
+  .row
+    .col tax_type
+    .col=@invoice.tax_type
+
+  %table.table.table-bordered
+    %thead.table-dark
+      %tr
+        %th Anzahl
+        %th Beschreibung
+        %th Einzelpreis
+        %th Gesamtpreis
+    - @invoice.items.each do |it|
+      %tr
+        %td=it.count
+        %td=it.label
+        %td=format_currency it.price
+        %td=format_currency it.count*it.price
+
+    %tr
+      %td &nbsp;
+      %td.fw-bold Gesamtsumme
+      %td.fw-bold=format_currency @invoice.net_sum
+      %td.fw-bold=format_currency @invoice.sum

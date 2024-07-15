@@ -326,6 +326,9 @@ Rails.application.routes.draw do
       get :magazine
       get :addresses
     end
+    member do
+      get :invoice_preview
+    end
   end
 
   resources :orchestras do
@@ -345,6 +348,7 @@ Rails.application.routes.draw do
     member do
      get :gen_rsi
      get :rsi_login
+     get :invoice_preview
     end
 
     resources :uploaded_files

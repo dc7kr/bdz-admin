@@ -8,6 +8,13 @@ de:
       Y: "Jugendliche 19-27"
       A: "Erwachsene 28-64"
       S: "Erwachsene 65+"
+    children_rate: "Beitrag Kinder"
+    teens_rate: "Beitrag Jugendliche 15-18"
+    youth_rate: "Beitrag Erwachsene 19-27"
+    adult_rate: "Beitrag Erwachsene"
+    senior_rate: "Beitrag Erwachsene 55+"
+    max_tariff: "Höchstbeitrag"
+    min_tariff: "Mindestbeitrag"
 
     new: Neuer Meldebogen
     create_success: Meldebogen erfolgreich angelegt

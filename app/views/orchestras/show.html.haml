@@ -4,22 +4,26 @@
   %h2 #{@orchestra.member.mglnr} (#{t("orchestra.type_"+@orchestra.orch_type)})
   %h3
     =  @orchestra.orchName
-    - if not @orchestra.zero_member_fee_balance?
-      %span.badge.bg-danger=t("member.nonzero_balance")
-    - if @orchestra.is_direct_debit? then
-      %span.badge.bg-info=t("member.is_direct_debit")
-  = entity_row(@orchestra,:fullname)
-  = entity_row(@orchestra,:gruendung,:date)
-  = entity_row(@orchestra,:promusica,:date)
-  .row
-    .col-md-3.text-right=label :orchestra,:url
-    .col-md-9=link_to @orchestra.url, sanitize_url(@orchestra.url)
-  = entity_row(@orchestra,:gema_kdnr)
-  = entity_row(@orchestra,:gema_kdnr_new)
+    = link_to 'Rechnungsvorschau', invoice_preview_orchestra_path(@orchestra),  data: { 'turbo_frame' => 'modal' }, class: 'btn btn-secondary btn-sm'
+  #orchestraAccordion.accordion
+    .accordion-item
+      .accordion-header 
+        %button.accordion-button{"aria-controls" => "paymentDataCollapse", "aria-expanded" => "true", "data-bs-target" => "#orchestraDataCollapse", "data-bs-toggle" => "collapse", :type => "button"}
+          Orchesterdaten
+      #orchestraDataCollapse.accordion-collapse.collapse.show{"data-bs-parent" => "#orchestraAccordion"}
+        .accordion-body
+          = entity_row(@orchestra,:fullname)
+          = entity_row(@orchestra,:gruendung,:date)
+          = entity_row(@orchestra,:promusica,:date)
+          .row
+            .col-md-3.text-right=label :orchestra,:url
+            .col-md-9=link_to @orchestra.url, sanitize_url(@orchestra.url)
+          = entity_row(@orchestra,:gema_kdnr)
+          = entity_row(@orchestra,:gema_kdnr_new)
+          = entity_row(@orchestra,:bemerkung)
 
   = render @orchestra.member,:partial=>"member"
-  = entity_row(@orchestra,:bemerkung)
-  
+
   .btn-group{:role=>"group"}
     = edit_glyph_link(edit_orchestra_path(@orchestra),@orchestra)
     = del_glyph_link( orchestra_path(@orchestra),@orchestra)
