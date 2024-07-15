@@ -396,6 +396,7 @@ Rails.application.routes.draw do
     resources :distinctions do
       member do
         get :gen_invoice
+        get :invoice_preview
       end
     end
   end

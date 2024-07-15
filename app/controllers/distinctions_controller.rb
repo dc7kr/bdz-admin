@@ -71,6 +71,16 @@ class DistinctionsController < AuthenticatedController
     end
   end
 
+  def invoice_preview
+    @invoice = @distinction.gen_invoice
+    
+    respond_to do |format|
+      format.turbo_stream
+      format.html
+      format.json { render :json => @invoice }
+    end
+  end
+
   # GET /distinctions/new
   # GET /distinctions/new.json
   def new
