@@ -194,6 +194,39 @@ class Orchestra < ApplicationRecord
     return nil
   end
 
+  def gen_invoice(year) 
+
+    invoice = CorikaInvoices::Invoice.new
+    invoice.invoice_type = "beitragsrechnung"
+    invoice.invoice_date = Time.now
+    invoice.number = "#{member.mglnr}-BEITRAG#{year}"
+
+    # this ensures that the invoice number is unique (generates -XX suffix)
+    invoice.make_distinct
+    
+    # taxfree
+    invoice.tax_type ="X"
+   
+    invoice.customer = to_customer
+
+    if ( is_coop? ) then
+      invoice.addItem(1,Prices.coopRate,'Beitrag kooperativ')
+    elsif (is_foreign_coop? ) then
+      invoice.addItem(1,Prices.foreignCoopRate,'Auslandsorchesterbeitrag')
+    else
+      sheet = sheet_for_year(year)
+
+      if sheet.nil? and not is_coop? then
+        Rails.logger.info("No Sheet for orchestra #{self} and year#{year}")
+        return
+      end
+
+      sheet.add_invoice_items(invoice)
+    end
+
+    invoice 
+  end
+
   def currentReportSheet
     #	ReportSheet.scoped(:conditions=> { :year => @currentYear })
     # TODO:
@@ -312,13 +345,6 @@ class Orchestra < ApplicationRecord
   def has_event?(event_type,event_id)
 	  member.has_event?(event_type,event_id)
   end
-
-  def zero_member_fee_balance?
-    booking_sum = MemberAccountBooking.where("member_id = ? and booking_type in ('B','A','L','Z')",member.id).sum(:amount)
-
-    return booking_sum >-0.1
-  end
-
 
   def self.with_zero_balance(year=nil)
     ids = Member.ids_with_non_zero_balance(Orchestra,year)

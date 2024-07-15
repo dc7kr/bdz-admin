@@ -259,57 +259,49 @@ class ReportSheet < ApplicationRecord
     invoice_file
   end
 
-  def gen_invoice
-    @invoice = CorikaInvoices::Invoice.new
-    @invoice.invoice_type = "beitragsrechnung"
-    @invoice.invoice_date = Time.now
-    @invoice.number = "#{orchestra.member.mglnr}-BEITRAG#{year}"
+  def add_invoice_items(invoice)
+    if orchestra.is_coop? or orchestra.is_foreign_coop?  then
+      logger.info("No additional items - special orchestra")
+      return
+    else
+      # regional orchestras only pay a fixed fee no calculation...
+      if orchestra.is_lorch? then
+        invoice.addItem(1,Prices.lvOrchRate,'Landesorchesterbeitrag')
+      else
+        if isMinTariff? or isMaxTariff? then
+          # in case of min or max tariff we don't
+          # charge the real fees but 0 (just print out the statistics)
+          invoice.addItem(children,0, I18n.t("report_sheet.children_rate"))
+          invoice.addItem(teens,0,I18n.t("report_sheet.teens_rate"))  
+          invoice.addItem(youth,0,I18n.t("report_sheet.youth_rate")) 
+          invoice.addItem(adult,0,I18n.t("report_sheet.adult_rate")) 
+          invoice.addItem(senior,0,I18n.t("report_sheet.senior_rate")) 
+        else
+          # regular price calculation
+          invoice.addItem(children,Prices.childrenRate, I18n.t("report_sheet.children_rate"))
+          invoice.addItem(teens,Prices.teensRate, I18n.t("report_sheet.teens_rate"))
+          invoice.addItem(youth,Prices.youthRate, I18n.t("report_sheet.youth_rate"))
+          invoice.addItem(adult,Prices.adultRate, I18n.t("report_sheet.adult_rate"))
+          invoice.addItem(senior,Prices.seniorRate, I18n.t("report_sheet.senior_rate"))
+        end
 
-    # this ensures that the invoice number is unique (generates -XX suffix)
-    @invoice.make_distinct
-    
-    # taxfree
-    @invoice.tax_type ="X"
-   
-    @invoice.customer = orchestra.to_customer
-
-		if ( orchestra.is_coop? ) then
-			@invoice.addItem(1,Prices.coopRate,'Beitrag kooperativ')
-		elsif (orchestra.is_lorch? ) then
-			@invoice.addItem(1,Prices.lvOrchRate,'Landesorchesterbeitrag')
-    elsif (orchestra.is_foreign_coop? ) then
-      @invoice.addItem(1,Prices.foreignCoopRate,'Auslandsorchesterbeitrag')
-		else
-			if ( isMinTariff? or isMaxTariff? ) then
-				@invoice.addItem(children,0, 'Beitrag Kinder')
-				@invoice.addItem(teens,0, 'Beitrag Jugendliche 15-18')
-				@invoice.addItem(youth,0, 'Beitrag Erwachsene 19-27')
-				@invoice.addItem(adult,0, 'Beitrag Erwachsene')
-				@invoice.addItem(senior,0, 'Beitrag Erwachsene 55+')
-			else
-				@invoice.addItem(children,Prices.childrenRate, 'Beitrag Kinder')
-				@invoice.addItem(teens,Prices.teensRate, 'Beitrag Jugendliche 15-18')
-				@invoice.addItem(youth,Prices.youthRate, 'Beitrag Erwachsene 19-27')
-				@invoice.addItem(adult,Prices.adultRate, 'Beitrag Erwachsene')
-				@invoice.addItem(senior,Prices.seniorRate, 'Beitrag Erwachsene 55+')
-			end
-
-			if ( isMinTariff? ) then
-				@invoice.addItem(1,Prices.minTariff,'Mindestbeitrag')
-			elsif ( isMaxTariff? ) 
-				@invoice.addItem(1,Prices.maxTariff,'Höchstbeitrag')
-			end
-		end
-
-		if ( uv ) then
-			@invoice.addItem(calcUvCount,Prices.uvRate, 'Unfallversicherung')
-		end
-
-    if ( delayed? ) then
-      @invoice.addItem(1,Prices.delayFee, I18n.t('report_sheet.delay_fee'))
+        if isMinTariff?  then
+          invoice.addItem(1,Prices.minTariff,I18n.t("report_sheet.min_tariff"))
+        elsif ( isMaxTariff? ) 
+          invoice.addItem(1,Prices.maxTariff,I18n.t("report_sheet.max_tariff"))
+        end
+      end
     end
 
-    @invoice
+    if uv then
+      invoice.addItem(calcUvCount,Prices.uvRate, I18n.t("report_sheet.uv"))
+    end
+
+    if delayed? then
+      invoice.addItem(1,Prices.delayFee, I18n.t("report_sheet.delay_fee"))
+    end
+
+    invoice
   end
 
   def gen_delta_booking(sepa_writer,invoice,delta_value)
