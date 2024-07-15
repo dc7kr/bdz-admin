@@ -327,6 +327,19 @@ class OrchestrasController < AuthenticatedController
     end
   end
 
+  def invoice_preview
+
+    year = Time.now.year
+    @invoice = @orchestra.gen_invoice(year)
+    
+    respond_to do |format|
+      format.turbo_stream
+      format.html
+      format.json { render :json => @invoice }
+    end
+
+  end
+
   def nomail 
     @members = Orchestra.nomail
     	respond_to do |format|

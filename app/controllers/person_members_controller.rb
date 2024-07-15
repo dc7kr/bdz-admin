@@ -24,6 +24,17 @@ class PersonMembersController < AuthenticatedController
     end
   end
 
+  def invoice_preview
+    year = Time.now.year
+    @invoice = @person_member.gen_invoice(year)
+    
+    respond_to do |format|
+      format.turbo_stream
+      format.html
+      format.json { render :json => @invoice }
+    end
+  end
+
   def addresses 
     if (params[:nomail]) then
 		@person_members = PersonMember.includes(:member).nomail
