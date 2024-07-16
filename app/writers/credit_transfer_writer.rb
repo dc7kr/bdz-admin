@@ -2,7 +2,7 @@ class CreditTransferWriter < BankTransferWriter
 
   def initialize(datePrefix)
     super(datePrefix)
-    @tool = SEPATool.new(INVOICE_CONFIG)
+    @tool = SepaTool.new(INVOICE_CONFIG)
     @credit_transfers = Array.new
   end
 
