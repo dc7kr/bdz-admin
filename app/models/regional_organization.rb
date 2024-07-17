@@ -69,7 +69,7 @@ class RegionalOrganization < ApplicationRecord
         next
       end
 
-      if orch.member.regional_organization_id == self.id and orch.zero_member_fee_balance? then
+      if orch.member.regional_organization_id == self.id and orch.member.zero_member_fee_balance? then
           orch_ids << orch.member.mglnr
 
           if s.orchestra.is_direct_debit?
