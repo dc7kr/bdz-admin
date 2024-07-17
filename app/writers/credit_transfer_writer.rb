@@ -14,7 +14,7 @@ class CreditTransferWriter < BankTransferWriter
       return
     end
 
-    ct = SEPACreditTransfer.new(customer,amount) 
+    ct = SepaCreditTransfer.new(customer,amount) 
     ct.remittance_txt = remittance_txt
 
     @credit_transfers << ct
