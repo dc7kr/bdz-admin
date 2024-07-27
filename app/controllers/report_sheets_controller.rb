@@ -279,7 +279,7 @@ class ReportSheetsController < AuthenticatedController
     @report_sheet = ReportSheet.find(params[:id])
 
     tex_writer = CorikaInvoices::TexWriter.new
-    invoice = @report_sheet.gen_invoice
+    invoice = @report_sheet.orchestra.gen_invoice(@report_sheet.year)
 
     @report_sheet.gen_invoice_pdf(tex_writer,invoice,nil)
  
@@ -321,7 +321,7 @@ class ReportSheetsController < AuthenticatedController
 
     tw = CorikaInvoices::TexWriter.new(INVOICE_CONFIG)
     
-    invoice = @report_sheet.gen_invoice 
+    invoice = @report_sheet.orchestra.gen_invoice(@report_sheet.year)
     invoice_file = invoice.gen_pdf(tw)
 
     booking = @report_sheet.find_booking
