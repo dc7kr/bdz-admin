@@ -18,8 +18,8 @@ class ReportSheet < ApplicationRecord
   validates_presence_of :zusatz_uv
   validates_presence_of :zusatz_ztg
 
+  belongs_to :orchestra, optional: true
   has_one :member, through: :orchestra
-	belongs_to :orchestra, optional: true
 
   has_one :regional_organization, through: :member
 
@@ -492,7 +492,7 @@ class ReportSheet < ApplicationRecord
     if booking.nil? then
       0
     else
-      invoice = gen_invoice
+      invoice = orchestra.gen_invoice(year)
       booking.amount + invoice.sum 
     end
   end
