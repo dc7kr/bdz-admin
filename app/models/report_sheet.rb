@@ -191,6 +191,8 @@ class ReportSheet < ApplicationRecord
 
   def kronenberger_algorithm
     case calcGemaCount
+      when 0
+        0
       when 1..8
         1
       when 9..16
