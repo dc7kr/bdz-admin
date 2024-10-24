@@ -89,6 +89,7 @@ de:
     azubi: Beitragsfrei
     uv: Unfallversicherung
     tag:
+      invalid: "Meldebogen fehlerhaft"
       not_invoiced: "keine Rechnung"
       inconsistent: "Mitgliederzahl muss abgeglichen werden!"
       update_needed: "Meldebogen muss aktualisiert werden"
