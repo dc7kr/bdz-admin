@@ -18,6 +18,8 @@ class ReportSheet < ApplicationRecord
   validates_presence_of :zusatz_uv
   validates_presence_of :zusatz_ztg
 
+  validate :at_least_one_member
+
   belongs_to :orchestra, optional: true
   has_one :member, through: :orchestra
 
@@ -496,6 +498,12 @@ class ReportSheet < ApplicationRecord
     else
       invoice = orchestra.gen_invoice(year)
       booking.amount + invoice.sum 
+    end
+  end
+
+  def at_least_one_member
+    if calcGemaCount <= 0
+      errors.add(:adult, I18n.t("errors.report_sheet.at_least_one"))
     end
   end
 

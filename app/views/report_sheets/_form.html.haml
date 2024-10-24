@@ -1,6 +1,4 @@
 =bootstrap_form_for [@orchestra,@report_sheet], layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10" do |f| 
-  -@report_sheet.errors.each do |err|
-    =err.to_s
   .container-fluid
     = f.text_field :report_date_str
     = f.number_field :year 
@@ -8,10 +6,10 @@
       = f.label :uv,:class=>"control-label col-sm-2"
       = f.check_box :uv, label_class: "col-sm-10", label: ""
 
-  .panel.panel-default
-    .panel-heading
-      .panel-title Mitgliederzahlen
-    .panel-body
+  .card
+    .card-header
+      .card-title Mitgliederzahlen
+    .card-body
       = f.number_field :children,:control_col=>"col-sm-2"
       = f.number_field :teens,:control_col=>"col-sm-2"
       = f.number_field :youth,:control_col=>"col-sm-2"
@@ -20,10 +18,10 @@
       = f.number_field :azubi,:control_col=>"col-sm-2"
       = f.number_field :passive,:control_col=>"col-sm-2"
       = f.number_field :korr_ztg,:control_col=>"col-sm-2"
-  .panel.panel-default
-    .panel-heading
-      .panel-title Ensembles
-    .panel-body
+  .card
+    .card-header
+      .card-title Ensembles
+    .card-body
       = f.number_field :child_ens,:control_col=>"col-sm-2"
       = f.number_field :youth_ens,:control_col=>"col-sm-2"
       = f.number_field :adult_ens,:control_col=>"col-sm-2"
