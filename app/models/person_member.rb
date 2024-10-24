@@ -36,7 +36,7 @@ class PersonMember < ApplicationRecord
   end
 
   def self.notinvoiced(year)
-    joins(:member,:tariff).joins("LEFT JOIN member_account_bookings mb ON members.id=mb.member_id AND mb.booking_type='B' and mb.booking_year = #{year}" ).where("mb.id IS NULL and tariffs.amount >0").order("members.mglnr")
+    joins(:member,:tariff).joins("LEFT JOIN member_account_bookings mb ON members.id=mb.member_id AND mb.booking_type='B' and mb.booking_year = #{year}" ).where("mb.id IS NULL and tariffs.amount >0 and members.eintritt < now()").order("members.mglnr")
   end
 
   def self.for_user(user)
