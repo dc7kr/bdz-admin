@@ -261,6 +261,8 @@ de:
       second: Sekunden
       year: Jahr
   errors:
+    report_sheet: 
+      at_least_one: "Es muss mindestens ein aktives Mitglied gemeldet werden."
     iban:
       required: "IBAN muss eingegeben werden"
       iban_cc_missing: "Ungültige IBAN: kein Ländercode"
