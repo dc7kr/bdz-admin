@@ -21,7 +21,11 @@
               -if w["cur"].orchestra.nil? 
                 UNGÜLTIG, KEIN ORCHESTER
               -else
-                =link_to w["cur"].orchestra.orchName, orchestra_report_sheet_path(w["cur"].orchestra,w["cur"])
+                =link_to orchestra_report_sheet_path(w["cur"].orchestra,w["cur"])  do 
+                  = w["cur"].orchestra.orchName
+                  (
+                  = w["cur"].orchestra.member.mglnr
+                  )
                 -if w["cur"].orchestra.orch_type == "K"
                   %span.badge.bg-primary Kooperativ
                 -elsif w["cur"].orchestra.orch_type == "L"
