@@ -66,7 +66,7 @@ de:
     senior: Erw. 65+ 
     passive: Passiv
     child_ens: Kinderensembles
-    youth_ens: Jugendensembles
+    youth_ens: Kinder-/Jugendensembles
     adult_ens: Erwachsenenensembles
     senior_ens: Seniorenensembles
     chamber_ens: Kammermusikensembles
@@ -74,13 +74,14 @@ de:
     azubi_child: "Aktive bis 14 Jahre"
     azubi_teens: "Aktive 15 – 17 Jahre"
     azubi_youth: "Aktive 18 – 27 Jahre"
-    azubi_adult: "Aktive 28 – 64 Jahre"
+    azubi_adult: "In Ausbildung (nicht aktiv im Orchester/Ensemble)"
     azubi_senior: "Aktive ab 65 Jahren"
     supporters: "Fördervereinmitglieder"
     zo: Zupforchester
-    zi_o: Zitherorchester
+    zi_o: Ukulelenensembles
     go: Gitarrenorchester
     oz: "Sonstige Zupfinstrumente"
+    ms_total: Gesamtanzahl aller Schüler der Musikschule
     report_date: Datum
     report_date_str: Datum
     generated: Generiert
