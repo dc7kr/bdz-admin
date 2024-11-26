@@ -2,7 +2,10 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    if user != nil
+
+    if user.nil? 
+      can :delete, FestivalPiece
+    else
       can :read, Concert
       can :read, Course
       can :read, Contest
