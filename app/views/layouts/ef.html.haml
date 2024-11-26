@@ -1,0 +1,28 @@
+!!!
+%html
+  %head
+    %title eurofestival #{BDZ_SETTINGS["config"]["festival_year"]}
+    %meta{:name=>"viewport", :content=>"width=device-width, initial-scale=1, shrink-to-fit=no"}
+    = csrf_meta_tags
+    = csp_meta_tag
+    = stylesheet_link_tag "ef", "data-turbo-track": "reload" 
+    = javascript_importmap_tags
+  %body.boxed
+    .container.ef-container
+      #user-navigation
+        -if (current_user)
+          %nav.navbar.navbar-inverse
+            .container-fluid
+              / Brand and toggle get grouped for better mobile display
+              .navbar-header
+                %button.navbar-toggle.collapsed{"aria-expanded" => "false", "data-target" => "#bs-example-navbar-collapse-1", "data-toggle" => "collapse", :type => "button"}
+                %p.navbar-text.navbar-right Eingeloggt als #{current_user.email}
+                %a.btn.btn-danger.navbar-btn.navbar-right{:href => "/logout"}= t("web-app-theme.logout", :default => "Logout")
+      = render :partial => "ef/main_nav"
+      .wrapper#wrapper
+        .flash
+          - flash.each do |type, message|
+            %div{:class => "message #{type}"}
+              %p= message
+        #main
+          = yield
