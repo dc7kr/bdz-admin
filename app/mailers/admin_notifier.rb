@@ -1,5 +1,4 @@
 class AdminNotifier < ApplicationMailer
-  default from: "bdzdb@zupfmusiker.de"
 
   def gen_rsi_notification(args)
     @year = args[0]
@@ -65,44 +64,43 @@ class AdminNotifier < ApplicationMailer
   def report_sheet_notification(user, doc_url, current_user)
 	 @recipient = user
 	 @docs_url = doc_url
-
 	 @current_user = current_user 
 	 mail(:to => user.email, :subject => "Meldebogen Anschreiben")
   end
 
-  def newinvoices_notification(user, invoices, sepa_file, current_user)
-	 @recipient = user
+  def newinvoices_notification(recipient, invoices, sepa_file, current_user)
+	 @recipient = recipient
 	 @invoice_url = invoices
-   @dd_url = sepa_file		 
+         @dd_url = sepa_file		 
 
-	 @current_user = current_user 
-	 mail(:to => user.email, :subject => "BDZ Rechnungslauf")
+         set_triggered_by(current_user)
 
+	 mail(:to => recipient.email, :subject => "BDZ Rechnungslauf")
   end
 
-  def new_custom_info_mail_notification(user, letters_url, results, triggered_by)
-    @recipient = user
+  def new_custom_info_mail_notification(recipient, letters_url, results, triggered_by)
+    @recipient = recipient
     @results = results
     @letterUrl = letters_url
     @triggeredBy = triggered_by
 
-    mail(:to => user.email, :subject => "Rundschreiben wurde erstellt")
+    mail(:to => recipient.email, :subject => "Rundschreiben wurde erstellt")
   end
   
-  def newreminders_notification(user, reminders, current_user)
-	 @recipient = user
+  def newreminders_notification(recipient, reminders, current_user)
+	 @recipient = recipient
 	 @reminders_url = reminders
 
 	 @current_user = current_user 
-	 mail(:to => user.email, :subject => "BDZ Mahnungslauf")
+	 mail(:to => recipient.email, :subject => "BDZ Mahnungslauf")
   end
   
-  def new_lv_ct_notification(user, sepa_file, current_user)
-    @recipient = user
+  def new_lv_ct_notification(recipient, sepa_file, current_user)
+    @recipient = recipient
     @sepafile_url = sepa_file		 
 
     @current_user = current_user 
-    mail(:to => user.email, :subject => "BDZ LV Beitragsanteile SEPA CT")
+    mail(:to => recipient.email, :subject => "BDZ LV Beitragsanteile SEPA CT")
   end
 
   def test_notification(current_user)
@@ -121,7 +119,7 @@ class AdminNotifier < ApplicationMailer
     user= nil
     if ENV["RAILS_ENV"] == "production" 
       name = BDZ_SETTINGS['contacts']['treasurer']['name']
-      user =	BDZ_SETTINGS['contacts']['treasurer']['mail'] 
+      user = BDZ_SETTINGS['contacts']['treasurer']['mail'] 
     else
       name = BDZ_SETTINGS['contacts']['admin']['name']
       user = BDZ_SETTINGS['contacts']['admin']['mail']
@@ -129,6 +127,15 @@ class AdminNotifier < ApplicationMailer
     
     cc = BDZ_SETTINGS['contacts']['admin']['mail']
 
-    mail(:to => user, :cc => cc, :subject => "Neue Ehrungsrechnung Nr. "+invnr);
+    mail(:to => user, :cc => cc, :subject => "Neue Ehrungsrechnung Nr. "+invnr)
+  end
+
+  private
+  def set_triggered_by(current_user)
+    if not current_user.nil? then
+      @triggered_by = "#{current_user.name} (#{current_user.email})"
+    else
+      @triggered_by = "(System)"
+    end
   end
 end
