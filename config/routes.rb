@@ -450,22 +450,18 @@ Rails.application.routes.draw do
     resources :member_account_bookings
   end
 
-  # BEGIN PUBLIC NAMESPACE
-  namespace :public do
-
-    resources :regional_organizations, :as => "lv" do
-      resources :orchestras
-      resources :concerts
-    end
-
-    resources :honor_members
-
-    resources :functions do
-      collection do
-        get :federal
-        get :states
-        get :youth
+  # BEGIN EF Namespace
+  
+  namespace :ef do 
+    resources :festival_applications, param: :token  do
+      member do
+        get :step2
+        get :finalize
       end
+      collection do
+        get :closed
+      end
+      resources :festival_pieces
     end
 
     resources :event_cards do
@@ -481,16 +477,24 @@ Rails.application.routes.draw do
         post :order_success
       end
     end
+  end
 
-    resources :festival_applications, param: :token  do
-      member do
-        get :step2
-        get :finalize
-      end
+  # BEGIN public namespace
+  namespace :public do
+
+    resources :regional_organizations, :as => "lv" do
+      resources :orchestras
+      resources :concerts
+    end
+
+    resources :honor_members
+
+    resources :functions do
       collection do
-        get :closed
+        get :federal
+        get :states
+        get :youth
       end
-      resources :festival_pieces
     end
 
     resources :contacts
@@ -527,6 +531,7 @@ Rails.application.routes.draw do
     resources :samplings, controller: 'magazine_samplings' do
       collection do
         get :print_list
+        post :search
       end
     end
   end
