@@ -12,6 +12,10 @@ de:
     phone: Telefon
     fax: Fax
     email: E-Mail
+  activerecord:
+    attributes:
+      contact_person:
+        <<: *contact_person_labels
   helpers:
     label:
       contact_person:

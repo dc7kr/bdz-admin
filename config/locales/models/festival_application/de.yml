@@ -1,6 +1,6 @@
 de:
   festival_application: &festival_app_labels
-    one: "Eine festival-Bewerbung"
+    one: "Fstival-Bewerbung"
     other: "Festival-Bewerbungen"
     zero: "Keine Festival-Bewerbung"
     new: "Neue Festival-Bewerbung"
@@ -9,6 +9,7 @@ de:
     finalize_title: "Festival Bewerbung"
     confirm: "Vielen Dank für Ihre Festival-Bewerbung. Wir werden sie kontaktieren sobald Ihre Bewerbung ausgewertet wurde."
     general_panel_title: "Allgemeine Angaben"
+    additional_panel_title: "Weitere Angaben"
     visitor_type: "Besucher-Typ"
     visitor_types:
       R: "Regulärer Teilnehmer"
@@ -47,6 +48,7 @@ de:
     num_players: "Anzahl Spieler"
     equipment: "Benötigte Ausrüstung"
     special_cast: "Spezielle Besetzung"
+    workshop_request: "Vorschläge für Workshop-Themen"
     contact_person: "Kontaktperson"
     add_piece: "Stück hinzufügen"
     group_type: "Art der Gruppe"
@@ -57,6 +59,10 @@ de:
       D: Duo 
       T: Trio
 
+  activerecord:
+    attributes:
+      festival_application:
+        <<: *festival_app_labels
   helpers:
     label:      
       festival_application: 

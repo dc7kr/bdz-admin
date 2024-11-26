@@ -1,20 +1,24 @@
 en:
+  contact_person: &contact_person_labels
+    one: "Contact person"
+    other: "Contact persons"
+    salutation: Salutation
+    first_name: First name
+    last_name: Last name
+    street: Street
+    zip: ZIP
+    city: City
+    country: Country
+    phone: Phone
+    fax: Fax
+    email: E-Mail
+
   helpers:
     label:
-      contact_person: &contact_person_labels
-        one: "Contact person"
-        other: "Contact persons"
-        salutation: Salutation
-        first_name: First name
-        last_name: Last name
-        street: Street
-        zip: ZIP
-        city: City
-        country: Country
-        phone: Phone
-        fax: Fax
-        email: E-Mail
-  contact_person:
-    <<: *contact_person_labels
+      contact_person: 
+        <<: *contact_person_labels
 
-
+  activerecord:
+    attributes:
+      contact_person:
+        <<: *contact_person_labels
