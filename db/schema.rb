@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_01_31_081007) do
+ActiveRecord::Schema[7.1].define(version: 2024_11_26_145316) do
   create_table "Inserenten", id: false, charset: "utf8mb3", collation: "utf8mb3_general_ci", options: "ENGINE=InnoDB ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.string "Firmenname", limit: 35
     t.string "Titel", limit: 5
@@ -401,6 +401,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_31_081007) do
     t.integer "festival_year"
     t.string "token"
     t.string "comment"
+    t.text "workshop_request"
   end
 
   create_table "festival_concerts", id: :integer, charset: "utf8mb3", collation: "utf8mb3_general_ci", options: "ENGINE=InnoDB ROW_FORMAT=DYNAMIC", force: :cascade do |t|
@@ -902,10 +903,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_31_081007) do
     t.integer "azubi_adult"
     t.integer "azubi_senior"
     t.integer "supporters"
-    t.boolean "zo"
-    t.boolean "zi_o"
-    t.boolean "go"
-    t.boolean "oz"
+    t.integer "zo"
+    t.integer "zi_o"
+    t.integer "go"
+    t.integer "oz"
     t.date "report_date"
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
@@ -913,6 +914,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_31_081007) do
     t.string "comment"
     t.boolean "generated"
     t.integer "orchestra_id"
+    t.integer "ms_total"
     t.index ["year", "orchestra_id_old"], name: "oneperyear", unique: true
   end
 
