@@ -13,8 +13,8 @@ class FestivalApplication < ApplicationRecord
   validates_presence_of :conductor, :num_players, :orch_name
 
 
-  belongs_to :orchestra
-  belongs_to :festival_concert
+  belongs_to :orchestra, optional: true
+  belongs_to :festival_concert, optional: true
 
   def t_country(locale="de")
     translated_country(country_code,locale) 
