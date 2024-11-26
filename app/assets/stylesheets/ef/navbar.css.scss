@@ -1,0 +1,53 @@
+.ef-navbar {
+	min-height: 120px;
+	margin-left: 0px;
+	margin-top: 5px;
+	padding-left: 150px;
+	background-size: 120px !important;
+	background-repeat: no-repeat !important;
+	background-position: 30px top !important;
+	background-image: image-url('bdz_logo.svg');
+}
+
+.ef-navbar>.container, .navbar>.container-fluid {
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-ms-flex-wrap: wrap;
+	flex-wrap: wrap;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	align-items: center;
+	-webkit-box-pack: justify;
+	-ms-flex-pack: justify;
+	justify-content: space-between;
+}
+
+.custom-logo-link-url {
+	margin-right: 1rem;
+}
+
+
+/*Right header*/
+.header-rgt {
+    width: 100%;
+    position: relative;
+}
+
+.custom-logo-link-url{ margin-right: 1rem;}
+.header-rgt .custom-logo-link-url, .header-rgt .navbar-brand {
+    float: right;
+    margin-left: 1rem;
+    margin-right: 0rem;
+}
+.custom-logo-link-url .site-title{
+    margin: 0;
+}
+.header-rgt .navbar-toggler,.content-center .navbar-toggler{
+    margin-top: 15px;
+}
+.navbar .header-rgt .search-box-outer .dropdown-menu {
+    left: 0 !important;
+    right: auto;
+}
+

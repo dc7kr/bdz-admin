@@ -1,0 +1,163 @@
+/* Menu animation */
+.navbar ul li a .menu-text:after {
+content: '';
+display: block;
+height: 2px;
+width: 0px;
+background: transparent;
+transition: width .5s ease, background-color .5s ease;
+}
+
+
+
+    /* Header */
+
+            /* Site Title & Tagline */
+        .site-title a{
+            color: #061018;
+        }
+        body .site-title a:hover{
+            color: #f6aa3a;
+        }
+        .site-description{
+            color: #1c314c;
+        }
+    
+    /* Primary Menu */
+            .navbar.custom .nav .nav-item .nav-link {
+            color: black;
+        }
+        .navbar.custom .nav .nav-item:hover .nav-link, .navbar.custom .nav .nav-item.active .nav-link:hover {
+            color: #008fac;
+        }
+        .nav.navbar-nav a.dropdown-item:hover {
+            color: #008fac!important;
+        }
+        .navbar ul li.menu-item a .menu-text:hover:after{
+            background: #008fac;
+        }
+        .navbar.custom .nav .nav-item.active .nav-link ,.navbar .nav .nav-item .current_page_item.active .dropdown-item,.navbar .nav .nav-item .dropdown.active > a {
+            color: #008fac!important;
+        }
+        .navbar .nav li.active .nav-link .menu-text:after,.navbar .nav .current_page_item.active .menu-text:after{
+            background:#008fac!important; 
+            width: 100%;
+        }
+        /* Submenus */
+        .nav.navbar-nav .dropdown-item, .nav.navbar-nav .dropdown-menu {
+            background-color: #ffffff;
+        }
+        .nav.navbar-nav a.dropdown-item {
+            color: black!important;
+        }
+        .nav.navbar-nav a.dropdown-item:hover,.nav.navbar-nav a.bg-light.dropdown-item,.navbar .nav .nav-item .dropdown.active > a:hover,.navbar .nav .nav-item .current_page_item.active .dropdown-item:hover {
+    
+            color: #008fac !important;
+        }
+        .navbar ul li.menu-item a.dropdown-item .menu-text:hover:after {
+            background:#008fac !important;
+        }
+        .nav.navbar-nav .dropdown-item:focus, .nav.navbar-nav .dropdown-item:hover
+        {
+            background-color: transparent;
+        }
+
+    
+    /* Banner */
+    .page-title-section .page-title h1{
+        color: #fff !important;
+    }
+
+    /* Breadcrumb */
+            .page-breadcrumb.text-center span a, nav.rank-math-breadcrumb a
+        {
+            color: #ffffff !important;
+        }
+        .page-breadcrumb.text-center span a:hover, nav.rank-math-breadcrumb a:hover {
+            color: #f6aa3a !important;
+        }
+    
+    /* Content */
+        body h1 {
+            color: #ffffff;
+        }
+        body .section-header h2:not(.testimonial h2, .funfact h2), body h2:not(.testimonial h2, .funfact h2){
+            color: black;
+        }
+        body h3 {
+            color: black;
+        }
+        body .entry-header h4 > a:not(.blog-title), body h4, .section-space.contact-detail .contact-area h4,.services h4.entry-title a{
+            color: black;
+        }
+        body .blog-author h5, body .comment-detail h5, body h5{
+            color: black;
+        }
+        .section-header h5.section-subtitle{
+            color: black;
+        }
+
+        body .product-price h5 > a{
+            color: black;
+        }
+
+        body h6, .section-space.contact-detail .contact-area h6 {
+            color: black;
+        }
+        p:not(.woocommerce-mini-cart__total, .slider-caption .description, .site-description, .testimonial p, .funfact p,.sidebar p,.footer-sidebar p){
+            color: black;
+        }
+   
+
+    /* Sidebar */
+            body .sidebar .widget .widget-title,body .sidebar .widget.widget_block :is(h1,h2,h3,h4,h5,h6),body .sidebar .widget .wp-block-search__label, body .sidebar .widget .wc-block-product-search__label
+         {
+            color: #008fac;
+        }
+        body .sidebar p,.sidebar .widget .wp-block-latest-posts__post-excerpt,body .sidebar .widget .wp-block-latest-posts__post-author,body .sidebar .widget .wp-block-latest-posts__post-date {
+            color: black!important;
+        }
+        body .sidebar a,body .sidebar .widget.widget_block li:before {
+            color: black !important;
+        }
+        body .sidebar.s-l-space .sidebar a:hover, body .sidebar .widget a:hover, body .sidebar .widget a:focus {
+            color: #008fac !important;
+        }
+    
+    /* Footer Widgets */
+            body .site-footer {
+            background-color: #badbe2;
+        }
+        .footer-sidebar .widget .widget-title, .footer-sidebar .widget.widget_block :is(h1,h2,h3,h4,h5,h6), 
+        .footer-sidebar .widget .wp-block-search__label{
+            color: #008fac !important;
+        }
+        body .footer-sidebar .widget.widget_block h1:after,body .footer-sidebar .widget.widget_block h2:after,
+        body .footer-sidebar .widget.widget_block h3:after,body .footer-sidebar .widget.widget_block h4:after,
+        body .footer-sidebar .widget.widget_block h5:after,body .footer-sidebar .widget.widget_block h6:after,
+        body .footer-sidebar .widget .wp-block-search__label:after,.footer-sidebar .widget .widget-title:after{
+            background-color: #008fac !important;
+        }
+        body .footer-sidebar p,  body .footer-sidebar .widget, body .footer-sidebar .widget_text p,body .footer-sidebar .widget .wp-block-latest-posts__post-author,body .footer-sidebar .widget .wp-block-latest-posts__post-date {
+            color: #ffffff;
+        }
+        body .footer-sidebar .widget a, body .footer-sidebar .widget_recent_entries .post-date  {
+            color: #ffffff;
+        }
+        .footer-sidebar .widget li:before {
+            color: #ffffff !important;
+        }
+        body .footer-sidebar .widget a:hover{
+            color: #008fac;
+        }
+        /*        .footer-sidebar .widget li:hover:before {
+                    color:  !important;
+                }*/
+        .cart-header {
+        border-left: 1px solid #747474;
+        padding: 0 0 0 0.5rem;
+    } 
+    .custom-logo{width: 250px; height: auto;}
+#content .container{max-width: 1920px;}
+#wrapper .site-footer .container{max-width: 1140px;
+}

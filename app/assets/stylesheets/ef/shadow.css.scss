@@ -1,0 +1,10 @@
+@media (min-width: 1200px) {
+	.boxed {
+		width: 1210px;
+		-webkit-box-shadow: 0 0 10px 0 rgba(48, 48, 48, 0.5);
+		box-shadow: 0 0 10px 0 rgba(48, 48, 48, 0.5);
+		margin: 30px auto;
+		position: relative;
+		background: url(assets/images/bg-pattern/bg-img1.png) repeat fixed;
+	}
+}
