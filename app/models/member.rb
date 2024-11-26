@@ -16,11 +16,11 @@ class Member < ApplicationRecord
 
   include CountryHelper
 
-  validates_presence_of :eintritt,:mglnr
+  validates_presence_of :eintritt, :mglnr
   validates :iban, :iban => true
   validates :bic, :bic => true
   validates :email, :email_format => true 
-  validates :mglnr, :uniqueness => true
+  validates :mglnr, uniqueness: true
 
   belongs_to :regional_organization
 
