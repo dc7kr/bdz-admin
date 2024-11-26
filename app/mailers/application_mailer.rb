@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: "geschaeftsstelle@zupfmusiker.de"
+  default from: "bdzdb@zupfmusiker.de"
   layout "mailer"
 end
