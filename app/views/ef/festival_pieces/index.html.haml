@@ -16,7 +16,7 @@
 
       %h3=t('festival_application.add_piece')
       
-      = bootstrap_form_for [:public,@festival_application,FestivalPiece.new], :remote => true,:format=>:js do |f| 
+      = bootstrap_form_for [:ef,@festival_application,FestivalPiece.new], :remote => true,:format=>:js do |f| 
         %table
           %tr
             %td= f.text_field :composer

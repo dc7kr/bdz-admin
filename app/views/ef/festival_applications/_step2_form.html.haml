@@ -1,0 +1,8 @@
+= bootstrap_form_for [:ef,@festival_application,FestivalPiece.new]  do |f|
+  %table
+    %tr
+      %td= f.text_field :composer
+      %td= f.text_field :title
+      %td= f.text_field :duration
+      %td= f.submit  t('festival_piece.create_festival_piece')
+

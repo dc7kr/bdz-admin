@@ -1,10 +1,15 @@
-= bootstrap_form_for [:public,@festival_application], :layout=> :horizontal do |f|
+-if @festival_application.errors.any?
+  - @festival_application.errors.each do |e|
+    = e.to_json
+
+
+= bootstrap_form_for [:ef,@festival_application], :layout=> :horizontal do |f|
   .panel.panel-default
     .panel-heading
       %h3.panel-title=t("festival_application.general_panel_title")
     .panel-body
-      .form-group
-        =f.label :country_code, { class: "control-label col-md-2" }
+      .row.mb-3
+        .col-md-2=f.label :country_code, { class: "control-label col-md-2" }
         .col-md-10= f.country_select(:country_code, { iso_codes:true }, { class:  "form-control"})
       = f.select :group_type, get_group_type_options( @festival_application.group_type)
       = f.text_field :orch_name
@@ -21,12 +26,17 @@
         =person_f.text_field :street
         =person_f.text_field :zip
         =person_f.text_field :city
-        .form-group
-          =person_f.label :country_code, { class: "control-label col-md-2" }
+        .row.mb-3
+          .col-md-2=person_f.label :country_code, { class: "control-label col-md-2" }
           .col-md-10=person_f.country_select( :country_code ,{ iso_codes:true}, {class: "form-control"}) 
         =person_f.text_field :phone
         =person_f.text_field :email
 
-  = f.text_field :equipment
-  = f.text_field :special_cast
-  = f.submit
+  .panel.panel-default
+    .panel-heading
+      %h3.panel-title=t("festival_application.additional_panel_title")
+    .panel-body
+      = f.text_field :equipment
+      = f.text_field :special_cast
+      = f.text_area :workshop_request
+      = f.submit
