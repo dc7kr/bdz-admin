@@ -58,13 +58,7 @@
     .card.mb-3
       .card-header Sonstige Mitglieder
       .card-body
-        %b 1. Mitglieder in Ausbildung
-        =entity_row(@rs,:azubi_child)
-        =entity_row(@rs,:azubi_teens)
-        =entity_row(@rs,:azubi_youth)
         =entity_row(@rs,:azubi_adult)
-        =entity_row(@rs,:azubi_senior)
-        %b 2. Anzahl der passiven Mitglieder (nicht beitragspflichtig)
         =entity_row(@rs,:passive)
         =entity_row(@rs,:supporters)
 
@@ -72,14 +66,14 @@
       .card-header Statistische Daten
       .card-body
         %h4 Ensembles / Orchester im Verein
-        = entity_row(@rs,:child_ens)
         = entity_row(@rs,:youth_ens)
         = entity_row(@rs,:adult_ens)
         = entity_row(@rs,:senior_ens)
         = entity_row(@rs,:other_ens)
-        .row
-          .col-sm-12.col-md-3.text-right=label :report_sheet,:instrumentation
-          .col-sm-12.col-md-9=@orchestration.join(", ")
+        = entity_row(@rs,:zo)
+        = entity_row(@rs,:go)
+        = entity_row(@rs,:zi_o)
+        = entity_row(@rs,:oz)
 
   = wizard_back_button( url_for(:action=>:step4, :id=>@report_sheet_input))
   = wizard_forward_button("Verbindlich absenden", url_for(:action=>:confirm, :id=>@report_sheet_input))

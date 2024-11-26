@@ -1,39 +1,40 @@
-= bootstrap_form_for @report_sheet , layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10", :url=> url_for(:action=>:submit4,:id=>@report_sheet_input) do |f|
- 
+%h2 Weitere statistische Daten ohne Beitragsberechnung
+Alle Angaben, die auf dieser Seite gemacht werden, wirken sich nicht auf den Mitgliedsbeitrag aus.
+
+= bootstrap_form_for @report_sheet , layout: :horizontal, label_col: "col-sm-4", control_col: "col-sm-8", :url=> url_for(:action=>:submit4,:id=>@report_sheet_input) do |f|
+
   .card.mb-3
     .card-header
-      1. Mitglieder in Ausbildung
+      1. Anzahl sonstiger Mitglieder (nicht beitragspflichtig)
     .card-body
-      = f.text_field :azubi_child
-      = f.text_field :azubi_teens
-      = f.text_field :azubi_youth
       = f.text_field :azubi_adult
-      = f.text_field :azubi_senior
+      = f.text_field :passive
+      = f.text_field :supporters
   
   .card.mb-3
     .card-header
-      2. Anzahl der passiven Mitglieder (nicht beitragspflichtig)
+      2. Anzahl der Ensembles / Orchester im Verein
     .card-body
-      = f.text_field :passive
-      = f.text_field :supporters
-
-    .card.mb-3
-      .card-header
-        3. Anzahl der Ensembles / Orchester im Verein
-      .card-body
-        = f.text_field :child_ens
-        = f.text_field :youth_ens
-        = f.text_field :adult_ens
-        = f.text_field :senior_ens
-        = f.text_field :other_ens
+      Bitte beachten Sie, dass auch das Hauptorchester eines dieser Ensembles ist!
+      Bitte die <strong>Anzahl</strong> eintragen.
+      %br 
+      %br
+      = f.text_field :youth_ens
+      = f.text_field :adult_ens
+      = f.text_field :senior_ens
 
   .card.mb-3
-    .card-header 4. Instrumentierung
+    .card-header 3. Instrumentierung (Mehrfachauswahl möglich)
     .card-body
-      .col-sm-10= f.check_box :zo
-      .col-sm-10= f.check_box :zi_o
-      .col-sm-10= f.check_box :go
-      .col-sm-10= f.check_box :oz
+      = f.number_field :zo
+      = f.number_field :go
+      = f.number_field :zi_o
+      = f.number_field :oz
+  
+  .card.mb-3
+    .card-header 4. Angaben von Musikschulen 
+    .card-body
+      = f.number_field :ms_total
   
   %br
   = wizard_back_button( url_for(:action=>:step3, :id=>@report_sheet_input))
