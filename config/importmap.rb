@@ -12,3 +12,5 @@ pin "bootstrap", to: "bootstrap.min.js"
 pin "sidebar", to: "sidebar.js"
 pin "jquery" # @3.7.1
 pin "@hotwired/turbo-rails", to: "turbo.min.js", preload: true
+
+# DONT ADD FONT AWESOME HERE 
