@@ -489,7 +489,7 @@ class Mgl::ReportSheetInputsController < ApplicationController
     root.require(:report_sheet).permit(:id, :uv,
        :azubi_child, :azubi_teens, :azubi_youth, :azubi_adult, :azubi_senior, :passive, :supporters,
        :child_ens, :youth_ens, :adult_ens, :senior_ens, :other_ens,
-        :zo, :zi_o, :go, :oz )
+        :zo, :zi_o, :go, :oz, :ms_total )
   end
 
   def orchestra_params root
