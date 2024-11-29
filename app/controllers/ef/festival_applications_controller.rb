@@ -57,6 +57,7 @@ class Ef::FestivalApplicationsController < Ef::ApplicationController
     fa_params[:contact_person] = nil
 
     @festival_application = FestivalApplication.new(fa_params)
+    @festival_application.year = BDZ_SETTINGS["config"]["festival_year"]
    
     Rails.logger.debug("Festival application contact person")
     Rails.logger.debug(cp_params.to_json)
@@ -69,7 +70,7 @@ class Ef::FestivalApplicationsController < Ef::ApplicationController
     if @festival_application.contact_person.save
       respond_to do |format|
         if @festival_application.save
-          format.html { redirect_to step2_ef_festival_application_path(@festival_application), notice: 'Festival application was successfully created.' }
+          format.html { redirect_to step2_ef_festival_application_path(@festival_application), notice: t("festival_application.create_success") }
           format.json { render json: @festival_application, status: :created, location: @festival_application }
         else
           format.html { render :new, status: :unprocessable_entity }
@@ -91,7 +92,7 @@ class Ef::FestivalApplicationsController < Ef::ApplicationController
 
     respond_to do |format|
       if @festival_application.update(params[:festival_application])
-        format.html { redirect_to @festival_application, notice: 'Festival application was successfully updated.' }
+        format.html { redirect_to @festival_application, notice: t("festival_application.update_success")  }
         format.json { head :no_content }
       else
         format.html { render :edit, status: :unprocessable_entity }
