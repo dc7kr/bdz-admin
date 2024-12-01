@@ -4,6 +4,8 @@ class FestivalApplicationsController < AuthenticatedController
   include CountryHelper
   include FileArchiveHelper
 
+  include ApplicationHelper
+
   helper_method :sort_column, :sort_direction
 
   layout :choose_layout
@@ -11,20 +13,22 @@ class FestivalApplicationsController < AuthenticatedController
   # GET /festival_applications.json
 
   def calc_sums
-    result = FestivalApplication.select("SUM(num_players) as players, SUM(tickets) as tickets, SUM(tickets_red) as tickets_red, SUM(bdz_tickets) as bdz_tickets, SUM(bdz_tickets_red) as bdz_tickets_red").first
+    result = FestivalApplication.current_festival.select("SUM(num_players) as players, SUM(tickets) as tickets, SUM(tickets_red) as tickets_red, SUM(bdz_tickets) as bdz_tickets, SUM(bdz_tickets_red) as bdz_tickets_red").first
 
     sums = Hash.new
-    sums[:tickets]=result[:tickets]
-    sums[:tickets_red]=result[:tickets_red]
-    sums[:bdz_tickets]=result[:bdz_tickets]
-    sums[:bdz_tickets_red]=result[:bdz_tickets_red]
-    sums[:players]=result[:players]
+    sums[:tickets]= nil_safe_value result[:tickets]
+    sums[:tickets_red]= nil_safe_value result[:tickets_red]
+    sums[:bdz_tickets]= nil_safe_value result[:bdz_tickets]
+    sums[:bdz_tickets_red]= nil_safe_value result[:bdz_tickets_red]
+    sums[:players]= nil_safe_value result[:players]
+
     sums[:no_ticket] = sums[:players] - sums[:tickets] - sums[:tickets_red] - sums[:bdz_tickets] - sums[:bdz_tickets_red]
 
     sums
   end
   def index
-    @festival_applications = FestivalApplication.order(sort_column+ " "+ sort_direction).search(params[:search]).page(params[:page]).per(20)
+
+    @festival_applications = FestivalApplication.current_festival.order(sort_column+ " "+ sort_direction).search(params[:search]).page(params[:page]).per(20)
 
     @sums = calc_sums
 
@@ -39,11 +43,11 @@ class FestivalApplicationsController < AuthenticatedController
     @sums = calc_sums
 
     now = Time.new
-	  currDate = now.strftime("%d.%m.%Y")
-    @sum_players = FestivalApplication.sum(:num_players)
+    currDate = now.strftime("%d.%m.%Y")
+    @sum_players = FestivalApplication.current_festival.sum(:num_players)
 
     respond_to do |format|
-      @festival_applications = FestivalApplication.where(:permission=>true).order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
+      @festival_applications = FestivalApplication.current_festival.where(:permission=>true).order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
 
       format.js
 
@@ -61,7 +65,7 @@ class FestivalApplicationsController < AuthenticatedController
       end
 
       format.ods do 
-        @festival_applications = FestivalApplication.where(:permission=>true).order(sort_column+ " "+ sort_direction)
+        @festival_applications = FestivalApplication.current_festival.where(:permission=>true).order(sort_column+ " "+ sort_direction)
         @sum_players = FestivalApplication.where(:permission=>true).sum(:num_players)
         renderApplicationOds(@festival_applications,"/tmp/festival_applications.ods") 
               send_file("/tmp/festival_applications.ods", :filename => "festival_permissions_"+Time.now.year.to_s+".ods", :type => "application/octet-stream")
@@ -71,7 +75,7 @@ class FestivalApplicationsController < AuthenticatedController
   end
 
   def list
-    @festival_applications = FestivalApplication.order([:group_type,:orch_name])
+    @festival_applications = FestivalApplication.current_festival.order([:group_type,:orch_name])
     now = Time.new
 	  currDate = now.strftime("%d.%m.%Y")
 
@@ -88,7 +92,7 @@ class FestivalApplicationsController < AuthenticatedController
   end
 
   def grp_list
-    @festival_applications = FestivalApplication.where("visitor_type = ?",params[:visitor_type]).order([:group_type,:orch_name])
+    @festival_applications = FestivalApplication.current_fetsival.where("visitor_type = ?",params[:visitor_type]).order([:group_type,:orch_name])
 
     now = Time.new
 	  currDate = now.strftime("%d.%m.%Y")
@@ -152,7 +156,7 @@ class FestivalApplicationsController < AuthenticatedController
     if @festival_application.contact_person.save
       respond_to do |format|
         if @festival_application.save
-          format.html { redirect_to @festival_application, notice: 'Festival application was successfully created.' }
+          format.html { redirect_to @festival_application, notice: t("festival_application.create_success") }
           format.json { render json: @festival_application, status: :created, location: @festival_application }
         else
           format.html { render :new, status: :unprocessable_entity }
@@ -178,7 +182,7 @@ class FestivalApplicationsController < AuthenticatedController
 
     respond_to do |format|
       if @festival_application.update(festival_application_params)
-        format.html { redirect_to @festival_application, notice: 'Festival application was successfully updated.' }
+        format.html { redirect_to @festival_application, notice: t("festival_application.update_success")
         format.json { head :no_content }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -320,7 +324,7 @@ class FestivalApplicationsController < AuthenticatedController
   end
 
   def open_issues
-    @appl = FestivalApplication.order(:id)
+    @appl = FestivalApplication.current_festival.order(:id)
   end
 
   def sort_column
