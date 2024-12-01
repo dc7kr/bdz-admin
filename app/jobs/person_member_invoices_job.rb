@@ -1,10 +1,9 @@
-class PersonMemberInvoicesWorker  < AbstractInvoicesWorker
+class PersonMemberInvoicesJob < BaseInvoicesJob
 
   sidekiq_options lock: :while_executing,
     lock_timeout: 2,
     on_conflict: :reject
  
-   
   def perform(year,user_id)
     init_fields(year,user_id)
 
@@ -12,17 +11,22 @@ class PersonMemberInvoicesWorker  < AbstractInvoicesWorker
     letters = Array.new
 
     person_members = PersonMember.notinvoiced(year)
+    
+    if person_members.length == 0 then
+      logger.info("No pending invoices. PersonMemberInvoiceJob done.")
+      return
+    end
 
     mailing_tool =  MailingTool.new(year, "gs", "RECHNUNG#{year}", "Beitragsrechnung #{year}")
 
-	  person_members.each do |pm|
+    person_members.each do |pm|
       mglnr = pm.member.mglnr
 
-      Rails.logger.debug("Gen invoice for: #{pm.member.mglnr}")
+      logger.debug("Gen invoice for: #{pm.member.mglnr}")
       invoice_file = personMemberInvoice(pm, year)
 
       if (invoice_file.nil?) then
-        Rails.logger.info("No invoice generated for: #{mglnr} tariff: #{pm.tariff.description}")
+        logger.info("No invoice generated for: #{mglnr} tariff: #{pm.tariff.description}")
         next
       end
 
@@ -31,8 +35,7 @@ class PersonMemberInvoicesWorker  < AbstractInvoicesWorker
       add_mailer_params = { :year => year, :mglnr=>mglnr }
 
       mailing_tool.deliver_mailing(InvoiceMail, pm.to_addressee, invoice_file,nil, letters, add_mailer_params)  
-		end
-
+    end
 
     pdf_merged_file = nil 
 
@@ -58,11 +61,11 @@ class PersonMemberInvoicesWorker  < AbstractInvoicesWorker
     invoice_file = invoice.gen_pdf(self.tex_writer)
 
     if invoice_file.nil?
-      Rails.logger.error("Could not generate invoice: #{person.member.mglnr}")
+      logger.error("Could not generate invoice: #{person.member.mglnr}")
       return nil
     end
 
-		booking_txt = 'Beitrag '+person.tariff.description+' '+String(year)
+    booking_txt = 'Beitrag '+person.tariff.description+' '+String(year)
 
     person.member.create_invoice_booking(year, invoice, invoice_file.orig_filename,booking_txt)
     person.member.create_dd_booking(self.sepa_writer, invoice, year)

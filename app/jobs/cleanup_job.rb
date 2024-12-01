@@ -1,11 +1,9 @@
-class CleanupWorker
+class CleanupJob < ApplicationJob
 
-  include Sidekiq::Worker
   include BulkMailHelper
 
   # sidekiq_options queue: "high"
   # sidekiq_options retry: false
-  
 
   def default_url_options
     {
