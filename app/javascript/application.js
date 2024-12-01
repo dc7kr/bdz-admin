@@ -5,6 +5,5 @@ import "@hotwired/turbo-rails"
 import "controllers"
 
 import "popper"
-import * as bootstrap from "bootstrap"
+import "bootstrap"
 
-window.bootstrap = bootstrap;
