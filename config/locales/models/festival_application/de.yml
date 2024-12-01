@@ -27,6 +27,9 @@ de:
     open_issues: Offene Posten
     invoice: Rechnung
     payment_status: Zahlungsstatus
+    create: "Bewerbung erstellen"
+    create_success: "Bewerbung erfolgreich erstellt."
+    update_success: "Bewerbung erfolgreich geändert."
     payment_states:
       N: "Nicht bezahlt"
       P: "Anzahlung erhalten"

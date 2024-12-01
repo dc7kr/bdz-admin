@@ -21,6 +21,9 @@ en:
     group_type: "Group type"
     stage_time: Stage time
     rehearsal_time: Rehearsal time
+    create: "Create festival application"
+    create_success: "Festival application successfully created."
+    update_success: "Festival application successfully updated."
 
     group_types:
       O: Orchestra
