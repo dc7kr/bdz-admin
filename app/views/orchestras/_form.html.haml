@@ -1,4 +1,4 @@
-= bootstrap_form_for(@orchestra, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10") do |f| 
+= bootstrap_form_for(@orchestra, layout: :horizontal, label_col: "col-md-2", control_col: "col-md-10") do |f| 
   .container-fluid
     %nav#formNavBar.navbar-example2.navbar.navbar-light.bg-light
       %ul.nav.nav-pills
@@ -24,12 +24,12 @@
           = f.text_field :gema_kdnr_new
           = f.url_field :url
           .form-group.row
-            =f.label :publish_url, :class =>"col-form-label col-sm-2"
-            .col-sm-10
+            =f.label :publish_url, :class =>"col-form-label col-md-2"
+            .col-md-10
               = f.check_box :publish_url, custom: :switch, label: "&nbsp;".html_safe
           .form-group.row
-            =f.label :publish_address, :class =>"col-form-label col-sm-2"
-            .col-sm-10
+            =f.label :publish_address, :class =>"col-form-label col-md-2"
+            .col-md-10
               = f.check_box :publish_address , custom: :switch, label: "&nbsp;".html_safe
           = f.date_field :gruendung, :class => "datetimepicker"
           = f.date_field :promusica
