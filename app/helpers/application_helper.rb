@@ -12,6 +12,14 @@ module ApplicationHelper
 	  ENV["RAILS_ENV"] == "staging"
   end
 
+  def nil_safe_value(value) 
+    if value.nil?
+      0
+    else
+      value
+    end
+  end
+
   def t_opts(group,field,data)
     tags = Array.new
 
@@ -558,9 +566,13 @@ JS1
   def flash_messages(opts = {})
     flash.each do |msg_type, message|
       Rails.logger.debug("Flash message: #{message}")
-      #concat(content_tag(:div, message, class: "alert #{bootstrap_class_for(msg_type)} fade in") do 
-      concat(content_tag(:div, message, class: "alert #{bootstrap_class_for(msg_type)} fade in") do 
-        concat content_tag(:button, 'x', class: "close", data: { dismiss: 'alert' })
+      concat(content_tag(:div, message, class: "alert alert-dismissible #{bootstrap_class_for(msg_type)} fade show") do 
+  .alert.alert-warning.alert-dismissible.fade.show 
+    Dismissible
+    %button.btn-close{"aria-label" => "Close", "data-bs-dismiss" => "alert", :type => "button"}
+
+        concat content_tag(:button, '', type: "button", class: "btn-close", data: { "bs-dismiss": 'alert' })
+        %button.btn-close{"aria-label" => "Close", "data-bs-dismiss" => "alert", :type => "button"}
         concat message 
       end)
     end
