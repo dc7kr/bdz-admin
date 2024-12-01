@@ -97,6 +97,9 @@ GEM
       minitest (>= 5.1)
       mutex_m
       tzinfo (~> 2.0)
+    acts_as_paranoid (0.10.2)
+      activerecord (>= 6.1, < 8)
+      activesupport (>= 6.1, < 8)
     addressable (2.8.6)
       public_suffix (>= 2.0.2, < 6.0)
     authority (3.3.0)
@@ -272,8 +275,6 @@ GEM
       mime-types
       mimemagic (~> 0.3.0)
       terrapin (~> 0.6.0)
-    paranoia (2.6.3)
-      activerecord (>= 5.1, < 7.2)
     parseconfig (1.1.2)
     pdf-core (0.10.0)
     pdf-toolkit (1.1.0)
@@ -461,6 +462,7 @@ PLATFORMS
 
 DEPENDENCIES
   actionview-encoded_mail_to
+  acts_as_paranoid
   authority
   bankleitzahl
   bootsnap
@@ -493,7 +495,6 @@ DEPENDENCIES
   mongoid
   mysql2 (~> 0.5.0)
   paperclip
-  paranoia (~> 2.6)
   parseconfig
   pdf-toolkit
   prawn

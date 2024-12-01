@@ -164,7 +164,8 @@ gem 'momentjs-rails', '>= 2.9.0'
 #gem 'bootstrap3-datetimepicker-rails', '~> 4.17.47'
 
 # for soft delete
-gem "paranoia", "~> 2.6"
+#gem "paranoia", "~> 2.6"
+gem 'acts_as_paranoid'
 
 # Google libphonenumber
 gem 'telephone_number'
