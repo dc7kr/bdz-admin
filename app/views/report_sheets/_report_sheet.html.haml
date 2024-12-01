@@ -1,10 +1,12 @@
 %tr
   -if @orchestra
     %td
+      - if not report_sheet.valid? then
+        %span.badge.bg-danger 
+          %i.fas.fa-exclamation-circle.bg-danger
+      =link_to report_sheet.year.to_s, orchestra_report_sheet_path(@orchestra,report_sheet)
       - if report_sheet.generated then
-        =link_to "(#{report_sheet.year})", orchestra_report_sheet_path(@orchestra,report_sheet)
-      -else
-        =link_to report_sheet.year.to_s, orchestra_report_sheet_path(@orchestra,report_sheet)
+        %span.badge.bg-secondary=t("report_sheet.generated")
   -else
     %td=report_sheet.orchestra.member.mglnr
   %td #{report_sheet.children} - #{report_sheet.teens} - #{report_sheet.youth} - #{report_sheet.adult} - #{report_sheet.senior}
