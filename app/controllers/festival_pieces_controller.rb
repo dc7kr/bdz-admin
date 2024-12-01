@@ -49,7 +49,7 @@ class FestivalPiecesController < AuthenticatedController
   # POST /festival_pieces
   # POST /festival_pieces.json
   def create
-  	@festival_application = FestivalApplication.find_by(token: params[:festival_application_token])
+    @festival_application = FestivalApplication.find_by(token: params[:festival_application_token])
     @festival_piece = FestivalPiece.new(festival_piece_params)
     @festival_application.festival_pieces << @festival_piece
     @festival_piece.save
