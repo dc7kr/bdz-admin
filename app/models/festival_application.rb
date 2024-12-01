@@ -16,6 +16,8 @@ class FestivalApplication < ApplicationRecord
   belongs_to :orchestra, optional: true
   belongs_to :festival_concert, optional: true
 
+  scope :current_festival, ->{ where("year = ?", BDZ_SETTINGS["config"]["festival_year"]) }
+
   def t_country(locale="de")
     translated_country(country_code,locale) 
   end
