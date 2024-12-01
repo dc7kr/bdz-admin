@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_11_26_145316) do
+ActiveRecord::Schema[7.1].define(version: 2024_11_27_102202) do
   create_table "Inserenten", id: false, charset: "utf8mb3", collation: "utf8mb3_general_ci", options: "ENGINE=InnoDB ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.string "Firmenname", limit: 35
     t.string "Titel", limit: 5
@@ -402,6 +402,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_26_145316) do
     t.string "token"
     t.string "comment"
     t.text "workshop_request"
+    t.integer "year"
   end
 
   create_table "festival_concerts", id: :integer, charset: "utf8mb3", collation: "utf8mb3_general_ci", options: "ENGINE=InnoDB ROW_FORMAT=DYNAMIC", force: :cascade do |t|
