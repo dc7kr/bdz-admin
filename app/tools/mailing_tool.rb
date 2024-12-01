@@ -103,7 +103,7 @@ class MailingTool
     begin
       type = addressee.entity.class
       if not is_mail_blacklisted?(addressee.email) then
-        mailer.notify(addressee.email, letter,attachment,additionalMailerParams).deliver
+        mailer.notify(addressee.email, letter,attachment,additionalMailerParams).deliver_later
         recordMailSuccess(addressee, @event_title,letter)
         result = { :success=>true, :mode => "E" ,:entity=>addressee}
         return result
