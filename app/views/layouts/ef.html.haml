@@ -17,7 +17,8 @@
               %button.navbar-toggle.collapsed{"aria-expanded" => "false", "data-target" => "#bs-example-navbar-collapse-1", "data-toggle" => "collapse", :type => "button"}
               %span.navbar-text.navbar-right Eingeloggt als #{current_user.email}
               %a.btn.btn-danger.navbar-btn.navbar-right{:href => "/logout"}= t("web-app-theme.logout", :default => "Logout")
-    = flash_messages
+    #flash-messages 
+      = render :partial => "flash_messages", locals: { :flash => flash }
     .container.ef-container
       = render :partial => "ef/main_nav"
       #main

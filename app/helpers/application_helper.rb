@@ -557,25 +557,15 @@ JS1
 
   def bootstrap_class_for flash_type
 
-    map = { "success" => "alert-success", "error" => "alert-danger", "alert" => "alert-warning", "notice" => "alert-info" }
+    map = { 
+      "success" => "alert-success", 
+      "error" => "alert-danger", 
+      "alert" => "alert-warning", 
+      "notice" => "alert-info",
+      "info" => "alert-info" 
+    }
 
     Rails.logger.debug("Flash-type: #{flash_type}")
     map[flash_type] || flash_type.to_s
-  end
-
-  def flash_messages(opts = {})
-    flash.each do |msg_type, message|
-      Rails.logger.debug("Flash message: #{message}")
-      concat(content_tag(:div, message, class: "alert alert-dismissible #{bootstrap_class_for(msg_type)} fade show") do 
-  .alert.alert-warning.alert-dismissible.fade.show 
-    Dismissible
-    %button.btn-close{"aria-label" => "Close", "data-bs-dismiss" => "alert", :type => "button"}
-
-        concat content_tag(:button, '', type: "button", class: "btn-close", data: { "bs-dismiss": 'alert' })
-        %button.btn-close{"aria-label" => "Close", "data-bs-dismiss" => "alert", :type => "button"}
-        concat message 
-      end)
-    end
-    nil
   end
 end

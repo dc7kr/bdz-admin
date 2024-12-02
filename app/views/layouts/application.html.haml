@@ -10,8 +10,8 @@
   %body
     - if not current_user.nil?
       = render :partial => "main_menu"
-    #flash-message
-      = flash_messages
+    #flash-messages
+      = render :partial => "flash_messages", locals: { :flash => flash }
     .wrapper
       #content.pb-5.w-100.container-fluid
         #main
