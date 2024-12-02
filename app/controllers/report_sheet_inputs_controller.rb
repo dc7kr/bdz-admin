@@ -107,7 +107,7 @@ class ReportSheetInputsController < AuthenticatedController
 
     respond_to do |format|
       format.html {
-        redirect_to  :back, notice: t('report_sheet_input.generated', count: @count ) 
+        redirect_to  cron_home_path, notice: t('report_sheet_input.generation_triggered' ) 
       }
     end
   end

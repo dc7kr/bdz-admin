@@ -19,7 +19,7 @@ de:
     login_first: "Bitte melden Sie sich an!"
     pdf_confirm: "PDF Bestätigung"
     member_delete_success: "Alle Orchestermitglieder wurden gelöscht."
-    generated: "%{count} Meldebogen-Eingabe-Vorlagen erzeugt."
+    generation_triggered: "Meldebogen-Eingabe-Vorlagen werden im Hintergrund erzeugt."
     dd_to_sepa_valid: "Ihr bereits erteiltes SEPA-Mandat bleibt weiterhin gültig. Wir buchen von ihrem Konto mit der IBAN %{iban} und BIC %{bic} mit der SEPA Mandatsreferenz %{mref} im SEPA Verfahren ab."
     not_authorized: "Zugriff verweigert"
     please_confirm_dsgvo: Wenn sie der Verarbeitung Ihrer Daten nicht zustimmen können wir sie nicht als Mitglied im BDZ führen.  
