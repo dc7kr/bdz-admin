@@ -12,8 +12,8 @@
       #header{:class=>Rails.env}
         #main-nav
           = render :partial => "member_area_main_menu"
-      #flash-message
-        = flash_messages
+      #flash-messages 
+        = render :partial => "flash_messages", locals: { :flash => flash }
       #main
         = yield
       #sidebar
