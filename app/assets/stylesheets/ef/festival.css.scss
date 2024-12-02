@@ -1,11 +1,11 @@
 /* Menu animation */
 .navbar ul li a .menu-text:after {
-content: '';
-display: block;
-height: 2px;
-width: 0px;
-background: transparent;
-transition: width .5s ease, background-color .5s ease;
+	content: '';
+	display: block;
+	height: 2px;
+	width: 0px;
+	background: transparent;
+	transition: width .5s ease, background-color .5s ease;
 }
 
 
