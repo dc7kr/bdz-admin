@@ -1,6 +1,5 @@
-class FestivalMailsWorker
+class FestivalMailsJob < ApplicationJob
 
-  include Sidekiq::Worker
   include BulkMailHelper
   include FileArchiveHelper
   include Rails.application.routes.url_helpers
@@ -25,19 +24,19 @@ class FestivalMailsWorker
     applicants = nil
 
     if (group == 'FA')  then 
-      applicants = FestivalApplication.includes(:contact_person)
+      applicants = FestivalApplication.current_festival.includes(:contact_person)
     elsif ( group == 'FP') then
-      applicants = FestivalApplication.includes(:contact_person).where(:permission=>true)
+      applicants = FestivalApplication.current_festival.includes(:contact_person).where(:permission=>true)
     elsif ( group == 'FR') then
-      applicants = FestivalApplication.includes(:contact_person).where(:permission=>true,:visitor_type=>'R')
+      applicants = FestivalApplication.current_festival.includes(:contact_person).where(:permission=>true,:visitor_type=>'R')
     elsif ( group == 'FS') then 
-      applicants = FestivalApplication.includes(:contact_person).where(:permission=>true, :visitor_type=>'V')
+      applicants = FestivalApplication.current_festival.includes(:contact_person).where(:permission=>true, :visitor_type=>'V')
     elsif ( group == 'FJ') then
-      applicants = FestivalApplication.includes(:contact_person).where(:permission=>true,:visitor_type=>'Y')
+      applicants = FestivalApplication.current_festival.includes(:contact_person).where(:permission=>true,:visitor_type=>'Y')
     elsif ( group == 'FG') then
-      applicants = FestivalApplication.includes(:contact_person).where(:permission=>true, :visitor_type=>'G')
+      applicants = FestivalApplication.current_festival.includes(:contact_person).where(:permission=>true, :visitor_type=>'G')
     elsif ( group == 'FO') then
-      applicants = FestivalApplication.includes(:contact_person).where(:permission=>true, :visitor_type=>'O')
+      applicants = FestivalApplication.current_festival.includes(:contact_person).where(:permission=>true, :visitor_type=>'O')
     else 
       logger.error("NO GROUP identified: "+group)
     end

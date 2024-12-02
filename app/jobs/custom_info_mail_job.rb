@@ -1,6 +1,5 @@
-class CustomInfoMailWorker
+class CustomInfoMailJob
 
-  include Sidekiq::Worker
   include FileArchiveHelper
   include Rails.application.routes.url_helpers
 

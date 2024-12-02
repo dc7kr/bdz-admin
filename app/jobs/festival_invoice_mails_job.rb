@@ -1,6 +1,5 @@
-class EventCardInvoiceMailsWorker
+class FestivalInvoiceMailsJob
 
-  include Sidekiq::Worker
   include BulkMailHelper
   include FileArchiveHelper
   include Rails.application.routes.url_helpers
@@ -25,45 +24,39 @@ class EventCardInvoiceMailsWorker
 
     letterArray = Array.new
 
-    tw = TexWriter.new
+    tw = CorikaInvoices::TexWriter.new(INVOICE_CONFIG)
 
     prefix = Time.now.strftime("%Y%m%d%H%M%S_")
 
-    reservation = EventCard.not_invoiced
+    applicants = FestivalApplication.where("permission=1 AND payment_status='P' AND visitor_type='R'")
 
-    reservation.each do |rsrv|
+    applicants.each do |appl|
 
-      invoice = rsrv.invoice 
+      invoice = appl.invoice 
 
       if ( invoice.sum <= 0) then
         Rails.logger.info("Skipped invoice for TLN #{invoice.customer.id} because of zero or negative invoice.")
       else
-        tw.writeInvoice(invoice,'festival',cur_year)
 
-        inv_type = "event_card.en"
         locale = :en
-        subject = "eurofestival zupfmusik 2014 ticket invoice no. #{invoice.number} for reservation no. #{rsrv.id}"
+        subject = "eurofestival zupfmusik 2018 ticket invoice no. #{invoice.number} for participant no. #{appl.id}"
 
-        if invoice.customer.preferred_lang == 'de' then
-          inv_type = "event_card.de"
-          subject = "eurofestival zupfmusik 2014 - Ticket Rechnung Nr. #{invoice.number} fuer Reservierung Nr. #{rsrv.id}"
+        if invoice.customer.country == 'de' or invoice.customer.country=='at' then
+          subject = "eurofestival zupfmusik 2018 - Ticket Rechnung Nr. #{invoice.number} fuer Teilnehmer Nr. #{appl.id}"
           locale = :de
         end
 
-        work_pdf_file = tw.gen_pdf(inv_type,prefix,invoice.customer.id)
+        invoice_file = invoice.gen_pdf(tw)
 
-        workdir = INVOICE_CONFIG.work_dir
-        invoice_file = archive_file(workdir,work_pdf_file,cur_year)  
+        contact = appl.contact_person
 
         mailer_params = { :subject => subject , :cc => BDZ_SETTINGS["contacts"]["treasurer"]["mail"], :bcc => "webmaster@bdz-online.de", :invoice => invoice, :locale => locale }
 
-        result = tool.deliver_mailing(EventCardInvoiceMail, rsrv.to_addressee, invoice_file,  nil, letterArray, mailer_params)  
+        result = tool.deliver_mailing(FestivalInvoiceMail, contact.to_addressee, invoice_file,  nil, letterArray, mailer_params)  
         results << result
 
         if result[:success]==true then
             successCount+=1;
-            rsrv.invoiced=true
-            rsrv.save
         else 
             failCount+=1;
         end
