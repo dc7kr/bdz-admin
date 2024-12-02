@@ -12,10 +12,11 @@ class GenerateReportSheetInputsJob < ApplicationJob
     
     @orchestras.each do |o|
       if not o.nil? and o.report_sheet_required? 
-        @rsi = ReportSheetInput.for_orchestra_and_year(o,year)
+        rsi = ReportSheetInput.for_orchestra_and_year(o,year)
 
-        if @rsi.nil? then
-          @rsi = o.gen_rsi(year)
+        if rsi.nil? then
+          rsi = o.gen_rsi(year)
+          rsi.save
           
           @count+=1
         end
