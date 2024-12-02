@@ -1,5 +1,5 @@
 en:
-  festival_application: 
+  festival_application:  &festival_app_labels
     zero: "No festival applications"
     other: "%{count} festival applications"
     one: "Festival application"
@@ -24,6 +24,7 @@ en:
     create: "Create festival application"
     create_success: "Festival application successfully created."
     update_success: "Festival application successfully updated."
+    workshop_request: "Suggested workshop topics"
 
     group_types:
       O: Orchestra
@@ -33,9 +34,9 @@ en:
       T: Trio
   activerecord:
     attributes:
-      festival_application: &festival_app_labels
+      festival_application: 
+        <<: *festival_app_labels
   helpers:
     label:  
       festival_application:
         <<: *festival_app_labels
-
