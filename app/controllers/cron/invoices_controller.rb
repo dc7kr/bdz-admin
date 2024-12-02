@@ -21,28 +21,16 @@ class Cron::InvoicesController < AuthenticatedNonResourceController
 	  render :text => "Pong"
   end
 
-  def gen_lorch
-  	authorize! :member, :edit
-	  if (params[:year]) then
-		  year = params[:year].to_i
-	  else
-		  year = Time.now.year
-	  end
-    OrchestraInvoicesWorker.perform_async(year,@current_user.id,true)  
-
-    respond_to do |format|
-        format.html { redirect_to home_cron_path, :notice => t('cron.invoice_lorch_success') }
-    end
-  end
-
   def gen_orchestras
-  	authorize! :member, :edit
-	  if (params[:year]) then
-		  year = params[:year].to_i
-	  else
-		  year = Time.now.year
-	  end
-    OrchestraInvoicesWorker.perform_async(year,@current_user.id,false)  
+    authorize! :member, :edit
+
+    if (params[:year]) then
+      year = params[:year].to_i
+    else
+      year = Time.now.year
+    end
+
+    OrchestraInvoicesJob.perform_later(year,@current_user.id)
 
     respond_to do |format|
         format.html { redirect_to home_cron_path, :notice => t('cron.invoice_orchestras_success') }
@@ -52,9 +40,13 @@ class Cron::InvoicesController < AuthenticatedNonResourceController
   def gen_persons
     authorize! :member, :edit
 
-    current_year = Time.now.year
+    if (params[:year]) then
+      year = params[:year].to_i
+    else
+      year = Time.now.year
+    end
 
-    PersonMemberInvoicesWorker.perform_async(current_year, @current_user.id)
+    PersonMemberInvoicesJob.perform_later(year, @current_user.id)
 
     respond_to do |format|
         format.html { redirect_to home_cron_path, :notice => t('cron.person_member_invoice_success') }
