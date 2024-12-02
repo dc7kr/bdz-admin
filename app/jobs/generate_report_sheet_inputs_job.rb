@@ -2,7 +2,7 @@ class GenerateReportSheetInputsJob < ApplicationJob
   queue_as :default
 
   after_perform do |job|
-    AdminNotifier.notify_generate_rsi(job.arguments)
+    AdminNotifier.gen_rsi_notification(job.arguments)
   end
 
   def perform(year,user_id=nil)
