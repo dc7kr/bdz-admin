@@ -15,8 +15,7 @@ class GenerateReportSheetInputsJob < ApplicationJob
         rsi = ReportSheetInput.for_orchestra_and_year(o,year)
 
         if rsi.nil? then
-          rsi = o.gen_rsi(year)
-          rsi.save
+          o.gen_rsi(year)
           
           @count+=1
         end
