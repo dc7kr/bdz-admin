@@ -1,4 +1,4 @@
-class CustomInfoMailJob
+class CustomInfoMailJob < ApplicationJob
 
   include FileArchiveHelper
   include Rails.application.routes.url_helpers
