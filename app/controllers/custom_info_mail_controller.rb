@@ -112,7 +112,7 @@ class CustomInfoMailController < AuthenticatedNonResourceController
       attachment_hash = attachment.instance_values
     end
 
-    CustomInfoMailWorker.perform_async(@current_user.id,letter_hash,attachment_hash, subject, body, event_id, grp, via_paper)
+    CustomInfoMailJob.perform_async(@current_user.id,letter_hash,attachment_hash, subject, body, event_id, grp, via_paper)
 
     respond_to do |format|
         format.html { redirect_to home_cron_path, :notice => t('cron.custom_info_mail_success') }
