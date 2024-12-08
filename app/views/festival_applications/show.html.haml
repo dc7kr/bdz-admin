@@ -8,17 +8,17 @@
         (#{t('festival_application.permission_granted')})
       %br
       =@festival_application.orch_name
-    =link_to "Datenblatt", gen_participant_sheet_festival_application_path(@festival_application),:class=>"btn btn-default btn-sm", data: { turbolinks:false }
+    =link_to "Datenblatt", gen_participant_sheet_festival_application_path(@festival_application),:class=>"btn btn-primary btn-sm", data: { turbolinks:false }
     .container-fluid
 
       #accordion.panel-group{:role=>"tablist", :aria=>{:multiselectable=>"true"}}
-        .panel.panel-default
-          .panel-heading
-            %h4.panel-title
-              %a.collapsed{:role=>"button",:data=>{:toggle=>"collapse",:parent=>"#accordion"},:aria=>{:controls=>"collapseOne"},:expanded=>"true", :href=>"#collapseOne"}=t("festival_application.festival_concert_id")
+        .card
+          .card-header#headingOne
+            %h5
+              %button.btn.btn-link{ :data=>{:toggle=>"collapse",:target=>"#collapseOne"},:aria=>{:controls=>"collapseOne"},:expanded=>"true", :href=>"#collapseOne"}=t("festival_application.festival_concert_id")
 
-          #collapseOne.panel-collapse.collapse.in{ :role=>"tabpanel",:aria=>{:labelledby=>"headingOne"}}
-            .panel-body
+          #collapseOne.collapse.in{ :role=>"tabpanel",:aria=>{:expanded => true, :labelledby=>"headingOne"}, :data => { :parent => "accordion" }}
+            .card-body
               =custom_entity_row(t("festival_application.group_type"), display_group_type(@festival_application.group_type))
               =custom_entity_row(t("festival_application.visitor_type"), display_visitor_type(@festival_application.visitor_type))
               =entity_row(@festival_application,:contact_phone)
@@ -26,43 +26,44 @@
               =entity_row(@festival_application,:orch_name)
               =entity_row(@festival_application,:conductor)
         -if @festival_application.permission
-          .panel.panel-default
-            .panel-heading
-              %h4.panel-title
+          .card
+            .card-header
+              %h4
                 %a.collapsed{:role=>"button",:data=>{:toggle=>"collapse",:parent=>"#accordion"},:aria=>{:controls=>"collapseTwo"},:expanded=>"true", :href=>"#collapseTwo"}=t("festival_application.festival_concert_id")
-            #collapseTwo.panel-collapse.collapse.in{ :role=>"tabpanel",:aria=>{:labelledby=>"headingTwo"}}
-              .panel-body
-                .row
-                  .col-md-9
-                    -if @festival_application.festival_concert then
-                      = @festival_application.festival_concert.label
-                    -else
-                      keine Zuweisung
-                =entity_row(@festival_application,:stage_time)
-                =entity_row(@festival_application,:rehearsal_time)
-                =entity_row(@festival_application,:num_players)
-                =entity_row(@festival_application,:equipment)
-                =entity_row(@festival_application,:special_cast)
-                =entity_row(@festival_application,:soloist_tickets)
+            #collapseTwo.collapse.in{ :role=>"tabpanel",:aria=>{:labelledby=>"headingTwo"}}
+              .row
+                .col-md-9
+                  -if @festival_application.festival_concert then
+                    = @festival_application.festival_concert.label
+                  -else
+                    keine Zuweisung
+              =entity_row(@festival_application,:stage_time)
+              =entity_row(@festival_application,:rehearsal_time)
+              =entity_row(@festival_application,:num_players)
+              =entity_row(@festival_application,:equipment)
+              =entity_row(@festival_application,:special_cast)
+              =entity_row(@festival_application,:soloist_tickets)
 
         .row
           .col-md-2 #{t("festival_application.contact_person")}:
-          .col-md-10= render(:partial =>  'contact_person.oneline') 
-        .panel.panel-default
-          .panel-heading=t("festival_application.invoice")
-          .panel-body
+          .col-md-10= render(:partial =>  'contact_person_oneline') 
+        .card
+          .card-header 
+            %h5=t("festival_application.invoice")
+          .card-body
             -invoice = @festival_application.invoice
             -invoice.items.each do |i|
               =invoice_item_row(i)
             = calculation_sum(t("common.sum"), invoice.sum)
             =entity_row(@festival_application,:amount)
             =custom_entity_row(t("festival_application.payment_status"), t("festival_application.payment_states.#{@festival_application.payment_status}"))
-            =link_to "PDF", gen_invoice_festival_application_path(@festival_application),:class=>"btn btn-default btn-sm", data: { turbolinks:false }
+            =link_to "PDF", gen_invoice_festival_application_path(@festival_application),:class=>"btn btn-primary btn-sm", data: { turbolinks:false }
         - if not @festival_application.event_meal.nil?
           -@event_meal = @festival_application.event_meal
-          .panel.panel-default
-            .panel-heading=t("festival_application.invoice")
-            .panel-body
+          .card
+            .card-header
+              %h5=t("festival_application.invoice")
+            .card-body
               =entity_row(@event_meal,:tln)
               =entity_row(@event_meal,:veg)
               =entity_row(@event_meal,:arrival_time,:date)
