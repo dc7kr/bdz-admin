@@ -54,6 +54,7 @@ RUN apt-get update -qq && \
     libktoblzcheck1v5 \
     git \
     vim \
+    less \
     fonts-liberation && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
@@ -66,6 +67,7 @@ RUN apt-get update -qq && \
         texlive-science \
         texlive-plain-generic \
         fonts-lato \
+	pdftk \
 	netcat-openbsd \
 	bind9-dnsutils
 
