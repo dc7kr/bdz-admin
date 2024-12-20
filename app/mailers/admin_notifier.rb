@@ -61,10 +61,9 @@ class AdminNotifier < ApplicationMailer
     mail(:to => user.email, :subject => "Meldebogen-Eingabe "+rs.orchestra.member.mglnr.to_s)
 
   end
-  def report_sheet_notification(user, doc_url, current_user)
+  def report_sheet_notification(user, params)
 	 @recipient = user
-	 @docs_url = doc_url
-	 @current_user = current_user 
+	 @params = params 
 	 mail(:to => user.email, :subject => "Meldebogen Anschreiben")
   end
 
@@ -128,6 +127,17 @@ class AdminNotifier < ApplicationMailer
     cc = BDZ_SETTINGS['contacts']['admin']['mail']
 
     mail(:to => user, :cc => cc, :subject => "Neue Ehrungsrechnung Nr. "+invnr)
+  end
+
+  def generic_pdf_notification
+    recipient = params[:recipient]
+    p_attachment = MailingFile.from_hash(params[:attachment])
+
+    @topic = params[:topic]
+    
+    attachments[p_attachment.orig_filename ] = File.read(p_attachment.full_path)
+    
+    mail(:to => recipient, :subject => "PDF Erzeugung abgeschlossen: #{topic}")
   end
 
   private
