@@ -1,6 +1,7 @@
 #!/bin/bash
 
 APP_VERSION=$1
+APP_NAME=bdz-admin-app
 
 if [ -z "$APP_VERSION" ]
 then
@@ -10,7 +11,7 @@ fi
 
 ./gen_version_info.sh $1
 
-docker build .  --tag bdz-admin-app:$APP_VERSION
+docker build . --target prod --tag $APP_NAME:$APP_VERSION
 
 IMG_ID=$(docker image ls bdz-admin-app:$APP_VERSION |tail -1 | awk '{print $3}')
 
