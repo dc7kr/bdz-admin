@@ -3,7 +3,7 @@ class Cron::RemindersController < AuthenticatedNonResourceController
   def report_sheet
     authorize! :member, :edit
 
-    fa = FileArchiveTool.new(BDZ_SETTINGS)
+    fa = FileArchiveTool.new(DOCS_CONFIG)
 
     datePrefix = Time.now.strftime("%Y%m%d_")
     year = Time.now.strftime("%Y")
@@ -36,7 +36,7 @@ class Cron::RemindersController < AuthenticatedNonResourceController
   def payment
     authorize! :member, :edit
 
-    fa = FileArchiveTool.new(BDZ_SETTINGS)
+    fa = FileArchiveTool.new(DOCS_CONFIG)
 
     datePrefix = Time.now.strftime("%Y%m%d_")
     year = Time.now.strftime("%Y")

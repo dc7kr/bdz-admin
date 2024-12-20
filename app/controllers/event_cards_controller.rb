@@ -123,7 +123,7 @@ class EventCardsController < AuthenticatedController
     @event_card = EventCard.find(params[:id])
     tw = TexWriter.new
 
-    fa = FileArchiveTool.new()
+    fa = FileArchiveTool.new(DOCS_CONFIG)
 
     prefix = Time.now.strftime("%Y%m%d%H%M%S_")
     year = Time.now.year
