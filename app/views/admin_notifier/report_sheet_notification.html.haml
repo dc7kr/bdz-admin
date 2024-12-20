@@ -1,0 +1,30 @@
+Hallo #{@recipient.name},
+%br
+%br
+ein neuer Meldebogen-Anschreiben-Lauf wurde von #{@params[:triggered_by].name} (#{@params[:triggered_by].email}) durchgefuehrt. 
+<br>
+
+Resultat:
+- counters = @params[:counters]
+
+%table
+  %tr
+    %td Übersprungen (bereits generiert)
+    %td=counters[:skip]
+  %tr
+  %tr
+    %td Verschickte Mails
+    %td=counters[:orch]
+  %tr
+    %td Fehlerhafte Mails
+    %td=counters[:orch_fail]
+  %tr
+    %td Generierte postalische Anschreiben
+    %td=counters[:letter]
+
+
+- if not @params[:pdf_url].nil? then
+  Die zu versendenden Anschreiben sind unter 
+  %br
+  %a{ :href =>"#{@params[:pdf_url]}"}= @params[:pdf_url]
+  verfuegbar.
