@@ -1,59 +1,60 @@
-%nav.navbar.navbar-expand-lg.navbar-light.bg-light
-  .container-fluid
-    %a.navbar-brand{:href=>"/"} BDZ-Admin
-    %button.navbar-toggler{ :type=>"button", :data => {  :bs => { :toggle=>"collapse", :target=>"#mainMenuNavbarContent" },  :aria => { :controls=>"navbarSupportedContent", :expanded=>"false", :label=>"Toggle navigation" }}}
-      %span.navbar-toggler-icon
+%div{:data=>{:"turbo-prefetch" => "false" }}
+  %nav.navbar.navbar-expand-lg.navbar-light.bg-light
+    .container-fluid
+      %a.navbar-brand{:href=>"/"} BDZ-Admin
+      %button.navbar-toggler{ :type=>"button", :data => {  :bs => { :toggle=>"collapse", :target=>"#mainMenuNavbarContent" },  :aria => { :controls=>"navbarSupportedContent", :expanded=>"false", :label=>"Toggle navigation" }}}
+        %span.navbar-toggler-icon
 
-    .collapse.navbar-collapse#mainMenuNavbarContent
-      %ul.navbar-nav.navbar-left
-        %li
-          %a.nav-link{:href=>"/"}= my_fa_icon(:home)
-        %li.nav-item.dropdown
-          %a.nav-link.dropdown-toggle{:href=>"#", :role=>"button" ,:data=> { :bs=> { :toggle=>"dropdown" }}, :aria => { :expanded => "false"}}
-            =t("main_menu.member_data")
-          =render :partial => "member_data_dropdown"
-        - if current_user and current_user.reference_data_permission? then
+      .collapse.navbar-collapse#mainMenuNavbarContent
+        %ul.navbar-nav.navbar-left
+          %li
+            %a.nav-link{:href=>"/"}= my_fa_icon(:home)
           %li.nav-item.dropdown
-            %a.nav-link.dropdown-toggle{:href=>"#", :role=>"button" ,:data=> { :bs => { :toggle=> "dropdown" }}}
-              =t("main_menu.reference_data")
-              %span.caret
-            =render :partial => "reference_data_dropdown"
-        - if current_user and current_user.magazine_permission? then
-          %li.nav-item.dropdown
-            %a.nav-link.dropdown-toggle{:href=>"#", :role=>"button" ,:data=> { :bs => { :toggle=> "dropdown" }}}
-              =t("main_menu.magazine_data")
-              %span.caret
-            =render :partial => "magazine_dropdown"
-        - if current_user and current_user.festival_permission? then
-          %li.nav-item.dropdown
-            %a.nav-link.dropdown-toggle{:href=>"#", :role=>"button" ,:data=> { :bs => { :toggle=> "dropdown" }}}
-              =t("main_menu.festival_data")
-              %span.caret
-            =render :partial => "festival_data_dropdown"
-        -if current_user and current_user.has_role?(:regional) then
-          %li.nav-item.dropdown{ :class => tabActiveClass(current_area,'regional','last')}= link_to "#{t("main_menu.regional")}", RegionalOrganization.with_role(:regional, current_user).first
+            %a.nav-link.dropdown-toggle{:href=>"#", :role=>"button" ,:data=> { :bs=> { :toggle=>"dropdown" }}, :aria => { :expanded => "false"}}
+              =t("main_menu.member_data")
+            =render :partial => "member_data_dropdown"
+          - if current_user and current_user.reference_data_permission? then
+            %li.nav-item.dropdown
+              %a.nav-link.dropdown-toggle{:href=>"#", :role=>"button" ,:data=> { :bs => { :toggle=> "dropdown" }}}
+                =t("main_menu.reference_data")
+                %span.caret
+              =render :partial => "reference_data_dropdown"
+          - if current_user and current_user.magazine_permission? then
+            %li.nav-item.dropdown
+              %a.nav-link.dropdown-toggle{:href=>"#", :role=>"button" ,:data=> { :bs => { :toggle=> "dropdown" }}}
+                =t("main_menu.magazine_data")
+                %span.caret
+              =render :partial => "magazine_dropdown"
+          - if current_user and current_user.festival_permission? then
+            %li.nav-item.dropdown
+              %a.nav-link.dropdown-toggle{:href=>"#", :role=>"button" ,:data=> { :bs => { :toggle=> "dropdown" }}}
+                =t("main_menu.festival_data")
+                %span.caret
+              =render :partial => "festival_data_dropdown"
+          -if current_user and current_user.has_role?(:regional) then
+            %li.nav-item.dropdown{ :class => tabActiveClass(current_area,'regional','last')}= link_to "#{t("main_menu.regional")}", RegionalOrganization.with_role(:regional, current_user).first
 
-      - if current_user then
-        .navbar-text.navbar-right.ms-auto Angemeldet als: #{current_user.email}
-      %ul.navbar-nav.navbar-right
-        -if current_user and current_user.tools_permission? then
-          %li.nav-item.dropdown{ :class => tabActiveClass(current_area,'tools','last')}= link_to my_fa_icon("tools"), home_tools_path, :class=>"nav-link"
-        -if current_user and current_user.bulk_permission? then
-          %li.nav-item.dropdown{ :class => tabActiveClass(current_area,'bulk','last')}= link_to my_fa_icon("clock"), home_cron_path, :class=>"nav-link"
-        -if current_user and current_user.has_role?(:admin) then
-          %li.dropdown{:role => "presentation"}
-            %a.nav-link.dropdown-toggle{:href=>"#", :role=>"button" ,:data=> { :bs => { :toggle=> "dropdown" }}}=my_fa_icon "cog"
-            =render :partial => "admin_dropdown"
-        -if current_user
-          %li.nav-item.dropdown
-            %a.nav-link.btn.btn-outline-dark.btn-sm.me-2{:href => "/logout"}
-              =my_fa_icon "sign-out-alt"
-          %li.nav-item
-            %a.nav-link.btn.btn-outline-dark.btn-sm.me-2{:href => "/about"}
-              =my_fa_icon "info-circle"
-          %li.nav-item
-            %a.nav-link.btn.btn-outline-dark.btn-sm{:href=>'#offcanvasSidebar',:aria=>{:controls=>"offcanvasSidebar" },:data=>{ :bs => { :toggle=>"offcanvas"}},:role=>"button"} 
-              =my_fa_icon("bars")
+        - if current_user then
+          .navbar-text.navbar-right.ms-auto Angemeldet als: #{current_user.email}
+        %ul.navbar-nav.navbar-right
+          -if current_user and current_user.tools_permission? then
+            %li.nav-item.dropdown{ :class => tabActiveClass(current_area,'tools','last')}= link_to my_fa_icon("tools"), home_tools_path, :class=>"nav-link"
+          -if current_user and current_user.bulk_permission? then
+            %li.nav-item.dropdown{ :class => tabActiveClass(current_area,'bulk','last')}= link_to my_fa_icon("clock"), home_cron_path, :class=>"nav-link"
+          -if current_user and current_user.has_role?(:admin) then
+            %li.dropdown{:role => "presentation"}
+              %a.nav-link.dropdown-toggle{:href=>"#", :role=>"button" ,:data=> { :bs => { :toggle=> "dropdown" }}}=my_fa_icon "cog"
+              =render :partial => "admin_dropdown"
+          -if current_user
+            %li.nav-item.dropdown
+              %a.nav-link.btn.btn-outline-dark.btn-sm.me-2{:href => "/logout"}
+                =my_fa_icon "sign-out-alt"
+            %li.nav-item
+              %a.nav-link.btn.btn-outline-dark.btn-sm.me-2{:href => "/about"}
+                =my_fa_icon "info-circle"
+            %li.nav-item
+              %a.nav-link.btn.btn-outline-dark.btn-sm{:href=>'#offcanvasSidebar',:aria=>{:controls=>"offcanvasSidebar" },:data=>{ :bs => { :toggle=>"offcanvas"}},:role=>"button"} 
+                =my_fa_icon("bars")
 
 
-      
+        
