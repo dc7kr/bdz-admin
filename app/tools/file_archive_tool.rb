@@ -1,6 +1,6 @@
 require "fileutils" 
 
-module FileArchiveTool
+class FileArchiveTool
   attr_accessor :settings, :timestamp
 
   def initialize(settings)
@@ -27,7 +27,7 @@ module FileArchiveTool
   # all parameters are MailingFile instances!
   def merge_pdfs(to_merge,out_file)
 
-    pdftk_exe = self.settings["pdftk"]
+    pdftk_exe = self.settings.pdftk
 
     if not File.exist?(pdftk_exe)
       raise ConfigError("pdftk binary does not exist: #{pdftk_exe}")
