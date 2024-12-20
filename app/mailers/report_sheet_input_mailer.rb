@@ -1,6 +1,12 @@
 class ReportSheetInputMailer < ApplicationMailer
+  default from: "geschaeftsstelle@zupfmusiker.de"
 
-  def notify(recipient, personalized_file, attachment_file, params) 
+  def notify(recipient, personalized_hash, attachment_hash, params) 
+  
+    # the MailingFiles are serialized here so we need to deserialize from hash first
+    
+    personalized_file = MailingFile.from_hash(personalized_hash)
+    attachment_file = MailingFile.from_hash(personalized_hash)
 
     @rsi = params[:rsi]
     @year = @rsi.report_sheet.year.to_s
