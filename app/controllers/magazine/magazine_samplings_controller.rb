@@ -6,6 +6,11 @@ class Magazine::MagazineSamplingsController < AuthenticatedController
   include MagazineReportHelper
 
 
+  def search
+    @magazine_samplings = MagazineSampling.includes(:contact).order('contacts.company, contacts.last_name,contacts.first_name').where("contacts.company like '%:search%' or contacts.city like '%:search%'").page(params[:page]).per(per_page)
+  end
+
+
   def index
     per_page = params[:per_page]
 

@@ -10,6 +10,7 @@ class RegionalOrganizationsController < AuthorityController
 
   def index
     @regional_organizations = RegionalOrganizationAuthorizer.readable_by(current_user)
+
     respond_to do |format|
       format.html # index.html.erb
       format.json { render :json => @regional_organizations }
@@ -146,6 +147,8 @@ class RegionalOrganizationsController < AuthorityController
     end
   end
 
+  def search
+  end
 
   private
     # Use callbacks to share common setup or constraints between actions.
@@ -157,4 +160,5 @@ class RegionalOrganizationsController < AuthorityController
     #logger.debug(params.to_s)
     params.require(:regional_organization).permit( :nummer, :name, :subname, :homepage, :jugend_url,:gema_kdnr, :gema_kdnr_new,member_attributes: Member.nested_params )
   end
+
 end
