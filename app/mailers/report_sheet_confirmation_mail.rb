@@ -1,4 +1,5 @@
 class ReportSheetConfirmationMail < ApplicationMailer
+  default from: "geschaeftsstelle@zupfmusiker.de"
 
   def notify(recipient, personalized_file, attachment_file, params) 
 
