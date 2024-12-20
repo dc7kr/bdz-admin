@@ -71,17 +71,17 @@ COPY ./config/mongoid.yml.dummy /rails/config/mongoid.yml
 RUN bundle exec bootsnap precompile app/ lib/
 
 # Precompiling assets for production without requiring secret RAILS_MASTER_KEY
-RUN SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
+RUN SECRET_KEY_BASE_DUMMY=1 ASSET_PRECOMPILE=1 ./bin/rails assets:precompile
 
 ############################
 # Production image stage
 ############################
 FROM base AS prod
 
-ENV RAILS_ENV="development" \
-    BUNDLE_PATH="/rails/.bundle" \
-    BUNDLE_APP_CONFIG="/rails/bundle/.config" \
-    BUNDLE_CONFIG="/rails/.bundle/config" \
+ENV RAILS_ENV="production" \
+    BUNDLE_DEPLOYMENT="1" \
+    BUNDLE_PATH="/usr/local/bundle" \
+    BUNDLE_WITHOUT="development" \
     RAILS_SERVE_STATIC_FILES="1" 
 
 # Copy built artifacts: gems, application
