@@ -1,21 +1,20 @@
-.block
-  .secondary-navigation
-    =render :partial=>'nav'
-  .content
-    %h2.title
-      = t("common.all")
-      = t("magazine_sampling",:count=>3)
-    .container-fluid
-      #entity_info.text-center
-        = page_entries_info @magazine_samplings
-      %table.table-sm.table-hover.table-condensed
-        %thead
-          %th.first{:style=>"width: 30%"}=attr_heading(Contact,:company)
-          %th=attr_heading(MagazineSampling,:count)
-          %th=attr_heading(MagazineSampling,:inactive)
-          %th.last
-        %tbody#magazine_samplings
-          = render @magazine_samplings
-      #paginator
-        = paginate @magazine_samplings
+.secondary-navigation
+  =render :partial=>'nav'
+.container
+  %h2.title
+    = t("common.all")
+    = t("magazine_sampling",:count=>3)
+  .container-fluid
+    #entity_info.text-center
+      = page_entries_info @magazine_samplings
+    %table.table-sm.table-hover.table-condensed
+      %thead
+        %th.first{:style=>"width: 30%"}=attr_heading(Contact,:company)
+        %th=attr_heading(MagazineSampling,:count)
+        %th=attr_heading(MagazineSampling,:inactive)
+        %th.last
+      %tbody#magazine_samplings
+        = render @magazine_samplings
+    #paginator
+      = paginate @magazine_samplings
 - content_for :sidebar, render(:partial => 'sidebar')
