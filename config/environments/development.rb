@@ -79,9 +79,12 @@ Rails.application.configure do
   #
   # this disabled Mail sending entirely when set to false !!!
   #
-  config.action_mailer.perform_deliveries = false
+  config.action_mailer.perform_deliveries = true
 #  config.action_mailer.logger = nil
   #config.action_controller.relative_url_root = "/dev"
 
  config.time_zone = 'Berlin'
+
+ config.web_console.permissions = '172.20.0.0/16'
+
 end
