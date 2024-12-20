@@ -1,7 +1,7 @@
 class MailingFile
   attr_accessor :visible_filename, :orig_filename,:archive_folder
 
-  def self.fromHash(hash)
+  def self.from_hash(hash)
     if hash.nil?
       nil
     else
