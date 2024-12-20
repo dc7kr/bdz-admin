@@ -10,7 +10,7 @@ class LetterFileRegenerationJob < ApplicationJob
 
     pdf_files = Array.new 
 
-    fa = FileArchiveTool.new(BDZ_SETTINGS)
+    fa = FileArchiveTool.new(DOCS_CONFIG)
 
     member_events.each do |event |
 

@@ -17,7 +17,7 @@ class CustomInfoMailJob < ApplicationJob
 
   def perform(user_id,letterfile_hash, attachment_hash, subject, body, event_id, grp, via_paper)
 
-    fa = FileArchiveTool.new(BDZ_SETTINGS)
+    fa = FileArchiveTool.new(DOCS_CONFIG)
 
     triggered_by = User.find(user_id)
 

@@ -20,7 +20,7 @@ class FestivalMailsJob < ApplicationJob
 
     results = Array.new
 
-    fa = FileArchiveTool.new(BDZ_SETTINGS)
+    fa = FileArchiveTool.new(DOCS_CONFIG)
 
     applicants = nil
 

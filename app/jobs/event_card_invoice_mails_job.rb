@@ -21,7 +21,7 @@ class EventCardInvoiceMailsJob < BaseInvoicesJob
 
     tool = MailingTool.new(cur_year.to_s,"gs",event_id,"Festival Ticket Rechnung",false);
     
-    fa = FileArchiveTool.new(BDZ_SETTINGS)
+    fa = FileArchiveTool.new(DOCS_CONFIG)
 
     letterArray = Array.new
 

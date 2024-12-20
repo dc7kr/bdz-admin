@@ -15,7 +15,7 @@ class OrchestraInvoicesJob < BaseInvoicesJob
   # sidekiq_options retry: false
 
   def perform(year=Time.now.year,user_id=nil)
-    fa = FileArchiveTool.new(BDZ_SETTINGS)
+    fa = FileArchiveTool.new(DOCS_CONFIG)
 
     init_fields(year,user_id)
 
