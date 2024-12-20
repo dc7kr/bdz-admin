@@ -1,9 +1,9 @@
 class Cron::RemindersController < AuthenticatedNonResourceController
 
-  include FileArchiveHelper
-
   def report_sheet
-  	authorize! :member, :edit
+    authorize! :member, :edit
+
+    fa = FileArchiveTool.new(BDZ_SETTINGS)
 
     datePrefix = Time.now.strftime("%Y%m%d_")
     year = Time.now.strftime("%Y")
@@ -20,13 +20,13 @@ class Cron::RemindersController < AuthenticatedNonResourceController
       filename = `/opt/bdz-rechnung/bin/create_pdf.sh #{orch.member.mglnr} mahnung-meldebogen`
       filename = filename.chomp
 
-      out_file = archive_file(tmpdir,filename, year);
+      out_file = fa.archive_file(tmpdir,filename, year);
       pdfs << filename
     end
 
     pdf_filename = "#{datePrefix}mahnungen-meldebogen.pdf"
     pdf_merged_file = MailingFile.new(pdf_filename,pdf_filename,year.to_s)
-    merge_pdfs(pdfs, pdf_merged_file)
+    fa.merge_pdfs(pdfs, pdf_merged_file)
 
     send_mail(pdf_filename)
 
@@ -34,7 +34,9 @@ class Cron::RemindersController < AuthenticatedNonResourceController
   end
 
   def payment
-  	authorize! :member, :edit
+    authorize! :member, :edit
+
+    fa = FileArchiveTool.new(BDZ_SETTINGS)
 
     datePrefix = Time.now.strftime("%Y%m%d_")
     year = Time.now.strftime("%Y")
@@ -58,7 +60,7 @@ class Cron::RemindersController < AuthenticatedNonResourceController
       @tw.writeReminderData(customer,filtered_bookings)
       filename = `/opt/bdz-rechnung/bin/create_pdf.sh #{orch_member.mglnr} mahnung-beitrag`
       filename = filename.chomp
-      out_file = archive_file(tmpdir,filename, year);
+      out_file = fa.archive_file(tmpdir,filename, year);
       pdfs << filename
     end
 
@@ -68,7 +70,7 @@ class Cron::RemindersController < AuthenticatedNonResourceController
       @tw.writeReminderData(customer,filtered_bookings)
       filename = `/opt/bdz-rechnung/bin/create_pdf.sh #{customer.id} mahnung-beitrag`
       filename = filename.chomp
-      out_file = archive_file(tmpdir,filename, year);
+      out_file = fa.archive_file(tmpdir,filename, year);
       pdfs << filename
     end
 

@@ -2,7 +2,6 @@ require 'rodf'
 class FestivalApplicationsController < AuthenticatedController
 
   include CountryHelper
-  include FileArchiveHelper
 
   include ApplicationHelper
 

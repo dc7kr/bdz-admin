@@ -1,5 +1,4 @@
 class EventCardsController < AuthenticatedController
-  include FileArchiveHelper
   # GET /event_cards
   # GET /event_cards.json
   def index
@@ -124,6 +123,8 @@ class EventCardsController < AuthenticatedController
     @event_card = EventCard.find(params[:id])
     tw = TexWriter.new
 
+    fa = FileArchiveTool.new()
+
     prefix = Time.now.strftime("%Y%m%d%H%M%S_")
     year = Time.now.year
     invoice = @event_card.invoice 
@@ -138,7 +139,7 @@ class EventCardsController < AuthenticatedController
     work_pdf_file = tw.gen_pdf(inv_type,prefix,invoice.customer.id)
 
     workdir = INVOICE_CONFIG.work_dir
-    invoice_file = archive_file(workdir,work_pdf_file,year)  
+    invoice_file = fa.archive_file(workdir,work_pdf_file,year)  
 
     send_file(invoice_file.full_path, :filename => invoice_file.orig_filename, :type => "application/octet-stream")
   end
@@ -174,23 +175,19 @@ class EventCardsController < AuthenticatedController
   private
   def event_card_invoice(datePrefix, event_card, year, tw)
 
-
     renr = "EC-#{datePrefix}-#{event_card.id}"
     invoice = event_card.gen_invoice(renr)
 		tw.write(invoice.customer,year)
 
     invoice_type = "event_card"
 
-		tw.writeInvoice(invoice, 'gs',year)
+    tw.writeInvoice(invoice, 'gs',year)
 
     work_pdf_file = tw.gen_pdf(invoice_type,datePrefix, invoice.customer.customer_id)
 
     workdir = INVOICE_CONFIG.work_dir
-    invoice_file = archive_file(workdir,work_pdf_file,year)
+    invoice_file = fa.archive_file(workdir,work_pdf_file,year)
 
     invoice_file
   end
-
-  
-
 end
