@@ -1,7 +1,6 @@
 class FestivalInvoiceMailsJob
 
   include BulkMailHelper
-  include FileArchiveHelper
   include Rails.application.routes.url_helpers
 
   include PdfHelper

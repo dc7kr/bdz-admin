@@ -1,6 +1,5 @@
 class CustomInfoMailJob < ApplicationJob
 
-  include FileArchiveHelper
   include Rails.application.routes.url_helpers
 
   include PdfHelper
@@ -18,10 +17,12 @@ class CustomInfoMailJob < ApplicationJob
 
   def perform(user_id,letterfile_hash, attachment_hash, subject, body, event_id, grp, via_paper)
 
+    fa = FileArchiveTool.new(BDZ_SETTINGS)
+
     triggered_by = User.find(user_id)
 
-    letterfile = MailingFile.fromHash(letterfile_hash)
-    attachment = MailingFile.fromHash(attachment_hash)
+    letterfile = MailingFile.from_hash(letterfile_hash)
+    attachment = MailingFile.from_hash(attachment_hash)
 
     datePrefix = Time.now.strftime '%Y%m%d_'
 
@@ -105,7 +106,7 @@ class CustomInfoMailJob < ApplicationJob
     if via_paper then
       pdf_filename = "#{date_prefix}#{event_id}_letters.pdf"
       pdf_merged_file = MailingFile.new(pdf_filename,pdf_filename)
-      merge_pdfs(letterArray, pdf_merged_file)
+      fa.merge_pdfs(letterArray, pdf_merged_file)
     end
 
     send_admin_mail(pdf_merged_file,triggered_by,results)

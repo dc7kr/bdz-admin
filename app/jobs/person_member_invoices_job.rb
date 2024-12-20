@@ -4,7 +4,12 @@ class PersonMemberInvoicesJob < BaseInvoicesJob
     lock_timeout: 2,
     on_conflict: :reject
  
-  def perform(year,user_id)
+  def perform(year=nil,user_id=nil)
+
+    if year.nil?
+      year = Time.now.year
+    end
+
     init_fields(year,user_id)
 
     invoices = Array.new

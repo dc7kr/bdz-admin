@@ -1,7 +1,6 @@
 class EventCardInvoiceMailsJob < BaseInvoicesJob
 
   include BulkMailHelper
-  include FileArchiveHelper
   include Rails.application.routes.url_helpers
 
   include PdfHelper
@@ -21,6 +20,8 @@ class EventCardInvoiceMailsJob < BaseInvoicesJob
     applicants = nil
 
     tool = MailingTool.new(cur_year.to_s,"gs",event_id,"Festival Ticket Rechnung",false);
+    
+    fa = FileArchiveTool.new(BDZ_SETTINGS)
 
     letterArray = Array.new
 
@@ -52,7 +53,7 @@ class EventCardInvoiceMailsJob < BaseInvoicesJob
         work_pdf_file = tw.gen_pdf(inv_type,prefix,invoice.customer.id)
 
         workdir = INVOICE_CONFIG.work_dir
-        invoice_file = archive_file(workdir,work_pdf_file,cur_year)  
+        invoice_file = fa.archive_file(workdir,work_pdf_file,cur_year)  
 
         mailer_params = { :subject => subject , :cc => BDZ_SETTINGS["contacts"]["treasurer"]["mail"], :bcc => "webmaster@bdz-online.de", :invoice => invoice, :locale => locale }
 

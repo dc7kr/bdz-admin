@@ -1,7 +1,6 @@
 class FestivalMailsJob < ApplicationJob
 
   include BulkMailHelper
-  include FileArchiveHelper
   include Rails.application.routes.url_helpers
 
   include PdfHelper
@@ -14,12 +13,14 @@ class FestivalMailsJob < ApplicationJob
     failCount=0
     results = Hash.new
 
-    letterfile = MailingFile.fromHash(letterfile_hash)
-    attachment = MailingFile.fromHash(attachment_hash)
+    letterfile = MailingFile.from_hash(letterfile_hash)
+    attachment = MailingFile.from_hash(attachment_hash)
 
     cur_year = Time.now.year
 
     results = Array.new
+
+    fa = FileArchiveTool.new(BDZ_SETTINGS)
 
     applicants = nil
 
@@ -65,7 +66,7 @@ class FestivalMailsJob < ApplicationJob
     if via_paper then
       pdf_filename = "#{date_prefix}#{event_id}_letters.pdf"
       pdf_merged_file = MailingFile.new(pdf_filename,pdf_filename,attachment.archive_folder)
-      merge_pdfs(letterArray, pdf_merged_file)
+      fa.merge_pdfs(letterArray, pdf_merged_file)
     end
 
     send_admin_mail(pdf_merged_file,triggered_by,results)

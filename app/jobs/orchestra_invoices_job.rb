@@ -5,7 +5,6 @@ class OrchestraInvoicesJob < BaseInvoicesJob
   queue_as :default
 
   include BulkMailHelper
-  include FileArchiveHelper
   include Rails.application.routes.url_helpers
 
   sidekiq_options lock: :while_executing,
@@ -16,6 +15,7 @@ class OrchestraInvoicesJob < BaseInvoicesJob
   # sidekiq_options retry: false
 
   def perform(year=Time.now.year,user_id=nil)
+    fa = FileArchiveTool.new(BDZ_SETTINGS)
 
     init_fields(year,user_id)
 
@@ -54,7 +54,7 @@ class OrchestraInvoicesJob < BaseInvoicesJob
       pdf_filename = "#{self.date_prefix}-orch-beitragsrechnungen.pdf"
 
       pdf_merged_file = MailingFile.new(pdf_filename,pdf_filename,year.to_s)
-      merge_pdfs(letters, pdf_merged_file)
+      fa.merge_pdfs(letters, pdf_merged_file)
     end
 
     ddFile = self.sepa_writer.generate_file
