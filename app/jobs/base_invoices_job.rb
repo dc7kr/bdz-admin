@@ -2,10 +2,9 @@ require 'fileutils.rb'
   
 class BaseInvoicesJob < ApplicationJob
 
-  attr_accessor :generator_session_id,:date_prefix,:tex_writer,:sepa_writer,:triggered_by
+  attr_accessor :generator_session_id,:date_prefix,:tex_writer,:sepa_writer,:triggered_by, :archive_tool
   
   include BulkMailHelper
-  include FileArchiveHelper
   include Rails.application.routes.url_helpers
 
   # sidekiq_options queue: "high"
@@ -24,6 +23,8 @@ class BaseInvoicesJob < ApplicationJob
 
     self.tex_writer = CorikaInvoices::TexWriter.new(INVOICE_CONFIG)
     self.sepa_writer = CorikaInvoices::SepaWriter.new(self.date_prefix, INVOICE_CONFIG)
+
+    self.archive_tool = FileArchiveTool(BDZ_SETTINGS)
 
     if user_id.nil? 
       self.triggered_by = nil
@@ -46,7 +47,7 @@ class BaseInvoicesJob < ApplicationJob
     end
 
     User.for_admin_notify.each do |user|
-      AdminNotifier.newinvoices_notification(user, invoices_url, dd_url, self.triggered_by).deliver
+      AdminNotifier.newinvoices_notification(user, invoices_url, dd_url, self.triggered_by).deliver_later
       logger.info 'new invoice notify sent to %s' % user.email
     end
   end
