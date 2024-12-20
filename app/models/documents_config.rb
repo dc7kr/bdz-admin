@@ -1,5 +1,5 @@
 class DocumentsConfig
-  attr_accessor  :work_dir, :template_dir, :archive_dir
+  attr_accessor  :work_dir, :template_dir, :archive_dir, :pdftk
 
   def initialize(hash) 
 
