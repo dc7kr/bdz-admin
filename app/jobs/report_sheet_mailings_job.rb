@@ -27,7 +27,7 @@ class ReportSheetMailingsJob < ApplicationJob
 
     tool = MailingTool.new(cur_year.to_s,"gs",event_id,subject);
 
-    fa = FileArchiveTool.new(BDZ_SETTINGS)
+    fa = FileArchiveTool.new(DOCS_CONFIG)
 
     orchestras = nil
 
@@ -53,12 +53,15 @@ class ReportSheetMailingsJob < ApplicationJob
             mailing_pdf = gen_anschreiben(orchestra,rsi);
           rescue DocumentGenerationException => e
             Rails.logger.error("Error generating PDF #{e.message}")
+            counters[:orch_fail]+=1;
+            results << { :success=>false, :mode => "X" ,:entity=>orchestra}
             next
           rescue => e
             Rails.logger.error e.message
             Rails.logger.error e.backtrace.join("\n")
             next
           end
+
             doc_dir = DOCS_CONFIG.archive_dir+"/"
             mailer_params = { :rsi => rsi }
             result = tool.deliver_mailing(ReportSheetInputMailer, orchestra.to_addressee,  mailing_pdf,  nil, letterArray, mailer_params)
@@ -99,7 +102,7 @@ class ReportSheetMailingsJob < ApplicationJob
 
     users.each do |user|
       AdminNotifier.report_sheet_notification(user, mailer_params).deliver
-      Rails.logger.info 'sent to %s' % user.email
+      Rails.logger.debug 'sent to %s' % user.email
     end
   end
 
@@ -136,8 +139,7 @@ class ReportSheetMailingsJob < ApplicationJob
     temp_path = File.join(workdir, temp_name)
     stamped_path = File.join(workdir, stamped_name)
     
-    Rails.logger.info("Temp file: #{temp_path}")
-    Rails.logger.info("Stamped temp: #{stamped_path}")
+    Rails.logger.debug("Stamping: temp file: #{temp_path} stamped: #{stamped_path}")
 
     Prawn::Document.generate(temp_path,:page_size=>"A4") do
       bounding_box([21,340],:width=>500,:height => 50) do
@@ -172,15 +174,16 @@ class ReportSheetMailingsJob < ApplicationJob
     end
 
     retval = PDF::Toolkit.pdftk(temp_path, "background", template_file, "output", stamped_path)
+
     if not retval 
-      Rails.logger.error("Retval stamping: #{retval}")
+      Rails.logger.error("Stamping failed")
       raise DocumentGenerationException.new("Error while stamping PDF")
     end
 
     retval = PDF::Toolkit.pdftk("A="+stamped_path, "B="+template_file, "cat", "A1", "B2-2", "output", file.full_path)
 
     if not retval 
-      Rails.logger.error("Retval merge pages: #{retval}")
+      Rails.logger.error("PDF merge failed")
       raise DocumentGenerationException.new("Error re-merging PDFs")
     end
 
