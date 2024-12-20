@@ -1,12 +1,14 @@
 class ReportSheetConfirmationMail < ApplicationMailer
   default from: "geschaeftsstelle@zupfmusiker.de"
 
-  def notify(recipient, personalized_file, attachment_file, params) 
+  def notify(recipient, personalized_file_hash, attachment_file, params) 
 
     @rsi = params[:rsi]
     @year = @rsi.report_sheet.year.to_s
 
     @orchestra = @rsi.orchestra
+
+    personalized_file = MailingFile.from_hash(personalized_file_hash)
 
     @salutation = t('common.salutation_full.'+@orchestra.member.anrede)
 
