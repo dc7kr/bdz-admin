@@ -3,7 +3,7 @@ require 'pdf/toolkit'
 
 module PdfHelper
 
-	def gen_anschreiben(orchestra,rsi)
+  def gen_anschreiben(orchestra,rsi)
 		year = rsi.report_sheet.year
     url = BDZ_SETTINGS['meldebogen_url']
 
@@ -47,12 +47,12 @@ module PdfHelper
         end
       end
 
-		  from = BDZ_SETTINGS['contacts']['gs']
-		  l_date = I18n.l Time.now.to_date, :format=>:long
-		  bounding_box([370,510],:width=>200,:height=>50) do
-			  text from['ort']+", "+l_date
-		  end
-      
+      from = BDZ_SETTINGS['contacts']['gs']
+      l_date = I18n.l Time.now.to_date, :format=>:long
+      bounding_box([370,510],:width=>200,:height=>50) do
+      text from['city']+", "+l_date
+      end
+
       if (orchestra.is_direct_debit?) then 
         bounding_box([21,310],:width=>500,:height=>50) do
           text I18n.t('report_sheet_input.dd_to_sepa_valid', iban:member.iban, bic:member.bic, mref:member.mref)
