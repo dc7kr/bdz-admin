@@ -99,11 +99,23 @@ class MailingTool
     recordLetter(addressee, @event_title, letter)
   end
 
-  def deliver_email(mailer, addressee, letter,attachment,additionalMailerParams)
+  def deliver_email(mailer, addressee, letter, attachment,additional_mailer_params)
+
+    attachment_hash = nil
+    letter_hash = nil
+
+    if not letter.nil?
+      letter_hash = letter.to_hash
+    end
+
+    if not attachment.nil?
+      attachment_hash = attachment.to_hash
+    end
+
     begin
       type = addressee.entity.class
       if not is_mail_blacklisted?(addressee.email) then
-        mailer.notify(addressee.email, letter,attachment,additionalMailerParams).deliver_later
+        mailer.notify(addressee.email, letter_hash,attachment_hash,additional_mailer_params).deliver_later
         recordMailSuccess(addressee, @event_title,letter)
         result = { :success=>true, :mode => "E" ,:entity=>addressee}
         return result
@@ -113,6 +125,7 @@ class MailingTool
         return result
        end
     rescue => e 
+      # todo: be more specific about the errors: Catch all is bad!
       recordMailFailure(addressee,e.message)
        Rails.logger.warn e.backtrace.join("\n")
       return { :err=>e.message, :entity=>addressee,:type =>type, :mode=> "E"}
