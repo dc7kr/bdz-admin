@@ -34,7 +34,9 @@ class CleanupJob < ApplicationJob
       Rails.logger.debug("Resigned: #{p.member.mglnr}")
     end
 
-    send_mail(resigned_persons, resigned_orchestras)
+    if resigned_persons.length() > 0 or resigned_orchestras.length() > 0
+      send_mail(resigned_persons, resigned_orchestras)
+    end
   end
 
   def send_mail(resigned_persons,resigned_orchestras)
