@@ -1,4 +1,6 @@
 class PersonMember < ApplicationRecord
+  acts_as_paranoid
+
   belongs_to :tariff
 
   validates_presence_of :tariff
