@@ -76,7 +76,7 @@ class RegionalOrganizationsController < AuthenticatedController
     respond_to do |format|
       @regional_organization.update(regional_organization_params)
       if @regional_organization.save
-        format.html { redirect_to @regional_organization, :notice => 'Regional organization was successfully updated.' }
+        format.html { redirect_to @regional_organization, :notice => t("common.update_success", entity: t("regional_organization.one")) }
         format.json { head :ok }
       else
         format.html { render :edit, status: :unprocessable_entity }
