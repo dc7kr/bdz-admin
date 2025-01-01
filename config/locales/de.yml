@@ -81,7 +81,8 @@ de:
     show: Anzeigen
     publish: Veröffentlichen
     edit: Bearbeiten
-    update_success: wurde erfolgreich aktualisiert.
+    update_success: "%{entity} wurde erfolgreich aktualisiert."
+    edit_entity: "%{entity} bearbeiten"
     download: Download
     up: Eine Ebene höher
     inactive: Inaktiv
