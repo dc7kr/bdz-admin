@@ -1,4 +1,4 @@
-.card
+.card.mb-5
   .card-header#memberData
     Mitgliedsdaten
   .card-body
@@ -16,10 +16,9 @@
         = f.check_box :dsgvo, custom: :switch, label: "&nbsp;".html_safe
     = f.date_field :dsgvo_date,:class=> "datetimepicker"
     = f.number_field :magazines, help: t("member.magazine_help")
-</div>
 
 
-.card
+.card.mb-5
   .card-header#contactData
     Kontaktdaten
   .card-body
