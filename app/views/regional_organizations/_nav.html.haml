@@ -5,7 +5,7 @@
       %li.nav-item=link_to t("common.show"), @regional_organization, class: nav_action_class("show", "nav-link")
       %li.nav-item=link_to t("common.edit"), edit_regional_organization_path(@regional_organization), class: nav_action_class("edit","nav-link")
   -else 
-    %li.nav-item= link_to_up_path t("common.up"), home_member_data_path, class: "nav-item"
+    %li.nav-item= link_to_up_path t("common.up"), home_member_data_path
   - if can? :create, PersonMember
     %li.nav-item= nav_to_new RegionalOrganization
 
