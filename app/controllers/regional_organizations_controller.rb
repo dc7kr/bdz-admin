@@ -1,5 +1,5 @@
 
-class RegionalOrganizationsController < AuthorityController
+class RegionalOrganizationsController < AuthenticatedController
   before_action :set_regional_organization, only: [:show, :edit, :update, :destroy]
   # GET /regional_organizations
   # GET /regional_organizations.json
