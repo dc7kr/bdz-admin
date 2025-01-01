@@ -175,6 +175,14 @@ def sortable(column, title = nil)
   link_to title , params.merge(:sort => column, :direction => direction, :page => nil).permit(:sort,:direction,:page), {:class => css_class }
 end
 
+def nav_action_class(action, prefix=nil) 
+  if @current_action == action
+    "#{prefix} active"
+  else
+    prefix
+  end
+end
+
 def tabActiveClass(current,expected, prefix=nil)
 	retval =""
   if prefix.nil? 
