@@ -16,7 +16,7 @@
           = entity_row(@orchestra,:gruendung,:date)
           = entity_row(@orchestra,:promusica,:date)
           .row
-            .col-md-3.text-right=label :orchestra,:url
+            .col-md-3.text-end=label :orchestra,:url
             .col-md-9=link_to @orchestra.url, sanitize_url(@orchestra.url)
           = entity_row(@orchestra,:gema_kdnr)
           = entity_row(@orchestra,:gema_kdnr_new)

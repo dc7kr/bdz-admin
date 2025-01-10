@@ -8,18 +8,18 @@
     .inner
       .container
         .row
-          .col-md-3.text-right=label :ensemble, :homepage
+          .col-md-3.text-end=label :ensemble, :homepage
           .col-md-9=link_to @ensemble.homepage, sanitize_url(@ensemble.homepage)
         .row
-          .col-md-3.text-right=label :ensemble, :beschreibung
+          .col-md-3.text-end=label :ensemble, :beschreibung
           .col-md-9= @ensemble.beschreibung
         .row
-          .col-md-3.text-right=label :ensemble, :email
+          .col-md-3.text-end=label :ensemble, :email
           .col-md-9= mail_to @ensemble.email,@ensemble.email
         .row
-          .col-md-3.text-right=label :ensemble, :owner
+          .col-md-3.text-end=label :ensemble, :owner
           .col-md-9= @ensemble.owner
         .row
-          .col-md-3.text-right=label :ensemble, :visible
+          .col-md-3.text-end=label :ensemble, :visible
           .col-md-9= @ensemble.visible
       

@@ -11,10 +11,10 @@
         =entity_row(@report_sheet_input.orchestra,:orchName)
         =entity_row(@report_sheet_input.orchestra, :gruendung,:date)
         .row
-          .col-md-3.text-right=label(:member,:anrede)
+          .col-md-3.text-end=label(:member,:anrede)
           .col-md-8=t('common.salutation_d.'+@member.anrede)
         .row
-          .col-md-3.text-right=label(:member,:fullname) 
+          .col-md-3.text-end=label(:member,:fullname) 
           .col-md-8=@member.fullname
         =entity_row(@member,:strasse)
         =entity_row(@member,:plz)

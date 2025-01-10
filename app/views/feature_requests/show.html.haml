@@ -10,7 +10,7 @@
       = entity_row(@feature_request,:priority)
       = entity_row(@feature_request,:status)
       .row
-        .col-md-3.text-right
+        .col-md-3.text-end
           %label=t('feature_request.description')
         .col-md-9
           %pre.pre-wrap=@feature_request.description

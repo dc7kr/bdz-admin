@@ -462,7 +462,7 @@ JS1
 
   def custom_entity_row(label,value) 
     content_tag :div, :class => "row" do
-      concat(content_tag(:div, content_tag(:label, label), :class => "col-md-3 text-right"))
+      concat(content_tag(:div, content_tag(:label, label), :class => "col-md-3 text-end"))
       concat(content_tag(:div, value,:class => "col-md-9"))
     end
   end
@@ -511,7 +511,7 @@ JS1
         end
       end 
 
-      concat(content_tag(:div, label, :class => "col-md-3 text-right"))
+      concat(content_tag(:div, label, :class => "col-md-3 text-end"))
       concat(content_tag(:div, data,:class => "col-md-9"))
     end
   end
@@ -524,11 +524,11 @@ JS1
         count = 0
       end
 
-      concat(content_tag(:div, item.label, :class => "col-md-3 text-right"))
-      concat(content_tag(:div, count.to_s,:class => "col-md-1 text-right"))
+      concat(content_tag(:div, item.label, :class => "col-md-3 text-end"))
+      concat(content_tag(:div, count.to_s,:class => "col-md-1 text-end"))
       concat(content_tag(:div, "x",:class => "col-md-1"))
-      concat(content_tag(:div, format_currency(item.price,'€'), :class => "col-md-2 text-right"))
-      concat(content_tag(:div, format_currency(count *item.price,'€'), :class => "col-md-2 text-right"))
+      concat(content_tag(:div, format_currency(item.price,'€'), :class => "col-md-2 text-end"))
+      concat(content_tag(:div, format_currency(count *item.price,'€'), :class => "col-md-2 text-end"))
     end
   end
 
@@ -547,19 +547,19 @@ JS1
 
   def calculation_row_fixed(label,count, unit_price) 
     content_tag :div, :class => "row" do
-      concat(content_tag(:div, label, :class => "col-md-3 text-right"))
-      concat(content_tag(:div, count.to_s,:class => "col-md-1 text-right"))
+      concat(content_tag(:div, label, :class => "col-md-3 text-end"))
+      concat(content_tag(:div, count.to_s,:class => "col-md-1 text-end"))
       concat(content_tag(:div, "x",:class => "col-md-1"))
-      concat(content_tag(:div, format_currency(unit_price,'€'), :class => "col-md-2 text-right"))
-      concat(content_tag(:div, format_currency(count *unit_price,'€'), :class => "col-md-2 text-right"))
+      concat(content_tag(:div, format_currency(unit_price,'€'), :class => "col-md-2 text-end"))
+      concat(content_tag(:div, format_currency(count *unit_price,'€'), :class => "col-md-2 text-end"))
     end
   end
 
   def calculation_sum(label, price)
     content_tag :div, :class => "row" do
-      concat(content_tag(:div, label, :class => "col-md-3 text-right"))
+      concat(content_tag(:div, label, :class => "col-md-3 text-end"))
       concat(content_tag(:div, "", :class => "col-md-4"))
-      concat(content_tag(:div, format_currency(price,'€'), :class => "col-md-2 text-right sum"))
+      concat(content_tag(:div, format_currency(price,'€'), :class => "col-md-2 text-end sum"))
     end
   end
 

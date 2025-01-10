@@ -7,20 +7,20 @@
       = @event_meal.participant_id
     .inner
       .row
-        .col-md-3.text-right=t('event_meal.participant_id')
+        .col-md-3.text-end=t('event_meal.participant_id')
         .col-md-9=link_to @event_meal.participant_id , festival_application_path(@event_meal.participant_id)
       .row
-        .col-md-3.text-right=t('event_meal.meals')
+        .col-md-3.text-end=t('event_meal.meals')
         .col-md-9=@event_meal.tln
       .row
-        .col-md-3.text-right=t('event_meal.veg')
+        .col-md-3.text-end=t('event_meal.veg')
         .col-md-9=@event_meal.veg
       .row
-        .col-md-3.text-right=t('event_meal.name')
+        .col-md-3.text-end=t('event_meal.name')
         .col-md-9=@event_meal.name
       .row
-        .col-md-3.text-right=t('event_meal.email')
+        .col-md-3.text-end=t('event_meal.email')
         .col-md-9=mail_to @event_meal.email,@event_meal.email
       .row
-        .col-md-3.text-right=t('event_meal.orderdate')
+        .col-md-3.text-end=t('event_meal.orderdate')
         .col-md-9=format_date @event_meal.orderdate

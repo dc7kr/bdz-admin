@@ -8,7 +8,7 @@
         =entity_row @user,:name
         =entity_row @user,:email,:mailto
         .row
-          .col-md-3.text-right=label :user, :roles
+          .col-md-3.text-end=label :user, :roles
           .col-md-9
             -@user.roles.each do |r|
               =r.name
