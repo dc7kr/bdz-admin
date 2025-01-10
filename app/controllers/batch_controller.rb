@@ -1,43 +1,40 @@
 class BatchController < AuthenticatedController
+  def check_token(token)
+    expected = '4f70968b8cffde36c5c9f1cc7183edcf4bc2f752'
 
-def check_token(token)
-	expected="4f70968b8cffde36c5c9f1cc7183edcf4bc2f752"
+    token == expected
+  end
 
-	token == expected
-end
+  def cancellations
+    unless check_token(params[:token])
+      render text: 'EAUTH'
+      Rails.logger.info('Authentication failure on batch controller')
+      return
+    end
+    @orchestras = Orchestra.cancelled
+    @persons = PersonMember.cancelled
 
-def cancellations
+    @count = { 'orch' => @orchestras.size, 'em' => @persons.size }
 
-	if not check_token(params[:token]) then
-		render :text => "EAUTH"
-		Rails.logger.info("Authentication failure on batch controller")
-		return
-	end
-	@orchestras = Orchestra.cancelled
-	@persons = PersonMember.cancelled
+    txt = "Automatische Austritte:\n"
+    txt += @count['em'].to_s + " Einzelmitglieder:\n"
 
-	@count = { "orch"=>@orchestras.size, "em" => @persons.size }
+    @persons.each do |p|
+      txt += p.fullname + "\n"
+      Rails.logger.info('Austritt: ' + p.fullname)
+      p.destroy
+    end
 
-	txt="Automatische Austritte:\n";
-	txt+=@count["em"].to_s+" Einzelmitglieder:\n"
+    txt += @count['orch'].to_s + " Orchester\n"
 
-	@persons.each do |p|
-		txt+=p.fullname+"\n"
-		Rails.logger.info("Austritt: "+p.fullname)
-		p.destroy
-	end
+    @orchestras.each do |o|
+      txt += o.orchName + "\n"
+      Rails.logger.info('Austritt: ' + o.orchName)
+      o.destroy
+    end
 
-	txt+=@count["orch"].to_s+" Orchester\n";
-
-	@orchestras.each do |o|
-		txt+=o.orchName+"\n"
-		Rails.logger.info("Austritt: "+o.orchName)
-		o.destroy
-	end
-
-	respond_to do |format|
-		format.html { render :text => txt }
-	end
-end
-
+    respond_to do |format|
+      format.html { render text: txt }
+    end
+  end
 end

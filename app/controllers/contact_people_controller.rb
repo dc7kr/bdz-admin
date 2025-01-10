@@ -16,7 +16,7 @@ class ContactPeopleController < AuthenticatedController
   # GET /contact_people/1.json
   def show
     @contact_person = ContactPerson.find(params[:id])
-    
+
     @up_path = contact_people_path
 
     respond_to do |format|

@@ -1,54 +1,46 @@
 class MagazineSampling < ApplicationRecord
-  #attr_accessible :count
+  # attr_accessible :count
   has_one :contact, as: :contact_entity, dependent: :destroy
   accepts_nested_attributes_for :contact
 
-  scope :active, -> {
-    joins(:contact).where("inactive=0")
+  scope :active, lambda {
+    joins(:contact).where('inactive=0')
   }
 
-
-  def fullname
-    contact.fullname
-  end
+  delegate :fullname, to: :contact
 
   def magazine_address_list_row
-    if ( current_count >0) then
-      csvrow = {
-        :identifier=> "B_"+id.to_s,
-        :company=> contact.company,
-        :department=>contact.department,
-        :fullname=>contact.fullname,
-        :street=>contact.street,
-        :countryCode=>contact.country_code,
-        :zip=>contact.zip,
-        :city=>contact.city,
-        :country=>contact.letter_country,
-        :magazines=>count
-      }
-      return csvrow
-    else
-      nil
-    end
+    return unless current_count > 0
+
+    {
+      identifier: 'B_' + id.to_s,
+      company: contact.company,
+      department: contact.department,
+      fullname: contact.fullname,
+      street: contact.street,
+      countryCode: contact.country_code,
+      zip: contact.zip,
+      city: contact.city,
+      country: contact.letter_country,
+      magazines: count
+    }
   end
 
   def t_country
-    if country_code != "DE" then 
-      contact.t_country("en")
+    if country_code == 'DE'
+      ''
     else
-      ""
+      contact.t_country('en')
     end
   end
 
   def current_count
-    if not inactive
-      count
-    else
+    if inactive
       0
+    else
+      count
     end
   end
 
-  def one_line_addr
-    contact.one_line_addr
-  end
+  delegate :one_line_addr, to: :contact
 end

@@ -6,12 +6,15 @@ unless BDZAdmin::Application.config.action_mailer.nil?
   BDZAdmin::Application.config.action_mailer.smtp_settings = {}
   BDZAdmin::Application.config.action_mailer.default_url_options = {}
 
-  smtp_options.each do |name, value|
-    BDZAdmin::Application.config.action_mailer.smtp_settings[name.to_sym] = value
-  end unless smtp_options.nil?
+  unless smtp_options.nil?
+    smtp_options.each do |name, value|
+      BDZAdmin::Application.config.action_mailer.smtp_settings[name.to_sym] = value
+    end
+  end
 
-
-  url_options.each do |name, value|
-    BDZAdmin::Application.config.action_mailer.default_url_options[name.to_sym] = value
-  end unless url_options.nil?
+  unless url_options.nil?
+    url_options.each do |name, value|
+      BDZAdmin::Application.config.action_mailer.default_url_options[name.to_sym] = value
+    end
+  end
 end

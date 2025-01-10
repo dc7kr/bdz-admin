@@ -1,37 +1,37 @@
 require 'rails_helper'
 
-RSpec.describe "person_members/show", :type => :view do
+RSpec.describe 'person_members/show', type: :view do
   before(:each) do
     @person_member = assign(:person_member, PersonMember.create!(
-      :mitgliedsnummer => 1,
-      :anrede => "Anrede",
-      :vorname => "Vorname",
-      :nachname => "Nachname",
-      :strasse => "Strasse",
-      :land => "Land",
-      :plz => "Plz",
-      :Ort => "Ort",
-      :telefonPrivat => "Telefon Privat",
-      :telefonDienstl => "Telefon Dienstl",
-      :telefax => "Telefax",
-      :za => "Za",
-      :konto => 2,
-      :blz => 3,
-      :zahler => "Zahler",
-      :lv => 4,
-      :beitragsart => 5,
-      :bemerkung => "Bemerkung",
-      :zeitungen => 6,
-      :beitrag => "9.99",
-      :zusatzzeitung => 7,
-      :eMail => "E Mail",
-      :lastschriftErfasst => false,
-      :rechnungsDruck => false,
-      :jahreszahl => 8
-    ))
+                                              mitgliedsnummer: 1,
+                                              anrede: 'Anrede',
+                                              vorname: 'Vorname',
+                                              nachname: 'Nachname',
+                                              strasse: 'Strasse',
+                                              land: 'Land',
+                                              plz: 'Plz',
+                                              Ort: 'Ort',
+                                              telefonPrivat: 'Telefon Privat',
+                                              telefonDienstl: 'Telefon Dienstl',
+                                              telefax: 'Telefax',
+                                              za: 'Za',
+                                              konto: 2,
+                                              blz: 3,
+                                              zahler: 'Zahler',
+                                              lv: 4,
+                                              beitragsart: 5,
+                                              bemerkung: 'Bemerkung',
+                                              zeitungen: 6,
+                                              beitrag: '9.99',
+                                              zusatzzeitung: 7,
+                                              eMail: 'E Mail',
+                                              lastschriftErfasst: false,
+                                              rechnungsDruck: false,
+                                              jahreszahl: 8
+                                            ))
   end
 
-  it "renders attributes in <p>" do
+  it 'renders attributes in <p>' do
     render
     expect(rendered).to match(/1/)
     expect(rendered).to match(/Anrede/)

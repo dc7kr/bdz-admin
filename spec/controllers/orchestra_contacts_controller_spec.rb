@@ -18,142 +18,140 @@ require 'rails_helper'
 # Message expectations are only used when there is no simpler way to specify
 # that an instance is receiving a specific message.
 
-RSpec.describe OrchestraContactsController, :type => :controller do
-
+RSpec.describe OrchestraContactsController, type: :controller do
   # This should return the minimal set of attributes required to create a valid
   # OrchestraContact. As you add validations to OrchestraContact, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
-  }
+  let(:valid_attributes) do
+    skip('Add a hash of attributes valid for your model')
+  end
 
-  let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
-  }
+  let(:invalid_attributes) do
+    skip('Add a hash of attributes invalid for your model')
+  end
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
   # OrchestraContactsController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
-  describe "GET #index" do
-    it "assigns all orchestra_contacts as @orchestra_contacts" do
+  describe 'GET #index' do
+    it 'assigns all orchestra_contacts as @orchestra_contacts' do
       orchestra_contact = OrchestraContact.create! valid_attributes
-      get :index, {}
+      get :index
       expect(assigns(:orchestra_contacts)).to eq([orchestra_contact])
     end
   end
 
-  describe "GET #show" do
-    it "assigns the requested orchestra_contact as @orchestra_contact" do
+  describe 'GET #show' do
+    it 'assigns the requested orchestra_contact as @orchestra_contact' do
       orchestra_contact = OrchestraContact.create! valid_attributes
-      get :show, {:id => orchestra_contact.to_param}
+      get :show, params: { id: orchestra_contact.to_param }
       expect(assigns(:orchestra_contact)).to eq(orchestra_contact)
     end
   end
 
-  describe "GET #new" do
-    it "assigns a new orchestra_contact as @orchestra_contact" do
-      get :new, {}
+  describe 'GET #new' do
+    it 'assigns a new orchestra_contact as @orchestra_contact' do
+      get :new
       expect(assigns(:orchestra_contact)).to be_a_new(OrchestraContact)
     end
   end
 
-  describe "GET #edit" do
-    it "assigns the requested orchestra_contact as @orchestra_contact" do
+  describe 'GET #edit' do
+    it 'assigns the requested orchestra_contact as @orchestra_contact' do
       orchestra_contact = OrchestraContact.create! valid_attributes
-      get :edit, {:id => orchestra_contact.to_param}
+      get :edit, params: { id: orchestra_contact.to_param }
       expect(assigns(:orchestra_contact)).to eq(orchestra_contact)
     end
   end
 
-  describe "POST #create" do
-    context "with valid params" do
-      it "creates a new OrchestraContact" do
-        expect {
-          post :create, {:orchestra_contact => valid_attributes}
-        }.to change(OrchestraContact, :count).by(1)
+  describe 'POST #create' do
+    context 'with valid params' do
+      it 'creates a new OrchestraContact' do
+        expect do
+          post :create, params: { orchestra_contact: valid_attributes }
+        end.to change(OrchestraContact, :count).by(1)
       end
 
-      it "assigns a newly created orchestra_contact as @orchestra_contact" do
-        post :create, {:orchestra_contact => valid_attributes}
+      it 'assigns a newly created orchestra_contact as @orchestra_contact' do
+        post :create, params: { orchestra_contact: valid_attributes }
         expect(assigns(:orchestra_contact)).to be_a(OrchestraContact)
         expect(assigns(:orchestra_contact)).to be_persisted
       end
 
-      it "redirects to the created orchestra_contact" do
-        post :create, {:orchestra_contact => valid_attributes}
+      it 'redirects to the created orchestra_contact' do
+        post :create, params: { orchestra_contact: valid_attributes }
         expect(response).to redirect_to(OrchestraContact.last)
       end
     end
 
-    context "with invalid params" do
-      it "assigns a newly created but unsaved orchestra_contact as @orchestra_contact" do
-        post :create, {:orchestra_contact => invalid_attributes}
+    context 'with invalid params' do
+      it 'assigns a newly created but unsaved orchestra_contact as @orchestra_contact' do
+        post :create, params: { orchestra_contact: invalid_attributes }
         expect(assigns(:orchestra_contact)).to be_a_new(OrchestraContact)
       end
 
       it "re-renders the 'new' template" do
-        post :create, {:orchestra_contact => invalid_attributes}
-        expect(response).to render_template("new")
+        post :create, params: { orchestra_contact: invalid_attributes }
+        expect(response).to render_template('new')
       end
     end
   end
 
-  describe "PUT #update" do
-    context "with valid params" do
-      let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
-      }
-
-      it "updates the requested orchestra_contact" do
-        orchestra_contact = OrchestraContact.create! valid_attributes
-        put :update, {:id => orchestra_contact.to_param, :orchestra_contact => new_attributes}
-        orchestra_contact.reload
-        skip("Add assertions for updated state")
+  describe 'PUT #update' do
+    context 'with valid params' do
+      let(:new_attributes) do
+        skip('Add a hash of attributes valid for your model')
       end
 
-      it "assigns the requested orchestra_contact as @orchestra_contact" do
+      it 'updates the requested orchestra_contact' do
         orchestra_contact = OrchestraContact.create! valid_attributes
-        put :update, {:id => orchestra_contact.to_param, :orchestra_contact => valid_attributes}
+        put :update, params: { id: orchestra_contact.to_param, orchestra_contact: new_attributes }
+        orchestra_contact.reload
+        skip('Add assertions for updated state')
+      end
+
+      it 'assigns the requested orchestra_contact as @orchestra_contact' do
+        orchestra_contact = OrchestraContact.create! valid_attributes
+        put :update, params: { id: orchestra_contact.to_param, orchestra_contact: valid_attributes }
         expect(assigns(:orchestra_contact)).to eq(orchestra_contact)
       end
 
-      it "redirects to the orchestra_contact" do
+      it 'redirects to the orchestra_contact' do
         orchestra_contact = OrchestraContact.create! valid_attributes
-        put :update, {:id => orchestra_contact.to_param, :orchestra_contact => valid_attributes}
+        put :update, params: { id: orchestra_contact.to_param, orchestra_contact: valid_attributes }
         expect(response).to redirect_to(orchestra_contact)
       end
     end
 
-    context "with invalid params" do
-      it "assigns the orchestra_contact as @orchestra_contact" do
+    context 'with invalid params' do
+      it 'assigns the orchestra_contact as @orchestra_contact' do
         orchestra_contact = OrchestraContact.create! valid_attributes
-        put :update, {:id => orchestra_contact.to_param, :orchestra_contact => invalid_attributes}
+        put :update, params: { id: orchestra_contact.to_param, orchestra_contact: invalid_attributes }
         expect(assigns(:orchestra_contact)).to eq(orchestra_contact)
       end
 
       it "re-renders the 'edit' template" do
         orchestra_contact = OrchestraContact.create! valid_attributes
-        put :update, {:id => orchestra_contact.to_param, :orchestra_contact => invalid_attributes}
-        expect(response).to render_template("edit")
+        put :update, params: { id: orchestra_contact.to_param, orchestra_contact: invalid_attributes }
+        expect(response).to render_template('edit')
       end
     end
   end
 
-  describe "DELETE #destroy" do
-    it "destroys the requested orchestra_contact" do
+  describe 'DELETE #destroy' do
+    it 'destroys the requested orchestra_contact' do
       orchestra_contact = OrchestraContact.create! valid_attributes
-      expect {
-        delete :destroy, {:id => orchestra_contact.to_param}
-      }.to change(OrchestraContact, :count).by(-1)
+      expect do
+        delete :destroy, params: { id: orchestra_contact.to_param }
+      end.to change(OrchestraContact, :count).by(-1)
     end
 
-    it "redirects to the orchestra_contacts list" do
+    it 'redirects to the orchestra_contacts list' do
       orchestra_contact = OrchestraContact.create! valid_attributes
-      delete :destroy, {:id => orchestra_contact.to_param}
+      delete :destroy, params: { id: orchestra_contact.to_param }
       expect(response).to redirect_to(orchestra_contacts_url)
     end
   end
-
 end

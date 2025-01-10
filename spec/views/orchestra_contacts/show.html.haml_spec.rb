@@ -1,23 +1,23 @@
 require 'rails_helper'
 
-RSpec.describe "orchestra_contacts/show", :type => :view do
+RSpec.describe 'orchestra_contacts/show', type: :view do
   before(:each) do
     @orchestra_contact = assign(:orchestra_contact, OrchestraContact.create!(
-      :orchestra_id => 1,
-      :salutation => "Salutation",
-      :first_name => "First Name",
-      :last_name => "Last Name",
-      :street => "Street",
-      :zip => "Zip",
-      :city => "City",
-      :role => "Role",
-      :email => "Email",
-      :phone => "Phone",
-      :country_code => "Country Code"
-    ))
+                                                      orchestra_id: 1,
+                                                      salutation: 'Salutation',
+                                                      first_name: 'First Name',
+                                                      last_name: 'Last Name',
+                                                      street: 'Street',
+                                                      zip: 'Zip',
+                                                      city: 'City',
+                                                      role: 'Role',
+                                                      email: 'Email',
+                                                      phone: 'Phone',
+                                                      country_code: 'Country Code'
+                                                    ))
   end
 
-  it "renders attributes in <p>" do
+  it 'renders attributes in <p>' do
     render
     expect(rendered).to match(/1/)
     expect(rendered).to match(/Salutation/)

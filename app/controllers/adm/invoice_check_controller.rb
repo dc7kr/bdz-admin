@@ -1,5 +1,4 @@
 class Adm::InvoiceCheckController < AuthenticatedNonResourceController
-
   def index
     authorize! :member, :edit
   end
@@ -17,25 +16,25 @@ class Adm::InvoiceCheckController < AuthenticatedNonResourceController
     distinction.national_needles = 6
     distinction.porto = 3.45
 
-    orchestra = Member.where("mglnr = 1045").first.member_entity
+    orchestra = Member.where('mglnr = 1045').first.member_entity
     distinction.orchestra = orchestra
 
-    invoice = distinction.gen_invoice 
+    invoice = distinction.gen_invoice
 
     pdf = invoice.gen_pdf
 
-    send_file(pdf.full_path, :filename => "test_ehrungsrechnung.pdf", :type => "application/octet-stream")
+    send_file(pdf.full_path, filename: 'test_ehrungsrechnung.pdf', type: 'application/octet-stream')
   end
 
   def orchestra
     authorize! :member, :edit
-    rs = Orchestra.joins(:member).where("members.mglnr = 1045").first.report_sheets.last
+    rs = Orchestra.joins(:member).where('members.mglnr = 1045').first.report_sheets.last
     invoice = rs.gen_invoice
 
     tw = CorikaInvoices::TexWriter.new(INVOICE_CONFIG)
     pdf = invoice.gen_pdf(tw)
 
-    send_file(pdf.full_path, :filename => "test_beitragsrechnung.pdf", :type => "application/octet-stream")
+    send_file(pdf.full_path, filename: 'test_beitragsrechnung.pdf', type: 'application/octet-stream')
   end
 
   def person_member

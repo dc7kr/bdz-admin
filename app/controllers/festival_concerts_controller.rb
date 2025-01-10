@@ -84,21 +84,17 @@ class FestivalConcertsController < AuthenticatedController
     end
   end
 
-
-
   def programme
-
     @festival_concert = FestivalConcert.find(params[:id])
 
-    @groups = FestivalApplication.where(:festival_concert_id => params[:id])
+    @groups = FestivalApplication.where(festival_concert_id: params[:id])
 
     respond_to do |format|
       format.html
     end
-
   end
 
   def festival_concert_params
-    params.require(:festival_concert).permit( :concert_type, :number, :title, :location, :event_time, :outdoor)
+    params.require(:festival_concert).permit(:concert_type, :number, :title, :location, :event_time, :outdoor)
   end
 end

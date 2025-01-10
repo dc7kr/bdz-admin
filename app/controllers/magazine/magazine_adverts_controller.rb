@@ -65,7 +65,7 @@ class Magazine::MagazineAdvertsController < AuthenticatedController
         format.html { redirect_to @magazine_advert, notice: 'Magazine advert was successfully updated.' }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
+        format.html { render action: 'edit' }
         format.json { render json: @magazine_advert.errors, status: :unprocessable_entity }
       end
     end

@@ -8,41 +8,38 @@ class EventMealsController < AuthenticatedController
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @event_meals }
-      format.ods {
-        prefix = Time.new.strftime("%Y%m%d%H%M_")
-        renderOds(@event_meals,"/tmp/event_meals.ods") 
-        send_file("/tmp/event_meals.ods", :filename => prefix+"event_meals.ods", :type => "application/octet-stream")
-      }
+      format.ods do
+        prefix = Time.new.strftime('%Y%m%d%H%M_')
+        renderOds(@event_meals, '/tmp/event_meals.ods')
+        send_file('/tmp/event_meals.ods', filename: prefix + 'event_meals.ods', type: 'application/octet-stream')
+      end
     end
   end
 
-  def update_hash(day,hash,e)
-      mittag_seconds = 12*3600
-      abend_seconds = 17*3600
+  def update_hash(day, hash, e)
+    mittag_seconds = 12 * 3600
+    abend_seconds = 17 * 3600
 
-      if e.arrival_time.nil?
-        return
-      end
+    return if e.arrival_time.nil?
 
-      if e.arrival_time.day < day then
-          hash[:mittag][:veg]+=e.veg
-          hash[:mittag][:tln]+=e.tln
-          hash[:abend][:veg]+=e.veg 
-          hash[:abend][:tln]+=e.tln
-      end
+    if e.arrival_time.day < day
+      hash[:mittag][:veg] += e.veg
+      hash[:mittag][:tln] += e.tln
+      hash[:abend][:veg] += e.veg
+      hash[:abend][:tln] += e.tln
+    end
 
-      if e.arrival_time.day == day then
+    return unless e.arrival_time.day == day
 
-        if e.arrival_time.seconds_since_midnight < mittag_seconds then
-          hash[:mittag][:veg]+=e.veg
-          hash[:mittag][:tln]+=e.tln
-        end
+    if e.arrival_time.seconds_since_midnight < mittag_seconds
+      hash[:mittag][:veg] += e.veg
+      hash[:mittag][:tln] += e.tln
+    end
 
-        if e.arrival_time.seconds_since_midnight < abend_seconds then
-          hash[:abend][:veg]+=e.veg 
-          hash[:abend][:tln]+=e.tln
-        end
-      end
+    return unless e.arrival_time.seconds_since_midnight < abend_seconds
+
+    hash[:abend][:veg] += e.veg
+    hash[:abend][:tln] += e.tln
   end
 
   # GET /event_meals/1
@@ -113,63 +110,61 @@ class EventMealsController < AuthenticatedController
 
     respond_to do |format|
       format.html { redirect_to event_meals_url }
-      format.json { render :json=>{ :status=>"ok", :op=>"delete", :entityId=>@event_meal.id } }
+      format.json { render json: { status: 'ok', op: 'delete', entityId: @event_meal.id } }
     end
   end
-
 
   def arrival_overview
     @event_meals = EventMeal.order(:arrival_time)
 
-    @counts = Hash.new
-    @counts[:do] = { :mittag=>{:tln=>0,:veg=>0}, :abend => {:tln=>0,:veg=>0} }
-    @counts[:fr] = { :mittag=>{:tln=>0,:veg=>0}, :abend => {:tln=>0,:veg=>0} }
-    @counts[:sa] = { :mittag=>{:tln=>0,:veg=>0}, :abend => {:tln=>0,:veg=>0} }
+    @counts = {}
+    @counts[:do] = { mittag: { tln: 0, veg: 0 }, abend: { tln: 0, veg: 0 } }
+    @counts[:fr] = { mittag: { tln: 0, veg: 0 }, abend: { tln: 0, veg: 0 } }
+    @counts[:sa] = { mittag: { tln: 0, veg: 0 }, abend: { tln: 0, veg: 0 } }
 
     @event_meals.each do |e|
-      update_hash(10,@counts[:do],e)
-      update_hash(11,@counts[:fr],e)
-      update_hash(12,@counts[:sa],e)
-    end  
+      update_hash(10, @counts[:do], e)
+      update_hash(11, @counts[:fr], e)
+      update_hash(12, @counts[:sa], e)
+    end
   end
 
- def renderOds(meals,filename)
-
+  def renderOds(meals, filename)
     RODF::Spreadsheet.file(filename) do
-      table "Essensmeldungen"  do
-        row {
-            cell I18n.t("common.number")
-            cell I18n.t("festival_application.orch_name")
-            cell I18n.t("event_meal.arrival_time")
-            cell ""
-            cell I18n.t("event_meal.meals")
-            cell I18n.t("event_meal.veg")
-				}
+      table 'Essensmeldungen' do
+        row do
+          cell I18n.t('common.number')
+          cell I18n.t('festival_application.orch_name')
+          cell I18n.t('event_meal.arrival_time')
+          cell ''
+          cell I18n.t('event_meal.meals')
+          cell I18n.t('event_meal.veg')
+        end
 
-	    	meals.each do |meal|
-          row {
+        meals.each do |meal|
+          row do
             cell meal.participant_id
-            if meal.festival_application.nil? then
-              cell "---"
+            if meal.festival_application.nil?
+              cell '---'
             else
               cell meal.festival_application.orch_name
             end
-            if meal.arrival_time.nil?  then
-              cell "---"
-              cell "---"
+            if meal.arrival_time.nil?
+              cell '---'
+              cell '---'
             else
-              cell meal.arrival_time.strftime("%d.%m.%Y")
-              cell meal.arrival_time.strftime("%H:%M")
+              cell meal.arrival_time.strftime('%d.%m.%Y')
+              cell meal.arrival_time.strftime('%H:%M')
             end
-            cell meal.tln,:type => :float
-            cell meal.veg,:type => :float
-          }
+            cell meal.tln, type: :float
+            cell meal.veg, type: :float
+          end
         end
       end
     end
   end
-  
+
   def event_meal_params
-    params.require(:event_meal).permit( :participant_id, :name, :email, :arrival_time, :tln, :veg)
+    params.require(:event_meal).permit(:participant_id, :name, :email, :arrival_time, :tln, :veg)
   end
 end

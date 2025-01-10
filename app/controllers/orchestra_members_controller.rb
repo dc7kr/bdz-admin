@@ -1,7 +1,6 @@
 class OrchestraMembersController < AuthenticatedController
-
   helper_method :sort_column, :sort_direction
-  
+
   include ReportSheetUploadHelper
 
   # GET /orchestra_members
@@ -9,48 +8,49 @@ class OrchestraMembersController < AuthenticatedController
   def index
     @orchestra = nil
 
-    if not params[:orchestra_id].nil? then
+    unless params[:orchestra_id].nil?
       @orchestra = Orchestra.find(params[:orchestra_id])
-      @orchestra_members = @orchestra_members.where("orchestra_id = ?", params[:orchestra_id])
+      @orchestra_members = @orchestra_members.where('orchestra_id = ?', params[:orchestra_id])
     end
 
     respond_to do |format|
-      format.html {
-        @orchestra_members = @orchestra_members.order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
-      }
+      format.html do
+        @orchestra_members = @orchestra_members.order(sort_column + ' ' + sort_direction).page(params[:page]).per(20)
+      end
 
-      format.json { 
-        @orchestra_members = @orchestra_members.order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
-        render json: @orchestra_members 
-      }
-	    format.js {
-        @orchestra_members = @orchestra_members.order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
-      }
-      format.ods {
-        @orchestra_members = @orchestra_members.order(:last_name,:first_name)
+      format.json do
+        @orchestra_members = @orchestra_members.order(sort_column + ' ' + sort_direction).page(params[:page]).per(20)
+        render json: @orchestra_members
+      end
+      format.js do
+        @orchestra_members = @orchestra_members.order(sort_column + ' ' + sort_direction).page(params[:page]).per(20)
+      end
+      format.ods do
+        @orchestra_members = @orchestra_members.order(:last_name, :first_name)
 
         sheet = OrchestraMembersSpreadsheet.new(@orchestra_members)
         sheet.render
-        filename = sheet.gen_file 
+        filename = sheet.gen_file
 
-        send_file(filename, :filename => "orchestra_members.ods", :type => "application/octet-stream")
-      }
+        send_file(filename, filename: 'orchestra_members.ods', type: 'application/octet-stream')
+      end
     end
   end
 
   def delete_members
-	@orchestra = Orchestra.find(params[:orchestra_id])
-	@orchestra.orchestra_members.delete_all
+    @orchestra = Orchestra.find(params[:orchestra_id])
+    @orchestra.orchestra_members.delete_all
     respond_to do |format|
-        format.html { redirect_to orchestra_orchestra_members_path(@orchestra), notice: t('report_sheet_input.member_delete_success') }
+      format.html do
+        redirect_to orchestra_orchestra_members_path(@orchestra), notice: t('report_sheet_input.member_delete_success')
+      end
     end
   end
- 
+
   # GET /orchestra_members/1
   # GET /orchestra_members/1.json
   def show
-
-	  @orchestra = @orchestra_member.orchestra
+    @orchestra = @orchestra_member.orchestra
 
     respond_to do |format|
       format.html # show.html.erb
@@ -58,17 +58,17 @@ class OrchestraMembersController < AuthenticatedController
     end
   end
 
-
   def search
-    @orchestra_members = OrchestraMember.where("first_name like ? and last_name like ?", params[:first_name]+"%",params[:last_name]+"%")
+    @orchestra_members = OrchestraMember.where('first_name like ? and last_name like ?', params[:first_name] + '%',
+                                               params[:last_name] + '%')
   end
 
   # GET /orchestra_members/new
   # GET /orchestra_members/new.json
   def new
     @orchestra_member = OrchestraMember.new
-	@orchestra = Orchestra.find(params[:orchestra_id])
-	@orchestra_member.orchestra = @orchestra
+    @orchestra = Orchestra.find(params[:orchestra_id])
+    @orchestra_member.orchestra = @orchestra
 
     respond_to do |format|
       format.html # new.html.erb
@@ -80,19 +80,22 @@ class OrchestraMembersController < AuthenticatedController
   def edit
     session[:return_to] ||= request.referer
     @orchestra_member = OrchestraMember.find(params[:id])
-	  @orchestra = @orchestra_member.orchestra
+    @orchestra = @orchestra_member.orchestra
   end
 
   # POST /orchestra_members
   # POST /orchestra_members.json
   def create
-	  @orchestra = Orchestra.find(params[:orchestra_id])
+    @orchestra = Orchestra.find(params[:orchestra_id])
     @orchestra_member = OrchestraMember.new(orchestra_member_params)
-	  @orchestra_member.orchestra = @orchestra
+    @orchestra_member.orchestra = @orchestra
 
     respond_to do |format|
       if @orchestra_member.save
-        format.html { redirect_to orchestra_orchestra_member_path(@orchestra_member.orchestra,@orchestra_member), notice: 'Orchestra member was successfully created.' }
+        format.html do
+          redirect_to orchestra_orchestra_member_path(@orchestra_member.orchestra, @orchestra_member),
+                      notice: 'Orchestra member was successfully created.'
+        end
         format.json { render json: @orchestra_member, status: :created, location: @orchestra_member }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -108,8 +111,9 @@ class OrchestraMembersController < AuthenticatedController
 
     respond_to do |format|
       if @orchestra_member.update(orchestra_member_params)
-        format.html { 
-          redirect_to session.delete(:return_to), notice: t('orchestra_member.update_success') }
+        format.html do
+          redirect_to session.delete(:return_to), notice: t('orchestra_member.update_success')
+        end
         format.json { head :no_content }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -118,17 +122,17 @@ class OrchestraMembersController < AuthenticatedController
     end
   end
 
-  def exchange_all 
+  def exchange_all
     orchestra = Orchestra.find(params[:orchestra_id])
-    
+
     orchestra.orchestra_members.each do |om|
       om.exchange_first_and_lastname
       om.save
     end
 
-    format.html { 
-      redirect_to orchestra_orchestra_members_url(orchestra) 
-    }
+    format.html do
+      redirect_to orchestra_orchestra_members_url(orchestra)
+    end
   end
 
   def exchange
@@ -138,21 +142,24 @@ class OrchestraMembersController < AuthenticatedController
 
     respond_to do |format|
       if @orchestra_member.save
-        format.html { redirect_to orchestra_orchestra_members_path(@orchestra_member.orchestra), notice: t('orchestra_member.exchange_success') }
+        format.html do
+          redirect_to orchestra_orchestra_members_path(@orchestra_member.orchestra),
+                      notice: t('orchestra_member.exchange_success')
+        end
       end
-	end
+    end
   end
 
   def check_double
     @orchestra = Orchestra.find(params[:orchestra_id])
-    @current_report_sheet = @orchestra.currentReportSheet 
+    @current_report_sheet = @orchestra.currentReportSheet
     @needs_update = false
 
-    @result =  @orchestra.check_double
+    @result = @orchestra.check_double
 
-    if not @current_report_sheet.nil? and @result[:verified].count != @current_report_sheet.azubi then
-      @needs_update = true
-    end
+    return unless !@current_report_sheet.nil? and @result[:verified].count != @current_report_sheet.azubi
+
+    @needs_update = true
   end
 
   # DELETE /orchestra_members/1
@@ -173,29 +180,32 @@ class OrchestraMembersController < AuthenticatedController
     @orchestra = Orchestra.find(params[:orchestra_id])
     datafile = params[:datafile]
 
-    prefix = @orchestra.member.mglnr.to_s+"_"+Time.now.year.to_s+"_"
+    prefix = @orchestra.member.mglnr.to_s + '_' + Time.now.year.to_s + '_'
 
-    if (datafile == nil ) then
-      redirect_to orchestra_orchestra_members_upload_path(@orchestra), :flash => { :error => t('upload.no_file_selected') }
+    if datafile.nil?
+      redirect_to orchestra_orchestra_members_upload_path(@orchestra),
+                  flash: { error: t('upload.no_file_selected') }
       return
     end
 
-    uploaded_file = DataFile.save(prefix, "/tmp",params[:datafile])
+    uploaded_file = DataFile.save(prefix, '/tmp', params[:datafile])
 
+    return if datafile.nil?
 
-    if ( datafile != nil) then
-      @att_file = datafile.original_filename
+    @att_file = datafile.original_filename
 
-      doc = open_report_spreadsheet(@att_file,uploaded_file)
-      if ( doc == nil ) then
-        redirect_to orchestra_orchestra_members_path(@orchestra), :flash => { :error => t('upload.invalid_upload') }
+    doc = open_report_spreadsheet(@att_file, uploaded_file)
+    if doc.nil?
+      redirect_to orchestra_orchestra_members_path(@orchestra), flash: { error: t('upload.invalid_upload') }
+    else
+      read_report(doc, @orchestra)
+      if @error_count > 0
+        redirect_to orchestra_orchestra_members_path(@orchestra),
+                    flash: { warning: t('orchestra.report_sheet_upload_warning', error: @error_count,
+                                                                                 success: @success_count) }
       else
-        read_report(doc,@orchestra)
-        if ( @error_count > 0 ) then
-          redirect_to orchestra_orchestra_members_path(@orchestra), :flash => { :warning=> t('orchestra.report_sheet_upload_warning',:error => @error_count,:success => @success_count) }
-        else
-          redirect_to orchestra_orchestra_members_path(@orchestra), :flash => { :notice=> t('orchestra.report_sheet_upload_success',:success => @success_count) }
-        end
+        redirect_to orchestra_orchestra_members_path(@orchestra),
+                    flash: { notice: t('orchestra.report_sheet_upload_success', success: @success_count) }
       end
     end
   end
@@ -203,12 +213,13 @@ class OrchestraMembersController < AuthenticatedController
   #########################
   # PRIVATE METHODS
   #########################
-  private 
+  private
+
   def sort_column
-    OrchestraMember.column_names.include?(params[:sort]) ? params[:sort] : "last_name,first_name"
-  end
-  def orchestra_member_params
-    params.require(:orchestra_member).permit(:first_name,:last_name,:date_of_birth,:instrument,:mglnr)
+    OrchestraMember.column_names.include?(params[:sort]) ? params[:sort] : 'last_name,first_name'
   end
 
+  def orchestra_member_params
+    params.require(:orchestra_member).permit(:first_name, :last_name, :date_of_birth, :instrument, :mglnr)
+  end
 end

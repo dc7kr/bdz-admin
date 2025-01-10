@@ -1,13 +1,13 @@
 class FeatureRequest < ApplicationRecord
-  #attr_accessible :description, :priority, :title,:status,:user_id
+  # attr_accessible :description, :priority, :title,:status,:user_id
 
   belongs_to :user
 
   def owner_s
-    if user then
+    if user
       user.email
     else
-      I18n.t("common.no_one")
+      I18n.t('common.no_one')
     end
   end
 end

@@ -2,24 +2,24 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
-	authorize! :index, @user, :message => 'Not authorized as an administrator.'
-    @users = User.order(sort_column+ " "+ sort_direction).page(params[:page]).per(10)
+    authorize! :index, @user, message: 'Not authorized as an administrator.'
+    @users = User.order(sort_column + ' ' + sort_direction).page(params[:page]).per(10)
 
     respond_to do |format|
       format.js
       format.html # index.html.erb
-      format.json { render :json => @users }
+      format.json { render json: @users }
     end
   end
 
   def for_admin_notify
-	  authorize! :index, @user, :message => 'Not authorized as an administrator.'
+    authorize! :index, @user, message: 'Not authorized as an administrator.'
     @users = User.for_admin_notify
 
     respond_to do |format|
       format.js
-      format.html 
-      format.json { render :json => @users }
+      format.html
+      format.json { render json: @users }
     end
   end
 
@@ -30,18 +30,18 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render :json => @user }
+      format.json { render json: @user }
     end
   end
 
   # GET /users/new
   # GET /users/new.json
   def new
-    @user = User.new()
+    @user = User.new
 
     respond_to do |format|
       format.html # new.html.erb
-      format.json { render :json => @user }
+      format.json { render json: @user }
     end
   end
 
@@ -57,11 +57,11 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
-        format.html { redirect_to @user, :notice => 'User was successfully created.' }
-        format.json { render :json => @user, status: :created, :location => @user }
+        format.html { redirect_to @user, notice: 'User was successfully created.' }
+        format.json { render json: @user, status: :created, location: @user }
       else
         format.html { render :new, status: :unprocessable_entity }
-        format.json { render :json => @user.errors, status: :unprocessable_entity }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -73,11 +73,11 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.update(params[:user])
-        format.html { redirect_to @user, :notice => 'User was successfully updated.' }
+        format.html { redirect_to @user, notice: 'User was successfully updated.' }
         format.json { head :ok }
       else
         format.html { render :edit, status: :unprocessable_entity }
-        format.json { render :json => @user.errors, status: :unprocessable_entity }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -93,13 +93,14 @@ class UsersController < ApplicationController
       format.json { head :ok }
     end
   end
-	private
+
+  private
+
   def sort_column
-    User.column_names.include?(params[:sort]) ? params[:sort] : "email"
+    User.column_names.include?(params[:sort]) ? params[:sort] : 'email'
   end
 
   def user_params
     params.require(:user).permit(:username, :email, :password, :password_confirmation, :name)
   end
-  
 end

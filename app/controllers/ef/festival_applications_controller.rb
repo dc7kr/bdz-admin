@@ -1,6 +1,5 @@
 class Ef::FestivalApplicationsController < Ef::ApplicationController
-  
-#  include ApplicationHelper
+  #  include ApplicationHelper
   helper ApplicationHelper
 
   def show
@@ -12,32 +11,30 @@ class Ef::FestivalApplicationsController < Ef::ApplicationController
     end
   end
 
-  def finalize 
+  def finalize
     @festival_application = FestivalApplication.find_by token: params[:token]
   end
 
-  def closed
-
-  end
+  def closed; end
 
   # GET /festival_applications/new
   # GET /festival_applications/new.json
   def new
     @festival_application = FestivalApplication.new
-    @festival_application.group_type="O"
-    @festival_application.country_code="DE"
+    @festival_application.group_type = 'O'
+    @festival_application.country_code = 'DE'
     @festival_application.contact_person = ContactPerson.new
-    @festival_application.contact_person.country_code="DE"
+    @festival_application.contact_person.country_code = 'DE'
 
-    closed = BDZ_SETTINGS["config"]["festival_application_open"]
+    closed = BDZ_SETTINGS['config']['festival_application_open']
 
     respond_to do |format|
-    format.html { 
-      if not closed and current_user.nil? 
-        Rails.logger.info("Festival application closed: #{closed} #{current_user.nil?}")
-          redirect_to(closed_ef_festival_applications_path, notice: 'Festival application is currently closed.') 
+      format.html do
+        if !closed and current_user.nil?
+          Rails.logger.info("Festival application closed: #{closed} #{current_user.nil?}")
+          redirect_to(closed_ef_festival_applications_path, notice: 'Festival application is currently closed.')
+        end
       end
-      }
       format.json { render json: @festival_application }
     end
   end
@@ -50,27 +47,28 @@ class Ef::FestivalApplicationsController < Ef::ApplicationController
   # POST /festival_applications
   # POST /festival_applications.json
   def create
-
     fa_params = festival_application_params
 
     cp_params = fa_params[:contact_person]
     fa_params[:contact_person] = nil
 
     @festival_application = FestivalApplication.new(fa_params)
-    @festival_application.year = BDZ_SETTINGS["config"]["festival_year"]
-   
-    Rails.logger.debug("Festival application contact person")
+    @festival_application.year = BDZ_SETTINGS['config']['festival_year']
+
+    Rails.logger.debug('Festival application contact person')
     Rails.logger.debug(cp_params.to_json)
 
     contact_person = ContactPerson.new(cp_params)
-    @festival_application.contact_person= contact_person
+    @festival_application.contact_person = contact_person
     @festival_application.token = SecureRandom.uuid
-
 
     if @festival_application.contact_person.save
       respond_to do |format|
         if @festival_application.save
-          format.html { redirect_to step2_ef_festival_application_path(@festival_application), notice: t("festival_application.create_success") }
+          format.html do
+            redirect_to step2_ef_festival_application_path(@festival_application),
+                        notice: t('festival_application.create_success')
+          end
           format.json { render json: @festival_application, status: :created, location: @festival_application }
         else
           format.html { render :new, status: :unprocessable_entity }
@@ -92,7 +90,7 @@ class Ef::FestivalApplicationsController < Ef::ApplicationController
 
     respond_to do |format|
       if @festival_application.update(params[:festival_application])
-        format.html { redirect_to @festival_application, notice: t("festival_application.update_success")  }
+        format.html { redirect_to @festival_application, notice: t('festival_application.update_success') }
         format.json { head :no_content }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -110,7 +108,7 @@ class Ef::FestivalApplicationsController < Ef::ApplicationController
     respond_to do |format|
       format.html { redirect_to festival_applications_url }
       format.json { head :no_content }
-      format.js { render :layout => false}
+      format.js { render layout: false }
     end
   end
 
@@ -119,18 +117,19 @@ class Ef::FestivalApplicationsController < Ef::ApplicationController
     @festival_pieces = @festival_application.festival_pieces
   end
 
-  private 
+  private
+
   def festival_application_params
     params.require(:festival_application).permit(
-        :group_type,
-        :country_code,
-        :conductor,
-        :special_cast,
-        :workshop_request,
-        :orch_name, 
-        :equipment, 
-        :num_players, 
-        contact_person: ContactPerson.nested_params 
+      :group_type,
+      :country_code,
+      :conductor,
+      :special_cast,
+      :workshop_request,
+      :orch_name,
+      :equipment,
+      :num_players,
+      contact_person: ContactPerson.nested_params
     )
   end
 

@@ -1,19 +1,19 @@
 require 'rails_helper'
 
-RSpec.describe "homepages/show", :type => :view do
+RSpec.describe 'homepages/show', type: :view do
   before(:each) do
     @homepage = assign(:homepage, Homepage.create!(
-      :abbrev => "Abbrev",
-      :mitglnr => "Mitglnr",
-      :name => "Name",
-      :kontakt => "Kontakt",
-      :proben => "Proben",
-      :descr => "Descr",
-      :redir_url => "Redir Url"
-    ))
+                                    abbrev: 'Abbrev',
+                                    mitglnr: 'Mitglnr',
+                                    name: 'Name',
+                                    kontakt: 'Kontakt',
+                                    proben: 'Proben',
+                                    descr: 'Descr',
+                                    redir_url: 'Redir Url'
+                                  ))
   end
 
-  it "renders attributes in <p>" do
+  it 'renders attributes in <p>' do
     render
     expect(rendered).to match(/Abbrev/)
     expect(rendered).to match(/Mitglnr/)

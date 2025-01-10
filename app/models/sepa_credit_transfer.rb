@@ -1,33 +1,26 @@
-class SepaCreditTransfer 
+class SepaCreditTransfer
+  attr_accessor :end_to_end_id, :amount, :remittance_txt, :sequence_type, :customer, :amount
 
-  attr_accessor :end_to_end_id,:amount,:remittance_txt,:sequence_type,:customer,:amount
-
-  def initialize(customer,amount)
+  def initialize(customer, amount)
     @customer = customer
     @amount = amount
   end
 
-  def amount 
-    @amount
-  end
+  attr_reader :amount
 
   def iban
-    if @customer.is_direct_debit? then
-      @customer.iban
-    else
-      nil
-    end
+    return unless @customer.is_direct_debit?
+
+    @customer.iban
   end
 
   def bic
-    if @customer.is_direct_debit? then
-      @customer.bic
-    else
-      nil
-    end
+    return unless @customer.is_direct_debit?
+
+    @customer.bic
   end
 
   def end_to_end_id(prefix)
-    prefix+"_"+@customer.mglnr.to_s
+    prefix + '_' + @customer.mglnr.to_s
   end
 end

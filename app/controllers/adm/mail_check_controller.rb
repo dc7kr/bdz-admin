@@ -1,5 +1,4 @@
 class Adm::MailCheckController < AuthenticatedNonResourceController
-
   def index
     authorize! :member, :edit
   end
@@ -8,6 +7,5 @@ class Adm::MailCheckController < AuthenticatedNonResourceController
     authorize! :member, :edit
 
     AdminNotifier.test_notification(current_user).deliver
-
   end
 end

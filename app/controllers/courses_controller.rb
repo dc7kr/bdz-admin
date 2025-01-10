@@ -1,24 +1,24 @@
 class CoursesController < AuthenticatedController
   layout :choose_layout
   helper_method :sort_column, :sort_direction
-  before_action :authenticate_user!, :except => [:index,:show,:public]
-
+  before_action :authenticate_user!, except: %i[index show public]
 
   def future
     @courses = Course.future
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render :json => @courses }
+      format.json { render json: @courses }
     end
   end
 
   def inactive
-	@courses = Course.inactive
+    @courses = Course.inactive
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render :json => @courses }
+      format.json { render json: @courses }
     end
   end
+
   # GET /courses
   # GET /courses.json
   def public
@@ -26,15 +26,16 @@ class CoursesController < AuthenticatedController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render :json => @courses }
+      format.json { render json: @courses }
     end
   end
+
   def index
     @courses = Course.all
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render :json => @courses }
+      format.json { render json: @courses }
     end
   end
 
@@ -45,7 +46,7 @@ class CoursesController < AuthenticatedController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render :json => @course }
+      format.json { render json: @course }
     end
   end
 
@@ -56,7 +57,7 @@ class CoursesController < AuthenticatedController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.json { render :json => @course }
+      format.json { render json: @course }
     end
   end
 
@@ -72,42 +73,38 @@ class CoursesController < AuthenticatedController
 
     @course.reported = Time.now
 
-	if @course.bland == nil then
-		@course.bland = 1
-	end
+    @course.bland = 1 if @course.bland.nil?
 
-	if @course.ort == nil then
-		@course.ort="Barmingholtener Vereinshaus, Sterkrader Str. 14,46539 Dinslaken"
-	end
+    @course.ort = 'Barmingholtener Vereinshaus, Sterkrader Str. 14,46539 Dinslaken' if @course.ort.nil?
 
     respond_to do |format|
       if @course.save
-        format.html { redirect_to @course, :notice => 'Course was successfully created.' }
-        format.json { render :json => @course, :status => :created, :location => @course }
+        format.html { redirect_to @course, notice: 'Course was successfully created.' }
+        format.json { render json: @course, status: :created, location: @course }
       else
         format.html { render :new, status: :unprocessable_entity }
-        format.json { render :json => @course.errors, :status => :unprocessable_entity }
+        format.json { render json: @course.errors, status: :unprocessable_entity }
       end
     end
   end
 
-  def publish 
-	  @course = Course.find(params[:id])
-	  @course.confirmed = Time.now
-	  @course.visible = true
-  	@course.save
+  def publish
+    @course = Course.find(params[:id])
+    @course.confirmed = Time.now
+    @course.visible = true
+    @course.save
 
     respond_to do |format|
       if @course.save
-        format.html { redirect_to @course, :notice => t('course.publish_success') }
-        format.json { render :json => @course, :status => :created, :location => @course }
+        format.html { redirect_to @course, notice: t('course.publish_success') }
+        format.json { render json: @course, status: :created, location: @course }
       else
         format.html { render :new, status: :unprocessable_entity }
-        format.json { render :json => @course.errors, :status => :unprocessable_entity }
+        format.json { render json: @course.errors, status: :unprocessable_entity }
       end
     end
-
   end
+
   # PUT /courses/1
   # PUT /courses/1.json
   def update
@@ -115,11 +112,11 @@ class CoursesController < AuthenticatedController
 
     respond_to do |format|
       if @course.update(course_params)
-        format.html { redirect_to @course, :notice => 'Course was successfully updated.' }
+        format.html { redirect_to @course, notice: 'Course was successfully updated.' }
         format.json { head :ok }
       else
         format.html { render :edit, status: :unprocessable_entity }
-        format.json { render :json => @course.errors, :status => :unprocessable_entity }
+        format.json { render json: @course.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -135,8 +132,9 @@ class CoursesController < AuthenticatedController
       format.json { head :ok }
     end
   end
-  
+
   def course_params
-    params.require(:course).permit(:startdate, :enddate, :reported, :confirmed, :bland, :fk_festival, :more_dates, :titel, :ort, :beschreibung, :inhalt, :gebuehr, :zielgruppe, :dozenten, :anmeldung, :deadline, :email, :token, :visible, :country_code) 
+    params.require(:course).permit(:startdate, :enddate, :reported, :confirmed, :bland, :fk_festival, :more_dates,
+                                   :titel, :ort, :beschreibung, :inhalt, :gebuehr, :zielgruppe, :dozenten, :anmeldung, :deadline, :email, :token, :visible, :country_code)
   end
 end

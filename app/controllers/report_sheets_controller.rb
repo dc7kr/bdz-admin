@@ -1,44 +1,39 @@
 class ReportSheetsController < AuthenticatedController
-
-	include ReportSheetHelper
+  include ReportSheetHelper
 
   # GET /report_sheets
   # GET /report_sheets.json
   def index
-
-	  if (params[:orchestra_id]) then
+    if params[:orchestra_id]
       @orchestra = Orchestra.find(params[:orchestra_id])
 
-	    @report_sheets = @orchestra.report_sheets.order(:year) 
+      @report_sheets = @orchestra.report_sheets.order(:year)
       thisYear = Time.now.year
       @report_sheets.each do |rs|
-          if rs.year == thisYear then
-            @has_current_report_sheet = true
-          end
+        @has_current_report_sheet = true if rs.year == thisYear
       end
-    elsif (params[:regional_organization_id]) then
+    elsif params[:regional_organization_id]
 
-      if params[:year].nil? then
-        year = Time.now.year
-      else
-        year = params[:year]
-      end
+      year = if params[:year].nil?
+               Time.now.year
+             else
+               params[:year]
+             end
       @report_sheets = ReportSheet.for_regional_organization(year, params[:regional_organization_id])
 
-	  else 
-		  @curYear = Time.now.year
-		  @report_sheets = ReportSheet.joins(:orchestra => :member).order('members.mglnr').find_all_by_year(@curYear)
-	  end
+    else
+      @curYear = Time.now.year
+      @report_sheets = ReportSheet.joins(orchestra: :member).order('members.mglnr').find_all_by_year(@curYear)
+    end
 
     respond_to do |format|
-	    format.js
+      format.js
       format.html # index.html.erb
-      format.json { render :json => @report_sheets }
+      format.json { render json: @report_sheets }
       format.ods do
-
-        tmpfile = Tempfile.new("report_sheets")
-        ReportSheet.renderOds(@report_sheets,tmpfile.path)
-        send_file(tmpfile.path, :filename => "meldeboegen_#{year}.ods", :type => "application/octet-stream")
+        tmpfile = Tempfile.new('report_sheets')
+        ReportSheet.renderOds(@report_sheets, tmpfile.path)
+        send_file(tmpfile.path, filename: "meldeboegen_#{year}.ods", type: 'application/octet-stream')
       end
     end
   end
@@ -47,62 +42,57 @@ class ReportSheetsController < AuthenticatedController
     @orchestra = Orchestra.find(params[:orchestra_id])
 
     @curYear = Time.now.year
-    @prevYear = @curYear-1
+    @prevYear = @curYear - 1
 
-    @prev = ReportSheet.where(:year=>@prevYear,:orchestra_id=>params[:orchestra_id]).first
+    @prev = ReportSheet.where(year: @prevYear, orchestra_id: params[:orchestra_id]).first
 
-    logger.debug "PREV Sheet ID: "+@prev.id.to_s
+    logger.debug 'PREV Sheet ID: ' + @prev.id.to_s
 
+    @cur = ReportSheet.where(year: @curYear, orchestra_id: params[:orchestra_id]).first
 
-    @cur = ReportSheet.where(:year=>@curYear,:orchestra_id=>params[:orchestra_id]).first
-
-    if ( @cur.nil?) then
-      cur_id = nil
-    else
-      cur_id = @cur.id
-    end
+    cur_id = if @cur.nil?
+               nil
+             else
+               @cur.id
+             end
 
     @cur = @prev.dup
     @cur.year = Time.now.year
-    @cur.report_date = Time.now	
-    @cur.id=cur_id
+    @cur.report_date = Time.now
+    @cur.id = cur_id
     @cur.init_empty
-    @cur.generated=true
-    @cur.comment= t("report_sheet.data_from_last_year")
+    @cur.generated = true
+    @cur.comment = t('report_sheet.data_from_last_year')
     @cur.orchestra = @orchestra
-  
-    if  not @cur.valid? then
+
+    unless @cur.valid?
       @cur.errors.each do |e|
-      logger.warn "Invalid: "+e.to_s+":"+@cur.errors[e].to_s
-     end
+        logger.warn 'Invalid: ' + e.to_s + ':' + @cur.errors[e].to_s
+      end
     end
 
-    logger.debug("UV: "+@cur.uv.to_s)
+    logger.debug('UV: ' + @cur.uv.to_s)
 
     respond_to do |format|
-        if @cur.save
-          format.html { redirect_to orchestra_report_sheet_path(@cur.orchestra,@cur), :notice => t('report_sheet.create_success') }
-        else
-          logger.error("ERROR: could not save report sheet")
+      if @cur.save
+        format.html do
+          redirect_to orchestra_report_sheet_path(@cur.orchestra, @cur), notice: t('report_sheet.create_success')
         end
-        logger.info ("ID is: "+@cur.id.to_s)
+      else
+        logger.error('ERROR: could not save report sheet')
+      end
+      logger.info('ID is: ' + @cur.id.to_s)
     end
-          
   end
 
   def final
-
-    if params[:year] then 
-      @curYear = params[:year]
-    else
-      @curYear = Time.now.year
-    end
+    @curYear = params[:year] || Time.now.year
     @final = ReportSheet.final(@curYear)
 
     respond_to do |format|
-	  format.js
+      format.js
       format.html # index.html.erb
-      format.json { render :json => @final }
+      format.json { render json: @final }
     end
   end
 
@@ -110,19 +100,20 @@ class ReportSheetsController < AuthenticatedController
     @not_final = ReportSheet.not_final
 
     respond_to do |format|
-	  format.js
+      format.js
       format.html # index.html.erb
-      format.json { render :json => @not_final }
+      format.json { render json: @not_final }
     end
   end
 
-  def payed 
-		@curYear = Time.now.year
-		@report_sheets = ReportSheet.joins(:orchestra => :member).order('members.mglnr').where("report_sheets.year = ?",@curYear).page(params[:page]).per(20)
+  def payed
+    @curYear = Time.now.year
+    @report_sheets = ReportSheet.joins(orchestra: :member).order('members.mglnr').where('report_sheets.year = ?',
+                                                                                        @curYear).page(params[:page]).per(20)
     respond_to do |format|
-	  format.js
+      format.js
       format.html # index.html.erb
-      format.json { render :json => @report_sheets }
+      format.json { render json: @report_sheets }
     end
   end
 
@@ -143,11 +134,11 @@ class ReportSheetsController < AuthenticatedController
     @invoiced = @report_sheet.is_invoiced?
     @invoice_delta = @report_sheet.invoice_delta
 
-    @needs_update = @invoice_delta!= 0
+    @needs_update = @invoice_delta != 0
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render :json => @report_sheet }
+      format.json { render json: @report_sheet }
     end
   end
 
@@ -157,14 +148,13 @@ class ReportSheetsController < AuthenticatedController
     @orchestra = Orchestra.find(params[:orchestra_id])
     @report_sheet = ReportSheet.new
     @report_sheet.init_empty
-	  @report_sheet.orchestra = @orchestra
-	  @report_sheet.year = Time.now.year
-	  @report_sheet.report_date = Time.now
-
+    @report_sheet.orchestra = @orchestra
+    @report_sheet.year = Time.now.year
+    @report_sheet.report_date = Time.now
 
     respond_to do |format|
       format.html # new.html.erb
-      format.json { render :json => @report_sheet }
+      format.json { render json: @report_sheet }
     end
   end
 
@@ -183,11 +173,14 @@ class ReportSheetsController < AuthenticatedController
 
     respond_to do |format|
       if @report_sheet.save
-        format.html { redirect_to orchestra_report_sheet_path(@report_sheet.orchestra,@report_sheet), :notice => t('report_sheet.create_success') }
-        format.json { render :json => @report_sheet, :status => :created, :location => @report_sheet }
+        format.html do
+          redirect_to orchestra_report_sheet_path(@report_sheet.orchestra, @report_sheet),
+                      notice: t('report_sheet.create_success')
+        end
+        format.json { render json: @report_sheet, status: :created, location: @report_sheet }
       else
         format.html { render :new, status: :unprocessable_entity }
-        format.json { render :json => @report_sheet.errors, :status => :unprocessable_entity }
+        format.json { render json: @report_sheet.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -199,11 +192,14 @@ class ReportSheetsController < AuthenticatedController
 
     respond_to do |format|
       if @report_sheet.update(report_sheet_params)
-        format.html { redirect_to orchestra_report_sheet_path(@report_sheet.orchestra,@report_sheet), :notice => I18n.t('report_sheet.title')+' '+t('common.update_success') }
+        format.html do
+          redirect_to orchestra_report_sheet_path(@report_sheet.orchestra, @report_sheet),
+                      notice: I18n.t('report_sheet.title') + ' ' + t('common.update_success')
+        end
         format.json { head :ok }
       else
         format.html { render :edit, status: :unprocessable_entity }
-        format.json { render :json => @report_sheet.errors, :status => :unprocessable_entity }
+        format.json { render json: @report_sheet.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -216,63 +212,69 @@ class ReportSheetsController < AuthenticatedController
     @report_sheet.destroy
 
     respond_to do |format|
-      format.html { redirect_to orchestra_report_sheets_path(@orchestra)}
+      format.html { redirect_to orchestra_report_sheets_path(@orchestra) }
       format.json { head :ok }
     end
   end
 
   def analysis
-	@current_year = Time.now.year;
-	@last_year = @current_year-1
+    @current_year = Time.now.year
+    @last_year = @current_year - 1
 
-	@sheets = ReportSheet.includes(:orchestra).where('year in  (?) and orchestra_id IS NOT NULL',[@current_year,@last_year]).order(:orchestra_id)
+    @sheets = ReportSheet.includes(:orchestra).where('year in  (?) and orchestra_id IS NOT NULL',
+                                                     [@current_year, @last_year]).order(:orchestra_id)
 
-	@counts = Hash.new
+    @counts = {}
 
-	@warning_sheets = Array.new
+    @warning_sheets = []
 
-	@sheets.each do |s|
-		list = @counts[s.orchestra]
-		if list == nil then
-			list = Hash.new
-			@counts[s.orchestra]=list
-		end
-		list[s.year]=s
+    @sheets.each do |s|
+      list = @counts[s.orchestra]
+      if list.nil?
+        list = {}
+        @counts[s.orchestra] = list
+      end
+      list[s.year] = s
 
-		if list[@current_year] != nil and list[@last_year] != nil then
-			Rails.logger.info("Both sheets present")
-			last_sheet = list[@last_year]
-			cur_sheet = list[@current_year]
+      next unless !list[@current_year].nil? and !list[@last_year].nil?
 
-			if triggers_warning?(last_sheet,cur_sheet) then
+      Rails.logger.info('Both sheets present')
+      last_sheet = list[@last_year]
+      cur_sheet = list[@current_year]
 
-				ws = { "cur" => cur_sheet, "last" => last_sheet}
-				
-				@warning_sheets << ws
-			end
-		end
-	end
-	Rails.logger.debug(@warning_sheets.size)
+      next unless triggers_warning?(last_sheet, cur_sheet)
 
-	respond_to do |format|
-		format.html
-	end
+      ws = { 'cur' => cur_sheet, 'last' => last_sheet }
+
+      @warning_sheets << ws
+    end
+    Rails.logger.debug(@warning_sheets.size)
+
+    respond_to do |format|
+      format.html
+    end
   end
 
   def update_double_members
     @report_sheet = ReportSheet.find(params[:id])
 
-	  @report_sheet.azubi=params[:dm]
+    @report_sheet.azubi = params[:dm]
 
     respond_to do |format|
       if @report_sheet.save
-        format.html { redirect_to orchestra_report_sheet_path(@report_sheet.orchestra,@report_sheet), :notice => t('report_sheet.update_double_success') }
-        format.json { render :json => @report_sheet, :status => :update_double_success, :location => @report_sheet }
+        format.html do
+          redirect_to orchestra_report_sheet_path(@report_sheet.orchestra, @report_sheet),
+                      notice: t('report_sheet.update_double_success')
+        end
+        format.json { render json: @report_sheet, status: :update_double_success, location: @report_sheet }
       else
-        format.html { redirect_to orchestra_report_sheet_path(@report_sheet.orchestra,@report_sheet), :warning => t('report_sheet.update_double_failed') }
-        format.json { render :json => @report_sheet.errors, :status => :unprocessable_entity }
-  	  end
-  	end
+        format.html do
+          redirect_to orchestra_report_sheet_path(@report_sheet.orchestra, @report_sheet),
+                      warning: t('report_sheet.update_double_failed')
+        end
+        format.json { render json: @report_sheet.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   def gen_invoice_pdf
@@ -281,10 +283,10 @@ class ReportSheetsController < AuthenticatedController
     tex_writer = CorikaInvoices::TexWriter.new
     invoice = @report_sheet.orchestra.gen_invoice(@report_sheet.year)
 
-    @report_sheet.gen_invoice_pdf(tex_writer,invoice,nil)
- 
+    @report_sheet.gen_invoice_pdf(tex_writer, invoice, nil)
+
     invoice_file = @report_sheet.gen_invoice_pdf(invoice)
-    send_file(invoice_file.path, :filename => invoice_file.orig_filename, :type => "application/octet-stream")
+    send_file(invoice_file.path, filename: invoice_file.orig_filename, type: 'application/octet-stream')
   end
 
   def update_from_members
@@ -292,26 +294,34 @@ class ReportSheetsController < AuthenticatedController
     @report_sheet = ReportSheet.find(params[:id])
 
     respond_to do |format|
-        if @report_sheet.update_from_orchestra_members(@orchestra.orchestra_members)
-          format.html { redirect_to orchestra_report_sheet_path(@report_sheet.orchestra,@report_sheet), :notice => t('report_sheet.update_from_memberssuccess') }
-        else
-          format.html { redirect_to orchestra_report_sheet_path(@report_sheet.orchestra,@report_sheet), :warning => t('report_sheet.update_from_members_failed') }
+      if @report_sheet.update_from_orchestra_members(@orchestra.orchestra_members)
+        format.html do
+          redirect_to orchestra_report_sheet_path(@report_sheet.orchestra, @report_sheet),
+                      notice: t('report_sheet.update_from_memberssuccess')
         end
+      else
+        format.html do
+          redirect_to orchestra_report_sheet_path(@report_sheet.orchestra, @report_sheet),
+                      warning: t('report_sheet.update_from_members_failed')
+        end
+      end
     end
   end
 
-  def update_invoice 
+  def update_invoice
     @orchestra = Orchestra.find(params[:orchestra_id])
     @report_sheet = ReportSheet.find(params[:id])
 
     year = @report_sheet.year
-    
+
     @delta_value = @report_sheet.invoice_delta
 
-
-    if @delta_value == 0 then
+    if @delta_value == 0
       respond_to do |format|
-            format.html { redirect_to orchestra_report_sheet_path(@report_sheet.orchestra,@report_sheet), :notice => t('report_sheet.no_update_needed') }
+        format.html do
+          redirect_to orchestra_report_sheet_path(@report_sheet.orchestra, @report_sheet),
+                      notice: t('report_sheet.no_update_needed')
+        end
       end
       return
     end
@@ -320,44 +330,48 @@ class ReportSheetsController < AuthenticatedController
     sepa_writer = CorikaInvoices::SepaWriter.new(date_prefix, INVOICE_CONFIG)
 
     tw = CorikaInvoices::TexWriter.new(INVOICE_CONFIG)
-    
+
     invoice = @report_sheet.orchestra.gen_invoice(@report_sheet.year)
     invoice_file = invoice.gen_pdf(tw)
 
     booking = @report_sheet.find_booking
 
     # booking is negative - so original invoice inverted
-    old_invoice_sum = -1*booking.amount 
+    booking.amount
 
-		booking_txt = 'Beitrag '+String(year)
-    @orchestra.member.create_invoice_booking(year, invoice, invoice_file.orig_filename,booking_txt)
+    booking_txt = 'Beitrag ' + String(year)
+    @orchestra.member.create_invoice_booking(year, invoice, invoice_file.orig_filename, booking_txt)
 
     booking.destroy
 
-    @report_sheet.gen_delta_booking(sepa_writer,invoice,@delta_value)
+    @report_sheet.gen_delta_booking(sepa_writer, invoice, @delta_value)
 
     sepa_file = sepa_writer.generate_file
 
-		users = User.for_admin_notify
+    users = User.for_admin_notify
 
-   	users.each do |user|
+    users.each do |user|
       AdminNotifier.invoice_update(user, invoice, invoice_file, sepa_file, @delta_value, @report_sheet).deliver
-   	end
+    end
 
     respond_to do |format|
-          format.html { redirect_to orchestra_report_sheet_path(@report_sheet.orchestra,@report_sheet), :notice => t('report_sheet.invoice_update_success') }
+      format.html do
+        redirect_to orchestra_report_sheet_path(@report_sheet.orchestra, @report_sheet),
+                    notice: t('report_sheet.invoice_update_success')
+      end
     end
   end
 
-  private 
+  private
+
   def report_sheet_params
     params.require(:report_sheet).permit(
-      :year, :children, :teens, :youth, :adult, :senior, :uv, 
-      :zusatz_uv, :korr_ztg, :zusatz_ztg, :gema, :azubi, :passive, 
-      :child_ens, :youth_ens, :adult_ens, :senior_ens, :chamber_ens, 
-      :other_ens, :token, :azubi_child, :azubi_teens, :azubi_youth, 
-      :azubi_adult, :azubi_senior, :supporters, :zo, :zi_o, :go, :oz, 
-      :report_date, :report_date_str, :comment)
-
+      :year, :children, :teens, :youth, :adult, :senior, :uv,
+      :zusatz_uv, :korr_ztg, :zusatz_ztg, :gema, :azubi, :passive,
+      :child_ens, :youth_ens, :adult_ens, :senior_ens, :chamber_ens,
+      :other_ens, :token, :azubi_child, :azubi_teens, :azubi_youth,
+      :azubi_adult, :azubi_senior, :supporters, :zo, :zi_o, :go, :oz,
+      :report_date, :report_date_str, :comment
+    )
   end
 end

@@ -2,8 +2,8 @@ class Homepage < ApplicationRecord
   include Authority::Abilities
 
   def member_exists?
-    member = Member.where(:mglnr => self.mitglnr)
+    member = Member.where(mglnr: mitglnr)
 
-    return member.count > 0
+    member.count > 0
   end
 end

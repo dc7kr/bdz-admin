@@ -44,7 +44,6 @@ BDZAdmin::Application.configure do
   # config.action_cable.url = 'wss://example.com/cable'
   # config.action_cable.allowed_request_origins = [ 'http://example.com', /http:\/\/example.*/ ]
 
-
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   # config.force_ssl = true
 
@@ -57,7 +56,6 @@ BDZAdmin::Application.configure do
   # Use a different logger for distributed setups
   # config.logger = ActiveSupport::TaggedLogging.new(SyslogLogger.new)
 
-
   # Use a different cache store in production
   # config.cache_store = :mem_cache_store
 
@@ -65,7 +63,7 @@ BDZAdmin::Application.configure do
   # config.action_controller.asset_host = "http://assets.example.com"
 
   # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
-  config.assets.precompile += %w( public.css )
+  config.assets.precompile += %w[public.css]
 
   #
   # this disabled Mail sending entirely when set to false !!!
@@ -89,5 +87,5 @@ BDZAdmin::Application.configure do
   config.action_mailer.perform_deliveries = true
   config.action_mailer.logger = nil
 
- config.time_zone = 'Berlin'
+  config.time_zone = 'Berlin'
 end

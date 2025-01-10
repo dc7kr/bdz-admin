@@ -4,7 +4,7 @@ class HonorMembersController < AuthenticatedController
   # GET /honor_members
   # GET /honor_members.json
   def index
-    @honor_members = HonorMember.all.order(sort_column+ " "+ sort_direction)
+    @honor_members = HonorMember.all.order(sort_column + ' ' + sort_direction)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -83,14 +83,15 @@ class HonorMembersController < AuthenticatedController
     end
   end
 
-  private 
+  private
+
   def honor_member_params
-    params.require(:honor_member).permit( :nr, :vorname, :name, :ort, :honorType, :honorDate,:deceased)
+    params.require(:honor_member).permit(:nr, :vorname, :name, :ort, :honorType, :honorDate, :deceased)
   end
 
   def sort_column
     valid = HonorMember.column_names.include?(params[:sort])
     logger.debug("valid col? #{params[:sort]}: #{valid}")
-    valid ? params[:sort] : "nr"
+    valid ? params[:sort] : 'nr'
   end
 end

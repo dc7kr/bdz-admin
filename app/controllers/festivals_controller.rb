@@ -1,16 +1,16 @@
 class FestivalsController < AuthenticatedController
   # GET /festivals
   # GET /festivals.json
-  before_action :authenticate_user!#, :except => [:index]
+  before_action :authenticate_user! # , :except => [:index]
 
   helper_method :sort_column, :sort_direction
 
   def index
-    @festivals = Festival.search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
+    @festivals = Festival.search(params[:search]).order(sort_column + ' ' + sort_direction).page(params[:page]).per(20)
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render :json => @festivals }
+      format.json { render json: @festivals }
     end
   end
 
@@ -21,7 +21,7 @@ class FestivalsController < AuthenticatedController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render :json => @festival }
+      format.json { render json: @festival }
     end
   end
 
@@ -32,7 +32,7 @@ class FestivalsController < AuthenticatedController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.json { render :json => @festival }
+      format.json { render json: @festival }
     end
   end
 
@@ -48,11 +48,11 @@ class FestivalsController < AuthenticatedController
 
     respond_to do |format|
       if @festival.save
-        format.html { redirect_to @festival, :notice => 'Festival was successfully created.' }
-        format.json { render :json => @festival, :status => :created, :location => @festival }
+        format.html { redirect_to @festival, notice: 'Festival was successfully created.' }
+        format.json { render json: @festival, status: :created, location: @festival }
       else
         format.html { render :new, status: :unprocessable_entity }
-        format.json { render :json => @festival.errors, :status => :unprocessable_entity }
+        format.json { render json: @festival.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -64,11 +64,11 @@ class FestivalsController < AuthenticatedController
 
     respond_to do |format|
       if @festival.update(params[:festival])
-        format.html { redirect_to @festival, :notice => 'Festival was successfully updated.' }
+        format.html { redirect_to @festival, notice: 'Festival was successfully updated.' }
         format.json { head :ok }
       else
         format.html { render :edit, status: :unprocessable_entity }
-        format.json { render :json => @festival.errors, :status => :unprocessable_entity }
+        format.json { render json: @festival.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -85,9 +85,9 @@ class FestivalsController < AuthenticatedController
     end
   end
 
+  private
 
-  private 
   def sort_column
-    Festival.column_names.include?(params[:sort]) ? params[:sort] : "festivals.startdate"
+    Festival.column_names.include?(params[:sort]) ? params[:sort] : 'festivals.startdate'
   end
 end

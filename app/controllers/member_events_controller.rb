@@ -1,24 +1,24 @@
 class MemberEventsController < AuthenticatedController
   helper_method :sort_column, :sort_direction
 
-  before_action :set_member_entity, only: [:index,:new,:show, :edit, :update, :destroy]
+  before_action :set_member_entity, only: %i[index new show edit update destroy]
 
   # GET /member_events
   # GET /member_events.json
   def index
     page = params[:page]
 
-    if (@member_entity) then
-      @member_events= MemberEvent.where("member_id=?",@member_entity.member.id).page(page).per(20)
-    else 
-      @member_events= MemberEvent.all.page(page).per(20)
-    end
+    @member_events = if @member_entity
+                       MemberEvent.where('member_id=?', @member_entity.member.id).page(page).per(20)
+                     else
+                       MemberEvent.all.page(page).per(20)
+                     end
 
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @member_events }
       format.js
-	  format.js
+      format.js
     end
   end
 
@@ -48,14 +48,13 @@ class MemberEventsController < AuthenticatedController
   def edit
     @member_event = MemberEvent.find(params[:id])
 
-	  @basemember = @member_event.member
+    @basemember = @member_event.member
 
     @member = @basemember.member_entity
 
-    if ( @member.is_a? Orchestra) then
-      @isOrchestra=true
-    end
+    return unless @member.is_a? Orchestra
 
+    @isOrchestra = true
   end
 
   # POST /member_events
@@ -93,11 +92,11 @@ class MemberEventsController < AuthenticatedController
   # DELETE /member_events/1
   # DELETE /member_events/1.json
   def destroy
-	  @return_path="";
-	  if ( params[:orchestra_id]) then
-        @return_path = orchestra_member_events_path(params[:orchestra_id])
-    elsif (params[:person_member_id]) then
-        @return_path = person_member_member_events_path(params[:person_member_id])
+    @return_path = ''
+    if params[:orchestra_id]
+      @return_path = orchestra_member_events_path(params[:orchestra_id])
+    elsif params[:person_member_id]
+      @return_path = person_member_member_events_path(params[:person_member_id])
     end
 
     @member_event = MemberEvent.find(params[:id])
@@ -105,36 +104,36 @@ class MemberEventsController < AuthenticatedController
 
     respond_to do |format|
       format.html { redirect_to @return_path }
-      format.json { render :json=>{ :status=>"ok", :op=>"delete", :entityId=>@member_event.id } }
+      format.json { render json: { status: 'ok', op: 'delete', entityId: @member_event.id } }
     end
   end
 
-
   def download
-    @event= MemberEvent.find(params[:id])
-	fullPath = INVOICE_CONFIG.archive_dir+"/"+@event.filename
-	send_file(fullPath, :filename => File.basename(@event.filename), :type => "application/pdf", :x_sendfile=>true)
+    @event = MemberEvent.find(params[:id])
+    fullPath = INVOICE_CONFIG.archive_dir + '/' + @event.filename
+    send_file(fullPath, filename: File.basename(@event.filename), type: 'application/pdf', x_sendfile: true)
   end
 
   def sort_column
-    MemberEvent.column_names.include?(params[:sort]) ? params[:sort] : "event_date"
+    MemberEvent.column_names.include?(params[:sort]) ? params[:sort] : 'event_date'
   end
 
   private
+
   def member_event_params
-    params.require(:member_event).permit( :event_type, :event_date, :event_id)
+    params.require(:member_event).permit(:event_type, :event_date, :event_id)
   end
 
   def set_member_entity
-    if ( params[:orchestra_id]) then
+    if params[:orchestra_id]
       @member_entity = Orchestra.includes(:member).find(params[:orchestra_id])
       @orchestra = @member_entity
       @name = @member_entity.orchName
-      @isOrchestra=true
-    elsif (params[:person_member_id]) then
-      @member_entity= PersonMember.includes(:member).find(params[:person_member_id])
+      @isOrchestra = true
+    elsif params[:person_member_id]
+      @member_entity = PersonMember.includes(:member).find(params[:person_member_id])
       @name = @member_entity.fullname
-      @isOrchestra=false
+      @isOrchestra = false
     end
   end
 end

@@ -18,142 +18,140 @@ require 'rails_helper'
 # Message expectations are only used when there is no simpler way to specify
 # that an instance is receiving a specific message.
 
-RSpec.describe ConcertsController, :type => :controller do
-
+RSpec.describe ConcertsController, type: :controller do
   # This should return the minimal set of attributes required to create a valid
   # Concert. As you add validations to Concert, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
-  }
+  let(:valid_attributes) do
+    skip('Add a hash of attributes valid for your model')
+  end
 
-  let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
-  }
+  let(:invalid_attributes) do
+    skip('Add a hash of attributes invalid for your model')
+  end
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
   # ConcertsController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
-  describe "GET #index" do
-    it "assigns all concerts as @concerts" do
+  describe 'GET #index' do
+    it 'assigns all concerts as @concerts' do
       concert = Concert.create! valid_attributes
-      get :index, {}, valid_session
+      get :index, session: valid_session
       expect(assigns(:concerts)).to eq([concert])
     end
   end
 
-  describe "GET #show" do
-    it "assigns the requested concert as @concert" do
+  describe 'GET #show' do
+    it 'assigns the requested concert as @concert' do
       concert = Concert.create! valid_attributes
-      get :show, {:id => concert.to_param}, valid_session
+      get :show, params: { id: concert.to_param }, session: valid_session
       expect(assigns(:concert)).to eq(concert)
     end
   end
 
-  describe "GET #new" do
-    it "assigns a new concert as @concert" do
-      get :new, {}, valid_session
+  describe 'GET #new' do
+    it 'assigns a new concert as @concert' do
+      get :new, session: valid_session
       expect(assigns(:concert)).to be_a_new(Concert)
     end
   end
 
-  describe "GET #edit" do
-    it "assigns the requested concert as @concert" do
+  describe 'GET #edit' do
+    it 'assigns the requested concert as @concert' do
       concert = Concert.create! valid_attributes
-      get :edit, {:id => concert.to_param}, valid_session
+      get :edit, params: { id: concert.to_param }, session: valid_session
       expect(assigns(:concert)).to eq(concert)
     end
   end
 
-  describe "POST #create" do
-    context "with valid params" do
-      it "creates a new Concert" do
-        expect {
-          post :create, {:concert => valid_attributes}, valid_session
-        }.to change(Concert, :count).by(1)
+  describe 'POST #create' do
+    context 'with valid params' do
+      it 'creates a new Concert' do
+        expect do
+          post :create, params: { concert: valid_attributes }, session: valid_session
+        end.to change(Concert, :count).by(1)
       end
 
-      it "assigns a newly created concert as @concert" do
-        post :create, {:concert => valid_attributes}, valid_session
+      it 'assigns a newly created concert as @concert' do
+        post :create, params: { concert: valid_attributes }, session: valid_session
         expect(assigns(:concert)).to be_a(Concert)
         expect(assigns(:concert)).to be_persisted
       end
 
-      it "redirects to the created concert" do
-        post :create, {:concert => valid_attributes}, valid_session
+      it 'redirects to the created concert' do
+        post :create, params: { concert: valid_attributes }, session: valid_session
         expect(response).to redirect_to(Concert.last)
       end
     end
 
-    context "with invalid params" do
-      it "assigns a newly created but unsaved concert as @concert" do
-        post :create, {:concert => invalid_attributes}, valid_session
+    context 'with invalid params' do
+      it 'assigns a newly created but unsaved concert as @concert' do
+        post :create, params: { concert: invalid_attributes }, session: valid_session
         expect(assigns(:concert)).to be_a_new(Concert)
       end
 
       it "re-renders the 'new' template" do
-        post :create, {:concert => invalid_attributes}, valid_session
-        expect(response).to render_template("new")
+        post :create, params: { concert: invalid_attributes }, session: valid_session
+        expect(response).to render_template('new')
       end
     end
   end
 
-  describe "PUT #update" do
-    context "with valid params" do
-      let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
-      }
-
-      it "updates the requested concert" do
-        concert = Concert.create! valid_attributes
-        put :update, {:id => concert.to_param, :concert => new_attributes}, valid_session
-        concert.reload
-        skip("Add assertions for updated state")
+  describe 'PUT #update' do
+    context 'with valid params' do
+      let(:new_attributes) do
+        skip('Add a hash of attributes valid for your model')
       end
 
-      it "assigns the requested concert as @concert" do
+      it 'updates the requested concert' do
         concert = Concert.create! valid_attributes
-        put :update, {:id => concert.to_param, :concert => valid_attributes}, valid_session
+        put :update, params: { id: concert.to_param, concert: new_attributes }, session: valid_session
+        concert.reload
+        skip('Add assertions for updated state')
+      end
+
+      it 'assigns the requested concert as @concert' do
+        concert = Concert.create! valid_attributes
+        put :update, params: { id: concert.to_param, concert: valid_attributes }, session: valid_session
         expect(assigns(:concert)).to eq(concert)
       end
 
-      it "redirects to the concert" do
+      it 'redirects to the concert' do
         concert = Concert.create! valid_attributes
-        put :update, {:id => concert.to_param, :concert => valid_attributes}, valid_session
+        put :update, params: { id: concert.to_param, concert: valid_attributes }, session: valid_session
         expect(response).to redirect_to(concert)
       end
     end
 
-    context "with invalid params" do
-      it "assigns the concert as @concert" do
+    context 'with invalid params' do
+      it 'assigns the concert as @concert' do
         concert = Concert.create! valid_attributes
-        put :update, {:id => concert.to_param, :concert => invalid_attributes}, valid_session
+        put :update, params: { id: concert.to_param, concert: invalid_attributes }, session: valid_session
         expect(assigns(:concert)).to eq(concert)
       end
 
       it "re-renders the 'edit' template" do
         concert = Concert.create! valid_attributes
-        put :update, {:id => concert.to_param, :concert => invalid_attributes}, valid_session
-        expect(response).to render_template("edit")
+        put :update, params: { id: concert.to_param, concert: invalid_attributes }, session: valid_session
+        expect(response).to render_template('edit')
       end
     end
   end
 
-  describe "DELETE #destroy" do
-    it "destroys the requested concert" do
+  describe 'DELETE #destroy' do
+    it 'destroys the requested concert' do
       concert = Concert.create! valid_attributes
-      expect {
-        delete :destroy, {:id => concert.to_param}, valid_session
-      }.to change(Concert, :count).by(-1)
+      expect do
+        delete :destroy, params: { id: concert.to_param }, session: valid_session
+      end.to change(Concert, :count).by(-1)
     end
 
-    it "redirects to the concerts list" do
+    it 'redirects to the concerts list' do
       concert = Concert.create! valid_attributes
-      delete :destroy, {:id => concert.to_param}, valid_session
+      delete :destroy, params: { id: concert.to_param }, session: valid_session
       expect(response).to redirect_to(concerts_url)
     end
   end
-
 end

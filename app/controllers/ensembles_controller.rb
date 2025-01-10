@@ -5,25 +5,26 @@ class EnsemblesController < AuthenticatedController
 
   # GET /ensembles
   # GET /ensembles.json
-  
+
   def public
-	@ensembles = Ensemble.includes(:public_concerts)
+    @ensembles = Ensemble.includes(:public_concerts)
     respond_to do |format|
-      format.html 
-	# index.html.erb
-      format.json { render :json => @concerts }
+      format.html
+      # index.html.erb
+      format.json { render json: @concerts }
     end
   end
 
-  def inactive 
-    @ensembles = Ensemble.inactive().search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(10)
+  def inactive
+    @ensembles = Ensemble.inactive.search(params[:search]).order(sort_column + ' ' + sort_direction).page(params[:page]).per(10)
   end
+
   def index
-    @ensembles = Ensemble.search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(10)
+    @ensembles = Ensemble.search(params[:search]).order(sort_column + ' ' + sort_direction).page(params[:page]).per(10)
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render :json => @ensembles }
+      format.json { render json: @ensembles }
     end
   end
 
@@ -34,7 +35,7 @@ class EnsemblesController < AuthenticatedController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render :json => @ensemble }
+      format.json { render json: @ensemble }
     end
   end
 
@@ -43,11 +44,11 @@ class EnsemblesController < AuthenticatedController
   def new
     @ensemble = Ensemble.new
 
-    #@ensemble.owner = @current_user
+    # @ensemble.owner = @current_user
 
     respond_to do |format|
       format.html # new.html.erb
-      format.json { render :json => @ensemble }
+      format.json { render json: @ensemble }
     end
   end
 
@@ -65,11 +66,11 @@ class EnsemblesController < AuthenticatedController
 
     respond_to do |format|
       if @ensemble.save
-        format.html { redirect_to @ensemble, :notice => 'Ensemble was successfully created.' }
-        format.json { render :json => @ensemble, :status => :created, :location => @ensemble }
+        format.html { redirect_to @ensemble, notice: 'Ensemble was successfully created.' }
+        format.json { render json: @ensemble, status: :created, location: @ensemble }
       else
         format.html { render :new, status: :unprocessable_entity }
-        format.json { render :json => @ensemble.errors, :status => :unprocessable_entity }
+        format.json { render json: @ensemble.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -81,11 +82,11 @@ class EnsemblesController < AuthenticatedController
 
     respond_to do |format|
       if @ensemble.update(ensemble_params)
-        format.html { redirect_to @ensemble, :notice => 'Ensemble was successfully updated.' }
+        format.html { redirect_to @ensemble, notice: 'Ensemble was successfully updated.' }
         format.json { head :ok }
       else
         format.html { render :edit, status: :unprocessable_entity }
-        format.json { render :json => @ensemble.errors, :status => :unprocessable_entity }
+        format.json { render json: @ensemble.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -103,17 +104,17 @@ class EnsemblesController < AuthenticatedController
   end
 
   protected
+
   def noAuthActions
-	["index","public"]
+    %w[index public]
   end
-
-  private 
-  def sort_column
-    Ensemble.column_names.include?(params[:sort]) ? params[:sort] : "name"
-  end
-
 
   private
+
+  def sort_column
+    Ensemble.column_names.include?(params[:sort]) ? params[:sort] : 'name'
+  end
+
   def ensemble_params
     params.require(:ensemble).permit(:name, :mglnr, :homepage, :beschreibung, :email, :visible)
   end

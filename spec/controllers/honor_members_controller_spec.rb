@@ -18,161 +18,159 @@ require 'rails_helper'
 # Message expectations are only used when there is no simpler way to specify
 # that an instance is receiving a specific message.
 
-RSpec.describe HonorMembersController, :type => :controller do
-
+RSpec.describe HonorMembersController, type: :controller do
   login_admin
 
-  it "should have a current_user" do
-    # note the fact that you should remove the "validate_session" parameter if this was a scaffold-generated controller
+  it 'should have a current_user' do
+    # NOTE: the fact that you should remove the "validate_session" parameter if this was a scaffold-generated controller
     subject.current_user.should_not be_nil
   end
 
   # This should return the minimal set of attributes required to create a valid
   # HonorMember. As you add validations to HonorMember, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) {
-
+  let(:valid_attributes) do
     {
-    :vorname=> "Vorname",
-    :name => "Name", 
-    :honorType => "blah", 
-    :honorDate=> Time.now}
-  }
-
-  let(:invalid_attributes) {
-      {
-      :vorname=> "Vorname",
-      :honorType => "blah", 
-      :honorDate=> Time.now
+      vorname: 'Vorname',
+      name: 'Name',
+      honorType: 'blah',
+      honorDate: Time.now
     }
-  }
+  end
+
+  let(:invalid_attributes) do
+    {
+      vorname: 'Vorname',
+      honorType: 'blah',
+      honorDate: Time.now
+    }
+  end
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
   # HonorMembersController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
-  describe "GET #index" do
-    it "assigns all honor_members as @honor_members" do
+  describe 'GET #index' do
+    it 'assigns all honor_members as @honor_members' do
       sign_in :admin
       honor_member = HonorMember.create! valid_attributes
-      get :index, {}
+      get :index
       expect(assigns(:honor_members)).to eq([honor_member])
     end
   end
 
-  describe "GET #show" do
-    it "assigns the requested honor_member as @honor_member" do
+  describe 'GET #show' do
+    it 'assigns the requested honor_member as @honor_member' do
       honor_member = HonorMember.create! valid_attributes
-      get :show, {:id => honor_member.to_param}
+      get :show, params: { id: honor_member.to_param }
       expect(assigns(:honor_member)).to eq(honor_member)
     end
   end
 
-  describe "GET #new" do
-    it "assigns a new honor_member as @honor_member" do
-      get :new, {}
+  describe 'GET #new' do
+    it 'assigns a new honor_member as @honor_member' do
+      get :new
       expect(assigns(:honor_member)).to be_a_new(HonorMember)
     end
   end
 
-  describe "GET #edit" do
-    it "assigns the requested honor_member as @honor_member" do
+  describe 'GET #edit' do
+    it 'assigns the requested honor_member as @honor_member' do
       honor_member = HonorMember.create! valid_attributes
-      get :edit, {:id => honor_member.to_param}
+      get :edit, params: { id: honor_member.to_param }
       expect(assigns(:honor_member)).to eq(honor_member)
     end
   end
 
-  describe "POST #create" do
-    context "with valid params" do
-      it "creates a new HonorMember" do
-        expect {
-          post :create, {:honor_member => valid_attributes}
-        }.to change(HonorMember, :count).by(1)
+  describe 'POST #create' do
+    context 'with valid params' do
+      it 'creates a new HonorMember' do
+        expect do
+          post :create, params: { honor_member: valid_attributes }
+        end.to change(HonorMember, :count).by(1)
       end
 
-      it "assigns a newly created honor_member as @honor_member" do
-        post :create, {:honor_member => valid_attributes}
+      it 'assigns a newly created honor_member as @honor_member' do
+        post :create, params: { honor_member: valid_attributes }
         expect(assigns(:honor_member)).to be_a(HonorMember)
         expect(assigns(:honor_member)).to be_persisted
       end
 
-      it "redirects to the created honor_member" do
-        post :create, {:honor_member => valid_attributes}
+      it 'redirects to the created honor_member' do
+        post :create, params: { honor_member: valid_attributes }
         expect(response).to redirect_to(HonorMember.last)
       end
     end
 
-    context "with invalid params" do
-      it "assigns a newly created but unsaved honor_member as @honor_member" do
-        post :create, {:honor_member => invalid_attributes}
+    context 'with invalid params' do
+      it 'assigns a newly created but unsaved honor_member as @honor_member' do
+        post :create, params: { honor_member: invalid_attributes }
         expect(assigns(:honor_member)).to be_a_new(HonorMember)
       end
 
       it "re-renders the 'new' template" do
-        post :create, {:honor_member => invalid_attributes}
-        expect(response).to render_template("new")
+        post :create, params: { honor_member: invalid_attributes }
+        expect(response).to render_template('new')
       end
     end
   end
 
-  describe "PUT #update" do
-    context "with valid params" do
-      let(:new_attributes) {
+  describe 'PUT #update' do
+    context 'with valid params' do
+      let(:new_attributes) do
         {
-          :name => "Changed Name"
+          name: 'Changed Name'
         }
-      }
-
-      it "updates the requested honor_member" do
-        honor_member = HonorMember.create! valid_attributes
-        put :update, {:id => honor_member.to_param, :honor_member => new_attributes}
-        honor_member.reload
-        skip("Add assertions for updated state")
       end
 
-      it "assigns the requested honor_member as @honor_member" do
+      it 'updates the requested honor_member' do
         honor_member = HonorMember.create! valid_attributes
-        put :update, {:id => honor_member.to_param, :honor_member => valid_attributes}
+        put :update, params: { id: honor_member.to_param, honor_member: new_attributes }
+        honor_member.reload
+        skip('Add assertions for updated state')
+      end
+
+      it 'assigns the requested honor_member as @honor_member' do
+        honor_member = HonorMember.create! valid_attributes
+        put :update, params: { id: honor_member.to_param, honor_member: valid_attributes }
         expect(assigns(:honor_member)).to eq(honor_member)
       end
 
-      it "redirects to the honor_member" do
+      it 'redirects to the honor_member' do
         honor_member = HonorMember.create! valid_attributes
-        put :update, {:id => honor_member.to_param, :honor_member => valid_attributes}
+        put :update, params: { id: honor_member.to_param, honor_member: valid_attributes }
         expect(response).to redirect_to(honor_member)
       end
     end
 
-    context "with invalid params" do
-      it "assigns the honor_member as @honor_member" do
+    context 'with invalid params' do
+      it 'assigns the honor_member as @honor_member' do
         honor_member = HonorMember.create! valid_attributes
-        put :update, {:id => honor_member.to_param, :honor_member => invalid_attributes}
+        put :update, params: { id: honor_member.to_param, honor_member: invalid_attributes }
         expect(assigns(:honor_member)).to eq(honor_member)
       end
 
       it "re-renders the 'edit' template" do
         honor_member = HonorMember.create! valid_attributes
-        put :update, {:id => honor_member.to_param, :honor_member => invalid_attributes}
-        expect(response).to render_template("edit")
+        put :update, params: { id: honor_member.to_param, honor_member: invalid_attributes }
+        expect(response).to render_template('edit')
       end
     end
   end
 
-  describe "DELETE #destroy" do
-    it "destroys the requested honor_member" do
+  describe 'DELETE #destroy' do
+    it 'destroys the requested honor_member' do
       honor_member = HonorMember.create! valid_attributes
-      expect {
-        delete :destroy, {:id => honor_member.to_param}
-      }.to change(HonorMember, :count).by(-1)
+      expect do
+        delete :destroy, params: { id: honor_member.to_param }
+      end.to change(HonorMember, :count).by(-1)
     end
 
-    it "redirects to the honor_members list" do
+    it 'redirects to the honor_members list' do
       honor_member = HonorMember.create! valid_attributes
-      delete :destroy, {:id => honor_member.to_param}
+      delete :destroy, params: { id: honor_member.to_param }
       expect(response).to redirect_to(honor_members_url)
     end
   end
-
 end

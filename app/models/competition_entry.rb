@@ -1,23 +1,18 @@
 class CompetitionEntry < ApplicationRecord
-  #attr_accessible :contact, :date_of_birth, :response1, :response2, :response3, :response4, :first_name, :last_name, :street, :zip, :city, :country_code, :email, :like, :missing, :improve, :winner
+  # attr_accessible :contact, :date_of_birth, :response1, :response2, :response3, :response4, :first_name, :last_name, :street, :zip, :city, :country_code, :email, :like, :missing, :improve, :winner
 
-  validates_presence_of :first_name,:last_name,:date_of_birth,:response1,:response2,:response3,:response4
-  validates_uniqueness_of :last_name, :scope => [:first_name, :date_of_birth]
-  
+  validates :first_name, :last_name, :date_of_birth, :response1, :response2, :response3, :response4, presence: true
+  validates :last_name, uniqueness: { scope: %i[first_name date_of_birth] }
 
   def self.drawable
-    where("winner = false and correct=true")
+    where('winner = false and correct=true')
   end
 
   def fullname
-     result =''
-     if ( first_name ) 
-      result = result + first_name + ' '
-     end
-     if (last_name) 
-      result = result + last_name
-     end
-     return result
+    result = ''
+    result = result + first_name + ' ' if first_name
+    result += last_name if last_name
+    result
   end
 
   def check_responses
@@ -26,26 +21,17 @@ class CompetitionEntry < ApplicationRecord
     resp3 = response3.strip
     resp4 = response4.strip
 
-    correct=true
+    correct = true
 
-    if "Thomas Kronenberger".casecmp(resp1) != 0 then
-      correct =false
-    end
+    correct = false if 'Thomas Kronenberger'.casecmp(resp1) != 0
 
-    if "Nikolaus Neuroth".casecmp(resp2) != 0  then
-      correct=false
-    end
+    correct = false if 'Nikolaus Neuroth'.casecmp(resp2) != 0
 
-    if "Marcel Wirtz".casecmp(resp3) != 0  then
-      correct=false
-    end
+    correct = false if 'Marcel Wirtz'.casecmp(resp3) != 0
 
-    if "Steffen Trekel".casecmp(resp4) != 0  then
-      correct=false
-    end 
-    self.correct=correct
+    correct = false if 'Steffen Trekel'.casecmp(resp4) != 0
+    self.correct = correct
 
-    return correct
+    correct
   end
-
 end

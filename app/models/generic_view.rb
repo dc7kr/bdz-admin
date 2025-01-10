@@ -2,12 +2,10 @@ class GenericView < ActiveRecord::Base
   def self.public_views
     all = GenericView.connection.views
 
-    view_names = Array.new
-    
+    view_names = []
+
     all.each do |v|
-      if v.start_with? "public"
-        view_names << v.to_s.delete_prefix("public_")
-      end
+      view_names << v.to_s.delete_prefix('public_') if v.start_with? 'public'
     end
 
     view_names

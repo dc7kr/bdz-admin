@@ -1,42 +1,38 @@
-require 'bankleitzahl' 
+require 'bankleitzahl'
 
 class BicFinder
-
-  @parser
   def initialize
-    blzfile = Rails.root.join('data','blz.txt')
-    Rails.logger.debug "Using BLZ file: "+blzfile.to_s
+    blzfile = Rails.root.join('data/blz.txt')
+    Rails.logger.debug 'Using BLZ file: ' + blzfile.to_s
     @lines = File.read(blzfile)
     parser = Bankleitzahl::Parser.new(@lines)
     banks = parser.all_banks
 
-    @bankhash = Hash.new
-    @bichash = Hash.new
+    @bankhash = {}
+    @bichash = {}
 
     banks.each do |b|
-      if not b.bic.empty? and not b.bic.strip.empty? 
-        @bankhash[b.blz]=b
+      if !b.bic.empty? and !b.bic.strip.empty?
+        @bankhash[b.blz] = b
         @bichash[b.bic] = b
       end
     end
   end
 
-  def valid?(bic) 
+  def valid?(bic)
     if bic.nil?
       false
-    else 
+    else
       ctry = get_country(bic)
-      if ctry == "DE"
-        return exist?(bic)
-      else
-        return true
-      end
+      return exist?(bic) if ctry == 'DE'
+
+      true
+
     end
   end
 
   def get_country(bic)
-
-    if bic.nil? 
+    if bic.nil?
       nil
     else
       bic[4..5]
@@ -44,35 +40,28 @@ class BicFinder
   end
 
   def exist?(bic)
-    if bic.nil? or bic.empty? or bic.length <8
-      return false
-    end
-  
-    found = not(@bichash[bic].nil?)
+    return false if bic.nil? or bic.empty? or bic.length < 8
 
-    if found
-      return true
-    end
+    found = !@bichash[bic].nil?
+
+    return true if found
 
     # strip freely definable parts and replace with "XXX"
-    tmp = bic[0..7]+"XXX"
-    return not(@bichash[tmp].nil?)
+    tmp = bic[0..7] + 'XXX'
+    !@bichash[tmp].nil?
   end
 
-
   def get_bank(bic)
-    @bichash[bic] 
+    @bichash[bic]
   end
 
   def bic_for_blz(blz)
-     if blz.nil? then
-        return nil;
-      end
+    return nil if blz.nil?
 
-      bank = @bankhash[blz]
+    bank = @bankhash[blz]
 
-      if not bank.nil? then 
-        return bank.bic
-      end
+    return if bank.nil?
+
+    bank.bic
   end
 end

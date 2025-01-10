@@ -1,14 +1,14 @@
 class ContactsController < AuthenticatedController
   # GET /contacts
   # GET /contacts.json
-  before_action :authenticate_user! #, :except => [:index]
+  before_action :authenticate_user! # , :except => [:index]
 
   def index
     @contacts = Contact.all
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render :json => @contacts }
+      format.json { render json: @contacts }
     end
   end
 
@@ -19,7 +19,7 @@ class ContactsController < AuthenticatedController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render :json => @contact }
+      format.json { render json: @contact }
     end
   end
 
@@ -30,7 +30,7 @@ class ContactsController < AuthenticatedController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.json { render :json => @contact }
+      format.json { render json: @contact }
     end
   end
 
@@ -46,11 +46,11 @@ class ContactsController < AuthenticatedController
 
     respond_to do |format|
       if @contact.save
-        format.html { redirect_to @contact, :notice => 'Contact was successfully created.' }
-        format.json { render :json => @contact, :status => :created, :location => @contact }
+        format.html { redirect_to @contact, notice: 'Contact was successfully created.' }
+        format.json { render json: @contact, status: :created, location: @contact }
       else
         format.html { render :new, status: :unprocessable_entity }
-        format.json { render :json => @contact.errors, :status => :unprocessable_entity }
+        format.json { render json: @contact.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -62,11 +62,11 @@ class ContactsController < AuthenticatedController
 
     respond_to do |format|
       if @contact.update(params[:contact])
-        format.html { redirect_to @contact, :notice => 'Contact was successfully updated.' }
+        format.html { redirect_to @contact, notice: 'Contact was successfully updated.' }
         format.json { head :ok }
       else
         format.html { render :edit, status: :unprocessable_entity }
-        format.json { render :json => @contact.errors, :status => :unprocessable_entity }
+        format.json { render json: @contact.errors, status: :unprocessable_entity }
       end
     end
   end

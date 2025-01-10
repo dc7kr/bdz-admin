@@ -1,13 +1,11 @@
 class Public::ClassifiedsController < Public::ApplicationController
   helper_method :sort_column, :sort_direction
 
-
   def index
-    @offer_classifieds = Classified.not_expired.active.where("adv_type=1").order("entrydate desc")
-    @search_classifieds = Classified.not_expired.active.where("adv_type=0").order("entrydate desc")
- 
-    @classifieds= Classified.search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
+    @offer_classifieds = Classified.not_expired.active.where('adv_type=1').order('entrydate desc')
+    @search_classifieds = Classified.not_expired.active.where('adv_type=0').order('entrydate desc')
 
+    @classifieds = Classified.search(params[:search]).order(sort_column + ' ' + sort_direction).page(params[:page]).per(20)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -15,7 +13,7 @@ class Public::ClassifiedsController < Public::ApplicationController
       format.json { render json: @offer_classifieds }
     end
   end
-  
+
   def show
     @classified = Classified.find(params[:id])
 
@@ -29,7 +27,7 @@ class Public::ClassifiedsController < Public::ApplicationController
   # GET /classifieds/new.json
   def new
     @classified = Classified.new
-    @classified.adv_type=1
+    @classified.adv_type = 1
 
     respond_to do |format|
       format.html # new.html.erb
@@ -48,10 +46,10 @@ class Public::ClassifiedsController < Public::ApplicationController
     @classified = Classified.new(classified_params)
 
     @classified.entrydate = Time.now
-    @classified.validuntil = @classified.entrydate+3.months
+    @classified.validuntil = @classified.entrydate + 3.months
     @classified.ip = request.remote_ip
 
-    Rails.logger.debug("Remote IP: <#{request.remote_ip}")
+    Rails.logger.debug { "Remote IP: <#{request.remote_ip}" }
 
     respond_to do |format|
       if @classified.save
@@ -80,16 +78,17 @@ class Public::ClassifiedsController < Public::ApplicationController
     end
   end
 
-  private 
+  private
+
   def sort_column
-    Classified.column_names.include?(params[:sort]) ? params[:sort] : "validuntil"
+    Classified.column_names.include?(params[:sort]) ? params[:sort] : 'validuntil'
   end
-  
+
   def sort_direction
-    %w[asc desc].include?(params[:direction]) ? params[:direction] : "desc"
+    %w[asc desc].include?(params[:direction]) ? params[:direction] : 'desc'
   end
 
   def classified_params
-    params.require(:classified).permit(:adv_type,:object,:description,:name,:email,:url)
+    params.require(:classified).permit(:adv_type, :object, :description, :name, :email, :url)
   end
 end

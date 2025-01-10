@@ -1,3 +1,2 @@
 class University < ApplicationRecord
-
 end

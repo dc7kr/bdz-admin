@@ -1,107 +1,102 @@
 require 'zip'
 
-class DtausWriter  < BankTransferWriter
-
-  def initialize(datePrefix=nil)
-    super(datePrefix)
+class DtausWriter < BankTransferWriter
+  def initialize(datePrefix = nil)
+    super
   end
 
-	def ctlFile
-		DtausWriter.workdir+@datePrefix+"dta.ctl"
-	end
+  def ctlFile
+    DtausWriter.workdir + @datePrefix + 'dta.ctl'
+  end
 
-	def self.workdir
-		INVOICE_CONFIG.work_dir
-	end
+  def self.workdir
+    INVOICE_CONFIG.work_dir
+  end
 
-	def writeDtausPersonEntry(member,zweck)
-		if (member.konto > 0) then
-			amount = "%.2f" % member.tariff.amount
-			writeDtausEntry(member.fullname,String(member.konto),member.blz,amount,zweck)	
-		end
-	end
+  def writeDtausPersonEntry(member, zweck)
+    return unless member.konto > 0
 
-    def writeDtausEntry(name,konto,blz,amount,zweck,withdraw=true)
-			@file.write( "{\n")
-			if (withdraw) then
-				@file.write( "Transaktion Einzug\n")
-			else
-				@file.write( "Transaktion Gutschrift\n")
-			end
-			@file.write( "Name "+name+"\n")
-			@file.write( "Konto "+konto+"\n")
-			@file.write( "BLZ "+blz+"\n")
-			@file.write( "Betrag "+amount+"\n")
-			@file.write( "Zweck "+zweck+"\n")
-			@file.write( "}\n")
-	end
-	def writeLvEntry(regorg,txt,sum)
-		if (regorg != nil and regorg.konto > 0) then
-			amount = "%.2f" % sum
-			writeDtausEntry("BDZ "+String(regorg.name),String(regorg.konto),String(regorg.blz),amount,txt,false)
-		end
-	end
+    amount = '%.2f' % member.tariff.amount
+    writeDtausEntry(member.fullname, String(member.konto), member.blz, amount, zweck)
+  end
 
-	def writeDtausOrchestraEntry(member,zweck,sum)
-		if (member.konto > 0) then
-			amount = "%.2f" % sum
-			writeDtausEntry(String(member.cleanOrchName),String(member.konto),member.blz,amount,zweck)
-		end
-	end
+  def writeDtausEntry(name, konto, blz, amount, zweck, withdraw = true)
+    @file.write("{\n")
+    if withdraw
+      @file.write("Transaktion Einzug\n")
+    else
+      @file.write("Transaktion Gutschrift\n")
+    end
+    @file.write('Name ' + name + "\n")
+    @file.write('Konto ' + konto + "\n")
+    @file.write('BLZ ' + blz + "\n")
+    @file.write('Betrag ' + amount + "\n")
+    @file.write('Zweck ' + zweck + "\n")
+    @file.write("}\n")
+  end
 
-	def writeDtausHeader(withdraw=true)
-		datum = I18n.l(Time.now, :format => :short)
-		@file.write("BEGIN {\n")
-		if (withdraw) then
-			@file.write("Art LK\n")
-		else
-			@file.write("Art GK\n")
-		end
-		@file.write("Name "+BDZ_SETTINGS['company']+"\n")
-		@file.write("Konto "+BDZ_SETTINGS['konto']+"\n")
-		@file.write("BLZ "+BDZ_SETTINGS['blz']+"\n")
-		@file.write("Datum "+datum+"\n")
-		@file.write("}\n")
-	end
+  def writeLvEntry(regorg, txt, sum)
+    return unless !regorg.nil? and regorg.konto > 0
+
+    amount = '%.2f' % sum
+    writeDtausEntry('BDZ ' + String(regorg.name), String(regorg.konto), String(regorg.blz), amount, txt, false)
+  end
+
+  def writeDtausOrchestraEntry(member, zweck, sum)
+    return unless member.konto > 0
+
+    amount = '%.2f' % sum
+    writeDtausEntry(String(member.cleanOrchName), String(member.konto), member.blz, amount, zweck)
+  end
+
+  def writeDtausHeader(withdraw = true)
+    datum = I18n.l(Time.now, format: :short)
+    @file.write("BEGIN {\n")
+    if withdraw
+      @file.write("Art LK\n")
+    else
+      @file.write("Art GK\n")
+    end
+    @file.write('Name ' + BDZ_SETTINGS['company'] + "\n")
+    @file.write('Konto ' + BDZ_SETTINGS['konto'] + "\n")
+    @file.write('BLZ ' + BDZ_SETTINGS['blz'] + "\n")
+    @file.write('Datum ' + datum + "\n")
+    @file.write("}\n")
+  end
 
   private
-	def genDtaus()
-		workdir = INVOICE_CONFIG.work_dir+"/"
-		dtaFName = workdir+@datePrefix+"dtaus0.txt"
-		bglFName = workdir+@datePrefix+"dta_zettel.txt"
-		sumFName = workdir+@datePrefix+"dta_summen.txt"
 
-		system("/usr/bin/dtaus -d "+dtaFName+" -c "+ctlFile+" -b "+bglFName+" -o "+sumFName+" -dtaus")
+  def genDtaus
+    workdir = INVOICE_CONFIG.work_dir + '/'
+    dtaFName = workdir + @datePrefix + 'dtaus0.txt'
+    bglFName = workdir + @datePrefix + 'dta_zettel.txt'
+    sumFName = workdir + @datePrefix + 'dta_summen.txt'
 
-		zipfileName = workdir+@datePrefix+"dtaus.zip"
-		Zip::ZipOutputStream.open(zipfileName) do |zos|
-  		  [dtaFName, ctlFile, bglFName, sumFName].each do |fileName|
-			cleanFile = fileName.gsub(workdir,"")
-			if cleanFile.start_with? "/" then
-				cleanFile = cleanFile.gsub("#^/+#","")
-			end
-    		zos.put_next_entry(cleanFile)
-   			zos.print IO.read(fileName)
-  		  end
-		end
-		return DtausWriter.workdir+@datePrefix+"_dtaus.zip"
-	end
+    system('/usr/bin/dtaus -d ' + dtaFName + ' -c ' + ctlFile + ' -b ' + bglFName + ' -o ' + sumFName + ' -dtaus')
 
-  def moveGeneratedFiles()
-	  workDir = INVOICE_CONFIG.work_dir
-	  archiveDir= INVOICE_CONFIG.archive_dir
-	  tgtDir= archiveDir +"/"+String(Time.now.year)
+    zipfileName = workdir + @datePrefix + 'dtaus.zip'
+    Zip::ZipOutputStream.open(zipfileName) do |zos|
+      [dtaFName, ctlFile, bglFName, sumFName].each do |fileName|
+        cleanFile = fileName.gsub(workdir, '')
+        cleanFile = cleanFile.gsub('#^/+#', '') if cleanFile.start_with? '/'
+        zos.put_next_entry(cleanFile)
+        zos.print IO.read(fileName)
+      end
+    end
+    DtausWriter.workdir + @datePrefix + '_dtaus.zip'
+  end
 
-	  if ( ! Dir.exist? tgtDir) then
-      	FileUtils.mkdir tgtDir
-	  end
+  def moveGeneratedFiles
+    workDir = INVOICE_CONFIG.work_dir
+    archiveDir = INVOICE_CONFIG.archive_dir
+    tgtDir = archiveDir + '/' + String(Time.now.year)
 
-	  Dir.chdir(workDir)
-	  Dir.entries(workDir).each { |file|
-		  if file.start_with? @datePrefix then
-			  FileUtils.mv file, tgtDir+"/"
-		  end
-	  }
+    FileUtils.mkdir tgtDir unless Dir.exist? tgtDir
+
+    Dir.chdir(workDir)
+    Dir.entries(workDir).each do |file|
+      FileUtils.mv file, tgtDir + '/' if file.start_with? @datePrefix
+    end
   end
 
   def generateFile

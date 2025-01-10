@@ -1,4 +1,4 @@
-class Public::HonorMembersController  < ApplicationController
+class Public::HonorMembersController < ApplicationController
   # GET /honor_members
   # GET /honor_members.json
   def index

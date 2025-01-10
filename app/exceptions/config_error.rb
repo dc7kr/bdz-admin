@@ -3,4 +3,3 @@ class ConfigError < StandardError
     @message = message
   end
 end
-     

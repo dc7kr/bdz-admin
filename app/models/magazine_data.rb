@@ -1,3 +1,2 @@
-class MagazineData 
-
+class MagazineData
 end

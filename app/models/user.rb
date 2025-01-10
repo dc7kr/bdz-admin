@@ -12,29 +12,28 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable
   # FUTURE: async mailers !
-  #devise :database_authenticatable, :async, :recoverable, :rememberable, :trackable, :validatable, :authentication_keys => [:login]
-  devise :database_authenticatable, :recoverable, :rememberable, :trackable, :validatable, :authentication_keys => [:login]
+  # devise :database_authenticatable, :async, :recoverable, :rememberable, :trackable, :validatable, :authentication_keys => [:login]
+  devise :database_authenticatable, :recoverable, :rememberable, :trackable, :validatable,
+         authentication_keys: [:login]
 
-  
   validates :username,
-  :uniqueness => {
-    :case_sensitive => false
-  }
-
- 
+            uniqueness: {
+              case_sensitive: false
+            }
 
   # Setup accessible (or protected) attributes for your model
-  #attr_accessible :username, :email, :password, :password_confirmation, :remember_me, :name, :role, :entity_class, :entity_id, :authentication_token
+  # attr_accessible :username, :email, :password, :password_confirmation, :remember_me, :name, :role, :entity_class, :entity_id, :authentication_token
 
   # Virtual attribute for authenticating by either username or email
   # This is in addition to a real persisted field like 'username'
   attr_accessor :login
-  #attr_accessible :login
+
+  # attr_accessible :login
 
   def self.find_first_by_auth_conditions(warden_conditions)
     conditions = warden_conditions.dup
     if login = conditions.delete(:login)
-      where(conditions).where(["lower(username) = :value OR lower(email) = :value", { :value => login.downcase }]).first
+      where(conditions).where(['lower(username) = :value OR lower(email) = :value', { value: login.downcase }]).first
     else
       where(conditions).first
     end
@@ -43,87 +42,84 @@ class User < ApplicationRecord
   def self.for_admin_notify
     User.with_any_role(:admin, :accounting)
   end
-  
+
   def self.for_developer_notify
-    retval = Array.new
+    retval = []
     retval << User.find(1)
   end
 
-
   def first_role
-    if (roles.empty?)
-		  return 'personal'
-    else
-		  return roles[0]
-	  end
+    return 'personal' if roles.empty?
+
+    roles[0]
   end
 
   def address?
-	  return has_role? :address
+    has_role? :address
   end
 
   def admin?
-	  return has_role? :admin
+    has_role? :admin
   end
 
   def is_admin?
-    return has_role? :admin
+    has_role? :admin
   end
 
   def tools_permission?
-	  return (has_role? :admin or has_role? :accounting)
+    (has_role? :admin or has_role? :accounting)
   end
 
   def bulk_permission?
-	  return (has_role? :admin or has_role? :bulk)
+    (has_role? :admin or has_role? :bulk)
   end
 
-  def national_permission? 
+  def national_permission?
     admin? or national?
   end
 
   def can_create_members?
-    return ( has_role? :national or has_role? :admin)
+    (has_role? :national or has_role? :admin)
   end
 
   def reference_data_permission?
-    return national_permission?
+    national_permission?
   end
 
   def festival_permission?
-    return national_permission?
+    national_permission?
   end
 
   def magazine_permission?
-    return national_permission?
+    national_permission?
   end
 
   def accounting_permission?
-    return (has_role? :accounting or has_role? :admin)
+    (has_role? :accounting or has_role? :admin)
   end
 
   def accounting?
-	  return has_role? :accounting
+    has_role? :accounting
   end
 
   def gema?
- 	  return has_role? :gema
+    has_role? :gema
   end
 
   def national?
-	  return has_role? :national
+    has_role? :national
   end
 
   def honor?
-	  return has_role? :distinction
+    has_role? :distinction
   end
 
   def is_restricted_role?
-	  return has_role? :restricted
+    has_role? :restricted
   end
 
   def is_member?
-	  return has_role? :member
+    has_role? :member
   end
 
   def self.gen_api_token
@@ -131,32 +127,31 @@ class User < ApplicationRecord
       token = SecureRandom.hex
     end while User.exists?(authentication_token: token)
 
-    return token
+    token
   end
 
   def restricting_entity
-    if has_role? :member 
-        member = PersonMember.with_role(:member, self).first
-      if member.nil? then
-        member = Orchestra.with_role(:member,self).first
-      end 
-    end
+    return unless has_role? :member
+
+    member = PersonMember.with_role(:member, self).first
+    return unless member.nil?
+
+    Orchestra.with_role(:member, self).first
   end
 
   def to_s
-    if username.nil? then
+    if username.nil?
       email
     else
       username
     end
   end
 
-  private 
+  private
+
   def generate_api_token
     begin
       self.authentication_token = SecureRandom.hex
-    end while self.class.exists?(authentication_token: self.authentication_token)
+    end while self.class.exists?(authentication_token: authentication_token)
   end
-
-
 end

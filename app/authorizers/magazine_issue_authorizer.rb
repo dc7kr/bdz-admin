@@ -2,10 +2,10 @@ class MagazineIssueAuthorizer < ApplicationAuthorizer
   def self.creatable_by?(user)
     user.is_admin? or user.has_role? :national
   end
-  
+
   def self.updatable_by?(user)
     result = (user.is_admin? or user.has_role? :national)
-    Rails.logger.debug("updatable class: #{result}")
+    Rails.logger.debug { "updatable class: #{result}" }
 
     result
   end
@@ -13,13 +13,13 @@ class MagazineIssueAuthorizer < ApplicationAuthorizer
   def updatable_by?(user)
     result = (user.is_admin? or user.has_role? :national)
 
-    Rails.logger.debug("updatable: admin?: #{user.is_admin?} national: #{user.has_role? :national} : #{result}")
+    Rails.logger.debug { "updatable: admin?: #{user.is_admin?} national: #{user.has_role? :national} : #{result}" }
 
     result
   end
 
-  def self.readable_by?(user) 
-    Rails.logger.debug("readable static: Orchestra")
+  def self.readable_by?(user)
+    Rails.logger.debug('readable static: Orchestra')
     user.is_admin? or user.has_role? :national
   end
 

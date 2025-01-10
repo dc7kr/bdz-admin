@@ -5,27 +5,25 @@ require 'sidekiq/cron/web'
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 
-
   # custom errors
-  match "/403", :to => "errors#forbidden", :via=>:all
-  match "/404", :to => "errors#not_found", :via=>:all
-  match "/500", :to => "errors#internal_server_error", :via=>:all
+  match '/403', to: 'errors#forbidden', via: :all
+  match '/404', to: 'errors#not_found', via: :all
+  match '/500', to: 'errors#internal_server_error', via: :all
 
   # test for exception notification via Mail
   get 'test_exception_notifier' => 'application#test_exception_notifier'
 
-
   # Start page
-  root :to => "home#landing_page"
+  root to: 'home#landing_page'
 
   # login and logout urls ...
   devise_scope :user do
-    get "/login" => "devise/sessions#new"
-    get "/logout" => "devise/sessions#destroy"
-    get "/edit_password" => "devise/passwords#edit"
+    get '/login' => 'devise/sessions#new'
+    get '/logout' => 'devise/sessions#destroy'
+    get '/edit_password' => 'devise/passwords#edit'
   end
 
-  authenticate :user, lambda { |u| u.admin? } do
+  authenticate :user, ->(u) { u.admin? } do
     mount Sidekiq::Web, at: '/sidekiq'
   end
 
@@ -35,7 +33,7 @@ Rails.application.routes.draw do
     end
   end
 
-  mount CorikaInvoices::Engine, at: "/invoice_engine", :as => 'invoice_engine'
+  mount CorikaInvoices::Engine, at: '/invoice_engine', as: 'invoice_engine'
 
   get '/auth/:provider/callback', to: 'sessions#create'
 
@@ -62,9 +60,8 @@ Rails.application.routes.draw do
     end
   end
 
-
-  #resources :mgl, :controller => "member_area"
-    # BEGIN member namespace
+  # resources :mgl, :controller => "member_area"
+  # BEGIN member namespace
   namespace :mgl do
     resources :orchestras
     resources :person_members
@@ -128,7 +125,7 @@ Rails.application.routes.draw do
     resources :festival_application_attachments
   end
 
-  resources :event_cards  do
+  resources :event_cards do
     member do
       get :gen_invoice
       get :pickup
@@ -162,9 +159,9 @@ Rails.application.routes.draw do
 
   resources :uploads
 
-  get "errors/error_404"
+  get 'errors/error_404'
 
-  get "errors/error_500"
+  get 'errors/error_500'
 
   resources :contacts
   resources :honor_members
@@ -178,10 +175,10 @@ Rails.application.routes.draw do
 
   resources :advertisements
 
-  devise_for :users, :skip => [:registrations]
-  devise_for :members,  :controllers => {:registrations => "registrations"}, :path_prefix => 'mem'
+  devise_for :users, skip: [:registrations]
+  devise_for :members, controllers: { registrations: 'registrations' }, path_prefix: 'mem'
 
-  resources :users, :path => :accounts do
+  resources :users, path: :accounts do
     collection do
       get :for_admin_notify
     end
@@ -233,14 +230,12 @@ Rails.application.routes.draw do
   end
   resources :states
 
-  resources :regional_organizations  do
-
-    collection do 
-        get :share_overview
+  resources :regional_organizations do
+    collection do
+      get :share_overview
     end
 
-
-    resources :regional_organization_reports, :path => :reports do
+    resources :regional_organization_reports, path: :reports do
       collection do
         get :members
         get :orch
@@ -264,38 +259,36 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :report_sheets 
+    resources :report_sheets
     resources :reports do
-    member do
-      get :members
-      get :fee_shares
-      get :orch
-      get :person
-          get :oddset_report
+      member do
+        get :members
+        get :fee_shares
+        get :orch
+        get :person
+        get :oddset_report
       end
-    collection do
-      get :create_annual_payment
-      get :share_overview
-    end
+      collection do
+        get :create_annual_payment
+        get :share_overview
+      end
 
-    resources :regional_organization_bookings, :shallow=>true do
+      resources :regional_organization_bookings, shallow: true do
+        member do
+          get 'download'
+        end
+      end
+    end
+    resources :member_account_bookings, shallow: true do
       member do
         get 'download'
       end
     end
-  end
-    resources :member_account_bookings, :shallow=>true do
-      member do
-        get 'download'
-      end
-    end
-
   end
 
   resources :tariffs
 
-
-#confidential
+  # confidential
   resources :report_sheets do
     collection do
       get 'payed'
@@ -346,9 +339,9 @@ Rails.application.routes.draw do
     end
 
     member do
-     get :gen_rsi
-     get :rsi_login
-     get :invoice_preview
+      get :gen_rsi
+      get :rsi_login
+      get :invoice_preview
     end
 
     resources :uploaded_files
@@ -435,7 +428,7 @@ Rails.application.routes.draw do
 
   get 'member_tools/kto_blz_to_iban_bic' => 'member_tools#kto_blz_to_iban'
   get 'member_tools/iban_calculator' => 'member_tools#iban_calculator'
-  get "home/index"
+  get 'home/index'
 
   get 'reports/youth_addresses', to: 'reports/youth_addresses#index', defaults: { format: 'ods' }
 
@@ -451,9 +444,9 @@ Rails.application.routes.draw do
   end
 
   # BEGIN EF Namespace
-  
-  namespace :ef do 
-    resources :festival_applications, param: :token  do
+
+  namespace :ef do
+    resources :festival_applications, param: :token do
       member do
         get :step2
         get :finalize
@@ -481,8 +474,7 @@ Rails.application.routes.draw do
 
   # BEGIN public namespace
   namespace :public do
-
-    resources :regional_organizations, :as => "lv" do
+    resources :regional_organizations, as: 'lv' do
       resources :orchestras
       resources :concerts
     end
@@ -504,21 +496,20 @@ Rails.application.routes.draw do
     end
 
     resources :composers do
-
       collection do
-          get :public
+        get :public
       end
     end
 
-    resources :regional_organizations, :as => "lv" do
+    resources :regional_organizations, as: 'lv' do
     end
   end # END NAMESPACE PUBLIC
 
   # MAGAZINE
   namespace :magazine do
     get 'address_list', to: 'address_list#index'
-    resources :magazine_issues, :path => :issues, :as => :issues do
-      resources :magazine_adverts, :path => :adverts, :as => :adverts, :shallow=>true do
+    resources :magazine_issues, path: :issues, as: :issues do
+      resources :magazine_adverts, path: :adverts, as: :adverts, shallow: true do
         member do
           get :gen_advert_invoices
           get :counts

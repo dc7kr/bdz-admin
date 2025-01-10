@@ -2,7 +2,7 @@ class FeatureRequestsController < AuthenticatedController
   # GET /feature_requests
   # GET /feature_requests.json
   def index
-    @feature_requests = FeatureRequest.order([:priority,:title])
+    @feature_requests = FeatureRequest.order(%i[priority title])
 
     respond_to do |format|
       format.html # index.html.erb
@@ -11,10 +11,10 @@ class FeatureRequestsController < AuthenticatedController
   end
 
   def open
-    @feature_requests = FeatureRequest.order([:priority,:title]).where("status <> 'D'");
+    @feature_requests = FeatureRequest.order(%i[priority title]).where("status <> 'D'")
 
     respond_to do |format|
-      format.html { render "index" }# index.html.erb
+      format.html { render 'index' } # index.html.erb
       format.json { render json: @feature_requests }
     end
   end
@@ -68,9 +68,7 @@ class FeatureRequestsController < AuthenticatedController
   def update
     @feature_request = FeatureRequest.find(params[:id])
 
-    if not current_user.admin? and feature_request.user_id != user.id then
-        format.html { redirect_to @feature_request, error: 'Permission denied.' }
-    end
+    format.html { redirect_to @feature_request, error: 'Permission denied.' } if !current_user.admin? and feature_request.user_id != user.id
 
     respond_to do |format|
       if @feature_request.update(feature_request_params)
@@ -96,6 +94,6 @@ class FeatureRequestsController < AuthenticatedController
   end
 
   def feature_request_params
-    params.require(:feature_request).permit(:title,:description,:status,:priority,:user_id)
+    params.require(:feature_request).permit(:title, :description, :status, :priority, :user_id)
   end
 end

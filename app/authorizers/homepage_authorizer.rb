@@ -1,10 +1,10 @@
 class HomepageAuthorizer < ApplicationAuthorizer
   # anyone can create a public entity
-  def self.creatable_by?(user)
+  def self.creatable_by?(_user)
     true
   end
 
-  def self.readable_by?(user)
+  def self.readable_by?(_user)
     true
   end
 
@@ -16,7 +16,7 @@ class HomepageAuthorizer < ApplicationAuthorizer
     user.has_role? :admin
   end
 
-  def self.deletable_by?(user) 
+  def self.deletable_by?(user)
     user.has_role? :admin
   end
 
@@ -27,6 +27,7 @@ class HomepageAuthorizer < ApplicationAuthorizer
   def editable_by?(user)
     user.has_role? :admin
   end
+
   def updatable_by?(user)
     user.has_role? :admin
   end

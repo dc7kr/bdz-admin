@@ -1,15 +1,12 @@
-class SepaDirectDebit  < SepaContactFacade
+class SepaDirectDebit < SepaContactFacade
+  attr_accessor :end_to_end_id, :amount, :remittance_txt, :sequence_type
 
-  attr_accessor :end_to_end_id,:amount,:remittance_txt,:sequence_type
-
-  def initialize(customer, seq_type="RCUR")
+  def initialize(customer, seq_type = 'RCUR')
     super(customer)
 
-    if (seq_type.nil?) then
-      seq_type = "RCUR"
-    end
+    seq_type = 'RCUR' if seq_type.nil?
 
-    @sequence_type=seq_type
+    @sequence_type = seq_type
   end
 
   def iban
@@ -20,7 +17,7 @@ class SepaDirectDebit  < SepaContactFacade
     @customer.bic
   end
 
-  def mandate_id 
+  def mandate_id
     @customer.mandate_id
   end
 
@@ -29,6 +26,6 @@ class SepaDirectDebit  < SepaContactFacade
   end
 
   def end_to_end_id(prefix)
-    prefix+"_"+@customer.id.to_s
+    prefix + '_' + @customer.id.to_s
   end
 end

@@ -1,6 +1,6 @@
-require "roo"
+require 'roo'
 class GemaEventsController < ApplicationController
-  before_action :set_gema_event, only: [:show, :edit, :update, :destroy]
+  before_action :set_gema_event, only: %i[show edit update destroy]
 
   # GET /gema_events
   # GET /gema_events.json
@@ -10,8 +10,7 @@ class GemaEventsController < ApplicationController
 
   # GET /gema_events/1
   # GET /gema_events/1.json
-  def show
-  end
+  def show; end
 
   # GET /gema_events/new
   def new
@@ -19,8 +18,7 @@ class GemaEventsController < ApplicationController
   end
 
   # GET /gema_events/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /gema_events
   # POST /gema_events.json
@@ -68,11 +66,9 @@ class GemaEventsController < ApplicationController
     params[:xls_file]
     uploaded_io = params[:xls_file]
 
-    target_filename = Rails.root.join('public', 'uploads', uploaded_io.original_filename)
+    target_filename = Rails.public_path.join('uploads', uploaded_io.original_filename)
 
-    File.open(target_filename, 'wb') do |file|
-      file.write(uploaded_io.read)
-    end
+    File.binwrite(target_filename, uploaded_io.read)
 
     xlsx = Roo::Spreadsheet.open(target_filename.to_s)
 
@@ -82,28 +78,30 @@ class GemaEventsController < ApplicationController
 
     p sh.row(3)
     p sh.last_row
-    rownr=3
-    while rownr < sh.last_row do
-        row = sh.row(rownr)
-        name = row[1]
-        mglnr = row[12]
-        mglnr = mglnr.gsub(/^.* - /,"")
-        mglnr = mglnr.gsub("Bund Deutscher Zupfmusiker","")
-        Rails.logger.debug("<"+mglnr.to_s+"> - <"+name.to_s+">\n")
-        rownr+=1
+    rownr = 3
+    while rownr < sh.last_row
+      row = sh.row(rownr)
+      name = row[1]
+      mglnr = row[12]
+      mglnr = mglnr.gsub(/^.* - /, '')
+      mglnr = mglnr.gsub('Bund Deutscher Zupfmusiker', '')
+      Rails.logger.debug('<' + mglnr.to_s + '> - <' + name.to_s + ">\n")
+      rownr += 1
     end
 
     @gema_events = GemaEvent.page(params[:page]).per(20)
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_gema_event
-      @gema_event = GemaEvent.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def gema_event_params
-      params.require(:gema_event).permit(:kdnr, :name, :zip, :city, :date, :title, :tariff, :amount, :location, :location_city, :program_available, :source, :par_mgl, :nf_id)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_gema_event
+    @gema_event = GemaEvent.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def gema_event_params
+    params.require(:gema_event).permit(:kdnr, :name, :zip, :city, :date, :title, :tariff, :amount, :location,
+                                       :location_city, :program_available, :source, :par_mgl, :nf_id)
+  end
 end

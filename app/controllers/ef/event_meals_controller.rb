@@ -81,8 +81,8 @@ class Ef::EventMealsController < Public::ApplicationController
     end
   end
 
-  def order_form 
-   @event_meal = EventMeal.new 
+  def order_form
+    @event_meal = EventMeal.new
   end
 
   def order_success
@@ -92,9 +92,9 @@ class Ef::EventMealsController < Public::ApplicationController
 
     timestr = params[:event_meal][:arrival_time]
 
-    if not timestr.empty? then 
+    unless timestr.empty?
       begin
-      arrival = Time.parse(timestr)
+        arrival = Time.parse(timestr)
         @event_meal.arrival_time = arrival
       rescue ArgumentError
         Rails.logger.error("Invalid arrival time: #{arrival}")
@@ -105,18 +105,18 @@ class Ef::EventMealsController < Public::ApplicationController
     respond_to do |format|
       if @event_meal.save
 
-        Rails.logger.debug("#{@event_meal.participant_id} #{timestr}")
-        EventMealsMailer.notify(@event_meal,"essensmeldung@bdz-online.de").deliver
-        format.html 
+        Rails.logger.debug { "#{@event_meal.participant_id} #{timestr}" }
+        EventMealsMailer.notify(@event_meal, 'essensmeldung@bdz-online.de').deliver
+        format.html
         format.json { render json: @event_meal, status: :created, location: @event_meal }
       else
-        format.html { render action: "order_form" }
+        format.html { render action: 'order_form' }
         format.json { render json: @event_meal.errors, status: :unprocessable_entity }
       end
     end
   end
 
   def event_meal_params
-    params.require(:event_meal).permit( :participant_id, :name, :email, :arrival_time, :tln, :veg)
+    params.require(:event_meal).permit(:participant_id, :name, :email, :arrival_time, :tln, :veg)
   end
 end

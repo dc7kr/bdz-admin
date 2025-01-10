@@ -28,17 +28,16 @@ class CompetitionEntriesController < AuthenticatedController
     respond_to do |format|
       if @competition_entry.save
         format.json { render json: @competition_entry }
-      else 
+      else
         format.json { render json: @competition_entry.errors, status: :unprocessable_entity }
       end
     end
-
   end
 
-  def drawable 
-    @drawable = CompetitionEntry.where("winner = false and correct=true")
+  def drawable
+    @drawable = CompetitionEntry.where('winner = false and correct=true')
 
-    drawable_ids = Array.new
+    drawable_ids = []
 
     @drawable.each do |d|
       drawable_ids << d.id
@@ -47,11 +46,9 @@ class CompetitionEntriesController < AuthenticatedController
     respond_to do |format|
       format.json { render json: drawable_ids }
     end
-  end 
-
-  def drawing
-
   end
+
+  def drawing; end
 
   # GET /competition_entries/1/edit
   def edit
@@ -63,16 +60,18 @@ class CompetitionEntriesController < AuthenticatedController
   def create
     @competition_entry = CompetitionEntry.new(params[:competition_entry])
 
-
-    if @competition_entry.check_responses then
-      @competition_entry.correct=false
-    else 
-      @competition_entry.correct=true
-    end 
+    @competition_entry.correct = if @competition_entry.check_responses
+                                   false
+                                 else
+                                   true
+                                 end
 
     respond_to do |format|
       if @competition_entry.save
-        format.html { redirect_to success_public_competition_entry(@competition_entry), notice: 'CompetitionEntry was successfully created.' }
+        format.html do
+          redirect_to success_public_competition_entry(@competition_entry),
+                      notice: 'CompetitionEntry was successfully created.'
+        end
         format.json { render json: @competition_entry, status: :created, location: @competition_entry }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -87,8 +86,6 @@ class CompetitionEntriesController < AuthenticatedController
     @competition_entry = CompetitionEntry.find(params[:id])
 
     @competition_entry.check_responses
-
-    
 
     respond_to do |format|
       if @competition_entry.update(params[:competition_entry])
@@ -109,7 +106,7 @@ class CompetitionEntriesController < AuthenticatedController
 
     respond_to do |format|
       format.html { redirect_to competition_entries_url }
-      format.json { render :json=>{ :status=>"ok", :op=> 'delete', :entityId=>@competition_entry.id } }
+      format.json { render json: { status: 'ok', op: 'delete', entityId: @competition_entry.id } }
     end
   end
 end

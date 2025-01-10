@@ -1,45 +1,42 @@
 class ContestsController < AuthenticatedController
   layout :choose_layout
   helper_method :sort_column, :sort_direction
-  before_action :authenticate_user!, :except => [:index,:show,:public]
-  skip_authorize_resource :only => [:public]
-
+  before_action :authenticate_user!, except: %i[index show public]
+  skip_authorize_resource only: [:public]
 
   def inactive
     @contests = Contest.inactive
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render :json => @contests }
+      format.json { render json: @contests }
     end
   end
 
-  def publish 
-	@contest = Contest.find(params[:id])
-	@contest.confirmed = Time.now
-	@contest.visible = true
-	@contest.save
+  def publish
+    @contest = Contest.find(params[:id])
+    @contest.confirmed = Time.now
+    @contest.visible = true
+    @contest.save
 
     respond_to do |format|
       if @contest.save
-        format.html { redirect_to @contest, :notice => t('contest.publish_success') }
-        format.json { render :json => @contest, :status => :created, :location => @contest }
+        format.html { redirect_to @contest, notice: t('contest.publish_success') }
+        format.json { render json: @contest, status: :created, location: @contest }
       else
         format.html { render :new, status: :unprocessable_entity }
-        format.json { render :json => @contest.errors, :status => :unprocessable_entity }
+        format.json { render json: @contest.errors, status: :unprocessable_entity }
       end
     end
-
   end
 
-  def public 
-    @contests= Contest.public().search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
+  def public
+    @contests = Contest.public.search(params[:search]).order(sort_column + ' ' + sort_direction).page(params[:page]).per(20)
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render :json => @contests }
+      format.json { render json: @contests }
     end
   end
-
 
   # GET /contests
   # GET /contests.json
@@ -48,7 +45,7 @@ class ContestsController < AuthenticatedController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render :json => @contests }
+      format.json { render json: @contests }
     end
   end
 
@@ -59,7 +56,7 @@ class ContestsController < AuthenticatedController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render :json => @contest }
+      format.json { render json: @contest }
     end
   end
 
@@ -70,7 +67,7 @@ class ContestsController < AuthenticatedController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.json { render :json => @contest }
+      format.json { render json: @contest }
     end
   end
 
@@ -86,11 +83,11 @@ class ContestsController < AuthenticatedController
 
     respond_to do |format|
       if @contest.save
-        format.html { redirect_to @contest, :notice => 'Contest was successfully created.' }
-        format.json { render :json => @contest, :status => :created, :location => @contest }
+        format.html { redirect_to @contest, notice: 'Contest was successfully created.' }
+        format.json { render json: @contest, status: :created, location: @contest }
       else
         format.html { render :new, status: :unprocessable_entity }
-        format.json { render :json => @contest.errors, :status => :unprocessable_entity }
+        format.json { render json: @contest.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -102,11 +99,11 @@ class ContestsController < AuthenticatedController
 
     respond_to do |format|
       if @contest.update!(contest_params)
-        format.html { redirect_to @contest, :notice => 'Contest was successfully updated.' }
+        format.html { redirect_to @contest, notice: 'Contest was successfully updated.' }
         format.json { head :ok }
       else
         format.html { render :edit, status: :unprocessable_entity }
-        format.json { render :json => @contest.errors, :status => :unprocessable_entity }
+        format.json { render json: @contest.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -124,9 +121,11 @@ class ContestsController < AuthenticatedController
   end
 
   def sort_column
-    Contest.column_names.include?(params[:sort]) ? params[:sort] : "startDate"
+    Contest.column_names.include?(params[:sort]) ? params[:sort] : 'startDate'
   end
+
   def contest_params
-    params.require(:contest).permit(:startdate, :enddate, :titel, :beschreibung, :gebuehr, :preis, :anmeldung, :deadline, :email, :reported, :confirmed, :visible)
+    params.require(:contest).permit(:startdate, :enddate, :titel, :beschreibung, :gebuehr, :preis, :anmeldung,
+                                    :deadline, :email, :reported, :confirmed, :visible)
   end
 end

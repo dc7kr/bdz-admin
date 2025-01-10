@@ -18,142 +18,140 @@ require 'rails_helper'
 # Message expectations are only used when there is no simpler way to specify
 # that an instance is receiving a specific message.
 
-RSpec.describe UniversitiesController, :type => :controller do
-
+RSpec.describe UniversitiesController, type: :controller do
   # This should return the minimal set of attributes required to create a valid
   # University. As you add validations to University, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
-  }
+  let(:valid_attributes) do
+    skip('Add a hash of attributes valid for your model')
+  end
 
-  let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
-  }
+  let(:invalid_attributes) do
+    skip('Add a hash of attributes invalid for your model')
+  end
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
   # UniversitiesController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
-  describe "GET #index" do
-    it "assigns all universities as @universities" do
+  describe 'GET #index' do
+    it 'assigns all universities as @universities' do
       university = University.create! valid_attributes
-      get :index, {}
+      get :index
       expect(assigns(:universities)).to eq([university])
     end
   end
 
-  describe "GET #show" do
-    it "assigns the requested university as @university" do
+  describe 'GET #show' do
+    it 'assigns the requested university as @university' do
       university = University.create! valid_attributes
-      get :show, {:id => university.to_param}
+      get :show, params: { id: university.to_param }
       expect(assigns(:university)).to eq(university)
     end
   end
 
-  describe "GET #new" do
-    it "assigns a new university as @university" do
-      get :new, {}
+  describe 'GET #new' do
+    it 'assigns a new university as @university' do
+      get :new
       expect(assigns(:university)).to be_a_new(University)
     end
   end
 
-  describe "GET #edit" do
-    it "assigns the requested university as @university" do
+  describe 'GET #edit' do
+    it 'assigns the requested university as @university' do
       university = University.create! valid_attributes
-      get :edit, {:id => university.to_param}
+      get :edit, params: { id: university.to_param }
       expect(assigns(:university)).to eq(university)
     end
   end
 
-  describe "POST #create" do
-    context "with valid params" do
-      it "creates a new University" do
-        expect {
-          post :create, {:university => valid_attributes}
-        }.to change(University, :count).by(1)
+  describe 'POST #create' do
+    context 'with valid params' do
+      it 'creates a new University' do
+        expect do
+          post :create, params: { university: valid_attributes }
+        end.to change(University, :count).by(1)
       end
 
-      it "assigns a newly created university as @university" do
-        post :create, {:university => valid_attributes}
+      it 'assigns a newly created university as @university' do
+        post :create, params: { university: valid_attributes }
         expect(assigns(:university)).to be_a(University)
         expect(assigns(:university)).to be_persisted
       end
 
-      it "redirects to the created university" do
-        post :create, {:university => valid_attributes}
+      it 'redirects to the created university' do
+        post :create, params: { university: valid_attributes }
         expect(response).to redirect_to(University.last)
       end
     end
 
-    context "with invalid params" do
-      it "assigns a newly created but unsaved university as @university" do
-        post :create, {:university => invalid_attributes}
+    context 'with invalid params' do
+      it 'assigns a newly created but unsaved university as @university' do
+        post :create, params: { university: invalid_attributes }
         expect(assigns(:university)).to be_a_new(University)
       end
 
       it "re-renders the 'new' template" do
-        post :create, {:university => invalid_attributes}
-        expect(response).to render_template("new")
+        post :create, params: { university: invalid_attributes }
+        expect(response).to render_template('new')
       end
     end
   end
 
-  describe "PUT #update" do
-    context "with valid params" do
-      let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
-      }
-
-      it "updates the requested university" do
-        university = University.create! valid_attributes
-        put :update, {:id => university.to_param, :university => new_attributes}
-        university.reload
-        skip("Add assertions for updated state")
+  describe 'PUT #update' do
+    context 'with valid params' do
+      let(:new_attributes) do
+        skip('Add a hash of attributes valid for your model')
       end
 
-      it "assigns the requested university as @university" do
+      it 'updates the requested university' do
         university = University.create! valid_attributes
-        put :update, {:id => university.to_param, :university => valid_attributes}
+        put :update, params: { id: university.to_param, university: new_attributes }
+        university.reload
+        skip('Add assertions for updated state')
+      end
+
+      it 'assigns the requested university as @university' do
+        university = University.create! valid_attributes
+        put :update, params: { id: university.to_param, university: valid_attributes }
         expect(assigns(:university)).to eq(university)
       end
 
-      it "redirects to the university" do
+      it 'redirects to the university' do
         university = University.create! valid_attributes
-        put :update, {:id => university.to_param, :university => valid_attributes}
+        put :update, params: { id: university.to_param, university: valid_attributes }
         expect(response).to redirect_to(university)
       end
     end
 
-    context "with invalid params" do
-      it "assigns the university as @university" do
+    context 'with invalid params' do
+      it 'assigns the university as @university' do
         university = University.create! valid_attributes
-        put :update, {:id => university.to_param, :university => invalid_attributes}
+        put :update, params: { id: university.to_param, university: invalid_attributes }
         expect(assigns(:university)).to eq(university)
       end
 
       it "re-renders the 'edit' template" do
         university = University.create! valid_attributes
-        put :update, {:id => university.to_param, :university => invalid_attributes}
-        expect(response).to render_template("edit")
+        put :update, params: { id: university.to_param, university: invalid_attributes }
+        expect(response).to render_template('edit')
       end
     end
   end
 
-  describe "DELETE #destroy" do
-    it "destroys the requested university" do
+  describe 'DELETE #destroy' do
+    it 'destroys the requested university' do
       university = University.create! valid_attributes
-      expect {
-        delete :destroy, {:id => university.to_param}
-      }.to change(University, :count).by(-1)
+      expect do
+        delete :destroy, params: { id: university.to_param }
+      end.to change(University, :count).by(-1)
     end
 
-    it "redirects to the universities list" do
+    it 'redirects to the universities list' do
       university = University.create! valid_attributes
-      delete :destroy, {:id => university.to_param}
+      delete :destroy, params: { id: university.to_param }
       expect(response).to redirect_to(universities_url)
     end
   end
-
 end

@@ -1,13 +1,12 @@
 class OrchestraContactsController < AuthenticatedController
-
   helper_method :sort_column, :sort_direction
 
   # GET /orchestra_contacts
   # GET /orchestra_contacts.json
   def index
-	  @orchestra = Orchestra.find(params[:orchestra_id])
-    
-    @orchestra_contacts = @orchestra.orchestra_contacts.order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
+    @orchestra = Orchestra.find(params[:orchestra_id])
+
+    @orchestra_contacts = @orchestra.orchestra_contacts.order(sort_column + ' ' + sort_direction).page(params[:page]).per(20)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -19,7 +18,7 @@ class OrchestraContactsController < AuthenticatedController
   # GET /orchestra_contacts/1.json
   def show
     @orchestra_contact = OrchestraContact.find(params[:id])
-	  @orchestra = Orchestra.find(params[:orchestra_id])
+    @orchestra = Orchestra.find(params[:orchestra_id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -31,10 +30,10 @@ class OrchestraContactsController < AuthenticatedController
   # GET /orchestra_contacts/new.json
   def new
     @orchestra_contact = OrchestraContact.new
-    @orchestra_contact.country_code= 'DE'
+    @orchestra_contact.country_code = 'DE'
 
-	  @orchestra = Orchestra.find(params[:orchestra_id])
-	  @orchestra_contact.orchestra = @orchestra
+    @orchestra = Orchestra.find(params[:orchestra_id])
+    @orchestra_contact.orchestra = @orchestra
 
     respond_to do |format|
       format.html # new.html.erb
@@ -45,27 +44,29 @@ class OrchestraContactsController < AuthenticatedController
   # GET /orchestra_contacts/1/edit
   def edit
     @orchestra_contact = OrchestraContact.find(params[:id])
-	@orchestra = Orchestra.find(params[:orchestra_id])
+    @orchestra = Orchestra.find(params[:orchestra_id])
   end
 
   # POST /orchestra_contacts
   # POST /orchestra_contacts.json
   def create
     @orchestra_contact = OrchestraContact.new(orchestra_contact_params)
-	  @orchestra = Orchestra.find(params[:orchestra_id])
+    @orchestra = Orchestra.find(params[:orchestra_id])
 
     Rails.logger.info("Orchestra id: #{params[:orchestra_id]}")
 
-	  @orchestra_contact.orchestra = @orchestra
-	
+    @orchestra_contact.orchestra = @orchestra
 
     respond_to do |format|
       if @orchestra_contact.save
-        format.html { redirect_to orchestra_orchestra_contacts_path(@orchestra), notice: t('orchestra_contact.one')+' '+t('common.create_success') }
+        format.html do
+          redirect_to orchestra_orchestra_contacts_path(@orchestra),
+                      notice: t('orchestra_contact.one') + ' ' + t('common.create_success')
+        end
         format.json { render json: @orchestra_contact, status: :created, location: @orchestra_contact }
       else
         Rails.logger.info(@orchestra_contact.errors)
-        @orchestra_contact.errors.each do |attr,message| 
+        @orchestra_contact.errors.each do |attr, message|
           Rails.logger.info("#{attr}: #{message}")
         end
         format.html { render :new, status: :unprocessable_entity }
@@ -78,13 +79,16 @@ class OrchestraContactsController < AuthenticatedController
   # PUT /orchestra_contacts/1.json
   def update
     @orchestra_contact = OrchestraContact.find(params[:id])
-	@orchestra = Orchestra.find(params[:orchestra_id])
+    @orchestra = Orchestra.find(params[:orchestra_id])
 
-	@orchestra_contact.orchestra = @orchestra
+    @orchestra_contact.orchestra = @orchestra
 
     respond_to do |format|
       if @orchestra_contact.update!(orchestra_contact_params)
-        format.html { redirect_to orchestra_orchestra_contact_path(@orchestra,@orchestra_contact), notice: t('orchestra_contact.title_s')+' '+t('common.update_success') }
+        format.html do
+          redirect_to orchestra_orchestra_contact_path(@orchestra, @orchestra_contact),
+                      notice: t('orchestra_contact.title_s') + ' ' + t('common.update_success')
+        end
         format.json { head :no_content }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -108,12 +112,14 @@ class OrchestraContactsController < AuthenticatedController
   #########################
   # PRIVATE METHODS
   #########################
-  private 
+  private
+
   def sort_column
-    OrchestraContact.column_names.include?(params[:sort]) ? params[:sort] : "last_name,first_name"
+    OrchestraContact.column_names.include?(params[:sort]) ? params[:sort] : 'last_name,first_name'
   end
 
   def orchestra_contact_params
-    params.require(:orchestra_contact).permit(:role,:salutation,:first_name,:last_name,:street,:zip,:city,:country_code,:email,:phone)
+    params.require(:orchestra_contact).permit(:role, :salutation, :first_name, :last_name, :street, :zip, :city, :country_code,
+                                              :email, :phone)
   end
 end

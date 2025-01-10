@@ -1,5 +1,4 @@
 Authority.configure do |config|
-
   # USER_METHOD
   # ===========
   # Authority needs the name of a method, available in any controller, which
@@ -38,12 +37,12 @@ Authority.configure do |config|
   #
   # Defaults are as follows:
   #
-   config.abilities =  {
-     :create => 'creatable',
-     :read   => 'readable',
-     :update => 'updatable',
-     :delete => 'deletable'
-   }
+  config.abilities = {
+    create: 'creatable',
+    read: 'readable',
+    update: 'updatable',
+    delete: 'deletable'
+  }
 
   # LOGGER
   # ======
@@ -59,5 +58,4 @@ Authority.configure do |config|
   # config.logger = Rails.logger                     # Log with all your app's other messages
   # config.logger = Logger.new('log/authority.log')  # Use this file
   # config.logger = Logger.new('/dev/null')          # Don't log at all (on a Unix system)
-
 end

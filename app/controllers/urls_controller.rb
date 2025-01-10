@@ -1,39 +1,36 @@
 class UrlsController < AuthenticatedController
-
   # for table sort by column click
   helper_method :sort_column, :sort_direction
 
   # GET /urls
   # GET /urls.json
-  before_action :authenticate_user!#, :except => [:index]
-  
-  def inactive 
-    @urls = Url.inactive.search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
+  before_action :authenticate_user! # , :except => [:index]
+
+  def inactive
+    @urls = Url.inactive.search(params[:search]).order(sort_column + ' ' + sort_direction).page(params[:page]).per(20)
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render :json => @urls }
+      format.json { render json: @urls }
     end
   end
 
   def confirm
-	@url = Url.find(params[:id])
+    @url = Url.find(params[:id])
 
-	@url.confirmed = Time.now
-	@url.visible= true
-	@url.save
-    redirect_to urls_path(@url), :notice => t('urls.confirm_success')
+    @url.confirmed = Time.now
+    @url.visible = true
+    @url.save
+    redirect_to urls_path(@url), notice: t('urls.confirm_success')
   end
 
   def index
-    @urls = Url.search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(30)
-
-
+    @urls = Url.search(params[:search]).order(sort_column + ' ' + sort_direction).page(params[:page]).per(30)
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render :json => @urls }
-	  format.js
+      format.json { render json: @urls }
+      format.js
     end
   end
 
@@ -44,7 +41,7 @@ class UrlsController < AuthenticatedController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render :json => @url }
+      format.json { render json: @url }
     end
   end
 
@@ -55,7 +52,7 @@ class UrlsController < AuthenticatedController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.json { render :json => @url }
+      format.json { render json: @url }
     end
   end
 
@@ -71,11 +68,11 @@ class UrlsController < AuthenticatedController
 
     respond_to do |format|
       if @url.save
-        format.html { redirect_to @url, :notice => 'Url was successfully created.' }
-        format.json { render :json => @url, :status => :created, :location => @url }
+        format.html { redirect_to @url, notice: 'Url was successfully created.' }
+        format.json { render json: @url, status: :created, location: @url }
       else
         format.html { render :new, status: :unprocessable_entity }
-        format.json { render :json => @url.errors, :status => :unprocessable_entity }
+        format.json { render json: @url.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -87,11 +84,11 @@ class UrlsController < AuthenticatedController
 
     respond_to do |format|
       if @url.update(params[:url])
-        format.html { redirect_to @url, :notice => 'Url was successfully updated.' }
+        format.html { redirect_to @url, notice: 'Url was successfully updated.' }
         format.json { head :ok }
       else
         format.html { render :edit, status: :unprocessable_entity }
-        format.json { render :json => @url.errors, :status => :unprocessable_entity }
+        format.json { render json: @url.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -102,24 +99,24 @@ class UrlsController < AuthenticatedController
     @url = Url.find(params[:id])
 
     respond_to do |format|
-      if @url  
+      if @url
         @url.destroy
-  	    flash[:notice] = "URL was deleted."
+        flash[:notice] = 'URL was deleted.'
         format.html { redirect_to urls_url }
-        format.js {} 
-        format.json { render :json=>{ :status=>"ok", :entityId=>@url.id } }
+        format.js {}
+        format.json { render json: { status: 'ok', entityId: @url.id } }
 
-#:json=>{ :result => "ok", :message=> "URL deleted successfully."}
+      # :json=>{ :result => "ok", :message=> "URL deleted successfully."}
       else
-        format.json { render :json => false }
+        format.json { render json: false }
 
       end
     end
   end
 
+  private
 
-  private 
   def sort_column
-    Url.column_names.include?(params[:sort]) ? params[:sort] : "id"
+    Url.column_names.include?(params[:sort]) ? params[:sort] : 'id'
   end
 end

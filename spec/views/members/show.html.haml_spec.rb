@@ -1,31 +1,31 @@
 require 'rails_helper'
 
-RSpec.describe "members/show", :type => :view do
+RSpec.describe 'members/show', type: :view do
   before(:each) do
     @member = assign(:member, Member.create!(
-      :subtype => "Subtype",
-      :regional_organization_id => 1,
-      :mglnr => 2,
-      :anrede => "Anrede",
-      :vorname => "Vorname",
-      :name => "Name",
-      :strasse => "Strasse",
-      :plz => "Plz",
-      :ort => "Ort",
-      :email => "Email",
-      :za => "Za",
-      :konto => 3,
-      :blz => "Blz",
-      :zahler => "Zahler",
-      :telefon => "Telefon",
-      :fax => "Fax",
-      :bic => "Bic",
-      :iban => "Iban",
-      :country_code => "Country Code"
-    ))
+                                subtype: 'Subtype',
+                                regional_organization_id: 1,
+                                mglnr: 2,
+                                anrede: 'Anrede',
+                                vorname: 'Vorname',
+                                name: 'Name',
+                                strasse: 'Strasse',
+                                plz: 'Plz',
+                                ort: 'Ort',
+                                email: 'Email',
+                                za: 'Za',
+                                konto: 3,
+                                blz: 'Blz',
+                                zahler: 'Zahler',
+                                telefon: 'Telefon',
+                                fax: 'Fax',
+                                bic: 'Bic',
+                                iban: 'Iban',
+                                country_code: 'Country Code'
+                              ))
   end
 
-  it "renders attributes in <p>" do
+  it 'renders attributes in <p>' do
     render
     expect(rendered).to match(/Subtype/)
     expect(rendered).to match(/1/)

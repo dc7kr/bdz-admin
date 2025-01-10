@@ -1,31 +1,31 @@
 require 'rails_helper'
 
-RSpec.describe "concerts/show", :type => :view do
+RSpec.describe 'concerts/show', type: :view do
   before(:each) do
     @concert = assign(:concert, Concert.create!(
-      :token => "Token",
-      :stadt => "Stadt",
-      :titel => "Titel",
-      :ort => "Ort",
-      :festival_id => 1,
-      :interpret => "Interpret",
-      :homepage => "Homepage",
-      :comment => "Comment",
-      :bland_id => 2,
-      :land_id => 3,
-      :email => "Email",
-      :url => "Url",
-      :eintritt => 1.5,
-      :owner => 4,
-      :visible => false,
-      :orchestra_id => 5,
-      :uid => "Uid",
-      :country_code => "Country Code",
-      :mglnr => 6
-    ))
+                                  token: 'Token',
+                                  stadt: 'Stadt',
+                                  titel: 'Titel',
+                                  ort: 'Ort',
+                                  festival_id: 1,
+                                  interpret: 'Interpret',
+                                  homepage: 'Homepage',
+                                  comment: 'Comment',
+                                  bland_id: 2,
+                                  land_id: 3,
+                                  email: 'Email',
+                                  url: 'Url',
+                                  eintritt: 1.5,
+                                  owner: 4,
+                                  visible: false,
+                                  orchestra_id: 5,
+                                  uid: 'Uid',
+                                  country_code: 'Country Code',
+                                  mglnr: 6
+                                ))
   end
 
-  it "renders attributes in <p>" do
+  it 'renders attributes in <p>' do
     render
     expect(rendered).to match(/Token/)
     expect(rendered).to match(/Stadt/)

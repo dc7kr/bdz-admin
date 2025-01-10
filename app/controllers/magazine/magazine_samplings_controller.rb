@@ -5,26 +5,21 @@ class Magazine::MagazineSamplingsController < AuthenticatedController
   include CountryHelper
   include MagazineReportHelper
 
-
   def search
     @magazine_samplings = MagazineSampling.includes(:contact).order('contacts.company, contacts.last_name,contacts.first_name').where("contacts.company like '%:search%' or contacts.city like '%:search%'").page(params[:page]).per(per_page)
   end
 
-
   def index
     per_page = params[:per_page]
 
-    if per_page.nil?
-      per_page=20
-    end
+    per_page = 20 if per_page.nil?
 
     @magazine_samplings = MagazineSampling.includes(:contact).order('contacts.company, contacts.last_name,contacts.first_name').page(params[:page]).per(per_page)
-
 
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @magazine_samplings }
-      format.js 
+      format.js
     end
   end
 
@@ -44,10 +39,10 @@ class Magazine::MagazineSamplingsController < AuthenticatedController
   def new
     @magazine_sampling = MagazineSampling.new
 
-    @magazine_sampling.count=1
+    @magazine_sampling.count = 1
 
     @magazine_sampling.contact = Contact.new
-    @magazine_sampling.contact.country_code="DE"
+    @magazine_sampling.contact.country_code = 'DE'
 
     respond_to do |format|
       format.html # new.html.erb
@@ -86,7 +81,7 @@ class Magazine::MagazineSamplingsController < AuthenticatedController
         format.html { redirect_to @magazine_sampling, notice: 'Magazine sampling was successfully updated.' }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
+        format.html { render action: 'edit' }
         format.json { render json: @magazine_sampling.errors, status: :unprocessable_entity }
       end
     end
@@ -103,18 +98,21 @@ class Magazine::MagazineSamplingsController < AuthenticatedController
       format.json { head :no_content }
     end
   end
+
   def print_list
-    @samplings = MagazineSampling.order("count")
+    @samplings = MagazineSampling.order('count')
 
-    filename = "magazine_samplings.ods"
-    renderSamplingListOds("/tmp/"+filename,@samplings)
-    send_file("/tmp/"+filename, :filename => filename, :type => "application/octet-stream")
+    filename = 'magazine_samplings.ods'
+    renderSamplingListOds('/tmp/' + filename, @samplings)
+    send_file('/tmp/' + filename, filename: filename, type: 'application/octet-stream')
 
-  	flash[:notice] = "Export complete!"
+    flash[:notice] = 'Export complete!'
   end
 
-  private 
+  private
+
   def magazine_sampling_params
-    params.require(:magazine_sampling).permit(:count, :inactive, contact_attributes: [:company,:department,:salutation,:title,:first_name,:last_name,:street,:zip,:city,:phone,:office_phone,:mobile,:fax,:email,:bic,:iban,:country_code,:id])
+    params.require(:magazine_sampling).permit(:count, :inactive,
+                                              contact_attributes: %i[company department salutation title first_name last_name street zip city phone office_phone mobile fax email bic iban country_code id])
   end
 end

@@ -1,5 +1,4 @@
 class Adm::SepaRegenerationController < AuthenticatedNonResourceController
-
   def index
     authorize! :member, :edit
   end
@@ -12,64 +11,61 @@ class Adm::SepaRegenerationController < AuthenticatedNonResourceController
     sub_type = params[:sepa][:member_sub_type]
 
     datePrefix = Time.now.strftime '%Y%m%d%H%M%S'
-    sw = CorikaInvoices::SepaWriter.new(datePrefix,INVOICE_CONFIG)
+    sw = CorikaInvoices::SepaWriter.new(datePrefix, INVOICE_CONFIG)
 
     logger.debug(params)
 
     logger.debug("Booking date: #{booking_date}")
 
-    query = "booking_type= 'L' and DATE(booking_date) = ?";
-
-    if not max_mglnr.blank? then
-      @bookings = MemberAccountBooking.joins(:member).where("booking_type= 'L' and DATE(booking_date) = ? AND members.mglnr <= ?", booking_date, max_mglnr)
-    else
-      @bookings = MemberAccountBooking.includes(:member).where("booking_type= 'L' and DATE(booking_date) = ?", booking_date)
-    end
+    @bookings = if max_mglnr.blank?
+                  MemberAccountBooking.includes(:member).where("booking_type= 'L' and DATE(booking_date) = ?",
+                                                               booking_date)
+                else
+                  MemberAccountBooking.joins(:member).where(
+                    "booking_type= 'L' and DATE(booking_date) = ? AND members.mglnr <= ?", booking_date, max_mglnr
+                  )
+                end
 
     @bookings.each do |b|
       logger.info("Booking: #{b.member.member_entity}")
       txt = b.booking_txt
-      txt = txt.gsub(/^Lastschrift /,"")
+      txt = txt.gsub(/^Lastschrift /, '')
 
       orchestra = false
-      if member_type ==  "Orchestra" then
-        orchestra=true 
-      end
+      orchestra = true if member_type == 'Orchestra'
 
-      if b.member.member_entity_type==member_type then
-        entity = b.member.member_entity
+      next unless b.member.member_entity_type == member_type
 
-        filter = false
-        if orchestra and not sub_type.blank? and entity.orch_type != sub_type then
-          filter=true
-        end
+      entity = b.member.member_entity
 
-        if not filter then
-          Rails.logger.debug("Entity account: #{entity.account_owner} - fullname: #{entity.fullname}")
-        
-          customer = b.member.member_entity.to_customer
-          sw.add_direct_debit(customer,b.amount,txt,"RCUR")
-        else 
-          Rails.logger.debug("Filtered: "+b.member.mglnr.to_s)
-        end
+      filter = false
+      filter = true if orchestra and sub_type.present? and entity.orch_type != sub_type
+
+      if filter
+        Rails.logger.debug('Filtered: ' + b.member.mglnr.to_s)
+      else
+        Rails.logger.debug { "Entity account: #{entity.account_owner} - fullname: #{entity.fullname}" }
+
+        customer = b.member.member_entity.to_customer
+        sw.add_direct_debit(customer, b.amount, txt, 'RCUR')
       end
     end
 
     dd_file = sw.generate_file
 
-    send_file(dd_file.full_path, :filename => dd_file.orig_filename, :type => "application/octet-stream")
+    send_file(dd_file.full_path, filename: dd_file.orig_filename, type: 'application/octet-stream')
   end
 
   def regenerate
     authorize! :member, :edit
-    @bookings = MemberAccountBooking.includes(:member).where('booking_txt = ?',params[:sepa][:booking_txt])
+    @bookings = MemberAccountBooking.includes(:member).where('booking_txt = ?', params[:sepa][:booking_txt])
 
     datePrefix = Time.now.strftime '%Y%m%d%H%M%S'
-    sw = CorikaInvoices::SepaWriter.new(datePrefix,INVOICE_CONFIG)
+    sw = CorikaInvoices::SepaWriter.new(datePrefix, INVOICE_CONFIG)
 
     @bookings.each do |b|
-      member = Member.find(b.member_id)
-        
+      Member.find(b.member_id)
+
       orch = Orchestra.find(b.member_entity_id)
       booking_txt = "BDZ-Beitrag #{b.booking_year}"
       currentSheet = orch.currentReportSheet
@@ -78,12 +74,10 @@ class Adm::SepaRegenerationController < AuthenticatedNonResourceController
       mglnr = orch.member.mglnr
 
       logger.debug("Booking: #{orch.account_owner} #{mglnr} #{orch.iban} #{orch.bic}")
-      if ( orch.is_direct_debit? ) then
-        sw.addDirectDebit(orch,invoice.sum,booking_txt+" "+mglnr.to_s,"RCUR")
-      end
+      sw.addDirectDebit(orch, invoice.sum, booking_txt + ' ' + mglnr.to_s, 'RCUR') if orch.is_direct_debit?
 
       ddFile = sw.generateFile
-      send_file(ddFile.full_path, :filename => ddFile.orig_filename, :type => "application/octet-stream")
+      send_file(ddFile.full_path, filename: ddFile.orig_filename, type: 'application/octet-stream')
     end
   end
 end

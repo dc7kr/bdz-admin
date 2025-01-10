@@ -18,142 +18,140 @@ require 'rails_helper'
 # Message expectations are only used when there is no simpler way to specify
 # that an instance is receiving a specific message.
 
-RSpec.describe PersonMembersController, :type => :controller do
-
+RSpec.describe PersonMembersController, type: :controller do
   # This should return the minimal set of attributes required to create a valid
   # PersonMember. As you add validations to PersonMember, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
-  }
+  let(:valid_attributes) do
+    skip('Add a hash of attributes valid for your model')
+  end
 
-  let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
-  }
+  let(:invalid_attributes) do
+    skip('Add a hash of attributes invalid for your model')
+  end
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
   # PersonMembersController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
-  describe "GET #index" do
-    it "assigns all person_members as @person_members" do
+  describe 'GET #index' do
+    it 'assigns all person_members as @person_members' do
       person_member = PersonMember.create! valid_attributes
-      get :index, {}
+      get :index
       expect(assigns(:person_members)).to eq([person_member])
     end
   end
 
-  describe "GET #show" do
-    it "assigns the requested person_member as @person_member" do
+  describe 'GET #show' do
+    it 'assigns the requested person_member as @person_member' do
       person_member = PersonMember.create! valid_attributes
-      get :show, {:id => person_member.to_param}
+      get :show, params: { id: person_member.to_param }
       expect(assigns(:person_member)).to eq(person_member)
     end
   end
 
-  describe "GET #new" do
-    it "assigns a new person_member as @person_member" do
-      get :new, {}
+  describe 'GET #new' do
+    it 'assigns a new person_member as @person_member' do
+      get :new
       expect(assigns(:person_member)).to be_a_new(PersonMember)
     end
   end
 
-  describe "GET #edit" do
-    it "assigns the requested person_member as @person_member" do
+  describe 'GET #edit' do
+    it 'assigns the requested person_member as @person_member' do
       person_member = PersonMember.create! valid_attributes
-      get :edit, {:id => person_member.to_param}
+      get :edit, params: { id: person_member.to_param }
       expect(assigns(:person_member)).to eq(person_member)
     end
   end
 
-  describe "POST #create" do
-    context "with valid params" do
-      it "creates a new PersonMember" do
-        expect {
-          post :create, {:person_member => valid_attributes}
-        }.to change(PersonMember, :count).by(1)
+  describe 'POST #create' do
+    context 'with valid params' do
+      it 'creates a new PersonMember' do
+        expect do
+          post :create, params: { person_member: valid_attributes }
+        end.to change(PersonMember, :count).by(1)
       end
 
-      it "assigns a newly created person_member as @person_member" do
-        post :create, {:person_member => valid_attributes}
+      it 'assigns a newly created person_member as @person_member' do
+        post :create, params: { person_member: valid_attributes }
         expect(assigns(:person_member)).to be_a(PersonMember)
         expect(assigns(:person_member)).to be_persisted
       end
 
-      it "redirects to the created person_member" do
-        post :create, {:person_member => valid_attributes}
+      it 'redirects to the created person_member' do
+        post :create, params: { person_member: valid_attributes }
         expect(response).to redirect_to(PersonMember.last)
       end
     end
 
-    context "with invalid params" do
-      it "assigns a newly created but unsaved person_member as @person_member" do
-        post :create, {:person_member => invalid_attributes}
+    context 'with invalid params' do
+      it 'assigns a newly created but unsaved person_member as @person_member' do
+        post :create, params: { person_member: invalid_attributes }
         expect(assigns(:person_member)).to be_a_new(PersonMember)
       end
 
       it "re-renders the 'new' template" do
-        post :create, {:person_member => invalid_attributes}
-        expect(response).to render_template("new")
+        post :create, params: { person_member: invalid_attributes }
+        expect(response).to render_template('new')
       end
     end
   end
 
-  describe "PUT #update" do
-    context "with valid params" do
-      let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
-      }
-
-      it "updates the requested person_member" do
-        person_member = PersonMember.create! valid_attributes
-        put :update, {:id => person_member.to_param, :person_member => new_attributes}
-        person_member.reload
-        skip("Add assertions for updated state")
+  describe 'PUT #update' do
+    context 'with valid params' do
+      let(:new_attributes) do
+        skip('Add a hash of attributes valid for your model')
       end
 
-      it "assigns the requested person_member as @person_member" do
+      it 'updates the requested person_member' do
         person_member = PersonMember.create! valid_attributes
-        put :update, {:id => person_member.to_param, :person_member => valid_attributes}
+        put :update, params: { id: person_member.to_param, person_member: new_attributes }
+        person_member.reload
+        skip('Add assertions for updated state')
+      end
+
+      it 'assigns the requested person_member as @person_member' do
+        person_member = PersonMember.create! valid_attributes
+        put :update, params: { id: person_member.to_param, person_member: valid_attributes }
         expect(assigns(:person_member)).to eq(person_member)
       end
 
-      it "redirects to the person_member" do
+      it 'redirects to the person_member' do
         person_member = PersonMember.create! valid_attributes
-        put :update, {:id => person_member.to_param, :person_member => valid_attributes}
+        put :update, params: { id: person_member.to_param, person_member: valid_attributes }
         expect(response).to redirect_to(person_member)
       end
     end
 
-    context "with invalid params" do
-      it "assigns the person_member as @person_member" do
+    context 'with invalid params' do
+      it 'assigns the person_member as @person_member' do
         person_member = PersonMember.create! valid_attributes
-        put :update, {:id => person_member.to_param, :person_member => invalid_attributes}
+        put :update, params: { id: person_member.to_param, person_member: invalid_attributes }
         expect(assigns(:person_member)).to eq(person_member)
       end
 
       it "re-renders the 'edit' template" do
         person_member = PersonMember.create! valid_attributes
-        put :update, {:id => person_member.to_param, :person_member => invalid_attributes}
-        expect(response).to render_template("edit")
+        put :update, params: { id: person_member.to_param, person_member: invalid_attributes }
+        expect(response).to render_template('edit')
       end
     end
   end
 
-  describe "DELETE #destroy" do
-    it "destroys the requested person_member" do
+  describe 'DELETE #destroy' do
+    it 'destroys the requested person_member' do
       person_member = PersonMember.create! valid_attributes
-      expect {
-        delete :destroy, {:id => person_member.to_param}
-      }.to change(PersonMember, :count).by(-1)
+      expect do
+        delete :destroy, params: { id: person_member.to_param }
+      end.to change(PersonMember, :count).by(-1)
     end
 
-    it "redirects to the person_members list" do
+    it 'redirects to the person_members list' do
       person_member = PersonMember.create! valid_attributes
-      delete :destroy, {:id => person_member.to_param}
+      delete :destroy, params: { id: person_member.to_param }
       expect(response).to redirect_to(person_members_url)
     end
   end
-
 end

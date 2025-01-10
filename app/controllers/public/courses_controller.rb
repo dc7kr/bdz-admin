@@ -6,17 +6,18 @@ class Public::CoursesController < ApplicationController
     @courses = Course.future
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render :json => @courses }
+      format.json { render json: @courses }
     end
   end
 
   def inactive
-	@courses = Course.inactive
+    @courses = Course.inactive
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render :json => @courses }
+      format.json { render json: @courses }
     end
   end
+
   # GET /courses
   # GET /courses.json
   def public
@@ -24,15 +25,16 @@ class Public::CoursesController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render :json => @courses }
+      format.json { render json: @courses }
     end
   end
+
   def index
     @courses = Course.all
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render :json => @courses }
+      format.json { render json: @courses }
     end
   end
 
@@ -43,7 +45,7 @@ class Public::CoursesController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render :json => @course }
+      format.json { render json: @course }
     end
   end
 
@@ -54,7 +56,7 @@ class Public::CoursesController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.json { render :json => @course }
+      format.json { render json: @course }
     end
   end
 
@@ -68,21 +70,17 @@ class Public::CoursesController < ApplicationController
   def create
     @course = Course.new(course_params)
 
-	if @course.bland == nil then
-		@course.bland = 1
-	end
+    @course.bland = 1 if @course.bland.nil?
 
-	if @course.ort == nil then
-		@course.ort="Barmingholtener Vereinshaus, Sterkrader Str. 14,46539 Dinslaken"
-	end
+    @course.ort = 'Barmingholtener Vereinshaus, Sterkrader Str. 14,46539 Dinslaken' if @course.ort.nil?
 
     respond_to do |format|
       if @course.save
-        format.html { redirect_to @course, :notice => 'Course was successfully created.' }
-        format.json { render :json => @course, :status => :created, :location => @course }
+        format.html { redirect_to @course, notice: 'Course was successfully created.' }
+        format.json { render json: @course, status: :created, location: @course }
       else
         format.html { render :new, status: :unprocessable_entity }
-        format.json { render :json => @course.errors, :status => :unprocessable_entity }
+        format.json { render json: @course.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -94,16 +92,17 @@ class Public::CoursesController < ApplicationController
 
     respond_to do |format|
       if @course.update(course_params)
-        format.html { redirect_to @course, :notice => 'Course was successfully updated.' }
+        format.html { redirect_to @course, notice: 'Course was successfully updated.' }
         format.json { head :ok }
       else
         format.html { render :edit, status: :unprocessable_entity }
-        format.json { render :json => @course.errors, :status => :unprocessable_entity }
+        format.json { render json: @course.errors, status: :unprocessable_entity }
       end
     end
   end
-  
+
   def course_params
-    params.require(:course).permit(:startdate, :enddate, :bland, :fk_festival, :more_dates, :titel, :ort, :beschreibung, :inhalt, :gebuehr, :zielgruppe, :dozenten, :anmeldung, :deadline, :email, :country_code) 
+    params.require(:course).permit(:startdate, :enddate, :bland, :fk_festival, :more_dates, :titel, :ort,
+                                   :beschreibung, :inhalt, :gebuehr, :zielgruppe, :dozenten, :anmeldung, :deadline, :email, :country_code)
   end
 end

@@ -1,8 +1,5 @@
 class Public::CompetitionEntriesController < Public::ApplicationController
-
-  def drawing
-
-  end
+  def drawing; end
 
   # GET /competition_entries/participate
   # GET /competition_entries/new.json
@@ -15,10 +12,10 @@ class Public::CompetitionEntriesController < Public::ApplicationController
     end
   end
 
-
   def success
     @competition_entry = CompetitionEntry.find(params[:id])
   end
+
   # POST /competition_entries
   # POST /competition_entries.json
   def create
@@ -26,14 +23,17 @@ class Public::CompetitionEntriesController < Public::ApplicationController
 
     correct = @competition_entry.check_responses
 
-    @competition_entry.correct=correct
+    @competition_entry.correct = correct
 
     respond_to do |format|
       if @competition_entry.save
-        format.html { redirect_to success_public_competition_entry_path(@competition_entry), notice: 'CompetitionEntry was successfully created.' }
+        format.html do
+          redirect_to success_public_competition_entry_path(@competition_entry),
+                      notice: 'CompetitionEntry was successfully created.'
+        end
         format.json { render json: @competition_entry, status: :created, location: @competition_entry }
       else
-        format.html { render action: "participate" }
+        format.html { render action: 'participate' }
         format.json { render json: @competition_entry.errors, status: :unprocessable_entity }
       end
     end

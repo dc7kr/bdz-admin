@@ -1,8 +1,3 @@
 class TexWriterCallback
-
-  def writeAdditionalVars(file, invoice)
-
-  end
-
-
+  def writeAdditionalVars(file, invoice); end
 end

@@ -1,13 +1,13 @@
 class FestivalPiecesController < AuthenticatedController
-	respond_to :html,:js
+  respond_to :html, :js
   # GET /festival_pieces
   # GET /festival_pieces.json
   def index
-    if ( params[:festival_application_token] != nil ) then
-	    @festival_application = FestivalApplication.find_by(token: params[:festival_application_token])
-      @festival_pieces = @festival_application.festival_pieces
-    else
+    if params[:festival_application_token].nil?
       @festival_pieces = FestivalPiece.all
+    else
+      @festival_application = FestivalApplication.find_by(token: params[:festival_application_token])
+      @festival_pieces = @festival_application.festival_pieces
     end
 
     respond_to do |format|
@@ -19,7 +19,7 @@ class FestivalPiecesController < AuthenticatedController
   # GET /festival_pieces/1
   # GET /festival_pieces/1.json
   def show
-	  @festival_application = FestivalApplication.find_by(token: params[:festival_application_token])
+    @festival_application = FestivalApplication.find_by(token: params[:festival_application_token])
     @festival_piece = FestivalPiece.find(params[:id])
 
     respond_to do |format|
@@ -31,7 +31,7 @@ class FestivalPiecesController < AuthenticatedController
   # GET /festival_pieces/new
   # GET /festival_pieces/new.json
   def new
-	@festival_application = FestivalApplication.find_by(token: params[:festival_application_token])
+    @festival_application = FestivalApplication.find_by(token: params[:festival_application_token])
     @festival_piece = FestivalPiece.new
 
     respond_to do |format|
@@ -42,7 +42,7 @@ class FestivalPiecesController < AuthenticatedController
 
   # GET /festival_pieces/1/edit
   def edit
-	@festival_application = FestivalApplication.find_by(token: params[:festival_application_token])
+    @festival_application = FestivalApplication.find_by(token: params[:festival_application_token])
     @festival_piece = FestivalPiece.find(params[:id])
   end
 
@@ -54,20 +54,23 @@ class FestivalPiecesController < AuthenticatedController
     @festival_application.festival_pieces << @festival_piece
     @festival_piece.save
 
-	  logger.debug("New piece: "+@festival_piece.id.to_s)
+    logger.debug('New piece: ' + @festival_piece.id.to_s)
 
-    respond_with @festival_piece, :location => festival_application_festival_pieces_url(@festival_application)
+    respond_with @festival_piece, location: festival_application_festival_pieces_url(@festival_application)
   end
 
   # PUT /festival_pieces/1
   # PUT /festival_pieces/1.json
   def update
-	@festival_application = FestivalApplication.find_by(token: params[:festival_application_token])
+    @festival_application = FestivalApplication.find_by(token: params[:festival_application_token])
     @festival_piece = FestivalPiece.find(params[:id])
 
     respond_to do |format|
       if @festival_piece.update(festival_piece_params)
-        format.html { redirect_to festival_application_festival_piece_url(@festival_application,@festival_piece), notice: t('festival_piece.update_success') }
+        format.html do
+          redirect_to festival_application_festival_piece_url(@festival_application, @festival_piece),
+                      notice: t('festival_piece.update_success')
+        end
         format.json { head :no_content }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -83,16 +86,16 @@ class FestivalPiecesController < AuthenticatedController
     @festival_piece = FestivalPiece.find(params[:id])
     @festival_piece.destroy
 
-    respond_with @festival_piece, :location => festival_application_festival_pieces_url(@festival_application)
+    respond_with @festival_piece, location: festival_application_festival_pieces_url(@festival_application)
   end
 
+  private
 
-  private 
   def festival_piece_params
     params.require(:festival_piece).permit(
-        :composer,
-        :title,
-        :duration
+      :composer,
+      :title,
+      :duration
     )
   end
 end

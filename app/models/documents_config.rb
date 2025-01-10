@@ -1,16 +1,11 @@
 class DocumentsConfig
-  attr_accessor  :work_dir, :template_dir, :archive_dir, :pdftk
+  attr_accessor :work_dir, :template_dir, :archive_dir, :pdftk
 
-  def initialize(hash) 
+  def initialize(hash)
+    throw :invoice_config_data_nil if hash.nil?
 
-    if hash.nil? 
-      throw :invoice_config_data_nil
-    end
-
-    hash.each do |k,v|
-      if respond_to? "#{k}="
-        public_send("#{k}=",v) 
-      end
+    hash.each do |k, v|
+      public_send("#{k}=", v) if respond_to? "#{k}="
     end
   end
 end

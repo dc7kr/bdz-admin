@@ -3,17 +3,15 @@ class BoardContactsController < AuthenticatedController
   # GET /board_contacts
   # GET /board_contacts.json
   def index
-    @board_contacts = BoardContact.includes(:contact).search(params[:search]).order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
+    @board_contacts = BoardContact.includes(:contact).search(params[:search]).order(sort_column + ' ' + sort_direction).page(params[:page]).per(20)
 
     respond_to do |format|
-      format.html {
-			if  ( @board_contacts.length == 1 ) then
-				redirect_to @board_contacts[0]
-			end
-		}
-			# index.html.erb
-      format.json { render :json => @board_contacts}
-	  format.js
+      format.html do
+        redirect_to @board_contacts[0] if @board_contacts.length == 1
+      end
+      # index.html.erb
+      format.json { render json: @board_contacts }
+      format.js
     end
   end
 
@@ -34,7 +32,7 @@ class BoardContactsController < AuthenticatedController
     @board_contact = BoardContact.new
     contact = Contact.new
     @board_contact.contact = contact
-    contact.country_code="DE"
+    contact.country_code = 'DE'
 
     respond_to do |format|
       format.html # new.html.erb
@@ -92,15 +90,18 @@ class BoardContactsController < AuthenticatedController
 
   ## helpers ###
 
-  private 
+  private
+
   def sort_column
-    Contact.column_names.include?(params[:sort]) ? "members."+params[:sort] :
-    BoardContact.column_names.include?(params[:sort]) ? params[:sort] : "contacts.last_name,contacts.first_name"
+    if Contact.column_names.include?(params[:sort])
+      'members.' + params[:sort]
+    else
+      BoardContact.column_names.include?(params[:sort]) ? params[:sort] : 'contacts.last_name,contacts.first_name'
+    end
   end
 
   def board_contact_params
-    params.require(:board_contact).permit(contact_attributes: [:company,:department,:salutation,:title,:first_name,:last_name,:street,:zip,:city,:phone,:office_phone,:mobile,:fax,:email,:bic,:iban,:country_code])
+    params.require(:board_contact).permit(contact_attributes: %i[company department salutation title first_name
+                                                                 last_name street zip city phone office_phone mobile fax email bic iban country_code])
   end
 end
-
-

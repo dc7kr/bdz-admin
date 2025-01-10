@@ -1,17 +1,16 @@
 class StatesController < AuthenticatedController
-
   before_action :determine_scope
 
   # GET /states
   # GET /states.json
-  before_action :authenticate_user!#, :except => [:index]
+  before_action :authenticate_user! # , :except => [:index]
 
   def index
-    @states = @scope.all 
+    @states = @scope.all
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render :json => @states }
+      format.json { render json: @states }
     end
   end
 
@@ -22,7 +21,7 @@ class StatesController < AuthenticatedController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render :json => @state }
+      format.json { render json: @state }
     end
   end
 
@@ -33,7 +32,7 @@ class StatesController < AuthenticatedController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.json { render :json => @state }
+      format.json { render json: @state }
     end
   end
 
@@ -49,11 +48,11 @@ class StatesController < AuthenticatedController
 
     respond_to do |format|
       if @state.save
-        format.html { redirect_to @state, :notice => 'State was successfully created.' }
-        format.json { render :json => @state, :status => :created, :location => @state }
+        format.html { redirect_to @state, notice: 'State was successfully created.' }
+        format.json { render json: @state, status: :created, location: @state }
       else
         format.html { render :new, status: :unprocessable_entity }
-        format.json { render :json => @state.errors, :status => :unprocessable_entity }
+        format.json { render json: @state.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -65,11 +64,11 @@ class StatesController < AuthenticatedController
 
     respond_to do |format|
       if @state.update(params[:state])
-        format.html { redirect_to @state, :notice => t('state.update_success') }
+        format.html { redirect_to @state, notice: t('state.update_success') }
         format.json { head :ok }
       else
         format.html { render :edit, status: :unprocessable_entity }
-        format.json { render :json => @state.errors, :status => :unprocessable_entity }
+        format.json { render json: @state.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -86,15 +85,13 @@ class StatesController < AuthenticatedController
     end
   end
 
-
   protected
 
-    def determine_scope
-      @scope = if params[:country_id]
-        ISO3166::Country.find(params[:country_id]).states
-      else
-        State
-      end
-    end
-
+  def determine_scope
+    @scope = if params[:country_id]
+               ISO3166::Country.find(params[:country_id]).states
+             else
+               State
+             end
+  end
 end

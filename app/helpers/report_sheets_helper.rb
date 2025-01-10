@@ -1,4 +1,3 @@
 module ReportSheetsHelper
-	# calculate Beitrag 
-
+  # calculate Beitrag
 end

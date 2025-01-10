@@ -3,4 +3,3 @@ class DocumentGenerationException < StandardError
     @message = message
   end
 end
-     

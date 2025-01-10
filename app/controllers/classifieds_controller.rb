@@ -1,39 +1,37 @@
 class ClassifiedsController < AuthenticatedController
   helper_method :sort_column, :sort_direction
 
-  def publish 
-	@classified = Classified.find(params[:id])
-	@classified.confirmed = Time.now
-	@classified.visible = true
-	@classified.save
-  flash[:notice]= t('classified.publish_success')
+  def publish
+    @classified = Classified.find(params[:id])
+    @classified.confirmed = Time.now
+    @classified.visible = true
+    @classified.save
+    flash[:notice] = t('classified.publish_success')
 
     respond_to do |format|
       if @classified.save
-        format.html { redirect_to inactive_classifieds_path, :notice => t('classified.publish_success') }
-        format.json { render :json=>{ :status=>"ok", :entityId=>@classified.id } }
+        format.html { redirect_to inactive_classifieds_path, notice: t('classified.publish_success') }
+        format.json { render json: { status: 'ok', entityId: @classified.id } }
       else
         format.html { render :edit, status: :unprocessable_entity }
-        format.json { render :json => @classified.errors, :status => :unprocessable_entity }
+        format.json { render json: @classified.errors, status: :unprocessable_entity }
       end
     end
-
   end
 
-  def inactive 
-    @classifieds = Classified.inactive.order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
+  def inactive
+    @classifieds = Classified.inactive.order(sort_column + ' ' + sort_direction).page(params[:page]).per(20)
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render :json => @concerts }
+      format.json { render json: @concerts }
     end
   end
 
   # GET /classifieds
   # GET /classifieds.json
   def index
-    @classifieds= Classified.order(sort_column+ " "+ sort_direction).page(params[:page]).per(20)
-
+    @classifieds = Classified.order(sort_column + ' ' + sort_direction).page(params[:page]).per(20)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -106,24 +104,27 @@ class ClassifiedsController < AuthenticatedController
   def destroy
     @classified = Classified.find(params[:id])
     @classified.destroy
-    flash[:notice]= t('classified.delete_success')
+    flash[:notice] = t('classified.delete_success')
 
     respond_to do |format|
       format.html { redirect_to classifieds_url }
       format.json { head :no_content }
-      format.json { render :json=>{ :status=>"ok", :entityId=>@classified.id } }
+      format.json { render json: { status: 'ok', entityId: @classified.id } }
     end
   end
-  private 
+
+  private
+
   def sort_column
-    Classified.column_names.include?(params[:sort]) ? params[:sort] : "validuntil"
+    Classified.column_names.include?(params[:sort]) ? params[:sort] : 'validuntil'
   end
-  
+
   def sort_direction
-    %w[asc desc].include?(params[:direction]) ? params[:direction] : "desc"
+    %w[asc desc].include?(params[:direction]) ? params[:direction] : 'desc'
   end
 
   def classified_params
-    params.require(:classified).permit(:adv_type,:visible,:object,:description,:ip,:entrydate,:confirmed,:url,:email,:name)
+    params.require(:classified).permit(:adv_type, :visible, :object, :description, :ip, :entrydate, :confirmed, :url, :email,
+                                       :name)
   end
 end

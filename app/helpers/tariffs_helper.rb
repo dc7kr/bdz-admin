@@ -1,3 +1,2 @@
-module TariffsHelper	
-
+module TariffsHelper
 end

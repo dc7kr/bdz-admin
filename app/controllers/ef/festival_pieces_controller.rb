@@ -1,11 +1,11 @@
 class Ef::FestivalPiecesController < Ef::ApplicationController
-	respond_to :html,:js
+  respond_to :html, :js
 
   helper ApplicationHelper
   # GET /festival_pieces
   # GET /festival_pieces.json
   def index
-    @festival_application =  FestivalApplication.find_by token: params[:festival_application_token]
+    @festival_application = FestivalApplication.find_by token: params[:festival_application_token]
     @festival_pieces = @festival_application.festival_pieces
 
     respond_to do |format|
@@ -51,26 +51,30 @@ class Ef::FestivalPiecesController < Ef::ApplicationController
     @festival_application.festival_pieces << @festival_piece
 
     respond_to do |format|
-        if @festival_piece.save
-          format.turbo_stream do
-            render turbo_stream: [
-              turbo_stream.update(:new_piece, partial: "ef/festival_applications/step2_form", locals: {festival_piece: FestivalPiece.new}),
-              turbo_stream.append(:festival_pieces, @festival_piece)
-            ]
-          end
-          format.html { redirect_to step2_ef_festival_application_path(@festival_application), notice: t("festival_piece.create_success") }
-        else
-          format.turbo_stream do
-            render turbo_stream: [
-              turbo_stream.update(:new_piece, partial: "festival_applications/form", locals: {note: @note}),
-            ]
-          end
-          format.html { render :new, status: :unprocessable_entity }
+      if @festival_piece.save
+        format.turbo_stream do
+          render turbo_stream: [
+            turbo_stream.update(:new_piece, partial: 'ef/festival_applications/step2_form',
+                                            locals: { festival_piece: FestivalPiece.new }),
+            turbo_stream.append(:festival_pieces, @festival_piece)
+          ]
         end
+        format.html do
+          redirect_to step2_ef_festival_application_path(@festival_application),
+                      notice: t('festival_piece.create_success')
+        end
+      else
+        format.turbo_stream do
+          render turbo_stream: [
+            turbo_stream.update(:new_piece, partial: 'festival_applications/form', locals: { note: @note })
+          ]
+        end
+        format.html { render :new, status: :unprocessable_entity }
+      end
 
-        # @festival_piece = @festival_application.festival_pieces.create(festival_piece_params)
-	#logger.debug("New piece: "+@festival_piece.id.to_s)
-        #respond_with @festival_piece, :location => festival_application_festival_pieces_url(@festival_application,@festival_application.festival_pieces)
+      # @festival_piece = @festival_application.festival_pieces.create(festival_piece_params)
+      # logger.debug("New piece: "+@festival_piece.id.to_s)
+      # respond_with @festival_piece, :location => festival_application_festival_pieces_url(@festival_application,@festival_application.festival_pieces)
     end
   end
 
@@ -93,7 +97,7 @@ class Ef::FestivalPiecesController < Ef::ApplicationController
   # DELETE /festival_pieces/1
   # DELETE /festival_pieces/1.json
   def destroy
-  	@festival_application = FestivalApplication.find_by token: params[:festival_application_token]
+    @festival_application = FestivalApplication.find_by token: params[:festival_application_token]
     @festival_piece = FestivalPiece.find(params[:id])
     respond_to do |format|
       if @festival_piece.destroy
@@ -101,14 +105,19 @@ class Ef::FestivalPiecesController < Ef::ApplicationController
         format.turbo_stream do
           render turbo_stream: [
             turbo_stream.remove(@festival_piece),
-            turbo_stream.update(:new_piece, partial: "ef/festival_applications/step2_form", locals: {festival_piece: FestivalPiece.new}),
+            turbo_stream.update(:new_piece, partial: 'ef/festival_applications/step2_form',
+                                            locals: { festival_piece: FestivalPiece.new })
           ]
         end
-        format.html { redirect_to step2_ef_festival_application_path(@festival_application), notice: t("festival_piece.delete_success") }
+        format.html do
+          redirect_to step2_ef_festival_application_path(@festival_application),
+                      notice: t('festival_piece.delete_success')
+        end
       else
         format.turbo_stream do
           render turbo_stream: [
-            turbo_stream.update(:new_piece, partial: "festival_applications/step2_form", locals: {piece: @festival_piece}),
+            turbo_stream.update(:new_piece, partial: 'festival_applications/step2_form',
+                                            locals: { piece: @festival_piece })
           ]
         end
         format.html { render :new, status: :unprocessable_entity }
@@ -116,7 +125,7 @@ class Ef::FestivalPiecesController < Ef::ApplicationController
     end
   end
 
-  def festival_piece_params 
-    params.require(:festival_piece).permit(:composer,:title,:duration)
+  def festival_piece_params
+    params.require(:festival_piece).permit(:composer, :title, :duration)
   end
 end

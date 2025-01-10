@@ -18,142 +18,140 @@ require 'rails_helper'
 # Message expectations are only used when there is no simpler way to specify
 # that an instance is receiving a specific message.
 
-RSpec.describe OrchestrasController, :type => :controller do
-
+RSpec.describe OrchestrasController, type: :controller do
   # This should return the minimal set of attributes required to create a valid
   # Orchestra. As you add validations to Orchestra, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
-  }
+  let(:valid_attributes) do
+    skip('Add a hash of attributes valid for your model')
+  end
 
-  let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
-  }
+  let(:invalid_attributes) do
+    skip('Add a hash of attributes invalid for your model')
+  end
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
   # OrchestrasController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
-  describe "GET #index" do
-    it "assigns all orchestras as @orchestras" do
+  describe 'GET #index' do
+    it 'assigns all orchestras as @orchestras' do
       orchestra = Orchestra.create! valid_attributes
-      get :index, {}
+      get :index
       expect(assigns(:orchestras)).to eq([orchestra])
     end
   end
 
-  describe "GET #show" do
-    it "assigns the requested orchestra as @orchestra" do
+  describe 'GET #show' do
+    it 'assigns the requested orchestra as @orchestra' do
       orchestra = Orchestra.create! valid_attributes
-      get :show, {:id => orchestra.to_param}
+      get :show, params: { id: orchestra.to_param }
       expect(assigns(:orchestra)).to eq(orchestra)
     end
   end
 
-  describe "GET #new" do
-    it "assigns a new orchestra as @orchestra" do
-      get :new, {}
+  describe 'GET #new' do
+    it 'assigns a new orchestra as @orchestra' do
+      get :new
       expect(assigns(:orchestra)).to be_a_new(Orchestra)
     end
   end
 
-  describe "GET #edit" do
-    it "assigns the requested orchestra as @orchestra" do
+  describe 'GET #edit' do
+    it 'assigns the requested orchestra as @orchestra' do
       orchestra = Orchestra.create! valid_attributes
-      get :edit, {:id => orchestra.to_param}
+      get :edit, params: { id: orchestra.to_param }
       expect(assigns(:orchestra)).to eq(orchestra)
     end
   end
 
-  describe "POST #create" do
-    context "with valid params" do
-      it "creates a new Orchestra" do
-        expect {
-          post :create, {:orchestra => valid_attributes}
-        }.to change(Orchestra, :count).by(1)
+  describe 'POST #create' do
+    context 'with valid params' do
+      it 'creates a new Orchestra' do
+        expect do
+          post :create, params: { orchestra: valid_attributes }
+        end.to change(Orchestra, :count).by(1)
       end
 
-      it "assigns a newly created orchestra as @orchestra" do
-        post :create, {:orchestra => valid_attributes}
+      it 'assigns a newly created orchestra as @orchestra' do
+        post :create, params: { orchestra: valid_attributes }
         expect(assigns(:orchestra)).to be_a(Orchestra)
         expect(assigns(:orchestra)).to be_persisted
       end
 
-      it "redirects to the created orchestra" do
-        post :create, {:orchestra => valid_attributes}
+      it 'redirects to the created orchestra' do
+        post :create, params: { orchestra: valid_attributes }
         expect(response).to redirect_to(Orchestra.last)
       end
     end
 
-    context "with invalid params" do
-      it "assigns a newly created but unsaved orchestra as @orchestra" do
-        post :create, {:orchestra => invalid_attributes}
+    context 'with invalid params' do
+      it 'assigns a newly created but unsaved orchestra as @orchestra' do
+        post :create, params: { orchestra: invalid_attributes }
         expect(assigns(:orchestra)).to be_a_new(Orchestra)
       end
 
       it "re-renders the 'new' template" do
-        post :create, {:orchestra => invalid_attributes}
-        expect(response).to render_template("new")
+        post :create, params: { orchestra: invalid_attributes }
+        expect(response).to render_template('new')
       end
     end
   end
 
-  describe "PUT #update" do
-    context "with valid params" do
-      let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
-      }
-
-      it "updates the requested orchestra" do
-        orchestra = Orchestra.create! valid_attributes
-        put :update, {:id => orchestra.to_param, :orchestra => new_attributes}
-        orchestra.reload
-        skip("Add assertions for updated state")
+  describe 'PUT #update' do
+    context 'with valid params' do
+      let(:new_attributes) do
+        skip('Add a hash of attributes valid for your model')
       end
 
-      it "assigns the requested orchestra as @orchestra" do
+      it 'updates the requested orchestra' do
         orchestra = Orchestra.create! valid_attributes
-        put :update, {:id => orchestra.to_param, :orchestra => valid_attributes}
+        put :update, params: { id: orchestra.to_param, orchestra: new_attributes }
+        orchestra.reload
+        skip('Add assertions for updated state')
+      end
+
+      it 'assigns the requested orchestra as @orchestra' do
+        orchestra = Orchestra.create! valid_attributes
+        put :update, params: { id: orchestra.to_param, orchestra: valid_attributes }
         expect(assigns(:orchestra)).to eq(orchestra)
       end
 
-      it "redirects to the orchestra" do
+      it 'redirects to the orchestra' do
         orchestra = Orchestra.create! valid_attributes
-        put :update, {:id => orchestra.to_param, :orchestra => valid_attributes}
+        put :update, params: { id: orchestra.to_param, orchestra: valid_attributes }
         expect(response).to redirect_to(orchestra)
       end
     end
 
-    context "with invalid params" do
-      it "assigns the orchestra as @orchestra" do
+    context 'with invalid params' do
+      it 'assigns the orchestra as @orchestra' do
         orchestra = Orchestra.create! valid_attributes
-        put :update, {:id => orchestra.to_param, :orchestra => invalid_attributes}
+        put :update, params: { id: orchestra.to_param, orchestra: invalid_attributes }
         expect(assigns(:orchestra)).to eq(orchestra)
       end
 
       it "re-renders the 'edit' template" do
         orchestra = Orchestra.create! valid_attributes
-        put :update, {:id => orchestra.to_param, :orchestra => invalid_attributes}
-        expect(response).to render_template("edit")
+        put :update, params: { id: orchestra.to_param, orchestra: invalid_attributes }
+        expect(response).to render_template('edit')
       end
     end
   end
 
-  describe "DELETE #destroy" do
-    it "destroys the requested orchestra" do
+  describe 'DELETE #destroy' do
+    it 'destroys the requested orchestra' do
       orchestra = Orchestra.create! valid_attributes
-      expect {
-        delete :destroy, {:id => orchestra.to_param}
-      }.to change(Orchestra, :count).by(-1)
+      expect do
+        delete :destroy, params: { id: orchestra.to_param }
+      end.to change(Orchestra, :count).by(-1)
     end
 
-    it "redirects to the orchestras list" do
+    it 'redirects to the orchestras list' do
       orchestra = Orchestra.create! valid_attributes
-      delete :destroy, {:id => orchestra.to_param}
+      delete :destroy, params: { id: orchestra.to_param }
       expect(response).to redirect_to(orchestras_url)
     end
   end
-
 end

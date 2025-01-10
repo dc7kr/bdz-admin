@@ -1,12 +1,12 @@
-module Public::PublicControllerModule 
+module Public::PublicControllerModule
   # GET /concerts
   # GET /concerts.json
 
   include ApplicationHelper
 
-
   protected
+
   def noAuthActions
-	["index","show"]
+    %w[index show]
   end
 end

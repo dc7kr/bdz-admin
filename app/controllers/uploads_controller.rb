@@ -6,7 +6,7 @@ class UploadsController < AuthenticatedController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @uploads.map{|upload| upload.to_jq_upload } }
+      format.json { render json: @uploads.map { |upload| upload.to_jq_upload } }
     end
   end
 
@@ -44,11 +44,11 @@ class UploadsController < AuthenticatedController
 
     respond_to do |format|
       if @upload.save
-        format.html {
-          render :json => [@upload.to_jq_upload].to_json,
-          :content_type => 'text/html',
-          :layout => false
-        }
+        format.html do
+          render json: [@upload.to_jq_upload].to_json,
+                 content_type: 'text/html',
+                 layout: false
+        end
         format.json { render json: [@upload.to_jq_upload].to_json, status: :created, location: @upload }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -85,4 +85,3 @@ class UploadsController < AuthenticatedController
     end
   end
 end
-

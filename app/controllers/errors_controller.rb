@@ -1,24 +1,23 @@
 class ErrorsController < ApplicationController
-
   def not_found
-    #render json: {
+    # render json: {
     #  status: 404,
     #  error: :not_found,
     #  message: 'Where did the 403 errors go'
-    #}, status: 404
+    # }, status: 404
   end
 
-  #def internal_server_error
-    #render json: {
-    #  status: 500,
-    #  error: :internal_server_error,
-    #  message: 'Houston we have a problem'
-    #}, status: 500
-  #end
+  # def internal_server_error
+  # render json: {
+  #  status: 500,
+  #  error: :internal_server_error,
+  #  message: 'Houston we have a problem'
+  # }, status: 500
+  # end
 
   def internal_server_error
     respond_to do |format|
-      format.html {  render(:status=>500) }
+      format.html { render(status: :internal_server_error) }
     end
   end
 end

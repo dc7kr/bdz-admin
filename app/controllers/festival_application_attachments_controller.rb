@@ -44,8 +44,13 @@ class FestivalApplicationAttachmentsController < ApplicationController
 
     respond_to do |format|
       if @festival_application_attachment.save
-        format.html { redirect_to @festival_application_attachment, notice: 'Festival application attachment was successfully created.' }
-        format.json { render json: @festival_application_attachment, status: :created, location: @festival_application_attachment }
+        format.html do
+          redirect_to @festival_application_attachment,
+                      notice: 'Festival application attachment was successfully created.'
+        end
+        format.json do
+          render json: @festival_application_attachment, status: :created, location: @festival_application_attachment
+        end
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @festival_application_attachment.errors, status: :unprocessable_entity }
@@ -60,7 +65,10 @@ class FestivalApplicationAttachmentsController < ApplicationController
 
     respond_to do |format|
       if @festival_application_attachment.update(params[:festival_application_attachment])
-        format.html { redirect_to @festival_application_attachment, notice: 'Festival application attachment was successfully updated.' }
+        format.html do
+          redirect_to @festival_application_attachment,
+                      notice: 'Festival application attachment was successfully updated.'
+        end
         format.json { head :no_content }
       else
         format.html { render :edit, status: :unprocessable_entity }

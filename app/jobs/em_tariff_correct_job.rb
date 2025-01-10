@@ -1,38 +1,38 @@
 class EmTariffCorrectJob < ApplicationJob
   queue_as :default
 
-  def perform(*args)
+  def perform(*_args)
     digi_tariff = Tariff.where(tariff_type: 21).first
     normal_tariff = Tariff.where(tariff_type: 20).first
-    student_tariff = Tariff.where(tariff_type: 25).first
+    Tariff.where(tariff_type: 25).first
 
-    changed=0
-    unchanged=0
+    changed = 0
+    unchanged = 0
 
-    digital = Array.new 
-    normal = Array.new
+    digital = []
+    normal = []
 
     PersonMember.includes(:member).all.each do |em|
       mail = em.member.email
 
       if em.tariff_id == normal_tariff.id
-        if em.member.za=="L" and not mail.nil? and not mail.empty?
+        if em.member.za == 'L' and !mail.nil? and !mail.empty?
           em.tariff = digi_tariff
           em.save
           digital << em
-          changed+=1
+          changed += 1
         else
-          unchanged+=1
+          unchanged += 1
         end
       elsif em.tariff_id == digi_tariff.id
-        if em.member.za!= "L" or mail.nil? or mail.empty?
+        if em.member.za != 'L' or mail.nil? or mail.empty?
           em.tariff = normal_tariff
           em.save
           normal << em
-          changed+=1
+          changed += 1
         end
       else
-        unchanged+=1
+        unchanged += 1
       end
     end
 
@@ -44,8 +44,7 @@ class EmTariffCorrectJob < ApplicationJob
         logger.info 'Admin notify sent to %s' % user.email
       end
     else
-      logger.info("EM Tariff fix job had no changes.")
+      logger.info('EM Tariff fix job had no changes.')
     end
   end
 end
-

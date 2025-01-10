@@ -1,13 +1,13 @@
 class UrlCategoriesController < AuthenticatedController
   # GET /url_categories
   # GET /url_categories.json
-  before_action :authenticate_user!#, :except => [:index]
+  before_action :authenticate_user! # , :except => [:index]
   def index
     @url_categories = UrlCategory.all
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render :json => @url_categories }
+      format.json { render json: @url_categories }
     end
   end
 
@@ -18,7 +18,7 @@ class UrlCategoriesController < AuthenticatedController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render :json => @url_category }
+      format.json { render json: @url_category }
     end
   end
 
@@ -29,7 +29,7 @@ class UrlCategoriesController < AuthenticatedController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.json { render :json => @url_category }
+      format.json { render json: @url_category }
     end
   end
 
@@ -45,11 +45,11 @@ class UrlCategoriesController < AuthenticatedController
 
     respond_to do |format|
       if @url_category.save
-        format.html { redirect_to @url_category, :notice => 'Url category was successfully created.' }
-        format.json { render :json => @url_category, :status => :created, :location => @url_category }
+        format.html { redirect_to @url_category, notice: 'Url category was successfully created.' }
+        format.json { render json: @url_category, status: :created, location: @url_category }
       else
         format.html { render :new, status: :unprocessable_entity }
-        format.json { render :json => @url_category.errors, :status => :unprocessable_entity }
+        format.json { render json: @url_category.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -61,11 +61,11 @@ class UrlCategoriesController < AuthenticatedController
 
     respond_to do |format|
       if @url_category.update(params[:url_category])
-        format.html { redirect_to @url_category, :notice => 'Url category was successfully updated.' }
+        format.html { redirect_to @url_category, notice: 'Url category was successfully updated.' }
         format.json { head :ok }
       else
         format.html { render :edit, status: :unprocessable_entity }
-        format.json { render :json => @url_category.errors, :status => :unprocessable_entity }
+        format.json { render json: @url_category.errors, status: :unprocessable_entity }
       end
     end
   end

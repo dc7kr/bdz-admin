@@ -18,142 +18,140 @@ require 'rails_helper'
 # Message expectations are only used when there is no simpler way to specify
 # that an instance is receiving a specific message.
 
-RSpec.describe MagazineAdvertsController, :type => :controller do
-
+RSpec.describe MagazineAdvertsController, type: :controller do
   # This should return the minimal set of attributes required to create a valid
   # MagazineAdvert. As you add validations to MagazineAdvert, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
-  }
+  let(:valid_attributes) do
+    skip('Add a hash of attributes valid for your model')
+  end
 
-  let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
-  }
+  let(:invalid_attributes) do
+    skip('Add a hash of attributes invalid for your model')
+  end
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
   # MagazineAdvertsController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
-  describe "GET #index" do
-    it "assigns all magazine_adverts as @magazine_adverts" do
+  describe 'GET #index' do
+    it 'assigns all magazine_adverts as @magazine_adverts' do
       magazine_advert = MagazineAdvert.create! valid_attributes
-      get :index, {}, valid_session
+      get :index, session: valid_session
       expect(assigns(:magazine_adverts)).to eq([magazine_advert])
     end
   end
 
-  describe "GET #show" do
-    it "assigns the requested magazine_advert as @magazine_advert" do
+  describe 'GET #show' do
+    it 'assigns the requested magazine_advert as @magazine_advert' do
       magazine_advert = MagazineAdvert.create! valid_attributes
-      get :show, {:id => magazine_advert.to_param}, valid_session
+      get :show, params: { id: magazine_advert.to_param }, session: valid_session
       expect(assigns(:magazine_advert)).to eq(magazine_advert)
     end
   end
 
-  describe "GET #new" do
-    it "assigns a new magazine_advert as @magazine_advert" do
-      get :new, {}, valid_session
+  describe 'GET #new' do
+    it 'assigns a new magazine_advert as @magazine_advert' do
+      get :new, session: valid_session
       expect(assigns(:magazine_advert)).to be_a_new(MagazineAdvert)
     end
   end
 
-  describe "GET #edit" do
-    it "assigns the requested magazine_advert as @magazine_advert" do
+  describe 'GET #edit' do
+    it 'assigns the requested magazine_advert as @magazine_advert' do
       magazine_advert = MagazineAdvert.create! valid_attributes
-      get :edit, {:id => magazine_advert.to_param}, valid_session
+      get :edit, params: { id: magazine_advert.to_param }, session: valid_session
       expect(assigns(:magazine_advert)).to eq(magazine_advert)
     end
   end
 
-  describe "POST #create" do
-    context "with valid params" do
-      it "creates a new MagazineAdvert" do
-        expect {
-          post :create, {:magazine_advert => valid_attributes}, valid_session
-        }.to change(MagazineAdvert, :count).by(1)
+  describe 'POST #create' do
+    context 'with valid params' do
+      it 'creates a new MagazineAdvert' do
+        expect do
+          post :create, params: { magazine_advert: valid_attributes }, session: valid_session
+        end.to change(MagazineAdvert, :count).by(1)
       end
 
-      it "assigns a newly created magazine_advert as @magazine_advert" do
-        post :create, {:magazine_advert => valid_attributes}, valid_session
+      it 'assigns a newly created magazine_advert as @magazine_advert' do
+        post :create, params: { magazine_advert: valid_attributes }, session: valid_session
         expect(assigns(:magazine_advert)).to be_a(MagazineAdvert)
         expect(assigns(:magazine_advert)).to be_persisted
       end
 
-      it "redirects to the created magazine_advert" do
-        post :create, {:magazine_advert => valid_attributes}, valid_session
+      it 'redirects to the created magazine_advert' do
+        post :create, params: { magazine_advert: valid_attributes }, session: valid_session
         expect(response).to redirect_to(MagazineAdvert.last)
       end
     end
 
-    context "with invalid params" do
-      it "assigns a newly created but unsaved magazine_advert as @magazine_advert" do
-        post :create, {:magazine_advert => invalid_attributes}, valid_session
+    context 'with invalid params' do
+      it 'assigns a newly created but unsaved magazine_advert as @magazine_advert' do
+        post :create, params: { magazine_advert: invalid_attributes }, session: valid_session
         expect(assigns(:magazine_advert)).to be_a_new(MagazineAdvert)
       end
 
       it "re-renders the 'new' template" do
-        post :create, {:magazine_advert => invalid_attributes}, valid_session
-        expect(response).to render_template("new")
+        post :create, params: { magazine_advert: invalid_attributes }, session: valid_session
+        expect(response).to render_template('new')
       end
     end
   end
 
-  describe "PUT #update" do
-    context "with valid params" do
-      let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
-      }
-
-      it "updates the requested magazine_advert" do
-        magazine_advert = MagazineAdvert.create! valid_attributes
-        put :update, {:id => magazine_advert.to_param, :magazine_advert => new_attributes}, valid_session
-        magazine_advert.reload
-        skip("Add assertions for updated state")
+  describe 'PUT #update' do
+    context 'with valid params' do
+      let(:new_attributes) do
+        skip('Add a hash of attributes valid for your model')
       end
 
-      it "assigns the requested magazine_advert as @magazine_advert" do
+      it 'updates the requested magazine_advert' do
         magazine_advert = MagazineAdvert.create! valid_attributes
-        put :update, {:id => magazine_advert.to_param, :magazine_advert => valid_attributes}, valid_session
+        put :update, params: { id: magazine_advert.to_param, magazine_advert: new_attributes }, session: valid_session
+        magazine_advert.reload
+        skip('Add assertions for updated state')
+      end
+
+      it 'assigns the requested magazine_advert as @magazine_advert' do
+        magazine_advert = MagazineAdvert.create! valid_attributes
+        put :update, params: { id: magazine_advert.to_param, magazine_advert: valid_attributes }, session: valid_session
         expect(assigns(:magazine_advert)).to eq(magazine_advert)
       end
 
-      it "redirects to the magazine_advert" do
+      it 'redirects to the magazine_advert' do
         magazine_advert = MagazineAdvert.create! valid_attributes
-        put :update, {:id => magazine_advert.to_param, :magazine_advert => valid_attributes}, valid_session
+        put :update, params: { id: magazine_advert.to_param, magazine_advert: valid_attributes }, session: valid_session
         expect(response).to redirect_to(magazine_advert)
       end
     end
 
-    context "with invalid params" do
-      it "assigns the magazine_advert as @magazine_advert" do
+    context 'with invalid params' do
+      it 'assigns the magazine_advert as @magazine_advert' do
         magazine_advert = MagazineAdvert.create! valid_attributes
-        put :update, {:id => magazine_advert.to_param, :magazine_advert => invalid_attributes}, valid_session
+        put :update, params: { id: magazine_advert.to_param, magazine_advert: invalid_attributes }, session: valid_session
         expect(assigns(:magazine_advert)).to eq(magazine_advert)
       end
 
       it "re-renders the 'edit' template" do
         magazine_advert = MagazineAdvert.create! valid_attributes
-        put :update, {:id => magazine_advert.to_param, :magazine_advert => invalid_attributes}, valid_session
-        expect(response).to render_template("edit")
+        put :update, params: { id: magazine_advert.to_param, magazine_advert: invalid_attributes }, session: valid_session
+        expect(response).to render_template('edit')
       end
     end
   end
 
-  describe "DELETE #destroy" do
-    it "destroys the requested magazine_advert" do
+  describe 'DELETE #destroy' do
+    it 'destroys the requested magazine_advert' do
       magazine_advert = MagazineAdvert.create! valid_attributes
-      expect {
-        delete :destroy, {:id => magazine_advert.to_param}, valid_session
-      }.to change(MagazineAdvert, :count).by(-1)
+      expect do
+        delete :destroy, params: { id: magazine_advert.to_param }, session: valid_session
+      end.to change(MagazineAdvert, :count).by(-1)
     end
 
-    it "redirects to the magazine_adverts list" do
+    it 'redirects to the magazine_adverts list' do
       magazine_advert = MagazineAdvert.create! valid_attributes
-      delete :destroy, {:id => magazine_advert.to_param}, valid_session
+      delete :destroy, params: { id: magazine_advert.to_param }, session: valid_session
       expect(response).to redirect_to(magazine_adverts_url)
     end
   end
-
 end

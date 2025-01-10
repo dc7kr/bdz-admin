@@ -1,26 +1,24 @@
 class OrchestraMember < ApplicationRecord
   belongs_to :orchestra
 
-  validates_presence_of :date_of_birth
+  validates :date_of_birth, presence: true
 
   def age(year)
-	year - date_of_birth.year
+    year - date_of_birth.year
   end
 
-  def is_birthday_valid? 
-    if date_of_birth.nil? then
-      false
-    elsif date_of_birth.year > Time.now.year then
+  def is_birthday_valid?
+    if date_of_birth.nil?
       false
     else
-      true
+      !(date_of_birth.year > Time.now.year)
     end
   end
 
   def is_dummy_birthday?
-    if ( date_of_birth == nil ) then
+    if date_of_birth.nil?
       true
-    elsif ( date_of_birth.day == 1 and date_of_birth.month == 2 and date_of_birth.year == 1960 ) then
+    elsif date_of_birth.day == 1 and date_of_birth.month == 2 and date_of_birth.year == 1960
       true
     else
       false
@@ -28,33 +26,32 @@ class OrchestraMember < ApplicationRecord
   end
 
   def year_of_birth
-    if (date_of_birth != nil ) then
-      date_of_birth.year
+    if date_of_birth.nil?
+      'N/A'
     else
-      "N/A"
+      date_of_birth.year
     end
   end
 
-
   def age_category(year)
-    if age(year) <= 14 then
-      return "C"
-    elsif age(year) <= 18 then 
-      return "T"
-    elsif age(year) <= 27 then
-      return "Y"
-    elsif age(year) <= 65 then
-      return "A"
-    else 
-      return "S"
+    if age(year) <= 14
+      'C'
+    elsif age(year) <= 18
+      'T'
+    elsif age(year) <= 27
+      'Y'
+    elsif age(year) <= 65
+      'A'
+    else
+      'S'
     end
   end
 
   def exchange_first_and_lastname
-  	name = self.last_name
-	  first = self.first_name
+    name = last_name
+    first = first_name
 
-	  self.last_name=first
-	  self.first_name=name
+    self.last_name = first
+    self.first_name = name
   end
 end

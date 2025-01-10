@@ -1,8 +1,7 @@
 class ReportSheetConfirmationMail < ApplicationMailer
-  default from: "geschaeftsstelle@zupfmusiker.de"
+  default from: 'geschaeftsstelle@zupfmusiker.de'
 
-  def notify(recipient, personalized_file_hash, attachment_file, params) 
-
+  def notify(recipient, personalized_file_hash, _attachment_file, params)
     @rsi = params[:rsi]
     @year = @rsi.report_sheet.year.to_s
 
@@ -10,13 +9,13 @@ class ReportSheetConfirmationMail < ApplicationMailer
 
     personalized_file = MailingFile.from_hash(personalized_file_hash)
 
-    @salutation = t('common.salutation_full.'+@orchestra.member.anrede)
+    @salutation = t('common.salutation_full.' + @orchestra.member.anrede)
 
-    if (personalized_file != nil ) then
+    unless personalized_file.nil?
       attachment_data = File.new(personalized_file.full_path).read
-		  attachments[personalized_file.orig_filename ] = attachment_data
+      attachments[personalized_file.orig_filename] = attachment_data
     end
 
-   	mail(:to => recipient, :subject => "Meldebogen #{@year} erfolgreich eingereicht.")
+    mail(to: recipient, subject: "Meldebogen #{@year} erfolgreich eingereicht.")
   end
 end

@@ -1,24 +1,24 @@
 require 'rails_helper'
 
-RSpec.describe "urls/show", :type => :view do
+RSpec.describe 'urls/show', type: :view do
   before(:each) do
     @url = assign(:url, Url.create!(
-      :category_id => 1,
-      :url => "Url",
-      :titel => "Titel",
-      :descr => "Descr",
-      :sprache => "Sprache",
-      :land_id => 2,
-      :bland_id => 3,
-      :user => "User",
-      :email => "Email",
-      :visible => false,
-      :ip => "Ip",
-      :country_code => "DE"
-    ))
+                          category_id: 1,
+                          url: 'Url',
+                          titel: 'Titel',
+                          descr: 'Descr',
+                          sprache: 'Sprache',
+                          land_id: 2,
+                          bland_id: 3,
+                          user: 'User',
+                          email: 'Email',
+                          visible: false,
+                          ip: 'Ip',
+                          country_code: 'DE'
+                        ))
   end
 
-  it "renders attributes in <p>" do
+  it 'renders attributes in <p>' do
     render
     expect(rendered).to match(/1/)
     expect(rendered).to match(/Url/)

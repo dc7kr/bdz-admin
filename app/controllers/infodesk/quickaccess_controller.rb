@@ -1,8 +1,5 @@
 class Infodesk::QuickaccessController < AuthenticatedNonResourceController
-
-def index
-  authorize! :member, :edit
-
-end
-
+  def index
+    authorize! :member, :edit
+  end
 end

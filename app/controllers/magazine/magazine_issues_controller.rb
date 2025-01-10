@@ -27,16 +27,18 @@ class Magazine::MagazineIssuesController < AuthorityController
     @magazine_issue = MagazineIssue.find(params[:id])
 
     @adverts = @magazine_issue.magazine_adverts.includes(:advertiser)
-    pdf = AdvertInvoicesPdf.new(@adverts,Rails.root.join("templates","briefpapier.pdf"))
-		send_data pdf.render, filename: "advert_invoices_#{@magazine_issue.number}_#{@magazine_issue.year}.pdf", type: "application/pdf", disposition: "inline"
+    pdf = AdvertInvoicesPdf.new(@adverts, Rails.root.join('templates/briefpapier.pdf'))
+    send_data pdf.render, filename: "advert_invoices_#{@magazine_issue.number}_#{@magazine_issue.year}.pdf",
+                          type: 'application/pdf', disposition: 'inline'
   end
 
   def gen_subscriber_invoices
     @magazine_issue = MagazineIssue.find(params[:id])
 
-    @subscribers= Subscriber.includes(:contact).order("contacts.last_name,contacts.first_name")
-    pdf = MagazineSubscriberInvoicesPdf.new(@subscribers,Rails.root.join("templates","briefpapier.pdf"))
-		send_data pdf.render, filename: "subscriber_invoices_#{@magazine_issue.number}_#{@magazine_issue.year}.pdf", type: "application/pdf", disposition: "inline"
+    @subscribers = Subscriber.includes(:contact).order('contacts.last_name,contacts.first_name')
+    pdf = MagazineSubscriberInvoicesPdf.new(@subscribers, Rails.root.join('templates/briefpapier.pdf'))
+    send_data pdf.render, filename: "subscriber_invoices_#{@magazine_issue.number}_#{@magazine_issue.year}.pdf",
+                          type: 'application/pdf', disposition: 'inline'
   end
 
   # GET /magazine_issues/new
@@ -83,7 +85,7 @@ class Magazine::MagazineIssuesController < AuthorityController
         format.html { redirect_to @magazine_issue, notice: 'Magazine issue was successfully updated.' }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
+        format.html { render action: 'edit' }
         format.json { render json: @magazine_issue.errors, status: :unprocessable_entity }
       end
     end
@@ -102,38 +104,36 @@ class Magazine::MagazineIssuesController < AuthorityController
     end
   end
 
-  def counts 
-
+  def counts
     @overall = 0
     @magazine_issue = MagazineIssue.find(params[:id])
     @magazine_samplings = MagazineSampling.sum(:count)
 
-    @overall+=@magazine_samplings
+    @overall += @magazine_samplings
 
     @subscribers = Subscriber.all.count
-    @overall+=@subscribers
+    @overall += @subscribers
 
     @adverts = @magazine_issue.magazine_adverts.count
-    @overall+=@adverts
+    @overall += @adverts
 
-    @person_member_count=0
+    @person_member_count = 0
     @person_members = PersonMember.with_zero_balance
     @person_members.each do |p|
-      @person_member_count+=p.currentMagazines
+      @person_member_count += p.currentMagazines
     end
-    @overall+=@person_member_count
+    @overall += @person_member_count
 
-    @orchestra_count =0
+    @orchestra_count = 0
     @orchestras = Orchestra.with_zero_balance.includes(:report_sheets)
     @orchestras.each do |o|
-      @orchestra_count+=o.currentMagazines
+      @orchestra_count += o.currentMagazines
     end
 
-
-    @overall+=@orchestra_count
+    @overall += @orchestra_count
   end
 
   def magazine_params
-    params.require(:magazine_issue).permit(:number,:year)
+    params.require(:magazine_issue).permit(:number, :year)
   end
 end

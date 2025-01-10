@@ -18,142 +18,140 @@ require 'rails_helper'
 # Message expectations are only used when there is no simpler way to specify
 # that an instance is receiving a specific message.
 
-RSpec.describe ReportSheetsController, :type => :controller do
-
+RSpec.describe ReportSheetsController, type: :controller do
   # This should return the minimal set of attributes required to create a valid
   # ReportSheet. As you add validations to ReportSheet, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
-  }
+  let(:valid_attributes) do
+    skip('Add a hash of attributes valid for your model')
+  end
 
-  let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
-  }
+  let(:invalid_attributes) do
+    skip('Add a hash of attributes invalid for your model')
+  end
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
   # ReportSheetsController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
-  describe "GET #index" do
-    it "assigns all report_sheets as @report_sheets" do
+  describe 'GET #index' do
+    it 'assigns all report_sheets as @report_sheets' do
       report_sheet = ReportSheet.create! valid_attributes
-      get :index, {}
+      get :index
       expect(assigns(:report_sheets)).to eq([report_sheet])
     end
   end
 
-  describe "GET #show" do
-    it "assigns the requested report_sheet as @report_sheet" do
+  describe 'GET #show' do
+    it 'assigns the requested report_sheet as @report_sheet' do
       report_sheet = ReportSheet.create! valid_attributes
-      get :show, {:id => report_sheet.to_param}
+      get :show, params: { id: report_sheet.to_param }
       expect(assigns(:report_sheet)).to eq(report_sheet)
     end
   end
 
-  describe "GET #new" do
-    it "assigns a new report_sheet as @report_sheet" do
-      get :new, {}
+  describe 'GET #new' do
+    it 'assigns a new report_sheet as @report_sheet' do
+      get :new
       expect(assigns(:report_sheet)).to be_a_new(ReportSheet)
     end
   end
 
-  describe "GET #edit" do
-    it "assigns the requested report_sheet as @report_sheet" do
+  describe 'GET #edit' do
+    it 'assigns the requested report_sheet as @report_sheet' do
       report_sheet = ReportSheet.create! valid_attributes
-      get :edit, {:id => report_sheet.to_param}
+      get :edit, params: { id: report_sheet.to_param }
       expect(assigns(:report_sheet)).to eq(report_sheet)
     end
   end
 
-  describe "POST #create" do
-    context "with valid params" do
-      it "creates a new ReportSheet" do
-        expect {
-          post :create, {:report_sheet => valid_attributes}
-        }.to change(ReportSheet, :count).by(1)
+  describe 'POST #create' do
+    context 'with valid params' do
+      it 'creates a new ReportSheet' do
+        expect do
+          post :create, params: { report_sheet: valid_attributes }
+        end.to change(ReportSheet, :count).by(1)
       end
 
-      it "assigns a newly created report_sheet as @report_sheet" do
-        post :create, {:report_sheet => valid_attributes}
+      it 'assigns a newly created report_sheet as @report_sheet' do
+        post :create, params: { report_sheet: valid_attributes }
         expect(assigns(:report_sheet)).to be_a(ReportSheet)
         expect(assigns(:report_sheet)).to be_persisted
       end
 
-      it "redirects to the created report_sheet" do
-        post :create, {:report_sheet => valid_attributes}
+      it 'redirects to the created report_sheet' do
+        post :create, params: { report_sheet: valid_attributes }
         expect(response).to redirect_to(ReportSheet.last)
       end
     end
 
-    context "with invalid params" do
-      it "assigns a newly created but unsaved report_sheet as @report_sheet" do
-        post :create, {:report_sheet => invalid_attributes}
+    context 'with invalid params' do
+      it 'assigns a newly created but unsaved report_sheet as @report_sheet' do
+        post :create, params: { report_sheet: invalid_attributes }
         expect(assigns(:report_sheet)).to be_a_new(ReportSheet)
       end
 
       it "re-renders the 'new' template" do
-        post :create, {:report_sheet => invalid_attributes}
-        expect(response).to render_template("new")
+        post :create, params: { report_sheet: invalid_attributes }
+        expect(response).to render_template('new')
       end
     end
   end
 
-  describe "PUT #update" do
-    context "with valid params" do
-      let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
-      }
-
-      it "updates the requested report_sheet" do
-        report_sheet = ReportSheet.create! valid_attributes
-        put :update, {:id => report_sheet.to_param, :report_sheet => new_attributes}
-        report_sheet.reload
-        skip("Add assertions for updated state")
+  describe 'PUT #update' do
+    context 'with valid params' do
+      let(:new_attributes) do
+        skip('Add a hash of attributes valid for your model')
       end
 
-      it "assigns the requested report_sheet as @report_sheet" do
+      it 'updates the requested report_sheet' do
         report_sheet = ReportSheet.create! valid_attributes
-        put :update, {:id => report_sheet.to_param, :report_sheet => valid_attributes}
+        put :update, params: { id: report_sheet.to_param, report_sheet: new_attributes }
+        report_sheet.reload
+        skip('Add assertions for updated state')
+      end
+
+      it 'assigns the requested report_sheet as @report_sheet' do
+        report_sheet = ReportSheet.create! valid_attributes
+        put :update, params: { id: report_sheet.to_param, report_sheet: valid_attributes }
         expect(assigns(:report_sheet)).to eq(report_sheet)
       end
 
-      it "redirects to the report_sheet" do
+      it 'redirects to the report_sheet' do
         report_sheet = ReportSheet.create! valid_attributes
-        put :update, {:id => report_sheet.to_param, :report_sheet => valid_attributes}
+        put :update, params: { id: report_sheet.to_param, report_sheet: valid_attributes }
         expect(response).to redirect_to(report_sheet)
       end
     end
 
-    context "with invalid params" do
-      it "assigns the report_sheet as @report_sheet" do
+    context 'with invalid params' do
+      it 'assigns the report_sheet as @report_sheet' do
         report_sheet = ReportSheet.create! valid_attributes
-        put :update, {:id => report_sheet.to_param, :report_sheet => invalid_attributes}
+        put :update, params: { id: report_sheet.to_param, report_sheet: invalid_attributes }
         expect(assigns(:report_sheet)).to eq(report_sheet)
       end
 
       it "re-renders the 'edit' template" do
         report_sheet = ReportSheet.create! valid_attributes
-        put :update, {:id => report_sheet.to_param, :report_sheet => invalid_attributes}
-        expect(response).to render_template("edit")
+        put :update, params: { id: report_sheet.to_param, report_sheet: invalid_attributes }
+        expect(response).to render_template('edit')
       end
     end
   end
 
-  describe "DELETE #destroy" do
-    it "destroys the requested report_sheet" do
+  describe 'DELETE #destroy' do
+    it 'destroys the requested report_sheet' do
       report_sheet = ReportSheet.create! valid_attributes
-      expect {
-        delete :destroy, {:id => report_sheet.to_param}
-      }.to change(ReportSheet, :count).by(-1)
+      expect do
+        delete :destroy, params: { id: report_sheet.to_param }
+      end.to change(ReportSheet, :count).by(-1)
     end
 
-    it "redirects to the report_sheets list" do
+    it 'redirects to the report_sheets list' do
       report_sheet = ReportSheet.create! valid_attributes
-      delete :destroy, {:id => report_sheet.to_param}
+      delete :destroy, params: { id: report_sheet.to_param }
       expect(response).to redirect_to(report_sheets_url)
     end
   end
-
 end
