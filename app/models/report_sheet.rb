@@ -502,7 +502,7 @@ class ReportSheet < ApplicationRecord
   end
 
   def at_least_one_member
-    if not orchestra.nil? then
+    if not orchestra.nil? and not orchestra.is_coop? then
       if calcGemaCount <= 0
         errors.add(:adult, I18n.t("errors.report_sheet.at_least_one"))
       end
