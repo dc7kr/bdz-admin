@@ -1,32 +1,29 @@
-.block
-  .secondary-navigation
-    =render :partial=>'nav'
-  .content
-    %h2.title
-      -if @orchestra 
-        Meldebögen #{@orchestra.orchName } #{@orchestra.member.mglnr} 
-      -else
-        Meldebögen #{@curYear}
-    .inner
-      %table.table-sm.table-hover.table-condensed
-        %thead
-          %tr
-            -if @orchestra
-              %th=attr_heading(ReportSheet,:year)
-            -else 
-              %th=t("member.mglnr")
-            %th=attr_heading(ReportSheet,:distribution)
-            %th=attr_heading(ReportSheet,:uv)
-            %th=attr_heading(ReportSheet,:zusatz_uv)
-            %th=attr_heading(ReportSheet,:zeitungen)
-            %th=attr_heading(ReportSheet,:gema)
-            %th=attr_heading(ReportSheet,:azubi)
-            %th=attr_heading(ReportSheet,:passive)
-            %th.last &nbsp;
-        %tbody#orchestras
-          =render @report_sheets
-      .actions-bar.wat-cf
-        .actions
+.secondary-navigation
+  =render :partial=>'nav'
+.container
+  %h2.title
+    -if @orchestra 
+      Meldebögen #{@orchestra.orchName } #{@orchestra.member.mglnr} 
+    -else
+      Meldebögen #{@curYear}
+  .inner
+    %table.table.table-hover.table-striped.table-condensed
+      %thead
+        %tr
+          -if @orchestra
+            %th=attr_heading(ReportSheet,:year)
+          -else 
+            %th=t("member.mglnr")
+          %th=attr_heading(ReportSheet,:distribution)
+          %th=attr_heading(ReportSheet,:uv)
+          %th=attr_heading(ReportSheet,:zusatz_uv)
+          %th=attr_heading(ReportSheet,:zeitungen)
+          %th=attr_heading(ReportSheet,:gema)
+          %th=attr_heading(ReportSheet,:azubi)
+          %th=attr_heading(ReportSheet,:passive)
+          %th.last &nbsp;
+      %tbody#orchestras
+        =render @report_sheets
 - content_for :sidebar, render(:partial => 'sidebar')
 
 

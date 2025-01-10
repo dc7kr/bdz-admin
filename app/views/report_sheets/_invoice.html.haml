@@ -1,16 +1,15 @@
 - invoice.items.each do |i|
   .row
-    .col-md-3.text-right
+    .col-md-3.text-end
       %label=i.label
-    .col-md-1.text-right=i.count
-    .col-md-1 x
-    .col-md-2.text-right=format_currency(i.price)
-    .col-md-2.text-right=format_currency(i.count*i.price)
+    .col-md-1.text-end #{i.count}x
+    .col-md-2.text-end=format_currency(i.price)
+    .col-md-2.text-end=format_currency(i.count*i.price)
 %hr.calc
 .row
-  .col-md-3.text-right
+  .col-md-3.text-end.fw-bold
     %label=t("common.sum")
-  .col-md-4.text-right
-  .col-md-2.text-right=format_currency(invoice.sum)
+  .col-md-4.text-end
+  .col-md-2.text-end.fw-bold=format_currency(invoice.sum)
 %hr.calc_final
 

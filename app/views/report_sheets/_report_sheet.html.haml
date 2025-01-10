@@ -15,6 +15,7 @@
   %td=report_sheet.calcZeitungen
   %td=report_sheet.calcGemaCount 
   %td=report_sheet.azubi 
+  %td=report_sheet.passive
   -if @orchestra
     %td
       = link_to_show_path( orchestra_report_sheet_path(@orchestra,report_sheet),'Show',report_sheet)

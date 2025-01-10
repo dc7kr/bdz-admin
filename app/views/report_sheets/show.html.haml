@@ -1,42 +1,74 @@
 - content_for :sidebar, render(:partial => 'sidebar')
 .secondary-navigation
   = render :partial=>"nav"
-.content
-  .inner
-    %h2
-      = @report_sheet.orchestra.orchName
-      %br
-      = t("report_sheet",:count=>1)
-      = @report_sheet.year
-    - if not @report_sheet.valid?
-      %span.badge.bg-danger=t("report_sheet.tag.invalid")
-    - if @needs_update
-      %span.badge.bg-danger=t("report_sheet.tag.needs_new_invoice")
-    - if @inconsistent
-      %span.badge.bg-danger=t("report_sheet.tag.inconsistent")
-    - if not @invoiced
-      %span.badge.bg-danger=t("report_sheet.tag.not_invoiced")
+.container
+  %h2
+    = @report_sheet.orchestra.orchName 
+    (#{@orchestra.member.mglnr})
+    %br
+    = t("report_sheet",:count=>1)
+    = @report_sheet.year
+    vom
+    = l @report_sheet.report_date
 
-    =entity_row(@report_sheet,:report_date,:date)
-    =entity_row(@report_sheet,:generated)
+  // badges
+  - if not @report_sheet.valid?
+    %span.badge.bg-danger=t("report_sheet.tag.invalid")
+  - if @report_sheet.generated == 1 
+    %span.badge.bg-info=t("report_sheet.generated")
+  - if @needs_update
+    %span.badge.bg-danger=t("report_sheet.tag.needs_new_invoice")
+  - if @inconsistent
+    %span.badge.bg-danger=t("report_sheet.tag.inconsistent")
+  - if not @invoiced
+    %span.badge.bg-danger=t("report_sheet.tag.not_invoiced")
 
-    = render :partial => "invoice",:locals => {:invoice => @invoice}
-    - if @needs_update
-      =calculation_sum(label(:report_sheet,:delta_invoice), @invoice_delta)
+  %br
 
+  .card
+    .card-body
+      %h5.card-title=t("invoice",count: 1)
+      = render :partial => "invoice",:locals => {:invoice => @invoice}
 
-    .panel.panel-default
+  - if @needs_update
+    =calculation_sum(label(:report_sheet,:delta_invoice), @invoice_delta)
+  
+  - if @report_sheet.uv 
+    .card
+      .card-body
+        %h5.card-title=t("report_sheet.uv")
+        .row
+          .col-md-3.text-end=t("report_sheet.calcUvCount")
+          .col-md-9=@report_sheet.calcUvCount
+        =entity_row(@report_sheet, :zusatz_uv)
+  .card
+    .card-body
+      %h5.card-title Mitgliedsdaten
+      .row
+        .col-md-3
+        .col-md-1=t("report_sheet.children")
+        .col-md-2=t("report_sheet.teens")
+        .col-md-1=t("report_sheet.youth")
+        .col-md-1=t("report_sheet.adult")
+        .col-md-1=t("report_sheet.senior")
+      .row
+        .col-md-3.text-end Mitgliederzahlen
+        .col-md-1=@report_sheet.children
+        .col-md-2=@report_sheet.teens
+        .col-md-1=@report_sheet.youth
+        .col-md-1=@report_sheet.adult
+        .col-md-1=@report_sheet.senior
       =entity_row(@report_sheet,:calcZeitungen)
       =entity_row(@report_sheet,:calcGemaCount)
       =entity_row(@report_sheet,:azubi)
       =entity_row(@report_sheet,:totalActiveMembers)
       =entity_row(@report_sheet,:passive)
       .row 
-        .col-md-3.text-right=label(:report_sheet,:total)
-        .col-md-9= @report_sheet.passive+@report_sheet.totalActiveMembers
+        .col-md-3.text-end.fw-bold=label(:report_sheet,:total)
+        .col-md-9.fw-bold= @report_sheet.passive+@report_sheet.totalActiveMembers
 
-    - if not @consistent
-      =link_to( t("report_sheet.update_from_members"), update_from_members_orchestra_report_sheet_path(@orchestra,@report_sheet), :class=>"btn btn-primary")
-    - if @needs_update and @consistent
-      =button_to(t("report_sheet.update_invoice"), update_invoice_orchestra_report_sheet_path(@orchestra,@report_sheet), :class=>"btn btn-primary" )
+  - if not @consistent
+    =link_to( t("report_sheet.update_from_members"), update_from_members_orchestra_report_sheet_path(@orchestra,@report_sheet), :class=>"btn btn-primary")
+  - if @needs_update and @consistent
+    =button_to(t("report_sheet.update_invoice"), update_invoice_orchestra_report_sheet_path(@orchestra,@report_sheet), :class=>"btn btn-primary" )
 
