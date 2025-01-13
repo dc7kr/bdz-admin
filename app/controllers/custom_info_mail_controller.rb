@@ -25,7 +25,7 @@ class CustomInfoMailController < AuthenticatedNonResourceController
 
     letterfile = form_params[:datafile]
 
-    letter_file = storeUploadedFile(cur_year.to_s, letterfile.original_filename, letterfile) unless letterfile.nil?
+    letter_file = store_uploaded_file(cur_year.to_s, letterfile.original_filename, letterfile) unless letterfile.nil?
 
     addressee = DummyAddress.new
     addressee.mglnr = '4711'
@@ -100,16 +100,16 @@ class CustomInfoMailController < AuthenticatedNonResourceController
       Rails.logger.info('Letter mode disabled due to nil letterfile')
       via_paper = false
     else
-      letter_file = storeUploadedFile(cur_year.to_s, letterfile.original_filename, letterfile)
+      letter_file = store_uploaded_file(cur_year.to_s, letterfile.original_filename, letterfile)
       letter_hash = letter_file.instance_values
     end
 
     unless attachment.nil?
-      attachment = storeUploadedFile(cur_year.to_s, attachment.original_filename, attachment)
+      attachment = store_uploaded_file(cur_year.to_s, attachment.original_filename, attachment)
       attachment_hash = attachment.instance_values
     end
 
-    CustomInfoMailJob.perform_async(@current_user.id, letter_hash, attachment_hash, subject, body, event_id, grp,
+    CustomInfoMailJob.perform_later(@current_user.id, letter_hash, attachment_hash, subject, body, event_id, grp,
                                     via_paper)
 
     respond_to do |format|
