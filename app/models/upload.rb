@@ -1,6 +1,6 @@
 class Upload < ApplicationRecord
   # attr_accessible :upload
-  has_attached_file :upload
+  has_one_attached :upload
 
   include Rails.application.routes.url_helpers
 
