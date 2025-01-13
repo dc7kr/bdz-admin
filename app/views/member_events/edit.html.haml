@@ -1,9 +1,7 @@
-.block
-  .secondary-navigation
-    = render :partial =>'nav'
-  .content
-    %h2.title
-      = t("common.edit")
-      = t("member_event.one")
-    .inner
-      = render 'form'
+.secondary-navigation
+  = render :partial =>'nav'
+.container
+  %h2.title
+    = t("common.edit")
+    = t("member_event.one")
+  = render 'form'

@@ -1,7 +1,7 @@
 class MemberEventsController < AuthenticatedController
   helper_method :sort_column, :sort_direction
 
-  before_action :set_member_entity, only: %i[index new show edit update destroy]
+  before_action :set_member_entity, only: %i[index new create show edit update destroy]
 
   # GET /member_events
   # GET /member_events.json
@@ -121,7 +121,7 @@ class MemberEventsController < AuthenticatedController
   private
 
   def member_event_params
-    params.require(:member_event).permit(:event_type, :event_date, :event_id)
+    params.require(:member_event).permit(:event_type, :event_date, :event_id, :comment, :member_id)
   end
 
   def set_member_entity

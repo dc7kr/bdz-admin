@@ -1,12 +1,19 @@
-%p#notice= notice
-
-%p
-  %b Event type:
-  = @member_event.event_type
-%p
-  %b Event date:
-  = @member_event.event_date
-%p
-  %b Event:
-  = @member_event.event_id
+.secondary-navigation
+  =render :partial=>'nav'
+.container
+  %h2.title
+    = t('member_event', count: 1)
+    - if @member_entity
+      = @member_entity.member.mglnr
+  .text-center= page_entries_info @member_events
+.container
+  .row
+    .col-md-3=label :member_event, :event_type
+    .col-md-9= @member_event.event_type
+  .row
+    .col-md-3=label :member_event, :event_date
+    .col-md-9=l @member_event.event_date
+  %p
+    %b Event:
+    = @member_event.event_id
 

@@ -1,9 +1,10 @@
-.block
-  .secondary-navigation
-    = render :partial =>'nav'
-  .content
-    %h2.title
-      = t("common.new")
-      = t("member_event",:count=>1)
-    .inner
-      = render 'form'
+.secondary-navigation
+  = render :partial =>'nav'
+.container
+  %h2.title
+    = t("common.new")
+    = t("member_event",:count=>1)
+    - if @member_entity
+      = @member_entity.member.mglnr
+  .inner
+    = render 'form'
