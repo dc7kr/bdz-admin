@@ -1,9 +1,12 @@
 class CustomInfoMail < ApplicationMailer
   default from: 'geschaeftsstelle@zupfmusiker.de'
 
-  def notify(recipient, letter, attachment, params)
+  def notify(recipient, letter_hash, attachment_hash, params)
     @subject = params[:subject]
     @body = params[:body]
+
+    letter = MailingFile.from_hash(letter_hash)
+    attachment = MailingFile.from_hash(attachment_hash)
 
     if letter
       letter_data = File.new(letter.full_path).read
