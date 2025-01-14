@@ -63,6 +63,8 @@
       =entity_row(@report_sheet,:azubi)
       =entity_row(@report_sheet,:totalActiveMembers)
       =entity_row(@report_sheet,:passive)
+      - if not @report_sheet.ms_total.nil? and @report_sheet.ms_total > 0 
+        =entity_row(@report_sheet,:ms_total)
       .row 
         .col-md-3.text-end.fw-bold=label(:report_sheet,:total)
         .col-md-9.fw-bold= @report_sheet.passive+@report_sheet.totalActiveMembers
