@@ -133,7 +133,7 @@ class EnsembleConcertsController < AuthenticatedController
       if @ensemble_concert.update(params[:ensemble_concert])
         format.html do
           redirect_to ensemble_ensemble_concert_path(@ensemble, @ensemble_concert),
-                      notice: t('ensemble_concert.update_success')
+                      notice: t_update_success("ensemble_concert")
         end
         format.json { head :ok }
       else

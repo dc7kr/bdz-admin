@@ -69,7 +69,7 @@ class FestivalPiecesController < AuthenticatedController
       if @festival_piece.update(festival_piece_params)
         format.html do
           redirect_to festival_application_festival_piece_url(@festival_application, @festival_piece),
-                      notice: t('festival_piece.update_success')
+                        notice: t_update_success("festival_piece")
         end
         format.json { head :no_content }
       else

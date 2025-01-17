@@ -131,7 +131,8 @@ class DistinctionsController < AuthenticatedController
     respond_to do |format|
       if @distinction.update(distinction_params)
         format.html do
-          redirect_to orchestra_distinction_path(@orchestra, @distinction), notice: t('distinction.update_success')
+          redirect_to orchestra_distinction_path(@orchestra, @distinction), 
+                      notice: t_update_success("distinction")
         end
 
         format.json { head :no_content }

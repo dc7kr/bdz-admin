@@ -87,7 +87,7 @@ class OrchestraContactsController < AuthenticatedController
       if @orchestra_contact.update!(orchestra_contact_params)
         format.html do
           redirect_to orchestra_orchestra_contact_path(@orchestra, @orchestra_contact),
-                      notice: t('orchestra_contact.title_s') + ' ' + t('common.update_success')
+              notice: t_update_success("orchestra_contact")
         end
         format.json { head :no_content }
       else

@@ -536,4 +536,8 @@ module ApplicationHelper
     Rails.logger.debug { "Flash-type: #{flash_type}" }
     map[flash_type] || flash_type.to_s
   end
+
+  def t_update_success(entity)
+    I18n.t('common.update_success', entity: t(entity, count:1))
+  end
 end

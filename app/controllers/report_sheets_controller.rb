@@ -194,7 +194,7 @@ class ReportSheetsController < AuthenticatedController
       if @report_sheet.update(report_sheet_params)
         format.html do
           redirect_to orchestra_report_sheet_path(@report_sheet.orchestra, @report_sheet),
-                      notice: I18n.t('report_sheet.title') + ' ' + t('common.update_success')
+              notice: t_update_success("report_sheet")
         end
         format.json { head :ok }
       else
@@ -359,6 +359,20 @@ class ReportSheetsController < AuthenticatedController
         redirect_to orchestra_report_sheet_path(@report_sheet.orchestra, @report_sheet),
                     notice: t('report_sheet.invoice_update_success')
       end
+    end
+  end
+
+  def gen_pdf
+
+    pdf = ReportSheetInputPdf.new(@rsi, view_context)
+
+    respond_to do |format|
+      format.ods do
+        tmpfile = Tempfile.new('report_sheets')
+        ReportSheet.renderOds(@report_sheets, tmpfile.path)
+        send_file(tmpfile.path, filename: "meldeboegen_#{year}.ods", type: 'application/octet-stream')
+      end
+     send_file(pdf) 
     end
   end
 

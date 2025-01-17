@@ -76,7 +76,8 @@ class RegionalOrganizationsController < AuthenticatedController
       @regional_organization.update(regional_organization_params)
       if @regional_organization.save
         format.html do
-          redirect_to @regional_organization, notice: t('common.update_success', entity: t('regional_organization.one'))
+          redirect_to @regional_organization, 
+              notice: t_update_success("regional_organization")
         end
         format.json { head :ok }
       else

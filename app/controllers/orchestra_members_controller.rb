@@ -112,7 +112,8 @@ class OrchestraMembersController < AuthenticatedController
     respond_to do |format|
       if @orchestra_member.update(orchestra_member_params)
         format.html do
-          redirect_to session.delete(:return_to), notice: t('orchestra_member.update_success')
+          redirect_to session.delete(:return_to), 
+              notice: t_update_success("orchestra_member")
         end
         format.json { head :no_content }
       else

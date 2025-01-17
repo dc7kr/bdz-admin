@@ -141,13 +141,14 @@ class MemberAccountBookingsController < AuthenticatedController
         format.html do
           if @member_type == :orchestra
             redirect_to orchestra_member_account_bookings_path(member_entity),
-                        notice: t('member_account_booking.update_success')
+                        notice: t_update_success("member_account_booking")
+
           elsif @member_type == :person_member
             redirect_to person_member_member_account_bookings_path(member_entity),
-                        notice: t('member_account_booking.update_success')
+                        notice: t_update_success("member_account_booking")
           else
             redirect_to regional_organization_member_account_bookings_path(member_entity),
-                        notice: t('member_account_booking.update_success')
+                        notice: t_update_success("member_account_booking")
           end
         end
         format.json { head :ok }

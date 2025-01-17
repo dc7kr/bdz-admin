@@ -90,7 +90,8 @@ class Ef::FestivalApplicationsController < Ef::ApplicationController
 
     respond_to do |format|
       if @festival_application.update(params[:festival_application])
-        format.html { redirect_to @festival_application, notice: t('festival_application.update_success') }
+        format.html { redirect_to @festival_application, 
+                      notice: t_update_success("festival_application")
         format.json { head :no_content }
       else
         format.html { render :edit, status: :unprocessable_entity }

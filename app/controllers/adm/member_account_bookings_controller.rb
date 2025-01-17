@@ -108,11 +108,11 @@ class Adm::MemberAccountBookingsController < AuthenticatedController
           if params[:orchestra_id]
             @orchestra = Orchestra.find(params[:orchestra_id])
             redirect_to orchestra_member_account_bookings_path(@orchestra),
-                        notice: t('member_account_booking.update_success')
+                        notice: t_update_success("member_account_booking")
           else
             @person_member = PersonMember.find(params[:person_member_id])
             redirect_to person_member_member_account_bookings_path(@person_member),
-                        notice: t('member_account_booking.update_success')
+                        notice: t_update_success("member_account_booking")
           end
         end
         format.json { head :ok }
