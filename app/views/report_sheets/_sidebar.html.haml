@@ -1,9 +1,10 @@
 =render :partial=>'orchestras/search'
-- if not @has_current_report_sheet then
-  .panel.panel-primary
-    .panel-heading Automatisierung
-    .panel-body
-      %ul.navigation
-        - if @orchestra
-          %li
-            =link_to "Datenübernahme aus Vorjahr", copy_from_last_year_orchestra_report_sheets_path( @orchestra ) 
+%div{:data=>{:"turbo-prefetch" => "false" }}
+  - if not @has_current_report_sheet then
+    .panel.panel-primary
+      .panel-heading Automatisierung
+      .panel-body
+        %ul.navigation
+          - if @orchestra
+            %li
+              =link_to "Datenübernahme aus Vorjahr", copy_from_last_year_orchestra_report_sheets_path( @orchestra ) 
