@@ -1,6 +1,6 @@
 = bootstrap_form_for([@orchestra,@orchestra_contact], layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10") do |f| 
-  =f.select :role, options_for_select(t_opts("orchestra_contact","role", OrchestraContact.roles), :selected=>@orchestra_contact.role) 
-  =f.select :salutation, options_for_select([["Herr", "M"], ["Frau", "W"]],:selected=>@orchestra_contact.salutation) 
+  =f.select :role, t_opts("orchestra_contact","role", OrchestraContact.roles)
+  =f.select :salutation, [["Herr", "M"], ["Frau", "W"]]
   =f.text_field :first_name
   =f.text_field :last_name
   =f.text_field :street
