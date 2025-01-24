@@ -1,4 +1,4 @@
-class FestivalInvoiceMailsJob
+class FestivalInvoiceMailsJob < BaseInvoicesJob
   include BulkMailHelper
   include Rails.application.routes.url_helpers
 
@@ -17,8 +17,6 @@ class FestivalInvoiceMailsJob
     tool = MailingTool.new(cur_year.to_s, 'gs', event_id, 'Festival Ticket Rechnung', false)
 
     letterArray = []
-
-    tw = CorikaInvoices::TexWriter.new(INVOICE_CONFIG)
 
     Time.now.strftime('%Y%m%d%H%M%S_')
 
@@ -39,7 +37,7 @@ class FestivalInvoiceMailsJob
           locale = :de
         end
 
-        invoice_file = invoice.gen_pdf(tw)
+        invoice_file = invoice.gen_pdf(self.tex_writer)
 
         contact = appl.contact_person
 
