@@ -23,6 +23,6 @@ class LetterFileRegenerationJob < ApplicationJob
     fa.merge_pdfs(pdf_files, tmp)
 
     AdminNotifier.with(recipient: triggered_by, topic: 'Letter File Regeneration',
-                       attachment: tmp.to_hash).generic_pdf_notification.deliver_later
+                       attachment: tmp.to_hash).generic_pdf_notification.deliver
   end
 end
