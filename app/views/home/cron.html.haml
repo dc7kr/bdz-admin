@@ -27,7 +27,6 @@
         #members.tab-pane.fade{:role => "tabpanel", :'aria-labelledby'=>"member-tab"}
           %ul.nav.flex-column
             %li.nav-item= link_to "Rundschreiben", custom_info_mail_path, class: "nav-link"
-            %li.nav-item=link_to t('cron.remove_resigned'), cron_cleanup_remove_resigned_path, method: :post, class: "nav-link"
    
 - content_for :sidebar, render(:partial => 'sidebar_cron')
 
