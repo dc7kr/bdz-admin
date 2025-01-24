@@ -189,8 +189,10 @@ class FestivalApplicationsController < AuthenticatedController
 
     respond_to do |format|
       if @festival_application.update(festival_application_params)
-        format.html { redirect_to @festival_application, 
-                        notice: t_update_success("festival_application")
+        format.html { 
+          redirect_to @festival_application, 
+          notice: t_update_success("festival_application") 
+        }
         format.json { head :no_content }
       else
         format.html { render :edit, status: :unprocessable_entity }
