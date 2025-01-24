@@ -23,7 +23,7 @@ class BaseInvoicesJob < ApplicationJob
     self.tex_writer = CorikaInvoices::TexWriter.new(INVOICE_CONFIG)
     self.sepa_writer = CorikaInvoices::SepaWriter.new(date_prefix, INVOICE_CONFIG)
 
-    self.archive_tool = FileArchiveTool(DOCS_CONFIG)
+    self.archive_tool = FileArchiveTool.new(DOCS_CONFIG)
 
     self.triggered_by = if user_id.nil?
                           nil

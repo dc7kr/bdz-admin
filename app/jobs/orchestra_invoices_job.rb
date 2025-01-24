@@ -14,7 +14,6 @@ class OrchestraInvoicesJob < BaseInvoicesJob
   # sidekiq_options retry: false
 
   def perform(year = Time.now.year, user_id = nil)
-    fa = FileArchiveTool.new(DOCS_CONFIG)
 
     init_fields(year, user_id)
     letters = []
@@ -51,10 +50,10 @@ class OrchestraInvoicesJob < BaseInvoicesJob
       pdf_filename = "#{date_prefix}-orch-beitragsrechnungen.pdf"
 
       pdf_merged_file = MailingFile.new(pdf_filename, pdf_filename, year.to_s)
-      fa.merge_pdfs(letters, pdf_merged_file)
+      self.archive_tool.merge_pdfs(letters, pdf_merged_file)
     end
 
-    ddFile = sepa_writer.generate_file
+    ddFile = self.sepa_writer.generate_file
 
     send_mail(ddFile, pdf_merged_file, triggered_by)
   end
@@ -73,7 +72,7 @@ class OrchestraInvoicesJob < BaseInvoicesJob
 
     booking_txt = 'Beitrag ' + String(year)
     orch.member.create_invoice_booking(year, invoice, invoice_file.orig_filename, booking_txt)
-    orch.member.create_dd_booking(sepa_writer, invoice, year)
+    orch.member.create_dd_booking(self.sepa_writer, invoice, year)
 
     invoice_file
   end

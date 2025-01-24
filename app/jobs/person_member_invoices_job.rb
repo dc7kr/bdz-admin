@@ -22,7 +22,7 @@ class PersonMemberInvoicesJob < BaseInvoicesJob
       mglnr = pm.member.mglnr
 
       logger.debug("Gen invoice for: #{pm.member.mglnr}")
-      invoice_file = personMemberInvoice(pm, year)
+      invoice_file = person_member_invoice(pm, year)
 
       if invoice_file.nil?
         logger.info("No invoice generated for: #{mglnr} tariff: #{pm.tariff.description}")
@@ -43,20 +43,20 @@ class PersonMemberInvoicesJob < BaseInvoicesJob
       pdf_filename = "#{date_prefix}-em-beitragsrechnungen.pdf"
 
       pdf_merged_file = MailingFile.new(pdf_filename, pdf_filename, year.to_s)
-      merge_pdfs(letters, pdf_merged_file)
+      self.archive_tool.merge_pdfs(letters, pdf_merged_file)
     end
 
-    ddFile = sepa_writer.generate_file
+    ddFile = self.sepa_writer.generate_file
 
     send_mail(ddFile, pdf_merged_file, triggered_by)
   end
 
-  def personMemberInvoice(person, year)
+  def person_member_invoice(person, year)
     invoice = person.gen_invoice(year)
     invoice.generator_session_id = generator_session_id
     invoice.save
 
-    invoice_file = invoice.gen_pdf(tex_writer)
+    invoice_file = invoice.gen_pdf(self.tex_writer)
 
     if invoice_file.nil?
       logger.error("Could not generate invoice: #{person.member.mglnr}")
@@ -66,7 +66,7 @@ class PersonMemberInvoicesJob < BaseInvoicesJob
     booking_txt = 'Beitrag ' + person.tariff.description + ' ' + String(year)
 
     person.member.create_invoice_booking(year, invoice, invoice_file.orig_filename, booking_txt)
-    person.member.create_dd_booking(sepa_writer, invoice, year)
+    person.member.create_dd_booking(self.sepa_writer, invoice, year)
 
     invoice_file
   end
