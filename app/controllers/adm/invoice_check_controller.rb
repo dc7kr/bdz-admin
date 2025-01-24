@@ -28,8 +28,9 @@ class Adm::InvoiceCheckController < AuthenticatedNonResourceController
 
   def orchestra
     authorize! :member, :edit
-    rs = Orchestra.joins(:member).where('members.mglnr = 1045').first.report_sheets.last
-    invoice = rs.gen_invoice
+    orch = Orchestra.joins(:member).where('members.mglnr = 1045').first
+
+    invoice = orch.gen_invoice(Time.now.year)
 
     tw = CorikaInvoices::TexWriter.new(INVOICE_CONFIG)
     pdf = invoice.gen_pdf(tw)
