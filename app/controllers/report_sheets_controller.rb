@@ -1,5 +1,6 @@
 class ReportSheetsController < AuthenticatedController
   include ReportSheetHelper
+  include ApplicationHelper
 
   # GET /report_sheets
   # GET /report_sheets.json
@@ -139,6 +140,11 @@ class ReportSheetsController < AuthenticatedController
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @report_sheet }
+      format.pdf { 
+        pdf = ReportSheetInputPdf.new(@report_sheet, view_context)
+        filename = "meldebogen#{@report_sheet.year}_#{@report_sheet.orchestra.member.mglnr}.pdf"
+        send_data pdf.render, filename: filename, type: "application/pdf"
+      }
     end
   end
 
