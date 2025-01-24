@@ -1,9 +1,11 @@
 class InvoiceMail < ApplicationMailer
   default from: 'geschaeftsstelle@zupfmusiker.de'
 
-  def notify(recipient, invoice_file, _attachment_file, params)
+  def notify(recipient, invoice_hash, _attachment_hash, params)
     year = params[:year]
     mglnr = params[:mglnr]
+
+    invoice_file = MailingFile.from_hash(invoice_hash)
 
     subject = "BDZ-Beitragsrechnung #{year} Mglnr. #{mglnr}"
 
