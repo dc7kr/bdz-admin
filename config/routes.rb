@@ -296,6 +296,9 @@ Rails.application.routes.draw do
       get 'not_final'
       get 'analysis'
     end
+    member do 
+      get 'gen_pdf'
+    end
   end
 
   resources :person_members do
