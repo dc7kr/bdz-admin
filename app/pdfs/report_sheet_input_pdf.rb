@@ -1,15 +1,20 @@
 class ReportSheetInputPdf < Prawn::Document
   include TranslationHelper
 
-  def initialize(rsi, view)
+  def initialize(entity, view)
     super(top_margin: 70)
-    @rsi = rsi
-    @rs = @rsi.report_sheet
-    @orch = @rsi.orchestra
+
+    if entity.is_a? ReportSheet 
+      @rs = entity
+      @orchestra = @rs.orchestra
+    else 
+      @rs = entity.report_sheet
+      @orchestra = entity.orchestra
+    end
 
     @contacts = {}
 
-    @orch.orchestra_contacts.each do |c|
+    @orchestra.orchestra_contacts.each do |c|
       @contacts[c.role] = c
     end
     @view = view
@@ -24,15 +29,15 @@ class ReportSheetInputPdf < Prawn::Document
   end
 
   def rsi_head
-    text "Mitgliedermeldung #{@rs.year}, Mgl.Nr: #{@rsi.orchestra.member.mglnr}", size: 30, style: :bold
+    text "Mitgliedermeldung #{@rs.year}, Mgl.Nr: #{@orchestra.member.mglnr}", size: 30, style: :bold
   end
 
   def addresses
     move_down 20
     text 'Anschrift', style: :bold, size: 20
-    member = @orch.member
+    member = @orchestra.member
     rows = [
-      [t_label('orchestra.orchName'), @orch.orchName],
+      [t_label('orchestra.orchName'), @orchestra.orchName],
       [I18n.t('common.fullname'),
        I18n.t('common.salutations.' + member.anrede) + ' ' + member.vorname + ' ' + member.name],
       [t_label('member.street'),	member.strasse],
@@ -94,12 +99,12 @@ class ReportSheetInputPdf < Prawn::Document
 
   def report_sheet_rows
     [
-      [t_label('report_sheet.children'), @rsi.report_sheet.children],
-      [t_label('report_sheet.teens'), @rsi.report_sheet.teens],
-      [t_label('report_sheet.youth'), @rsi.report_sheet.youth],
-      [t_label('report_sheet.adult'), @rsi.report_sheet.adult],
-      [t_label('report_sheet.senior'), @rsi.report_sheet.senior],
-      [t_label('report_sheet.uv'), @rsi.report_sheet.uv ? 'Ja' : 'Nein']
+      [t_label('report_sheet.children'), @rs.children],
+      [t_label('report_sheet.teens'), @rs.teens],
+      [t_label('report_sheet.youth'), @rs.youth],
+      [t_label('report_sheet.adult'), @rs.adult],
+      [t_label('report_sheet.senior'), @rs.senior],
+      [t_label('report_sheet.uv'), @rs.uv ? 'Ja' : 'Nein']
 
     ]
   end
@@ -125,7 +130,7 @@ class ReportSheetInputPdf < Prawn::Document
 
   def orch_member_rows
     [[I18n.t('common.fullname'), t_label('orchestra_member.year_of_birth'), t_label('orchestra_member.instrument')]] +
-      @orch.orchestra_members.map do |m|
+      @orchestra.orchestra_members.map do |m|
         [m.first_name + ' ' + m.last_name, m.year_of_birth, m.instrument]
       end
   end
@@ -193,6 +198,19 @@ class ReportSheetInputPdf < Prawn::Document
       columns(0).align = :right
       columns(1).align = :left
     end
+
+    if not @rs.ms_total.nil? and @rs.ms_total > 0 
+      move_down 20
+      text '6. Musikschulen', style: :bold, size: 20
+      rows = [
+        [t_label('report_sheet.ms_total'), @rs.ms_total]
+      ]
+      table rows do
+        columns(0).align = :right
+        columns(1).align = :left
+      end
+    end
+
   end
 
   def price(num)
