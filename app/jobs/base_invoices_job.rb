@@ -42,7 +42,7 @@ class BaseInvoicesJob < ApplicationJob
     dd_url = "#{base_url}?year=#{ddFile.archive_folder}&filename=#{ddFile.orig_filename}" unless ddFile.nil?
 
     User.for_admin_notify.each do |user|
-      AdminNotifier.newinvoices_notification(user, invoices_url, dd_url, triggered_by).deliver_later
+      AdminNotifier.newinvoices_notification(user, invoices_url, dd_url, self.triggered_by).deliver
       logger.info 'new invoice notify sent to %s' % user.email
     end
   end
