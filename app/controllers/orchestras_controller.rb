@@ -240,7 +240,7 @@ class OrchestrasController < AuthenticatedController
     respond_to do |format|
       if @orchestra.update(orchestra_params)
         format.html { redirect_to @orchestra, 
-              notice: t_update_success("orchestra")
+              notice: t_update_success("orchestra") }
         format.json { head :ok }
       else
         format.html { render :edit, status: :unprocessable_entity }
