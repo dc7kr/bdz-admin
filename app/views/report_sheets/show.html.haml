@@ -23,8 +23,7 @@
   - if not @invoiced
     %span.badge.bg-danger=t("report_sheet.tag.not_invoiced")
 
-  %br
-
+  = link_to "PDF", report_sheet_path(@report_sheet, :format=>"pdf"), class: "btn btn-primary"
   .card
     .card-body
       %h5.card-title=t("invoice",count: 1)
