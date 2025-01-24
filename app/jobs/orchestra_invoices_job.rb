@@ -27,11 +27,20 @@ class OrchestraInvoicesJob < BaseInvoicesJob
 
     tool = MailingTool.new(year, 'gs', "RECHNUNG#{year}", "Beitragsrechnung #{year}")
 
+    delivered = 0
+    skipped = 0
+
     @orchestras.each do |orch|
       mglnr = orch.member.mglnr
 
-      Rails.logger.debug { "Generate invoice for: #{mglnr}" }
-      invoice_file = orchestraInvoice(orch, year)
+      if orch.report_sheet_for_year(year).nil?
+        logger.debug("Skipping #{mglnr} - no report sheet")
+        skipped += 1
+        next
+      end
+
+      Rails.logger.debug("Generate invoice for: #{mglnr}")
+      invoice_file = orchestra_invoice(orch, year)
 
       if invoice_file.nil?
         logger.error("No invoice generated for mglnr: #{mglnr}")
@@ -41,6 +50,7 @@ class OrchestraInvoicesJob < BaseInvoicesJob
         add_mailer_params = { year: year, mglnr: mglnr }
 
         tool.deliver_mailing(InvoiceMail, orch.to_addressee, invoice_file, nil, letters, add_mailer_params)
+        delivered += 1
       end
     end
 
@@ -53,12 +63,16 @@ class OrchestraInvoicesJob < BaseInvoicesJob
       self.archive_tool.merge_pdfs(letters, pdf_merged_file)
     end
 
-    ddFile = self.sepa_writer.generate_file
 
-    send_mail(ddFile, pdf_merged_file, triggered_by)
+    if delivered > 0  
+      ddFile = self.sepa_writer.generate_file
+      send_mail(ddFile, pdf_merged_file)
+    else 
+      logger.info("No invoices delivered. Not sending notify")
+    end
   end
 
-  def orchestraInvoice(orch, year)
+  def orchestra_invoice(orch, year)
     invoice = orch.gen_invoice(year)
 
     return if invoice.nil?
@@ -66,7 +80,7 @@ class OrchestraInvoicesJob < BaseInvoicesJob
     invoice.generator_session_id = generator_session_id
     invoice.save
 
-    invoice_file = invoice.gen_pdf(tex_writer)
+    invoice_file = invoice.gen_pdf(self.tex_writer)
 
     return nil if invoice_file.nil?
 
