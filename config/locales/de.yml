@@ -367,6 +367,7 @@ de:
     invoice_orchestras: "Rechnungslauf Orchester starten"
     invoice_lorch: "Rechnungslauf Landesorchester starten"
     invoice_person_members: "Rechnungslauf EM starten"
+    invoice_person_members_success: "Rechnungslauf EM gestartet. Sie erhalten nach Fertigstellung eine E-Mail."
     invoice_orchestras_success: "Rechnungslauf Orchester gestartet. Sie erhalten nach Fertigstellung eine E-Mail."
     invoice_lorch_success: "Rechnungslauf Landes-Orchester gestartet. Sie erhalten nach Fertigstellung eine E-Mail."
     custom_info_mail_success: "Rundschreiben werden erstellt. Sie erhalten nach Fertigstellung eine E-Mail."
