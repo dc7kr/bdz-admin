@@ -48,7 +48,7 @@ class PersonMemberInvoicesJob < BaseInvoicesJob
 
     ddFile = self.sepa_writer.generate_file
 
-    send_mail(ddFile, pdf_merged_file, triggered_by)
+    send_mail(ddFile, pdf_merged_file)
   end
 
   def person_member_invoice(person, year)
