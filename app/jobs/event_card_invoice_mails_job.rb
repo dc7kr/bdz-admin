@@ -12,21 +12,19 @@ class EventCardInvoiceMailsJob < BaseInvoicesJob
 
     cur_year = Time.now.year
 
+    init_fields(cur_year, user_id)
+
     results = []
 
     tool = MailingTool.new(cur_year.to_s, 'gs', event_id, 'Festival Ticket Rechnung', false)
 
-    fa = FileArchiveTool.new(DOCS_CONFIG)
-
     letterArray = []
-
-    tw = TexWriter.new
 
     prefix = Time.now.strftime('%Y%m%d%H%M%S_')
 
-    reservation = EventCard.not_invoiced
+    reservations = EventCard.not_invoiced
 
-    reservation.each do |rsrv|
+    reservations.each do |rsrv|
       invoice = rsrv.invoice
 
       if invoice.sum <= 0
@@ -44,7 +42,7 @@ class EventCardInvoiceMailsJob < BaseInvoicesJob
           locale = :de
         end
 
-        work_pdf_file = tw.gen_pdf(inv_type, prefix, invoice.customer.id)
+        work_pdf_file = self.tex_writer.gen_pdf(inv_type, prefix, invoice.customer.id)
 
         workdir = INVOICE_CONFIG.work_dir
         invoice_file = fa.archive_file(workdir, work_pdf_file, cur_year)
