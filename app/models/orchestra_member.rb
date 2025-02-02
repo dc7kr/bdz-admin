@@ -11,17 +11,15 @@ class OrchestraMember < ApplicationRecord
     if date_of_birth.nil?
       false
     else
-      !(date_of_birth.year > Time.now.year)
+      date_of_birth.year <= Time.zone.now.year
     end
   end
 
   def is_dummy_birthday?
     if date_of_birth.nil?
       true
-    elsif date_of_birth.day == 1 and date_of_birth.month == 2 and date_of_birth.year == 1960
-      true
     else
-      false
+      (date_of_birth.day == 1) && (date_of_birth.month == 2) && (date_of_birth.year == 1960)
     end
   end
 

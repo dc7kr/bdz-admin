@@ -15,7 +15,7 @@ class Contest < ApplicationRecord
 
   def self.search(search)
     if search
-      where('titel like ? or ort like ?', "#{search}", "#{search}")
+      where('titel like ? or ort like ?', search.to_s, search.to_s)
     else
       where(1)
     end

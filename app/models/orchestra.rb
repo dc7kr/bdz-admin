@@ -37,7 +37,7 @@ class Orchestra < ApplicationRecord
   scope :regional, -> { where("orch_type = 'L' ") }
 
   scope :no_report_sheet, lambda { |year|
-    includes([:member]).joins('LEFT JOIN report_sheets ON report_sheets.orchestra_id = orchestras.id AND report_sheets.year=' + String(year)).where(['report_sheets.id IS NULL AND orchestras.orch_type in ( "L","O")'])
+    includes([:member]).joins("LEFT JOIN report_sheets ON report_sheets.orchestra_id = orchestras.id AND report_sheets.year=#{String(year)}").where(['report_sheets.id IS NULL AND orchestras.orch_type in ( "L","O")'])
   }
 
   def self.no_payment(before = nil, lv = nil)
@@ -60,7 +60,7 @@ class Orchestra < ApplicationRecord
   def self.for_mglnr(mglnr)
     member = Member.find_by('mglnr = ?', mglnr)
 
-    if member.nil? or !member.member_entity.is_a?(Orchestra)
+    if member.nil? || !member.member_entity.is_a?(Orchestra)
       nil
     else
       member.member_entity
@@ -80,9 +80,9 @@ class Orchestra < ApplicationRecord
 
   def self.mailForEvent(event, via_paper)
     if via_paper
-      joins([:member]).joins("LEFT JOIN member_events e ON members.id=e.member_id AND members.member_entity_id = orchestras.id AND members.member_entity_type='Orchestra' AND e.event_id='" + event + "'").where('e.id IS NULL')
+      joins([:member]).joins("LEFT JOIN member_events e ON members.id=e.member_id AND members.member_entity_id = orchestras.id AND members.member_entity_type='Orchestra' AND e.event_id='#{event}'").where(e: { id: nil })
     else
-      joins([:member]).joins("LEFT JOIN member_events e ON members.id=e.member_id AND members.member_entity_id = orchestras.id AND members.member_entity_type='Orchestra' AND e.event_type='E' and e.event_id='" + event + "'").where('members.email IS NOT NULL and length(members.email) >3 and e.id IS NULL')
+      joins([:member]).joins("LEFT JOIN member_events e ON members.id=e.member_id AND members.member_entity_id = orchestras.id AND members.member_entity_type='Orchestra' AND e.event_type='E' and e.event_id='#{event}'").where('members.email IS NOT NULL and length(members.email) >3 and e.id IS NULL')
     end
   end
 
@@ -92,7 +92,7 @@ class Orchestra < ApplicationRecord
 
   def self.search(search)
     if search
-      where('members.mglnr = ? or orchestras.orchName like ? or members.email like ?', "#{search}", "%#{search}%",
+      where('members.mglnr = ? or orchestras.orchName like ? or members.email like ?', search.to_s, "%#{search}%",
             "%#{search}%")
     else
       where('1')
@@ -112,12 +112,12 @@ class Orchestra < ApplicationRecord
   end
 
   def lastReportSheet
-    @reportSheets = ReportSheet.where('orchestra_id = ?', id).order('year desc')
+    @reportSheets = ReportSheet.where(orchestra_id: id).order('year desc')
     @reportSheets[0]
   end
 
   def report_sheet_for_year(year)
-    year = Time.now.year if year.nil?
+    year = Time.zone.now.year if year.nil?
 
     rs = report_sheets.where(year: year)
 
@@ -129,12 +129,12 @@ class Orchestra < ApplicationRecord
   def currentMagazines(override = true)
     return BDZ_SETTINGS['tariff']['koopZtgCount'].to_i if is_coop?
 
-    return member.magazines if member.magazines >= 0 and override
+    return member.magazines if (member.magazines >= 0) && override
 
     if currentReportSheet
       currentReportSheet.calcZeitungen
     elsif lastReportSheet.nil?
-      Rails.logger.info('No reportsheet for orchestra : ' + member.mglnr.to_s)
+      Rails.logger.info("No reportsheet for orchestra : #{member.mglnr}")
       0
     else
       lastReportSheet.calcZeitungen
@@ -188,7 +188,7 @@ class Orchestra < ApplicationRecord
   def gen_invoice(year)
     invoice = CorikaInvoices::Invoice.new
     invoice.invoice_type = 'beitragsrechnung'
-    invoice.invoice_date = Time.now
+    invoice.invoice_date = Time.zone.now
     invoice.number = "#{member.mglnr}-BEITRAG#{year}"
 
     # this ensures that the invoice number is unique (generates -XX suffix)
@@ -206,7 +206,7 @@ class Orchestra < ApplicationRecord
     else
       sheet = sheet_for_year(year)
 
-      if sheet.nil? and !is_coop?
+      if sheet.nil? && !is_coop?
         Rails.logger.info("No Sheet for orchestra #{self} and year#{year}")
         return nil
       end
@@ -220,7 +220,7 @@ class Orchestra < ApplicationRecord
   def currentReportSheet
     #	ReportSheet.scoped(:conditions=> { :year => @currentYear })
     # TODO:
-    currentYear = Time.new.year
+    currentYear = Time.zone.now.year
     report_sheets.each do |sheet|
       return sheet if sheet.year == currentYear
     end
@@ -262,7 +262,7 @@ class Orchestra < ApplicationRecord
   end
 
   def letter_country(delivery = nil)
-    if !delivery.nil? and !delivery_contact.nil?
+    if !delivery.nil? && !delivery_contact.nil?
       delivery_contact.letter_country
     else
       member.letter_country
@@ -270,7 +270,7 @@ class Orchestra < ApplicationRecord
   end
 
   def countryCode(delivery = nil)
-    if !delivery.nil? and !delivery_contact.nil?
+    if !delivery.nil? && !delivery_contact.nil?
       delivery_contact.country_code
     else
       member.countryCode
@@ -278,21 +278,21 @@ class Orchestra < ApplicationRecord
   end
 
   def fullname(delivery = nil)
-    if !delivery.nil? and !delivery_contact.nil?
+    if !delivery.nil? && !delivery_contact.nil?
       delivery_contact.fullname
-    elsif !member.anrede.nil? && member.anrede.length > 0
-      I18n.t('common.salutation_d.' + member.anrede) + ' ' + member.fullname
+    elsif !member.anrede.nil? && member.anrede.length.positive?
+      "#{I18n.t("common.salutation_d.#{member.anrede}")} #{member.fullname}"
     else
       member.fullname
     end
   end
 
   def address
-    orchName + ', ' + member.address
+    "#{orchName}, #{member.address}"
   end
 
   def address_block
-    orchName + "\n" + member.address_block
+    "#{orchName}\n#{member.address_block}"
   end
 
   def is_coop?
@@ -327,7 +327,7 @@ class Orchestra < ApplicationRecord
     ids = Member.ids_with_non_zero_balance(Orchestra, year)
 
     # nasty workaround for ActiveRecord bug (KR 24.2.20)
-    if ids.size == 0
+    if ids.empty?
       Orchestra.includes(:report_sheets).joins(:member)
     else
       Orchestra.includes(:report_sheets).joins(:member).where('NOT (members.id  in (?) )', ids)
@@ -340,7 +340,7 @@ class Orchestra < ApplicationRecord
   end
 
   def street(delivery = nil)
-    if !delivery.nil? and !delivery_contact.nil?
+    if !delivery.nil? && !delivery_contact.nil?
       delivery_contact.street
     else
       member.strasse
@@ -348,7 +348,7 @@ class Orchestra < ApplicationRecord
   end
 
   def zip(delivery = nil)
-    if !delivery.nil? and !delivery_contact.nil?
+    if !delivery.nil? && !delivery_contact.nil?
       delivery_contact.zip
     else
       member.plz
@@ -356,7 +356,7 @@ class Orchestra < ApplicationRecord
   end
 
   def city(delivery = nil)
-    if !delivery.nil? and !delivery_contact.nil?
+    if !delivery.nil? && !delivery_contact.nil?
       delivery_contact.city
     else
       member.ort
@@ -404,16 +404,16 @@ class Orchestra < ApplicationRecord
     restr = user.restricting_entity
 
     if restr.nil?
-      Rails.logger.warning('User ' + current_user.email + ' has no restriction entity configured - SAFETY NET!')
+      Rails.logger.warning("User #{current_user.email} has no restriction entity configured - SAFETY NET!")
       return where('1=0')
       # safety net
     end
 
-    if restr.class == RegionalOrganization
-      where('members.regional_organization_id = ?', restr.id)
-    elsif restr.class == Orchestra
-      where('id = ?', restr.id)
-    elsif restr.class == PersonMember
+    if restr.instance_of?(RegionalOrganization)
+      where(members: { regional_organization_id: restr.id })
+    elsif restr.instance_of?(Orchestra)
+      where(id: restr.id)
+    elsif restr.instance_of?(PersonMember)
       where('1=0')
     end
   end
@@ -442,7 +442,7 @@ class Orchestra < ApplicationRecord
     if url.start_with?('http')
       url
     else
-      'http://' + url
+      "http://#{url}"
     end
   end
 
@@ -459,10 +459,10 @@ class Orchestra < ApplicationRecord
     result[:neutral] = []
 
     orchestra_members.each do |o|
-      if !o.mglnr.nil? and o.mglnr != 0 and o.mglnr != member.mglnr
-        orch = Orchestra.joins(:member).where('members.mglnr = ?', o.mglnr)
+      if !o.mglnr.nil? && (o.mglnr != 0) && (o.mglnr != member.mglnr)
+        orch = Orchestra.joins(:member).where(members: { mglnr: o.mglnr })
 
-        if !orch.nil? and !orch[0].nil?
+        if !orch.nil? && !orch[0].nil?
           Rails.logger.info('Found orchestra')
           matching = OrchestraMember.where('orchestra_id = ? and first_name like ? and last_name like ?', orch[0].id,
                                            o.first_name, o.last_name).first
@@ -472,14 +472,14 @@ class Orchestra < ApplicationRecord
           else
             other_orch = matching.orchestra
 
-            if other_orch.is_coop? or other_orch.is_lorch?
+            if other_orch.is_coop? || other_orch.is_lorch?
               result[:faulty] << o
             else
               result[:verified] << o
             end
           end
         else
-          Rails.logger.info('Invalid mglnr: ' + o.mglnr.to_s)
+          Rails.logger.info("Invalid mglnr: #{o.mglnr}")
           result[:faulty] << o
         end
       else
@@ -501,7 +501,7 @@ class Orchestra < ApplicationRecord
   end
 
   def current_rsi
-    year = Time.now.year
+    year = Time.zone.now.year
     ReportSheetInput.for_orchestra_and_year(self, year)
   end
 
@@ -529,7 +529,7 @@ class Orchestra < ApplicationRecord
 
   def magazine_address_list_row
     mag_count = currentMagazines
-    return unless mag_count > 0
+    return unless mag_count.positive?
 
     {
       identifier: member.mglnr,

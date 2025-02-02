@@ -21,9 +21,9 @@ class ParticipantSheetPdf < Prawn::Document
 
   def head(app)
     text "#{I18n.t('event_meal.participant_id')} #{app.id}", size: 20, style: :bold
-    text "#{app.orch_name} (#{I18n.t('festival_application.group_types.' + app.group_type)})", size: 20, style: :bold
+    text "#{app.orch_name} (#{I18n.t("festival_application.group_types.#{app.group_type}")})", size: 20, style: :bold
 
-    if app.event_meal.nil? or app.event_meal.arrival_time.nil?
+    if app.event_meal.nil? || app.event_meal.arrival_time.nil?
       text 'Unknown arrival time.'
     else
       text "#{I18n.t('event_meal.arrival_time')} #{@view.l app.event_meal.arrival_time}"
@@ -34,7 +34,7 @@ class ParticipantSheetPdf < Prawn::Document
 
     return unless app.payment_status != 'S'
 
-    if @invoice.sum < 0
+    if @invoice.sum.negative?
       save_stroke_and_fill
       fill_color '00ff00'
       fill_and_stroke_rounded_rectangle([400, 700], 100, 25, 5)
@@ -42,7 +42,7 @@ class ParticipantSheetPdf < Prawn::Document
       fill_color '000000'
       draw_text @view.format_currency(@invoice.sum, 'EUR'), at: [420, 685]
       restore_stroke_and_fill
-    elsif @invoice.sum > 0
+    elsif @invoice.sum.positive?
       save_stroke_and_fill
       fill_color 'ff0000'
       stroke_color 'ff0000'
@@ -61,10 +61,10 @@ class ParticipantSheetPdf < Prawn::Document
     count = 0
 
     @invoice.items.each do |i|
-      count += i.count if i.price > 0
+      count += i.count if i.price.positive?
 
       if appl.payment_status == 'S'
-        rows << [i.count, i.label, '', ''] if i.price > 0
+        rows << [i.count, i.label, '', ''] if i.price.positive?
       else
         rows << [i.count, i.label, @view.format_currency(i.price, 'EUR'),
                  @view.format_currency(i.count * i.price, 'EUR')]
@@ -88,7 +88,7 @@ class ParticipantSheetPdf < Prawn::Document
     end
 
     move_down 20
-    return unless !@appl.soloist_tickets.nil? and @appl.soloist_tickets > 0
+    return unless !@appl.soloist_tickets.nil? && @appl.soloist_tickets.positive?
 
     text "#{@appl.soloist_tickets} #{I18n.t('festival_application.soloist_tickets')}"
   end
@@ -127,7 +127,7 @@ class ParticipantSheetPdf < Prawn::Document
   end
 
   def line_cond(label, value)
-    return if value.nil? or value == 0
+    return if value.nil? || value.zero?
 
     text "#{I18n.t(label)} #{value}"
   end

@@ -12,7 +12,7 @@ class AdvertInvoicesPdf < CompanyPaperDocument
     @adverts.each do |a|
       print_address(a.advertiser)
       print_headline('Rechnung')
-      print_date('Mainz', Time.now)
+      print_date('Mainz', Time.zone.now)
       print_item_table a
       start_new_page(template: @templateFile, template_page: 1) if a != @adverts.last
     end

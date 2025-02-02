@@ -3,7 +3,7 @@ class FeeShares
                 :direct_debit, :invoiced, :regional_organization,
                 :pre_paid, :year, :leaf
 
-  def initialize(regional_organization: nil, year: Time.now.year, leaf: false)
+  def initialize(regional_organization: nil, year: Time.zone.now.year, leaf: false)
     self.direct_debit = FeeShares.new(year: year, leaf: true) unless leaf
     self.invoiced = FeeShares.new(year: year, leaf: true) unless leaf
 
@@ -14,7 +14,7 @@ class FeeShares
     self.persons = 0
     self.regional_organization = regional_organization
 
-    return unless !regional_organization.nil? and !regional_organization.member.nil?
+    return unless !regional_organization.nil? && !regional_organization.member.nil?
 
     self.pre_paid = regional_organization.member.member_account_bookings.where(
       "booking_year = ? and booking_type= 'G'", year
@@ -80,11 +80,7 @@ class FeeShares
 
     val = total * percentage
 
-    if val < minimum
-      minimum
-    else
-      val
-    end
+    [val, minimum].max
   end
 
   def real_share

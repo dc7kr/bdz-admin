@@ -15,12 +15,12 @@ class FestivalApplicationsPdf < Prawn::Document
 
   def head(app)
     text "#{I18n.t('festival_application', count: 1)} Nr. #{app.id}", size: 20, style: :bold
-    text "#{app.orch_name} (#{I18n.t('festival_application.group_types.' + app.group_type)})", size: 20, style: :bold
-    text 'Herkunftsland: ' + app.t_country, size: 16
-    text 'Dirigent: ' + app.conductor
+    text "#{app.orch_name} (#{I18n.t("festival_application.group_types.#{app.group_type}")})", size: 20, style: :bold
+    text "Herkunftsland: #{app.t_country}", size: 16
+    text "Dirigent: #{app.conductor}"
     return if app.event_meal.nil?
 
-    text 'Ankunftszeit: ' + I18n.l(app.event_meal.arrival_time)
+    text "Ankunftszeit: #{I18n.l(app.event_meal.arrival_time)}"
   end
 
   def address(contact)
@@ -28,9 +28,9 @@ class FestivalApplicationsPdf < Prawn::Document
     text 'Kontaktperson', style: :bold
     return if contact.nil?
 
-    text I18n.t('common.salutations.' + contact.salutation) + ' ' + contact.first_name + ' ' + contact.last_name
+    text "#{I18n.t("common.salutations.#{contact.salutation}")} #{contact.first_name} #{contact.last_name}"
     text contact.street
-    text contact.zip + ' ' + contact.city
+    text "#{contact.zip} #{contact.city}"
     text contact.phone
     text contact.email
   end
@@ -39,7 +39,7 @@ class FestivalApplicationsPdf < Prawn::Document
     move_down 20
     text I18n.t('festival_piece', count: 3), style: :bold
 
-    if app.festival_pieces.count > 0
+    if app.festival_pieces.count.positive?
       table piece_rows(app) do
         row(0).font_style = :bold
         columns(1..3).align = :right

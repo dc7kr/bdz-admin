@@ -119,14 +119,14 @@ class EventCardsController < AuthenticatedController
 
     fa = FileArchiveTool.new(DOCS_CONFIG)
 
-    prefix = Time.now.strftime('%Y%m%d%H%M%S_')
-    year = Time.now.year
+    prefix = Time.zone.now.strftime('%Y%m%d%H%M%S_')
+    year = Time.zone.now.year
     invoice = @event_card.invoice
     tw.writeInvoice(invoice, 'festival', year)
 
     inv_type = 'event_card.en'
-    inv_type = 'event_card.de' if invoice.customer.country == 'de' or invoice.customer.country == 'at'
-    logger.debug('Customer: ' + invoice.customer.name)
+    inv_type = 'event_card.de' if (invoice.customer.country == 'de') || (invoice.customer.country == 'at')
+    logger.debug("Customer: #{invoice.customer.name}")
 
     work_pdf_file = tw.gen_pdf(inv_type, prefix, invoice.customer.id)
 
@@ -137,8 +137,8 @@ class EventCardsController < AuthenticatedController
   end
 
   def invoices
-    date_prefix = Time.now.strftime '%Y%m%d'
-    year = Time.now.year
+    date_prefix = Time.zone.now.strftime '%Y%m%d'
+    year = Time.zone.now.year
 
     tw = TexWriter.new
     orders = EventCard.all
@@ -152,12 +152,12 @@ class EventCardsController < AuthenticatedController
   end
 
   def overview
-    datePrefix = Time.now.strftime '%Y%m%d%H%M%s'
+    datePrefix = Time.zone.now.strftime '%Y%m%d%H%M%s'
     @event_cards = EventCard.where('pickup=0').order(:id)
     respond_to do |format|
       format.pdf do
         pdf = TicketOrderOverviewPdf.new(@event_cards, view_context)
-        send_data pdf.render, filename: datePrefix + '_ticket_orders.pdf', type: 'application/pdf',
+        send_data pdf.render, filename: "#{datePrefix}_ticket_orders.pdf", type: 'application/pdf',
                               disposition: 'inline'
       end
     end

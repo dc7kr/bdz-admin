@@ -12,12 +12,12 @@ class ContactPerson < ApplicationRecord
   has_many :contact_events
 
   def to_s
-    first_name + ' ' + last_name
+    "#{first_name} #{last_name}"
   end
 
   def fullname
     result = ''
-    result = result + first_name + ' ' if first_name
+    result = "#{result}#{first_name} " if first_name
     result += last_name if last_name
     result
   end

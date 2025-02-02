@@ -110,7 +110,7 @@ class MemberEventsController < AuthenticatedController
 
   def download
     @event = MemberEvent.find(params[:id])
-    fullPath = INVOICE_CONFIG.archive_dir + '/' + @event.filename
+    fullPath = "#{INVOICE_CONFIG.archive_dir}/#{@event.filename}"
     send_file(fullPath, filename: File.basename(@event.filename), type: 'application/pdf', x_sendfile: true)
   end
 

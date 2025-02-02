@@ -15,13 +15,13 @@ class ReportSheetMailingsJob < ApplicationJob
 
     letterArray = []
 
-    now = Time.now
+    now = Time.zone.now
     date_prefix = now.strftime '%Y%m%d'
     cur_year = now.strftime '%Y'
 
-    event_id = 'MB_' + p_year.to_s
+    event_id = "MB_#{p_year}"
 
-    subject = 'Meldebogen Anschreiben ' + p_year.to_s
+    subject = "Meldebogen Anschreiben #{p_year}"
 
     tool = MailingTool.new(cur_year.to_s, 'gs', event_id, subject)
 
@@ -57,8 +57,6 @@ class ReportSheetMailingsJob < ApplicationJob
             Rails.logger.error e.backtrace.join("\n")
             next
           end
-
-          DOCS_CONFIG.archive_dir + '/'
           mailer_params = { rsi: rsi }
           result = tool.deliver_mailing(ReportSheetInputMailer, orchestra.to_addressee, mailing_pdf, nil,
                                         letterArray, mailer_params)
@@ -71,13 +69,13 @@ class ReportSheetMailingsJob < ApplicationJob
             counters[:orch_fail] += 1
           end
         end
-      end # not yet handled
-    end # orchestras.each
+      end
+    end
 
     pdf_merged_file = nil
     doc_url = nil
 
-    if letterArray.size > 0
+    if letterArray.size.positive?
       pdf_filename = "#{date_prefix}#{event_id}_meldebogen_anschreiben.pdf"
       pdf_merged_file = MailingFile.new(pdf_filename, pdf_filename, cur_year)
       fa.merge_pdfs(letterArray, pdf_merged_file)
@@ -85,7 +83,7 @@ class ReportSheetMailingsJob < ApplicationJob
 
     unless pdf_merged_file.nil?
       base_url = cron_downloads_url
-      doc_url = base_url + '?year=' + cur_year.to_s + '&filename=' + pdf_merged_file.orig_filename
+      doc_url = "#{base_url}?year=#{cur_year}&filename=#{pdf_merged_file.orig_filename}"
     end
 
     users = User.for_admin_notify
@@ -111,25 +109,25 @@ class ReportSheetMailingsJob < ApplicationJob
 
     member = orchestra.member
 
-    dateprefix = Time.now.strftime '%Y%m%d%H%M%S'
+    dateprefix = Time.zone.now.strftime '%Y%m%d%H%M%S'
 
-    filename = dateprefix + '_' + mglnr.to_s + '_meldebogen_anschreiben.pdf'
+    filename = "#{dateprefix}_#{mglnr}_meldebogen_anschreiben.pdf"
 
     Rails.logger.info("Generate PDF: #{filename}")
 
-    file = MailingFile.new('meldebogen_anschreiben.pdf', filename, Time.now.strftime('%Y'))
+    file = MailingFile.new('meldebogen_anschreiben.pdf', filename, Time.zone.now.strftime('%Y'))
 
-    template_file = DOCS_CONFIG.template_dir + '/meldebogen_anschreiben.' + year.to_s + '.template.pdf'
+    template_file = "#{DOCS_CONFIG.template_dir}/meldebogen_anschreiben.#{year}.template.pdf"
 
-    anrede = if !anrede.nil? and anrede.length > 0
-               I18n.t('common.salutation_d.' + anrede)
+    anrede = if !anrede.nil? && anrede.length.positive?
+               I18n.t("common.salutation_d.#{anrede}")
              else
                ''
              end
 
     workdir = DOCS_CONFIG.work_dir
-    temp_name = SecureRandom.hex + '.pdf'
-    stamped_name = SecureRandom.hex + '.pdf'
+    temp_name = "#{SecureRandom.hex}.pdf"
+    stamped_name = "#{SecureRandom.hex}.pdf"
 
     temp_path = File.join(workdir, temp_name)
     stamped_path = File.join(workdir, stamped_name)
@@ -146,7 +144,7 @@ class ReportSheetMailingsJob < ApplicationJob
 
       bounding_box([40, 650], width: 250, height: 100) do
         text orchestra.orchName
-        text anrede + ' ' + member.vorname + ' ' + member.name
+        text "#{anrede} #{member.vorname} #{member.name}"
         text member.strasse
         text ' '
         text "#{member.plz} #{member.ort}"
@@ -154,9 +152,9 @@ class ReportSheetMailingsJob < ApplicationJob
       end
 
       from = BDZ_SETTINGS['contacts']['gs']
-      l_date = I18n.l Time.now.to_date, format: :long
+      l_date = I18n.l Time.zone.now.to_date, format: :long
       bounding_box([370, 510], width: 200, height: 50) do
-        text from['city'] + ', ' + l_date
+        text "#{from['city']}, #{l_date}"
       end
 
       if orchestra.is_direct_debit?
@@ -171,15 +169,15 @@ class ReportSheetMailingsJob < ApplicationJob
 
     unless retval
       Rails.logger.error('Stamping failed')
-      raise DocumentGenerationException.new('Error while stamping PDF')
+      raise DocumentGenerationException, 'Error while stamping PDF'
     end
 
-    retval = PDF::Toolkit.pdftk('A=' + stamped_path, 'B=' + template_file, 'cat', 'A1', 'B2-2', 'output',
+    retval = PDF::Toolkit.pdftk("A=#{stamped_path}", "B=#{template_file}", 'cat', 'A1', 'B2-2', 'output',
                                 file.full_path)
 
     unless retval
       Rails.logger.error('PDF merge failed')
-      raise DocumentGenerationException.new('Error re-merging PDFs')
+      raise DocumentGenerationException, 'Error re-merging PDFs'
     end
 
     File.unlink(stamped_path)

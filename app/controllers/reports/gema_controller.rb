@@ -1,2 +1,4 @@
-class Reports::GemaController < AuthenticatedController
+module Reports
+  class GemaController < AuthenticatedController
+  end
 end

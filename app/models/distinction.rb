@@ -5,10 +5,10 @@ class Distinction < ApplicationRecord
   def gen_invoice
     invoice = CorikaInvoices::Invoice.new
     invoice.invoice_type = 'ehrungsrechnung'
-    invoice.invoice_date = Time.now
+    invoice.invoice_date = Time.zone.now
     invoice.our_contact = 'distinction'
     invoice.customer = orchestra.to_customer
-    invoiceNumber = 'E-' + Time.now.strftime('%Y%m%d-') + invoice.customer.customer_id
+    invoiceNumber = "E-#{Time.zone.now.strftime('%Y%m%d-')}#{invoice.customer.customer_id}"
     invoice.number = invoiceNumber
 
     # Brutto Rechnung

@@ -22,7 +22,7 @@ module ButtonHelper
   end
 
   def link_to_download_path(_txt, path, entity)
-    return unless entity.has_attachment? and can? :read, entity
+    return unless entity.has_attachment? && can?(:read, entity)
 
     link_to my_fa_icon('download'), path, class: 'btn btn-sm btn-outline-dark', data: { turbolinks: false }
   end
@@ -80,7 +80,7 @@ module ButtonHelper
     link_class = "delete-#{entity.class.model_name}"
     label_or_default(txt, 'common.delete')
     confirm = label_or_default(confirm, 'common.confirm_delete')
-    return unless can? :delete, entity or !authorize
+    return unless can?(:delete, entity) || !authorize
 
     link_to my_fa_icon('trash-alt'), path, data: { 'turbo-method': :delete, 'turbo-confirm': cfm ? confirm : nil },
                                            class: "btn btn-sm btn-danger #{link_class}"
@@ -118,13 +118,13 @@ module ButtonHelper
     clazz = 'btn-default' if clazz.nil?
 
     if type == :link
-      link_to path, class: 'btn ' + clazz do
+      link_to path, class: "btn #{clazz}" do
         my_fa_icon(glyph) + " #{txt}"
       end
     elsif type == :button
 
       button_tag(link: path, class: "btn #{clazz}") do
-        my_fa_icon(glyph) + ' ' + txt
+        "#{my_fa_icon(glyph)} #{txt}"
       end
     end
   end
@@ -160,7 +160,7 @@ module ButtonHelper
   end
 
   def wizard_img_button(path, txt, img)
-    link_to image_tag(img, { size: '16x16', alt: txt, title: txt, class: 'btn' }) + ' ' + txt, path,
+    link_to "#{image_tag(img, { size: '16x16', alt: txt, title: txt, class: 'btn' })} #{txt}", path,
             class: 'btn btn-default'
   end
 
@@ -173,6 +173,6 @@ module ButtonHelper
   end
 
   def icon_link_to(glyph, txt, path)
-    link_to my_fa_icon(glyph) + ' ' + txt, path, class: 'btn btn-default'
+    link_to "#{my_fa_icon(glyph)} #{txt}", path, class: 'btn btn-default'
   end
 end

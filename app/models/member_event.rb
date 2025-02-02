@@ -2,7 +2,7 @@ class MemberEvent < ApplicationRecord
   belongs_to :member
 
   def has_attachment?
-    !filename.nil? and filename.length > 0
+    !filename.nil? and filename.length.positive?
   end
 
   def self.newLetter(eventId, member, subject)
@@ -10,7 +10,7 @@ class MemberEvent < ApplicationRecord
     retval.member_id = member
     retval.event_type = 'L'
     retval.event_id = eventId
-    retval.event_date = Time.now
+    retval.event_date = Time.zone.now
     retval.comment = subject
 
     retval
@@ -21,7 +21,7 @@ class MemberEvent < ApplicationRecord
     retval.member_id = member
     retval.event_type = 'E'
     retval.event_id = eventId
-    retval.event_date = Time.now
+    retval.event_date = Time.zone.now
     retval.comment = subject
 
     retval
@@ -32,7 +32,7 @@ class MemberEvent < ApplicationRecord
     retval.member_id = member
     retval.event_type = 'F'
     retval.event_id = eventId
-    retval.event_date = Time.now
+    retval.event_date = Time.zone.now
     retval.comment = message
 
     retval

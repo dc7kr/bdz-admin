@@ -73,11 +73,11 @@ class GemaEventsController < ApplicationController
     xlsx = Roo::Spreadsheet.open(target_filename.to_s)
 
     sh = xlsx.sheet(xlsx.sheets.first)
-    p sh.row(1)
-    p sh.row(2)
+    Rails.logger.debug sh.row(1)
+    Rails.logger.debug sh.row(2)
 
-    p sh.row(3)
-    p sh.last_row
+    Rails.logger.debug sh.row(3)
+    Rails.logger.debug sh.last_row
     rownr = 3
     while rownr < sh.last_row
       row = sh.row(rownr)
@@ -85,7 +85,7 @@ class GemaEventsController < ApplicationController
       mglnr = row[12]
       mglnr = mglnr.gsub(/^.* - /, '')
       mglnr = mglnr.gsub('Bund Deutscher Zupfmusiker', '')
-      Rails.logger.debug('<' + mglnr.to_s + '> - <' + name.to_s + ">\n")
+      Rails.logger.debug { "<#{mglnr}> - <#{name}>\n" }
       rownr += 1
     end
 

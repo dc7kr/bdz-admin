@@ -3,7 +3,7 @@ class BoardContactsController < AuthenticatedController
   # GET /board_contacts
   # GET /board_contacts.json
   def index
-    @board_contacts = BoardContact.includes(:contact).search(params[:search]).order(sort_column + ' ' + sort_direction).page(params[:page]).per(20)
+    @board_contacts = BoardContact.includes(:contact).search(params[:search]).order("#{sort_column} #{sort_direction}").page(params[:page]).per(20)
 
     respond_to do |format|
       format.html do
@@ -94,7 +94,7 @@ class BoardContactsController < AuthenticatedController
 
   def sort_column
     if Contact.column_names.include?(params[:sort])
-      'members.' + params[:sort]
+      "members.#{params[:sort]}"
     else
       BoardContact.column_names.include?(params[:sort]) ? params[:sort] : 'contacts.last_name,contacts.first_name'
     end

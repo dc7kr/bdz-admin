@@ -11,18 +11,18 @@ module PdfHelper
 
     member = orchestra.member
 
-    dateprefix = Time.now.strftime '%Y%m%d%H%M%S'
+    dateprefix = Time.zone.now.strftime '%Y%m%d%H%M%S'
 
-    filename = dateprefix + '_' + mglnr.to_s + '_meldebogen_anschreiben.pdf'
+    filename = "#{dateprefix}_#{mglnr}_meldebogen_anschreiben.pdf"
 
     tmpfile = Tempfile.new('mb_anschr')
 
-    file = MailingFile.new('meldebogen_anschreiben.pdf', filename, Time.now.strftime('%Y'))
+    file = MailingFile.new('meldebogen_anschreiben.pdf', filename, Time.zone.now.strftime('%Y'))
 
-    template_file = DOCS_CONFIG.template_dir + '/meldebogen_anschreiben.' + year.to_s + '.template.pdf'
+    template_file = "#{DOCS_CONFIG.template_dir}/meldebogen_anschreiben.#{year}.template.pdf"
 
-    anrede = if !anrede.nil? and anrede.length > 0
-               t('common.salutation_d.' + anrede)
+    anrede = if !anrede.nil? && anrede.length.positive?
+               t("common.salutation_d.#{anrede}")
              else
                ''
              end
@@ -37,7 +37,7 @@ module PdfHelper
 
       bounding_box([40, 650], width: 250, height: 100) do
         text orchestra.orchName
-        text anrede + ' ' + member.vorname + ' ' + member.name
+        text "#{anrede} #{member.vorname} #{member.name}"
         text member.strasse
         text ' '
         text "#{member.plz} #{member.ort}"
@@ -45,9 +45,9 @@ module PdfHelper
       end
 
       from = BDZ_SETTINGS['contacts']['gs']
-      l_date = I18n.l Time.now.to_date, format: :long
+      l_date = I18n.l Time.zone.now.to_date, format: :long
       bounding_box([370, 510], width: 200, height: 50) do
-        text from['city'] + ', ' + l_date
+        text "#{from['city']}, #{l_date}"
       end
 
       if orchestra.is_direct_debit?
@@ -61,7 +61,7 @@ module PdfHelper
     tmpfile2 = Tempfile.new('mb_stamped').path
 
     PDF::Toolkit.pdftk(tmpfile.path, 'background', template_file, 'output', tmpfile2)
-    PDF::Toolkit.pdftk('A=' + tmpfile2, 'B=' + template_file, 'cat', 'A1', 'B2-2', 'output', file.full_path)
+    PDF::Toolkit.pdftk("A=#{tmpfile2}", "B=#{template_file}", 'cat', 'A1', 'B2-2', 'output', file.full_path)
 
     # return filename
     file

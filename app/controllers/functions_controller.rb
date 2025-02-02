@@ -13,7 +13,7 @@ class FunctionsController < AuthenticatedController
       ).page(params[:page])
     else
       @functions = Function.includes(:regional_organization,
-                                     :board_contact).order(sort_column + ' ' + sort_direction).page(params[:page])
+                                     :board_contact).order("#{sort_column} #{sort_direction}").page(params[:page])
     end
 
     respond_to do |format|
@@ -106,7 +106,7 @@ class FunctionsController < AuthenticatedController
   private
 
   def sort_column
-    Function.column_names.include?(params[:sort]) ? 'functions.' + params[:sort] : 'functions.id'
+    Function.column_names.include?(params[:sort]) ? "functions.#{params[:sort]}" : 'functions.id'
   end
 
   def function_params

@@ -10,10 +10,10 @@ class MagazineSampling < ApplicationRecord
   delegate :fullname, to: :contact
 
   def magazine_address_list_row
-    return unless current_count > 0
+    return unless current_count.positive?
 
     {
-      identifier: 'B_' + id.to_s,
+      identifier: "B_#{id}",
       company: contact.company,
       department: contact.department,
       fullname: contact.fullname,

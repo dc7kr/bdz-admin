@@ -37,11 +37,7 @@ class CompetitionEntriesController < AuthenticatedController
   def drawable
     @drawable = CompetitionEntry.where('winner = false and correct=true')
 
-    drawable_ids = []
-
-    @drawable.each do |d|
-      drawable_ids << d.id
-    end
+    drawable_ids = @drawable.map(&:id)
 
     respond_to do |format|
       format.json { render json: drawable_ids }

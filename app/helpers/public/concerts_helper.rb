@@ -1,9 +1,11 @@
-module Public::ConcertsHelper
-  def magazine_time_format(date)
-    if date.hour == 0 and date.min == 0
-      ''
-    else
-      "#{date.strftime('%H.%M')} Uhr, "
+module Public
+  module ConcertsHelper
+    def magazine_time_format(date)
+      if date.hour.zero? && date.min.zero?
+        ''
+      else
+        "#{date.strftime('%H.%M')} Uhr, "
+      end
     end
   end
 end

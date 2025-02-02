@@ -18,8 +18,8 @@ class RegionalOrganizationBookingsController < AuthenticatedController
   def new
     @regional_organization = RegionalOrganization.find(params[:regional_organization_id])
 
-    @booking = RegionalOrganizationBooking.new(regional_organization: @regional_organization, booking_date: Time.now,
-                                               booking_year: Time.now.year, booking_mode: 'M', booking_type: 'S')
+    @booking = RegionalOrganizationBooking.new(regional_organization: @regional_organization, booking_date: Time.zone.now,
+                                               booking_year: Time.zone.now.year, booking_mode: 'M', booking_type: 'S')
 
     respond_to do |format|
       format.html # new.html.erb

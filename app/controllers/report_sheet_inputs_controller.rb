@@ -30,7 +30,7 @@ class ReportSheetInputsController < AuthenticatedController
   # GET /report_sheet_inputs/new
   # GET /report_sheet_inputs/new.json
   def new
-    @year = Time.now.year + 1
+    @year = Time.zone.now.year + 1
 
     @orchestra = Orchestra.includes(:member).find(params[:orchestra_id])
     @report_sheet_input = ReportSheetInput.new_for_orchestra(@orchestra, @year)
@@ -46,11 +46,7 @@ class ReportSheetInputsController < AuthenticatedController
   # POST /report_sheet_inputs.json
   def create
     @report_sheet_input = ReportSheetInput.new(params[:report_sheet_input])
-    @report_sheet_input.admin_flag = if current_user.nil?
-                                       false
-                                     else
-                                       true
-                                     end
+    @report_sheet_input.admin_flag = !current_user.nil?
 
     respond_to do |format|
       if @report_sheet_input.save
@@ -94,7 +90,7 @@ class ReportSheetInputsController < AuthenticatedController
   def generate
     authorize! :index, Orchestra
 
-    rs_year = Time.now.year + 1
+    rs_year = Time.zone.now.year + 1
 
     rs_year = params[:year].to_i unless params[:year].nil?
 

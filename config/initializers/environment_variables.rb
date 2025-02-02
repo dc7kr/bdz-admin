@@ -6,8 +6,8 @@ module SecretEnvironmentVariables
       if File.exist?(env_file)
         YAML.load_file(env_file)[Rails.env].each do |key, value|
           ENV[key.to_s] = value
-        end # end YAML.load_file
-      end # end if File.exist?
-    end # end config.before_configuration
-  end # end class
-end # end module
+        end
+      end
+    end
+  end
+end

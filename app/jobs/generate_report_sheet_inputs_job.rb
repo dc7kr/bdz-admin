@@ -10,7 +10,7 @@ class GenerateReportSheetInputsJob < ApplicationJob
     @orchestras = Orchestra.regular.includes(:member)
 
     @orchestras.each do |o|
-      if !o.nil? and o.report_sheet_required?
+      if !o.nil? && o.report_sheet_required?
         rsi = ReportSheetInput.for_orchestra_and_year(o, year)
 
         if rsi.nil?

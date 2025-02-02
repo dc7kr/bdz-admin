@@ -6,7 +6,7 @@ class OrchestraContactsController < AuthenticatedController
   def index
     @orchestra = Orchestra.find(params[:orchestra_id])
 
-    @orchestra_contacts = @orchestra.orchestra_contacts.order(sort_column + ' ' + sort_direction).page(params[:page]).per(20)
+    @orchestra_contacts = @orchestra.orchestra_contacts.order("#{sort_column} #{sort_direction}").page(params[:page]).per(20)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -61,7 +61,7 @@ class OrchestraContactsController < AuthenticatedController
       if @orchestra_contact.save
         format.html do
           redirect_to orchestra_orchestra_contacts_path(@orchestra),
-                      notice: t('orchestra_contact.one') + ' ' + t('common.create_success')
+                      notice: "#{t('orchestra_contact.one')} #{t('common.create_success')}"
         end
         format.json { render json: @orchestra_contact, status: :created, location: @orchestra_contact }
       else
@@ -87,7 +87,7 @@ class OrchestraContactsController < AuthenticatedController
       if @orchestra_contact.update!(orchestra_contact_params)
         format.html do
           redirect_to orchestra_orchestra_contact_path(@orchestra, @orchestra_contact),
-              notice: t_update_success("orchestra_contact")
+                      notice: t_update_success('orchestra_contact')
         end
         format.json { head :no_content }
       else

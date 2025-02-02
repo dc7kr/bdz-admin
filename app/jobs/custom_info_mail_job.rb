@@ -20,27 +20,28 @@ class CustomInfoMailJob < ApplicationJob
     letterfile = MailingFile.from_hash(letterfile_hash)
     attachment = MailingFile.from_hash(attachment_hash)
 
-    Time.now.strftime '%Y%m%d_'
+    Time.zone.now.strftime '%Y%m%d_'
 
     orchestra = false
     em = false
     test = false
 
-    if grp == 'A'
+    case grp
+    when 'A'
       orchestra = true
       em = true
-    elsif grp == 'O'
+    when 'O'
       orchestra = true
-    elsif grp == 'E'
+    when 'E'
       em = true
-    elsif grp == 'T'
+    when 'T'
       test = true
-    elsif grp == 'F'
+    when 'F'
       true
     end
 
-    cur_year = Time.now.year
-    date_prefix = Time.now.strftime('%Y%d%m%H%M_')
+    cur_year = Time.zone.now.year
+    date_prefix = Time.zone.now.strftime('%Y%d%m%H%M_')
     results = []
 
     tool = MailingTool.new(cur_year.to_s, 'gs', event_id, subject)

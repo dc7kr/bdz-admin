@@ -22,7 +22,7 @@ class RegionalOrganizationsController < AuthenticatedController
     # set by before filter
     authorize_action_for(@regional_organization)
 
-    @lastYear = Time.now.year - 1
+    @lastYear = Time.zone.now.year - 1
 
     @functions = Function.includes(:board_contact).where(regional_organization_id: @regional_organization.id)
     @functions_lv_filtered = true
@@ -76,8 +76,8 @@ class RegionalOrganizationsController < AuthenticatedController
       @regional_organization.update(regional_organization_params)
       if @regional_organization.save
         format.html do
-          redirect_to @regional_organization, 
-              notice: t_update_success("regional_organization")
+          redirect_to @regional_organization,
+                      notice: t_update_success('regional_organization')
         end
         format.json { head :ok }
       else
@@ -103,10 +103,10 @@ class RegionalOrganizationsController < AuthenticatedController
     authorize_action_for @regional_organizations.first
     @year = params[:year]
 
-    @year = Time.now.year if @year.nil?
+    @year = Time.zone.now.year if @year.nil?
 
     @before = if params[:before].nil?
-                Time.new
+                Time.zone.now
               else
                 Date.strptime(params[:before], '%d.%m.%Y')
               end

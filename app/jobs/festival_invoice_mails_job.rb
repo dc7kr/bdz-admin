@@ -10,7 +10,7 @@ class FestivalInvoiceMailsJob < BaseInvoicesJob
     successCount = 0
     failCount = 0
 
-    cur_year = Time.now.year
+    cur_year = Time.zone.now.year
 
     results = []
 
@@ -18,7 +18,7 @@ class FestivalInvoiceMailsJob < BaseInvoicesJob
 
     letterArray = []
 
-    Time.now.strftime('%Y%m%d%H%M%S_')
+    Time.zone.now.strftime('%Y%m%d%H%M%S_')
 
     applicants = FestivalApplication.where("permission=1 AND payment_status='P' AND visitor_type='R'")
 
@@ -32,12 +32,12 @@ class FestivalInvoiceMailsJob < BaseInvoicesJob
         locale = :en
         subject = "eurofestival zupfmusik 2018 ticket invoice no. #{invoice.number} for participant no. #{appl.id}"
 
-        if invoice.customer.country == 'de' or invoice.customer.country == 'at'
+        if (invoice.customer.country == 'de') || (invoice.customer.country == 'at')
           subject = "eurofestival zupfmusik 2018 - Ticket Rechnung Nr. #{invoice.number} fuer Teilnehmer Nr. #{appl.id}"
           locale = :de
         end
 
-        invoice_file = invoice.gen_pdf(self.tex_writer)
+        invoice_file = invoice.gen_pdf(tex_writer)
 
         contact = appl.contact_person
 

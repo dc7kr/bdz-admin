@@ -21,6 +21,6 @@ class SepaCreditTransfer
   end
 
   def end_to_end_id(prefix)
-    prefix + '_' + @customer.mglnr.to_s
+    "#{prefix}_#{@customer.mglnr}"
   end
 end

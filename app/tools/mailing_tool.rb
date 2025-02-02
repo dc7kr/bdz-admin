@@ -14,7 +14,7 @@ class MailingTool
   # diverts to deliver_letter in error case
   #
   def deliver_mailing(mailer, addressee, letterFile, attachment, letterArray, additionalMailerParams)
-    if !addressee.has_email? and @via_paper
+    if !addressee.has_email? && @via_paper
       result = deliver_letter(addressee, letterFile)
       letterArray << letterFile
       Rails.logger.info("Created letter for #{addressee.id}")
@@ -65,7 +65,7 @@ class MailingTool
   def recordMailFailure(addressee, result)
     if addressee.event_class.nil?
       Rails.logger.info('Event class is nil.')
-      Rails.logger.warn('Mail sending failed: ' + result)
+      Rails.logger.warn("Mail sending failed: #{result}")
       return
     end
 

@@ -6,7 +6,7 @@ class FestivalsController < AuthenticatedController
   helper_method :sort_column, :sort_direction
 
   def index
-    @festivals = Festival.search(params[:search]).order(sort_column + ' ' + sort_direction).page(params[:page]).per(20)
+    @festivals = Festival.search(params[:search]).order("#{sort_column} #{sort_direction}").page(params[:page]).per(20)
 
     respond_to do |format|
       format.html # index.html.erb

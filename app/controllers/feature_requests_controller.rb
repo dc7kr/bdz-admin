@@ -68,7 +68,7 @@ class FeatureRequestsController < AuthenticatedController
   def update
     @feature_request = FeatureRequest.find(params[:id])
 
-    format.html { redirect_to @feature_request, error: 'Permission denied.' } if !current_user.admin? and feature_request.user_id != user.id
+    format.html { redirect_to @feature_request, error: 'Permission denied.' } if !current_user.admin? && (feature_request.user_id != user.id)
 
     respond_to do |format|
       if @feature_request.update(feature_request_params)

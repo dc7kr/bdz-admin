@@ -13,7 +13,7 @@ class FestivalMailsJob < ApplicationJob
     letterfile = MailingFile.from_hash(letterfile_hash)
     attachment = MailingFile.from_hash(attachment_hash)
 
-    cur_year = Time.now.year
+    cur_year = Time.zone.now.year
 
     results = []
 
@@ -21,27 +21,28 @@ class FestivalMailsJob < ApplicationJob
 
     applicants = nil
 
-    if group == 'FA'
+    case group
+    when 'FA'
       applicants = FestivalApplication.current_festival.includes(:contact_person)
-    elsif group == 'FP'
+    when 'FP'
       applicants = FestivalApplication.current_festival.includes(:contact_person).where(permission: true)
-    elsif group == 'FR'
+    when 'FR'
       applicants = FestivalApplication.current_festival.includes(:contact_person).where(permission: true,
                                                                                         visitor_type: 'R')
-    elsif group == 'FS'
+    when 'FS'
       applicants = FestivalApplication.current_festival.includes(:contact_person).where(permission: true,
                                                                                         visitor_type: 'V')
-    elsif group == 'FJ'
+    when 'FJ'
       applicants = FestivalApplication.current_festival.includes(:contact_person).where(permission: true,
                                                                                         visitor_type: 'Y')
-    elsif group == 'FG'
+    when 'FG'
       applicants = FestivalApplication.current_festival.includes(:contact_person).where(permission: true,
                                                                                         visitor_type: 'G')
-    elsif group == 'FO'
+    when 'FO'
       applicants = FestivalApplication.current_festival.includes(:contact_person).where(permission: true,
                                                                                         visitor_type: 'O')
     else
-      logger.error('NO GROUP identified: ' + group)
+      logger.error("NO GROUP identified: #{group}")
     end
 
     tool = MailingTool.new(cur_year.to_s, 'festival', event_id, subject, via_paper)
@@ -52,7 +53,7 @@ class FestivalMailsJob < ApplicationJob
       appl.contact_person.to_addressee
 
       body = prepare_body(appl, body_template)
-      logger.debug('Result: ' + body)
+      logger.debug("Result: #{body}")
       mailer_params = { body: body, subject: subject }
 
       result = tool.deliver_mailing(FestivalMail, appl.contact_person.to_addressee, nil, letterfile, letterArray,

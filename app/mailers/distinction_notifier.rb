@@ -1,4 +1,4 @@
-class DistinctionNotifier < ApplicationMailer
+class DistinctionNotifierMailer < ApplicationMailer
   default from: 'bdzdb@zupfmusiker.de'
 
   def newdistinction_notification(user, _invoices, dtaus)

@@ -27,7 +27,7 @@ class FestivalApplicationsController < AuthenticatedController
   end
 
   def index
-    @festival_applications = FestivalApplication.current_festival.order(sort_column + ' ' + sort_direction).search(params[:search]).page(params[:page]).per(20)
+    @festival_applications = FestivalApplication.current_festival.order("#{sort_column} #{sort_direction}").search(params[:search]).page(params[:page]).per(20)
 
     @sums = calc_sums
 
@@ -41,12 +41,12 @@ class FestivalApplicationsController < AuthenticatedController
   def permitted
     @sums = calc_sums
 
-    now = Time.new
+    now = Time.zone.now
     currDate = now.strftime('%d.%m.%Y')
     @sum_players = FestivalApplication.current_festival.sum(:num_players)
 
     respond_to do |format|
-      @festival_applications = FestivalApplication.current_festival.where(permission: true).order(sort_column + ' ' + sort_direction).page(params[:page]).per(20)
+      @festival_applications = FestivalApplication.current_festival.where(permission: true).order("#{sort_column} #{sort_direction}").page(params[:page]).per(20)
 
       format.js
 
@@ -65,18 +65,18 @@ class FestivalApplicationsController < AuthenticatedController
       end
 
       format.ods do
-        @festival_applications = FestivalApplication.current_festival.where(permission: true).order(sort_column + ' ' + sort_direction)
+        @festival_applications = FestivalApplication.current_festival.where(permission: true).order("#{sort_column} #{sort_direction}")
         @sum_players = FestivalApplication.where(permission: true).sum(:num_players)
         renderApplicationOds(@festival_applications, '/tmp/festival_applications.ods')
         send_file('/tmp/festival_applications.ods',
-                  filename: 'festival_permissions_' + Time.now.year.to_s + '.ods', type: 'application/octet-stream')
+                  filename: "festival_permissions_#{Time.zone.now.year}.ods", type: 'application/octet-stream')
       end
     end
   end
 
   def list
     @festival_applications = FestivalApplication.current_festival.order(%i[group_type orch_name])
-    now = Time.new
+    now = Time.zone.now
     currDate = now.strftime('%d.%m.%Y')
 
     respond_to do |format|
@@ -89,17 +89,16 @@ class FestivalApplicationsController < AuthenticatedController
       format.ods do
         renderApplicationOds(@festival_applications, '/tmp/festival_applications.ods')
         send_file('/tmp/festival_applications.ods',
-                  filename: 'festival_applications_' + Time.now.year.to_s + '.ods', type: 'application/octet-stream')
+                  filename: "festival_applications_#{Time.zone.now.year}.ods", type: 'application/octet-stream')
       end
     end
   end
 
   def grp_list
-    @festival_applications = FestivalApplication.current_fetsival.where('visitor_type = ?',
-                                                                        params[:visitor_type]).order(%i[group_type
-                                                                                                        orch_name])
+    @festival_applications = FestivalApplication.current_fetsival.where(visitor_type: params[:visitor_type]).order(%i[group_type
+                                                                                                                      orch_name])
 
-    now = Time.new
+    now = Time.zone.now
     currDate = now.strftime('%d.%m.%Y')
 
     respond_to do |format|
@@ -112,7 +111,7 @@ class FestivalApplicationsController < AuthenticatedController
       format.ods do
         renderApplicationOds(@festival_applications, '/tmp/festival_applications.ods')
         send_file('/tmp/festival_applications.ods',
-                  filename: 'festival_applications_' + Time.now.year.to_s + '.ods', type: 'application/octet-stream')
+                  filename: "festival_applications_#{Time.zone.now.year}.ods", type: 'application/octet-stream')
       end
     end
   end
@@ -189,10 +188,10 @@ class FestivalApplicationsController < AuthenticatedController
 
     respond_to do |format|
       if @festival_application.update(festival_application_params)
-        format.html { 
-          redirect_to @festival_application, 
-          notice: t_update_success("festival_application") 
-        }
+        format.html do
+          redirect_to @festival_application,
+                      notice: t_update_success('festival_application')
+        end
         format.json { head :no_content }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -259,11 +258,11 @@ class FestivalApplicationsController < AuthenticatedController
 
           row do
             cell app.id
-            cell I18n.t('festival_application.group_types.' + app.group_type)
+            cell I18n.t("festival_application.group_types.#{app.group_type}")
             cell app.orch_name
             cell app.t_country
             cell app.num_players
-            cell I18n.t('common.salutations.' + app.contact_person.salutation, locale: grp_locale)
+            cell I18n.t("common.salutations.#{app.contact_person.salutation}", locale: grp_locale)
             cell app.contact_person.first_name
             cell app.contact_person.last_name
             cell app.contact_person.street
@@ -287,7 +286,7 @@ class FestivalApplicationsController < AuthenticatedController
   end
 
   def participant_overview
-    datePrefix = Time.now.strftime('%Y%m%d%H%M%S_')
+    datePrefix = Time.zone.now.strftime('%Y%m%d%H%M%S_')
 
     @participants = if params[:alpha]
                       FestivalApplication.where('permission = 1').order(:orch_name)
@@ -304,8 +303,8 @@ class FestivalApplicationsController < AuthenticatedController
     @festival_application = FestivalApplication.find_by token: params[:token]
     tw = CorikaInvoices::TexWriter.new(INVOICE_CONFIG)
 
-    Time.now.strftime('%Y%m%d%H%M%S_')
-    Time.now.year
+    Time.zone.now.strftime('%Y%m%d%H%M%S_')
+    Time.zone.now.year
     invoice = @festival_application.invoice
 
     invoice_file = invoice.gen_pdf(tw)

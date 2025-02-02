@@ -46,7 +46,7 @@ class GitTool
         commit[:date] = DateTime.parse(c.gsub(/^Date:\ +/, ''))
       else
         commit[:lines] = [] if commit[:lines].nil?
-        commit[:lines] << (c + "\n")
+        commit[:lines] << ("#{c}\n")
       end
     end
 

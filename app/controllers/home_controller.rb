@@ -82,13 +82,13 @@ class HomeController < AuthenticatedNonResourceController
   def export_view
     authorize! :member_account_booking, :show
 
-    prefix = Time.now.strftime('%Y%m%d') + '_'
+    prefix = "#{Time.zone.now.strftime('%Y%m%d')}_"
 
     view_suffix = params[:view]
 
     Rails.logger.info("Exporting view #{view_suffix}")
 
-    filename = prefix + view_suffix + '.ods'
+    filename = "#{prefix}#{view_suffix}.ods"
 
     data = GenericView.connection.select_all("SELECT * from public_#{view_suffix}")
 

@@ -60,7 +60,7 @@ class MemberAccountBookingsController < AuthenticatedController
       @member_entity = RegionalOrganization.find(params[:regional_organization_id])
     end
     @member = @member_entity.member
-    @booking = MemberAccountBooking.new(member: @member, booking_date: Time.now, booking_year: Time.now.year,
+    @booking = MemberAccountBooking.new(member: @member, booking_date: Time.zone.now, booking_year: Time.zone.now.year,
                                         booking_mode: 'M', booking_type: 'Z')
 
     @member_entity = @member.member_entity
@@ -141,14 +141,14 @@ class MemberAccountBookingsController < AuthenticatedController
         format.html do
           if @member_type == :orchestra
             redirect_to orchestra_member_account_bookings_path(member_entity),
-                        notice: t_update_success("member_account_booking")
+                        notice: t_update_success('member_account_booking')
 
           elsif @member_type == :person_member
             redirect_to person_member_member_account_bookings_path(member_entity),
-                        notice: t_update_success("member_account_booking")
+                        notice: t_update_success('member_account_booking')
           else
             redirect_to regional_organization_member_account_bookings_path(member_entity),
-                        notice: t_update_success("member_account_booking")
+                        notice: t_update_success('member_account_booking')
           end
         end
         format.json { head :ok }
@@ -180,7 +180,7 @@ class MemberAccountBookingsController < AuthenticatedController
   def download
     x_sendfile = false
     @booking = MemberAccountBooking.find(params[:id])
-    fullPath = INVOICE_CONFIG.archive_dir + '/' + String(@booking.booking_year) + '/' + @booking.filename
+    fullPath = "#{INVOICE_CONFIG.archive_dir}/#{String(@booking.booking_year)}/#{@booking.filename}"
     # send_file(fullPath, :filename => @booking.filename, :type => "application/pdf", :x_sendfile=>true)
     # send_file(fullPath, :filename => @booking.filename, :x_sendfile=>true,:type=>"application/octet-stream")
     send_file(fullPath, filename: @booking.filename, x_sendfile: x_sendfile, type: 'application/octet-stream')

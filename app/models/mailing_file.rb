@@ -18,7 +18,7 @@ class MailingFile
     self.orig_filename = orig_filename
 
     self.archive_folder = if archive_folder.nil?
-                            Time.now.year.to_s
+                            Time.zone.now.year.to_s
                           else
                             archive_folder.to_s
                           end

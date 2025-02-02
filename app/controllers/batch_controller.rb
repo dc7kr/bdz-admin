@@ -17,19 +17,19 @@ class BatchController < AuthenticatedController
     @count = { 'orch' => @orchestras.size, 'em' => @persons.size }
 
     txt = "Automatische Austritte:\n"
-    txt += @count['em'].to_s + " Einzelmitglieder:\n"
+    txt += "#{@count['em']} Einzelmitglieder:\n"
 
     @persons.each do |p|
-      txt += p.fullname + "\n"
-      Rails.logger.info('Austritt: ' + p.fullname)
+      txt += "#{p.fullname}\n"
+      Rails.logger.info("Austritt: #{p.fullname}")
       p.destroy
     end
 
-    txt += @count['orch'].to_s + " Orchester\n"
+    txt += "#{@count['orch']} Orchester\n"
 
     @orchestras.each do |o|
-      txt += o.orchName + "\n"
-      Rails.logger.info('Austritt: ' + o.orchName)
+      txt += "#{o.orchName}\n"
+      Rails.logger.info("Austritt: #{o.orchName}")
       o.destroy
     end
 

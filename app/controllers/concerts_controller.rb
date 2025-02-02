@@ -15,7 +15,7 @@ class ConcertsController < AuthorityController
 
   def publish
     @concert = Concert.find(params[:id])
-    @concert.confirmed = Time.now
+    @concert.confirmed = Time.zone.now
     @concert.visible = true
     @concert.save
 
@@ -33,7 +33,7 @@ class ConcertsController < AuthorityController
   end
 
   def public
-    @concerts = Concert.published.search(params[:search]).order(sort_column + ' ' + sort_direction).page(params[:page]).per(20)
+    @concerts = Concert.published.search(params[:search]).order("#{sort_column} #{sort_direction}").page(params[:page]).per(20)
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @concerts }
@@ -41,7 +41,7 @@ class ConcertsController < AuthorityController
   end
 
   def future
-    @concerts = Concert.future.search(params[:search]).order(sort_column + ' ' + sort_direction).page(params[:page]).per(20)
+    @concerts = Concert.future.search(params[:search]).order("#{sort_column} #{sort_direction}").page(params[:page]).per(20)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -50,7 +50,7 @@ class ConcertsController < AuthorityController
   end
 
   def inactive
-    @concerts = Concert.inactive.search(params[:search]).order(sort_column + ' ' + sort_direction).page(params[:page]).per(20)
+    @concerts = Concert.inactive.search(params[:search]).order("#{sort_column} #{sort_direction}").page(params[:page]).per(20)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -66,9 +66,9 @@ class ConcertsController < AuthorityController
     @festival_id = params[:event_id]
 
     @concerts = if @festival_id.nil?
-                  Concert.search(params[:search]).order(sort_column + ' ' + sort_direction).page(params[:page]).per(20)
+                  Concert.search(params[:search]).order("#{sort_column} #{sort_direction}").page(params[:page]).per(20)
                 else
-                  Concert.includes(:festival).search(params[:search]).order(sort_column + ' ' + sort_direction).page(params[:page]).per(20)
+                  Concert.includes(:festival).search(params[:search]).order("#{sort_column} #{sort_direction}").page(params[:page]).per(20)
                 end
 
     respond_to do |format|
@@ -114,7 +114,7 @@ class ConcertsController < AuthorityController
   # POST /concerts.json
   def create
     @concert = Concert.new(concert_params)
-    @concert.reported = Time.new
+    @concert.reported = Time.zone.now
     @concert.uid = UUID.new.generate
 
     respond_to do |format|

@@ -13,8 +13,8 @@ class RegionalOrganizationReportsController < AuthorityController
     lv = RegionalOrganization.find(params[:regional_organization_id])
     @regional_organization = lv
 
-    current_year = Time.now.year
-    orchestras = Orchestra.includes(:member).where('members.regional_organization_id = ?', lv.id).order('members.mglnr')
+    current_year = Time.zone.now.year
+    orchestras = Orchestra.includes(:member).where(members: { regional_organization_id: lv.id }).order('members.mglnr')
 
     tmpname = "/tmp/lv#{lv.id}.ods"
     RODF::Spreadsheet.file(tmpname) do
@@ -83,13 +83,12 @@ class RegionalOrganizationReportsController < AuthorityController
     @regional_organization = RegionalOrganization.find(params[:regional_organization_id])
     authorize_action_for @regional_organization
 
-    @orchestras = Orchestra.includes(:member).where('members.regional_organization_id = ?',
-                                                    params[:regional_organization_id]).order('members.mglnr')
+    @orchestras = Orchestra.includes(:member).where(members: { regional_organization_id: params[:regional_organization_id] }).order('members.mglnr')
     respond_to do |format|
       format.ods do
-        filename = 'orch_lv' + @regional_organization.nummer.to_s + '_' + Time.now.year.to_s + '.ods'
-        renderOrchOds('/tmp/' + filename, @orchestras)
-        send_file('/tmp/' + filename, filename: filename, type: 'application/octet-stream')
+        filename = "orch_lv#{@regional_organization.nummer}_#{Time.zone.now.year}.ods"
+        renderOrchOds("/tmp/#{filename}", @orchestras)
+        send_file("/tmp/#{filename}", filename: filename, type: 'application/octet-stream')
       end
     end
   end
@@ -98,13 +97,12 @@ class RegionalOrganizationReportsController < AuthorityController
     @regional_organization = RegionalOrganization.find(params[:regional_organization_id])
     authorize_action_for @regional_organization
 
-    @person_members = PersonMember.includes(:member).where('members.regional_organization_id = ?',
-                                                           params[:regional_organization_id]).order('members.mglnr')
+    @person_members = PersonMember.includes(:member).where(members: { regional_organization_id: params[:regional_organization_id] }).order('members.mglnr')
     respond_to do |format|
       format.ods do
-        filename = 'em_lv' + @regional_organization.nummer.to_s + '_' + Time.now.year.to_s + '.ods'
-        render_person_members_ods('/tmp/' + filename, @person_members)
-        send_file('/tmp/' + filename, filename: filename, type: 'application/octet-stream')
+        filename = "em_lv#{@regional_organization.nummer}_#{Time.zone.now.year}.ods"
+        render_person_members_ods("/tmp/#{filename}", @person_members)
+        send_file("/tmp/#{filename}", filename: filename, type: 'application/octet-stream')
       end
     end
   end
@@ -113,7 +111,7 @@ class RegionalOrganizationReportsController < AuthorityController
     @year = params[:year]
 
     if @year.nil?
-      @year = Time.now.year
+      @year = Time.zone.now.year
       Rails.logger.debug('Year is nil!')
     end
 
@@ -126,8 +124,7 @@ class RegionalOrganizationReportsController < AuthorityController
     @personSum = 0
     @orchestras = Orchestra.includes(%i[member report_sheets]).where('members.regional_organization_id =?',
                                                                      params[:regional_organization_id]).order('members.mglnr')
-    @person_members = PersonMember.includes(:member, :tariff).where('members.regional_organization_id = ?',
-                                                                    params[:regional_organization_id]).order('members.mglnr')
+    @person_members = PersonMember.includes(:member, :tariff).where(members: { regional_organization_id: params[:regional_organization_id] }).order('members.mglnr')
 
     @ensembles = []
 
@@ -204,8 +201,7 @@ class RegionalOrganizationReportsController < AuthorityController
     @personSum = 0
     @orchestras = Orchestra.includes(%i[member report_sheets]).where('members.regional_organization_id =?',
                                                                      params[:regional_organization_id]).order('members.mglnr')
-    @person_members = PersonMember.includes(:member, :tariff).where('members.regional_organization_id = ?',
-                                                                    params[:regional_organization_id]).order('members.mglnr')
+    @person_members = PersonMember.includes(:member, :tariff).where(members: { regional_organization_id: params[:regional_organization_id] }).order('members.mglnr')
 
     respond_to do |format|
       format.pdf do
@@ -237,10 +233,10 @@ class RegionalOrganizationReportsController < AuthorityController
     authorize_action_for @regional_organization
     @year = params[:year]
 
-    @year = Time.now.year if @year.nil?
+    @year = Time.zone.now.year if @year.nil?
 
     @before = if params[:before].nil?
-                Time.new
+                Time.zone.now
               else
                 Date.strptime(params[:before], '%d.%m.%Y')
               end

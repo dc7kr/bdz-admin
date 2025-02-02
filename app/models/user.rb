@@ -1,5 +1,3 @@
-require 'set'
-
 class User < ApplicationRecord
   rolify
 
@@ -32,7 +30,7 @@ class User < ApplicationRecord
 
   def self.find_first_by_auth_conditions(warden_conditions)
     conditions = warden_conditions.dup
-    if login = conditions.delete(:login)
+    if (login = conditions.delete(:login))
       where(conditions).where(['lower(username) = :value OR lower(email) = :value', { value: login.downcase }]).first
     else
       where(conditions).first
@@ -123,9 +121,10 @@ class User < ApplicationRecord
   end
 
   def self.gen_api_token
-    begin
+    loop do
       token = SecureRandom.hex
-    end while User.exists?(authentication_token: token)
+      break unless User.exists?(authentication_token: token)
+    end
 
     token
   end
@@ -150,8 +149,9 @@ class User < ApplicationRecord
   private
 
   def generate_api_token
-    begin
+    loop do
       self.authentication_token = SecureRandom.hex
-    end while self.class.exists?(authentication_token: authentication_token)
+      break unless self.class.exists?(authentication_token: authentication_token)
+    end
   end
 end

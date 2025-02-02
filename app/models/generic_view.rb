@@ -1,4 +1,4 @@
-class GenericView < ActiveRecord::Base
+class GenericView < ApplicationRecord
   def self.public_views
     all = GenericView.connection.views
 

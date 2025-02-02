@@ -296,7 +296,7 @@ Rails.application.routes.draw do
       get 'not_final'
       get 'analysis'
     end
-    member do 
+    member do
       get 'gen_pdf'
     end
   end
@@ -506,7 +506,7 @@ Rails.application.routes.draw do
 
     resources :regional_organizations, as: 'lv' do
     end
-  end # END NAMESPACE PUBLIC
+  end
 
   # MAGAZINE
   namespace :magazine do

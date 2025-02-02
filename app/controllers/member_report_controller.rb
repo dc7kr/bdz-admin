@@ -3,7 +3,7 @@ class MemberReportController < AuthenticatedNonResourceController
     authorize! :member, :edit
     @sums = ReportSheet.select('year, count(*) as anzahl, sum(report_sheets.children) as sum_children , sum(report_sheets.teens) as sum_teens, sum(report_sheets.youth) as sum_youth ,sum(report_sheets.adult) as sum_adult, sum(report_sheets.senior) as sum_senior , sum(report_sheets.azubi) as sum_azubi, sum(report_sheets.passive) as sum_passive, sum(child_ens) as sum_child_ens, sum(youth_ens) as sum_youth_ens, sum(adult_ens) as sum_adult_ens, sum(senior_ens) as sum_senior_ens, sum(chamber_ens) as sum_chamber_ens, sum(other_ens) as sum_other_ens').group(:year).order(:year)
 
-    @em_count = PersonMember.all.count
+    @em_count = PersonMember.count
 
     sheets = ReportSheet.includes(:orchestra).group(:year).order(:year)
 
@@ -55,7 +55,7 @@ class MemberReportController < AuthenticatedNonResourceController
   def by_lv
     authorize! :member, :edit
     if params[:year].nil?
-      Time.now.year.to_s
+      Time.zone.now.year.to_s
     else
       params[:year]
     end
@@ -69,7 +69,7 @@ class MemberReportController < AuthenticatedNonResourceController
 
   def report_sheet_stats
     authorize! :member, :edit
-    sheets = ReportSheet.final(Time.now.year).includes(:orchestra)
+    sheets = ReportSheet.final(Time.zone.now.year).includes(:orchestra)
 
     @maxTariff = 0
     @minTariff = 0

@@ -4,7 +4,7 @@ class MagazineAdvert < ApplicationRecord
 
   def gen_invoice
     invoice = CorikaInvoices::Invoice.new
-    Time.now
+    Time.zone.now
     invoice.number = invoice_number
     invoice.invoice_type = 'werberechnung'
 

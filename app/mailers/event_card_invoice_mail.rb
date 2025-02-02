@@ -1,4 +1,4 @@
-class EventCardInvoiceMail < ApplicationMailer
+class EventCardInvoiceMailMailer < ApplicationMailer
   def notify(recipient, personalized_file, _attachment_file, params)
     subject = params[:subject]
 

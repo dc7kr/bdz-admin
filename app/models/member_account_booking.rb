@@ -7,21 +7,21 @@ class MemberAccountBooking < ApplicationRecord
   end
 
   def has_attachment?
-    !filename.nil? and filename.length > 0
+    !filename.nil? and filename.length.positive?
   end
 
   def self.genericType(txt, prefix, type, amount, mglnrStr)
     @booking = MemberAccountBooking.new
-    @booking.booking_date = Time.now
-    @booking.booking_year = Time.now.year
+    @booking.booking_date = Time.zone.now
+    @booking.booking_year = Time.zone.now.year
     @booking.booking_txt = txt
     @booking.booking_mode = 'A'
     @booking.booking_type = type
     @booking.amount = amount
 
-    @dateprefix = Time.now.strftime '%Y%m%d'
+    @dateprefix = Time.zone.now.strftime '%Y%m%d'
 
-    @booking.filename = @dateprefix + '-' + prefix + mglnrStr + '.pdf'
+    @booking.filename = "#{@dateprefix}-#{prefix}#{mglnrStr}.pdf"
 
     @booking
   end
@@ -40,8 +40,8 @@ class MemberAccountBooking < ApplicationRecord
 
   def self.newWithdrawal(txt, amount, filename = nil)
     booking = MemberAccountBooking.new
-    booking.booking_date = Time.now
-    booking.booking_year = Time.now.year
+    booking.booking_date = Time.zone.now
+    booking.booking_year = Time.zone.now.year
     booking.booking_txt = txt
     booking.booking_mode = 'A'
     booking.booking_type = 'L'
@@ -53,8 +53,8 @@ class MemberAccountBooking < ApplicationRecord
 
   def self.newCreditTransfer(txt, amount)
     booking = MemberAccountBooking.new
-    booking.booking_date = Time.now
-    booking.booking_year = Time.now.year
+    booking.booking_date = Time.zone.now
+    booking.booking_year = Time.zone.now.year
     booking.booking_txt = txt
     booking.booking_mode = 'A'
     booking.booking_type = 'G'
@@ -74,7 +74,7 @@ class MemberAccountBooking < ApplicationRecord
     accounts = if year.nil?
                  MemberAccountBooking.group(:member_id).sum(:amount)
                else
-                 MemberAccountBooking.where('booking_year < ?', year).group(:member_id).sum(:amount)
+                 MemberAccountBooking.where(booking_year: ...year).group(:member_id).sum(:amount)
                end
 
     ids = Set.new
@@ -89,17 +89,17 @@ class MemberAccountBooking < ApplicationRecord
     accounts = if year.nil?
                  MemberAccountBooking.group(:member_id).sum(:amount)
                else
-                 MemberAccountBooking.where('booking_year < ?', year).group(:member_id).sum(:amount)
+                 MemberAccountBooking.where(booking_year: ...year).group(:member_id).sum(:amount)
                end
 
     ids = Set.new
     lv_ids = nil
 
-    lv_ids = Member.where('regional_organization_id = ?', lv.id).map { |pm| pm.id } unless lv.nil?
+    lv_ids = Member.where(regional_organization_id: lv.id).map(&:id) unless lv.nil?
     accounts.each do |account|
       next unless account[1].round(2) < -0.1
 
-      ids.add(account[0]) if lv_ids.nil? or lv_ids.include? account[0]
+      ids.add(account[0]) if lv_ids.nil? || lv_ids.include?(account[0])
 
       Rails.logger.debug { "Amount: #{account[1].round(2)} ID: #{account[0]}" }
     end

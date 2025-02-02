@@ -4,6 +4,6 @@ class Homepage < ApplicationRecord
   def member_exists?
     member = Member.where(mglnr: mitglnr)
 
-    member.count > 0
+    member.count.positive?
   end
 end

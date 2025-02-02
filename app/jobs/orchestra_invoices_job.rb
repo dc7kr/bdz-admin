@@ -13,14 +13,13 @@ class OrchestraInvoicesJob < BaseInvoicesJob
   # sidekiq_options queue: "high"
   # sidekiq_options retry: false
 
-  def perform(year = Time.now.year, user_id = nil)
-
+  def perform(year = Time.zone.now.year, user_id = nil)
     init_fields(year, user_id)
     letters = []
 
     @orchestras = Orchestra.notinvoiced(year)
 
-    if @orchestras.length == 0
+    if @orchestras.empty?
       logger.info('No pending invoices. OrchestraInvoiceJob done,')
       return
     end
@@ -39,7 +38,7 @@ class OrchestraInvoicesJob < BaseInvoicesJob
         next
       end
 
-      Rails.logger.debug("Generate invoice for: #{mglnr}")
+      Rails.logger.debug { "Generate invoice for: #{mglnr}" }
       invoice_file = orchestra_invoice(orch, year)
 
       if invoice_file.nil?
@@ -56,19 +55,18 @@ class OrchestraInvoicesJob < BaseInvoicesJob
 
     pdf_merged_file = nil
 
-    if letters.size > 0
+    if letters.size.positive?
       pdf_filename = "#{date_prefix}-orch-beitragsrechnungen.pdf"
 
       pdf_merged_file = MailingFile.new(pdf_filename, pdf_filename, year.to_s)
-      self.archive_tool.merge_pdfs(letters, pdf_merged_file)
+      archive_tool.merge_pdfs(letters, pdf_merged_file)
     end
 
-
-    if delivered > 0  
-      ddFile = self.sepa_writer.generate_file
+    if delivered.positive?
+      ddFile = sepa_writer.generate_file
       send_mail(ddFile, pdf_merged_file)
-    else 
-      logger.info("No invoices delivered. Not sending notify")
+    else
+      logger.info('No invoices delivered. Not sending notify')
     end
   end
 
@@ -80,13 +78,13 @@ class OrchestraInvoicesJob < BaseInvoicesJob
     invoice.generator_session_id = generator_session_id
     invoice.save
 
-    invoice_file = invoice.gen_pdf(self.tex_writer)
+    invoice_file = invoice.gen_pdf(tex_writer)
 
     return nil if invoice_file.nil?
 
-    booking_txt = 'Beitrag ' + String(year)
+    booking_txt = "Beitrag #{String(year)}"
     orch.member.create_invoice_booking(year, invoice, invoice_file.orig_filename, booking_txt)
-    orch.member.create_dd_booking(self.sepa_writer, invoice, year)
+    orch.member.create_dd_booking(sepa_writer, invoice, year)
 
     invoice_file
   end

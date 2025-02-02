@@ -26,6 +26,6 @@ class SepaDirectDebit < SepaContactFacade
   end
 
   def end_to_end_id(prefix)
-    prefix + '_' + @customer.id.to_s
+    "#{prefix}_#{@customer.id}"
   end
 end

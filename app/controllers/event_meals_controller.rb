@@ -9,9 +9,9 @@ class EventMealsController < AuthenticatedController
       format.html # index.html.erb
       format.json { render json: @event_meals }
       format.ods do
-        prefix = Time.new.strftime('%Y%m%d%H%M_')
+        prefix = Time.zone.now.strftime('%Y%m%d%H%M_')
         renderOds(@event_meals, '/tmp/event_meals.ods')
-        send_file('/tmp/event_meals.ods', filename: prefix + 'event_meals.ods', type: 'application/octet-stream')
+        send_file('/tmp/event_meals.ods', filename: "#{prefix}event_meals.ods", type: 'application/octet-stream')
       end
     end
   end
@@ -73,7 +73,7 @@ class EventMealsController < AuthenticatedController
   # POST /event_meals.json
   def create
     @event_meal = EventMeal.new(event_meal_params)
-    @event_meal.orderdate = Time.now
+    @event_meal.orderdate = Time.zone.now
 
     respond_to do |format|
       if @event_meal.save

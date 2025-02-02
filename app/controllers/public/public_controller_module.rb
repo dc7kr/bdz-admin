@@ -1,12 +1,14 @@
-module Public::PublicControllerModule
-  # GET /concerts
-  # GET /concerts.json
+module Public
+  module PublicControllerModule
+    # GET /concerts
+    # GET /concerts.json
 
-  include ApplicationHelper
+    include ApplicationHelper
 
-  protected
+    protected
 
-  def noAuthActions
-    %w[index show]
+    def noAuthActions
+      %w[index show]
+    end
   end
 end

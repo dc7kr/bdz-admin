@@ -2,9 +2,7 @@ class ReportSheetInput < ApplicationRecord
   belongs_to :report_sheet
   belongs_to :orchestra
 
-  validates :report_sheet, presence: true
-
-  scope :not_final, -> { includes(:report_sheet).where('report_sheets.orchestra_id is null') }
+  scope :not_final, -> { includes(:report_sheet).where(report_sheets: { orchestra_id: nil }) }
 
   def self.new_for_orchestra(orchestra, year)
     @report_sheet_input = ReportSheetInput.new
@@ -28,7 +26,7 @@ class ReportSheetInput < ApplicationRecord
   end
 
   def self.for_year(year)
-    includes(:report_sheet, :orchestra).where('report_sheets.year = :year', year: year).first
+    includes(:report_sheet, :orchestra).where(report_sheets: { year: year }).first
   end
 
   def self.for_orchestra_and_year(orchestra, year)

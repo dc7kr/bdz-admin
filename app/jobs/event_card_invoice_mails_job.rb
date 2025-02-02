@@ -10,7 +10,7 @@ class EventCardInvoiceMailsJob < BaseInvoicesJob
     successCount = 0
     failCount = 0
 
-    cur_year = Time.now.year
+    cur_year = Time.zone.now.year
 
     init_fields(cur_year, user_id)
 
@@ -20,7 +20,7 @@ class EventCardInvoiceMailsJob < BaseInvoicesJob
 
     letterArray = []
 
-    prefix = Time.now.strftime('%Y%m%d%H%M%S_')
+    prefix = Time.zone.now.strftime('%Y%m%d%H%M%S_')
 
     reservations = EventCard.not_invoiced
 
@@ -42,7 +42,7 @@ class EventCardInvoiceMailsJob < BaseInvoicesJob
           locale = :de
         end
 
-        work_pdf_file = self.tex_writer.gen_pdf(inv_type, prefix, invoice.customer.id)
+        work_pdf_file = tex_writer.gen_pdf(inv_type, prefix, invoice.customer.id)
 
         workdir = INVOICE_CONFIG.work_dir
         invoice_file = fa.archive_file(workdir, work_pdf_file, cur_year)

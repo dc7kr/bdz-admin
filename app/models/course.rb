@@ -15,12 +15,12 @@ class Course < ApplicationRecord
   end
 
   def datum_formatted=(value)
-    self.datum = Time.parse(value)
+    self.datum = Time.zone.parse(value)
   end
 
   def self.search(search)
     if search
-      where('titel like ? or ort like ?', "#{search}", "#{search}")
+      where('titel like ? or ort like ?', search.to_s, search.to_s)
     else
       where(1)
     end
@@ -28,7 +28,7 @@ class Course < ApplicationRecord
 
   def self.searchByDate(search)
     if search
-      where('concerts.date = ? ', "#{search}")
+      where('concerts.date = ? ', search.to_s)
     else
       where(1)
     end

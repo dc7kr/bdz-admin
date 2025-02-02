@@ -4,7 +4,7 @@ class HonorMembersController < AuthenticatedController
   # GET /honor_members
   # GET /honor_members.json
   def index
-    @honor_members = HonorMember.all.order(sort_column + ' ' + sort_direction)
+    @honor_members = HonorMember.order("#{sort_column} #{sort_direction}")
 
     respond_to do |format|
       format.html # index.html.erb

@@ -6,7 +6,7 @@ class RegionalOrganizationFeeSharePdf < Prawn::Document
     @orchestras = orchestras
     @person_members = person_members
     @view = view
-    @cur_year = Time.now.year
+    @cur_year = Time.zone.now.year
 
     font_dir = '/usr/share/fonts/truetype/liberation'
     font_families.update('LiberationSans' => {
@@ -112,7 +112,7 @@ class RegionalOrganizationFeeSharePdf < Prawn::Document
   def mglnr(member)
     str = member.mglnr.to_s
 
-    if member.eintritt and member.eintritt.year == @cur_year
+    if member.eintritt && (member.eintritt.year == @cur_year)
       str += ' (N)'
     elsif !member.austritt_zum.nil?
       str += ' (A)'

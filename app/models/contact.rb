@@ -9,12 +9,12 @@ class Contact < ApplicationRecord
   belongs_to :contact_entity, polymorphic: true
 
   def to_s
-    first_name + ' ' + last_name
+    "#{first_name} #{last_name}"
   end
 
   def fullname
     result = ''
-    result = result + first_name + ' ' if first_name
+    result = "#{result}#{first_name} " if first_name
     result += last_name if last_name
     result
   end
@@ -46,10 +46,10 @@ class Contact < ApplicationRecord
 
   def one_line_addr
     components = []
-    components << company unless company.nil? or company.empty?
-    components << fullname unless fullname.nil? or fullname.empty?
+    components << company if company.present?
+    components << fullname if fullname.present?
     components << street
-    components << (zip + ' ' + city)
+    components << ("#{zip} #{city}")
 
     components.join(', ')
   end

@@ -18,7 +18,7 @@ class LetterFileRegenerationJob < ApplicationJob
     end
 
     Tempfile.new(event)
-    tmp = MailingFile.new(event + '_regeneration.pdf', event + '_regeneration.pdf')
+    tmp = MailingFile.new("#{event}_regeneration.pdf", "#{event}_regeneration.pdf")
 
     fa.merge_pdfs(pdf_files, tmp)
 

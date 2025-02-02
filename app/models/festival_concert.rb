@@ -6,6 +6,6 @@ class FestivalConcert < ApplicationRecord
   has_many :festival_applications
 
   def label
-    I18n.t('common.number') + ' ' + number.to_s + ' ' + title
+    "#{I18n.t('common.number')} #{number} #{title}"
   end
 end

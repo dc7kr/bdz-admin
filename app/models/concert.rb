@@ -8,10 +8,10 @@ class Concert < ApplicationRecord
   validates :uid, uniqueness: true
 
   def self.future
-    where('concert_date >= ?', Time.now).order(:concert_date)
+    where(concert_date: Time.zone.now..).order(:concert_date)
   end
 
-  scope :published, -> { where('visible=1 and concert_date >= ?', Time.now).order(:concert_date) }
+  scope :published, -> { where('visible=1 and concert_date >= ?', Time.zone.now).order(:concert_date) }
   scope :inactive, -> { where('visible=0') }
   # scope :future, -> { where('concert_date >= ?', Time.now) }
 
@@ -25,12 +25,12 @@ class Concert < ApplicationRecord
   end
 
   def datum_formatted=(value)
-    self.datum = Time.parse(value)
+    self.datum = Time.zone.parse(value)
   end
 
   def self.search(search)
     if search
-      where('concerts.titel like ? or concerts.ort like ?', "#{search}", "#{search}")
+      where('concerts.titel like ? or concerts.ort like ?', search.to_s, search.to_s)
     else
       where(1)
     end
@@ -38,7 +38,7 @@ class Concert < ApplicationRecord
 
   def self.searchByDate(search)
     if search
-      where('concerts.date = ? ', "#{search}")
+      where('concerts.date = ? ', search.to_s)
     else
       where(1)
     end

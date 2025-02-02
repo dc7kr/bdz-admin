@@ -13,8 +13,8 @@ class CompanyPaperDocument < Prawn::Document
 
     font_families.update(
       'MyFont' => {
-        normal: BDZ_SETTINGS['fonts']['dir'] + '/' + BDZ_SETTINGS['fonts']['normal'],
-        bold: BDZ_SETTINGS['fonts']['dir'] + '/' + BDZ_SETTINGS['fonts']['bold']
+        normal: "#{BDZ_SETTINGS['fonts']['dir']}/#{BDZ_SETTINGS['fonts']['normal']}",
+        bold: "#{BDZ_SETTINGS['fonts']['dir']}/#{BDZ_SETTINGS['fonts']['bold']}"
       }
     )
     font 'MyFont', size: 10
@@ -25,7 +25,7 @@ class CompanyPaperDocument < Prawn::Document
   end
 
   def print_date(city, date)
-    datestr = city + ', ' + I18n.l(date, format: :date_only)
+    datestr = "#{city}, #{I18n.l(date, format: :date_only)}"
     text_box datestr, at: @datepos, width: 130
   end
 
@@ -38,7 +38,7 @@ class CompanyPaperDocument < Prawn::Document
     rowpos -= @addr_rowskip
     text_box addressee.street, at: [xpos, rowpos]
     rowpos -= @addr_rowskip
-    text_box addressee.zip + ' ' + addressee.city, at: [xpos, rowpos]
+    text_box "#{addressee.zip} #{addressee.city}", at: [xpos, rowpos]
     rowpos -= @addr_rowskip
     rowpos -= @addr_rowskip
     return unless addressee.country_code != 'DE'

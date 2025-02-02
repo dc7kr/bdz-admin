@@ -1,4 +1,4 @@
-class FestivalMail < ApplicationMailer
+class FestivalMailMailer < ApplicationMailer
   default from: 'info@eurofestival-zupfmusik.de'
 
   def notify(recipient, personalized_file, attachment_file, params)

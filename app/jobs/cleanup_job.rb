@@ -32,7 +32,7 @@ class CleanupJob < ApplicationJob
       Rails.logger.debug { "Resigned: #{p.member.mglnr}" }
     end
 
-    return unless resigned_persons.length > 0 or resigned_orchestras.length > 0
+    return unless resigned_persons.length.positive? || resigned_orchestras.length.positive?
 
     send_mail(resigned_persons, resigned_orchestras)
   end

@@ -13,7 +13,7 @@ module CountryHelper
   end
 
   def translated_state(ccode, state, _locale = 'de')
-    return '' if state.nil? or ccode.nil?
+    return '' if state.nil? || ccode.nil?
 
     ctry = ISO3166::Country[ccode]
 

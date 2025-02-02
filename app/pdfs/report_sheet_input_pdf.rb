@@ -4,10 +4,10 @@ class ReportSheetInputPdf < Prawn::Document
   def initialize(entity, view)
     super(top_margin: 70)
 
-    if entity.is_a? ReportSheet 
+    if entity.is_a? ReportSheet
       @rs = entity
       @orchestra = @rs.orchestra
-    else 
+    else
       @rs = entity.report_sheet
       @orchestra = entity.orchestra
     end
@@ -39,9 +39,9 @@ class ReportSheetInputPdf < Prawn::Document
     rows = [
       [t_label('orchestra.orchName'), @orchestra.orchName],
       [I18n.t('common.fullname'),
-       I18n.t('common.salutations.' + member.anrede) + ' ' + member.vorname + ' ' + member.name],
+       "#{I18n.t("common.salutations.#{member.anrede}")} #{member.vorname} #{member.name}"],
       [t_label('member.street'),	member.strasse],
-      [t_label('member.city'),	member.plz + ' ' + member.ort],
+      [t_label('member.city'),	"#{member.plz} #{member.ort}"],
       [t_label('member.phone'), member.telefon],
       [t_label('member.fax'), member.fax],
       [t_label('member.email'), member.email]
@@ -79,8 +79,8 @@ class ReportSheetInputPdf < Prawn::Document
 
     OrchestraContact.roles.map do |r|
       unless @contacts[r].nil?
-        contact_rows << [I18n.t('orchestra_contact.role_' + r),
-                         @contacts[r].first_name + ' ' + @contacts[r].last_name + ', ' + @contacts[r].street + ', ' + @contacts[r].zip + ' ' + @contacts[r].city, @contacts[r].phone, @contacts[r].email]
+        contact_rows << [I18n.t("orchestra_contact.role_#{r}"),
+                         "#{@contacts[r].first_name} #{@contacts[r].last_name}, #{@contacts[r].street}, #{@contacts[r].zip} #{@contacts[r].city}", @contacts[r].phone, @contacts[r].email]
       end
     end
 
@@ -131,7 +131,7 @@ class ReportSheetInputPdf < Prawn::Document
   def orch_member_rows
     [[I18n.t('common.fullname'), t_label('orchestra_member.year_of_birth'), t_label('orchestra_member.instrument')]] +
       @orchestra.orchestra_members.map do |m|
-        [m.first_name + ' ' + m.last_name, m.year_of_birth, m.instrument]
+        ["#{m.first_name} #{m.last_name}", m.year_of_birth, m.instrument]
       end
   end
 
@@ -199,18 +199,17 @@ class ReportSheetInputPdf < Prawn::Document
       columns(1).align = :left
     end
 
-    if not @rs.ms_total.nil? and @rs.ms_total > 0 
-      move_down 20
-      text '6. Musikschulen', style: :bold, size: 20
-      rows = [
-        [t_label('report_sheet.ms_total'), @rs.ms_total]
-      ]
-      table rows do
-        columns(0).align = :right
-        columns(1).align = :left
-      end
-    end
+    return unless !@rs.ms_total.nil? && @rs.ms_total.positive?
 
+    move_down 20
+    text '6. Musikschulen', style: :bold, size: 20
+    rows = [
+      [t_label('report_sheet.ms_total'), @rs.ms_total]
+    ]
+    table rows do
+      columns(0).align = :right
+      columns(1).align = :left
+    end
   end
 
   def price(num)

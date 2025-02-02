@@ -54,7 +54,7 @@ class FestivalPiecesController < AuthenticatedController
     @festival_application.festival_pieces << @festival_piece
     @festival_piece.save
 
-    logger.debug('New piece: ' + @festival_piece.id.to_s)
+    logger.debug("New piece: #{@festival_piece.id}")
 
     respond_with @festival_piece, location: festival_application_festival_pieces_url(@festival_application)
   end
@@ -69,7 +69,7 @@ class FestivalPiecesController < AuthenticatedController
       if @festival_piece.update(festival_piece_params)
         format.html do
           redirect_to festival_application_festival_piece_url(@festival_application, @festival_piece),
-                        notice: t_update_success("festival_piece")
+                      notice: t_update_success('festival_piece')
         end
         format.json { head :no_content }
       else

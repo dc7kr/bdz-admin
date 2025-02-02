@@ -48,10 +48,10 @@ class StatesController < AuthenticatedController
 
     respond_to do |format|
       if @state.save
-        format.html { 
-          redirect_to @state, 
-          notice: t_update_success("state")
-        }
+        format.html do
+          redirect_to @state,
+                      notice: t_update_success('state')
+        end
         format.json { render json: @state, status: :created, location: @state }
       else
         format.html { render :new, status: :unprocessable_entity }

@@ -17,7 +17,7 @@ class ParticipantOverviewPdf < Prawn::Document
 
     retval = ''
     invoice.items.each do |item|
-      count += item.count if item.price > 0
+      count += item.count if item.price.positive?
       retval += "#{item.count} #{item.label}\n"
     end
     retval += "GESAMT: #{count}"
@@ -54,6 +54,6 @@ class ParticipantOverviewPdf < Prawn::Document
 
   def heading
     text 'Festival-Teilnehmer', size: 30, style: :bold
-    text "Stand: #{Time.now.strftime '%d.%m.%Y %H:%M Uhr'}", size: 20
+    text "Stand: #{Time.zone.now.strftime '%d.%m.%Y %H:%M Uhr'}", size: 20
   end
 end

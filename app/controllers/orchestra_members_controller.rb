@@ -10,20 +10,20 @@ class OrchestraMembersController < AuthenticatedController
 
     unless params[:orchestra_id].nil?
       @orchestra = Orchestra.find(params[:orchestra_id])
-      @orchestra_members = @orchestra_members.where('orchestra_id = ?', params[:orchestra_id])
+      @orchestra_members = @orchestra_members.where(orchestra_id: params[:orchestra_id])
     end
 
     respond_to do |format|
       format.html do
-        @orchestra_members = @orchestra_members.order(sort_column + ' ' + sort_direction).page(params[:page]).per(20)
+        @orchestra_members = @orchestra_members.order("#{sort_column} #{sort_direction}").page(params[:page]).per(20)
       end
 
       format.json do
-        @orchestra_members = @orchestra_members.order(sort_column + ' ' + sort_direction).page(params[:page]).per(20)
+        @orchestra_members = @orchestra_members.order("#{sort_column} #{sort_direction}").page(params[:page]).per(20)
         render json: @orchestra_members
       end
       format.js do
-        @orchestra_members = @orchestra_members.order(sort_column + ' ' + sort_direction).page(params[:page]).per(20)
+        @orchestra_members = @orchestra_members.order("#{sort_column} #{sort_direction}").page(params[:page]).per(20)
       end
       format.ods do
         @orchestra_members = @orchestra_members.order(:last_name, :first_name)
@@ -59,8 +59,8 @@ class OrchestraMembersController < AuthenticatedController
   end
 
   def search
-    @orchestra_members = OrchestraMember.where('first_name like ? and last_name like ?', params[:first_name] + '%',
-                                               params[:last_name] + '%')
+    @orchestra_members = OrchestraMember.where('first_name like ? and last_name like ?', "#{params[:first_name]}%",
+                                               "#{params[:last_name]}%")
   end
 
   # GET /orchestra_members/new
@@ -112,8 +112,8 @@ class OrchestraMembersController < AuthenticatedController
     respond_to do |format|
       if @orchestra_member.update(orchestra_member_params)
         format.html do
-          redirect_to session.delete(:return_to), 
-              notice: t_update_success("orchestra_member")
+          redirect_to session.delete(:return_to),
+                      notice: t_update_success('orchestra_member')
         end
         format.json { head :no_content }
       else
@@ -158,7 +158,7 @@ class OrchestraMembersController < AuthenticatedController
 
     @result = @orchestra.check_double
 
-    return unless !@current_report_sheet.nil? and @result[:verified].count != @current_report_sheet.azubi
+    return unless !@current_report_sheet.nil? && (@result[:verified].count != @current_report_sheet.azubi)
 
     @needs_update = true
   end
@@ -181,7 +181,7 @@ class OrchestraMembersController < AuthenticatedController
     @orchestra = Orchestra.find(params[:orchestra_id])
     datafile = params[:datafile]
 
-    prefix = @orchestra.member.mglnr.to_s + '_' + Time.now.year.to_s + '_'
+    prefix = "#{@orchestra.member.mglnr}_#{Time.zone.now.year}_"
 
     if datafile.nil?
       redirect_to orchestra_orchestra_members_upload_path(@orchestra),
@@ -200,7 +200,7 @@ class OrchestraMembersController < AuthenticatedController
       redirect_to orchestra_orchestra_members_path(@orchestra), flash: { error: t('upload.invalid_upload') }
     else
       read_report(doc, @orchestra)
-      if @error_count > 0
+      if @error_count.positive?
         redirect_to orchestra_orchestra_members_path(@orchestra),
                     flash: { warning: t('orchestra.report_sheet_upload_warning', error: @error_count,
                                                                                  success: @success_count) }

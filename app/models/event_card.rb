@@ -21,62 +21,62 @@ class EventCard < ApplicationRecord
     ordered = []
     prices = BDZ_SETTINGS['festival_prices']
 
-    if nr_fest > 0
+    if nr_fest.positive?
       c = OrderedCard.new(nr_fest, prices['fest'], 'fest')
       ordered << c
     end
 
-    if nr_fest_erm > 0
+    if nr_fest_erm.positive?
       c = OrderedCard.new(nr_fest_erm, prices['fest_erm'], 'fest_erm')
       ordered << c
     end
 
-    if nr_fest_bdz > 0
+    if nr_fest_bdz.positive?
       c = OrderedCard.new(nr_fest_bdz, prices['fest_bdz'], 'fest_bdz')
       ordered << c
     end
 
-    if nr_fest_bdz_erm > 0
+    if nr_fest_bdz_erm.positive?
       c = OrderedCard.new(nr_fest_bdz_erm, prices['fest_bdz_erm'], 'fest_bdz_erm')
       ordered << c
     end
 
-    if nr_do > 0
+    if nr_do.positive?
       c = OrderedCard.new(nr_do, prices['tageskarte'], 'do')
       ordered << c
     end
 
-    if nr_do_erm > 0
+    if nr_do_erm.positive?
       c = OrderedCard.new(nr_do_erm, prices['tageskarte_erm'], 'do_erm')
       ordered << c
     end
 
-    if nr_fr > 0
+    if nr_fr.positive?
       c = OrderedCard.new(nr_fr, prices['tageskarte'], 'fr')
       ordered << c
     end
 
-    if nr_fr_erm > 0
+    if nr_fr_erm.positive?
       c = OrderedCard.new(nr_fr_erm, prices['tageskarte_erm'], 'fr_erm')
       ordered << c
     end
 
-    if nr_sa > 0
+    if nr_sa.positive?
       c = OrderedCard.new(nr_sa, prices['tageskarte'], 'sa')
       ordered << c
     end
 
-    if nr_sa_erm > 0
+    if nr_sa_erm.positive?
       c = OrderedCard.new(nr_sa_erm, prices['tageskarte_erm'], 'sa_erm')
       ordered << c
     end
 
-    if nr_concert_so > 0
+    if nr_concert_so.positive?
       c = OrderedCard.new(nr_concert_so, prices['concert'], 'concert_so')
       ordered << c
     end
 
-    if nr_concert_so_erm > 0
+    if nr_concert_so_erm.positive?
       c = OrderedCard.new(nr_concert_so_erm, prices['concert_erm'], 'concert_so_erm')
       ordered << c
     end
@@ -103,7 +103,7 @@ class EventCard < ApplicationRecord
 
   def invoice
     BDZ_SETTINGS['festival_prices']
-    ts = Time.now.strftime '%Y%m%d'
+    ts = Time.zone.now.strftime '%Y%m%d'
 
     renr = ts + "-EC#{id}"
 
@@ -153,7 +153,7 @@ class EventCard < ApplicationRecord
 
     # cust.preferred_lang = preferred_lang
 
-    cust.country = 'de' if email.end_with? '.de' or email.end_with? '.at'
+    cust.country = 'de' if email.end_with?('.de') || email.end_with?('.at')
 
     cust
   end

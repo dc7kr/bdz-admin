@@ -10,7 +10,7 @@ class CompetitionEntry < ApplicationRecord
 
   def fullname
     result = ''
-    result = result + first_name + ' ' if first_name
+    result = "#{result}#{first_name} " if first_name
     result += last_name if last_name
     result
   end

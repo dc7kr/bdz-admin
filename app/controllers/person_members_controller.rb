@@ -10,22 +10,22 @@ class PersonMembersController < AuthenticatedController
   # GET /person_members.json
   # TODO: inherited sort!!!
   def index
-    @person_members = @person_members.includes(:member).search(params[:search]).order(sort_column + ' ' + sort_direction).page(params[:page]).per(20)
+    @person_members = @person_members.includes(:member).search(params[:search]).order("#{sort_column} #{sort_direction}").page(params[:page]).per(20)
 
     respond_to do |format|
       format.js # index.html.erb
       format.html # index.html.erb
       format.json { render json: @person_members }
       format.ods do
-        @person_members = PersonMember.includes(:member).order(sort_column + ' ' + sort_direction)
+        @person_members = PersonMember.includes(:member).order("#{sort_column} #{sort_direction}")
         renderOds('/tmp/em.ods', @person_members)
-        send_file('/tmp/em.ods', filename: 'em_' + Time.now.year.to_s + '.ods', type: 'application/octet-stream')
+        send_file('/tmp/em.ods', filename: "em_#{Time.zone.now.year}.ods", type: 'application/octet-stream')
       end
     end
   end
 
   def invoice_preview
-    year = Time.now.year
+    year = Time.zone.now.year
     @invoice = @person_member.gen_invoice(year)
 
     respond_to do |format|
@@ -50,7 +50,7 @@ class PersonMembersController < AuthenticatedController
   end
 
   def notinvoiced
-    @person_members = @person_members.notinvoiced(Time.now.year).page(params[:page]).per(20)
+    @person_members = @person_members.notinvoiced(Time.zone.now.year).page(params[:page]).per(20)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -68,10 +68,10 @@ class PersonMembersController < AuthenticatedController
     respond_to do |format|
       format.html
       format.json { render json: @members }
-      format.csv { render csv: @members, style: :minimal, filename: 'nopayment_em_' + Time.now.year.to_s }
+      format.csv { render csv: @members, style: :minimal, filename: "nopayment_em_#{Time.zone.now.year}" }
       format.ods do
         renderNoPayOds('/tmp/nopayment.ods', @accounts, @members)
-        send_file('/tmp/nopayment.ods', filename: 'em_nopay_' + Time.now.year.to_s + '.ods',
+        send_file('/tmp/nopayment.ods', filename: "em_nopay_#{Time.zone.now.year}.ods",
                                         type: 'application/octet-stream')
       end
     end
@@ -161,10 +161,10 @@ class PersonMembersController < AuthenticatedController
       result << row unless row.nil?
     end
 
-    filename = 'magazine.em.' + Time.now.strftime('%m-%d-%Y') + '.ods'
-    render_magazine_address_list('/tmp/' + filename, result)
+    filename = "magazine.em.#{Time.zone.now.strftime('%m-%d-%Y')}.ods"
+    render_magazine_address_list("/tmp/#{filename}", result)
 
-    send_file('/tmp/' + filename, filename: filename, type: 'application/octet-stream')
+    send_file("/tmp/#{filename}", filename: filename, type: 'application/octet-stream')
 
     flash[:notice] = 'Export complete!'
   end
@@ -180,7 +180,7 @@ class PersonMembersController < AuthenticatedController
 
   def sort_column
     if Member.column_names.include?(params[:sort])
-      'members.' + params[:sort]
+      "members.#{params[:sort]}"
     else
       PersonMember.column_names.include?(params[:sort]) ? params[:sort] : 'members.mglnr'
     end
@@ -193,7 +193,7 @@ class PersonMembersController < AuthenticatedController
           row do
             cell m.mglnr.to_s
             cell I18n.t("common.salutations.#{m.anrede}")
-            cell m.vorname + ' ' + m.name
+            cell "#{m.vorname} #{m.name}"
             cell m.strasse
             cell m.plz
             cell m.ort
@@ -212,7 +212,7 @@ class PersonMembersController < AuthenticatedController
           row do
             cell m.member.mglnr.to_s
             cell I18n.t("common.salutations.#{m.member.anrede}")
-            cell m.member.vorname + ' ' + m.member.name
+            cell "#{m.member.vorname} #{m.member.name}"
             cell m.member.strasse
             cell m.member.plz
             cell m.member.ort

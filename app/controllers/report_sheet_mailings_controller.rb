@@ -5,7 +5,7 @@ class ReportSheetMailingsController < AuthenticatedNonResourceController
   def gen_mailings
     authorize! :index, Orchestra
 
-    now = Time.now
+    now = Time.zone.now
 
     rs_year = if params[:year].nil?
                 now.year + 1
@@ -23,20 +23,20 @@ class ReportSheetMailingsController < AuthenticatedNonResourceController
   end
 
   def test
-    Time.now.strftime '%Y%m%d'
-    cur_year = Time.now.strftime '%Y'
+    Time.zone.now.strftime '%Y%m%d'
+    cur_year = Time.zone.now.strftime '%Y'
     rs_year = if params[:year].nil?
-                Time.now.year + 1
+                Time.zone.now.year + 1
               else
                 params[:year].to_i
               end
 
-    event_id = 'MB_' + rs_year.to_s
-    subject = 'Meldebogen Anschreiben ' + rs_year.to_s
+    event_id = "MB_#{rs_year}"
+    subject = "Meldebogen Anschreiben #{rs_year}"
 
     tool = MailingTool.new(cur_year.to_s, 'gs', event_id, subject)
 
-    orchestra = Orchestra.joins(:member).where('members.mglnr = ?', 1045).first
+    orchestra = Orchestra.joins(:member).where(members: { mglnr: 1045 }).first
 
     orchestra.member.email = 'kr@corika.com'
 

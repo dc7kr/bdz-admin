@@ -1,2 +1,4 @@
-class Adm::OrchestraMemberCleanupController < AuthenticatedNonResourceController
+module Adm
+  class OrchestraMemberCleanupController < AuthenticatedNonResourceController
+  end
 end

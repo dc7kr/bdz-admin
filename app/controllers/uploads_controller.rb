@@ -6,7 +6,7 @@ class UploadsController < AuthenticatedController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @uploads.map { |upload| upload.to_jq_upload } }
+      format.json { render json: @uploads.map(&:to_jq_upload) }
     end
   end
 
@@ -88,6 +88,7 @@ class UploadsController < AuthenticatedController
   end
 
   private
+
   def upload_params
     params.permit(:upload).permit(:upload)
   end

@@ -26,12 +26,12 @@ class CreditTransferWriter < BankTransferWriter
   private
 
   def writeXml
-    return nil if @credit_transfers.count == 0
+    return nil if @credit_transfers.count.zero?
 
     sepaxml = @tool.create_credit_transfer(@credit_transfers)
 
-    filename = @date_prefix + '_sepa_ct.xml'
-    outfile = MailingFile.new(filename, filename, Time.now.year.to_s)
+    filename = "#{@date_prefix}_sepa_ct.xml"
+    outfile = MailingFile.new(filename, filename, Time.zone.now.year.to_s)
     sepaFile = File.open(outfile.full_path, 'w')
     sepaFile << sepaxml
     sepaFile.close

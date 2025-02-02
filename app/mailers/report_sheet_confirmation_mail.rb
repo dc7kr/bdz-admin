@@ -1,4 +1,4 @@
-class ReportSheetConfirmationMail < ApplicationMailer
+class ReportSheetConfirmationMailMailer < ApplicationMailer
   default from: 'geschaeftsstelle@zupfmusiker.de'
 
   def notify(recipient, personalized_file_hash, _attachment_file, params)
@@ -9,7 +9,7 @@ class ReportSheetConfirmationMail < ApplicationMailer
 
     personalized_file = MailingFile.from_hash(personalized_file_hash)
 
-    @salutation = t('common.salutation_full.' + @orchestra.member.anrede)
+    @salutation = t("common.salutation_full.#{@orchestra.member.anrede}")
 
     unless personalized_file.nil?
       attachment_data = File.new(personalized_file.full_path).read

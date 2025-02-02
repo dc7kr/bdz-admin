@@ -17,7 +17,7 @@ class AuthenticatedController < ApplicationController
 
     msg = exception.message
 
-    msg = ' CANCAN: ' + msg unless Rails.env.production?
+    msg = " CANCAN: #{msg}" unless Rails.env.production?
 
     flash[:error] = msg
 

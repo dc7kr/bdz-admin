@@ -1,4 +1,4 @@
-class TestMail < ApplicationMailer
+class TestMailMailer < ApplicationMailer
   default from: 'karsten.richter@zupfmusiker.de'
 
   def notify(recipient, email_params)

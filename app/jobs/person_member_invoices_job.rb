@@ -4,14 +4,14 @@ class PersonMemberInvoicesJob < BaseInvoicesJob
                   on_conflict: :reject
 
   def perform(year = nil, user_id = nil)
-    year = Time.now.year if year.nil?
+    year = Time.zone.now.year if year.nil?
 
     init_fields(year, user_id)
     letters = []
 
     person_members = PersonMember.notinvoiced(year)
 
-    if person_members.length == 0
+    if person_members.empty?
       logger.info('No pending invoices. PersonMemberInvoiceJob done.')
       return
     end
@@ -38,15 +38,15 @@ class PersonMemberInvoicesJob < BaseInvoicesJob
 
     pdf_merged_file = nil
 
-    if letters.size > 0
+    if letters.size.positive?
 
       pdf_filename = "#{date_prefix}-em-beitragsrechnungen.pdf"
 
       pdf_merged_file = MailingFile.new(pdf_filename, pdf_filename, year.to_s)
-      self.archive_tool.merge_pdfs(letters, pdf_merged_file)
+      archive_tool.merge_pdfs(letters, pdf_merged_file)
     end
 
-    ddFile = self.sepa_writer.generate_file
+    ddFile = sepa_writer.generate_file
 
     send_mail(ddFile, pdf_merged_file)
   end
@@ -56,17 +56,17 @@ class PersonMemberInvoicesJob < BaseInvoicesJob
     invoice.generator_session_id = generator_session_id
     invoice.save
 
-    invoice_file = invoice.gen_pdf(self.tex_writer)
+    invoice_file = invoice.gen_pdf(tex_writer)
 
     if invoice_file.nil?
       logger.error("Could not generate invoice: #{person.member.mglnr}")
       return nil
     end
 
-    booking_txt = 'Beitrag ' + person.tariff.description + ' ' + String(year)
+    booking_txt = "Beitrag #{person.tariff.description} #{String(year)}"
 
     person.member.create_invoice_booking(year, invoice, invoice_file.orig_filename, booking_txt)
-    person.member.create_dd_booking(self.sepa_writer, invoice, year)
+    person.member.create_dd_booking(sepa_writer, invoice, year)
 
     invoice_file
   end

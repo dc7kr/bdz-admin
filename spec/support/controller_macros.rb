@@ -7,7 +7,7 @@ module ControllerMacros
       Rails.logger.debug(admin)
       Rails.logger.debug('----------- KASI --------')
 
-      User.all.each do |u|
+      User.find_each do |u|
         Rails.logger.debug(u.username)
         Rails.logger.debug(u.has_role?(:admin))
       end

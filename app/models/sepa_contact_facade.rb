@@ -24,7 +24,7 @@ class SepaContactFacade
   end
 
   def name
-    if @customer.account_owner.nil? or @customer.account_owner.empty?
+    if @customer.account_owner.blank?
       Rails.logger.warn("Empty account owner: #{@customer.id}")
       @customer.fullname[0..65]
     else

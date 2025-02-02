@@ -2,8 +2,8 @@ require 'ktoblzcheck'
 
 class BlzValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, value)
-    if !value || value.length == 0
-      record.errors[attribute] << (': ' + (options[:message] || I18n.t('errors.blz.required_by_za'))) if record.za == 'L'
+    if value.blank?
+      record.errors.add(attribute, ": #{options[:message] || I18n.t('errors.blz.required_by_za')}") if record.za == 'L'
       return
     end
 
@@ -18,6 +18,6 @@ class BlzValidator < ActiveModel::EachValidator
     end
 
     #    r = blz >= 10000000 and blz <= 99999999
-    record.errors[attribute] << (options[:message] || I18n.t('errors.blz.unknown')) unless r
+    record.errors.add(attribute, (options[:message] || I18n.t('errors.blz.unknown'))) unless r
   end
 end

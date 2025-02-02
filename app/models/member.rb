@@ -29,10 +29,10 @@ class Member < ApplicationRecord
   def has_event?(event_type, event_id)
     if event_type.is_a?(Array)
       MemberEvent.where('member_id = :id and event_type in (:event_type) and event_id = :event_id', event_id: event_id,
-                                                                                                    event_type: event_type, id: id).count > 0
+                                                                                                    event_type: event_type, id: id).count.positive?
     else
       MemberEvent.where('member_id = :id and event_type = :event_type and event_id = :event_id', event_id: event_id,
-                                                                                                 event_type: event_type, id: id).count > 0
+                                                                                                 event_type: event_type, id: id).count.positive?
     end
   end
 
@@ -42,8 +42,8 @@ class Member < ApplicationRecord
 
   def fullname
     result = ''
-    result = result + title + ' ' if title
-    result = result + vorname + ' ' if vorname
+    result = "#{result}#{title} " if title
+    result = "#{result}#{vorname} " if vorname
     result += name if name
     result
   end
@@ -65,11 +65,11 @@ class Member < ApplicationRecord
   end
 
   def mref
-    'BDZBEITRAG' + mglnr.to_s
+    "BDZBEITRAG#{mglnr}"
   end
 
   def address
-    fullname + ', ' + strasse + ', ' + plz + ' ' + ort
+    "#{fullname}, #{strasse}, #{plz} #{ort}"
   end
 
   def t_country(locale = country_code)
@@ -77,9 +77,7 @@ class Member < ApplicationRecord
   end
 
   def address_block
-    fullname + "\n" +
-      strasse + "\n" +
-      plz + ' ' + ort
+    "#{fullname}\n#{strasse}\n#{plz} #{ort}"
   end
 
   def has_email?
@@ -115,7 +113,7 @@ class Member < ApplicationRecord
   end
 
   def mandate_id
-    sepa_mandate_nr.presence || ('BDZBEITRAG' + mglnr.to_s)
+    sepa_mandate_nr.presence || "BDZBEITRAG#{mglnr}"
   end
 
   def sig_date
@@ -124,12 +122,12 @@ class Member < ApplicationRecord
 
   def get_unbalanced_bookings
     result = []
-    bookings = MemberAccountBooking.where('member_id = ?', id).order(:booking_date)
+    bookings = MemberAccountBooking.where(member_id: id).order(:booking_date)
     sum = 0
     bookings.each do |booking|
       result << booking
       sum += booking.amount
-      result.clear if sum == 0
+      result.clear if sum.zero?
     end
     result
   end
@@ -139,9 +137,9 @@ class Member < ApplicationRecord
   end
 
   def contact_info
-    (telefon && telefon.length > 0 ? 'Tel: ' + telefon + ', ' : '') +
-      (fax && fax.length > 0 ? 'Fax: ' + fax + ', ' : '') +
-      (email ? email + ', ' : '')
+    (telefon&.length&.positive? ? "Tel: #{telefon}, " : '') +
+      (fax&.length&.positive? ? "Fax: #{fax}, " : '') +
+      (email ? "#{email}, " : '')
   end
 
   def member_type
@@ -173,10 +171,10 @@ class Member < ApplicationRecord
   end
 
   def self.ids_with_non_zero_balance(type = nil, year = nil)
-    year = Time.now.year if year.nil?
+    year = Time.zone.now.year if year.nil?
 
     accounts = if type.nil?
-                 MemberAccountBooking.where('booking_year < ?', year).group(:member).sum(:amount)
+                 MemberAccountBooking.where(booking_year: ...year).group(:member).sum(:amount)
                else
                  MemberAccountBooking.includes(:member).where('booking_year < ? AND members.member_entity_type = ? ',
                                                               year, type).group(:member).sum(:amount)
@@ -237,7 +235,7 @@ class Member < ApplicationRecord
   end
 
   def create_credit_transfer(sepa_writer, year, booking_txt, amount)
-    if amount < 0
+    if amount.negative?
       Rails.logger.warn('Credit transfer amount must not be negative!')
       return false
     end
@@ -246,7 +244,7 @@ class Member < ApplicationRecord
 
     if is_direct_debit?
       if sepa_writer.add_credit_transfer(customer, booking_txt, amount)
-        booking = MemberAccountBooking.newCreditTransfer('Überweisung ' + booking_txt, amount)
+        booking = MemberAccountBooking.newCreditTransfer("Überweisung #{booking_txt}", amount)
         booking.member_id = id
         booking.booking_year = year
         booking.save
@@ -276,7 +274,7 @@ class Member < ApplicationRecord
     return unless is_direct_debit?
 
     sepa_writer.add_direct_debit(customer, amount, booking_txt, 'RCUR')
-    booking = MemberAccountBooking.newWithdrawal('Lastschrift ' + booking_txt, amount)
+    booking = MemberAccountBooking.newWithdrawal("Lastschrift #{booking_txt}", amount)
     booking.member_id = id
     booking.booking_year = year
     booking.save
@@ -285,7 +283,7 @@ class Member < ApplicationRecord
   end
 
   def is_bic_valid?
-    return false if bic.nil? or bic.length < 8
+    return false if bic.nil? || (bic.length < 8)
 
     country = bic[4..5]
 

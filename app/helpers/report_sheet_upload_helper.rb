@@ -2,7 +2,7 @@ require 'rubygems'
 require 'roo'
 
 module ReportSheetUploadHelper
-  ROLES = ['', '', 'V', 'S', 'G', 'D', 'J', 'O']
+  ROLES = ['', '', 'V', 'S', 'G', 'D', 'J', 'O'].freeze
 
   def read_report(doc, orchestra)
     # read_contacts(doc,orchestra)
@@ -61,7 +61,7 @@ module ReportSheetUploadHelper
 
       instrument = '' if instrument.nil?
 
-      Rails.logger.info i.to_s + ':' + first_name.to_s + ' ' + last_name.to_s + '###' + date_of_birth.to_s + '###' + instrument.to_s
+      Rails.logger.info "#{i}:#{first_name} #{last_name}####{date_of_birth}####{instrument}"
       c = OrchestraMember.new
       c.first_name = first_name
       c.last_name = last_name
@@ -98,9 +98,9 @@ module ReportSheetUploadHelper
       phone = doc.cell(line, 'H')
       email = doc.cell(line, 'I')
 
-      next unless !salutation.nil? and salutation[0] != '-'
+      next unless !salutation.nil? && (salutation[0] != '-')
 
-      contact = OrchestraContact.find_by_orchestra_id_and_role(orchestra.id, role)
+      contact = OrchestraContact.find_by(orchestra_id: orchestra.id, role: role)
 
       if contact.nil?
         contact = OrchestraContact.new
@@ -123,10 +123,6 @@ module ReportSheetUploadHelper
   end
 
   def verify_report(doc)
-    if doc.sheets.include? 'Mitglieder'
-      true
-    else
-      false
-    end
+    doc.sheets.include? 'Mitglieder'
   end
 end

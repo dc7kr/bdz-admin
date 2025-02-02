@@ -106,7 +106,7 @@ class ApplicationController < ActionController::Base
   def log_error(exception)
     message = "\n#{exception.class} (#{exception.message}):\n"
     Rails.logger.warn(message)
-    Rails.logger.warn(exception.to_s + "\n" + exception.backtrace.join("\n"))
+    Rails.logger.warn("#{exception}\n#{exception.backtrace.join("\n")}")
   end
 
   def render_optional_error_file(status_code)
@@ -143,11 +143,12 @@ class ApplicationController < ActionController::Base
   def choose_layout
     path = request.fullpath.split('/')
     namespace = path.second if path.first
-    if namespace == 'public'
+    case namespace
+    when 'public'
       'public'
-    elsif namespace == 'mgl'
+    when 'mgl'
       'member_area'
-    elsif namespace == 'invoice_engine'
+    when 'invoice_engine'
       'corika_invoices/application'
     else
       'application'
@@ -157,15 +158,15 @@ class ApplicationController < ActionController::Base
   def render_error(status, exception)
     #	if ( current_user == nil or current_user.admin?)
     begin
-      logger.error('Encountered error status:' + status.to_s)
+      logger.error("Encountered error status:#{status}")
       if is_production?
         ErrorMailer.deliver_snapshot(exception, Rails.env, current_user)
-        logger.error('ERROR: ' + exception.to_s)
-        logger.error exception.message + "\n " + exception.backtrace.join("\n ")
+        logger.error("ERROR: #{exception}")
+        logger.error "#{exception.message}\n #{exception.backtrace.join("\n ")}"
       end
     rescue StandardError => e
       logger.error e
-      logger.error e.message + "\n " + e.backtrace.join("\n ")
+      logger.error "#{e.message}\n #{e.backtrace.join("\n ")}"
     end
 
     @exception = exception
@@ -184,7 +185,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_area
-    @@web_area[@current_controller] || logger.error('Unmapped controller: ' + @current_controller.to_s)
+    @@web_area[@current_controller] || logger.error("Unmapped controller: #{@current_controller}")
   end
 
   def set_locale

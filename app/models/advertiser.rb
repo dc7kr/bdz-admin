@@ -45,7 +45,7 @@ class Advertiser < ApplicationRecord
   end
 
   def magazine_address_list_row
-    return unless current_count > 0
+    return unless current_count.positive?
 
     {
       company: contact.company,

@@ -9,21 +9,21 @@ class ReportSheetsController < AuthenticatedController
       @orchestra = Orchestra.find(params[:orchestra_id])
 
       @report_sheets = @orchestra.report_sheets.order(:year)
-      thisYear = Time.now.year
+      thisYear = Time.zone.now.year
       @report_sheets.each do |rs|
         @has_current_report_sheet = true if rs.year == thisYear
       end
     elsif params[:regional_organization_id]
 
       year = if params[:year].nil?
-               Time.now.year
+               Time.zone.now.year
              else
                params[:year]
              end
       @report_sheets = ReportSheet.for_regional_organization(year, params[:regional_organization_id])
 
     else
-      @curYear = Time.now.year
+      @curYear = Time.zone.now.year
       @report_sheets = ReportSheet.joins(orchestra: :member).order('members.mglnr').find_all_by_year(@curYear)
     end
 
@@ -42,12 +42,12 @@ class ReportSheetsController < AuthenticatedController
   def copy_from_last_year
     @orchestra = Orchestra.find(params[:orchestra_id])
 
-    @curYear = Time.now.year
+    @curYear = Time.zone.now.year
     @prevYear = @curYear - 1
 
     @prev = ReportSheet.where(year: @prevYear, orchestra_id: params[:orchestra_id]).first
 
-    logger.debug 'PREV Sheet ID: ' + @prev.id.to_s
+    logger.debug "PREV Sheet ID: #{@prev.id}"
 
     @cur = ReportSheet.where(year: @curYear, orchestra_id: params[:orchestra_id]).first
 
@@ -58,8 +58,8 @@ class ReportSheetsController < AuthenticatedController
              end
 
     @cur = @prev.dup
-    @cur.year = Time.now.year
-    @cur.report_date = Time.now
+    @cur.year = Time.zone.now.year
+    @cur.report_date = Time.zone.now
     @cur.id = cur_id
     @cur.init_empty
     @cur.generated = true
@@ -68,11 +68,11 @@ class ReportSheetsController < AuthenticatedController
 
     unless @cur.valid?
       @cur.errors.each do |e|
-        logger.warn 'Invalid: ' + e.to_s + ':' + @cur.errors[e].to_s
+        logger.warn "Invalid: #{e}:#{@cur.errors[e]}"
       end
     end
 
-    logger.debug('UV: ' + @cur.uv.to_s)
+    logger.debug("UV: #{@cur.uv}")
 
     respond_to do |format|
       if @cur.save
@@ -82,12 +82,12 @@ class ReportSheetsController < AuthenticatedController
       else
         logger.error('ERROR: could not save report sheet')
       end
-      logger.info('ID is: ' + @cur.id.to_s)
+      logger.info("ID is: #{@cur.id}")
     end
   end
 
   def final
-    @curYear = params[:year] || Time.now.year
+    @curYear = params[:year] || Time.zone.now.year
     @final = ReportSheet.final(@curYear)
 
     respond_to do |format|
@@ -108,9 +108,8 @@ class ReportSheetsController < AuthenticatedController
   end
 
   def payed
-    @curYear = Time.now.year
-    @report_sheets = ReportSheet.joins(orchestra: :member).order('members.mglnr').where('report_sheets.year = ?',
-                                                                                        @curYear).page(params[:page]).per(20)
+    @curYear = Time.zone.now.year
+    @report_sheets = ReportSheet.joins(orchestra: :member).order('members.mglnr').where(report_sheets: { year: @curYear }).page(params[:page]).per(20)
     respond_to do |format|
       format.js
       format.html # index.html.erb
@@ -140,11 +139,11 @@ class ReportSheetsController < AuthenticatedController
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @report_sheet }
-      format.pdf { 
+      format.pdf do
         pdf = ReportSheetInputPdf.new(@report_sheet, view_context)
         filename = "meldebogen#{@report_sheet.year}_#{@report_sheet.orchestra.member.mglnr}.pdf"
-        send_data pdf.render, filename: filename, type: "application/pdf"
-      }
+        send_data pdf.render, filename: filename, type: 'application/pdf'
+      end
     end
   end
 
@@ -155,8 +154,8 @@ class ReportSheetsController < AuthenticatedController
     @report_sheet = ReportSheet.new
     @report_sheet.init_empty
     @report_sheet.orchestra = @orchestra
-    @report_sheet.year = Time.now.year
-    @report_sheet.report_date = Time.now
+    @report_sheet.year = Time.zone.now.year
+    @report_sheet.report_date = Time.zone.now
 
     respond_to do |format|
       format.html # new.html.erb
@@ -200,7 +199,7 @@ class ReportSheetsController < AuthenticatedController
       if @report_sheet.update(report_sheet_params)
         format.html do
           redirect_to orchestra_report_sheet_path(@report_sheet.orchestra, @report_sheet),
-              notice: t_update_success("report_sheet")
+                      notice: t_update_success('report_sheet')
         end
         format.json { head :ok }
       else
@@ -224,7 +223,7 @@ class ReportSheetsController < AuthenticatedController
   end
 
   def analysis
-    @current_year = Time.now.year
+    @current_year = Time.zone.now.year
     @last_year = @current_year - 1
 
     @sheets = ReportSheet.includes(:orchestra).where('year in  (?) and orchestra_id IS NOT NULL',
@@ -242,7 +241,7 @@ class ReportSheetsController < AuthenticatedController
       end
       list[s.year] = s
 
-      next unless !list[@current_year].nil? and !list[@last_year].nil?
+      next unless !list[@current_year].nil? && !list[@last_year].nil?
 
       Rails.logger.info('Both sheets present')
       last_sheet = list[@last_year]
@@ -322,7 +321,7 @@ class ReportSheetsController < AuthenticatedController
 
     @delta_value = @report_sheet.invoice_delta
 
-    if @delta_value == 0
+    if @delta_value.zero?
       respond_to do |format|
         format.html do
           redirect_to orchestra_report_sheet_path(@report_sheet.orchestra, @report_sheet),
@@ -332,7 +331,7 @@ class ReportSheetsController < AuthenticatedController
       return
     end
 
-    date_prefix = Time.now.strftime '%Y%m%d%H%M%S'
+    date_prefix = Time.zone.now.strftime '%Y%m%d%H%M%S'
     sepa_writer = CorikaInvoices::SepaWriter.new(date_prefix, INVOICE_CONFIG)
 
     tw = CorikaInvoices::TexWriter.new(INVOICE_CONFIG)
@@ -345,7 +344,7 @@ class ReportSheetsController < AuthenticatedController
     # booking is negative - so original invoice inverted
     booking.amount
 
-    booking_txt = 'Beitrag ' + String(year)
+    booking_txt = "Beitrag #{String(year)}"
     @orchestra.member.create_invoice_booking(year, invoice, invoice_file.orig_filename, booking_txt)
 
     booking.destroy
@@ -369,7 +368,6 @@ class ReportSheetsController < AuthenticatedController
   end
 
   def gen_pdf
-
     pdf = ReportSheetInputPdf.new(@rsi, view_context)
 
     respond_to do |format|
@@ -378,7 +376,7 @@ class ReportSheetsController < AuthenticatedController
         ReportSheet.renderOds(@report_sheets, tmpfile.path)
         send_file(tmpfile.path, filename: "meldeboegen_#{year}.ods", type: 'application/octet-stream')
       end
-     send_file(pdf) 
+      send_file(pdf)
     end
   end
 

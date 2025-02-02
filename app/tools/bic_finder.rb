@@ -3,7 +3,7 @@ require 'bankleitzahl'
 class BicFinder
   def initialize
     blzfile = Rails.root.join('data/blz.txt')
-    Rails.logger.debug 'Using BLZ file: ' + blzfile.to_s
+    Rails.logger.debug { "Using BLZ file: #{blzfile}" }
     @lines = File.read(blzfile)
     parser = Bankleitzahl::Parser.new(@lines)
     banks = parser.all_banks
@@ -12,7 +12,7 @@ class BicFinder
     @bichash = {}
 
     banks.each do |b|
-      if !b.bic.empty? and !b.bic.strip.empty?
+      if !b.bic.empty? && !b.bic.strip.empty?
         @bankhash[b.blz] = b
         @bichash[b.bic] = b
       end
@@ -40,14 +40,14 @@ class BicFinder
   end
 
   def exist?(bic)
-    return false if bic.nil? or bic.empty? or bic.length < 8
+    return false if bic.blank? || (bic.length < 8)
 
     found = !@bichash[bic].nil?
 
     return true if found
 
     # strip freely definable parts and replace with "XXX"
-    tmp = bic[0..7] + 'XXX'
+    tmp = "#{bic[0..7]}XXX"
     !@bichash[tmp].nil?
   end
 

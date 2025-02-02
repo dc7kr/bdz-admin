@@ -12,11 +12,11 @@ class EmTariffCorrectJob < ApplicationJob
     digital = []
     normal = []
 
-    PersonMember.includes(:member).all.each do |em|
+    PersonMember.includes(:member).find_each do |em|
       mail = em.member.email
 
       if em.tariff_id == normal_tariff.id
-        if em.member.za == 'L' and !mail.nil? and !mail.empty?
+        if (em.member.za == 'L') && !mail.nil? && !mail.empty?
           em.tariff = digi_tariff
           em.save
           digital << em
@@ -25,7 +25,7 @@ class EmTariffCorrectJob < ApplicationJob
           unchanged += 1
         end
       elsif em.tariff_id == digi_tariff.id
-        if em.member.za != 'L' or mail.nil? or mail.empty?
+        if (em.member.za != 'L') || mail.nil? || mail.empty?
           em.tariff = normal_tariff
           em.save
           normal << em
@@ -36,7 +36,7 @@ class EmTariffCorrectJob < ApplicationJob
       end
     end
 
-    if changed > 0
+    if changed.positive?
       users = User.for_admin_notify
 
       users.each do |user|

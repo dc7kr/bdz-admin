@@ -13,7 +13,7 @@ class Ability
       can :delete, Concert, owner: user.id
       can :manage, FeatureRequest
 
-      if user.has_role?(:admin) or user.has_role?(:national)
+      if user.has_role?(:admin) || user.has_role?(:national)
         can :manage, :all
       else
         if user.address?

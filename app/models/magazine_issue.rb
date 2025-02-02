@@ -5,6 +5,6 @@ class MagazineIssue < ApplicationRecord
   has_many :magazine_adverts
 
   def full_number
-    number.to_s + '-' + year.to_s
+    "#{number}-#{year}"
   end
 end

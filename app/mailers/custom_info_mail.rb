@@ -1,4 +1,4 @@
-class CustomInfoMail < ApplicationMailer
+class CustomInfoMailMailer < ApplicationMailer
   default from: 'geschaeftsstelle@zupfmusiker.de'
 
   def notify(recipient, letter_hash, attachment_hash, params)

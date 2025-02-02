@@ -7,7 +7,7 @@ class RegionalOrganizationPdf < Prawn::Document
     @person_members = person_members
     @view = view
     @year = if year.nil?
-              Time.now.year
+              Time.zone.now.year
             else
               year
             end
@@ -53,8 +53,7 @@ class RegionalOrganizationPdf < Prawn::Document
     [%w[Mglnr Orchester Gesamt GEMA]] +
       @orchestras.map do |orch|
         [mglnr(orch.member),
-         orch.address + ', ' +
-           orch.contact_info,
+         "#{orch.address}, #{orch.contact_info}",
          orch.total(@year),
          orch.gema(@year),
          orch.age_key_str(@year)]
@@ -77,7 +76,7 @@ class RegionalOrganizationPdf < Prawn::Document
   def mglnr(member)
     str = member.mglnr.to_s
 
-    if member.eintritt and member.eintritt.year == @year
+    if member.eintritt && (member.eintritt.year == @year)
       str += ' (N)'
     elsif !member.austritt_zum.nil? && member.austritt_zum.year != 0
       str += ' (A)'

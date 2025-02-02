@@ -1,2 +1,4 @@
-class Infodesk::EventMealsController < EventMealsController
+module Infodesk
+  class EventMealsController < EventMealsController
+  end
 end

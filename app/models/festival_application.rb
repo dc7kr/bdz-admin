@@ -7,14 +7,14 @@ class FestivalApplication < ApplicationRecord
   has_one :event_meal, foreign_key: 'participant_id'
   has_one :contact_person
 
-  accepts_nested_attributes_for :festival_pieces, allow_destroy: :true
+  accepts_nested_attributes_for :festival_pieces, allow_destroy: true
 
   validates :conductor, :num_players, :orch_name, presence: true
 
   belongs_to :orchestra, optional: true
   belongs_to :festival_concert, optional: true
 
-  scope :current_festival, -> { where('year = ?', BDZ_SETTINGS['config']['festival_year']) }
+  scope :current_festival, -> { where(year: BDZ_SETTINGS['config']['festival_year']) }
 
   def t_country(locale = 'de')
     translated_country(country_code, locale)
@@ -56,7 +56,7 @@ class FestivalApplication < ApplicationRecord
 
   def invoice
     prices = BDZ_SETTINGS['festival_prices']
-    ts = Time.now.strftime '%Y%m%d'
+    ts = Time.zone.now.strftime '%Y%m%d'
 
     germany = ISO3166::Country['DE']
     austria = ISO3166::Country['AT']
@@ -70,7 +70,7 @@ class FestivalApplication < ApplicationRecord
     # taxfree
     inv.tax_type = 'X'
 
-    if contact_person.country_code == germany.alpha2 or country_code == austria.alpha2
+    if (contact_person.country_code == germany.alpha2) || (country_code == austria.alpha2)
       locale = :de
       inv.invoice_type = 'festival.de'
     else

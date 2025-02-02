@@ -59,6 +59,6 @@ class TicketOrderOverviewPdf < Prawn::Document
 
   def heading
     text 'Kartenbestellungen', size: 30, style: :bold
-    text "Stand: #{Time.now.strftime '%d.%m.%Y %H:%M Uhr'}", size: 20
+    text "Stand: #{Time.zone.now.strftime '%d.%m.%Y %H:%M Uhr'}", size: 20
   end
 end

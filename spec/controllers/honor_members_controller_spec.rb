@@ -34,7 +34,7 @@ RSpec.describe HonorMembersController, type: :controller do
       vorname: 'Vorname',
       name: 'Name',
       honorType: 'blah',
-      honorDate: Time.now
+      honorDate: Time.zone.now
     }
   end
 
@@ -42,7 +42,7 @@ RSpec.describe HonorMembersController, type: :controller do
     {
       vorname: 'Vorname',
       honorType: 'blah',
-      honorDate: Time.now
+      honorDate: Time.zone.now
     }
   end
 

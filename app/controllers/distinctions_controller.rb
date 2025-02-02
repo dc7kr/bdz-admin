@@ -3,7 +3,7 @@ class DistinctionsController < AuthenticatedController
   helper_method :sort_column, :sort_direction
 
   def gen_invoice
-    Time.now.year
+    Time.zone.now.year
     distinction = Distinction.find(params[:id])
 
     orchestra = distinction.orchestra
@@ -14,7 +14,7 @@ class DistinctionsController < AuthenticatedController
       return
     end
 
-    datePrefix = Time.now.strftime '%Y%m%d%H%M%S'
+    datePrefix = Time.zone.now.strftime '%Y%m%d%H%M%S'
 
     CorikaInvoices::SepaWriter.new(datePrefix, INVOICE_CONFIG)
 
@@ -24,7 +24,7 @@ class DistinctionsController < AuthenticatedController
     pdf = invoice.gen_pdf
     sepa = invoice.gen_sepa
 
-    booking_txt = 'Ehrungsrechung ' + invoice.number
+    booking_txt = "Ehrungsrechung #{invoice.number}"
     booking = MemberAccountBooking.newDistinctionInvoice(booking_txt, -1 * invoice.sum, invoice.customer.customer_id,
                                                          pdf)
     booking.member_id = orchestra.member.id
@@ -32,7 +32,7 @@ class DistinctionsController < AuthenticatedController
     booking.save
 
     if invoice.customer.is_direct_debit?
-      @wdbooking = MemberAccountBooking.newWithdrawal('Lastschrift ' + booking_txt, invoice.sum, sepa.orig_filename)
+      @wdbooking = MemberAccountBooking.newWithdrawal("Lastschrift #{booking_txt}", invoice.sum, sepa.orig_filename)
       @wdbooking.member_id = orchestra.member.id
       @wdbooking.save
     end
@@ -42,7 +42,7 @@ class DistinctionsController < AuthenticatedController
     distinction.save
 
     send_mail(invoice, sepa)
-    Time.now.strftime('%Y%m%d-')
+    Time.zone.now.strftime('%Y%m%d-')
 
     redirect_to(download_orchestra_member_account_booking_path(orchestra, booking))
   end
@@ -50,8 +50,7 @@ class DistinctionsController < AuthenticatedController
   # GET /distinctions
   # GET /distinctions.json
   def index
-    @distinctions = Distinction.where('orchestra_id = ?',
-                                      params[:orchestra_id]).order(sort_column + ' ' + sort_direction).page(params[:page]).per(20)
+    @distinctions = Distinction.where(orchestra_id: params[:orchestra_id]).order("#{sort_column} #{sort_direction}").page(params[:page]).per(20)
 
     @orchestra = Orchestra.find(params[:orchestra_id])
 
@@ -87,7 +86,7 @@ class DistinctionsController < AuthenticatedController
   # GET /distinctions/new.json
   def new
     @orchestra = Orchestra.find(params[:orchestra_id])
-    @distinction = Distinction.new(orchestra_id: @orchestra.id, dist_date: Time.now)
+    @distinction = Distinction.new(orchestra_id: @orchestra.id, dist_date: Time.zone.now)
 
     respond_to do |format|
       format.html # new.html.erb
@@ -131,8 +130,8 @@ class DistinctionsController < AuthenticatedController
     respond_to do |format|
       if @distinction.update(distinction_params)
         format.html do
-          redirect_to orchestra_distinction_path(@orchestra, @distinction), 
-                      notice: t_update_success("distinction")
+          redirect_to orchestra_distinction_path(@orchestra, @distinction),
+                      notice: t_update_success('distinction')
         end
 
         format.json { head :no_content }
@@ -170,7 +169,7 @@ class DistinctionsController < AuthenticatedController
 
     base_url = cron_downloads_url
 
-    base_url + '?year=' + invoice.invoice_date.year.to_s + '&filename=' + sepa.orig_filename unless sepa.nil?
+    "#{base_url}?year=#{invoice.invoice_date.year}&filename=#{sepa.orig_filename}" unless sepa.nil?
 
     AdminNotifier.newdistinction_notification(invoice).deliver
   end

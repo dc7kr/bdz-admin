@@ -3,11 +3,11 @@ class MealValidator < ActiveModel::EachValidator
     return if value.nil?
 
     if attribute == :tln
-      record.errors[attribute] << I18n.t('activerecord.errors.models.event_meal.attributes.tln.at_least_one') unless value > 0
+      record.errors.add(attribute, I18n.t('activerecord.errors.models.event_meal.attributes.tln.at_least_one')) unless value.positive?
     elsif attribute == :veg
       return if record.tln.nil?
 
-      record.errors[attribute] << I18n.t('activerecord.errors.models.event_meal.attributes.veg.must_be_less_tln') unless value <= record.tln
+      record.errors.add(attribute, I18n.t('activerecord.errors.models.event_meal.attributes.veg.must_be_less_tln')) unless value <= record.tln
     end
   end
 end

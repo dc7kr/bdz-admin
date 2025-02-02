@@ -1,3 +1,4 @@
+require 'English'
 class EventMailsController < AuthenticatedNonResourceController
   include BulkMailHelper
   include UploadHelper
@@ -23,9 +24,9 @@ class EventMailsController < AuthenticatedNonResourceController
       recordMailSuccess(mail_params[:event_id], orchestra, @mail_params[:subject])
       @orchCount += 1
     rescue StandardError
-      recordMailFailure(mail_params[:event_id], orchestra, $!.to_s)
+      recordMailFailure(mail_params[:event_id], orchestra, $ERROR_INFO.to_s)
 
-      @result = { err: $!, entity: orchestra, type: 'O' }
+      @result = { err: $ERROR_INFO, entity: orchestra, type: 'O' }
       @results.push(@result)
       @orchFailCount += 1
     end
@@ -45,25 +46,26 @@ class EventMailsController < AuthenticatedNonResourceController
     festival = false
 
     @grp = @mail_params[:group]
-    if @grp == 'A'
+    case @grp
+    when 'A'
       orchestra = true
       em = true
-    elsif @grp == 'O'
+    when 'O'
       orchestra = true
-    elsif @grp == 'E'
+    when 'E'
       em = true
-    elsif @grp == 'T'
+    when 'T'
       test = true
-    elsif @grp == 'F'
+    when 'F'
       festival = true
-    elsif @grp == 'FP'
+    when 'FP'
       festival = true
       permitted = true
-    elsif @grp == 'FS'
+    when 'FS'
       true
-    elsif @grp == 'FJ'
+    when 'FJ'
       festival_youth = true
-    elsif @grp == 'FG'
+    when 'FG'
       festival_guests = true
     end
 
@@ -99,7 +101,7 @@ class EventMailsController < AuthenticatedNonResourceController
         CustomInfoMail.notify(email, params[:email], @att_file, @att_data).deliver
         @testCount += 1
       rescue StandardError
-        @result = { err: $!, entity: email, type: 'T' }
+        @result = { err: $ERROR_INFO, entity: email, type: 'T' }
         @results.push(@result)
         @testFailCount += 1
       end
@@ -121,8 +123,8 @@ class EventMailsController < AuthenticatedNonResourceController
           @orchCount += 1
         end
       rescue StandardError
-        recordMailFailure(params[:event_id], orchestra, $!)
-        @result = { err: $!, entity: orchestra, type: 'O' }
+        recordMailFailure(params[:event_id], orchestra, $ERROR_INFO)
+        @result = { err: $ERROR_INFO, entity: orchestra, type: 'O' }
         @results.push(@result)
         @orchFailCount += 1
       end
@@ -142,8 +144,8 @@ class EventMailsController < AuthenticatedNonResourceController
           @personCount += 1
         end
       rescue StandardError
-        recordMailFailure(params[:event_id], person, $!)
-        @result = { err: $!, entity: person, type: 'P' }
+        recordMailFailure(params[:event_id], person, $ERROR_INFO)
+        @result = { err: $ERROR_INFO, entity: person, type: 'P' }
         @results.push(@result)
         @personFailCount += 1
       end
@@ -178,8 +180,8 @@ class EventMailsController < AuthenticatedNonResourceController
             @festivalCount += 1
           end
         rescue StandardError
-          recordMailFailure(params[:event_id], contact, $!)
-          @result = { err: $!, entity: contact, type: 'F' }
+          recordMailFailure(params[:event_id], contact, $ERROR_INFO)
+          @result = { err: $ERROR_INFO, entity: contact, type: 'F' }
           @results.push(@result)
           @festivalFailCount += 1
         end
@@ -203,8 +205,8 @@ class EventMailsController < AuthenticatedNonResourceController
             @permittedCount += 1
           end
         rescue StandardError
-          recordMailFailure(params[:event_id], contact, $!)
-          @result = { err: $!, entity: contact, type: 'F' }
+          recordMailFailure(params[:event_id], contact, $ERROR_INFO)
+          @result = { err: $ERROR_INFO, entity: contact, type: 'F' }
           @results.push(@result)
           @permittedFailCount += 1
         end

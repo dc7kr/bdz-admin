@@ -4,7 +4,7 @@ module FestivalApplicationsHelper
 
     gtype = display_group_type(part.group_type)
 
-    vtype + ' (' + gtype + ')'
+    "#{vtype} (#{gtype})"
   end
 
   def get_payment_status_options(selection)
@@ -43,7 +43,7 @@ module FestivalApplicationsHelper
     if type.nil?
       ''
     else
-      t 'festival_application.visitor_types.' + type
+      t "festival_application.visitor_types.#{type}"
     end
   end
 
@@ -51,7 +51,7 @@ module FestivalApplicationsHelper
     if type.nil?
       ''
     else
-      t 'festival_application.group_types.' + type
+      t "festival_application.group_types.#{type}"
     end
   end
 end

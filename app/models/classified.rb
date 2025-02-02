@@ -10,7 +10,7 @@ class Classified < ApplicationRecord
 
   def self.search(search)
     if search
-      where('title = ?', "#{search}")
+      where(title: search.to_s)
     else
       where(1)
     end

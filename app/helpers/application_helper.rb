@@ -41,7 +41,7 @@ module ApplicationHelper
   end
 
   def default_page_title
-    title + ' - ' + subtitle
+    "#{title} - #{subtitle}"
   end
 
   def subtitle
@@ -58,15 +58,15 @@ module ApplicationHelper
 
   def c_t(entity, field, default)
     if default
-      t(entity + '.' + field, default: default)
+      t("#{entity}.#{field}", default: default)
     else
-      t(entity + '.' + field, default: '#' + field + '#')
+      t("#{entity}.#{field}", default: "##{field}#")
     end
   end
 
   def corika_tr(entity, field, default)
-    t('activerecord.attributes.' + entity + '.' + field,
-      default: t('activerecord.labels.' + field, default: default))
+    t("activerecord.attributes.#{entity}.#{field}",
+      default: t("activerecord.labels.#{field}", default: default))
   end
 
   def link_to_up_path(_txt, path)
@@ -88,7 +88,7 @@ module ApplicationHelper
   end
 
   def back_button(path)
-    link_to image_tag('icons/back.png', alt: t('common.back')) + ' ' + t('common.back'), path, class: 'button'
+    link_to "#{image_tag('icons/back.png', alt: t('common.back'))} #{t('common.back')}", path, class: 'button'
   end
 
   def label_or_default(txt, key)
@@ -172,7 +172,7 @@ module ApplicationHelper
   def tabActiveClass(current, expected, prefix = nil)
     prefix = 'nav-link' if prefix.nil?
 
-    retval = prefix + ' '
+    retval = "#{prefix} "
 
     retval << 'active' if current == expected
 
@@ -188,17 +188,17 @@ module ApplicationHelper
   end
 
   def sanitize_url(url)
-    return '#' if url.nil? || url.length == 0
+    return '#' if url.blank?
 
     if url.starts_with?('http://')
       url
     else
-      'http://' + url
+      "http://#{url}"
     end
   end
 
   def labeled_data(_entity, name, tag)
-    I18n.t(name + '.' + tag.to_s)
+    I18n.t("#{name}.#{tag}")
     #		content = content_tag(:td,:class=>"label",label_str)
     content_tag(:tr, content)
   end
@@ -220,15 +220,15 @@ module ApplicationHelper
 
     object = attributes[:object]
     instance = attributes[:instance]
-    return false if object.nil? or instance.nil?
+    return false if object.nil? || instance.nil?
 
     object = object.to_s.downcase
     instance = instance.to_s.downcase
-    instance_key = attributes[:instance_key] || (instance + '_id')
+    instance_key = attributes[:instance_key] || "#{instance}_id"
     value = attributes[:value] || ''
     value_key = attributes[:value_key] || ''
     value_key_html = ''
-    value_key_html = ' value="' + value_key.to_s + '"' unless value_key.to_s.empty?
+    value_key_html = " value=\"#{value_key}\"" unless value_key.to_s.empty?
     ajax_url = attributes[:ajax_url]
     ajax_query_additional_params = attributes[:ajax_query_additional_params] || ''
     ajax_query_searchable_param = attributes[:ajax_query_searchable_param] || 'name'
@@ -241,10 +241,10 @@ module ApplicationHelper
       when Array
         i = 0
         ajax_query_additional_params.each do |aqap|
-          ajax_query_additional_params_formatted = if i == 0
+          ajax_query_additional_params_formatted = if i.zero?
                                                      ajax_query_additional_params_formatted + aqap.to_s
                                                    else
-                                                     ajax_query_additional_params_formatted + ",\n" + aqap.to_s
+                                                     "#{ajax_query_additional_params_formatted},\n#{aqap}"
                                                    end
           i = i.next
         end
@@ -253,17 +253,17 @@ module ApplicationHelper
       when Hash
         i = 0
         ajax_query_additional_params.each do |aqap_key, aqap_value|
-          ajax_query_additional_params_formatted = if i == 0
-                                                     ajax_query_additional_params_formatted + aqap_key.to_s + ': ' + aqap_value.to_s
+          ajax_query_additional_params_formatted = if i.zero?
+                                                     "#{ajax_query_additional_params_formatted}#{aqap_key}: #{aqap_value}"
                                                    else
-                                                     ajax_query_additional_params_formatted + ",\n" + aqap_key.to_s + ': ' + aqap_value.to_s
+                                                     "#{ajax_query_additional_params_formatted},\n#{aqap_key}: #{aqap_value}"
                                                    end
           i = i.next
         end
       end
     end
     jquery_request_data_params = "data: {\n"
-    jquery_request_data_params = jquery_request_data_params + ajax_query_additional_params_formatted + ",\n" unless ajax_query_additional_params_formatted.empty?
+    jquery_request_data_params = "#{jquery_request_data_params}#{ajax_query_additional_params_formatted},\n" unless ajax_query_additional_params_formatted.empty?
     jquery_request_data_params += "#{ajax_query_searchable_param}: request.term\n},"
     search_field_id = "search_#{object}_#{instance}"
     value_div_id = "#{object}_#{instance}_log"
@@ -348,10 +348,7 @@ module ApplicationHelper
     ISO3166::Country.all.collect { |c| [c.translations['en'], c.alpha2] }
   end
 
-  def wrapped_no_label(_form, resource, _field, input)
-    unless resource.is_a? Symbol
-    end
-
+  def wrapped_no_label(_form, _resource, _field, input)
     content_tag(:div, input)
   end
 
@@ -367,31 +364,32 @@ module ApplicationHelper
   def form_my_field(form, resource, field, type = :text, extra_class = nil)
     css_class = 'form-control'
 
-    css_class += ' ' + extra_class unless extra_class.nil?
+    css_class += " #{extra_class}" unless extra_class.nil?
     input = nil
 
-    if type == :text
+    case type
+    when :text
       input = form.text_field field, class: css_class
-    elsif type == :number
+    when :number
       input = form.number_field field, class: css_class
-    elsif type == :currency
+    when :currency
       input = form.number_field field, class: css_class, step: 0.01
-    elsif type == :password
+    when :password
       input = form.password_field field, class: css_class
-    elsif type == :url
+    when :url
       input = form.url_field field, class: css_class
-    elsif type == :email
+    when :email
       input = form.email_field field, class: css_class
-    elsif type == :datetime
-      input = form.datetime_field field, class: css_class + ' date_field datePicker'
-    elsif type == :date
-      input = form.text_field field, class: css_class + ' date_field datePicker'
-    elsif type == :checkbox
+    when :datetime
+      input = form.datetime_field field, class: "#{css_class} date_field datePicker"
+    when :date
+      input = form.text_field field, class: "#{css_class} date_field datePicker"
+    when :checkbox
       input = form.check_box field, class: css_class
-    elsif type == :file
+    when :file
       # TODO: use Bootstrap 4 File Field once upgraded
       input = form.file_field field
-    elsif type == :static
+    when :static
       input = content_tag(:p, resource[field], class: 'form-control-static')
     end
 
@@ -538,6 +536,6 @@ module ApplicationHelper
   end
 
   def t_update_success(entity)
-    I18n.t('common.update_success', entity: t(entity, count:1))
+    I18n.t('common.update_success', entity: t(entity, count: 1))
   end
 end

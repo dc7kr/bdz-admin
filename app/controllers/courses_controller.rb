@@ -71,7 +71,7 @@ class CoursesController < AuthenticatedController
   def create
     @course = Course.new(course_params)
 
-    @course.reported = Time.now
+    @course.reported = Time.zone.now
 
     @course.bland = 1 if @course.bland.nil?
 
@@ -90,7 +90,7 @@ class CoursesController < AuthenticatedController
 
   def publish
     @course = Course.find(params[:id])
-    @course.confirmed = Time.now
+    @course.confirmed = Time.zone.now
     @course.visible = true
     @course.save
 

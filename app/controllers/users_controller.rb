@@ -3,7 +3,7 @@ class UsersController < ApplicationController
   # GET /users.json
   def index
     authorize! :index, @user, message: 'Not authorized as an administrator.'
-    @users = User.order(sort_column + ' ' + sort_direction).page(params[:page]).per(10)
+    @users = User.order("#{sort_column} #{sort_direction}").page(params[:page]).per(10)
 
     respond_to do |format|
       format.js
@@ -71,8 +71,15 @@ class UsersController < ApplicationController
   def update
     @user = User.find(params[:id])
 
+    filter_params = user_params
+
+    if filter_params[:password].blank?
+      logger.info('Removing blank password key')
+      filter_params.delete :password
+    end
+
     respond_to do |format|
-      if @user.update(params[:user])
+      if @user.update(filter_params)
         format.html { redirect_to @user, notice: 'User was successfully updated.' }
         format.json { head :ok }
       else

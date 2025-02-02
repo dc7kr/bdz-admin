@@ -44,9 +44,9 @@ class RegionalOrganization < ApplicationRecord
   end
 
   def member_fees_for_year(year: nil, before: nil)
-    year = Time.now.year if year.nil?
+    year = Time.zone.now.year if year.nil?
 
-    before = Time.now if before.nil?
+    before = Time.zone.now if before.nil?
 
     share = FeeShares.new(regional_organization: self, year: year)
 
@@ -58,11 +58,11 @@ class RegionalOrganization < ApplicationRecord
       orch = s.orchestra
 
       if s.orchestra.nil?
-        Rails.logger.warn('Reportsheet with null orchestra found and skipped: ' + s.id.to_s + 'orchestra_id: ' + s.orchestra_id.to_s)
+        Rails.logger.warn("Reportsheet with null orchestra found and skipped: #{s.id}orchestra_id: #{s.orchestra_id}")
         next
       end
 
-      next unless orch.member.regional_organization_id == id and orch.member.zero_member_fee_balance?
+      next unless (orch.member.regional_organization_id == id) && orch.member.zero_member_fee_balance?
 
       orch_ids << orch.member.mglnr
 
@@ -75,8 +75,7 @@ class RegionalOrganization < ApplicationRecord
       end
     end
 
-    PersonMember.with_zero_balance(true).includes(:member).where('members.regional_organization_id = ?',
-                                                                 id.to_s).each do |p|
+    PersonMember.with_zero_balance(true).includes(:member).where(members: { regional_organization_id: id.to_s }).find_each do |p|
       if p.is_direct_debit?
         share.direct_debit.persons += p.tariff.amount
       else
@@ -120,7 +119,7 @@ class RegionalOrganization < ApplicationRecord
 
   def magazine_address_list_row
     mag_count = currentMagazines(true)
-    return unless mag_count > 0
+    return unless mag_count.positive?
 
     {
       mglnr: member.mglnr,

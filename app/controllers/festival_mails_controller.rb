@@ -55,7 +55,7 @@ class FestivalMailsController < AuthenticatedNonResourceController
     @group = @mail_params['group']
     datafile = @mail_params[:datafile]
 
-    cur_year = Time.now.year
+    cur_year = Time.zone.now.year
 
     @att_file = nil
     @att_data = nil
@@ -68,22 +68,23 @@ class FestivalMailsController < AuthenticatedNonResourceController
 
     @applicants = nil
 
-    if @group == 'FA'
+    case @group
+    when 'FA'
       @applicants = FestivalApplication.includes(:contact_person)
-    elsif @group == 'FP'
+    when 'FP'
       @applicants = FestivalApplication.includes(:contact_person).where(permission: true)
-    elsif @group == 'FR'
+    when 'FR'
       @applicants = FestivalApplication.includes(:contact_person).where(permission: true, visitor_type: 'R')
-    elsif @group == 'FS'
+    when 'FS'
       @applicants = FestivalApplication.includes(:contact_person).where(permission: true, visitor_type: 'V')
-    elsif @group == 'FJ'
+    when 'FJ'
       @applicants = FestivalApplication.includes(:contact_person).where(permission: true, visitor_type: 'Y')
-    elsif @group == 'FG'
+    when 'FG'
       @applicants = FestivalApplication.includes(:contact_person).where(permission: true, visitor_type: 'G')
-    elsif @group == 'FO'
+    when 'FO'
       @applicants = FestivalApplication.includes(:contact_person).where(permission: true, visitor_type: 'O')
     else
-      logger.error('NO GROUP identified: ' + @group)
+      logger.error("NO GROUP identified: #{@group}")
     end
 
     subject = @mail_params[:subject]
@@ -97,7 +98,7 @@ class FestivalMailsController < AuthenticatedNonResourceController
       addressee = appl.contact_person.to_addressee
 
       body = prepare_body(appl, @mail_params[:body])
-      logger.debug('Result: ' + body)
+      logger.debug("Result: #{body}")
       mailer_params = { body: body, subject: subject }
 
       result = tool.deliver_mailing(FestivalMail, addressee, nil, @letterfile, letterArray, mailer_params)

@@ -1,3 +1,4 @@
+require 'English'
 class CustomInfoMailController < AuthenticatedNonResourceController
   include PdfHelper
   include BulkMailHelper
@@ -20,8 +21,8 @@ class CustomInfoMailController < AuthenticatedNonResourceController
     authorize! :member, :edit
     form_params = params[:custom_info_mail]
 
-    date_prefix = Time.now.strftime '%Y%m%d'
-    cur_year = Time.now.strftime '%Y'
+    date_prefix = Time.zone.now.strftime '%Y%m%d'
+    cur_year = Time.zone.now.strftime '%Y'
 
     letterfile = form_params[:datafile]
 
@@ -59,9 +60,9 @@ class CustomInfoMailController < AuthenticatedNonResourceController
       recordMailSuccess(mail_params[:event_id], orchestra, @mail_params[:subject])
       @orchCount += 1
     rescue StandardError
-      recordMailFailure(mail_params[:event_id], orchestra, $!.to_s)
+      recordMailFailure(mail_params[:event_id], orchestra, $ERROR_INFO.to_s)
 
-      @result = { err: $!, entity: orchestra, type: 'O' }
+      @result = { err: $ERROR_INFO, entity: orchestra, type: 'O' }
       @results.push(@result)
       @orchFailCount += 1
     end
@@ -87,14 +88,14 @@ class CustomInfoMailController < AuthenticatedNonResourceController
 
     @mail_params = { subject: subject, body: body, event_id: event_id }
 
-    if event_id.nil? or event_id.empty? or event_id.include? ' '
+    if event_id.blank? || event_id.include?(' ')
       respond_to do |format|
         format.html { render action: 'index', warning: 'custom_info_mail.event_id_invalid' }
       end
       return
     end
 
-    cur_year = Time.now.year
+    cur_year = Time.zone.now.year
 
     if letterfile.nil?
       Rails.logger.info('Letter mode disabled due to nil letterfile')

@@ -13,7 +13,7 @@ class ReportSheetInputMailer < ApplicationMailer
     @orchestra = @rsi.orchestra
     member = @orchestra.member
 
-    @salutation = t('common.salutation_full.' + member.anrede)
+    @salutation = t("common.salutation_full.#{member.anrede}")
 
     @url = BDZ_SETTINGS['meldebogen_url']
 
@@ -32,6 +32,6 @@ class ReportSheetInputMailer < ApplicationMailer
       attachments[personalized_file.orig_filename] = attachment_data
     end
 
-    mail(to: recipient, subject: 'Mitgliedermeldung ' + @year)
+    mail(to: recipient, subject: "Mitgliedermeldung #{@year}")
   end
 end

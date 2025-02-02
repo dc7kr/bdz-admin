@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class GemaEventsControllerTest < ActionController::TestCase
+class GemaEventsControllerTest < ActionDispatch::IntegrationTest
   setup do
     @gema_event = gema_events(:one)
   end

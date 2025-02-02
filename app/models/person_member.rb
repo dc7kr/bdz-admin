@@ -3,8 +3,6 @@ class PersonMember < ApplicationRecord
 
   belongs_to :tariff
 
-  validates :tariff, presence: true
-
   has_one :member, as: :member_entity
   accepts_nested_attributes_for :member
 
@@ -18,7 +16,7 @@ class PersonMember < ApplicationRecord
 
   def self.cancelled
     PersonMember.joins(:member).where(
-      "members.austritt_zum is not null and members.austritt_zum != '0000-00-00' and austritt_zum < ?", Time.now
+      "members.austritt_zum is not null and members.austritt_zum != '0000-00-00' and austritt_zum < ?", Time.zone.now
     )
   end
 
@@ -50,31 +48,31 @@ class PersonMember < ApplicationRecord
     restr = user.restricting_entity
 
     if restr.nil?
-      Rails.logger.warning('User ' + current_user.email + ' has no restriction entity configured - SAFETY NET!')
+      Rails.logger.warning("User #{current_user.email} has no restriction entity configured - SAFETY NET!")
       return where('1=0')
       # safety net
     end
 
-    if restr.class == RegionalOrganization
-      where('members.regional_organization_id = ?', restr.id)
-    elsif restr.class == Orchestra
-      where('id = ?', restr.id)
-    elsif restr.class == PersonMember
+    if restr.instance_of?(RegionalOrganization)
+      where(members: { regional_organization_id: restr.id })
+    elsif restr.instance_of?(Orchestra)
+      where(id: restr.id)
+    elsif restr.instance_of?(PersonMember)
       where('1=0')
     end
   end
 
   def self.mailForEvent(event, via_paper)
     if via_paper
-      joins([:member]).joins("LEFT JOIN member_events e ON members.id=e.member_id AND members.member_entity_id = person_members.id AND members.member_entity_type='PersonMember' AND e.event_id='" + event + "'").where('e.id IS NULL').order('members.mglnr')
+      joins([:member]).joins("LEFT JOIN member_events e ON members.id=e.member_id AND members.member_entity_id = person_members.id AND members.member_entity_type='PersonMember' AND e.event_id='#{event}'").where(e: { id: nil }).order('members.mglnr')
     else
-      joins([:member]).joins("LEFT JOIN member_events e ON members.id=e.member_id AND members.member_entity_id = person_members.id AND members.member_entity_type='PersonMember' AND e.event_type='E' and e.event_id='" + event + "'").where('members.email IS NOT NULL and length(members.email) >3 and e.id IS NULL')
+      joins([:member]).joins("LEFT JOIN member_events e ON members.id=e.member_id AND members.member_entity_id = person_members.id AND members.member_entity_type='PersonMember' AND e.event_type='E' and e.event_id='#{event}'").where('members.email IS NOT NULL and length(members.email) >3 and e.id IS NULL')
     end
   end
 
   def self.search(search)
     if search
-      where('members.mglnr = ? or members.name like ? or members.email like ?', "#{search}", "%#{search}%",
+      where('members.mglnr = ? or members.name like ? or members.email like ?', search.to_s, "%#{search}%",
             "%#{search}%")
     else
       where('1')
@@ -94,9 +92,9 @@ class PersonMember < ApplicationRecord
   delegate :countryCode, to: :member
 
   def currentMagazines(override = true)
-    if member.magazines > 0 and override
+    if member.magazines.positive? && override
       member.magazines
-    elsif member.magazines < 0
+    elsif member.magazines.negative?
       1
     else
       0
@@ -129,12 +127,11 @@ class PersonMember < ApplicationRecord
   end
 
   def address
-    member.address + ', ' + contact_info
+    "#{member.address}, #{contact_info}"
   end
 
   def address_block
-    member.address_block + "\n" +
-      contact_info_block
+    "#{member.address_block}\n#{contact_info_block}"
   end
 
   delegate :is_direct_debit?, to: :member
@@ -142,9 +139,9 @@ class PersonMember < ApplicationRecord
   delegate :contact_info, to: :member
 
   def contact_info_block
-    (telefonPrivat && telefonPrivat.length > 0 ? 'Tel: ' + telefonPrivat + ', ' : '') +
-      (telefax && telefax.length > 0 ? 'Fax: ' + telefax + ', ' : '') +
-      (member.email ? member.email + ', ' : '')
+    (telefonPrivat&.length&.positive? ? "Tel: #{telefonPrivat}, " : '') +
+      (telefax&.length&.positive? ? "Fax: #{telefax}, " : '') +
+      (member.email ? "#{member.email}, " : '')
   end
 
   delegate :iban, to: :member
@@ -199,15 +196,15 @@ class PersonMember < ApplicationRecord
   end
 
   def gen_invoice(year)
-    if tariff.amount == 0
+    if tariff.amount.zero?
       Rails.logger.warning("Requested invoice generation with 0 amount: #{mglnr}")
       return
     end
 
-    year = Time.now.year if year.nil?
+    year = Time.zone.now.year if year.nil?
 
     invoice = CorikaInvoices::Invoice.new
-    invoice.invoice_date = Time.now
+    invoice.invoice_date = Time.zone.now
     invoice.invoice_type = 'beitragsrechnung'
 
     # taxfree
@@ -216,7 +213,7 @@ class PersonMember < ApplicationRecord
     invoice.number = "#{member.mglnr}-BEITRAG#{year}"
     invoice.customer = to_customer
 
-    invoice.addItem(1, tariff.amount, 'Beitrag ' + tariff.description)
+    invoice.addItem(1, tariff.amount, "Beitrag #{tariff.description}")
 
     invoice
   end
@@ -232,7 +229,7 @@ class PersonMember < ApplicationRecord
   end
 
   def magazine_address_list_row
-    return unless currentMagazines > 0
+    return unless currentMagazines.positive?
 
     {
       identifier: member.mglnr,

@@ -35,7 +35,7 @@ class ReportSheet < ApplicationRecord
   scope :not_final, -> {  where(orchestra_id: nil) }
 
   scope :current,
-        -> { { conditions: ['year =  ?', String(Time.now.year)] } }
+        -> { { conditions: ['year =  ?', String(Time.zone.now.year)] } }
 
   def self.age_categories
     @@age_categories = %w[C T Y A S]
@@ -146,7 +146,7 @@ class ReportSheet < ApplicationRecord
 
   def calcGemaCount
     # TODO: need a clean solution for the double members
-    if !orchestra.nil? and orchestra.is_lorch?
+    if !orchestra.nil? && orchestra.is_lorch?
       youth + teens + adult + senior - azubi
     else
       youth + teens + adult + senior
@@ -154,7 +154,7 @@ class ReportSheet < ApplicationRecord
   end
 
   def calcUvCount
-    if uv and !orchestra.is_coop?
+    if uv && !orchestra.is_coop?
       children + teens + youth + adult + senior + zusatz_uv
     else
       0
@@ -213,11 +213,11 @@ class ReportSheet < ApplicationRecord
 
   def ageKeyStr
     str = '|'
-    str += children.to_s + '|'
-    str += teens.to_s + '|'
-    str += youth.to_s + '|'
-    str += adult.to_s + '|'
-    str += senior.to_s + '|'
+    str += "#{children}|"
+    str += "#{teens}|"
+    str += "#{youth}|"
+    str += "#{adult}|"
+    str += "#{senior}|"
 
     str
   end
@@ -243,14 +243,14 @@ class ReportSheet < ApplicationRecord
   end
 
   def add_invoice_items(invoice)
-    if orchestra.is_coop? or orchestra.is_foreign_coop?
+    if orchestra.is_coop? || orchestra.is_foreign_coop?
       logger.info('No additional items - special orchestra')
       return
     elsif orchestra.is_lorch?
       # regional orchestras only pay a fixed fee no calculation...
       invoice.addItem(1, Prices.lvOrchRate, 'Landesorchesterbeitrag')
     else
-      if isMinTariff? or isMaxTariff?
+      if isMinTariff? || isMaxTariff?
         # in case of min or max tariff we don't
         # charge the real fees but 0 (just print out the statistics)
         invoice.addItem(children, 0, I18n.t('report_sheet.children_rate'))
@@ -282,8 +282,8 @@ class ReportSheet < ApplicationRecord
   end
 
   def gen_delta_booking(sepa_writer, invoice, delta_value)
-    if delta_value < 0
-      booking_txt = 'Beitragserstattung ' + String(year)
+    if delta_value.negative?
+      booking_txt = "Beitragserstattung #{String(year)}"
       booking = orchestra.member.create_credit_transfer(sepa_writer, year, booking_txt, -1 * delta_value)
     else
       String(year)
@@ -300,8 +300,8 @@ class ReportSheet < ApplicationRecord
 
   def ens_key_string
     data = [child_ens, youth_ens, adult_ens, senior_ens, chamber_ens]
-    data.map! { |x| x.to_i }
-    '|' + data.join('|') + '|'
+    data.map!(&:to_i)
+    "|#{data.join('|')}|"
   end
 
   def update_stats(hash, key, value)
@@ -380,7 +380,7 @@ class ReportSheet < ApplicationRecord
 
   def find_booking
     bookings = orchestra.member.member_account_bookings.where(booking_year: year, booking_type: 'B')
-    return unless !bookings.nil? and bookings.count >= 1
+    return unless !bookings.nil? && (bookings.count >= 1)
 
     bookings.first
   end
@@ -457,7 +457,7 @@ class ReportSheet < ApplicationRecord
   end
 
   def at_least_one_member
-    return unless !orchestra.nil? and !orchestra.is_coop?
+    return unless !orchestra.nil? && !orchestra.is_coop?
 
     return unless calcGemaCount <= 0
 

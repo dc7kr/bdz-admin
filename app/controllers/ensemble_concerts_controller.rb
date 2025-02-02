@@ -12,7 +12,7 @@ class EnsembleConcertsController < AuthenticatedController
   def publish
     @ensemble_concert = EnsembleConcert.find(params[:id])
     @ensemble = Ensemble.find(@ensemble_concert.ensemble_id)
-    @ensemble_concert.confirmed = Time.now
+    @ensemble_concert.confirmed = Time.zone.now
     @ensemble_concert.visible = true
     @ensemble_concert.save
 
@@ -31,7 +31,7 @@ class EnsembleConcertsController < AuthenticatedController
   end
 
   def public
-    @ensemble_concerts = EnsembleConcert.public.search(params[:search]).order(sort_column + ' ' + sort_direction).page(params[:page]).per(20)
+    @ensemble_concerts = EnsembleConcert.public.search(params[:search]).order("#{sort_column} #{sort_direction}").page(params[:page]).per(20)
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @concerts }
@@ -45,8 +45,7 @@ class EnsembleConcertsController < AuthenticatedController
     @ensemble_concerts = if @ensemble.nil?
                            EnsembleConcert.inactive.page(params[:page]).per(20)
                          else
-                           EnsembleConcert.inactive.where('ensemble_id = ?',
-                                                          params[:ensemble_id]).page(params[:page]).per(20)
+                           EnsembleConcert.inactive.where(ensemble_id: params[:ensemble_id]).page(params[:page]).per(20)
                          end
 
     respond_to do |format|
@@ -66,7 +65,7 @@ class EnsembleConcertsController < AuthenticatedController
     end
     if params[:ensemble_id]
       @ensemble = Ensemble.find(params[:ensemble_id])
-      @ensemble_concerts = EnsembleConcert.where('ensemble_id = ?', params[:ensemble_id]).page(params[:page]).per(20)
+      @ensemble_concerts = EnsembleConcert.where(ensemble_id: params[:ensemble_id]).page(params[:page]).per(20)
     else
       @ensemble_concerts = EnsembleConcert.page(params[:page]).per(20)
     end
@@ -107,7 +106,7 @@ class EnsembleConcertsController < AuthenticatedController
   def create
     @ensemble_concert = EnsembleConcert.new(params[:ensemble_concert])
 
-    @ensemble_concert.reported = Time.now
+    @ensemble_concert.reported = Time.zone.now
 
     respond_to do |format|
       if @ensemble_concert.save
@@ -133,7 +132,7 @@ class EnsembleConcertsController < AuthenticatedController
       if @ensemble_concert.update(params[:ensemble_concert])
         format.html do
           redirect_to ensemble_ensemble_concert_path(@ensemble, @ensemble_concert),
-                      notice: t_update_success("ensemble_concert")
+                      notice: t_update_success('ensemble_concert')
         end
         format.json { head :ok }
       else

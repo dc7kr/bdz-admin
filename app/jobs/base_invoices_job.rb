@@ -18,7 +18,7 @@ class BaseInvoicesJob < ApplicationJob
 
   def init_fields(_year, user_id)
     self.generator_session_id = SecureRandom.uuid
-    self.date_prefix = Time.now.strftime '%Y%m%d%H%M%S'
+    self.date_prefix = Time.zone.now.strftime '%Y%m%d%H%M%S'
 
     self.tex_writer = CorikaInvoices::TexWriter.new(INVOICE_CONFIG)
     self.sepa_writer = CorikaInvoices::SepaWriter.new(date_prefix, INVOICE_CONFIG)
@@ -42,7 +42,7 @@ class BaseInvoicesJob < ApplicationJob
     dd_url = "#{base_url}?year=#{ddFile.archive_folder}&filename=#{ddFile.orig_filename}" unless ddFile.nil?
 
     User.for_admin_notify.each do |user|
-      AdminNotifier.newinvoices_notification(user, invoices_url, dd_url, self.triggered_by).deliver
+      AdminNotifier.newinvoices_notification(user, invoices_url, dd_url, triggered_by).deliver
       logger.info 'new invoice notify sent to %s' % user.email
     end
   end

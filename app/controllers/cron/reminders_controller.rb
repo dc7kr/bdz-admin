@@ -1,96 +1,98 @@
-class Cron::RemindersController < AuthenticatedNonResourceController
-  def report_sheet
-    authorize! :member, :edit
+module Cron
+  class RemindersController < AuthenticatedNonResourceController
+    def report_sheet
+      authorize! :member, :edit
 
-    fa = FileArchiveTool.new(DOCS_CONFIG)
+      fa = FileArchiveTool.new(DOCS_CONFIG)
 
-    datePrefix = Time.now.strftime('%Y%m%d_')
-    year = Time.now.strftime('%Y')
+      datePrefix = Time.zone.now.strftime('%Y%m%d_')
+      year = Time.zone.now.strftime('%Y')
 
-    @orchestras = Orchestra.no_report_sheet(Time.now.year)
+      @orchestras = Orchestra.no_report_sheet(Time.zone.now.year)
 
-    @tw = TexWriter.new
-    pdfs = []
+      @tw = TexWriter.new
+      pdfs = []
 
-    tmpdir = DOCS_CONFIG.work_dir
+      tmpdir = DOCS_CONFIG.work_dir
 
-    @orchestras.each do |orch|
-      @tw.writeReportSheetReminderData(orch.to_customer)
-      filename = `/opt/bdz-rechnung/bin/create_pdf.sh #{orch.member.mglnr} mahnung-meldebogen`
-      filename = filename.chomp
+      @orchestras.each do |orch|
+        @tw.writeReportSheetReminderData(orch.to_customer)
+        filename = `/opt/bdz-rechnung/bin/create_pdf.sh #{orch.member.mglnr} mahnung-meldebogen`
+        filename = filename.chomp
 
-      fa.archive_file(tmpdir, filename, year)
-      pdfs << filename
+        fa.archive_file(tmpdir, filename, year)
+        pdfs << filename
+      end
+
+      pdf_filename = "#{datePrefix}mahnungen-meldebogen.pdf"
+      pdf_merged_file = MailingFile.new(pdf_filename, pdf_filename, year.to_s)
+      fa.merge_pdfs(pdfs, pdf_merged_file)
+
+      send_mail(pdf_filename)
+
+      render text: ' OK.'
     end
 
-    pdf_filename = "#{datePrefix}mahnungen-meldebogen.pdf"
-    pdf_merged_file = MailingFile.new(pdf_filename, pdf_filename, year.to_s)
-    fa.merge_pdfs(pdfs, pdf_merged_file)
+    def payment
+      authorize! :member, :edit
 
-    send_mail(pdf_filename)
+      fa = FileArchiveTool.new(DOCS_CONFIG)
 
-    render text: ' OK.'
-  end
+      datePrefix = Time.zone.now.strftime('%Y%m%d_')
+      year = Time.zone.now.strftime('%Y')
 
-  def payment
-    authorize! :member, :edit
+      Time.zone.now
+      30.days
+      pm_data = PersonMember.no_payment
+      orch_data = Orchestra.no_payment
 
-    fa = FileArchiveTool.new(DOCS_CONFIG)
+      @persons = pm_data[:members]
 
-    datePrefix = Time.now.strftime('%Y%m%d_')
-    year = Time.now.strftime('%Y')
+      @orchestras = orch_data[:members]
 
-    Time.now
-    30.days
-    pm_data = PersonMember.no_payment
-    orch_data = Orchestra.no_payment
+      pdfs = []
+      tmpdir = DOCS_CONFIG.work_dir
 
-    @persons = pm_data[:members]
+      @tw = TexWriter.new
+      @orchestras.each do |orch_member|
+        filtered_bookings = orch_member.get_unbalanced_bookings
+        customer = orch_member.member_entity.to_customer
+        @tw.writeReminderData(customer, filtered_bookings)
+        filename = `/opt/bdz-rechnung/bin/create_pdf.sh #{orch_member.mglnr} mahnung-beitrag`
+        filename = filename.chomp
+        fa.archive_file(tmpdir, filename, year)
+        pdfs << filename
+      end
 
-    @orchestras = orch_data[:members]
+      @persons.each do |person_member|
+        filtered_bookings = person_member.get_unbalanced_bookings
+        customer = person_member.member_entity.to_customer
+        @tw.writeReminderData(customer, filtered_bookings)
+        filename = `/opt/bdz-rechnung/bin/create_pdf.sh #{customer.id} mahnung-beitrag`
+        filename = filename.chomp
+        fa.archive_file(tmpdir, filename, year)
+        pdfs << filename
+      end
 
-    pdfs = []
-    tmpdir = DOCS_CONFIG.work_dir
+      pdf_filename = "#{datePrefix}mahnungen-beitrag.pdf"
+      pdf_merged_file = MailingFile.new(pdf_filename, pdf_filename, year.to_s)
+      merge_pdfs(pdfs, pdf_merged_file)
 
-    @tw = TexWriter.new
-    @orchestras.each do |orch_member|
-      filtered_bookings = orch_member.get_unbalanced_bookings
-      customer = orch_member.member_entity.to_customer
-      @tw.writeReminderData(customer, filtered_bookings)
-      filename = `/opt/bdz-rechnung/bin/create_pdf.sh #{orch_member.mglnr} mahnung-beitrag`
-      filename = filename.chomp
-      fa.archive_file(tmpdir, filename, year)
-      pdfs << filename
+      send_mail(pdf_filename)
+
+      render text: ' OK.'
     end
 
-    @persons.each do |person_member|
-      filtered_bookings = person_member.get_unbalanced_bookings
-      customer = person_member.member_entity.to_customer
-      @tw.writeReminderData(customer, filtered_bookings)
-      filename = `/opt/bdz-rechnung/bin/create_pdf.sh #{customer.id} mahnung-beitrag`
-      filename = filename.chomp
-      fa.archive_file(tmpdir, filename, year)
-      pdfs << filename
-    end
+    def send_mail(pdf_file)
+      year = Time.zone.now.strftime('%Y')
+      Time.zone.now.strftime '%Y%m%d'
 
-    pdf_filename = "#{datePrefix}mahnungen-beitrag.pdf"
-    pdf_merged_file = MailingFile.new(pdf_filename, pdf_filename, year.to_s)
-    merge_pdfs(pdfs, pdf_merged_file)
-
-    send_mail(pdf_filename)
-
-    render text: ' OK.'
-  end
-
-  def send_mail(pdf_file)
-    year = Time.now.strftime('%Y')
-    Time.now.strftime '%Y%m%d'
-
-    @users = User.with_any_role(:admin, :bulk_notify)
-    base_url = cron_downloads_url
-    reminders_url = base_url + '?year=' + year + '&filename=' + pdf_file
-    @users.each do |user|
-      AdminNotifier.newreminders_notification(user, reminders_url, current_user).deliver
+      @users = User.with_any_role(:admin, :bulk_notify)
+      base_url = cron_downloads_url
+      reminders_url = "#{base_url}?year=#{year}&filename=#{pdf_file}"
+      @users.each do |user|
+        AdminNotifier.newreminders_notification(user, reminders_url, current_user).deliver
+      end
     end
   end
 end

@@ -3,7 +3,7 @@ class ClassifiedsController < AuthenticatedController
 
   def publish
     @classified = Classified.find(params[:id])
-    @classified.confirmed = Time.now
+    @classified.confirmed = Time.zone.now
     @classified.visible = true
     @classified.save
     flash[:notice] = t('classified.publish_success')
@@ -20,7 +20,7 @@ class ClassifiedsController < AuthenticatedController
   end
 
   def inactive
-    @classifieds = Classified.inactive.order(sort_column + ' ' + sort_direction).page(params[:page]).per(20)
+    @classifieds = Classified.inactive.order("#{sort_column} #{sort_direction}").page(params[:page]).per(20)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -31,7 +31,7 @@ class ClassifiedsController < AuthenticatedController
   # GET /classifieds
   # GET /classifieds.json
   def index
-    @classifieds = Classified.order(sort_column + ' ' + sort_direction).page(params[:page]).per(20)
+    @classifieds = Classified.order("#{sort_column} #{sort_direction}").page(params[:page]).per(20)
 
     respond_to do |format|
       format.html # index.html.erb

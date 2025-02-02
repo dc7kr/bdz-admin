@@ -2,8 +2,8 @@ require 'ktoblzcheck'
 
 class KontoValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, value)
-    if !value || value == 0
-      record.errors[attribute] << (options[:message] || I18n.t('errors.konto.required_by_za')) if record.za == 'L'
+    if !value || value.zero?
+      record.errors.add(attribute, (options[:message] || I18n.t('errors.konto.required_by_za'))) if record.za == 'L'
       return
     end
     KtoBlzCheck.new do |kbc|
@@ -14,14 +14,14 @@ class KontoValidator < ActiveModel::EachValidator
         when KtoBlzCheck::OK
           return
         when KtoBlzCheck::UNKNOWN
-          record.errors[attribute] << (': ' + (options[:message] || I18n.t('errors.konto.error')))
-          record.errors[attribute] << name
+          record.errors.add(attribute, ": #{options[:message] || I18n.t('errors.konto.error')}")
+          record.errors.add(attribute, name)
           return
         when KtoBlzCheck::ERROR
-          record.errors[attribute] << (': ' + (options[:message] || (I18n.t('errors.konto.invalid') + ' (' + name + ')')))
+          record.errors.add(attribute, ": #{options[:message] || "#{I18n.t('errors.konto.invalid')} (#{name})"}")
           return
         when KtoBlzCheck::BANK_NOT_KNOWN
-          record.errors[attribute] << (': ' + (options[:message] || I18n.t('errors.konto.bank_unknown')))
+          record.errors.add(attribute, ": #{options[:message] || I18n.t('errors.konto.bank_unknown')}")
           return
         end
       end

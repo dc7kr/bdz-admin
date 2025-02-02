@@ -11,7 +11,7 @@ module FileArchiveHelper
       FileUtils.mv(srcFileName, target.full_path)
       target
     else
-      Rails.logger.error('Source file not found: ' + srcFileName)
+      Rails.logger.error("Source file not found: #{srcFileName}")
       nil
     end
   end
@@ -19,7 +19,7 @@ module FileArchiveHelper
   # all parameters are MailingFile instances!
   def merge_pdfs(to_merge, out_file)
     Dir.chdir(out_file.full_dir)
-    cmd = '/usr/bin/pdftk ' + to_merge.join(' ') + ' output ' + out_file.full_path
+    cmd = "/usr/bin/pdftk #{to_merge.join(' ')} output #{out_file.full_path}"
     Rails.logger.debug { "exec: #{cmd}" }
     system(cmd)
   end

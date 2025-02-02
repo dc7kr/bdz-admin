@@ -3,7 +3,7 @@ class MemberAreaController < ApplicationController
 
   def show
     @p = params
-    member = Member.find_by_mglnr(params[:id])
+    member = Member.find_by(mglnr: params[:id])
     if member.member_entity_type == 'PersonMember'
       @person_member = member.member_entity
     elsif member.member_entity_type == 'Orchestra'

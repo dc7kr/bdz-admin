@@ -1,5 +1,4 @@
 require 'rodf'
-require 'set'
 require 'csv'
 
 class OrchestrasController < AuthenticatedController
@@ -51,9 +50,9 @@ class OrchestrasController < AuthenticatedController
   def notinvoiced
     year = params[:year]
 
-    year = Time.now.year if year.nil?
+    year = Time.zone.now.year if year.nil?
 
-    @orchestras = Orchestra.notinvoiced(year).search(params[:search]).order(sort_column + ' ' + sort_direction).page(params[:page]).per(20)
+    @orchestras = Orchestra.notinvoiced(year).search(params[:search]).order("#{sort_column} #{sort_direction}").page(params[:page]).per(20)
 
     respond_to do |format|
       format.js
@@ -74,16 +73,16 @@ class OrchestrasController < AuthenticatedController
       csvrow = Orchestra.magazine_address_list_row
 
       if csvrow.nil?
-        Rails.logger.warn('Magazine count is zero: ' + orchestra.member.mglnr.to_s)
+        Rails.logger.warn("Magazine count is zero: #{orchestra.member.mglnr}")
       else
         @result << @csvrow
       end
     end
-    filename = 'magazine.orch.' + Time.now.strftime('%m-%d-%Y') + '.ods'
+    filename = "magazine.orch.#{Time.zone.now.strftime('%m-%d-%Y')}.ods"
 
-    renderOrchestraMagazineListOds('/tmp/' + filename, @result)
+    renderOrchestraMagazineListOds("/tmp/#{filename}", @result)
 
-    send_file('/tmp/' + filename, filename: filename, type: 'application/octet-stream')
+    send_file("/tmp/#{filename}", filename: filename, type: 'application/octet-stream')
 
     flash[:notice] = 'Export complete!'
   end
@@ -99,17 +98,17 @@ class OrchestrasController < AuthenticatedController
     respond_to do |format|
       format.html
       format.json { render json: @members }
-      format.csv { render csv: @members, style: :minimal, filename: 'nopayment_' + Time.now.year.to_s }
+      format.csv { render csv: @members, style: :minimal, filename: "nopayment_#{Time.zone.now.year}" }
       format.ods do
         renderNoPayOds('/tmp/nopayment.ods', @accounts, @members)
-        send_file('/tmp/nopayment.ods', filename: 'orch_nopay_' + Time.now.year.to_s + '.ods',
+        send_file('/tmp/nopayment.ods', filename: "orch_nopay_#{Time.zone.now.year}.ods",
                                         type: 'application/octet-stream')
       end
     end
   end
 
   def gema
-    currentYear = String(Time.now.year)
+    currentYear = String(Time.zone.now.year)
     respond_to do |format|
       @orchestras = Orchestra.includes(:member, :report_sheets).where(
         "report_sheets.year = ? and members.mglnr < 20000 and orchestras.orch_type <>'K'", currentYear
@@ -124,13 +123,13 @@ class OrchestrasController < AuthenticatedController
         send_file(tmpfile, filename: 'gema.ods', type: 'application/octet-stream')
       end
 
-      format.csv { render csv: @orchestras, style: :gema, filename: 'gema' + Time.now.year.to_s }
+      format.csv { render csv: @orchestras, style: :gema, filename: "gema#{Time.zone.now.year}" }
       format.json { render json: @orchestras }
     end
   end
 
   def lorch
-    @orchestras = @orchestras.includes(:member).where("orch_type='L'").order(sort_column + ' ' + sort_direction).page(params[:page]).per(20)
+    @orchestras = @orchestras.includes(:member).where("orch_type='L'").order("#{sort_column} #{sort_direction}").page(params[:page]).per(20)
 
     # authorize_action_for @orchestras
 
@@ -147,7 +146,7 @@ class OrchestrasController < AuthenticatedController
   def pro_musica
     @age = 90
     Rails.logger.debug { "AGE: #{@age}" }
-    year = Time.now.year - @age
+    year = Time.zone.now.year - @age
 
     Rails.logger.debug { "Year: #{year}" }
     @orchestras = Orchestra.includes(:member).where(
@@ -156,7 +155,7 @@ class OrchestrasController < AuthenticatedController
   end
 
   def index
-    @orchestras = @orchestras.includes(:member).search(params[:search]).order(sort_column + ' ' + sort_direction).page(params[:page]).per(20)
+    @orchestras = @orchestras.includes(:member).search(params[:search]).order("#{sort_column} #{sort_direction}").page(params[:page]).per(20)
 
     respond_to do |format|
       format.html do
@@ -170,7 +169,7 @@ class OrchestrasController < AuthenticatedController
 
   def noreport
     year = if params[:year].nil?
-             Time.now.year
+             Time.zone.now.year
            else
              params[:year]
            end
@@ -203,7 +202,7 @@ class OrchestrasController < AuthenticatedController
     @orchestra = Orchestra.new
     @orchestra.build_member
     @orchestra.member.country_code = ISO3166::Country['DE'].alpha2
-    @orchestra.member.eintritt = Time.now
+    @orchestra.member.eintritt = Time.zone.now
 
     respond_to do |format|
       format.html # new.html.erb
@@ -239,8 +238,10 @@ class OrchestrasController < AuthenticatedController
 
     respond_to do |format|
       if @orchestra.update(orchestra_params)
-        format.html { redirect_to @orchestra, 
-              notice: t_update_success("orchestra") }
+        format.html do
+          redirect_to @orchestra,
+                      notice: t_update_success('orchestra')
+        end
         format.json { head :ok }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -252,7 +253,7 @@ class OrchestrasController < AuthenticatedController
   def rsi_login
     @orchestra = Orchestra.find(params[:id])
 
-    cur_year = Time.now.year
+    cur_year = Time.zone.now.year
     @rsi = ReportSheetInput.for_orchestra_and_year(@orchestra, cur_year)
 
     return if @rsi.nil?
@@ -266,7 +267,7 @@ class OrchestrasController < AuthenticatedController
     @orchestra = Orchestra.includes(:member).find(params[:id])
 
     if @orchestra.nil?
-      logger.warn('Orchestra is nil!: ' + params[:id].to_s)
+      logger.warn("Orchestra is nil!: #{params[:id]}")
       respond_to do |format|
         format.html { redirect_to orchestras_url, status: :unprocessable_entity, notice: t('orchestra.nil') }
       end
@@ -274,23 +275,23 @@ class OrchestrasController < AuthenticatedController
     end
 
     unless @orchestra.report_sheet_required?
-      logger.info('No report sheet required: ' + @orchestra.member.mglnr.to_s)
+      logger.info("No report sheet required: #{@orchestra.member.mglnr}")
       respond_to do |format|
         format.html { redirect_to @orchestra, status: :unprocessable_entity, notice: t('report_sheet.no_rs_required') }
       end
       return
     end
 
-    rs_year = Time.now.year
+    rs_year = Time.zone.now.year
 
-    dateprefix = Time.now.strftime '%Y%m%d%H%M%S_'
+    dateprefix = Time.zone.now.strftime '%Y%m%d%H%M%S_'
     BDZ_SETTINGS['meldebogen_url']
-    target = INVOICE_CONFIG.archive_dir + '/' + rs_year.to_s + '/' + dateprefix + @orchestra.member.mglnr.to_s + '_meldebogen_anschreiben.pdf'
+    target = "#{INVOICE_CONFIG.archive_dir}/#{rs_year}/#{dateprefix}#{@orchestra.member.mglnr}_meldebogen_anschreiben.pdf"
 
     @rsi = ReportSheetInput.for_orchestra_and_year(@orchestra, rs_year)
 
     unless @rsi.nil?
-      logger.info('RSI already exists: ' + @orchestra.member.mglnr.to_s)
+      logger.info("RSI already exists: #{@orchestra.member.mglnr}")
       respond_to do |format|
         format.html do
           redirect_to @orchestra, status: :unprocessable_entity, notice: t('report_sheet_input.already_exists')
@@ -318,7 +319,7 @@ class OrchestrasController < AuthenticatedController
   end
 
   def invoice_preview
-    year = Time.now.year
+    year = Time.zone.now.year
     @invoice = @orchestra.gen_invoice(year)
 
     respond_to do |format|
@@ -339,7 +340,7 @@ class OrchestrasController < AuthenticatedController
 
   def sort_column
     if Member.column_names.include?(params[:sort])
-      'members.' + params[:sort]
+      "members.#{params[:sort]}"
     else
       Orchestra.column_names.include?(params[:sort]) ? params[:sort] : 'members.mglnr'
     end

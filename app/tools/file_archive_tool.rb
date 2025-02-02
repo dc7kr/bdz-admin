@@ -5,7 +5,7 @@ class FileArchiveTool
 
   def initialize(settings)
     self.settings = settings
-    self.timestamp = Time.now.strftime '%Y%m%d%H%M%S'
+    self.timestamp = Time.zone.now.strftime '%Y%m%d%H%M%S'
   end
 
   def archive_file(srcdir, filename, year)

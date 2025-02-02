@@ -15,7 +15,7 @@ class ContestsController < AuthenticatedController
 
   def publish
     @contest = Contest.find(params[:id])
-    @contest.confirmed = Time.now
+    @contest.confirmed = Time.zone.now
     @contest.visible = true
     @contest.save
 
@@ -31,7 +31,7 @@ class ContestsController < AuthenticatedController
   end
 
   def public
-    @contests = Contest.public.search(params[:search]).order(sort_column + ' ' + sort_direction).page(params[:page]).per(20)
+    @contests = Contest.public.search(params[:search]).order("#{sort_column} #{sort_direction}").page(params[:page]).per(20)
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @contests }

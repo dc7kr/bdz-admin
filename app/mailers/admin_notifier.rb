@@ -1,4 +1,4 @@
-class AdminNotifier < ApplicationMailer
+class AdminNotifierMailer < ApplicationMailer
   def gen_rsi_notification(args)
     @year = args[0]
     @user_id = args[1]
@@ -51,13 +51,13 @@ class AdminNotifier < ApplicationMailer
     invoice_data = File.new(invoice_file.full_path).read
     attachments[invoice_file.orig_filename] = invoice_data
 
-    mail(to: user.email, subject: 'Rechnungs-Korrektur Mgl-Nr. ' + invoice.customer.customer_id)
+    mail(to: user.email, subject: "Rechnungs-Korrektur Mgl-Nr. #{invoice.customer.customer_id}")
   end
 
   def new_report_sheet(user, rs)
     @recipient = user
     @rs = rs
-    mail(to: user.email, subject: 'Meldebogen-Eingabe ' + rs.orchestra.member.mglnr.to_s)
+    mail(to: user.email, subject: "Meldebogen-Eingabe #{rs.orchestra.member.mglnr}")
   end
 
   def report_sheet_notification(user, params)
@@ -123,7 +123,7 @@ class AdminNotifier < ApplicationMailer
 
     cc = BDZ_SETTINGS['contacts']['admin']['mail']
 
-    mail(to: user, cc: cc, subject: 'Neue Ehrungsrechnung Nr. ' + invnr)
+    mail(to: user, cc: cc, subject: "Neue Ehrungsrechnung Nr. #{invnr}")
   end
 
   def generic_pdf_notification

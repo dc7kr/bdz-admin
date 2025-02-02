@@ -2,23 +2,21 @@ module RegionalOrganizationReport
   private
 
   def orch
-    @orchestras = Orchestra.includes(:member).where('members.regional_organization_id = ?',
-                                                    params[:id]).order('members.mglnr')
+    @orchestras = Orchestra.includes(:member).where(members: { regional_organization_id: params[:id] }).order('members.mglnr')
     respond_to do |format|
       format.csv do
         render csv: @orchestras, style: :lv,
-               filename: 'orch_lv' + @regional_organization.nummer.to_s + '_' + Time.now.year.to_s
+               filename: "orch_lv#{@regional_organization.nummer}_#{Time.zone.now.year}"
       end
     end
   end
 
   def person
-    @person_members = PersonMember.includes(:member).where('members.regional_organization_id = ?',
-                                                           params[:id]).order('members.mglnr')
+    @person_members = PersonMember.includes(:member).where(members: { regional_organization_id: params[:id] }).order('members.mglnr')
     respond_to do |format|
       format.csv do
         render csv: @person_members, style: :lv,
-               filename: 'em_lv' + @regional_organization.nummer.to_s + '_' + Time.now.year.to_s
+               filename: "em_lv#{@regional_organization.nummer}_#{Time.zone.now.year}"
       end
     end
   end
@@ -31,8 +29,7 @@ module RegionalOrganizationReport
     @personSum = 0
     @orchestras = Orchestra.includes(%i[member report_sheets]).where('members.regional_organization_id =?',
                                                                      params[:id]).order('members.mglnr')
-    @person_members = PersonMember.includes(:member, :tariff).where('members.regional_organization_id = ?',
-                                                                    params[:id]).order('members.mglnr')
+    @person_members = PersonMember.includes(:member, :tariff).where(members: { regional_organization_id: params[:id] }).order('members.mglnr')
 
     @ensembles = []
 
@@ -80,8 +77,7 @@ module RegionalOrganizationReport
     @personSum = 0
     @orchestras = Orchestra.includes(%i[member report_sheets]).where('members.regional_organization_id =?',
                                                                      params[:id]).order('members.mglnr')
-    @person_members = PersonMember.includes(:member, :tariff).where('members.regional_organization_id = ?',
-                                                                    params[:id]).order('members.mglnr')
+    @person_members = PersonMember.includes(:member, :tariff).where(members: { regional_organization_id: params[:id] }).order('members.mglnr')
 
     respond_to do |format|
       format.pdf do
@@ -108,10 +104,10 @@ module RegionalOrganizationReport
   end
 
   def share_overview
-    @curYear = Time.now.year
+    @curYear = Time.zone.now.year
 
     @before = if params[:before].nil?
-                Time.new
+                Time.zone.now
               else
                 Date.strptime(params[:before], '%d.%m.%Y')
               end

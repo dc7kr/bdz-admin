@@ -16,7 +16,7 @@ class RegionalOrganizationAuthorizer < ApplicationAuthorizer
 
   def self.readable_by(user, scope = RegionalOrganization.all)
     Rails.logger.debug('Static readable check RO')
-    if user.has_role? :national or user.has_role? :admin
+    if user.has_role?(:national) || user.has_role?(:admin)
       scope
     # elsif user.has_role? :regional
     else
