@@ -32,6 +32,7 @@ RUN apt-get update -qq && \
         texlive-plain-generic \
         fonts-lato \
     	fonts-liberation \
+      	uuid \
 	pdftk 
 
 # Throw-away build stage to reduce size of final image
