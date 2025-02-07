@@ -1,11 +1,14 @@
 = bootstrap_form_for @report_sheet_input, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10", :url => url_for(:action => :submit1, :id=> @report_sheet_input) do |f|
 
   = f.fields_for @report_sheet_input.report_sheet do |rs|
-    .card.mb-3
-      .card-header Unfallversicherung
-      .card-body
-        .form-group
-          =rs.check_box :uv,  label: ''
+    - if @report_sheet_input.orchestra.is_coop?
+      = rs.hidden_field :uv, :value => 0
+    - else
+      .card.mb-3
+        .card-header Unfallversicherung
+        .card-body
+          .form-group
+            =rs.check_box :uv,  label: ''
 
   = f.fields_for @report_sheet_input.orchestra do |orch|
     .card.mb-3
