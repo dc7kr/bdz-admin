@@ -295,7 +295,13 @@ class ReportSheet < ApplicationRecord
   def total_ensembles
     data = [child_ens, youth_ens, adult_ens, senior_ens, chamber_ens]
 
-    data.compact.sum
+    sum = data.compact.sum
+
+    if sum == 0
+	sum = 1
+    end
+
+    sum
   end
 
   def ens_key_string
