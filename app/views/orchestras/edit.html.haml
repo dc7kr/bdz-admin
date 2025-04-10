@@ -1,9 +1,8 @@
 .secondary-navigation
   = render :partial => 'nav'
-.content
+.container
   %h2.title
     Orchester
-    = t("web-app-theme.edit", :default => "Edit")
-  .inner
-    = render :partial => "form"
+    = t("common.edit")
+  = render :partial => "form"
 - content_for :sidebar, render(:partial => 'sidebar')

@@ -1,11 +1,10 @@
 .secondary-navigation
   = render :partial=>'nav'
-.content
-  .inner
-    %h2= @person_member.member.mglnr
-    %h3
-      = @person_member.fullname
-      = link_to 'Rechnungsvorschau', invoice_preview_person_member_path(@person_member),  data: { 'turbo_frame' => 'modal' }, class: 'btn btn-secondary btn-sm'
+.container
+  %h2= @person_member.member.mglnr
+  %h3
+    = @person_member.fullname
+    = link_to 'Rechnungsvorschau', invoice_preview_person_member_path(@person_member),  data: { 'turbo_frame' => 'modal' }, class: 'btn btn-secondary btn-sm'
 
   #personMemberAccordion.accordion
     .accordion-item

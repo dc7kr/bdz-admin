@@ -1,6 +1,6 @@
 .secondary-navigation
   = render :partial=>'nav'
-.content
+.container
   %h2 #{@orchestra.member.mglnr} (#{t("orchestra.type_"+@orchestra.orch_type)})
   %h3
     =  @orchestra.orchName
