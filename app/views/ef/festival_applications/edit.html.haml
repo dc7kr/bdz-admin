@@ -1,12 +1,8 @@
-.block
-  .secondary-navigation
-    = render :partial =>'nav'
-  .content
-    %h2.title
-      = t("common.edit")
-      = t("festival_application",:count=>1)
-    .inner
-      = render :partial => "form"
-- content_for :sidebar, render(:partial => 'sidebar')
+.container
+.page-title-section
+  %h1= t("common.edit_entity", entity: t("festival_application", count:1))
+.ef-inner
+  = render :partial => "form"
+= render :partial => "ef/footer"
 
 

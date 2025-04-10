@@ -1,0 +1,11 @@
+Hallo #{@appl.contact_person.first_name} #{@appl.contact_person.last_name},
+%br
+%p die Änderung Ihrer Bewerbung für das eurofestival Zupfmusik #{@appl.year} wurde gespeichert. 
+
+%p
+  Sie können diese jederzeit unter 
+  = ef_festival_application_url(@appl)
+  einsehen und bearbeiten.
+
+Diese Mail wurde automatisch erstellt. Bitte nicht antworten.
+

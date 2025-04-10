@@ -1,0 +1,10 @@
+Dear #{@appl.contact_person.first_name} #{@appl.contact_person.last_name},
+%br
+%p thank you very much for submitting your application for the eurofestival Zupfmusik #{@appl.year}
+
+%p
+  You can check and edit your details any time here: 
+  = ef_festival_application_url(@appl)
+
+This is an automated mail. The mailbox is not monitored. Please do not reply.
+

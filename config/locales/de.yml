@@ -81,6 +81,7 @@ de:
     show: Anzeigen
     publish: Veröffentlichen
     edit: Bearbeiten
+    update: Aktualisieren
     update_success: "%{entity} wurde erfolgreich aktualisiert."
     edit_entity: "%{entity} bearbeiten"
     download: Download

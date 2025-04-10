@@ -39,4 +39,7 @@
       = f.text_field :equipment
       = f.text_field :special_cast
       = f.text_area :workshop_request
-      = f.submit t("festival_application.create")
+      - if @festival_application.new_record?
+        = f.submit t("festival_application.create")
+      - else
+        = f.submit t("common.update")

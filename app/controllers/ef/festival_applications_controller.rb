@@ -14,6 +14,7 @@ module Ef
 
     def finalize
       @festival_application = FestivalApplication.find_by token: params[:token]
+      FestivalApplicationMailer.confirm(@festival_application.token).deliver
     end
 
     def closed; end
@@ -87,18 +88,32 @@ module Ef
     # PUT /festival_applications/1
     # PUT /festival_applications/1.json
     def update
-      @festival_application = FestivalApplication.find_by params[:token]
+      @festival_application = FestivalApplication.find_by token: params[:token]
+
+      @contact_person = @festival_application.contact_person
+      
+      fa_params = festival_application_params
+
+      cp_params = fa_params[:contact_person]
+      fa_params[:contact_person] = @contact_person
+
 
       respond_to do |format|
-        if @festival_application.update(params[:festival_application])
-          format.html do
-            redirect_to @festival_application,
-                        notice: t_update_success('festival_application')
+        if not @contact_person.update(cp_params)
+          format.html do 
+            render :edit, status: :unprocessable_entity 
           end
-          format.json { head :no_content }
-        else
-          format.html { render :edit, status: :unprocessable_entity }
-          format.json { render json: @festival_application.errors, status: :unprocessable_entity }
+        else 
+          if @festival_application.update(fa_params)
+              format.html do
+                  redirect_to step2_ef_festival_application_path(@festival_application),
+                          notice: t_update_success('festival_application')
+              end
+              format.json { head :no_content }
+          else
+              format.html { render :edit, status: :unprocessable_entity }
+              format.json { render json: @festival_application.errors, status: :unprocessable_entity }
+          end
         end
       end
     end

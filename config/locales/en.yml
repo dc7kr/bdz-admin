@@ -73,6 +73,9 @@ en:
     show: Show
     publish: Publish
     edit: Edit
+    update: Update
+    update_success: "%{entity} updated successfully."
+    edit_entity: "Edit %{entity}"
     delete: Delete
     update_success: was successfully updated.
     download: Download
