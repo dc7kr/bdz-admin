@@ -121,7 +121,7 @@ module ButtonHelper
   end
 
   def glyph_button(glyph, path, txt, _turbo_links = true, type = :link, clazz = nil)
-    clazz = 'btn-default' if clazz.nil?
+    clazz = 'btn-primary' if clazz.nil?
 
     if type == :link
       link_to path, class: "btn #{clazz}" do
@@ -130,7 +130,7 @@ module ButtonHelper
     elsif type == :button
 
       button_tag(link: path, class: "btn #{clazz}") do
-        "#{my_fa_icon(glyph)} #{txt}"
+        my_fa_icon(glyph)+raw("&nbsp;")+txt
       end
     end
   end
