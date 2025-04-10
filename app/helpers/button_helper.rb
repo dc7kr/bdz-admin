@@ -1,6 +1,9 @@
 module ButtonHelper
-  def link_to_edit(entity, txt = nil)
-    t('common.edit') if txt.nil?
+  def link_to_edit(entity, txt = "", btn_class= "btn-sm btn-outline-dark")
+
+    if not txt.blank?
+      txt = raw('&nbsp;')+txt
+    end
 
     if entity.is_a?(Array)
       namespace = entity[0]
@@ -12,7 +15,10 @@ module ButtonHelper
 
     return unless can? :update, entity
 
-    link_to my_fa_icon('edit'), send(path, entity), class: 'btn btn-sm btn-outline-dark'
+    link_to send(path, entity), class: "btn #{btn_class}" do
+      my_fa_icon('edit')+raw("&nbsp;")+
+      txt
+    end
   end
 
   def link_to_edit_path(path, _txt, entity)
