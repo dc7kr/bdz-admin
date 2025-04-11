@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_01_11_091140) do
+ActiveRecord::Schema[7.1].define(version: 2025_04_10_171348) do
   create_table "Inserenten", id: false, charset: "utf8mb3", collation: "utf8mb3_general_ci", options: "ENGINE=InnoDB ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.string "Firmenname", limit: 35
     t.string "Titel", limit: 5
@@ -431,6 +431,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_01_11_091140) do
     t.string "comment"
     t.text "workshop_request"
     t.integer "year"
+    t.boolean "confirmed"
   end
 
   create_table "festival_concerts", id: :integer, charset: "utf8mb3", collation: "utf8mb3_general_ci", options: "ENGINE=InnoDB ROW_FORMAT=DYNAMIC", force: :cascade do |t|
@@ -499,6 +500,22 @@ ActiveRecord::Schema[7.1].define(version: 2025_01_11_091140) do
     t.string "source"
     t.string "par_mgl"
     t.string "nf_id"
+    t.integer "sap_nr"
+    t.bigint "orchestra_id", null: false
+    t.integer "license_nr"
+    t.date "event_date"
+    t.float "ticket_total"
+    t.float "admission_price"
+    t.float "music_effort"
+    t.integer "visitors"
+    t.integer "room_size"
+    t.string "setlist"
+    t.float "gema_amount"
+    t.float "gstv_reduction"
+    t.float "cultural_reduction"
+    t.float "e_reduction"
+    t.float "netto"
+    t.index ["orchestra_id"], name: "index_gema_events_on_orchestra_id"
   end
 
   create_table "geo_orte", id: false, charset: "utf8mb3", collation: "utf8mb3_general_ci", options: "ENGINE=InnoDB ROW_FORMAT=DYNAMIC", force: :cascade do |t|
@@ -1102,6 +1119,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_01_11_091140) do
   add_foreign_key "courses", "bundeslaender", column: "bland", name: "courses_ibfk_1"
   add_foreign_key "courses", "festivals", column: "fk_festival", name: "courses_ibfk_2"
   add_foreign_key "festivals", "bundeslaender", column: "bland", name: "festivals_ibfk_3", on_update: :cascade
+  add_foreign_key "gema_events", "orchestras"
   add_foreign_key "magazine_adverts", "magazine_issues", name: "magazine_adverts_ibfk_2", on_update: :cascade, on_delete: :cascade
   add_foreign_key "member_account_bookings", "members", name: "member_account_bookings_ibfk_1", on_update: :cascade, on_delete: :cascade
   add_foreign_key "member_events", "members", name: "member_events_ibfk_1", on_update: :cascade, on_delete: :cascade
