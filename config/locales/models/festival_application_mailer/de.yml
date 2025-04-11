@@ -1,0 +1,4 @@
+de:
+  festival_application_mailer:
+    confirm:
+      subject: "Subject DE"
