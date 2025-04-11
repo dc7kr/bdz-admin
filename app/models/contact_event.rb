@@ -3,7 +3,7 @@ class ContactEvent < ApplicationRecord
 
   belongs_to :contact_person
 
-  def self.newEmail(eventId, contact, subject)
+  def self.new_email(eventId, contact, subject)
     retval = ContactEvent.new
     retval.contact_person_id = contact
     retval.event_type = 'E'
@@ -14,7 +14,7 @@ class ContactEvent < ApplicationRecord
     retval
   end
 
-  def self.newFailedEmail(eventId, contact, message)
+  def self.new_failed_email(eventId, contact, message)
     retval = ContactEvent.new
     retval.contact_person_id = contact
     retval.event_type = 'F'
@@ -25,7 +25,7 @@ class ContactEvent < ApplicationRecord
     retval
   end
 
-  def self.newLetter(eventId, contact, subject)
+  def self.new_letter(eventId, contact, subject)
     retval = ContactEvent.new
     retval.contact_person_id = contact
     retval.event_type = 'L'

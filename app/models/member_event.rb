@@ -5,7 +5,7 @@ class MemberEvent < ApplicationRecord
     !filename.nil? and filename.length.positive?
   end
 
-  def self.newLetter(eventId, member, subject)
+  def self.new_letter(eventId, member, subject)
     retval = MemberEvent.new
     retval.member_id = member
     retval.event_type = 'L'
@@ -16,7 +16,7 @@ class MemberEvent < ApplicationRecord
     retval
   end
 
-  def self.newEmail(eventId, member, subject)
+  def self.new_email(eventId, member, subject)
     retval = MemberEvent.new
     retval.member_id = member
     retval.event_type = 'E'
@@ -27,7 +27,7 @@ class MemberEvent < ApplicationRecord
     retval
   end
 
-  def self.newFailedEmail(eventId, member, message)
+  def self.new_failed_email(eventId, member, message)
     retval = MemberEvent.new
     retval.member_id = member
     retval.event_type = 'F'
