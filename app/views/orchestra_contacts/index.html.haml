@@ -1,24 +1,20 @@
-.block
-  .secondary-navigation
-    =render :partial=>'nav'
-  .content
-    %h2.title
-      = t("orchestra_contact",:count=>3)
-      = t("member.mglnr")
-      = @orchestra.member.mglnr
-    .inner
-      %table.table-sm.table-hover.table-condensed
-        %thead
-          %th.first=attr_heading(OrchestraContact,:role)
-          %th= sortable "first_name", attr_heading(OrchestraContact,:first_name)
-          %th= sortable "last_name", attr_heading(OrchestraContact,:last_name)
-          %th= sortable "email", attr_heading(OrchestraContact,:email)
-          %th= sortable "phone", attr_heading(OrchestraContact,:phone)
-          %th.last &nbsp;
-        %tbody#orchestra_contacts
-          =render @orchestra_contacts
-      #paginator
-        = paginate @orchestra_contacts
-      .actions-bar.wat-cf
-        .actions
+.secondary-navigation
+  =render :partial=>'nav'
+.container
+  %h2.title
+    = t("orchestra_contact",:count=>3)
+    = t("member.mglnr")
+    = @orchestra.member.mglnr
+  %table.table-sm.table-hover.table-condensed
+    %thead
+      %th.first=attr_heading(OrchestraContact,:role)
+      %th= sortable "first_name", attr_heading(OrchestraContact,:first_name)
+      %th= sortable "last_name", attr_heading(OrchestraContact,:last_name)
+      %th= sortable "email", attr_heading(OrchestraContact,:email)
+      %th= sortable "phone", attr_heading(OrchestraContact,:phone)
+      %th.last &nbsp;
+    %tbody#orchestra_contacts
+      =render @orchestra_contacts
+  #paginator
+    = paginate @orchestra_contacts
 - content_for :sidebar, render(:partial => 'sidebar')

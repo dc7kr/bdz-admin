@@ -6,7 +6,7 @@
     %li{:class => tabActiveClass(@current_action,'edit',nil)}= link_to t("common.edit"), edit_orchestra_orchestra_contact_path(@orchestra,@orchestra_contact)
   -else
     - if can? :create, OrchestraMember
-      %li{:class => tabActiveClass(@current_action,'new',nil)}= link_to t("common.new"), new_orchestra_orchestra_contact_path(@orchestra)
+      %li.nav-item= nav_to_new(OrchestraContact, new_orchestra_orchestra_contact_path(@orchestra))
 
 
 

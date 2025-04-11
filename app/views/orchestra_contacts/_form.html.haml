@@ -6,12 +6,11 @@
   =f.text_field :street
   =f.text_field :zip
   =f.text_field :city
-  .row
+  .row.mb-3
     .col-md-2=label :member,:country
     .col-md-10= f.country_select(:country_code, { iso_codes:true }, { class:  "form-select"})
   =f.text_field :email
   =f.text_field :phone
 
   = submit_button
-  = cancel_button
 
