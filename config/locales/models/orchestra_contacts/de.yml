@@ -8,6 +8,7 @@ de:
     role_D: "Dirigent"
     role_J: "Jugendleitung"
     role_O: "Seniorenbeauftragter"
+    role_R: "Rechnungsanschrift"
     role_Z: "Versandanschrift"
   activerecord:
     attributes:

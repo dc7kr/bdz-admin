@@ -1,6 +1,6 @@
 de:
   festival_application: &festival_app_labels
-    one: "Fstival-Bewerbung"
+    one: "Festival-Bewerbung"
     other: "Festival-Bewerbungen"
     zero: "Keine Festival-Bewerbung"
     new: "Neue Festival-Bewerbung"
@@ -10,6 +10,8 @@ de:
     confirm: "Vielen Dank für Ihre Festival-Bewerbung. Wir werden sie kontaktieren sobald Ihre Bewerbung ausgewertet wurde."
     general_panel_title: "Allgemeine Angaben"
     additional_panel_title: "Weitere Angaben"
+    concert_panel_title: "Konzert-Daten"
+    tickets_panel_title: "Tickets"
     visitor_type: "Besucher-Typ"
     visitor_types:
       R: "Regulärer Teilnehmer"

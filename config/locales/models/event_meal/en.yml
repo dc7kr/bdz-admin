@@ -9,6 +9,7 @@ en:
     name: name
     email: e-mail
     arrival_time: Estimated arrival time
+    orderdate: "Order date"
     order_form:
       title: Meal order 
     binding_note: Please note that for organisational reasons the decision for a vegetarian meal is binding.
