@@ -1,17 +1,14 @@
-.block
-  .secondary-navigation
-    =render :partial=>'nav'
-  .content
-    %h2.title
-      = t("common.all")
-      = t('festival_piece',:count=>3)
-    .inner
-      %table.table-sm.table-hover.table-condensed
-        %thead
-          %th.first= attr_heading(FestivalPiece, :composer)
-          %th= attr_heading(FestivalPiece, :title)
-          %th= attr_heading(FestivalPiece, :duration)
-          %th.last &nbsp;
-        %tbody#festvial_pieces
-          =render @festival_pieces
+.secondary-navigation
+  =render :partial=>'nav'
+.container
+  %h2.title
+    = t('festival_piece',:count=>3)
+  %table.table-sm.table-hover.table-condensed
+    %thead
+      %th.first= attr_heading(FestivalPiece, :composer)
+      %th= attr_heading(FestivalPiece, :title)
+      %th= attr_heading(FestivalPiece, :duration)
+      %th.last &nbsp;
+    %tbody#festvial_pieces
+      =render @festival_pieces
 

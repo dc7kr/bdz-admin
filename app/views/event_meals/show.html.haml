@@ -1,11 +1,11 @@
-.block
-  .secondary-navigation
-    =render :partial=>'nav'
-  .content
-    %h2.title
-      = t("event_meal", count: 1)
-      = @event_meal.participant_id
-    .inner
+.secondary-navigation
+  =render :partial=>'nav'
+.container
+  .card.mb-3.bg-light
+    .card-body
+      %h2.card-title
+        = t("event_meal", count: 1)
+        = @event_meal.participant_id
       .row
         .col-md-3.text-end=t('event_meal.participant_id')
         .col-md-9=link_to @event_meal.participant_id , festival_application_path(@event_meal.participant_id)
@@ -24,3 +24,6 @@
       .row
         .col-md-3.text-end=t('event_meal.orderdate')
         .col-md-9=format_date @event_meal.orderdate
+
+      .row
+        .col-md-12=link_to_edit @event_meal, t("common.edit")

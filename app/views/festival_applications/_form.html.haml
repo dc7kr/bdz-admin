@@ -1,57 +1,56 @@
-= bootstrap_form_for(@festival_application, layout: :horizontal, label_col: "col-mm-3", control_col: "col-md-9") do |f| 
-  .container-fluid
-    .card.mb-3
-      .card-body
-        %h3.card-title=t("festival_application.general_panel_title")
-        = f.check_box :permission
-        = f.select :payment_status, get_payment_status_options(@festival_application.payment_status)
+= bootstrap_form_for(@festival_application, layout: :horizontal, label_col: "col-md-3", control_col: "col-md-9") do |f| 
+  .card.mb-3.bg-light
+    .card-body
+      %h3.card-title=t("festival_application.general_panel_title")
+      = f.check_box :permission
+      = f.select :payment_status, get_payment_status_options(@festival_application.payment_status)
+      .row.mb-3
+        .col-md-3=f.label :country_code, { class: "control-label" }
+        .col-md-9= f.country_select(:country_code, { iso_codes:true }, { class:  "form-control"})
+      = f.select :group_type, get_group_type_options(@festival_application.group_type)
+      = f.select :visitor_type, get_visitor_type_options(@festival_application.visitor_type)
+      = f.text_field :orch_name
+      = f.text_field :conductor
+      = f.number_field :num_players
+      = f.text_field :contact_phone
+      = f.text_area :comment
+
+  .card.mb-3.bg-light
+    .card-body
+      %h3.card-title=t("festival_application.tickets_panel_title")
+      .row.mb-3
+      = f.number_field :bdz_tickets
+      = f.number_field :bdz_tickets_red
+      = f.number_field :tickets
+      = f.number_field :tickets_red
+      = f.number_field :soloist_tickets
+      = f.number_field :amount
+
+  .card.mb-3.bg-light
+    .card-body
+      %h5.card-title=t("festival_application.concert_panel_title")
+
+      = f.collection_select(:festival_concert_id, FestivalConcert.all, :id, :label) 
+      = f.text_field :rehearsal_time
+      = f.text_field :stage_time
+
+  .card.mb-3.bg-light
+    .card-body
+      %h3.card-title=t("helpers.label.contact_person",:count=>1)
+      =  f.fields_for(@festival_application.contact_person)  do |person_f|
+        =person_f.select :salutation, get_salutation_options( @festival_application.contact_person.salutation)
+        =person_f.text_field :first_name 
+        =person_f.text_field :last_name
+        =person_f.text_field :street
+        =person_f.text_field :zip
+        =person_f.text_field :city
         .row.mb-3
-          .col-md-3=f.label :country_code, { class: "control-label" }
-          .col-md-9= f.country_select(:country_code, { iso_codes:true }, { class:  "form-control"})
-        = f.select :group_type, get_group_type_options(@festival_application.group_type)
-        = f.select :visitor_type, get_visitor_type_options(@festival_application.visitor_type)
-        = f.text_field :orch_name
-        = f.text_field :conductor
-        = f.number_field :num_players
-        = f.text_field :contact_phone
-        = f.text_area :comment
+          .col-md-3=person_f.label :country_code, { class: "control-label col-md-2" }
+          .col-md-9=person_f.country_select( :country_code ,{ iso_codes:true}, {class: "form-control"}) 
+        =person_f.text_field :phone
+        =person_f.text_field :email
 
-    .card.mb-3
-      .card-body
-        %h3.card-title=t("festival_application.tickets_panel_title")
-        .row.mb-3
-        = f.number_field :bdz_tickets
-        = f.number_field :bdz_tickets_red
-        = f.number_field :tickets
-        = f.number_field :tickets_red
-        = f.number_field :soloist_tickets
-        = f.number_field :amount
+  = f.text_field :equipment
+  = f.text_field :special_cast
 
-    .card.mb-3
-      .card-body
-        %h5.card-title=t("festival_application.concert_panel_title")
-
-        = f.collection_select(:festival_concert_id, FestivalConcert.all, :id, :label) 
-        = f.text_field :rehearsal_time
-        = f.text_field :stage_time
-
-    .card
-      .card-body
-        %h3.card-title=t("helpers.label.contact_person",:count=>1)
-        =  f.fields_for(@festival_application.contact_person)  do |person_f|
-          =person_f.select :salutation, get_salutation_options( @festival_application.contact_person.salutation)
-          =person_f.text_field :first_name 
-          =person_f.text_field :last_name
-          =person_f.text_field :street
-          =person_f.text_field :zip
-          =person_f.text_field :city
-          .form-group
-            =person_f.label :country_code, { class: "control-label col-md-2" }
-            .col-md-10=person_f.country_select( :country_code ,{ iso_codes:true}, {class: "form-control"}) 
-          =person_f.text_field :phone
-          =person_f.text_field :email
-
-    = f.text_field :equipment
-    = f.text_field :special_cast
-
-    =submit_button
+  =submit_button

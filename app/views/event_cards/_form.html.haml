@@ -17,47 +17,44 @@
   .row 
     .col-md-2= f.label :nr_fest, t('event_card.fest')
     .col-md-2= f.number_field :nr_fest,hide_label: true
-    .col-md-2= t('event_card.each_price', { :price => @prices["fest"]})
+    .col-md-2= t('event_card.each_price', price: @prices["fest"])
     .col-md-2= f.number_field :nr_fest_erm ,hide_label: true
-    .col-md-2=t('event_card.each_price', { :price => @prices["fest_erm"]})
+    .col-md-2=t('event_card.each_price', price: @prices["fest_erm"])
     .col-md-2#fest_sum
   .row 
     .col-md-2= f.label :nr_fest_bdz, t('event_card.fest_bdz')
     .col-md-2= f.number_field :nr_fest_bdz ,hide_label: true
-    .col-md-2=t('event_card.each_price', { :price => @prices["fest_bdz"]})
+    .col-md-2=t('event_card.each_price', price: @prices["fest_bdz"])
     .col-md-2= f.number_field :nr_fest_bdz_erm,hide_label: true
-    .col-md-2=t('event_card.each_price', { :price => @prices["fest_bdz_erm"]})
+    .col-md-2=t('event_card.each_price', price: @prices["fest_bdz_erm"])
     .col-md-2#fest_sum_bdz
   .row 
     .col-md-2= f.label :nr_do, t('event_card.do')
     .col-md-2= f.number_field :nr_do ,hide_label: true
-    .col-md-2=t('event_card.each_price', { :price => @prices["tageskarte"]})
+    .col-md-2=t('event_card.each_price', price: @prices["tageskarte"])
     .col-md-2= f.number_field :nr_do_erm,hide_label: true
-    .col-md-2=t('event_card.each_price', { :price => @prices["tageskarte_erm"]})
+    .col-md-2=t('event_card.each_price', price: @prices["tageskarte_erm"])
     .col-md-2#sum_do
   .row 
     .col-md-2= f.label :nr_fr, t('event_card.fr')
     .col-md-2= f.number_field :nr_fr ,hide_label: true
-    .col-md-2=t('event_card.each_price', { :price => @prices["tageskarte"]})
+    .col-md-2=t('event_card.each_price', price: @prices["tageskarte"])
     .col-md-2= f.number_field :nr_fr_erm,hide_label: true
-    .col-md-2=t('event_card.each_price', { :price => @prices["tageskarte_erm"]})
+    .col-md-2=t('event_card.each_price', price: @prices["tageskarte_erm"])
     .col-md-2#sum_fr
   .row 
     .col-md-2= f.label :nr_sa, t('event_card.sa')
     .col-md-2= f.number_field :nr_sa ,hide_label: true
-    .col-md-2=t('event_card.each_price', { :price => @prices["tageskarte"]})
+    .col-md-2=t('event_card.each_price', price: @prices["tageskarte"])
     .col-md-2= f.number_field :nr_sa_erm,hide_label: true
-    .col-md-2=t('event_card.each_price', { :price => @prices["tageskarte_erm"]})
+    .col-md-2=t('event_card.each_price', price: @prices["tageskarte_erm"])
     .col-md-2#sum_sa
   .row
     .col-md-2= f.label :nr_concert_so, t('event_card.concert_so')
     .col-md-2= f.number_field :nr_concert_so,hide_label: true
-    .col-md-2=t('event_card.each_price', { :price => @prices["concert"]})
+    .col-md-2=t('event_card.each_price', price: @prices["concert"])
     .col-md-2= f.number_field :nr_concert_so_erm,hide_label: true
-    .col-md-2=t('event_card.each_price', { :price => @prices["concert_erm"]})
+    .col-md-2=t('event_card.each_price', price: @prices["concert_erm"])
     .col-md-2#sum_sa
 
-
-  %button.button{:type => "submit"}
-    = image_tag("web-app-theme/icons/tick.png", :alt => t("common.save"))
-    = t("event_card.order_form.submit")
+  = f.submit t("event_card.order_form.submit")

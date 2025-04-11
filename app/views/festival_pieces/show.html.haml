@@ -1,11 +1,10 @@
-.block
-  .secondary-navigation
-    =render :partial=>'nav'
-  .content
-    %h2.title
-      = t('festival_piece',:count=>1)
-    .inner
-      =entity_row(@festival_piece,:composer) 
-      =entity_row(@festival_piece,:title) 
-      =entity_row(@festival_piece,:duration) 
+.secondary-navigation
+  =render :partial=>'nav'
+.container
+  .card.bg-light.pb-3
+    .card-body
+      %h5.card-title= t('festival_piece',:count=>1)
+    =entity_row(@festival_piece,:composer) 
+    =entity_row(@festival_piece,:title) 
+    =entity_row(@festival_piece,:duration) 
 

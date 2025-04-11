@@ -1,23 +1,17 @@
-.block
-  .secondary-navigation
-    = render :partial=>'nav'
-  .content
-    %h2.title
-      #{t("festival_concert",:count=>1)} Nr. #{@festival_concert.concert_type} #{@festival_concert.number}
-    .inner
-      %table
-        %tr
-          %td=t('festival_concert.title')
-          %td=@festival_concert.title
-        %tr
-          %td=t('festival_concert.location')
-          %td=@festival_concert.location
-        %tr
-          %td=t('festival_concert.event_time')
-          %td=l @festival_concert.event_time
+.secondary-navigation
+  = render :partial=>'nav'
+.container
+  .card.bg-light.mb-3
+    .card-body
+      %h5.card-title 
+        #{t("festival_concert",:count=>1)} Nr. #{@festival_concert.concert_type} #{@festival_concert.number}
 
-      %h3 Teilnehmer
+      =entity_row(@festival_concert,:title)
+      =entity_row(@festival_concert,:location)
+      =entity_row(@festival_concert,:event_time)
 
-      %table
-        = render @festival_concert.festival_applications
+  %h3 Teilnehmer
+
+  %table
+    = render @festival_concert.festival_applications
 - content_for :sidebar, render(:partial => 'sidebar_show')

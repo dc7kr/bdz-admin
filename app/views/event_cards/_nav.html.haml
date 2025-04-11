@@ -1,8 +1,8 @@
 %ul.nav.nav-tabs
-  %li{ :class => 'first'}= link_to_up_path t("common.up"), home_festival_data_path
-  %li{ :class => tabActiveClass(@current_action,'index','first')}= link_to "#{t("common.list")}", event_cards_path
+  %li.nav-item= link_to_up_path t("common.up"), home_festival_data_path
+  %li.nav-item= link_to t("common.list"), event_cards_path, class: "nav-link #{tabActiveClass(@current_action,'index')}"
   -if (@event_card and not @event_card.id.nil?)
-    %li{ :class => tabActiveClass(@current_action,'show',nil)}= link_to t("common.show"), event_card_path(@event_card)
-    %li{ :class => tabActiveClass(@current_action,'edit',nil)}= link_to t("common.edit"), edit_event_card_path(@event_card)
-  %li{:class => tabActiveClass(@current_action,'new',nil)}= link_to "#{t("common.new", :default => "New")}", new_event_card_path
+    %li.nav-item= link_to t("common.show"), event_card_path(@event_card), class: "nav-link #{tabActiveClass(@current_action,'show')}"
+    %li.nav-item= link_to t("common.edit"), edit_event_card_path(@event_card), class: "nav-link #{tabActiveClass(@current_action,'edit',"nav-item")}"
+  %li.nav-item= link_to "#{t("common.new", :default => "New")}", new_event_card_path, class: "nav-link #{tabActiveClass(@current_action,'new',nil)}"
 

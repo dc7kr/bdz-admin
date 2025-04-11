@@ -1,8 +1,8 @@
 %ul.nav.nav-tabs
   - if @festival_application then
-    %li{ :class => 'first'}= link_to_up_path t("common.up"), festival_application_path(@festival_application)
-    %li{ :class => tabActiveClass(@current_action,'index','first')}= link_to "#{t("common.list", :default => "List")}", festival_application_festival_pieces_path(@festival_application)
-    %li{:class => tabActiveClass(@current_action,'new',nil)}= link_to "#{t("common.new", :default => "New")}", new_festival_application_festival_piece_path(@festival_application)
+    %li=link_to_up_path t("common.up"), festival_application_path(@festival_application)
+    %li{ :class => tabActiveClass(@current_action,'index')}= link_to t("common.list"), festival_application_festival_pieces_path(@festival_application)
+    %li{:class => tabActiveClass(@current_action,'new',nil)}= link_to t("common.new"), new_festival_application_festival_piece_path(@festival_application)
   - else 
     %li{ :class => 'first'}= link_to_up_path t("common.up"), home_member_data_path
   -if (@festival_piece and @festival_piece[:id] != nil)

@@ -1,30 +1,27 @@
-.block
-  .secondary-navigation
-    =render :partial=>'nav'
-  .content
-    %h2.title
-      = t("festival_application",:count=>3)
-      - 
-      = t("festival_application.open_issues")
-    .inner
+.secondary-navigation
+  =render :partial=>'nav'
+.container
+  %h2.title
+    = t("festival_application",:count=>3)
+    = t("festival_application.open_issues")
 
-      %table
-        %tr 
-          %td Gesamtanzahl Spieler:
-          %td=@sum_players
-      %table.table-sm#festival_applications
-        %thead
+  %table
+    %tr 
+      %td Gesamtanzahl Spieler:
+      %td=@sum_players
+  %table.table-sm#festival_applications
+    %thead
+      %tr
+        %th=t("common.number")
+        %th=sortable :orch_name, t("festival_application.orch_name")
+        %th=t("common.sum")
+        %th
+
+    %tbody.page 
+      - @festival_applications.each do |app|
+        -if app.invoice.sum != 0 and app.payment_status != 'S' then
           %tr
-            %th=t("common.number")
-            %th=sortable :orch_name, t("festival_application.orch_name")
-            %th=t("common.sum")
-            %th
-
-        %tbody.page 
-          - @festival_applications.each do |app|
-            -if app.invoice.sum != 0 and app.payment_status != 'S' then
-              %tr
-                %td=app.id
-                %td=app.orch_name
-                %td=app.invoice.sum
+            %td=app.id
+            %td=app.orch_name
+            %td=app.invoice.sum
 - content_for :sidebar, render(:partial => 'sidebar')

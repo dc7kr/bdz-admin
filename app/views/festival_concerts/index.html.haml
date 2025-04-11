@@ -1,21 +1,19 @@
-.block
-  .secondary-navigation
-    =render :partial=>'nav'
-  .content
-    %h2.title
-      = t("common.all")
-      = t("festival_concert",:count=>3)
-    .inner
-      %table.table-sm.table-hover.table-condensed
-        %tr
-          %th=t("common.number")
-          %th=attr_heading(FestivalConcert, :title)
-          %th=attr_heading(FestivalConcert, :location)
-          %th=attr_heading(FestivalConcert, :event_time)
-          %th=attr_heading(FestivalConcert, :outdoor)
-          %th
+.secondary-navigation
+  =render :partial=>'nav'
+.container
+  %h2.title
+    = t("common.all")
+    = t("festival_concert",:count=>3)
+  %table.table-sm.table-hover.table-condensed
+    %tr
+      %th=t("common.number")
+      %th=attr_heading(FestivalConcert, :title)
+      %th=attr_heading(FestivalConcert, :location)
+      %th=attr_heading(FestivalConcert, :event_time)
+      %th=attr_heading(FestivalConcert, :outdoor)
+      %th
 
-        = render @festival_concerts
+    = render @festival_concerts
 - content_for :sidebar, render(:partial => 'sidebar')
 
 
