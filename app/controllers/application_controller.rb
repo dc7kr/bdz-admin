@@ -1,5 +1,3 @@
-require 'error/error_handler'
-
 class ApplicationController < ActionController::Base
   before_action :set_locale
 
@@ -7,7 +5,6 @@ class ApplicationController < ActionController::Base
 
   layout :choose_layout
 
-  include Error::ErrorHandler
   include SessionHelper
 
   def test_exception_notifier
@@ -117,25 +114,6 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  # override static error page
-  def render_optional_error_file(_status_code)
-    @exception = exception
-    # log_error(exception)
-    respond_to do |format|
-      format.html { render template: '/errors/error_500', layout: 'application', status: :internal_server_error }
-      format.all  { render nothing: true, status: :internal_server_error }
-    end
-  end
-
-  def render_not_found(exception)
-    log_error(exception)
-    respond_to do |type|
-      type.html { render template: '/errors/error_404', layout: 'application', status: :not_found }
-      type.all  { render nothing: true, status: :not_found }
-    end
-    true # so we can do "render_not_found and return"
-  end
-
   def sort_direction
     %w[asc desc].include?(params[:direction]) ? params[:direction] : 'asc'
   end
@@ -152,31 +130,6 @@ class ApplicationController < ActionController::Base
       'corika_invoices/application'
     else
       'application'
-    end
-  end
-
-  def render_error(status, exception)
-    #	if ( current_user == nil or current_user.admin?)
-    begin
-      logger.error("Encountered error status:#{status}")
-      if is_production?
-        ErrorMailer.deliver_snapshot(exception, Rails.env, current_user)
-        logger.error("ERROR: #{exception}")
-        logger.error "#{exception.message}\n #{exception.backtrace.join("\n ")}"
-      end
-    rescue StandardError => e
-      logger.error e
-      logger.error "#{e.message}\n #{e.backtrace.join("\n ")}"
-    end
-
-    @exception = exception
-
-    # needed to prevent double render!
-    self.response_body = nil
-
-    respond_to do |format|
-      format.html { render template: "errors/error_#{status}", layout: 'layouts/application', status: status }
-      format.all { render nothing: true, status: status }
     end
   end
 

@@ -42,7 +42,10 @@ module BDZAdmin
     }
 
     # custom error handling
-    config.exceptions_app = routes
+    config.exceptions_app = ->(env) {
+      ErrorsController.action(:show).call(env)
+    }
+    #config.exceptions_app = self.routes
     config.active_job.queue_adapter = :sidekiq
 
     config.autoload_paths += Dir["#{config.root}/app/writers/*"]

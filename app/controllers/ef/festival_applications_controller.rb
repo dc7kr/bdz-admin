@@ -14,7 +14,15 @@ module Ef
 
     def finalize
       @festival_application = FestivalApplication.find_by token: params[:token]
-      FestivalApplicationMailer.confirm(@festival_application.token).deliver
+
+      if not @festival_application.confirmed
+        FestivalApplicationMailer.confirm_create(@festival_application.token).deliver
+        @festival_application.confirmed = true
+        @festival_application.save!
+      else
+        FestivalApplicationMailer.confirm_update(@festival_application.token).deliver
+      end
+
     end
 
     def closed; end

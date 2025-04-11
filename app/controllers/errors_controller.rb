@@ -1,23 +1,25 @@
 class ErrorsController < ApplicationController
-  def not_found
-    # render json: {
-    #  status: 404,
-    #  error: :not_found,
-    #  message: 'Where did the 403 errors go'
-    # }, status: 404
+  layout "error"
+  def show
+    @exception = request.env["action_dispatch.exception"]
+    @status_code = @exception.try(:status_code) ||
+                   ActionDispatch::ExceptionWrapper.new(
+                    request.env, @exception
+                  ).status_code
+
+    render view_for_code(@status_code), status: @status_code
   end
 
-  # def internal_server_error
-  # render json: {
-  #  status: 500,
-  #  error: :internal_server_error,
-  #  message: 'Houston we have a problem'
-  # }, status: 500
-  # end
-
-  def internal_server_error
-    respond_to do |format|
-      format.html { render(status: :internal_server_error) }
+  private
+    def view_for_code(code)
+      supported_error_codes.fetch(code, "404")
     end
-  end
+
+    def supported_error_codes
+      {
+        403 => "access_denied",
+        404 => "not_found",
+        500 => "internal_server_error"
+      }
+    end
 end

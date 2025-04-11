@@ -1,11 +1,15 @@
-.mainbox
-  .err 5
-  %i.fa.far.fa-question-circle.fa-spin#error-icon
-  .err2 0
-  .err-msg
-    our server is on a break
-
-    %p 
-      Let's go 
-      = link_to "home", "/", :class=>"btn"
+.container.pt-5
+  .alert.alert-danger
+    %h1.card-title 500 Internal server error
+    %h2 
+      Our server is on a break.  Let's go 
+      = link_to "home", "/"
+  .card.bg-light.p-5
+    %h2= @exception
+    %pre
+      = filter_backtrace @exception.backtrace
+    - if not @exception.cause.nil?
+      %h2=@exception.cause
+      %pre=filter_backtrace @exception.cause.backtrace
       
+
