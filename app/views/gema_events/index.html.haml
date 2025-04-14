@@ -1,28 +1,59 @@
-.secondary-navigation
-  =render :partial=>'nav'
-.content
-  %h2.title
-    = t("common.all")
-    = t("gema_event",:count=>3)
-  .inner
-    #enty_info.text-center
-      = page_entries_info @gema_events
-    %table.table-sm.table-hover.table-condensed
-      %thead
-        %th.first Nf
-        %th Kdnr
-        %th Date
-        %th Title
-        %th Name
-        %th Amount
-        %th.last &nbsp;
+%h1 Listing gema_events
 
-      %tbody#gema_events
-        =render @gema_events
-    #paginator
-      = paginate @gema_events
-    .actions-bar.wat-cf
-      .actions
-- content_for :sidebar, render(:partial => 'sidebar')
-      
+%table
+  %thead
+    %tr
+      %th Sap nr
+      %th Kdnr
+      %th Orchestra
+      %th Name
+      %th License nr
+      %th Event date
+      %th Description
+      %th Location
+      %th Tariff
+      %th Ticket total
+      %th Admission price
+      %th Music effort
+      %th Visitors
+      %th Room size
+      %th Setlist
+      %th Gema amount
+      %th Gstv reduction
+      %th Cultural reduction
+      %th E reduction
+      %th Netto
+      %th
+      %th
+      %th
 
+  %tbody
+    - @gema_events.each do |gema_event|
+      %tr
+        %td= gema_event.sap_nr
+        %td= gema_event.kdnr
+        %td= gema_event.orchestra
+        %td= gema_event.name
+        %td= gema_event.license_nr
+        %td= gema_event.event_date
+        %td= gema_event.description
+        %td= gema_event.location
+        %td= gema_event.tariff
+        %td= gema_event.ticket_total
+        %td= gema_event.admission_price
+        %td= gema_event.music_effort
+        %td= gema_event.visitors
+        %td= gema_event.room_size
+        %td= gema_event.setlist
+        %td= gema_event.gema_amount
+        %td= gema_event.gstv_reduction
+        %td= gema_event.cultural_reduction
+        %td= gema_event.e_reduction
+        %td= gema_event.netto
+        %td= link_to 'Show', gema_event
+        %td= link_to 'Edit', edit_gema_event_path(gema_event)
+        %td= link_to 'Destroy', gema_event, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Gema event', new_gema_event_path

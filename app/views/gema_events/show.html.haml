@@ -5,45 +5,63 @@
     .inner
       %table
         %tr
+          %td=f.label :sap_nr
+          %td=@gema_event.sap_nr
+        %tr
           %td=f.label :kdnr
           %td=@gema_event.kdnr
+        %tr
+          %td=f.label :orchestra
+          %td=@gema_event.orchestra
         %tr
           %td=f.label :name
           %td=@gema_event.name
         %tr
-          %td=f.label :zip
-          %td=@gema_event.zip
+          %td=f.label :license_nr
+          %td=@gema_event.license_nr
         %tr
-          %td=f.label :city
-          %td=@gema_event.city
+          %td=f.label :event_date
+          %td=@gema_event.event_date
         %tr
-          %td=f.label :date
-          %td=@gema_event.date
-        %tr
-          %td=f.label :title
-          %td=@gema_event.title
-        %tr
-          %td=f.label :tariff
-          %td=@gema_event.tariff
-        %tr
-          %td=f.label :amount
-          %td=@gema_event.amount
+          %td=f.label :description
+          %td=@gema_event.description
         %tr
           %td=f.label :location
           %td=@gema_event.location
         %tr
-          %td=f.label :location_city
-          %td=@gema_event.location_city
+          %td=f.label :tariff
+          %td=@gema_event.tariff
         %tr
-          %td=f.label :program_available
-          %td=@gema_event.program_available
+          %td=f.label :ticket_total
+          %td=@gema_event.ticket_total
         %tr
-          %td=f.label :source
-          %td=@gema_event.source
+          %td=f.label :admission_price
+          %td=@gema_event.admission_price
         %tr
-          %td=f.label :par_mgl
-          %td=@gema_event.par_mgl
+          %td=f.label :music_effort
+          %td=@gema_event.music_effort
         %tr
-          %td=f.label :nf_id
-          %td=@gema_event.nf_id
+          %td=f.label :visitors
+          %td=@gema_event.visitors
+        %tr
+          %td=f.label :room_size
+          %td=@gema_event.room_size
+        %tr
+          %td=f.label :setlist
+          %td=@gema_event.setlist
+        %tr
+          %td=f.label :gema_amount
+          %td=@gema_event.gema_amount
+        %tr
+          %td=f.label :gstv_reduction
+          %td=@gema_event.gstv_reduction
+        %tr
+          %td=f.label :cultural_reduction
+          %td=@gema_event.cultural_reduction
+        %tr
+          %td=f.label :e_reduction
+          %td=@gema_event.e_reduction
+        %tr
+          %td=f.label :netto
+          %td=@gema_event.netto
 

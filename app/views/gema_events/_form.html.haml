@@ -1,45 +1,63 @@
 = form_for @gema_event do |f|
   = f.inputs do
     %tr
+      %td=f.label :sap_nr
+      %td=f.text_field :sap_nr
+    %tr
       %td=f.label :kdnr
       %td=f.text_field :kdnr
+    %tr
+      %td=f.label :orchestra
+      %td=f.text_field :orchestra
     %tr
       %td=f.label :name
       %td=f.text_field :name
     %tr
-      %td=f.label :zip
-      %td=f.text_field :zip
+      %td=f.label :license_nr
+      %td=f.text_field :license_nr
     %tr
-      %td=f.label :city
-      %td=f.text_field :city
+      %td=f.label :event_date
+      %td=f.text_field :event_date
     %tr
-      %td=f.label :date
-      %td=f.text_field :date
-    %tr
-      %td=f.label :title
-      %td=f.text_field :title
-    %tr
-      %td=f.label :tariff
-      %td=f.text_field :tariff
-    %tr
-      %td=f.label :amount
-      %td=f.text_field :amount
+      %td=f.label :description
+      %td=f.text_field :description
     %tr
       %td=f.label :location
       %td=f.text_field :location
     %tr
-      %td=f.label :location_city
-      %td=f.text_field :location_city
+      %td=f.label :tariff
+      %td=f.text_field :tariff
     %tr
-      %td=f.label :program_available
-      %td=f.text_field :program_available
+      %td=f.label :ticket_total
+      %td=f.text_field :ticket_total
     %tr
-      %td=f.label :source
-      %td=f.text_field :source
+      %td=f.label :admission_price
+      %td=f.text_field :admission_price
     %tr
-      %td=f.label :par_mgl
-      %td=f.text_field :par_mgl
+      %td=f.label :music_effort
+      %td=f.text_field :music_effort
     %tr
-      %td=f.label :nf_id
-      %td=f.text_field :nf_id
+      %td=f.label :visitors
+      %td=f.text_field :visitors
+    %tr
+      %td=f.label :room_size
+      %td=f.text_field :room_size
+    %tr
+      %td=f.label :setlist
+      %td=f.text_field :setlist
+    %tr
+      %td=f.label :gema_amount
+      %td=f.text_field :gema_amount
+    %tr
+      %td=f.label :gstv_reduction
+      %td=f.text_field :gstv_reduction
+    %tr
+      %td=f.label :cultural_reduction
+      %td=f.text_field :cultural_reduction
+    %tr
+      %td=f.label :e_reduction
+      %td=f.text_field :e_reduction
+    %tr
+      %td=f.label :netto
+      %td=f.text_field :netto
 
