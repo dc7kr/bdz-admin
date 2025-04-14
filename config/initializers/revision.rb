@@ -1,10 +1,10 @@
 Rails.application.config.to_prepare do
-  yml = YAML.load_file(Rails.root.join('config/version.yml'), aliases: true)
+  yml = YAML.load_file(Rails.root.join("config/version.yml"), aliases: true)
 
   unless yml.nil?
-    data = yml['version_info']
+    data = yml["version_info"]
 
-    GIT_REVISION =  data['current']
-    IMAGE_VERSION = data['image']
+    GIT_REVISION =  data["current"]
+    IMAGE_VERSION = data["image"]
   end
 end
