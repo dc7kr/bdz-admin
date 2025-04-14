@@ -2,7 +2,7 @@
   .content
     .inner
       %h2 Landesverband #{ @regional_organization.name}
-      %h3 Orchester
+      %h3 #{@orchestras.count} Orchester
       %table.table-sm
         %thead
           %tr
@@ -82,7 +82,7 @@
       .panel-heading
         .panel-title Ensembles
       .panel-body 
-        %table.table-sm
+        %table.table-sm.table-responsive
           %tr
             %td=t("member.mglnr")
             %td=t("report_sheet.child_ens")
