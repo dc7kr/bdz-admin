@@ -297,9 +297,7 @@ class ReportSheet < ApplicationRecord
 
     sum = data.compact.sum
 
-    if sum == 0
-	sum = 1
-    end
+    sum = 1 if sum == 0
 
     sum
   end
