@@ -41,7 +41,7 @@ FROM base AS build
 RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y build-essential git libvips pkg-config
 
-RUN apt-get install --no-install-recommends -y libmariadb-dev libktoblzcheck1-dev
+RUN apt-get install --no-install-recommends -y libmariadb-dev libktoblzcheck1-dev libyaml-dev
 
 #####################################
 # Rails production preparation phase
