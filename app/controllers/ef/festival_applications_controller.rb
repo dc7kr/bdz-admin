@@ -15,14 +15,13 @@ module Ef
     def finalize
       @festival_application = FestivalApplication.find_by token: params[:token]
 
-      if not @festival_application.confirmed
+      if @festival_application.confirmed
+        FestivalApplicationMailer.confirm_update(@festival_application.token).deliver
+      else
         FestivalApplicationMailer.confirm_create(@festival_application.token).deliver
         @festival_application.confirmed = true
         @festival_application.save!
-      else
-        FestivalApplicationMailer.confirm_update(@festival_application.token).deliver
       end
-
     end
 
     def closed; end
@@ -99,29 +98,26 @@ module Ef
       @festival_application = FestivalApplication.find_by token: params[:token]
 
       @contact_person = @festival_application.contact_person
-      
+
       fa_params = festival_application_params
 
       cp_params = fa_params[:contact_person]
       fa_params[:contact_person] = @contact_person
 
-
       respond_to do |format|
-        if not @contact_person.update(cp_params)
-          format.html do 
-            render :edit, status: :unprocessable_entity 
+        if !@contact_person.update(cp_params)
+          format.html do
+            render :edit, status: :unprocessable_entity
           end
-        else 
-          if @festival_application.update(fa_params)
-              format.html do
-                  redirect_to step2_ef_festival_application_path(@festival_application),
-                          notice: t_update_success('festival_application')
-              end
-              format.json { head :no_content }
-          else
-              format.html { render :edit, status: :unprocessable_entity }
-              format.json { render json: @festival_application.errors, status: :unprocessable_entity }
+        elsif @festival_application.update(fa_params)
+          format.html do
+            redirect_to step2_ef_festival_application_path(@festival_application),
+                        notice: t_update_success('festival_application')
           end
+          format.json { head :no_content }
+        else
+          format.html { render :edit, status: :unprocessable_entity }
+          format.json { render json: @festival_application.errors, status: :unprocessable_entity }
         end
       end
     end
