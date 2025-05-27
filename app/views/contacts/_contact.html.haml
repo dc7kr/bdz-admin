@@ -1,13 +1,9 @@
-=entity_row(contact,:company)
-=entity_row(contact,:department)
-=entity_row(contact,:salutation)
-=entity_row(contact,:title)
-=entity_row(contact,:first_name)
-=entity_row(contact,:last_name)
-=entity_row(contact,:street)
-=entity_row(contact,:country_code)
-=entity_row(contact,:zip)
-=entity_row(contact,:city)
-=entity_row(contact,:email,:mailto)
-=entity_row(contact,:phone)
-=entity_row(contact,:fax)
+%tr
+  %td=contact.title
+  %td=contact.first_name
+  %td=contact.last_name
+  %td=contact.email
+  %td=contact.phone
+  %td
+    = link_to_edit contact
+    = link_to_show contact
