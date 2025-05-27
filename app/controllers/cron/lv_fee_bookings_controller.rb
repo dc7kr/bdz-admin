@@ -35,8 +35,8 @@ module Cron
         Rails.logger.debug { "LV: #{lv.id} AMOUNT:#{amount} SALDO:#{saldo}" }
         unless amount.nil?
           if amount > 0.1
-            booking = MemberAccountBooking.newCreditTransfer("Gutschrift Beitragsanteil #{year}", amount)
-            ctw.addCreditTransfer(lv, "LV-Beitragsanteil #{year}", amount)
+            booking = MemberAccountBooking.new_credit_transfer("Gutschrift Beitragsanteil #{year}", amount)
+            ctw.add_credit_transfer(lv, "LV-Beitragsanteil #{year}", amount)
             booking.member = lv.member
             booking.save
           else
