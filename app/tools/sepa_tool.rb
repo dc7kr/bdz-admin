@@ -91,6 +91,5 @@ class SepaTool
     end
 
     sct.to_xml # Use latest schema pain.001.003.03
-    # old FORMAT: xml_string = sct.to_xml('pain.001.002.03')
   end
 end
