@@ -10,8 +10,8 @@ class FestivalApplicationsController < AuthenticatedController
   # GET /festival_applications
   # GET /festival_applications.json
 
-  def calc_sums
-    result = FestivalApplication.current_festival.select('SUM(num_players) as players, SUM(tickets) as tickets, SUM(tickets_red) as tickets_red, SUM(bdz_tickets) as bdz_tickets, SUM(bdz_tickets_red) as bdz_tickets_red').first
+  def calc_sums(year = BDZ_SETTINGS['config']['festival_year'])
+    result = FestivalApplication.where(year: year).select('SUM(num_players) as players, SUM(tickets) as tickets, SUM(tickets_red) as tickets_red, SUM(bdz_tickets) as bdz_tickets, SUM(bdz_tickets_red) as bdz_tickets_red').first
 
     sums = {}
     sums[:tickets] = nil_safe_value result[:tickets]
@@ -29,7 +29,7 @@ class FestivalApplicationsController < AuthenticatedController
   def index
     @festival_applications = FestivalApplication.current_festival.order("#{sort_column} #{sort_direction}").search(params[:search]).page(params[:page]).per(20)
 
-    @sums = calc_sums
+    @sums = calc_sums(@year)
 
     respond_to do |format|
       format.js
@@ -39,14 +39,24 @@ class FestivalApplicationsController < AuthenticatedController
   end
 
   def permitted
-    @sums = calc_sums
+    @year  = params["year"]
+
+    @sums = calc_sums(@year)
+
 
     now = Time.zone.now
     currDate = now.strftime('%d.%m.%Y')
-    @sum_players = FestivalApplication.current_festival.sum(:num_players)
+
+    if params["year"].nil?
+    	@sum_players = 42  #FestivalApplication.current_festival.sum(:num_players)
+        @festival_applications = FestivalApplication.current_festival.where(permission: true).order("#{sort_column} #{sort_direction}").page(params[:page]).per(20)
+    else
+	      @sum_players = FestivalApplication.where(year: params["year"]).sum(:num_players)
+        @festival_applications = FestivalApplication.where(permission: true, year: params["year"]).order("#{sort_column} #{sort_direction}").page(params[:page]).per(20)
+    end 
+
 
     respond_to do |format|
-      @festival_applications = FestivalApplication.current_festival.where(permission: true).order("#{sort_column} #{sort_direction}").page(params[:page]).per(20)
 
       format.js
 
