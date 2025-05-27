@@ -60,11 +60,5 @@ module Cron
       render text: 'Generation OK.'
     end
 
-    def testGen(datepref)
-      @dw = DtausWriter.new
-      @dw.overrideDate(datepref)
-      @dw.genDtaus
-      @tw.moveGeneratedFiles(@sw.datePrefix)
-    end
   end
 end
