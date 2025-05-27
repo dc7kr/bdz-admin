@@ -9,6 +9,9 @@ class RegionalOrganizationReportsController < AuthorityController
   authority_actions fee_shares: 'read'
   authority_actions person: 'read'
 
+  # nasty workaround for authority exception
+  def search; end
+
   def index
     lv = RegionalOrganization.find(params[:regional_organization_id])
     @regional_organization = lv
