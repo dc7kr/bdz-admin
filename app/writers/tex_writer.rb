@@ -8,23 +8,23 @@ class TexWriter
     @@workdir
   end
 
-  def writeInvoice(invoice, contact, year)
-    File.open("#{TexWriter.workdir}/variables.tex", 'w') do |f|
-      writeOurData(f, contact)
-      writeCommon(f, invoice.customer)
-      f.write("\\newcommand{\\jahr}{#{year}}\n")
-      f.write("\\newcommand{\\renummer}{#{invoice.number}}\n")
-      f.write("\\newcommand{\\zweck}{#{invoice.number}}\n")
+  def write_invoice(invoice, contact, year)
+    File.open("#{TexWriter.workdir}/variables.tex", 'w') do |file_handle|
+      write_our_data(file_handle, contact)
+      write_common(file_handle, invoice.customer)
+      file_handle.write("\\newcommand{\\jahr}{#{year}}\n")
+      file_handle.write("\\newcommand{\\renummer}{#{invoice.number}}\n")
+      file_handle.write("\\newcommand{\\zweck}{#{invoice.number}}\n")
     end
-    File.open("#{TexWriter.workdir}/posten.tex", 'w') do |f|
-      invoice.items.each do |i|
-        writeInvoiceItem(f, i.count, i.price, i.label)
-        Rails.logger.debug { "wrote tariff comp: #{i.count}x#{i.price}:#{i.label}" }
+    File.open("#{TexWriter.workdir}/posten.tex", 'w') do |file_handle|
+      invoice.items.each do |item|
+        write_invoice_item(file_handle, item.count, item.price, item.label)
+        Rails.logger.debug { "wrote tariff comp: #{item.count}x#{item.price}:#{item.label}" }
       end
     end
   end
 
-  def writeInvoiceItem(file, count, tariff, label)
+  def write_invoice_item(file, count, tariff, label)
     if count.nil? || count.zero?
       Rails.logger.info("omitting #{label} item as count was nil or 0")
       return
@@ -39,69 +39,69 @@ class TexWriter
     end
   end
 
-  def writePersonTariff(person)
-    File.open("#{TexWriter.workdir}/posten.tex", 'w') do |f|
-      writeInvoiceItem(f, 1, person.tariff.amount, "Beitrag #{person.tariff.description}")
+  def write_person_tariff(person)
+    File.open("#{TexWriter.workdir}/posten.tex", 'w') do |file_handle|
+      write_invoice_item(file_handle, 1, person.tariff.amount, "Beitrag #{person.tariff.description}")
     end
   end
 
-  def writeReportSheetReminderData(customer)
-    File.open("#{TexWriter.workdir}/variables.tex", 'w') do |f|
-      writeOurData(f, 'gs')
-      writeCommon(f, customer)
+  def write_report_sheet_reminder_data(customer)
+    File.open("#{TexWriter.workdir}/variables.tex", 'w') do |file_handle|
+      write_our_data(file_handle, 'gs')
+      write_common(file_handle, customer)
       intwo = I18n.l(14.days.from_now.to_date, format: :long)
-      f.write("\\newcommand{\\inTwoWeeks}{#{intwo}}\n")
+      file_handle.write("\\newcommand{\\inTwoWeeks}{#{intwo}}\n")
     end
   end
 
-  def writeReminderData(customer, bookings)
-    File.open("#{TexWriter.workdir}/variables.tex", 'w') do |f|
-      writeOurData(f, 'treasurer')
-      writeCommon(f, customer)
+  def write_reminder_data(customer, bookings)
+    File.open("#{TexWriter.workdir}/variables.tex", 'w') do |file_handle|
+      write_our_data(file_handle, 'treasurer')
+      write_common(file_handle, customer)
       intwo = I18n.l(14.days.from_now.to_date, format: :long)
-      f.write("\\newcommand{\\inTwoWeeks}{#{intwo}}\n")
+      file_handle.write("\\newcommand{\\inTwoWeeks}{#{intwo}}\n")
     end
 
-    File.open("#{TexWriter.workdir}/bookings.tex", 'w') do |f|
+    File.open("#{TexWriter.workdir}/bookings.tex", 'w') do |file_handle|
       @last = nil
       sum = 0
       bookings.each do |booking|
-        f.write(format_date(booking.booking_date) + '&' + booking.booking_txt + ' &  ' + format_currency(booking.amount,
+        file_handle.write(format_date(booking.booking_date) + '&' + booking.booking_txt + ' &  ' + format_currency(booking.amount,
                                                                                                          'EUR') + "\\\\\n")
         sum += booking.amount unless booking.amount.nil?
       end
-      f.write("\\hline\n")
-      f.write("\\textbf{Summe} & & \\textbf{#{format_currency(sum, 'EUR')}}\\\\\n")
+      file_handle.write("\\hline\n")
+      file_handle.write("\\textbf{Summe} & & \\textbf{#{format_currency(sum, 'EUR')}}\\\\\n")
     end
   end
 
   def write(member, year)
-    File.open("#{TexWriter.workdir}/variables.tex", 'w') do |f|
-      writeOurData(f, 'gs')
-      f.write("\\newcommand{\\jahr}{#{year}}\n")
-      writeCommon(f, member.to_customer)
+    File.open("#{TexWriter.workdir}/variables.tex", 'w') do |file_handle|
+      write_our_data(file_handle, 'gs')
+      file_handle.write("\\newcommand{\\jahr}{#{year}}\n")
+      write_common(file_handle, member.to_customer)
     end
   end
 
-  def writeCommon(f, customer)
-    f.write("\\newcommand{\\mglnr}{#{customer.customer_id}}\n")
+  def write_common(file_handle, customer)
+    file_handle.write("\\newcommand{\\mglnr}{#{customer.customer_id}}\n")
     if customer.is_direct_debit?
-      f.write("\\newcommand{\\directDebit}{1}\n")
-      f.write("\\newcommand{\\iban}{#{customer.iban}}\n")
-      f.write("\\newcommand{\\bic}{#{customer.bic}}\n")
+      file_handle.write("\\newcommand{\\directDebit}{1}\n")
+      file_handle.write("\\newcommand{\\iban}{#{customer.iban}}\n")
+      file_handle.write("\\newcommand{\\bic}{#{customer.bic}}\n")
 
-      f.write("\\newcommand{\\mandateRef}{#{customer.mandate_id}}\n")
-      f.write("\\newcommand{\\glaeubigerId}{#{BDZ_SETTINGS['invoice_config']['creditor_id']}}\n")
+      file_handle.write("\\newcommand{\\mandateRef}{#{customer.mandate_id}}\n")
+      file_handle.write("\\newcommand{\\glaeubigerId}{#{BDZ_SETTINGS['invoice_config']['creditor_id']}}\n")
     else
-      f.write("\\newcommand{\\directDebit}{0}\n")
+      file_handle.write("\\newcommand{\\directDebit}{0}\n")
     end
     if customer.company.nil?
-      f.write("\\newcommand{\\firma}{}\n")
+      file_handle.write("\\newcommand{\\firma}{}\n")
     else
-      f.write("\\newcommand{\\firma}{#{breakName(tex_escape(customer.company))}}\n")
+      file_handle.write("\\newcommand{\\firma}{#{break_name(tex_escape(customer.company))}}\n")
     end
-    f.write("\\newcommand{\\name}{#{customer.full_name}}\n")
-    f.write("\\newcommand{\\strasse}{#{customer.street}}\n")
+    file_handle.write("\\newcommand{\\name}{#{customer.full_name}}\n")
+    file_handle.write("\\newcommand{\\strasse}{#{customer.street}}\n")
     full_ort = ''
     if customer.zip
       full_ort += customer.zip
@@ -109,7 +109,7 @@ class TexWriter
     end
     full_ort += customer.city if customer.city
 
-    f.write("\\newcommand{\\ort}{#{full_ort}}\n")
+    file_handle.write("\\newcommand{\\ort}{#{full_ort}}\n")
 
     country = ISO3166::Country[customer.country]
     country_en = if customer.country == 'DE'
@@ -118,52 +118,52 @@ class TexWriter
                    country.translations['en']
                  end
 
-    f.write("\\newcommand{\\country}{#{country_en}}\n")
+    file_handle.write("\\newcommand{\\country}{#{country_en}}\n")
     if customer.last_name
       if customer.salutation == 'Herr'
-        f.write("\\newcommand{\\anredetxt}{r Herr #{customer.last_name}}\n")
+        file_handle.write("\\newcommand{\\anredetxt}{r Herr #{customer.last_name}}\n")
       elsif customer.salutation == 'Frau'
-        f.write("\\newcommand{\\anredetxt}{ Frau #{customer.last_name}}\n")
+        file_handle.write("\\newcommand{\\anredetxt}{ Frau #{customer.last_name}}\n")
       else
-        f.write("\\newcommand{\\anredetxt}{ Damen und Herren}\n")
+        file_handle.write("\\newcommand{\\anredetxt}{ Damen und Herren}\n")
       end
     else
-      f.write("\\newcommand{\\anredetxt}{ Damen und Herren,}\n")
+      file_handle.write("\\newcommand{\\anredetxt}{ Damen und Herren,}\n")
     end
-    # f.write('\newcommand{\myStrasse}{}'+"\n")
-    f.write("\\newcommand{\\redatum}{#{I18n.l(Time.zone.now.to_date, format: :long)}}\n")
+    # file_handle.write('\newcommand{\myStrasse}{}'+"\n")
+    file_handle.write("\\newcommand{\\redatum}{#{I18n.l(Time.zone.now.to_date, format: :long)}}\n")
   end
 
-  def writeOurData(f, contact)
+  def write_our_data(file_handle, contact)
     our_contact = BDZ_SETTINGS['contacts'][contact]
     invoice_config = BDZ_SETTINGS['invoice_config']
 
-    f.write("\\newcommand{\\myFirma}{#{invoice_config['company']}}\n")
-    f.write("\\newcommand{\\myFirmaShort}{#{invoice_config['company_short']}}\n")
-    f.write("\\newcommand{\\myKonto}{#{invoice_config['konto']}}\n")
-    f.write("\\newcommand{\\myBLZ}{#{invoice_config['blz']}}\n")
+    file_handle.write("\\newcommand{\\myFirma}{#{invoice_config['company']}}\n")
+    file_handle.write("\\newcommand{\\myFirmaShort}{#{invoice_config['company_short']}}\n")
+    file_handle.write("\\newcommand{\\myKonto}{#{invoice_config['konto']}}\n")
+    file_handle.write("\\newcommand{\\myBLZ}{#{invoice_config['blz']}}\n")
     if our_contact['iban'].nil?
-      f.write("\\newcommand{\\myBank}{#{invoice_config['bank']}}\n")
-      f.write("\\newcommand{\\myIBAN}{#{invoice_config['iban']}}\n")
-      f.write("\\newcommand{\\myBIC}{#{invoice_config['bic']}}\n")
+      file_handle.write("\\newcommand{\\myBank}{#{invoice_config['bank']}}\n")
+      file_handle.write("\\newcommand{\\myIBAN}{#{invoice_config['iban']}}\n")
+      file_handle.write("\\newcommand{\\myBIC}{#{invoice_config['bic']}}\n")
     else
-      f.write("\\newcommand{\\myIBAN}{#{our_contact['iban']}}\n")
-      f.write("\\newcommand{\\myBIC}{#{our_contact['bic']}}\n")
-      f.write("\\newcommand{\\myBank}{#{our_contact['bank']}}\n")
+      file_handle.write("\\newcommand{\\myIBAN}{#{our_contact['iban']}}\n")
+      file_handle.write("\\newcommand{\\myBIC}{#{our_contact['bic']}}\n")
+      file_handle.write("\\newcommand{\\myBank}{#{our_contact['bank']}}\n")
     end
 
-    f.write("\\newcommand{\\myPhone}{#{our_contact['phone']}}\n")
-    f.write("\\newcommand{\\myFax}{#{our_contact['fax']}}\n")
-    f.write("\\newcommand{\\myMail}{#{our_contact['mail']}}\n")
-    f.write("\\newcommand{\\myName}{#{our_contact['name']}}\n")
-    f.write("\\newcommand{\\myDept}{#{our_contact['dept']}}\n")
-    f.write("\\newcommand{\\myStreet}{#{our_contact['street']}}\n")
-    f.write("\\newcommand{\\myPLZ}{#{our_contact['zip']}}\n")
-    f.write("\\newcommand{\\myOrt}{#{our_contact['city']}}\n")
-    f.write("\\newcommand{\\myJob}{#{our_contact['job']}}\n")
+    file_handle.write("\\newcommand{\\myPhone}{#{our_contact['phone']}}\n")
+    file_handle.write("\\newcommand{\\myFax}{#{our_contact['fax']}}\n")
+    file_handle.write("\\newcommand{\\myMail}{#{our_contact['mail']}}\n")
+    file_handle.write("\\newcommand{\\myName}{#{our_contact['name']}}\n")
+    file_handle.write("\\newcommand{\\myDept}{#{our_contact['dept']}}\n")
+    file_handle.write("\\newcommand{\\myStreet}{#{our_contact['street']}}\n")
+    file_handle.write("\\newcommand{\\myPLZ}{#{our_contact['zip']}}\n")
+    file_handle.write("\\newcommand{\\myOrt}{#{our_contact['city']}}\n")
+    file_handle.write("\\newcommand{\\myJob}{#{our_contact['job']}}\n")
   end
 
-  def breakName(name)
+  def break_name(name)
     # if name contains ; use that...
     name.gsub(';', '\\\\ ')
   end
@@ -176,25 +176,25 @@ class TexWriter
     number_to_currency(val, locale: :de)
   end
 
-  def moveGeneratedFiles(datePrefix)
-    workDir = DOCS_CONFIG.work_dir
-    archiveDir = DOCS_CONFIG.archive_dir
-    tgtDir = "#{archiveDir}/#{String(Time.zone.now.year)}"
+  def move_generated_files(date_prefix)
+    work_dir = DOCS_CONFIG.work_dir
+    archive_dir = DOCS_CONFIG.archive_dir
+    target_dir = "#{archive_dir}/#{String(Time.zone.now.year)}"
 
     shortprefix = Time.zone.now.strftime('%Y%m%d-')
 
-    FileUtils.mkdir_p tgtDir
+    FileUtils.mkdir_p target_dir
 
-    Dir.chdir(workDir)
-    Dir.entries(workDir).each do |file|
-      FileUtils.mv file, "#{tgtDir}/" if file.start_with?(datePrefix) || file.start_with?(shortprefix)
+    Dir.chdir(work_dir)
+    Dir.entries(work_dir).each do |file|
+      FileUtils.mv file, "#{target_dir}/" if file.start_with?(date_prefix) || file.start_with?(shortprefix)
     end
   end
 
-  def gen_pdf(invoice_type, datePrefix, customer_id)
-    out_file = "#{datePrefix}-#{customer_id}-#{invoice_type}.pdf"
+  def gen_pdf(invoice_type, date_prefix, customer_id)
+    out_file = "#{date_prefix}-#{customer_id}-#{invoice_type}.pdf"
     tool_dir = INVOICE_CONFIG.tool_dir
-    system("#{tool_dir}/bin/rechnung.sh #{invoice_type} #{datePrefix} #{customer_id}")
+    system("#{tool_dir}/bin/rechnung.sh #{invoice_type} #{date_prefix} #{customer_id}")
 
     out_file
   end
