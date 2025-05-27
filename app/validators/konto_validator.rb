@@ -12,17 +12,17 @@ class KontoValidator < ActiveModel::EachValidator
         name = name.force_encoding('ISO-8859-1').encode('UTF-8')
         case kbc.check(record.blz, String(record.konto))
         when KtoBlzCheck::OK
-          return
+          break
         when KtoBlzCheck::UNKNOWN
           record.errors.add(attribute, ": #{options[:message] || I18n.t('errors.konto.error')}")
           record.errors.add(attribute, name)
-          return
+          break
         when KtoBlzCheck::ERROR
           record.errors.add(attribute, ": #{options[:message] || "#{I18n.t('errors.konto.invalid')} (#{name})"}")
-          return
+          break
         when KtoBlzCheck::BANK_NOT_KNOWN
           record.errors.add(attribute, ": #{options[:message] || I18n.t('errors.konto.bank_unknown')}")
-          return
+          break
         end
       end
     end
