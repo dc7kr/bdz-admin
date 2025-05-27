@@ -147,7 +147,7 @@ class EventCardsController < AuthenticatedController
       event_card_invoice(date_prefix, o, year, tw)
 
       system("/opt/bdz-rechnung/bin/ehrungsrechnung.sh #{o.id}")
-      #      tw.moveGeneratedFiles(date_prefix.datePrefix)
+      #      tw.move_generated_files(date_prefix.datePrefix)
     end
   end
 
