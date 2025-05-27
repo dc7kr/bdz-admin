@@ -1,4 +1,4 @@
-class AdminNotifierMailer < ApplicationMailer
+class AdminNotifier < ApplicationMailer
   def gen_rsi_notification(args)
     @year = args[0]
     @user_id = args[1]
