@@ -32,7 +32,7 @@ class OrchestraInvoicesJob < BaseInvoicesJob
     @orchestras.each do |orch|
       mglnr = orch.member.mglnr
 
-      if orch.report_sheet_for_year(year).nil?
+      if orch.report_sheet_for_year(year).nil? and orch.report_sheet_required?
         logger.debug("Skipping #{mglnr} - no report sheet")
         skipped += 1
         next
