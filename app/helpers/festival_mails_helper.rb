@@ -12,32 +12,4 @@ module FestivalMailsHelper
                        selected: 'FP')
   end
 
-  def replace_body(orig_body, subst)
-    body = orig_body
-    subst.each do |s|
-      # logger.debug("Subst-Pattern:"+s[0])
-      body = body.gsub(s[0], s[1])
-    end
-
-    body
-  end
-
-  def prepare_body(appl, body)
-    @festival_concert = appl.festival_concert
-
-    substitutes = {
-      '%id%' => appl.id.to_s,
-      '%teilnehmer_name%' => appl.orch_name
-    }
-
-    substitutes['%probenzeit%'] = appl.rehearsal_time.to_s unless appl.rehearsal_time.nil?
-
-    unless @festival_concert.nil?
-      substitutes['%konzert%'] = @festival_concert.label.to_s
-      substitutes['%konzert_zeit%'] = I18n.l(@festival_concert.event_time)
-      substitutes['%konzert_ort%'] = @festival_concert.location
-    end
-
-    replace_body(body, substitutes)
-  end
 end
