@@ -15,9 +15,11 @@ module Cron
 
       tmpdir = DOCS_CONFIG.work_dir
 
+      tool_dir = INVOICE_CONFIG.tool_dir
+
       @orchestras.each do |orch|
         @tw.writeReportSheetReminderData(orch.to_customer)
-        filename = `/opt/bdz-rechnung/bin/create_pdf.sh #{orch.member.mglnr} mahnung-meldebogen`
+        filename = `#{tool_dir}/bin/create_pdf.sh #{orch.member.mglnr} mahnung-meldebogen`
         filename = filename.chomp
 
         fa.archive_file(tmpdir, filename, year)
@@ -53,12 +55,14 @@ module Cron
       pdfs = []
       tmpdir = DOCS_CONFIG.work_dir
 
+      tool_dir = INVOICE_CONFIG.tool_dir
+
       @tw = TexWriter.new
       @orchestras.each do |orch_member|
         filtered_bookings = orch_member.get_unbalanced_bookings
         customer = orch_member.member_entity.to_customer
         @tw.writeReminderData(customer, filtered_bookings)
-        filename = `/opt/bdz-rechnung/bin/create_pdf.sh #{orch_member.mglnr} mahnung-beitrag`
+        filename = `#{tool_dir}/bin/create_pdf.sh #{orch_member.mglnr} mahnung-beitrag`
         filename = filename.chomp
         fa.archive_file(tmpdir, filename, year)
         pdfs << filename
@@ -68,7 +72,7 @@ module Cron
         filtered_bookings = person_member.get_unbalanced_bookings
         customer = person_member.member_entity.to_customer
         @tw.writeReminderData(customer, filtered_bookings)
-        filename = `/opt/bdz-rechnung/bin/create_pdf.sh #{customer.id} mahnung-beitrag`
+        filename = `#{tool_dir}/bin/create_pdf.sh #{customer.id} mahnung-beitrag`
         filename = filename.chomp
         fa.archive_file(tmpdir, filename, year)
         pdfs << filename
