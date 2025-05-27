@@ -1,9 +1,6 @@
 module ButtonHelper
-  def link_to_edit(entity, txt = "", btn_class= "btn-sm btn-outline-dark")
-
-    if not txt.blank?
-      txt = raw('&nbsp;')+txt
-    end
+  def link_to_edit(entity, txt = '', btn_class = 'btn-sm btn-outline-dark')
+    txt = raw('&nbsp;') + txt if txt.present?
 
     if entity.is_a?(Array)
       namespace = entity[0]
@@ -16,8 +13,8 @@ module ButtonHelper
     return unless can? :update, entity
 
     link_to send(path, entity), class: "btn #{btn_class}" do
-      my_fa_icon('edit')+raw("&nbsp;")+
-      txt
+      my_fa_icon('edit') + raw('&nbsp;') +
+        txt
     end
   end
 
@@ -130,7 +127,7 @@ module ButtonHelper
     elsif type == :button
 
       button_tag(link: path, class: "btn #{clazz}") do
-        my_fa_icon(glyph)+raw("&nbsp;")+txt
+        my_fa_icon(glyph) + raw('&nbsp;') + txt
       end
     end
   end
