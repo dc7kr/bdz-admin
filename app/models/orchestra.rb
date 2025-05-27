@@ -491,7 +491,8 @@ class Orchestra < ApplicationRecord
   end
 
   def report_sheet_required?
-    orch_type != 'X'
+    # foreign orchestras and special members
+    orch_type != 'X' and orch_type != 'A'
   end
 
   def has_faulty_double_members?
