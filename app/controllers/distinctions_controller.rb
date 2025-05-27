@@ -25,14 +25,13 @@ class DistinctionsController < AuthenticatedController
     sepa = invoice.gen_sepa
 
     booking_txt = "Ehrungsrechung #{invoice.number}"
-    booking = MemberAccountBooking.newDistinctionInvoice(booking_txt, -1 * invoice.sum, invoice.customer.customer_id,
-                                                         pdf)
+    booking = MemberAccountBooking.new_distinction_invoice(booking_txt, -1 * invoice.sum, invoice.customer.customer_id, pdf)
     booking.member_id = orchestra.member.id
     booking.invoice_id = invoice.id.to_s
     booking.save
 
     if invoice.customer.is_direct_debit?
-      @wdbooking = MemberAccountBooking.newWithdrawal("Lastschrift #{booking_txt}", invoice.sum, sepa.orig_filename)
+      @wdbooking = MemberAccountBooking.new_dd("Lastschrift #{booking_txt}", invoice.sum, sepa.orig_filename)
       @wdbooking.member_id = orchestra.member.id
       @wdbooking.save
     end
