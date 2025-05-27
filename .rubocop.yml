@@ -1,4 +1,6 @@
-require: rubocop-rails
+plugins: rubocop-rails
+inherit_gem: { rubocop-rails-omakase: rubocop.yml }
+
 
 AllCops:
   NewCops: enable
@@ -7,6 +9,7 @@ AllCops:
     - 'db/seeds.rb'
     - 'db/schema.rb'
     - 'db/migrate/**'
+    - 'test/**'
 
 Layout/LineLength:
   Enabled: false
@@ -21,4 +24,6 @@ Metrics/BlockLength:
 Metrics/MethodLength:
   Enabled: false
 Metrics/ModuleLength:
+  Enabled: false
+Metrics/CyclomaticComplexity:
   Enabled: false
