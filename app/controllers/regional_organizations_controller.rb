@@ -4,8 +4,8 @@ class RegionalOrganizationsController < AuthenticatedController
   # GET /regional_organizations.json
   before_action :authenticate_user! # , :except => [:index]
 
-  authority_actions orch: 'read'
-  authority_actions share_overview: 'read'
+  authority_actions orch: "read"
+  authority_actions share_overview: "read"
 
   def index
     @regional_organizations = RegionalOrganizationAuthorizer.readable_by(current_user)
@@ -58,7 +58,7 @@ class RegionalOrganizationsController < AuthenticatedController
 
     respond_to do |format|
       if @regional_organization.save
-        format.html { redirect_to @regional_organization, notice: 'Regional organization was successfully created.' }
+        format.html { redirect_to @regional_organization, notice: "Regional organization was successfully created." }
         format.json { render json: @regional_organization, status: :created, location: @regional_organization }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -77,7 +77,7 @@ class RegionalOrganizationsController < AuthenticatedController
       if @regional_organization.save
         format.html do
           redirect_to @regional_organization,
-                      notice: t_update_success('regional_organization')
+                      notice: t_update_success("regional_organization")
         end
         format.json { head :ok }
       else
@@ -107,9 +107,9 @@ class RegionalOrganizationsController < AuthenticatedController
 
     @before = if params[:before].nil?
                 Time.zone.now
-              else
-                Date.strptime(params[:before], '%d.%m.%Y')
-              end
+    else
+                Date.strptime(params[:before], "%d.%m.%Y")
+    end
 
     @regional_organization_shares = []
 

@@ -30,11 +30,11 @@ module Public
         if @competition_entry.save
           format.html do
             redirect_to success_public_competition_entry_path(@competition_entry),
-                        notice: 'CompetitionEntry was successfully created.'
+                        notice: "CompetitionEntry was successfully created."
           end
           format.json { render json: @competition_entry, status: :created, location: @competition_entry }
         else
-          format.html { render action: 'participate' }
+          format.html { render action: "participate" }
           format.json { render json: @competition_entry.errors, status: :unprocessable_entity }
         end
       end
@@ -47,7 +47,7 @@ module Public
 
       respond_to do |format|
         if @competition_entry.update(params[:competition])
-          format.html { redirect_to @competition_entry, notice: 'CompetitionEntry was successfully updated.' }
+          format.html { redirect_to @competition_entry, notice: "CompetitionEntry was successfully updated." }
           format.json { head :no_content }
         else
           format.html { render :edit, status: :unprocessable_entity }

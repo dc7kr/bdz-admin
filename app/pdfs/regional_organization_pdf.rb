@@ -1,4 +1,4 @@
-require 'prawn'
+require "prawn"
 class RegionalOrganizationPdf < Prawn::Document
   def initialize(regional_organization, orchestras, person_members, year, view)
     super(top_margin: 70)
@@ -8,18 +8,18 @@ class RegionalOrganizationPdf < Prawn::Document
     @view = view
     @year = if year.nil?
               Time.zone.now.year
-            else
+    else
               year
-            end
+    end
 
-    font_dir = '/usr/share/fonts/truetype/liberation'
-    font_families.update('LiberationSans' => {
-                           normal: File.join(font_dir, 'LiberationSans-Regular.ttf'),
-                           italic: File.join(font_dir, 'LiberationSans-Italic.ttf'),
-                           bold: File.join(font_dir, 'LiberationSans-Bold.ttf'),
-                           bold_italic: File.join(font_dir, 'LiberationSans-BoldItalic.ttf')
+    font_dir = "/usr/share/fonts/truetype/liberation"
+    font_families.update("LiberationSans" => {
+                           normal: File.join(font_dir, "LiberationSans-Regular.ttf"),
+                           italic: File.join(font_dir, "LiberationSans-Italic.ttf"),
+                           bold: File.join(font_dir, "LiberationSans-Bold.ttf"),
+                           bold_italic: File.join(font_dir, "LiberationSans-BoldItalic.ttf")
                          })
-    font 'LiberationSans', size: 10
+    font "LiberationSans", size: 10
 
     heading
     orchestra_list
@@ -28,7 +28,7 @@ class RegionalOrganizationPdf < Prawn::Document
   end
 
   def person_list
-    text 'Einzelmitglieder', size: 24, style: :bold
+    text "Einzelmitglieder", size: 24, style: :bold
     table format_persons do
       row(0).font_style = :bold
       columns(0).align = :right
@@ -40,7 +40,7 @@ class RegionalOrganizationPdf < Prawn::Document
   end
 
   def format_persons
-    [['Mitgl.Nr.', 'Name']] +
+    [ [ "Mitgl.Nr.", "Name" ] ] +
       @person_members.map do |item|
         [
           mglnr(item.member),
@@ -50,18 +50,18 @@ class RegionalOrganizationPdf < Prawn::Document
   end
 
   def format_orchestras
-    [%w[Mglnr Orchester Gesamt GEMA]] +
+    [ %w[Mglnr Orchester Gesamt GEMA] ] +
       @orchestras.map do |orch|
-        [mglnr(orch.member),
+        [ mglnr(orch.member),
          "#{orch.address}, #{orch.contact_info}",
          orch.total(@year),
          orch.gema(@year),
-         orch.age_key_str(@year)]
+         orch.age_key_str(@year) ]
       end
   end
 
   def orchestra_list
-    text 'Orchester', size: 24, style: :bold
+    text "Orchester", size: 24, style: :bold
     table format_orchestras do
       row(0).font_style = :bold
       columns(0).align = :right
@@ -77,9 +77,9 @@ class RegionalOrganizationPdf < Prawn::Document
     str = member.mglnr.to_s
 
     if member.eintritt && (member.eintritt.year == @year)
-      str += ' (N)'
+      str += " (N)"
     elsif !member.austritt_zum.nil? && member.austritt_zum.year != 0
-      str += ' (A)'
+      str += " (A)"
     end
     str
   end

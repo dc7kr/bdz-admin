@@ -1,5 +1,5 @@
 class TestMailMailer < ApplicationMailer
-  default from: 'karsten.richter@zupfmusiker.de'
+  default from: "karsten.richter@zupfmusiker.de"
 
   def notify(recipient, email_params)
     dataFile = email_params[:datafile]

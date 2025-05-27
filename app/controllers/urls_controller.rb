@@ -21,7 +21,7 @@ class UrlsController < AuthenticatedController
     @url.confirmed = Time.zone.now
     @url.visible = true
     @url.save
-    redirect_to urls_path(@url), notice: t('urls.confirm_success')
+    redirect_to urls_path(@url), notice: t("urls.confirm_success")
   end
 
   def index
@@ -68,7 +68,7 @@ class UrlsController < AuthenticatedController
 
     respond_to do |format|
       if @url.save
-        format.html { redirect_to @url, notice: 'Url was successfully created.' }
+        format.html { redirect_to @url, notice: "Url was successfully created." }
         format.json { render json: @url, status: :created, location: @url }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -84,7 +84,7 @@ class UrlsController < AuthenticatedController
 
     respond_to do |format|
       if @url.update(params[:url])
-        format.html { redirect_to @url, notice: 'Url was successfully updated.' }
+        format.html { redirect_to @url, notice: "Url was successfully updated." }
         format.json { head :ok }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -101,10 +101,10 @@ class UrlsController < AuthenticatedController
     respond_to do |format|
       if @url
         @url.destroy
-        flash[:notice] = 'URL was deleted.'
+        flash[:notice] = "URL was deleted."
         format.html { redirect_to urls_url }
-        format.js {}
-        format.json { render json: { status: 'ok', entityId: @url.id } }
+        format.js { }
+        format.json { render json: { status: "ok", entityId: @url.id } }
 
       # :json=>{ :result => "ok", :message=> "URL deleted successfully."}
       else
@@ -117,6 +117,6 @@ class UrlsController < AuthenticatedController
   private
 
   def sort_column
-    Url.column_names.include?(params[:sort]) ? params[:sort] : 'id'
+    Url.column_names.include?(params[:sort]) ? params[:sort] : "id"
   end
 end

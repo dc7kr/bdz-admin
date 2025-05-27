@@ -39,7 +39,7 @@ RSpec.describe UniversitiesController, type: :controller do
     it 'assigns all universities as @universities' do
       university = University.create! valid_attributes
       get :index
-      expect(assigns(:universities)).to eq([university])
+      expect(assigns(:universities)).to eq([ university ])
     end
   end
 

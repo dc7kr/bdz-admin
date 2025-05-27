@@ -56,7 +56,7 @@ RSpec.describe HonorMembersController, type: :controller do
       sign_in :admin
       honor_member = HonorMember.create! valid_attributes
       get :index
-      expect(assigns(:honor_members)).to eq([honor_member])
+      expect(assigns(:honor_members)).to eq([ honor_member ])
     end
   end
 

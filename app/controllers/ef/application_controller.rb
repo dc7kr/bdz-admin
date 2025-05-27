@@ -6,18 +6,18 @@ module Ef
     layout :ef_layout
 
     def ef_layout
-      return 'turbo_rails/frame' if turbo_frame_request?
+      return "turbo_rails/frame" if turbo_frame_request?
 
-      'ef'
+      "ef"
     end
 
     before_action :set_locale
     after_action :allow_iframe_requests
 
     def allow_iframe_requests
-      response.headers.delete('X-Frame-Options')
+      response.headers.delete("X-Frame-Options")
       # response.headers.except!  "X-Frame-Options"
-      Rails.logger.debug('filter x-frame-options public controller')
+      Rails.logger.debug("filter x-frame-options public controller")
     end
 
     private

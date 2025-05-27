@@ -12,7 +12,7 @@ class SepaContactFacade
   end
 
   def country
-    @customer.customer.t_country('de')
+    @customer.customer.t_country("de")
   end
 
   def phone

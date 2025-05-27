@@ -13,10 +13,10 @@ class Advertiser < ApplicationRecord
   accepts_nested_attributes_for :contact
 
   scope :active, lambda {
-    joins(:contact).where('active=1')
+    joins(:contact).where("active=1")
   }
 
-  self.authorizer_name = 'MagazineContextAuthorizer'
+  self.authorizer_name = "MagazineContextAuthorizer"
 
   def adv_id
     id

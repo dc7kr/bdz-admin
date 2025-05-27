@@ -3,8 +3,8 @@ module Public
     helper_method :sort_column, :sort_direction
 
     def index
-      @offer_classifieds = Classified.not_expired.active.where('adv_type=1').order('entrydate desc')
-      @search_classifieds = Classified.not_expired.active.where('adv_type=0').order('entrydate desc')
+      @offer_classifieds = Classified.not_expired.active.where("adv_type=1").order("entrydate desc")
+      @search_classifieds = Classified.not_expired.active.where("adv_type=0").order("entrydate desc")
 
       @classifieds = Classified.search(params[:search]).order("#{sort_column} #{sort_direction}").page(params[:page]).per(20)
 
@@ -54,7 +54,7 @@ module Public
 
       respond_to do |format|
         if @classified.save
-          format.html { redirect_to public_classifieds_path, notice: I18n.t('classified.create_success') }
+          format.html { redirect_to public_classifieds_path, notice: I18n.t("classified.create_success") }
           format.json { render json: @classified, status: :created, location: @classified }
         else
           format.html { render :new, status: :unprocessable_entity }
@@ -70,7 +70,7 @@ module Public
 
       respond_to do |format|
         if @classified.update(params[:classified])
-          format.html { redirect_to @classified, notice: 'Classified was successfully updated.' }
+          format.html { redirect_to @classified, notice: "Classified was successfully updated." }
           format.json { head :no_content }
         else
           format.html { render :edit, status: :unprocessable_entity }
@@ -82,11 +82,11 @@ module Public
     private
 
     def sort_column
-      Classified.column_names.include?(params[:sort]) ? params[:sort] : 'validuntil'
+      Classified.column_names.include?(params[:sort]) ? params[:sort] : "validuntil"
     end
 
     def sort_direction
-      %w[asc desc].include?(params[:direction]) ? params[:direction] : 'desc'
+      %w[asc desc].include?(params[:direction]) ? params[:direction] : "desc"
     end
 
     def classified_params

@@ -48,7 +48,7 @@ class FestivalsController < AuthenticatedController
 
     respond_to do |format|
       if @festival.save
-        format.html { redirect_to @festival, notice: 'Festival was successfully created.' }
+        format.html { redirect_to @festival, notice: "Festival was successfully created." }
         format.json { render json: @festival, status: :created, location: @festival }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -64,7 +64,7 @@ class FestivalsController < AuthenticatedController
 
     respond_to do |format|
       if @festival.update(params[:festival])
-        format.html { redirect_to @festival, notice: 'Festival was successfully updated.' }
+        format.html { redirect_to @festival, notice: "Festival was successfully updated." }
         format.json { head :ok }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -88,6 +88,6 @@ class FestivalsController < AuthenticatedController
   private
 
   def sort_column
-    Festival.column_names.include?(params[:sort]) ? params[:sort] : 'festivals.startdate'
+    Festival.column_names.include?(params[:sort]) ? params[:sort] : "festivals.startdate"
   end
 end

@@ -2,7 +2,7 @@ module RegionalOrganizationReport
   private
 
   def orch
-    @orchestras = Orchestra.includes(:member).where(members: { regional_organization_id: params[:id] }).order('members.mglnr')
+    @orchestras = Orchestra.includes(:member).where(members: { regional_organization_id: params[:id] }).order("members.mglnr")
     respond_to do |format|
       format.csv do
         render csv: @orchestras, style: :lv,
@@ -12,7 +12,7 @@ module RegionalOrganizationReport
   end
 
   def person
-    @person_members = PersonMember.includes(:member).where(members: { regional_organization_id: params[:id] }).order('members.mglnr')
+    @person_members = PersonMember.includes(:member).where(members: { regional_organization_id: params[:id] }).order("members.mglnr")
     respond_to do |format|
       format.csv do
         render csv: @person_members, style: :lv,
@@ -27,9 +27,9 @@ module RegionalOrganizationReport
     @orchSum = 0
     @orchFullSum = 0
     @personSum = 0
-    @orchestras = Orchestra.includes(%i[member report_sheets]).where('members.regional_organization_id =?',
-                                                                     params[:id]).order('members.mglnr')
-    @person_members = PersonMember.includes(:member, :tariff).where(members: { regional_organization_id: params[:id] }).order('members.mglnr')
+    @orchestras = Orchestra.includes(%i[member report_sheets]).where("members.regional_organization_id =?",
+                                                                     params[:id]).order("members.mglnr")
+    @person_members = PersonMember.includes(:member, :tariff).where(members: { regional_organization_id: params[:id] }).order("members.mglnr")
 
     @ensembles = []
 
@@ -62,8 +62,8 @@ module RegionalOrganizationReport
       format.pdf do
         pdf = RegionalOrganizationPdf.new(@regional_organization, @orchestras, @person_members, view_context)
         send_data pdf.render, filename: "lv_#{@regional_organization.id}.pdf",
-                              type: 'application/pdf',
-                              disposition: 'inline'
+                              type: "application/pdf",
+                              disposition: "inline"
       end
       format.csv
     end
@@ -75,23 +75,23 @@ module RegionalOrganizationReport
     @orchSum = 0
     @orchFullSum = 0
     @personSum = 0
-    @orchestras = Orchestra.includes(%i[member report_sheets]).where('members.regional_organization_id =?',
-                                                                     params[:id]).order('members.mglnr')
-    @person_members = PersonMember.includes(:member, :tariff).where(members: { regional_organization_id: params[:id] }).order('members.mglnr')
+    @orchestras = Orchestra.includes(%i[member report_sheets]).where("members.regional_organization_id =?",
+                                                                     params[:id]).order("members.mglnr")
+    @person_members = PersonMember.includes(:member, :tariff).where(members: { regional_organization_id: params[:id] }).order("members.mglnr")
 
     respond_to do |format|
       format.pdf do
         pdf = RegionalOrganizationFeeSharePdf.new(@regional_organization, @orchestras, @person_members, view_context)
         send_data pdf.render, filename: "beitragsanteile_lv_#{@regional_organization.id}.pdf",
-                              type: 'application/pdf',
-                              disposition: 'inline'
+                              type: "application/pdf",
+                              disposition: "inline"
       end
     end
   end
 
   def oddset_report
     @report_sheets = ReportSheet.find_by_sql([
-                                               'SELECT rs.* FROM report_sheets rs, members m WHERE rs.orchestra_id=m.id AND m.regional_organization_id = ? AND year = ?', params[:id], params[:year]
+                                               "SELECT rs.* FROM report_sheets rs, members m WHERE rs.orchestra_id=m.id AND m.regional_organization_id = ? AND year = ?", params[:id], params[:year]
                                              ])
 
     @sums = { orchestras: 0, passive: 0, active: 0, youth: 0 }
@@ -108,9 +108,9 @@ module RegionalOrganizationReport
 
     @before = if params[:before].nil?
                 Time.zone.now
-              else
-                Date.strptime(params[:before], '%d.%m.%Y')
-              end
+    else
+                Date.strptime(params[:before], "%d.%m.%Y")
+    end
 
     @regional_organization_shares = []
 

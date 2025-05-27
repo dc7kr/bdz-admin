@@ -41,7 +41,7 @@ class MailingTool
   private
 
   def mail_blacklisted?(mail)
-    mail.include?('aol.com')
+    mail.include?("aol.com")
   end
 
   # entity is either the superclass member or a similar object that supports calls to:
@@ -64,7 +64,7 @@ class MailingTool
 
   def record_mail_failure(addressee, result)
     if addressee.event_class.nil?
-      Rails.logger.info('Event class is nil.')
+      Rails.logger.info("Event class is nil.")
       Rails.logger.warn("Mail sending failed: #{result}")
       return
     end
@@ -75,7 +75,7 @@ class MailingTool
 
   def record_letter(addressee, subject, letter_file)
     if addressee.event_class.nil?
-      Rails.logger.info('Event class is nil.')
+      Rails.logger.info("Event class is nil.")
       Rails.logger.info("Letter success: #{addressee.id}.")
       return
     end
@@ -84,7 +84,7 @@ class MailingTool
     event.filename = letter_file.relative_filename unless letter_file.nil?
     event.save
 
-    { success: true, mode: 'L', entity: addressee }
+    { success: true, mode: "L", entity: addressee }
   end
 
   def deliver_letter(addressee, letter)
@@ -102,20 +102,20 @@ class MailingTool
     begin
       type = addressee.entity.class
       if mail_blacklisted?(addressee.email)
-        record_mail_failure(addressee, 'blacklist')
-        { err: 'blacklisted', entity: addressee, type: type, mode: 'E' }
+        record_mail_failure(addressee, "blacklist")
+        { err: "blacklisted", entity: addressee, type: type, mode: "E" }
 
       else
         mailer.notify(addressee.email, letter_hash, attachment_hash, additional_mailer_params).deliver_later
         record_mail_success(addressee, @event_title, letter)
-        { success: true, mode: 'E', entity: addressee }
+        { success: true, mode: "E", entity: addressee }
 
       end
     rescue StandardError => e
       # TODO: be more specific about the errors: Catch all is bad!
       record_mail_failure(addressee, e.message)
       Rails.logger.warn e.backtrace.join("\n")
-      { err: e.message, entity: addressee, type: type, mode: 'E' }
+      { err: e.message, entity: addressee, type: type, mode: "E" }
     end
   end
 end

@@ -16,13 +16,13 @@ class ContactPerson < ApplicationRecord
   end
 
   def fullname
-    result = ''
+    result = ""
     result = "#{result}#{first_name} " if first_name
     result += last_name if last_name
     result
   end
 
-  def t_country(locale = 'de')
+  def t_country(locale = "de")
     translated_country(country_code, locale)
   end
 

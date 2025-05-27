@@ -55,19 +55,19 @@ module Ef
         if @festival_piece.save
           format.turbo_stream do
             render turbo_stream: [
-              turbo_stream.update(:new_piece, partial: 'ef/festival_applications/step2_form',
+              turbo_stream.update(:new_piece, partial: "ef/festival_applications/step2_form",
                                               locals: { festival_piece: FestivalPiece.new }),
               turbo_stream.append(:festival_pieces, @festival_piece)
             ]
           end
           format.html do
             redirect_to step2_ef_festival_application_path(@festival_application),
-                        notice: t('festival_piece.create_success')
+                        notice: t("festival_piece.create_success")
           end
         else
           format.turbo_stream do
             render turbo_stream: [
-              turbo_stream.update(:new_piece, partial: 'festival_applications/form', locals: { note: @note })
+              turbo_stream.update(:new_piece, partial: "festival_applications/form", locals: { note: @note })
             ]
           end
           format.html { render :new, status: :unprocessable_entity }
@@ -86,7 +86,7 @@ module Ef
 
       respond_to do |format|
         if @festival_piece.update(params[:festival_piece])
-          format.html { redirect_to @festival_piece, notice: 'Festival piece was successfully updated.' }
+          format.html { redirect_to @festival_piece, notice: "Festival piece was successfully updated." }
           format.json { head :no_content }
         else
           format.html { render :edit, status: :unprocessable_entity }
@@ -106,18 +106,18 @@ module Ef
           format.turbo_stream do
             render turbo_stream: [
               turbo_stream.remove(@festival_piece),
-              turbo_stream.update(:new_piece, partial: 'ef/festival_applications/step2_form',
+              turbo_stream.update(:new_piece, partial: "ef/festival_applications/step2_form",
                                               locals: { festival_piece: FestivalPiece.new })
             ]
           end
           format.html do
             redirect_to step2_ef_festival_application_path(@festival_application),
-                        notice: t('festival_piece.delete_success')
+                        notice: t("festival_piece.delete_success")
           end
         else
           format.turbo_stream do
             render turbo_stream: [
-              turbo_stream.update(:new_piece, partial: 'festival_applications/step2_form',
+              turbo_stream.update(:new_piece, partial: "festival_applications/step2_form",
                                               locals: { piece: @festival_piece })
             ]
           end

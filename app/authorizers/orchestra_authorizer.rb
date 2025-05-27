@@ -24,7 +24,7 @@ class OrchestraAuthorizer < ApplicationAuthorizer
 
   # is ANY orchestra readable by user - entity tests follow!
   def self.readable_by?(user)
-    Rails.logger.debug('readable static: Orchestra')
+    Rails.logger.debug("readable static: Orchestra")
     user.is_admin? or user.has_role? :national or user.has_role? :regional
   end
 

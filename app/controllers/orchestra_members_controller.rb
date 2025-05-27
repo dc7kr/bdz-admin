@@ -32,7 +32,7 @@ class OrchestraMembersController < AuthenticatedController
         sheet.render
         filename = sheet.gen_file
 
-        send_file(filename, filename: 'orchestra_members.ods', type: 'application/octet-stream')
+        send_file(filename, filename: "orchestra_members.ods", type: "application/octet-stream")
       end
     end
   end
@@ -42,7 +42,7 @@ class OrchestraMembersController < AuthenticatedController
     @orchestra.orchestra_members.delete_all
     respond_to do |format|
       format.html do
-        redirect_to orchestra_orchestra_members_path(@orchestra), notice: t('report_sheet_input.member_delete_success')
+        redirect_to orchestra_orchestra_members_path(@orchestra), notice: t("report_sheet_input.member_delete_success")
       end
     end
   end
@@ -59,7 +59,7 @@ class OrchestraMembersController < AuthenticatedController
   end
 
   def search
-    @orchestra_members = OrchestraMember.where('first_name like ? and last_name like ?', "#{params[:first_name]}%",
+    @orchestra_members = OrchestraMember.where("first_name like ? and last_name like ?", "#{params[:first_name]}%",
                                                "#{params[:last_name]}%")
   end
 
@@ -94,7 +94,7 @@ class OrchestraMembersController < AuthenticatedController
       if @orchestra_member.save
         format.html do
           redirect_to orchestra_orchestra_member_path(@orchestra_member.orchestra, @orchestra_member),
-                      notice: 'Orchestra member was successfully created.'
+                      notice: "Orchestra member was successfully created."
         end
         format.json { render json: @orchestra_member, status: :created, location: @orchestra_member }
       else
@@ -113,7 +113,7 @@ class OrchestraMembersController < AuthenticatedController
       if @orchestra_member.update(orchestra_member_params)
         format.html do
           redirect_to session.delete(:return_to),
-                      notice: t_update_success('orchestra_member')
+                      notice: t_update_success("orchestra_member")
         end
         format.json { head :no_content }
       else
@@ -145,7 +145,7 @@ class OrchestraMembersController < AuthenticatedController
       if @orchestra_member.save
         format.html do
           redirect_to orchestra_orchestra_members_path(@orchestra_member.orchestra),
-                      notice: t('orchestra_member.exchange_success')
+                      notice: t("orchestra_member.exchange_success")
         end
       end
     end
@@ -185,11 +185,11 @@ class OrchestraMembersController < AuthenticatedController
 
     if datafile.nil?
       redirect_to orchestra_orchestra_members_upload_path(@orchestra),
-                  flash: { error: t('upload.no_file_selected') }
+                  flash: { error: t("upload.no_file_selected") }
       return
     end
 
-    uploaded_file = DataFile.save(prefix, '/tmp', params[:datafile])
+    uploaded_file = DataFile.save(prefix, "/tmp", params[:datafile])
 
     return if datafile.nil?
 
@@ -197,16 +197,16 @@ class OrchestraMembersController < AuthenticatedController
 
     doc = open_report_spreadsheet(@att_file, uploaded_file)
     if doc.nil?
-      redirect_to orchestra_orchestra_members_path(@orchestra), flash: { error: t('upload.invalid_upload') }
+      redirect_to orchestra_orchestra_members_path(@orchestra), flash: { error: t("upload.invalid_upload") }
     else
       read_report(doc, @orchestra)
       if @error_count.positive?
         redirect_to orchestra_orchestra_members_path(@orchestra),
-                    flash: { warning: t('orchestra.report_sheet_upload_warning', error: @error_count,
+                    flash: { warning: t("orchestra.report_sheet_upload_warning", error: @error_count,
                                                                                  success: @success_count) }
       else
         redirect_to orchestra_orchestra_members_path(@orchestra),
-                    flash: { notice: t('orchestra.report_sheet_upload_success', success: @success_count) }
+                    flash: { notice: t("orchestra.report_sheet_upload_success", success: @success_count) }
       end
     end
   end
@@ -217,7 +217,7 @@ class OrchestraMembersController < AuthenticatedController
   private
 
   def sort_column
-    OrchestraMember.column_names.include?(params[:sort]) ? params[:sort] : 'last_name,first_name'
+    OrchestraMember.column_names.include?(params[:sort]) ? params[:sort] : "last_name,first_name"
   end
 
   def orchestra_member_params

@@ -41,7 +41,7 @@ class Ability
           can :read, lv
           can %i[read lorch nopayment], Orchestra, member: lv_restriction
           can %i[read nopayment], PersonMember, member: lv_restriction
-          can [:read], RegionalOrganization, id: lv.id
+          can [ :read ], RegionalOrganization, id: lv.id
           can :read, RegionalOrganizationBooking, regional_organization: lv
           can %i[read search], OrchestraMember
           can %i[read download], MemberAccountBooking, member: lv_restriction

@@ -17,26 +17,26 @@ module Adm
       distinction.national_needles = 6
       distinction.porto = 3.45
 
-      orchestra = Member.where('mglnr = 1045').first.member_entity
+      orchestra = Member.where("mglnr = 1045").first.member_entity
       distinction.orchestra = orchestra
 
       invoice = distinction.gen_invoice
 
       pdf = invoice.gen_pdf
 
-      send_file(pdf.full_path, filename: 'test_ehrungsrechnung.pdf', type: 'application/octet-stream')
+      send_file(pdf.full_path, filename: "test_ehrungsrechnung.pdf", type: "application/octet-stream")
     end
 
     def orchestra
       authorize! :member, :edit
-      orch = Orchestra.joins(:member).where('members.mglnr = 1045').first
+      orch = Orchestra.joins(:member).where("members.mglnr = 1045").first
 
       invoice = orch.gen_invoice(Time.zone.now.year)
 
       tw = CorikaInvoices::TexWriter.new(INVOICE_CONFIG)
       pdf = invoice.gen_pdf(tw)
 
-      send_file(pdf.full_path, filename: 'test_beitragsrechnung.pdf', type: 'application/octet-stream')
+      send_file(pdf.full_path, filename: "test_beitragsrechnung.pdf", type: "application/octet-stream")
     end
 
     def person_member

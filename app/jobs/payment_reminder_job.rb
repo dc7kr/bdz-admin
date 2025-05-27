@@ -2,8 +2,8 @@ class PaymentReminderJob < ApplicationJob
   def perform
     fa = FileArchiveTool.new(DOCS_CONFIG)
 
-    datePrefix = Time.zone.now.strftime('%Y%m%d_')
-    year = Time.zone.now.strftime('%Y')
+    datePrefix = Time.zone.now.strftime("%Y%m%d_")
+    year = Time.zone.now.strftime("%Y")
 
     pm_data = PersonMember.no_payment
     orch_data = Orchestra.no_payment

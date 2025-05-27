@@ -39,7 +39,7 @@ RSpec.describe ConcertsController, type: :controller do
     it 'assigns all concerts as @concerts' do
       concert = Concert.create! valid_attributes
       get :index, session: valid_session
-      expect(assigns(:concerts)).to eq([concert])
+      expect(assigns(:concerts)).to eq([ concert ])
     end
   end
 

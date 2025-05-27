@@ -8,9 +8,9 @@ class ReportSheetInputsController < AuthenticatedController
   def index
     @report_sheet_inputs = if params[:orch].nil?
                              ReportSheetInput.includes(:orchestra)
-                           else
+    else
                              ReportSheetInput.includes(:orchestra).where(orchestra_id: params[:orch])
-                           end
+    end
 
     respond_to do |format|
       format.html # index.html.erb
@@ -36,7 +36,7 @@ class ReportSheetInputsController < AuthenticatedController
     @report_sheet_input = ReportSheetInput.new_for_orchestra(@orchestra, @year)
 
     respond_to do |format|
-      format.html { redirect_to @report_sheet_input, notice: 'Report sheet input was successfully created.' }
+      format.html { redirect_to @report_sheet_input, notice: "Report sheet input was successfully created." }
       format.json { render json: @report_sheet_input, status: :created, location: @report_sheet_input }
     end
   end
@@ -50,7 +50,7 @@ class ReportSheetInputsController < AuthenticatedController
 
     respond_to do |format|
       if @report_sheet_input.save
-        format.html { redirect_to @report_sheet_input, notice: 'Report sheet input was successfully created.' }
+        format.html { redirect_to @report_sheet_input, notice: "Report sheet input was successfully created." }
         format.json { render json: @report_sheet_input, status: :created, location: @report_sheet_input }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -66,7 +66,7 @@ class ReportSheetInputsController < AuthenticatedController
 
     respond_to do |format|
       if @report_sheet_input.update(report_sheet_input_params)
-        format.html { redirect_to @report_sheet_input, notice: 'Report sheet input was successfully updated.' }
+        format.html { redirect_to @report_sheet_input, notice: "Report sheet input was successfully updated." }
         format.json { head :no_content }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -98,7 +98,7 @@ class ReportSheetInputsController < AuthenticatedController
 
     respond_to do |format|
       format.html do
-        redirect_to home_cron_path, notice: t('report_sheet_input.generation_triggered')
+        redirect_to home_cron_path, notice: t("report_sheet_input.generation_triggered")
       end
     end
   end

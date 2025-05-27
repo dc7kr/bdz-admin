@@ -46,7 +46,7 @@ class ContactsController < AuthenticatedController
 
     respond_to do |format|
       if @contact.save
-        format.html { redirect_to @contact, notice: 'Contact was successfully created.' }
+        format.html { redirect_to @contact, notice: "Contact was successfully created." }
         format.json { render json: @contact, status: :created, location: @contact }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -62,7 +62,7 @@ class ContactsController < AuthenticatedController
 
     respond_to do |format|
       if @contact.update(params[:contact])
-        format.html { redirect_to @contact, notice: 'Contact was successfully updated.' }
+        format.html { redirect_to @contact, notice: "Contact was successfully updated." }
         format.json { head :ok }
       else
         format.html { render :edit, status: :unprocessable_entity }

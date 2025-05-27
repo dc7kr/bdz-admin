@@ -6,12 +6,12 @@ class ClassifiedsController < AuthenticatedController
     @classified.confirmed = Time.zone.now
     @classified.visible = true
     @classified.save
-    flash[:notice] = t('classified.publish_success')
+    flash[:notice] = t("classified.publish_success")
 
     respond_to do |format|
       if @classified.save
-        format.html { redirect_to inactive_classifieds_path, notice: t('classified.publish_success') }
-        format.json { render json: { status: 'ok', entityId: @classified.id } }
+        format.html { redirect_to inactive_classifieds_path, notice: t("classified.publish_success") }
+        format.json { render json: { status: "ok", entityId: @classified.id } }
       else
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @classified.errors, status: :unprocessable_entity }
@@ -74,7 +74,7 @@ class ClassifiedsController < AuthenticatedController
 
     respond_to do |format|
       if @classified.save
-        format.html { redirect_to @classified, notice: 'Classified was successfully created.' }
+        format.html { redirect_to @classified, notice: "Classified was successfully created." }
         format.json { render json: @classified, status: :created, location: @classified }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -90,7 +90,7 @@ class ClassifiedsController < AuthenticatedController
 
     respond_to do |format|
       if @classified.update(classified_params)
-        format.html { redirect_to @classified, notice: 'Classified was successfully updated.' }
+        format.html { redirect_to @classified, notice: "Classified was successfully updated." }
         format.json { head :no_content }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -104,23 +104,23 @@ class ClassifiedsController < AuthenticatedController
   def destroy
     @classified = Classified.find(params[:id])
     @classified.destroy
-    flash[:notice] = t('classified.delete_success')
+    flash[:notice] = t("classified.delete_success")
 
     respond_to do |format|
       format.html { redirect_to classifieds_url }
       format.json { head :no_content }
-      format.json { render json: { status: 'ok', entityId: @classified.id } }
+      format.json { render json: { status: "ok", entityId: @classified.id } }
     end
   end
 
   private
 
   def sort_column
-    Classified.column_names.include?(params[:sort]) ? params[:sort] : 'validuntil'
+    Classified.column_names.include?(params[:sort]) ? params[:sort] : "validuntil"
   end
 
   def sort_direction
-    %w[asc desc].include?(params[:direction]) ? params[:direction] : 'desc'
+    %w[asc desc].include?(params[:direction]) ? params[:direction] : "desc"
   end
 
   def classified_params

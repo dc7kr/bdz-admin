@@ -9,14 +9,14 @@ class TexWriter
   end
 
   def write_invoice(invoice, contact, year)
-    File.open("#{TexWriter.workdir}/variables.tex", 'w') do |file_handle|
+    File.open("#{TexWriter.workdir}/variables.tex", "w") do |file_handle|
       write_our_data(file_handle, contact)
       write_common(file_handle, invoice.customer)
       file_handle.write("\\newcommand{\\jahr}{#{year}}\n")
       file_handle.write("\\newcommand{\\renummer}{#{invoice.number}}\n")
       file_handle.write("\\newcommand{\\zweck}{#{invoice.number}}\n")
     end
-    File.open("#{TexWriter.workdir}/posten.tex", 'w') do |file_handle|
+    File.open("#{TexWriter.workdir}/posten.tex", "w") do |file_handle|
       invoice.items.each do |item|
         write_invoice_item(file_handle, item.count, item.price, item.label)
         Rails.logger.debug { "wrote tariff comp: #{item.count}x#{item.price}:#{item.label}" }
@@ -29,8 +29,8 @@ class TexWriter
       Rails.logger.info("omitting #{label} item as count was nil or 0")
       return
     end
-    amount = '%.2f' % tariff
-    amount = amount.gsub('.', ',')
+    amount = "%.2f" % tariff
+    amount = amount.gsub(".", ",")
 
     if tariff.negative?
       file.write("\\Anzahlung{#{amount}}\n")
@@ -40,14 +40,14 @@ class TexWriter
   end
 
   def write_person_tariff(person)
-    File.open("#{TexWriter.workdir}/posten.tex", 'w') do |file_handle|
+    File.open("#{TexWriter.workdir}/posten.tex", "w") do |file_handle|
       write_invoice_item(file_handle, 1, person.tariff.amount, "Beitrag #{person.tariff.description}")
     end
   end
 
   def write_report_sheet_reminder_data(customer)
-    File.open("#{TexWriter.workdir}/variables.tex", 'w') do |file_handle|
-      write_our_data(file_handle, 'gs')
+    File.open("#{TexWriter.workdir}/variables.tex", "w") do |file_handle|
+      write_our_data(file_handle, "gs")
       write_common(file_handle, customer)
       intwo = I18n.l(14.days.from_now.to_date, format: :long)
       file_handle.write("\\newcommand{\\inTwoWeeks}{#{intwo}}\n")
@@ -55,19 +55,19 @@ class TexWriter
   end
 
   def write_reminder_data(customer, bookings)
-    File.open("#{TexWriter.workdir}/variables.tex", 'w') do |file_handle|
-      write_our_data(file_handle, 'treasurer')
+    File.open("#{TexWriter.workdir}/variables.tex", "w") do |file_handle|
+      write_our_data(file_handle, "treasurer")
       write_common(file_handle, customer)
       intwo = I18n.l(14.days.from_now.to_date, format: :long)
       file_handle.write("\\newcommand{\\inTwoWeeks}{#{intwo}}\n")
     end
 
-    File.open("#{TexWriter.workdir}/bookings.tex", 'w') do |file_handle|
+    File.open("#{TexWriter.workdir}/bookings.tex", "w") do |file_handle|
       @last = nil
       sum = 0
       bookings.each do |booking|
-        file_handle.write(format_date(booking.booking_date) + '&' + booking.booking_txt + ' &  ' + format_currency(booking.amount,
-                                                                                                         'EUR') + "\\\\\n")
+        file_handle.write(format_date(booking.booking_date) + "&" + booking.booking_txt + " &  " + format_currency(booking.amount,
+                                                                                                         "EUR") + "\\\\\n")
         sum += booking.amount unless booking.amount.nil?
       end
       file_handle.write("\\hline\n")
@@ -76,8 +76,8 @@ class TexWriter
   end
 
   def write(member, year)
-    File.open("#{TexWriter.workdir}/variables.tex", 'w') do |file_handle|
-      write_our_data(file_handle, 'gs')
+    File.open("#{TexWriter.workdir}/variables.tex", "w") do |file_handle|
+      write_our_data(file_handle, "gs")
       file_handle.write("\\newcommand{\\jahr}{#{year}}\n")
       write_common(file_handle, member.to_customer)
     end
@@ -102,27 +102,27 @@ class TexWriter
     end
     file_handle.write("\\newcommand{\\name}{#{customer.full_name}}\n")
     file_handle.write("\\newcommand{\\strasse}{#{customer.street}}\n")
-    full_ort = ''
+    full_ort = ""
     if customer.zip
       full_ort += customer.zip
-      full_ort += ' '
+      full_ort += " "
     end
     full_ort += customer.city if customer.city
 
     file_handle.write("\\newcommand{\\ort}{#{full_ort}}\n")
 
     country = ISO3166::Country[customer.country]
-    country_en = if customer.country == 'DE'
-                   ''
-                 else
-                   country.translations['en']
-                 end
+    country_en = if customer.country == "DE"
+                   ""
+    else
+                   country.translations["en"]
+    end
 
     file_handle.write("\\newcommand{\\country}{#{country_en}}\n")
     if customer.last_name
-      if customer.salutation == 'Herr'
+      if customer.salutation == "Herr"
         file_handle.write("\\newcommand{\\anredetxt}{r Herr #{customer.last_name}}\n")
-      elsif customer.salutation == 'Frau'
+      elsif customer.salutation == "Frau"
         file_handle.write("\\newcommand{\\anredetxt}{ Frau #{customer.last_name}}\n")
       else
         file_handle.write("\\newcommand{\\anredetxt}{ Damen und Herren}\n")
@@ -135,14 +135,14 @@ class TexWriter
   end
 
   def write_our_data(file_handle, contact)
-    our_contact = BDZ_SETTINGS['contacts'][contact]
-    invoice_config = BDZ_SETTINGS['invoice_config']
+    our_contact = BDZ_SETTINGS["contacts"][contact]
+    invoice_config = BDZ_SETTINGS["invoice_config"]
 
     file_handle.write("\\newcommand{\\myFirma}{#{invoice_config['company']}}\n")
     file_handle.write("\\newcommand{\\myFirmaShort}{#{invoice_config['company_short']}}\n")
     file_handle.write("\\newcommand{\\myKonto}{#{invoice_config['konto']}}\n")
     file_handle.write("\\newcommand{\\myBLZ}{#{invoice_config['blz']}}\n")
-    if our_contact['iban'].nil?
+    if our_contact["iban"].nil?
       file_handle.write("\\newcommand{\\myBank}{#{invoice_config['bank']}}\n")
       file_handle.write("\\newcommand{\\myIBAN}{#{invoice_config['iban']}}\n")
       file_handle.write("\\newcommand{\\myBIC}{#{invoice_config['bic']}}\n")
@@ -165,7 +165,7 @@ class TexWriter
 
   def break_name(name)
     # if name contains ; use that...
-    name.gsub(';', '\\\\ ')
+    name.gsub(";", '\\\\ ')
   end
 
   def format_date(date)
@@ -181,7 +181,7 @@ class TexWriter
     archive_dir = DOCS_CONFIG.archive_dir
     target_dir = "#{archive_dir}/#{String(Time.zone.now.year)}"
 
-    shortprefix = Time.zone.now.strftime('%Y%m%d-')
+    shortprefix = Time.zone.now.strftime("%Y%m%d-")
 
     FileUtils.mkdir_p target_dir
 

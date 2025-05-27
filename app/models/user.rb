@@ -12,7 +12,7 @@ class User < ApplicationRecord
   # FUTURE: async mailers !
   # devise :database_authenticatable, :async, :recoverable, :rememberable, :trackable, :validatable, :authentication_keys => [:login]
   devise :database_authenticatable, :recoverable, :rememberable, :trackable, :validatable,
-         authentication_keys: [:login]
+         authentication_keys: [ :login ]
 
   validates :username,
             uniqueness: {
@@ -31,7 +31,7 @@ class User < ApplicationRecord
   def self.find_first_by_auth_conditions(warden_conditions)
     conditions = warden_conditions.dup
     if (login = conditions.delete(:login))
-      where(conditions).where(['lower(username) = :value OR lower(email) = :value', { value: login.downcase }]).first
+      where(conditions).where([ "lower(username) = :value OR lower(email) = :value", { value: login.downcase } ]).first
     else
       where(conditions).first
     end
@@ -47,7 +47,7 @@ class User < ApplicationRecord
   end
 
   def first_role
-    return 'personal' if roles.empty?
+    return "personal" if roles.empty?
 
     roles[0]
   end

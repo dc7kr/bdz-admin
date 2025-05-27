@@ -9,36 +9,36 @@ class ReportSheetMailingsController < AuthenticatedNonResourceController
 
     rs_year = if params[:year].nil?
                 now.year + 1
-              else
+    else
                 params[:year].to_i
-              end
+    end
 
     ReportSheetMailingsJob.perform_later(rs_year, @current_user)
 
     respond_to do |format|
       format.html do
-        redirect_to home_cron_path, notice: t('report_sheet_mailing.generation_triggered')
+        redirect_to home_cron_path, notice: t("report_sheet_mailing.generation_triggered")
       end
     end
   end
 
   def test
-    Time.zone.now.strftime '%Y%m%d'
-    cur_year = Time.zone.now.strftime '%Y'
+    Time.zone.now.strftime "%Y%m%d"
+    cur_year = Time.zone.now.strftime "%Y"
     rs_year = if params[:year].nil?
                 Time.zone.now.year + 1
-              else
+    else
                 params[:year].to_i
-              end
+    end
 
     event_id = "MB_#{rs_year}"
     subject = "Meldebogen Anschreiben #{rs_year}"
 
-    tool = MailingTool.new(cur_year.to_s, 'gs', event_id, subject)
+    tool = MailingTool.new(cur_year.to_s, "gs", event_id, subject)
 
     orchestra = Orchestra.joins(:member).where(members: { mglnr: 1045 }).first
 
-    orchestra.member.email = 'kr@corika.com'
+    orchestra.member.email = "kr@corika.com"
 
     @rsi = ReportSheetInput.for_orchestra_and_year(orchestra, rs_year)
 
@@ -50,6 +50,6 @@ class ReportSheetMailingsController < AuthenticatedNonResourceController
     tool.deliver_mailing(ReportSheetInputMailer, orchestra.to_addressee, mailing_pdf, nil, letterArray,
                          mailer_params)
 
-    send_file(mailing_pdf.full_path, filename: 'meldeboegen_anschreiben.pdf', type: 'application/octet-stream')
+    send_file(mailing_pdf.full_path, filename: "meldeboegen_anschreiben.pdf", type: "application/octet-stream")
   end
 end

@@ -16,7 +16,7 @@ class OrchestraContact < ApplicationRecord
   end
 
   def to_s
-    data = ["#{first_name} #{last_name}", street, "#{zip} #{city}", phone, email]
+    data = [ "#{first_name} #{last_name}", street, "#{zip} #{city}", phone, email ]
     data.join("\n")
   end
 end

@@ -47,11 +47,11 @@ class UploadsController < AuthenticatedController
     respond_to do |format|
       if @upload.save
         format.html do
-          render json: [@upload.to_jq_upload].to_json,
-                 content_type: 'text/html',
+          render json: [ @upload.to_jq_upload ].to_json,
+                 content_type: "text/html",
                  layout: false
         end
-        format.json { render json: [@upload.to_jq_upload].to_json, status: :created, location: @upload }
+        format.json { render json: [ @upload.to_jq_upload ].to_json, status: :created, location: @upload }
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @upload.errors, status: :unprocessable_entity }
@@ -66,7 +66,7 @@ class UploadsController < AuthenticatedController
 
     respond_to do |format|
       if @upload.update(params[:upload])
-        format.html { redirect_to @upload, notice: 'Upload was successfully updated.' }
+        format.html { redirect_to @upload, notice: "Upload was successfully updated." }
         format.json { head :no_content }
       else
         format.html { render :edit, status: :unprocessable_entity }

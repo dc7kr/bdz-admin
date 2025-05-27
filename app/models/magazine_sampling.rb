@@ -4,7 +4,7 @@ class MagazineSampling < ApplicationRecord
   accepts_nested_attributes_for :contact
 
   scope :active, lambda {
-    joins(:contact).where('inactive=0')
+    joins(:contact).where("inactive=0")
   }
 
   delegate :fullname, to: :contact
@@ -27,10 +27,10 @@ class MagazineSampling < ApplicationRecord
   end
 
   def t_country
-    if country_code == 'DE'
-      ''
+    if country_code == "DE"
+      ""
     else
-      contact.t_country('en')
+      contact.t_country("en")
     end
   end
 

@@ -50,7 +50,7 @@ class FeeShares
   end
 
   def persons_share
-    persons_total * BDZ_SETTINGS['tariff']['lvPart']
+    persons_total * BDZ_SETTINGS["tariff"]["lvPart"]
   end
 
   def orchestras_total
@@ -62,25 +62,25 @@ class FeeShares
   end
 
   def orchestras_share
-    orchestras_total * BDZ_SETTINGS['tariff']['lvPart']
+    orchestras_total * BDZ_SETTINGS["tariff"]["lvPart"]
   end
 
   def is_corrected?
     uncorr = _share
 
-    uncorr < BDZ_SETTINGS['tariff']['lvMinimum']
+    uncorr < BDZ_SETTINGS["tariff"]["lvMinimum"]
   end
 
   def _share(corrected = false)
-    percentage = BDZ_SETTINGS['tariff']['lvPart']
+    percentage = BDZ_SETTINGS["tariff"]["lvPart"]
 
     minimum = 0
 
-    minimum = BDZ_SETTINGS['tariff']['lvMinimum'] if corrected
+    minimum = BDZ_SETTINGS["tariff"]["lvMinimum"] if corrected
 
     val = total * percentage
 
-    [val, minimum].max
+    [ val, minimum ].max
   end
 
   def real_share

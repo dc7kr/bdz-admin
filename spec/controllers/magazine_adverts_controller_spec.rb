@@ -39,7 +39,7 @@ RSpec.describe MagazineAdvertsController, type: :controller do
     it 'assigns all magazine_adverts as @magazine_adverts' do
       magazine_advert = MagazineAdvert.create! valid_attributes
       get :index, session: valid_session
-      expect(assigns(:magazine_adverts)).to eq([magazine_advert])
+      expect(assigns(:magazine_adverts)).to eq([ magazine_advert ])
     end
   end
 

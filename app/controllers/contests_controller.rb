@@ -2,7 +2,7 @@ class ContestsController < AuthenticatedController
   layout :choose_layout
   helper_method :sort_column, :sort_direction
   before_action :authenticate_user!, except: %i[index show public]
-  skip_authorize_resource only: [:public]
+  skip_authorize_resource only: [ :public ]
 
   def inactive
     @contests = Contest.inactive
@@ -21,7 +21,7 @@ class ContestsController < AuthenticatedController
 
     respond_to do |format|
       if @contest.save
-        format.html { redirect_to @contest, notice: t('contest.publish_success') }
+        format.html { redirect_to @contest, notice: t("contest.publish_success") }
         format.json { render json: @contest, status: :created, location: @contest }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -83,7 +83,7 @@ class ContestsController < AuthenticatedController
 
     respond_to do |format|
       if @contest.save
-        format.html { redirect_to @contest, notice: 'Contest was successfully created.' }
+        format.html { redirect_to @contest, notice: "Contest was successfully created." }
         format.json { render json: @contest, status: :created, location: @contest }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -99,7 +99,7 @@ class ContestsController < AuthenticatedController
 
     respond_to do |format|
       if @contest.update!(contest_params)
-        format.html { redirect_to @contest, notice: 'Contest was successfully updated.' }
+        format.html { redirect_to @contest, notice: "Contest was successfully updated." }
         format.json { head :ok }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -121,7 +121,7 @@ class ContestsController < AuthenticatedController
   end
 
   def sort_column
-    Contest.column_names.include?(params[:sort]) ? params[:sort] : 'startDate'
+    Contest.column_names.include?(params[:sort]) ? params[:sort] : "startDate"
   end
 
   def contest_params

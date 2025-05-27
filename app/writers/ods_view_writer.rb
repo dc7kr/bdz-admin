@@ -1,4 +1,4 @@
-require 'rodf'
+require "rodf"
 
 class OdsViewWriter
   attr_accessor :view_name, :data

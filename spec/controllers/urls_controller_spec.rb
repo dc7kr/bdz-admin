@@ -39,7 +39,7 @@ RSpec.describe UrlsController, type: :controller do
     it 'assigns all urls as @urls' do
       url = Url.create! valid_attributes
       get :index
-      expect(assigns(:urls)).to eq([url])
+      expect(assigns(:urls)).to eq([ url ])
     end
   end
 

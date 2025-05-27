@@ -6,9 +6,9 @@ class MagazineAdvert < ApplicationRecord
     invoice = CorikaInvoices::Invoice.new
     Time.zone.now
     invoice.number = invoice_number
-    invoice.invoice_type = 'werberechnung'
+    invoice.invoice_type = "werberechnung"
 
-    invoice.tax_type = 'B'
+    invoice.tax_type = "B"
 
     invoice.customer = advertiser.to_customer
 
@@ -18,7 +18,7 @@ class MagazineAdvert < ApplicationRecord
   end
 
   def get_advert_price
-    BDZ_SETTINGS['advert_prices'][advert_type].to_f
+    BDZ_SETTINGS["advert_prices"][advert_type].to_f
   end
 
   def invoice_number

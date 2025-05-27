@@ -7,7 +7,7 @@ module Public
         member.member_entity.orchName.upcase
       end
 
-      firstLetter = ''
+      firstLetter = ""
 
       @members.each do |m|
         next unless m.member_entity.publish_url

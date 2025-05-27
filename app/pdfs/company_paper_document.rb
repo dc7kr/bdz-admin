@@ -7,17 +7,17 @@ class CompanyPaperDocument < Prawn::Document
     @addr_start = 123
     @addr_xpos = 30
     @addr_rowskip = 12
-    @heading_pos = [20, 500]
-    @datepos = [390, @heading_pos[1] + 24]
+    @heading_pos = [ 20, 500 ]
+    @datepos = [ 390, @heading_pos[1] + 24 ]
     # font "Helvetica", :size => 10
 
     font_families.update(
-      'MyFont' => {
+      "MyFont" => {
         normal: "#{BDZ_SETTINGS['fonts']['dir']}/#{BDZ_SETTINGS['fonts']['normal']}",
         bold: "#{BDZ_SETTINGS['fonts']['dir']}/#{BDZ_SETTINGS['fonts']['bold']}"
       }
     )
-    font 'MyFont', size: 10
+    font "MyFont", size: 10
   end
 
   def print_headline(txt)
@@ -32,17 +32,17 @@ class CompanyPaperDocument < Prawn::Document
   def print_address(addressee)
     rowpos = cursor - @addr_start
     xpos = @addr_xpos
-    text_box addressee.company, at: [xpos, rowpos]
+    text_box addressee.company, at: [ xpos, rowpos ]
     rowpos -= @addr_rowskip
-    text_box addressee.name, at: [xpos, rowpos]
+    text_box addressee.name, at: [ xpos, rowpos ]
     rowpos -= @addr_rowskip
-    text_box addressee.street, at: [xpos, rowpos]
+    text_box addressee.street, at: [ xpos, rowpos ]
     rowpos -= @addr_rowskip
-    text_box "#{addressee.zip} #{addressee.city}", at: [xpos, rowpos]
+    text_box "#{addressee.zip} #{addressee.city}", at: [ xpos, rowpos ]
     rowpos -= @addr_rowskip
     rowpos -= @addr_rowskip
-    return unless addressee.country_code != 'DE'
+    return unless addressee.country_code != "DE"
 
-    text_box translated_country(addressee.country_code, 'en'), at: [xpos, rowpos]
+    text_box translated_country(addressee.country_code, "en"), at: [ xpos, rowpos ]
   end
 end

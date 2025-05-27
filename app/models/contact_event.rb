@@ -6,7 +6,7 @@ class ContactEvent < ApplicationRecord
   def self.new_email(eventId, contact, subject)
     retval = ContactEvent.new
     retval.contact_person_id = contact
-    retval.event_type = 'E'
+    retval.event_type = "E"
     retval.event_id = eventId
     retval.event_date = Time.zone.now
     retval.comment = subject
@@ -17,7 +17,7 @@ class ContactEvent < ApplicationRecord
   def self.new_failed_email(eventId, contact, message)
     retval = ContactEvent.new
     retval.contact_person_id = contact
-    retval.event_type = 'F'
+    retval.event_type = "F"
     retval.event_id = eventId
     retval.event_date = Time.zone.now
     retval.comment = message
@@ -28,7 +28,7 @@ class ContactEvent < ApplicationRecord
   def self.new_letter(eventId, contact, subject)
     retval = ContactEvent.new
     retval.contact_person_id = contact
-    retval.event_type = 'L'
+    retval.event_type = "L"
     retval.event_id = eventId
     retval.event_date = Time.zone.now
     retval.comment = subject

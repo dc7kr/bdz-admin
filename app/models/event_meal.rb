@@ -1,6 +1,6 @@
 class EventMeal < ApplicationRecord
   # attr_accessible :title, :body
-  belongs_to :festival_application, foreign_key: 'participant_id'
+  belongs_to :festival_application, foreign_key: "participant_id"
 
   validates :participant_id, :tln, :veg, :email, :name, :arrival_time, presence: true
   validates :email, email_format: true
@@ -9,5 +9,5 @@ class EventMeal < ApplicationRecord
   validates :tln, meal: true
   validates :veg, meal: true
 
-  self.table_name = 'event_food'
+  self.table_name = "event_food"
 end

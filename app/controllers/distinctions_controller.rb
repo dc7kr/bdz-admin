@@ -10,11 +10,11 @@ class DistinctionsController < AuthenticatedController
 
     if distinction.has_booking?
       redirect_to orchestra_distinction_path(orchestra, distinction),
-                  flash: { error: t('distinction.invoice_already_exists') }
+                  flash: { error: t("distinction.invoice_already_exists") }
       return
     end
 
-    datePrefix = Time.zone.now.strftime '%Y%m%d%H%M%S'
+    datePrefix = Time.zone.now.strftime "%Y%m%d%H%M%S"
 
     CorikaInvoices::SepaWriter.new(datePrefix, INVOICE_CONFIG)
 
@@ -41,7 +41,7 @@ class DistinctionsController < AuthenticatedController
     distinction.save
 
     send_mail(invoice, sepa)
-    Time.zone.now.strftime('%Y%m%d-')
+    Time.zone.now.strftime("%Y%m%d-")
 
     redirect_to(download_orchestra_member_account_booking_path(orchestra, booking))
   end
@@ -110,7 +110,7 @@ class DistinctionsController < AuthenticatedController
       if @distinction.save
         format.html do
           redirect_to orchestra_distinction_path(params[:orchestra_id], @distinction),
-                      notice: 'Distinction was successfully created.'
+                      notice: "Distinction was successfully created."
         end
         format.json { render json: @distinction, status: :created, location: @distinction }
       else
@@ -130,7 +130,7 @@ class DistinctionsController < AuthenticatedController
       if @distinction.update(distinction_params)
         format.html do
           redirect_to orchestra_distinction_path(@orchestra, @distinction),
-                      notice: t_update_success('distinction')
+                      notice: t_update_success("distinction")
         end
 
         format.json { head :no_content }
@@ -157,7 +157,7 @@ class DistinctionsController < AuthenticatedController
   private
 
   def sort_column
-    Orchestra.column_names.include?(params[:sort]) ? params[:sort] : 'distinctions.dist_date'
+    Orchestra.column_names.include?(params[:sort]) ? params[:sort] : "distinctions.dist_date"
   end
 
   def send_mail(invoice, sepa)

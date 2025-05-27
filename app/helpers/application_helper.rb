@@ -4,11 +4,11 @@ module ApplicationHelper
   include FontAwesomeHelper
 
   def is_production?
-    ENV['RAILS_ENV'] == 'production'
+    ENV["RAILS_ENV"] == "production"
   end
 
   def is_staging?
-    ENV['RAILS_ENV'] == 'staging'
+    ENV["RAILS_ENV"] == "staging"
   end
 
   def nil_safe_value(value)
@@ -23,7 +23,7 @@ module ApplicationHelper
     tags = []
 
     data.each do |d|
-      myarr = [I18n.t("#{group}.#{field}_#{d}"), d]
+      myarr = [ I18n.t("#{group}.#{field}_#{d}"), d ]
       tags.push(myarr)
     end
 
@@ -32,9 +32,9 @@ module ApplicationHelper
 
   def title
     if is_production?
-      'BDZ Admin Interface'
+      "BDZ Admin Interface"
     elsif is_staging?
-      'Staging Instance BDZ Admin Interface'
+      "Staging Instance BDZ Admin Interface"
     else
       "Dev. Instance BDZ Admin (DON'T USE FOR PRODUCTION!)"
     end
@@ -45,7 +45,7 @@ module ApplicationHelper
   end
 
   def subtitle
-    ''
+    ""
   end
 
   def attr_heading(clazz, attr)
@@ -70,25 +70,25 @@ module ApplicationHelper
   end
 
   def link_to_up_path(_txt, path)
-    link_to my_fa_icon('arrow-up'), path, class: 'nav-link'
+    link_to my_fa_icon("arrow-up"), path, class: "nav-link"
   end
 
   def link_to_generated_download_path(_txt, path)
     return unless can? :read, path
 
-    link_to my_fa_icon('download'), path, class: 'btn btn-sm btn-outline-default', data: { turbolinks: false }
+    link_to my_fa_icon("download"), path, class: "btn btn-sm btn-outline-default", data: { turbolinks: false }
   end
 
   def icon_link(txt, img, path)
-    link_to image_tag(img, { size: '16x16', alt: txt, title: txt, class: 'btn' }), path
+    link_to image_tag(img, { size: "16x16", alt: txt, title: txt, class: "btn" }), path
   end
 
   def link_back(txt)
-    icon_link(txt, '/assets/icons/back.png', url_for(:back))
+    icon_link(txt, "/assets/icons/back.png", url_for(:back))
   end
 
   def back_button(path)
-    link_to "#{image_tag('icons/back.png', alt: t('common.back'))} #{t('common.back')}", path, class: 'button'
+    link_to "#{image_tag('icons/back.png', alt: t('common.back'))} #{t('common.back')}", path, class: "button"
   end
 
   def label_or_default(txt, key)
@@ -98,32 +98,32 @@ module ApplicationHelper
   end
 
   def format_date_time(date)
-    return '' if date.nil?
+    return "" if date.nil?
 
-    date.strftime '%d.%m.%Y %H:%M Uhr'
+    date.strftime "%d.%m.%Y %H:%M Uhr"
   end
 
   def format_date_only(date)
-    return date.strftime '%d.%m.%Y' unless date.nil?
+    return date.strftime "%d.%m.%Y" unless date.nil?
 
-    '---'
+    "---"
   end
 
   def format_date(date)
     if date.nil?
-      '---'
+      "---"
     else
       l date
     end
   end
 
   def format_date_interval(startDate, endDate)
-    retval = ''
+    retval = ""
     if startDate.nil?
-      retval = 'bis '
+      retval = "bis "
     else
       retval += format_date(startDate)
-      retval += ' - '
+      retval += " - "
     end
 
     return retval if endDate.nil?
@@ -134,9 +134,9 @@ module ApplicationHelper
   end
 
   def format_time(time)
-    return '---' if time.nil?
+    return "---" if time.nil?
 
-    time.strftime '%H:%M'
+    time.strftime "%H:%M"
   end
 
   def format_currency(val, _cur = nil)
@@ -148,15 +148,15 @@ module ApplicationHelper
   end
 
   def format_bool(val)
-    return t('common.yes_') if val
+    return t("common.yes_") if val
 
-    t('common.no_')
+    t("common.no_")
   end
 
   def sortable(column, title = nil)
     title ||= column.titleize
-    css_class = column == sort_column ? " sort current #{sort_direction}" : ' sort'
-    direction = column == sort_column && sort_direction == 'asc' ? 'desc' : 'asc'
+    css_class = column == sort_column ? " sort current #{sort_direction}" : " sort"
+    direction = column == sort_column && sort_direction == "asc" ? "desc" : "asc"
     link_to title, params.merge(sort: column, direction: direction, page: nil).permit(:sort, :direction, :page),
             { class: css_class }
   end
@@ -170,11 +170,11 @@ module ApplicationHelper
   end
 
   def tabActiveClass(current, expected, prefix = nil)
-    prefix = 'nav-link' if prefix.nil?
+    prefix = "nav-link" if prefix.nil?
 
     retval = "#{prefix} "
 
-    retval << 'active' if current == expected
+    retval << "active" if current == expected
 
     retval
   end
@@ -188,9 +188,9 @@ module ApplicationHelper
   end
 
   def sanitize_url(url)
-    return '#' if url.blank?
+    return "#" if url.blank?
 
-    if url.starts_with?('http://')
+    if url.starts_with?("http://")
       url
     else
       "http://#{url}"
@@ -225,17 +225,17 @@ module ApplicationHelper
     object = object.to_s.downcase
     instance = instance.to_s.downcase
     instance_key = attributes[:instance_key] || "#{instance}_id"
-    value = attributes[:value] || ''
-    value_key = attributes[:value_key] || ''
-    value_key_html = ''
+    value = attributes[:value] || ""
+    value_key = attributes[:value_key] || ""
+    value_key_html = ""
     value_key_html = " value=\"#{value_key}\"" unless value_key.to_s.empty?
     ajax_url = attributes[:ajax_url]
-    ajax_query_additional_params = attributes[:ajax_query_additional_params] || ''
-    ajax_query_searchable_param = attributes[:ajax_query_searchable_param] || 'name'
-    ajax_query_searchable_param_key = attributes[:ajax_query_searchable_param_key] || 'id'
+    ajax_query_additional_params = attributes[:ajax_query_additional_params] || ""
+    ajax_query_searchable_param = attributes[:ajax_query_searchable_param] || "name"
+    ajax_query_searchable_param_key = attributes[:ajax_query_searchable_param_key] || "id"
     min_length = attributes[:min_length] || 2
 
-    ajax_query_additional_params_formatted = ''
+    ajax_query_additional_params_formatted = ""
     unless ajax_query_additional_params.nil?
       case ajax_query_additional_params
       when Array
@@ -243,9 +243,9 @@ module ApplicationHelper
         ajax_query_additional_params.each do |aqap|
           ajax_query_additional_params_formatted = if i.zero?
                                                      ajax_query_additional_params_formatted + aqap.to_s
-                                                   else
+          else
                                                      "#{ajax_query_additional_params_formatted},\n#{aqap}"
-                                                   end
+          end
           i = i.next
         end
       when String
@@ -255,9 +255,9 @@ module ApplicationHelper
         ajax_query_additional_params.each do |aqap_key, aqap_value|
           ajax_query_additional_params_formatted = if i.zero?
                                                      "#{ajax_query_additional_params_formatted}#{aqap_key}: #{aqap_value}"
-                                                   else
+          else
                                                      "#{ajax_query_additional_params_formatted},\n#{aqap_key}: #{aqap_value}"
-                                                   end
+          end
           i = i.next
         end
       end
@@ -330,22 +330,22 @@ module ApplicationHelper
 
   def form_err_class(resource, field)
     if resource.errors[field].present?
-      'has-error'
+      "has-error"
     else
-      ''
+      ""
     end
   end
 
   def get_salutation_options(selected)
     options_for_select([
-                         [t('common.salutations.M'), 'M'],
-                         [t('common.salutations.W'), 'W']
+                         [ t("common.salutations.M"), "M" ],
+                         [ t("common.salutations.W"), "W" ]
                        ],
                        selected: selected)
   end
 
   def get_country_options(_selected = nil)
-    ISO3166::Country.all.collect { |c| [c.translations['en'], c.alpha2] }
+    ISO3166::Country.all.collect { |c| [ c.translations["en"], c.alpha2 ] }
   end
 
   def wrapped_no_label(_form, _resource, _field, input)
@@ -353,16 +353,16 @@ module ApplicationHelper
   end
 
   def form_wrapped_field(form, resource, field, input)
-    label = form.label field, nil, class: 'col-sm-12 col-md-3 control-label'
-    css_class = 'form-group row'
-    css_class += ' has-error' if !resource.is_a?(Symbol) && resource.errors[field].present?
+    label = form.label field, nil, class: "col-sm-12 col-md-3 control-label"
+    css_class = "form-group row"
+    css_class += " has-error" if !resource.is_a?(Symbol) && resource.errors[field].present?
 
-    input_wrap = content_tag(:div, input, class: 'col-sm-12 col-md-9')
+    input_wrap = content_tag(:div, input, class: "col-sm-12 col-md-9")
     content_tag(:div, label + input_wrap, class: css_class)
   end
 
   def form_my_field(form, resource, field, type = :text, extra_class = nil)
-    css_class = 'form-control'
+    css_class = "form-control"
 
     css_class += " #{extra_class}" unless extra_class.nil?
     input = nil
@@ -390,26 +390,26 @@ module ApplicationHelper
       # TODO: use Bootstrap 4 File Field once upgraded
       input = form.file_field field
     when :static
-      input = content_tag(:p, resource[field], class: 'form-control-static')
+      input = content_tag(:p, resource[field], class: "form-control-static")
     end
 
     wrapped_no_label(form, resource, field, input)
   end
 
   def form_my_textarea(form, resource, field, cols, rows)
-    input = form.text_area field, class: 'form-control', cols: cols, rows: rows
+    input = form.text_area field, class: "form-control", cols: cols, rows: rows
     form_wrapped_field(form, resource, field, input)
   end
 
   def form_my_file(form, resource, field, _cols, _rows)
-    input = form.file_field field, class: 'form-control'
+    input = form.file_field field, class: "form-control"
     form_wrapped_field(form, resource, field, input)
   end
 
   def form_my_select(form, resource, field, options)
-    form.label field, nil, class: 'col-sm-12 col-md-3 control-label'
+    form.label field, nil, class: "col-sm-12 col-md-3 control-label"
 
-    css_class = 'form-control'
+    css_class = "form-control"
 
     input = form.select field, options, {}, { class: css_class }
     form_wrapped_field(form, resource, field, input)
@@ -417,11 +417,11 @@ module ApplicationHelper
 
   def map_flash_type(type)
     if type == :notice
-      'alert-success'
+      "alert-success"
     elsif %i[alert error].include?(type)
-      'alert-danger'
+      "alert-danger"
     elsif type == :warning
-      'alert-warning'
+      "alert-warning"
     else
       Rails.logger.warn("Unsupported flash type: #{type}")
       "UNSUPPORTED: <#{type}>"
@@ -429,9 +429,9 @@ module ApplicationHelper
   end
 
   def custom_entity_row(label, value)
-    content_tag :div, class: 'row' do
-      concat(content_tag(:div, content_tag(:label, label), class: 'col-md-3 text-end'))
-      concat(content_tag(:div, value, class: 'col-md-9'))
+    content_tag :div, class: "row" do
+      concat(content_tag(:div, content_tag(:label, label), class: "col-md-3 text-end"))
+      concat(content_tag(:div, value, class: "col-md-9"))
     end
   end
 
@@ -440,11 +440,11 @@ module ApplicationHelper
 
     label = if label_sym.nil?
               label(sym, field)
-            else
+    else
               label(sym, label_sym)
-            end
+    end
 
-    content_tag :div, class: 'row' do
+    content_tag :div, class: "row" do
       data = nil
       tmp = entity.send(field) unless entity.nil?
 
@@ -452,45 +452,45 @@ module ApplicationHelper
         data = tmp
       elsif type == :date
         data = if tmp.nil?
-                 '---'
-               else
+                 "---"
+        else
                  l tmp
-               end
+        end
       elsif type == :mailto
         data = mail_to tmp, tmp
       elsif type == :currency
-        data = format_currency tmp, 'EUR'
+        data = format_currency tmp, "EUR"
       elsif type == :boolean
         data = format_bool tmp
       elsif type == :url
         data = link_to tmp, tmp
       elsif type == :select
-        data = 'TODO'
+        data = "TODO"
       elsif type == :country
         ctry = ISO3166::Country[tmp]
         data = if ctry.nil?
-                 '---'
-               else
+                 "---"
+        else
                  ctry.translations[I18n.locale.to_s]
-               end
+        end
       end
 
-      concat(content_tag(:div, label, class: 'col-md-3 text-end'))
-      concat(content_tag(:div, data, class: 'col-md-9'))
+      concat(content_tag(:div, label, class: "col-md-3 text-end"))
+      concat(content_tag(:div, data, class: "col-md-9"))
     end
   end
 
   def invoice_item_row(item)
-    content_tag :div, class: 'row' do
+    content_tag :div, class: "row" do
       count = item.count
 
       count = 0 if count.nil?
 
-      concat(content_tag(:div, item.label, class: 'col-md-3 text-end'))
-      concat(content_tag(:div, count.to_s, class: 'col-md-1 text-end'))
-      concat(content_tag(:div, 'x', class: 'col-md-1'))
-      concat(content_tag(:div, format_currency(item.price, '€'), class: 'col-md-2 text-end'))
-      concat(content_tag(:div, format_currency(count * item.price, '€'), class: 'col-md-2 text-end'))
+      concat(content_tag(:div, item.label, class: "col-md-3 text-end"))
+      concat(content_tag(:div, count.to_s, class: "col-md-1 text-end"))
+      concat(content_tag(:div, "x", class: "col-md-1"))
+      concat(content_tag(:div, format_currency(item.price, "€"), class: "col-md-2 text-end"))
+      concat(content_tag(:div, format_currency(count * item.price, "€"), class: "col-md-2 text-end"))
     end
   end
 
@@ -505,30 +505,30 @@ module ApplicationHelper
   end
 
   def calculation_row_fixed(label, count, unit_price)
-    content_tag :div, class: 'row' do
-      concat(content_tag(:div, label, class: 'col-md-3 text-end'))
-      concat(content_tag(:div, count.to_s, class: 'col-md-1 text-end'))
-      concat(content_tag(:div, 'x', class: 'col-md-1'))
-      concat(content_tag(:div, format_currency(unit_price, '€'), class: 'col-md-2 text-end'))
-      concat(content_tag(:div, format_currency(count * unit_price, '€'), class: 'col-md-2 text-end'))
+    content_tag :div, class: "row" do
+      concat(content_tag(:div, label, class: "col-md-3 text-end"))
+      concat(content_tag(:div, count.to_s, class: "col-md-1 text-end"))
+      concat(content_tag(:div, "x", class: "col-md-1"))
+      concat(content_tag(:div, format_currency(unit_price, "€"), class: "col-md-2 text-end"))
+      concat(content_tag(:div, format_currency(count * unit_price, "€"), class: "col-md-2 text-end"))
     end
   end
 
   def calculation_sum(label, price)
-    content_tag :div, class: 'row' do
-      concat(content_tag(:div, label, class: 'col-md-3 text-end'))
-      concat(content_tag(:div, '', class: 'col-md-4'))
-      concat(content_tag(:div, format_currency(price, '€'), class: 'col-md-2 text-end sum'))
+    content_tag :div, class: "row" do
+      concat(content_tag(:div, label, class: "col-md-3 text-end"))
+      concat(content_tag(:div, "", class: "col-md-4"))
+      concat(content_tag(:div, format_currency(price, "€"), class: "col-md-2 text-end sum"))
     end
   end
 
   def bootstrap_class_for(flash_type)
     map = {
-      'success' => 'alert-success',
-      'error' => 'alert-danger',
-      'alert' => 'alert-warning',
-      'notice' => 'alert-info',
-      'info' => 'alert-info'
+      "success" => "alert-success",
+      "error" => "alert-danger",
+      "alert" => "alert-warning",
+      "notice" => "alert-info",
+      "info" => "alert-info"
     }
 
     Rails.logger.debug { "Flash-type: #{flash_type}" }
@@ -536,6 +536,6 @@ module ApplicationHelper
   end
 
   def t_update_success(entity)
-    I18n.t('common.update_success', entity: t(entity, count: 1))
+    I18n.t("common.update_success", entity: t(entity, count: 1))
   end
 end

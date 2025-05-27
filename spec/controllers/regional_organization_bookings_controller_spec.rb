@@ -39,7 +39,7 @@ RSpec.describe RegionalOrganizationBookingsController, type: :controller do
     it 'assigns all regional_organization_bookings as @regional_organization_bookings' do
       regional_organization_booking = RegionalOrganizationBooking.create! valid_attributes
       get :index
-      expect(assigns(:regional_organization_bookings)).to eq([regional_organization_booking])
+      expect(assigns(:regional_organization_bookings)).to eq([ regional_organization_booking ])
     end
   end
 

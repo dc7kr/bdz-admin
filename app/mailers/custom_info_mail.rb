@@ -1,5 +1,5 @@
 class CustomInfoMailMailer < ApplicationMailer
-  default from: 'geschaeftsstelle@zupfmusiker.de'
+  default from: "geschaeftsstelle@zupfmusiker.de"
 
   def notify(recipient, letter_hash, attachment_hash, params)
     @subject = params[:subject]
@@ -17,7 +17,7 @@ class CustomInfoMailMailer < ApplicationMailer
       attachment_data = File.new(attachment.full_path).read
       attachments[attachment.orig_filename] = attachment_data
     else
-      Rails.logger.info('No additional attachment')
+      Rails.logger.info("No additional attachment")
     end
 
     mail(to: recipient, subject: @subject)

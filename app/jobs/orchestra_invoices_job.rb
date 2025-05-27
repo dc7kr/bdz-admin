@@ -1,4 +1,4 @@
-require 'fileutils'
+require "fileutils"
 
 class OrchestraInvoicesJob < BaseInvoicesJob
   queue_as :default
@@ -20,11 +20,11 @@ class OrchestraInvoicesJob < BaseInvoicesJob
     @orchestras = Orchestra.notinvoiced(year)
 
     if @orchestras.empty?
-      logger.info('No pending invoices. OrchestraInvoiceJob done,')
+      logger.info("No pending invoices. OrchestraInvoiceJob done,")
       return
     end
 
-    tool = MailingTool.new(year, 'gs', "RECHNUNG#{year}", "Beitragsrechnung #{year}")
+    tool = MailingTool.new(year, "gs", "RECHNUNG#{year}", "Beitragsrechnung #{year}")
 
     delivered = 0
     skipped = 0
@@ -66,7 +66,7 @@ class OrchestraInvoicesJob < BaseInvoicesJob
       ddFile = sepa_writer.generate_file
       send_mail(ddFile, pdf_merged_file)
     else
-      logger.info('No invoices delivered. Not sending notify')
+      logger.info("No invoices delivered. Not sending notify")
     end
   end
 

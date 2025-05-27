@@ -1,11 +1,11 @@
-require 'rodf'
-require 'csv'
+require "rodf"
+require "csv"
 
 class OrchestrasController < AuthenticatedController
   # for table sort by column click
   helper_method :sort_column, :sort_direction
 
-  authority_actions lorch: 'read'
+  authority_actions lorch: "read"
 
   include UploadHelper
   include ReportSheetUploadHelper
@@ -17,11 +17,11 @@ class OrchestrasController < AuthenticatedController
   def addresses
     @orchestras = if params[:nomail]
                     Orchestra.nomail
-                  elsif params[:mailonly]
+    elsif params[:mailonly]
                     Orchestra.mail
-                  else
+    else
                     Orchestra.includes(:member).all
-                  end
+    end
     # where("members.email IS NULL or members.email=''")
     # respond_to do |format|
     #		format.json {
@@ -82,9 +82,9 @@ class OrchestrasController < AuthenticatedController
 
     renderOrchestraMagazineListOds("/tmp/#{filename}", @result)
 
-    send_file("/tmp/#{filename}", filename: filename, type: 'application/octet-stream')
+    send_file("/tmp/#{filename}", filename: filename, type: "application/octet-stream")
 
-    flash[:notice] = 'Export complete!'
+    flash[:notice] = "Export complete!"
   end
 
   def nopayment
@@ -100,9 +100,9 @@ class OrchestrasController < AuthenticatedController
       format.json { render json: @members }
       format.csv { render csv: @members, style: :minimal, filename: "nopayment_#{Time.zone.now.year}" }
       format.ods do
-        renderNoPayOds('/tmp/nopayment.ods', @accounts, @members)
-        send_file('/tmp/nopayment.ods', filename: "orch_nopay_#{Time.zone.now.year}.ods",
-                                        type: 'application/octet-stream')
+        renderNoPayOds("/tmp/nopayment.ods", @accounts, @members)
+        send_file("/tmp/nopayment.ods", filename: "orch_nopay_#{Time.zone.now.year}.ods",
+                                        type: "application/octet-stream")
       end
     end
   end
@@ -112,15 +112,15 @@ class OrchestrasController < AuthenticatedController
     respond_to do |format|
       @orchestras = Orchestra.includes(:member, :report_sheets).where(
         "report_sheets.year = ? and members.mglnr < 20000 and orchestras.orch_type <>'K'", currentYear
-      ).order('members.mglnr')
+      ).order("members.mglnr")
 
       format.ods do
         sheet = GemaSpreadsheet.new(@orchestras)
         sheet.render
-        tmpfile = Tempfile.new('gema')
+        tmpfile = Tempfile.new("gema")
         # send_data(sheet.sheet.bytes, :filename => "gema.ods", :type => "application/octet-stream")
         sheet.sheet.write_to tmpfile
-        send_file(tmpfile, filename: 'gema.ods', type: 'application/octet-stream')
+        send_file(tmpfile, filename: "gema.ods", type: "application/octet-stream")
       end
 
       format.csv { render csv: @orchestras, style: :gema, filename: "gema#{Time.zone.now.year}" }
@@ -151,7 +151,7 @@ class OrchestrasController < AuthenticatedController
     Rails.logger.debug { "Year: #{year}" }
     @orchestras = Orchestra.includes(:member).where(
       "YEAR(gruendung) <= ? and gruendung <> '0000-00-00' and gruendung IS NOT NULL ", year
-    ).order('members.mglnr')
+    ).order("members.mglnr")
   end
 
   def index
@@ -170,13 +170,13 @@ class OrchestrasController < AuthenticatedController
   def noreport
     year = if params[:year].nil?
              Time.zone.now.year
-           else
+    else
              params[:year]
-           end
+    end
 
     Rails.logger.debug { "Year: #{params[:year]}" }
 
-    @orchestras = @orchestras.no_report_sheet(year).order('members.mglnr').page(params[:page]).per(20)
+    @orchestras = @orchestras.no_report_sheet(year).order("members.mglnr").page(params[:page]).per(20)
 
     respond_to do |format|
       format.html
@@ -201,7 +201,7 @@ class OrchestrasController < AuthenticatedController
   def new
     @orchestra = Orchestra.new
     @orchestra.build_member
-    @orchestra.member.country_code = ISO3166::Country['DE'].alpha2
+    @orchestra.member.country_code = ISO3166::Country["DE"].alpha2
     @orchestra.member.eintritt = Time.zone.now
 
     respond_to do |format|
@@ -222,7 +222,7 @@ class OrchestrasController < AuthenticatedController
     @orchestra = Orchestra.new(orchestra_params)
     respond_to do |format|
       if @orchestra.save
-        format.html { redirect_to @orchestra, notice: t('orchestra.create_success') }
+        format.html { redirect_to @orchestra, notice: t("orchestra.create_success") }
         format.json { render json: @orchestra, status: :created, location: @orchestra }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -240,7 +240,7 @@ class OrchestrasController < AuthenticatedController
       if @orchestra.update(orchestra_params)
         format.html do
           redirect_to @orchestra,
-                      notice: t_update_success('orchestra')
+                      notice: t_update_success("orchestra")
         end
         format.json { head :ok }
       else
@@ -260,7 +260,7 @@ class OrchestrasController < AuthenticatedController
 
     session[:report_sheet_input_id] = @rsi.id
     session[:report_sheet_input_token] = @rsi.token
-    redirect_to polymorphic_url([:mgl, @rsi], action: :step1)
+    redirect_to polymorphic_url([ :mgl, @rsi ], action: :step1)
   end
 
   def gen_rsi
@@ -269,7 +269,7 @@ class OrchestrasController < AuthenticatedController
     if @orchestra.nil?
       logger.warn("Orchestra is nil!: #{params[:id]}")
       respond_to do |format|
-        format.html { redirect_to orchestras_url, status: :unprocessable_entity, notice: t('orchestra.nil') }
+        format.html { redirect_to orchestras_url, status: :unprocessable_entity, notice: t("orchestra.nil") }
       end
       return
     end
@@ -277,15 +277,15 @@ class OrchestrasController < AuthenticatedController
     unless @orchestra.report_sheet_required?
       logger.info("No report sheet required: #{@orchestra.member.mglnr}")
       respond_to do |format|
-        format.html { redirect_to @orchestra, status: :unprocessable_entity, notice: t('report_sheet.no_rs_required') }
+        format.html { redirect_to @orchestra, status: :unprocessable_entity, notice: t("report_sheet.no_rs_required") }
       end
       return
     end
 
     rs_year = Time.zone.now.year
 
-    dateprefix = Time.zone.now.strftime '%Y%m%d%H%M%S_'
-    BDZ_SETTINGS['meldebogen_url']
+    dateprefix = Time.zone.now.strftime "%Y%m%d%H%M%S_"
+    BDZ_SETTINGS["meldebogen_url"]
     target = "#{INVOICE_CONFIG.archive_dir}/#{rs_year}/#{dateprefix}#{@orchestra.member.mglnr}_meldebogen_anschreiben.pdf"
 
     @rsi = ReportSheetInput.for_orchestra_and_year(@orchestra, rs_year)
@@ -294,7 +294,7 @@ class OrchestrasController < AuthenticatedController
       logger.info("RSI already exists: #{@orchestra.member.mglnr}")
       respond_to do |format|
         format.html do
-          redirect_to @orchestra, status: :unprocessable_entity, notice: t('report_sheet_input.already_exists')
+          redirect_to @orchestra, status: :unprocessable_entity, notice: t("report_sheet_input.already_exists")
         end
       end
       return
@@ -303,7 +303,7 @@ class OrchestrasController < AuthenticatedController
     @rsi = @orchestra.gen_rsi(rs_year)
 
     gen_anschreiben(@orchestra, @rsi)
-    send_file(target, filename: target, type: 'application/octet-stream')
+    send_file(target, filename: target, type: "application/octet-stream")
   end
 
   # DELETE /orchestras/1
@@ -342,13 +342,13 @@ class OrchestrasController < AuthenticatedController
     if Member.column_names.include?(params[:sort])
       "members.#{params[:sort]}"
     else
-      Orchestra.column_names.include?(params[:sort]) ? params[:sort] : 'members.mglnr'
+      Orchestra.column_names.include?(params[:sort]) ? params[:sort] : "members.mglnr"
     end
   end
 
   def renderNoPayOds(filename, accounts, members)
     RODF::Spreadsheet.file(filename) do
-      table 'Nopayment' do
+      table "Nopayment" do
         members.each do |m|
           row do
             cell m.mglnr.to_s

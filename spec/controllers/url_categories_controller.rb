@@ -3,7 +3,7 @@ RSpec.describe UrlCategoriesController do
     it 'assigns @teams' do
       team = Team.create
       get :index
-      expect(assigns(:teams)).to eq([team])
+      expect(assigns(:teams)).to eq([ team ])
     end
 
     it 'renders the index template' do

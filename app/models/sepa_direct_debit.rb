@@ -1,10 +1,10 @@
 class SepaDirectDebit < SepaContactFacade
   attr_accessor :end_to_end_id, :amount, :remittance_txt, :sequence_type
 
-  def initialize(customer, seq_type = 'RCUR')
+  def initialize(customer, seq_type = "RCUR")
     super(customer)
 
-    seq_type = 'RCUR' if seq_type.nil?
+    seq_type = "RCUR" if seq_type.nil?
 
     @sequence_type = seq_type
   end

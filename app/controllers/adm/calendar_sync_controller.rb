@@ -1,10 +1,10 @@
-require 'icalendar'
-require 'date'
-require 'open-uri'
+require "icalendar"
+require "date"
+require "open-uri"
 
 module Adm
   class CalendarSyncController < AuthenticatedNonResourceController
-    @@bw_url = 'https://www.google.com/calendar/ical/redaktion%40zupfer-kurier.de/public/basic.ics'
+    @@bw_url = "https://www.google.com/calendar/ical/redaktion%40zupfer-kurier.de/public/basic.ics"
 
     # include Icalendar # Probably do this in your class to limit namespace overlap
     #	rescue_from do |exception|
@@ -13,30 +13,30 @@ module Adm
 
     def update_from_event(conc, event, _is_new)
       if conc.id.nil? || conc.updated_at.nil? || (event.last_modified > conc.updated_at)
-        summ = event.summary.split(':')
+        summ = event.summary.split(":")
         conc.titel = if summ[1].nil?
                        summ[0]
-                     else
+        else
                        summ[1]
-                     end
+        end
         conc.interpret = summ[0]
         conc.datum = nil
         conc.concert_date = event.dtstart
         conc.zeit = nil
-        loc = event.location.split(',')
+        loc = event.location.split(",")
         conc.ort = loc[0]
 
         conc.stadt = if loc[1].nil?
-                       ''
-                     else
+                       ""
+        else
                        loc[1]
-                     end
+        end
         conc.reported = Time.zone.now
-        conc.comment = ''
-        conc.url = ''
+        conc.comment = ""
+        conc.url = ""
         conc.confirmed = 1
         conc.bland = nil
-        conc.country_code = 'DE'
+        conc.country_code = "DE"
         conc.eintritt = 0
         conc.token = event.uid.to_s
         true

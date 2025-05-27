@@ -47,7 +47,7 @@ module Magazine
 
       respond_to do |format|
         if @magazine_advert.save
-          format.html { redirect_to @magazine_advert, notice: 'Magazine advert was successfully created.' }
+          format.html { redirect_to @magazine_advert, notice: "Magazine advert was successfully created." }
           format.json { render json: @magazine_advert, status: :created, location: @magazine_advert }
         else
           format.html { render :new, status: :unprocessable_entity }
@@ -63,10 +63,10 @@ module Magazine
 
       respond_to do |format|
         if @magazine_advert.update(params[:magazine_advert])
-          format.html { redirect_to @magazine_advert, notice: 'Magazine advert was successfully updated.' }
+          format.html { redirect_to @magazine_advert, notice: "Magazine advert was successfully updated." }
           format.json { head :no_content }
         else
-          format.html { render action: 'edit' }
+          format.html { render action: "edit" }
           format.json { render json: @magazine_advert.errors, status: :unprocessable_entity }
         end
       end

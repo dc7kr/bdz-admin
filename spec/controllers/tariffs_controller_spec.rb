@@ -39,7 +39,7 @@ RSpec.describe TariffsController, type: :controller do
     it 'assigns all tariffs as @tariffs' do
       tariff = Tariff.create! valid_attributes
       get :index
-      expect(assigns(:tariffs)).to eq([tariff])
+      expect(assigns(:tariffs)).to eq([ tariff ])
     end
   end
 

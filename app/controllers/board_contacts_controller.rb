@@ -32,7 +32,7 @@ class BoardContactsController < AuthenticatedController
     @board_contact = BoardContact.new
     contact = Contact.new
     @board_contact.contact = contact
-    contact.country_code = 'DE'
+    contact.country_code = "DE"
 
     respond_to do |format|
       format.html # new.html.erb
@@ -52,7 +52,7 @@ class BoardContactsController < AuthenticatedController
 
     respond_to do |format|
       if @board_contact.save
-        format.html { redirect_to @board_contact, notice: 'Board contact was successfully created.' }
+        format.html { redirect_to @board_contact, notice: "Board contact was successfully created." }
         format.json { render json: @board_contact, status: :created, location: @board_contact }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -67,7 +67,7 @@ class BoardContactsController < AuthenticatedController
     @board_contact = BoardContact.find(params[:id])
     respond_to do |format|
       if @board_contact.update!(board_contact_params)
-        format.html { redirect_to @board_contact, notice: 'Board contact was successfully updated.' }
+        format.html { redirect_to @board_contact, notice: "Board contact was successfully updated." }
         format.json { head :no_content }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -96,7 +96,7 @@ class BoardContactsController < AuthenticatedController
     if Contact.column_names.include?(params[:sort])
       "members.#{params[:sort]}"
     else
-      BoardContact.column_names.include?(params[:sort]) ? params[:sort] : 'contacts.last_name,contacts.first_name'
+      BoardContact.column_names.include?(params[:sort]) ? params[:sort] : "contacts.last_name,contacts.first_name"
     end
   end
 

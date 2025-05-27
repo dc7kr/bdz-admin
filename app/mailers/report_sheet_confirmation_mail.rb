@@ -1,5 +1,5 @@
 class ReportSheetConfirmationMailMailer < ApplicationMailer
-  default from: 'geschaeftsstelle@zupfmusiker.de'
+  default from: "geschaeftsstelle@zupfmusiker.de"
 
   def notify(recipient, personalized_file_hash, _attachment_file, params)
     @rsi = params[:rsi]

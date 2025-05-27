@@ -39,7 +39,7 @@ RSpec.describe UrlCategoriesController, type: :controller do
     it 'assigns all url_categories as @url_categories' do
       url_category = UrlCategory.create! valid_attributes
       get :index
-      expect(assigns(:url_categories)).to eq([url_category])
+      expect(assigns(:url_categories)).to eq([ url_category ])
     end
   end
 

@@ -1,4 +1,4 @@
-require 'rodf'
+require "rodf"
 class EventMealsController < AuthenticatedController
   # GET /event_meals
   # GET /event_meals.json
@@ -9,9 +9,9 @@ class EventMealsController < AuthenticatedController
       format.html # index.html.erb
       format.json { render json: @event_meals }
       format.ods do
-        prefix = Time.zone.now.strftime('%Y%m%d%H%M_')
-        renderOds(@event_meals, '/tmp/event_meals.ods')
-        send_file('/tmp/event_meals.ods', filename: "#{prefix}event_meals.ods", type: 'application/octet-stream')
+        prefix = Time.zone.now.strftime("%Y%m%d%H%M_")
+        renderOds(@event_meals, "/tmp/event_meals.ods")
+        send_file("/tmp/event_meals.ods", filename: "#{prefix}event_meals.ods", type: "application/octet-stream")
       end
     end
   end
@@ -77,7 +77,7 @@ class EventMealsController < AuthenticatedController
 
     respond_to do |format|
       if @event_meal.save
-        format.html { redirect_to @event_meal, notice: 'Event meal was successfully created.' }
+        format.html { redirect_to @event_meal, notice: "Event meal was successfully created." }
         format.json { render json: @event_meal, status: :created, location: @event_meal }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -93,7 +93,7 @@ class EventMealsController < AuthenticatedController
 
     respond_to do |format|
       if @event_meal.update(event_meal_params)
-        format.html { redirect_to @event_meal, notice: 'Event meal was successfully updated.' }
+        format.html { redirect_to @event_meal, notice: "Event meal was successfully updated." }
         format.json { head :no_content }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -110,7 +110,7 @@ class EventMealsController < AuthenticatedController
 
     respond_to do |format|
       format.html { redirect_to event_meals_url }
-      format.json { render json: { status: 'ok', op: 'delete', entityId: @event_meal.id } }
+      format.json { render json: { status: "ok", op: "delete", entityId: @event_meal.id } }
     end
   end
 
@@ -131,30 +131,30 @@ class EventMealsController < AuthenticatedController
 
   def renderOds(meals, filename)
     RODF::Spreadsheet.file(filename) do
-      table 'Essensmeldungen' do
+      table "Essensmeldungen" do
         row do
-          cell I18n.t('common.number')
-          cell I18n.t('festival_application.orch_name')
-          cell I18n.t('event_meal.arrival_time')
-          cell ''
-          cell I18n.t('event_meal.meals')
-          cell I18n.t('event_meal.veg')
+          cell I18n.t("common.number")
+          cell I18n.t("festival_application.orch_name")
+          cell I18n.t("event_meal.arrival_time")
+          cell ""
+          cell I18n.t("event_meal.meals")
+          cell I18n.t("event_meal.veg")
         end
 
         meals.each do |meal|
           row do
             cell meal.participant_id
             if meal.festival_application.nil?
-              cell '---'
+              cell "---"
             else
               cell meal.festival_application.orch_name
             end
             if meal.arrival_time.nil?
-              cell '---'
-              cell '---'
+              cell "---"
+              cell "---"
             else
-              cell meal.arrival_time.strftime('%d.%m.%Y')
-              cell meal.arrival_time.strftime('%H:%M')
+              cell meal.arrival_time.strftime("%d.%m.%Y")
+              cell meal.arrival_time.strftime("%H:%M")
             end
             cell meal.tln, type: :float
             cell meal.veg, type: :float

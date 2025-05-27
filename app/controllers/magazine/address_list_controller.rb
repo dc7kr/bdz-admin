@@ -45,9 +45,9 @@ module Magazine
       filename = "#{Time.zone.now.strftime('%Y%m%d%H%M%S')}_auftakt_adressen.ods"
       render_magazine_address_list("/tmp/#{filename}", de_result, ext_result)
 
-      send_file("/tmp/#{filename}", filename: filename, type: 'application/octet-stream')
+      send_file("/tmp/#{filename}", filename: filename, type: "application/octet-stream")
 
-      flash[:notice] = 'Export complete!'
+      flash[:notice] = "Export complete!"
     end
 
     private
@@ -55,7 +55,7 @@ module Magazine
     def _add_csv_row(csvrow, de_result, ext_result)
       return false if csvrow.nil?
 
-      if csvrow[:countryCode] == 'DE'
+      if csvrow[:countryCode] == "DE"
         de_result << csvrow
       else
         ext_result << csvrow

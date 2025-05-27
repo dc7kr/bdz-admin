@@ -1,5 +1,5 @@
-require 'prawn'
-require 'pdf/toolkit'
+require "prawn"
+require "pdf/toolkit"
 
 class ReportSheetInputLetterJob < ApplicationJob
   queue_as :default

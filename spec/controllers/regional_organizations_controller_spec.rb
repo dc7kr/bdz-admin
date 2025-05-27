@@ -46,7 +46,7 @@ RSpec.describe RegionalOrganizationsController, type: :controller do
     it 'assigns all regional_organizations as @regional_organizations' do
       regional_organization = RegionalOrganization.create! valid_attributes
       get :index
-      expect(assigns(:regional_organizations)).to eq([regional_organization])
+      expect(assigns(:regional_organizations)).to eq([ regional_organization ])
     end
   end
 

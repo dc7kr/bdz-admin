@@ -45,7 +45,7 @@ module Ef
 
       respond_to do |format|
         if @event_meal.save
-          format.html { redirect_to @event_meal, notice: 'Event meal was successfully created.' }
+          format.html { redirect_to @event_meal, notice: "Event meal was successfully created." }
           format.json { render json: @event_meal, status: :created, location: @event_meal }
         else
           format.html { render :new, status: :unprocessable_entity }
@@ -61,7 +61,7 @@ module Ef
 
       respond_to do |format|
         if @event_meal.update(params[:event_meal])
-          format.html { redirect_to @event_meal, notice: 'Event meal was successfully updated.' }
+          format.html { redirect_to @event_meal, notice: "Event meal was successfully updated." }
           format.json { head :no_content }
         else
           format.html { render :edit, status: :unprocessable_entity }
@@ -107,11 +107,11 @@ module Ef
         if @event_meal.save
 
           Rails.logger.debug { "#{@event_meal.participant_id} #{timestr}" }
-          EventMealsMailer.notify(@event_meal, 'essensmeldung@bdz-online.de').deliver
+          EventMealsMailer.notify(@event_meal, "essensmeldung@bdz-online.de").deliver
           format.html
           format.json { render json: @event_meal, status: :created, location: @event_meal }
         else
-          format.html { render action: 'order_form' }
+          format.html { render action: "order_form" }
           format.json { render json: @event_meal.errors, status: :unprocessable_entity }
         end
       end

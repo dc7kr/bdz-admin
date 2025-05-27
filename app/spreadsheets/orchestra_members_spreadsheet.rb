@@ -8,15 +8,15 @@ class OrchestraMembersSpreadsheet
   def render
     self.sheet = RODF::Spreadsheet.new
 
-    t = sheet.table 'Mitglieder'
+    t = sheet.table "Mitglieder"
 
     t.row do
-      cell 'Vorname'
-      cell 'Name'
-      cell 'Mgl.Nr. des Vereins (*)'
-      cell 'Geburtsjahr'
-      cell 'Instrument'
-      cell '(*) Nur für Landesorchester ausfüllen!'
+      cell "Vorname"
+      cell "Name"
+      cell "Mgl.Nr. des Vereins (*)"
+      cell "Geburtsjahr"
+      cell "Instrument"
+      cell "(*) Nur für Landesorchester ausfüllen!"
     end
 
     orchestra_members.each do |om|
@@ -31,7 +31,7 @@ class OrchestraMembersSpreadsheet
   end
 
   def gen_file
-    tmpfile = Tempfile.new('mgl')
+    tmpfile = Tempfile.new("mgl")
     filename = tmpfile.path
 
     sheet.write_to filename

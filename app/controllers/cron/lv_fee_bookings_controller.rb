@@ -5,7 +5,7 @@ module Cron
 
       @lvs = RegionalOrganization.all
 
-      year = Time.zone.now.strftime('%Y')
+      year = Time.zone.now.strftime("%Y")
 
       @saldi = RegionalOrganizationBooking.where(booking_year: Time.zone.now.year.to_s).group(:regional_organization).sum(:amount)
 
@@ -16,7 +16,7 @@ module Cron
         Rails.logger.debug { "Saldo: #{s[0].id}->#{s[1]}" }
       end
 
-      datePrefix = Time.zone.now.strftime '%Y%m%d%H%M%S'
+      datePrefix = Time.zone.now.strftime "%Y%m%d%H%M%S"
       ctw = CreditTransferWriter.new(datePrefix)
 
       @lvs.each do |lv|
@@ -50,13 +50,13 @@ module Cron
       send_mail(sepa_file, @current_user)
 
       respond_to do |format|
-        format.html { redirect_to home_cron_path, notice: 'Landesverbandsgutschriften erfolgreich generiert.' }
+        format.html { redirect_to home_cron_path, notice: "Landesverbandsgutschriften erfolgreich generiert." }
       end
     end
 
     def send_mail(ctFile, triggered_by)
-      year = Time.zone.now.strftime('%Y')
-      Time.zone.now.strftime '%Y%m%d'
+      year = Time.zone.now.strftime("%Y")
+      Time.zone.now.strftime "%Y%m%d"
 
       base_url = cron_downloads_url
       dd_url = nil
@@ -65,7 +65,7 @@ module Cron
 
       User.for_admin_notify.each do |user|
         AdminNotifier.new_lv_ct_notification(user, dd_url, triggered_by).deliver
-        logger.info 'sent to %s' % user.email
+        logger.info "sent to %s" % user.email
       end
     end
   end

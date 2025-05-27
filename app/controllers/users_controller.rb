@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
-    authorize! :index, @user, message: 'Not authorized as an administrator.'
+    authorize! :index, @user, message: "Not authorized as an administrator."
     @users = User.order("#{sort_column} #{sort_direction}").page(params[:page]).per(10)
 
     respond_to do |format|
@@ -13,7 +13,7 @@ class UsersController < ApplicationController
   end
 
   def for_admin_notify
-    authorize! :index, @user, message: 'Not authorized as an administrator.'
+    authorize! :index, @user, message: "Not authorized as an administrator."
     @users = User.for_admin_notify
 
     respond_to do |format|
@@ -57,7 +57,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
-        format.html { redirect_to @user, notice: 'User was successfully created.' }
+        format.html { redirect_to @user, notice: "User was successfully created." }
         format.json { render json: @user, status: :created, location: @user }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -74,13 +74,13 @@ class UsersController < ApplicationController
     filter_params = user_params
 
     if filter_params[:password].blank?
-      logger.info('Removing blank password key')
+      logger.info("Removing blank password key")
       filter_params.delete :password
     end
 
     respond_to do |format|
       if @user.update(filter_params)
-        format.html { redirect_to @user, notice: 'User was successfully updated.' }
+        format.html { redirect_to @user, notice: "User was successfully updated." }
         format.json { head :ok }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -104,7 +104,7 @@ class UsersController < ApplicationController
   private
 
   def sort_column
-    User.column_names.include?(params[:sort]) ? params[:sort] : 'email'
+    User.column_names.include?(params[:sort]) ? params[:sort] : "email"
   end
 
   def user_params

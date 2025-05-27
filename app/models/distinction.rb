@@ -4,30 +4,30 @@ class Distinction < ApplicationRecord
 
   def gen_invoice
     invoice = CorikaInvoices::Invoice.new
-    invoice.invoice_type = 'ehrungsrechnung'
+    invoice.invoice_type = "ehrungsrechnung"
     invoice.invoice_date = Time.zone.now
-    invoice.our_contact = 'distinction'
+    invoice.our_contact = "distinction"
     invoice.customer = orchestra.to_customer
     invoiceNumber = "E-#{Time.zone.now.strftime('%Y%m%d-')}#{invoice.customer.customer_id}"
     invoice.number = invoiceNumber
 
     # Brutto Rechnung
-    invoice.tax_type = 'B'
+    invoice.tax_type = "B"
 
-    invoice.considerItem(certificates, Prices.certificate, 'Urkunden')
-    invoice.considerItem(silver_needles, Prices.silverNeedle, 'Silbernadel')
-    invoice.considerItem(gold_needles, Prices.goldenNeedle, 'Goldnadel')
-    invoice.considerItem(honorletters, Prices.honorLetter, 'Ehrenbrief mit Urkundenmappe')
-    invoice.considerItem(medals, Prices.medal, 'BDZ-Verdienstmedaille')
-    invoice.considerItem(national_needles, Prices.nationalNeedle, 'BDZ-Bundesnadel')
+    invoice.considerItem(certificates, Prices.certificate, "Urkunden")
+    invoice.considerItem(silver_needles, Prices.silverNeedle, "Silbernadel")
+    invoice.considerItem(gold_needles, Prices.goldenNeedle, "Goldnadel")
+    invoice.considerItem(honorletters, Prices.honorLetter, "Ehrenbrief mit Urkundenmappe")
+    invoice.considerItem(medals, Prices.medal, "BDZ-Verdienstmedaille")
+    invoice.considerItem(national_needles, Prices.nationalNeedle, "BDZ-Bundesnadel")
 
     portoPrice = if porto.nil?
                    Prices.distinctionPorto
-                 else
+    else
                    porto
-                 end
+    end
 
-    item = invoice.considerItem(1, portoPrice, 'Porto und Verpackungskostenanteil')
+    item = invoice.considerItem(1, portoPrice, "Porto und Verpackungskostenanteil")
     item.tax_rate = 0
 
     invoice

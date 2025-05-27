@@ -12,11 +12,11 @@ class PersonMemberInvoicesJob < BaseInvoicesJob
     person_members = PersonMember.notinvoiced(year)
 
     if person_members.empty?
-      logger.info('No pending invoices. PersonMemberInvoiceJob done.')
+      logger.info("No pending invoices. PersonMemberInvoiceJob done.")
       return
     end
 
-    mailing_tool = MailingTool.new(year, 'gs', "RECHNUNG#{year}", "Beitragsrechnung #{year}")
+    mailing_tool = MailingTool.new(year, "gs", "RECHNUNG#{year}", "Beitragsrechnung #{year}")
 
     person_members.each do |pm|
       mglnr = pm.member.mglnr

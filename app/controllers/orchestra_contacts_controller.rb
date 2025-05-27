@@ -30,7 +30,7 @@ class OrchestraContactsController < AuthenticatedController
   # GET /orchestra_contacts/new.json
   def new
     @orchestra_contact = OrchestraContact.new
-    @orchestra_contact.country_code = 'DE'
+    @orchestra_contact.country_code = "DE"
 
     @orchestra = Orchestra.find(params[:orchestra_id])
     @orchestra_contact.orchestra = @orchestra
@@ -87,7 +87,7 @@ class OrchestraContactsController < AuthenticatedController
       if @orchestra_contact.update!(orchestra_contact_params)
         format.html do
           redirect_to orchestra_orchestra_contact_path(@orchestra, @orchestra_contact),
-                      notice: t_update_success('orchestra_contact')
+                      notice: t_update_success("orchestra_contact")
         end
         format.json { head :no_content }
       else
@@ -115,7 +115,7 @@ class OrchestraContactsController < AuthenticatedController
   private
 
   def sort_column
-    OrchestraContact.column_names.include?(params[:sort]) ? params[:sort] : 'last_name,first_name'
+    OrchestraContact.column_names.include?(params[:sort]) ? params[:sort] : "last_name,first_name"
   end
 
   def orchestra_contact_params

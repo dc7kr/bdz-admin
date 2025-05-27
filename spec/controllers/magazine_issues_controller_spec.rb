@@ -44,7 +44,7 @@ RSpec.describe MagazineIssuesController, type: :controller do
     it 'assigns all magazine_issues as @magazine_issues' do
       magazine_issue = MagazineIssue.create! valid_attributes
       get :index
-      expect(assigns(:magazine_issues)).to eq([magazine_issue])
+      expect(assigns(:magazine_issues)).to eq([ magazine_issue ])
     end
   end
 

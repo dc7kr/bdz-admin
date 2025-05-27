@@ -22,9 +22,9 @@ class MemberAccountBookingsController < AuthenticatedController
     end
 
     if @member.nil?
-      @bookings = MemberAccountBooking.order('booking_date').page(params[:page]).per(30)
+      @bookings = MemberAccountBooking.order("booking_date").page(params[:page]).per(30)
     else
-      @bookings = MemberAccountBooking.where('member_id=?', @member.id).page(params[:page])
+      @bookings = MemberAccountBooking.where("member_id=?", @member.id).page(params[:page])
       @member_entity = @member.member_entity
     end
 
@@ -61,7 +61,7 @@ class MemberAccountBookingsController < AuthenticatedController
     end
     @member = @member_entity.member
     @booking = MemberAccountBooking.new(member: @member, booking_date: Time.zone.now, booking_year: Time.zone.now.year,
-                                        booking_mode: 'M', booking_type: 'Z')
+                                        booking_mode: "M", booking_type: "Z")
 
     @member_entity = @member.member_entity
 
@@ -77,7 +77,7 @@ class MemberAccountBookingsController < AuthenticatedController
     @basemember = @booking.member
     @isOrchestra = false
 
-    if @basemember.member_entity_type == 'PersonMember'
+    if @basemember.member_entity_type == "PersonMember"
       @member = Member.includes(:member_entity).find(@booking.member_id)
     else
       @member = Member.includes(:member_entity).find(@booking.member_id)
@@ -101,20 +101,20 @@ class MemberAccountBookingsController < AuthenticatedController
 
     @booking = MemberAccountBooking.new(member_account_booking_params)
 
-    @booking.booking_mode = 'M'
+    @booking.booking_mode = "M"
     @booking.member = @member.member
     respond_to do |format|
       if @booking.save
         format.html do
           if @member_type == :orchestra
             redirect_to orchestra_member_account_bookings_path(@booking.member.member_entity),
-                        notice: t('member_account_booking.create_success')
+                        notice: t("member_account_booking.create_success")
           elsif @member_type == :person_member
             redirect_to person_member_member_account_bookings_path(@booking.member.member_entity),
-                        notice: t('member_account_booking.create_success')
+                        notice: t("member_account_booking.create_success")
           else
             redirect_to regional_organization_member_account_bookings_path(@booking.member.member_entity),
-                        notice: t('member_account_booking.create_success')
+                        notice: t("member_account_booking.create_success")
           end
         end
         format.json { render json: @booking, status: :created, location: @booking }
@@ -134,21 +134,21 @@ class MemberAccountBookingsController < AuthenticatedController
 
     @member_type = member_type_from_params(params)
 
-    params[:member_account_booking][:booking_mode] = 'M'
+    params[:member_account_booking][:booking_mode] = "M"
 
     respond_to do |format|
       if @booking.update(member_account_booking_params)
         format.html do
           if @member_type == :orchestra
             redirect_to orchestra_member_account_bookings_path(member_entity),
-                        notice: t_update_success('member_account_booking')
+                        notice: t_update_success("member_account_booking")
 
           elsif @member_type == :person_member
             redirect_to person_member_member_account_bookings_path(member_entity),
-                        notice: t_update_success('member_account_booking')
+                        notice: t_update_success("member_account_booking")
           else
             redirect_to regional_organization_member_account_bookings_path(member_entity),
-                        notice: t_update_success('member_account_booking')
+                        notice: t_update_success("member_account_booking")
           end
         end
         format.json { head :ok }
@@ -173,7 +173,7 @@ class MemberAccountBookingsController < AuthenticatedController
           redirect_to person_member_member_account_bookings_path(params[:person_member_id])
         end
       end
-      format.json { render json: { status: 'ok', op: 'delete', entityId: @booking.id } }
+      format.json { render json: { status: "ok", op: "delete", entityId: @booking.id } }
     end
   end
 
@@ -183,7 +183,7 @@ class MemberAccountBookingsController < AuthenticatedController
     fullPath = "#{INVOICE_CONFIG.archive_dir}/#{String(@booking.booking_year)}/#{@booking.filename}"
     # send_file(fullPath, :filename => @booking.filename, :type => "application/pdf", :x_sendfile=>true)
     # send_file(fullPath, :filename => @booking.filename, :x_sendfile=>true,:type=>"application/octet-stream")
-    send_file(fullPath, filename: @booking.filename, x_sendfile: x_sendfile, type: 'application/octet-stream')
+    send_file(fullPath, filename: @booking.filename, x_sendfile: x_sendfile, type: "application/octet-stream")
   end
 
   private

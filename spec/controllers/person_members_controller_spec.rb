@@ -39,7 +39,7 @@ RSpec.describe PersonMembersController, type: :controller do
     it 'assigns all person_members as @person_members' do
       person_member = PersonMember.create! valid_attributes
       get :index
-      expect(assigns(:person_members)).to eq([person_member])
+      expect(assigns(:person_members)).to eq([ person_member ])
     end
   end
 

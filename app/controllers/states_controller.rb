@@ -50,7 +50,7 @@ class StatesController < AuthenticatedController
       if @state.save
         format.html do
           redirect_to @state,
-                      notice: t_update_success('state')
+                      notice: t_update_success("state")
         end
         format.json { render json: @state, status: :created, location: @state }
       else
@@ -67,7 +67,7 @@ class StatesController < AuthenticatedController
 
     respond_to do |format|
       if @state.update(params[:state])
-        format.html { redirect_to @state, notice: t('state.update_success') }
+        format.html { redirect_to @state, notice: t("state.update_success") }
         format.json { head :ok }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -93,8 +93,8 @@ class StatesController < AuthenticatedController
   def determine_scope
     @scope = if params[:country_id]
                ISO3166::Country.find(params[:country_id]).states
-             else
+    else
                State
-             end
+    end
   end
 end

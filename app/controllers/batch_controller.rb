@@ -1,20 +1,20 @@
 class BatchController < AuthenticatedController
   def check_token(token)
-    expected = '4f70968b8cffde36c5c9f1cc7183edcf4bc2f752'
+    expected = "4f70968b8cffde36c5c9f1cc7183edcf4bc2f752"
 
     token == expected
   end
 
   def cancellations
     unless check_token(params[:token])
-      render text: 'EAUTH'
-      Rails.logger.info('Authentication failure on batch controller')
+      render text: "EAUTH"
+      Rails.logger.info("Authentication failure on batch controller")
       return
     end
     @orchestras = Orchestra.cancelled
     @persons = PersonMember.cancelled
 
-    @count = { 'orch' => @orchestras.size, 'em' => @persons.size }
+    @count = { "orch" => @orchestras.size, "em" => @persons.size }
 
     txt = "Automatische Austritte:\n"
     txt += "#{@count['em']} Einzelmitglieder:\n"

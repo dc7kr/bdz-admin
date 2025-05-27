@@ -5,7 +5,7 @@ class BoardContact < ApplicationRecord
 
   def fullname
     if contact.nil?
-      'INCONSISTENT!'
+      "INCONSISTENT!"
     else
       contact.fullname
     end
@@ -15,7 +15,7 @@ class BoardContact < ApplicationRecord
 
   def self.search(search)
     if search
-      where('last_name like ? or first_name like ?', "%#{search}%", "%#{search}%")
+      where("last_name like ? or first_name like ?", "%#{search}%", "%#{search}%")
     else
       where(1)
     end

@@ -35,7 +35,7 @@ class CompetitionEntriesController < AuthenticatedController
   end
 
   def drawable
-    @drawable = CompetitionEntry.where('winner = false and correct=true')
+    @drawable = CompetitionEntry.where("winner = false and correct=true")
 
     drawable_ids = @drawable.map(&:id)
 
@@ -58,15 +58,15 @@ class CompetitionEntriesController < AuthenticatedController
 
     @competition_entry.correct = if @competition_entry.check_responses
                                    false
-                                 else
+    else
                                    true
-                                 end
+    end
 
     respond_to do |format|
       if @competition_entry.save
         format.html do
           redirect_to success_public_competition_entry(@competition_entry),
-                      notice: 'CompetitionEntry was successfully created.'
+                      notice: "CompetitionEntry was successfully created."
         end
         format.json { render json: @competition_entry, status: :created, location: @competition_entry }
       else
@@ -85,7 +85,7 @@ class CompetitionEntriesController < AuthenticatedController
 
     respond_to do |format|
       if @competition_entry.update(params[:competition_entry])
-        format.html { redirect_to @competition_entry, notice: 'CompetitionEntry was successfully updated.' }
+        format.html { redirect_to @competition_entry, notice: "CompetitionEntry was successfully updated." }
         format.json { head :no_content }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -102,7 +102,7 @@ class CompetitionEntriesController < AuthenticatedController
 
     respond_to do |format|
       format.html { redirect_to competition_entries_url }
-      format.json { render json: { status: 'ok', op: 'delete', entityId: @competition_entry.id } }
+      format.json { render json: { status: "ok", op: "delete", entityId: @competition_entry.id } }
     end
   end
 end

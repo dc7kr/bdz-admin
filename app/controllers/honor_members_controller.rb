@@ -46,7 +46,7 @@ class HonorMembersController < AuthenticatedController
 
     respond_to do |format|
       if @honor_member.save
-        format.html { redirect_to @honor_member, notice: 'Honor member was successfully created.' }
+        format.html { redirect_to @honor_member, notice: "Honor member was successfully created." }
         format.json { render json: @honor_member, status: :created, location: @honor_member }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -62,7 +62,7 @@ class HonorMembersController < AuthenticatedController
 
     respond_to do |format|
       if @honor_member.update(honor_member_params)
-        format.html { redirect_to @honor_member, notice: 'Honor member was successfully updated.' }
+        format.html { redirect_to @honor_member, notice: "Honor member was successfully updated." }
         format.json { head :no_content }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -92,6 +92,6 @@ class HonorMembersController < AuthenticatedController
   def sort_column
     valid = HonorMember.column_names.include?(params[:sort])
     logger.debug("valid col? #{params[:sort]}: #{valid}")
-    valid ? params[:sort] : 'nr'
+    valid ? params[:sort] : "nr"
   end
 end

@@ -5,11 +5,11 @@ class MagazineReportsController < AuthenticatedNonResourceController
     @courses = Course.public
     @festivals = Festival.public
     @person_members = PersonMember
-                      .filename = 'test.ods'
+                      .filename = "test.ods"
     @rep = MagazineCalendarReport.new("/tmp/#{filename}", @concerts, @ensembles, @courses, @festivals)
 
-    send_file("/tmp/#{filename}", filename: filename, type: 'application/octet-stream')
-    flash[:notice] = 'Export complete!'
+    send_file("/tmp/#{filename}", filename: filename, type: "application/octet-stream")
+    flash[:notice] = "Export complete!"
     nil
   end
 end

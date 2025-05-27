@@ -28,20 +28,20 @@ class Member < ApplicationRecord
 
   def has_event?(event_type, event_id)
     if event_type.is_a?(Array)
-      MemberEvent.where('member_id = :id and event_type in (:event_type) and event_id = :event_id', event_id: event_id,
+      MemberEvent.where("member_id = :id and event_type in (:event_type) and event_id = :event_id", event_id: event_id,
                                                                                                     event_type: event_type, id: id).count.positive?
     else
-      MemberEvent.where('member_id = :id and event_type = :event_type and event_id = :event_id', event_id: event_id,
+      MemberEvent.where("member_id = :id and event_type = :event_type and event_id = :event_id", event_id: event_id,
                                                                                                  event_type: event_type, id: id).count.positive?
     end
   end
 
   def is_direct_debit?
-    za == 'L' and valid?
+    za == "L" and valid?
   end
 
   def fullname
-    result = ''
+    result = ""
     result = "#{result}#{title} " if title
     result = "#{result}#{vorname} " if vorname
     result += name if name
@@ -49,13 +49,13 @@ class Member < ApplicationRecord
   end
 
   def letter_country
-    return '' if country_code.nil?
+    return "" if country_code.nil?
 
     country_code.upcase
   end
 
   def countryCode
-    return '' if country_code.nil?
+    return "" if country_code.nil?
 
     country_code
   end
@@ -137,36 +137,36 @@ class Member < ApplicationRecord
   end
 
   def contact_info
-    (telefon&.length&.positive? ? "Tel: #{telefon}, " : '') +
-      (fax&.length&.positive? ? "Fax: #{fax}, " : '') +
-      (email ? "#{email}, " : '')
+    (telefon&.length&.positive? ? "Tel: #{telefon}, " : "") +
+      (fax&.length&.positive? ? "Fax: #{fax}, " : "") +
+      (email ? "#{email}, " : "")
   end
 
   def member_type
     logger.debug("Member class: #{member_entity.class}")
     if member_entity.is_a? Orchestra
-      'O'
+      "O"
     elsif member_entity.is_a? PersonMember
-      'EM'
+      "EM"
     else
-      '--'
+      "--"
     end
   end
 
   def self.nomail(type = nil)
     Rails.logger.debug { "type: #{type.name}" }
     if type.nil?
-      where('email IS NULL or LENGTH(email) < 3')
+      where("email IS NULL or LENGTH(email) < 3")
     else
-      where('email IS NULL or LENGTH(email) < 3 and member_entity_type=?', type.name)
+      where("email IS NULL or LENGTH(email) < 3 and member_entity_type=?", type.name)
     end
   end
 
   def self.mail(type = nil)
     if type.nil?
-      where('email IS NOT NULL and length(email) >3')
+      where("email IS NOT NULL and length(email) >3")
     else
-      where('email IS NOT NULL and length(email) >3 and member_entity_type=?', type.name)
+      where("email IS NOT NULL and length(email) >3 and member_entity_type=?", type.name)
     end
   end
 
@@ -175,10 +175,10 @@ class Member < ApplicationRecord
 
     accounts = if type.nil?
                  MemberAccountBooking.where(booking_year: ...year).group(:member).sum(:amount)
-               else
-                 MemberAccountBooking.includes(:member).where('booking_year < ? AND members.member_entity_type = ? ',
+    else
+                 MemberAccountBooking.includes(:member).where("booking_year < ? AND members.member_entity_type = ? ",
                                                               year, type).group(:member).sum(:amount)
-               end
+    end
 
     ids = Set.new
 
@@ -204,8 +204,8 @@ class Member < ApplicationRecord
   end
 
   def last_payment
-    booking = member_account_bookings.where('booking_type = ? or booking_type = ? ', 'A',
-                                            'L').order('booking_date desc').first
+    booking = member_account_bookings.where("booking_type = ? or booking_type = ? ", "A",
+                                            "L").order("booking_date desc").first
 
     if booking.nil?
       nil
@@ -236,7 +236,7 @@ class Member < ApplicationRecord
 
   def create_credit_transfer(sepa_writer, year, booking_txt, amount)
     if amount.negative?
-      Rails.logger.warn('Credit transfer amount must not be negative!')
+      Rails.logger.warn("Credit transfer amount must not be negative!")
       return false
     end
 
@@ -251,7 +251,7 @@ class Member < ApplicationRecord
 
         booking
       else
-        Rails.logger.warn('Could not create credit transfer')
+        Rails.logger.warn("Could not create credit transfer")
         false
       end
     else
@@ -268,12 +268,12 @@ class Member < ApplicationRecord
       amount = invoice.sum
     else
       amount = delta_amount
-      booking_txt += ' Nachzahlung'
+      booking_txt += " Nachzahlung"
     end
 
     return unless is_direct_debit?
 
-    sepa_writer.add_direct_debit(customer, amount, booking_txt, 'RCUR')
+    sepa_writer.add_direct_debit(customer, amount, booking_txt, "RCUR")
     booking = MemberAccountBooking.new_dd("Lastschrift #{booking_txt}", amount)
     booking.member_id = id
     booking.booking_year = year
@@ -287,7 +287,7 @@ class Member < ApplicationRecord
 
     country = bic[4..5]
 
-    if country != 'DE'
+    if country != "DE"
       # we can only verify german BICs
       return true
     end

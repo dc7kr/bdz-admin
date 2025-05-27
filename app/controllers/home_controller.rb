@@ -16,7 +16,7 @@ class HomeController < AuthenticatedNonResourceController
   end
 
   def member_data
-    @website_area = 'member_data'
+    @website_area = "member_data"
     authorize! :index, Orchestra
     respond_to do |format|
       format.html
@@ -24,7 +24,7 @@ class HomeController < AuthenticatedNonResourceController
   end
 
   def public_data
-    @website_area = 'public_data'
+    @website_area = "public_data"
     authorize! :index, Concert
     respond_to do |format|
       format.html
@@ -32,7 +32,7 @@ class HomeController < AuthenticatedNonResourceController
   end
 
   def reference_data
-    @website_area = 'reference_data'
+    @website_area = "reference_data"
     authorize! :index, RegionalOrganization
     respond_to do |format|
       format.html
@@ -40,7 +40,7 @@ class HomeController < AuthenticatedNonResourceController
   end
 
   def magazine_data
-    @website_area = 'magazine_data'
+    @website_area = "magazine_data"
     authorize! :index, Advertiser
     respond_to do |format|
       format.html
@@ -48,7 +48,7 @@ class HomeController < AuthenticatedNonResourceController
   end
 
   def festival_data
-    @website_area = 'festival_data'
+    @website_area = "festival_data"
     authorize! :index, FestivalConcert
     respond_to do |format|
       format.html
@@ -92,14 +92,14 @@ class HomeController < AuthenticatedNonResourceController
 
     data = GenericView.connection.select_all("SELECT * from public_#{view_suffix}")
 
-    tmp = Tempfile.new('view')
+    tmp = Tempfile.new("view")
     writer = OdsViewWriter.new(data, view_suffix)
     writer.write(tmp)
     tmp.close
 
     logger.info("TMP PATH: #{tmp.path}")
 
-    send_file(tmp.path, filename: filename, type: 'application/octet-stream')
+    send_file(tmp.path, filename: filename, type: "application/octet-stream")
   end
 
   def current_area

@@ -39,7 +39,7 @@ RSpec.describe MemberAccountBookingsController, type: :controller do
     it 'assigns all member_account_bookings as @member_account_bookings' do
       member_account_booking = MemberAccountBooking.create! valid_attributes
       get :index
-      expect(assigns(:member_account_bookings)).to eq([member_account_booking])
+      expect(assigns(:member_account_bookings)).to eq([ member_account_booking ])
     end
   end
 

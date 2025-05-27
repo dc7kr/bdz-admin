@@ -1,8 +1,8 @@
-require 'bankleitzahl'
+require "bankleitzahl"
 
 class BicFinder
   def initialize
-    blzfile = Rails.root.join('data/blz.txt')
+    blzfile = Rails.root.join("data/blz.txt")
     Rails.logger.debug { "Using BLZ file: #{blzfile}" }
     @lines = File.read(blzfile)
     parser = Bankleitzahl::Parser.new(@lines)
@@ -24,7 +24,7 @@ class BicFinder
       false
     else
       ctry = get_country(bic)
-      return exist?(bic) if ctry == 'DE'
+      return exist?(bic) if ctry == "DE"
 
       true
 

@@ -7,7 +7,7 @@ class PersonMember < ApplicationRecord
   accepts_nested_attributes_for :member
 
   scope :nomail, lambda {
-    joins(:member).where("members.email is null or members.email=''").order('members.mglnr')
+    joins(:member).where("members.email is null or members.email=''").order("members.mglnr")
   }
 
   scope :mail, lambda {
@@ -39,7 +39,7 @@ class PersonMember < ApplicationRecord
 
   def self.notinvoiced(year)
     joins(:member,
-          :tariff).joins("LEFT JOIN member_account_bookings mb ON members.id=mb.member_id AND mb.booking_type='B' and mb.booking_year = #{year}").where('mb.id IS NULL and tariffs.amount >0 and members.eintritt < now()').order('members.mglnr')
+          :tariff).joins("LEFT JOIN member_account_bookings mb ON members.id=mb.member_id AND mb.booking_type='B' and mb.booking_year = #{year}").where("mb.id IS NULL and tariffs.amount >0 and members.eintritt < now()").order("members.mglnr")
   end
 
   def self.for_user(user)
@@ -49,7 +49,7 @@ class PersonMember < ApplicationRecord
 
     if restr.nil?
       Rails.logger.warning("User #{current_user.email} has no restriction entity configured - SAFETY NET!")
-      return where('1=0')
+      return where("1=0")
       # safety net
     end
 
@@ -58,30 +58,30 @@ class PersonMember < ApplicationRecord
     elsif restr.instance_of?(Orchestra)
       where(id: restr.id)
     elsif restr.instance_of?(PersonMember)
-      where('1=0')
+      where("1=0")
     end
   end
 
   def self.mailForEvent(event, via_paper)
     if via_paper
-      joins([:member]).joins("LEFT JOIN member_events e ON members.id=e.member_id AND members.member_entity_id = person_members.id AND members.member_entity_type='PersonMember' AND e.event_id='#{event}'").where(e: { id: nil }).order('members.mglnr')
+      joins([ :member ]).joins("LEFT JOIN member_events e ON members.id=e.member_id AND members.member_entity_id = person_members.id AND members.member_entity_type='PersonMember' AND e.event_id='#{event}'").where(e: { id: nil }).order("members.mglnr")
     else
-      joins([:member]).joins("LEFT JOIN member_events e ON members.id=e.member_id AND members.member_entity_id = person_members.id AND members.member_entity_type='PersonMember' AND e.event_type='E' and e.event_id='#{event}'").where('members.email IS NOT NULL and length(members.email) >3 and e.id IS NULL')
+      joins([ :member ]).joins("LEFT JOIN member_events e ON members.id=e.member_id AND members.member_entity_id = person_members.id AND members.member_entity_type='PersonMember' AND e.event_type='E' and e.event_id='#{event}'").where("members.email IS NOT NULL and length(members.email) >3 and e.id IS NULL")
     end
   end
 
   def self.search(search)
     if search
-      where('members.mglnr = ? or members.name like ? or members.email like ?', search.to_s, "%#{search}%",
+      where("members.mglnr = ? or members.name like ? or members.email like ?", search.to_s, "%#{search}%",
             "%#{search}%")
     else
-      where('1')
+      where("1")
     end
   end
 
   def fullname
     if member.nil?
-      '---'
+      "---"
     else
       member.fullname
     end
@@ -119,7 +119,7 @@ class PersonMember < ApplicationRecord
     plz
     ort
     letter_country
-    currentMagazines 'Zeitungen'
+    currentMagazines "Zeitungen"
   end
 
   def lvPart
@@ -139,9 +139,9 @@ class PersonMember < ApplicationRecord
   delegate :contact_info, to: :member
 
   def contact_info_block
-    (telefonPrivat&.length&.positive? ? "Tel: #{telefonPrivat}, " : '') +
-      (telefax&.length&.positive? ? "Fax: #{telefax}, " : '') +
-      (member.email ? "#{member.email}, " : '')
+    (telefonPrivat&.length&.positive? ? "Tel: #{telefonPrivat}, " : "") +
+      (telefax&.length&.positive? ? "Fax: #{telefax}, " : "") +
+      (member.email ? "#{member.email}, " : "")
   end
 
   delegate :iban, to: :member
@@ -159,12 +159,12 @@ class PersonMember < ApplicationRecord
   def self.with_zero_balance(_year = nil)
     ids = Member.ids_with_non_zero_balance(PersonMember)
 
-    PersonMember.joins(:member).where('NOT (members.id  in (?) )', ids)
+    PersonMember.joins(:member).where("NOT (members.id  in (?) )", ids)
   end
 
   # address interface
   def company
-    ''
+    ""
   end
 
   def street
@@ -205,10 +205,10 @@ class PersonMember < ApplicationRecord
 
     invoice = CorikaInvoices::Invoice.new
     invoice.invoice_date = Time.zone.now
-    invoice.invoice_type = 'beitragsrechnung'
+    invoice.invoice_type = "beitragsrechnung"
 
     # taxfree
-    invoice.tax_type = 'X'
+    invoice.tax_type = "X"
 
     invoice.number = "#{member.mglnr}-BEITRAG#{year}"
     invoice.customer = to_customer
@@ -233,8 +233,8 @@ class PersonMember < ApplicationRecord
 
     {
       identifier: member.mglnr,
-      company: '',
-      department: '',
+      company: "",
+      department: "",
       fullname: member.fullname,
       street: member.strasse,
       countryCode: member.countryCode,

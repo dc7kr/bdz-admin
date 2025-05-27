@@ -75,11 +75,11 @@ class CoursesController < AuthenticatedController
 
     @course.bland = 1 if @course.bland.nil?
 
-    @course.ort = 'Barmingholtener Vereinshaus, Sterkrader Str. 14,46539 Dinslaken' if @course.ort.nil?
+    @course.ort = "Barmingholtener Vereinshaus, Sterkrader Str. 14,46539 Dinslaken" if @course.ort.nil?
 
     respond_to do |format|
       if @course.save
-        format.html { redirect_to @course, notice: 'Course was successfully created.' }
+        format.html { redirect_to @course, notice: "Course was successfully created." }
         format.json { render json: @course, status: :created, location: @course }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -96,7 +96,7 @@ class CoursesController < AuthenticatedController
 
     respond_to do |format|
       if @course.save
-        format.html { redirect_to @course, notice: t('course.publish_success') }
+        format.html { redirect_to @course, notice: t("course.publish_success") }
         format.json { render json: @course, status: :created, location: @course }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -112,7 +112,7 @@ class CoursesController < AuthenticatedController
 
     respond_to do |format|
       if @course.update(course_params)
-        format.html { redirect_to @course, notice: 'Course was successfully updated.' }
+        format.html { redirect_to @course, notice: "Course was successfully updated." }
         format.json { head :ok }
       else
         format.html { render :edit, status: :unprocessable_entity }

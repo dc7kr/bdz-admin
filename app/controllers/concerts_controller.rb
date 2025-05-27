@@ -1,7 +1,7 @@
 class ConcertsController < AuthorityController
   authorize_actions_for Concert, except: :create
 
-  authority_actions future: 'read', inactive: 'read', publish: 'update'
+  authority_actions future: "read", inactive: "read", publish: "update"
 
   before_action :set_concert, only: %i[show edit update destroy]
   # , :actions => {:neuter => :update},
@@ -21,10 +21,10 @@ class ConcertsController < AuthorityController
 
     respond_to do |format|
       if @concert.save
-        flash[:notice] = t('concert.publish_success')
-        format.html { redirect_to inactive_concerts_path, notice: t('concert.publish_success') }
-        format.js {}
-        format.json { render json: { status: 'ok', op: 'delete', entityId: @concert.id } }
+        flash[:notice] = t("concert.publish_success")
+        format.html { redirect_to inactive_concerts_path, notice: t("concert.publish_success") }
+        format.js { }
+        format.json { render json: { status: "ok", op: "delete", entityId: @concert.id } }
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @concert.errors, status: :unprocessable_entity }
@@ -59,17 +59,17 @@ class ConcertsController < AuthorityController
   end
 
   def index
-    if @namespace == 'public'
+    if @namespace == "public"
       public
-      @method = 'public'
+      @method = "public"
     end
     @festival_id = params[:event_id]
 
     @concerts = if @festival_id.nil?
                   Concert.search(params[:search]).order("#{sort_column} #{sort_direction}").page(params[:page]).per(20)
-                else
+    else
                   Concert.includes(:festival).search(params[:search]).order("#{sort_column} #{sort_direction}").page(params[:page]).per(20)
-                end
+    end
 
     respond_to do |format|
       format.html # index.html.erb
@@ -119,7 +119,7 @@ class ConcertsController < AuthorityController
 
     respond_to do |format|
       if @concert.save
-        format.html { redirect_to @concert, notice: 'Concert was successfully created.' }
+        format.html { redirect_to @concert, notice: "Concert was successfully created." }
         format.json { render json: @concert, status: :created, location: @concert }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -137,7 +137,7 @@ class ConcertsController < AuthorityController
 
     respond_to do |format|
       if @concert.update(concert_params)
-        format.html { redirect_to @concert, notice: 'Concert was successfully updated.' }
+        format.html { redirect_to @concert, notice: "Concert was successfully updated." }
         format.json { head :ok }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -160,7 +160,7 @@ class ConcertsController < AuthorityController
   private
 
   def sort_column
-    Concert.column_names.include?(params[:sort]) ? params[:sort] : 'datum'
+    Concert.column_names.include?(params[:sort]) ? params[:sort] : "datum"
   end
 
   def set_concert

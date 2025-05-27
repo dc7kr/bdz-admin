@@ -39,7 +39,7 @@ RSpec.describe OrchestraContactsController, type: :controller do
     it 'assigns all orchestra_contacts as @orchestra_contacts' do
       orchestra_contact = OrchestraContact.create! valid_attributes
       get :index
-      expect(assigns(:orchestra_contacts)).to eq([orchestra_contact])
+      expect(assigns(:orchestra_contacts)).to eq([ orchestra_contact ])
     end
   end
 

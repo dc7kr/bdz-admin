@@ -1,6 +1,6 @@
 module Public
   class RegionalOrganizationsController < ApplicationController
-    before_action :set_regional_organization, only: [:show]
+    before_action :set_regional_organization, only: [ :show ]
 
     def index
       respond_to do |format|

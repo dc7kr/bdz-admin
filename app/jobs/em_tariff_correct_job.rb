@@ -16,7 +16,7 @@ class EmTariffCorrectJob < ApplicationJob
       mail = em.member.email
 
       if em.tariff_id == normal_tariff.id
-        if (em.member.za == 'L') && !mail.nil? && !mail.empty?
+        if (em.member.za == "L") && !mail.nil? && !mail.empty?
           em.tariff = digi_tariff
           em.save
           digital << em
@@ -25,7 +25,7 @@ class EmTariffCorrectJob < ApplicationJob
           unchanged += 1
         end
       elsif em.tariff_id == digi_tariff.id
-        if (em.member.za != 'L') || mail.nil? || mail.empty?
+        if (em.member.za != "L") || mail.nil? || mail.empty?
           em.tariff = normal_tariff
           em.save
           normal << em
@@ -41,10 +41,10 @@ class EmTariffCorrectJob < ApplicationJob
 
       users.each do |user|
         AdminNotifier.em_tariff_fix_notification(user, digital, normal, changed, unchanged).deliver
-        logger.info 'Admin notify sent to %s' % user.email
+        logger.info "Admin notify sent to %s" % user.email
       end
     else
-      logger.info('EM Tariff fix job had no changes.')
+      logger.info("EM Tariff fix job had no changes.")
     end
   end
 end

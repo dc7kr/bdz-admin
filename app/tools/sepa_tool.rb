@@ -1,4 +1,4 @@
-require 'sepa_king'
+require "sepa_king"
 
 class SepaTool
   attr_accessor :company, :bic, :iban, :creditor_id, :message_prefix
@@ -6,13 +6,13 @@ class SepaTool
   def initialize(settings)
     @company = settings.company
     @bic = settings.bic
-    @iban = settings.iban.gsub(/ /, '')
+    @iban = settings.iban.gsub(/ /, "")
     @creditor_id = settings.creditor_id
     @message_prefix = settings.message_prefix
 
     return unless @message_prefix.nil?
 
-    @message_prefix = 'KRI'
+    @message_prefix = "KRI"
   end
 
   def create_sepa_direct_debit_order(direct_debits, requested_date = nil)
@@ -43,7 +43,7 @@ class SepaTool
         mandate_id: dd.mandate_id,
         mandate_date_of_signature: dd.sig_date,
 
-        local_instrument: 'CORE',
+        local_instrument: "CORE",
         sequence_type: dd.sequence_type,
         requested_date: requested_date
         # OPTIONAL: Enables or disables batch booking, in German "Sammelbuchung / Einzelbuchung"

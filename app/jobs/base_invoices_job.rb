@@ -1,4 +1,4 @@
-require 'fileutils'
+require "fileutils"
 
 class BaseInvoicesJob < ApplicationJob
   attr_accessor :generator_session_id, :date_prefix, :tex_writer, :sepa_writer, :triggered_by, :archive_tool
@@ -18,7 +18,7 @@ class BaseInvoicesJob < ApplicationJob
 
   def init_fields(_year, user_id)
     self.generator_session_id = SecureRandom.uuid
-    self.date_prefix = Time.zone.now.strftime '%Y%m%d%H%M%S'
+    self.date_prefix = Time.zone.now.strftime "%Y%m%d%H%M%S"
 
     self.tex_writer = CorikaInvoices::TexWriter.new(INVOICE_CONFIG)
     self.sepa_writer = CorikaInvoices::SepaWriter.new(date_prefix, INVOICE_CONFIG)
@@ -27,9 +27,9 @@ class BaseInvoicesJob < ApplicationJob
 
     self.triggered_by = if user_id.nil?
                           nil
-                        else
+    else
                           User.find(user_id)
-                        end
+    end
   end
 
   def send_mail(ddFile, letterFile)
@@ -43,7 +43,7 @@ class BaseInvoicesJob < ApplicationJob
 
     User.for_admin_notify.each do |user|
       AdminNotifier.newinvoices_notification(user, invoices_url, dd_url, triggered_by).deliver
-      logger.info 'new invoice notify sent to %s' % user.email
+      logger.info "new invoice notify sent to %s" % user.email
     end
   end
 end

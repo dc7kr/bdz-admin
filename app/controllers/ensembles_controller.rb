@@ -66,7 +66,7 @@ class EnsemblesController < AuthenticatedController
 
     respond_to do |format|
       if @ensemble.save
-        format.html { redirect_to @ensemble, notice: 'Ensemble was successfully created.' }
+        format.html { redirect_to @ensemble, notice: "Ensemble was successfully created." }
         format.json { render json: @ensemble, status: :created, location: @ensemble }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -82,7 +82,7 @@ class EnsemblesController < AuthenticatedController
 
     respond_to do |format|
       if @ensemble.update(ensemble_params)
-        format.html { redirect_to @ensemble, notice: 'Ensemble was successfully updated.' }
+        format.html { redirect_to @ensemble, notice: "Ensemble was successfully updated." }
         format.json { head :ok }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -112,7 +112,7 @@ class EnsemblesController < AuthenticatedController
   private
 
   def sort_column
-    Ensemble.column_names.include?(params[:sort]) ? params[:sort] : 'name'
+    Ensemble.column_names.include?(params[:sort]) ? params[:sort] : "name"
   end
 
   def ensemble_params

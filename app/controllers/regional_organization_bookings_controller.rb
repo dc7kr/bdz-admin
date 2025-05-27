@@ -5,7 +5,7 @@ class RegionalOrganizationBookingsController < AuthenticatedController
     @name = nil
     @regional_organization = RegionalOrganization.find(params[:regional_organization_id])
 
-    @bookings = RegionalOrganizationBooking.where('regional_organization_id=?', @regional_organization.id)
+    @bookings = RegionalOrganizationBooking.where("regional_organization_id=?", @regional_organization.id)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -19,7 +19,7 @@ class RegionalOrganizationBookingsController < AuthenticatedController
     @regional_organization = RegionalOrganization.find(params[:regional_organization_id])
 
     @booking = RegionalOrganizationBooking.new(regional_organization: @regional_organization, booking_date: Time.zone.now,
-                                               booking_year: Time.zone.now.year, booking_mode: 'M', booking_type: 'S')
+                                               booking_year: Time.zone.now.year, booking_mode: "M", booking_type: "S")
 
     respond_to do |format|
       format.html # new.html.erb
@@ -38,12 +38,12 @@ class RegionalOrganizationBookingsController < AuthenticatedController
   def create
     @booking = RegionalOrganizationBooking.new(params[:regional_organization_booking])
 
-    @booking.booking_mode = 'M'
+    @booking.booking_mode = "M"
     respond_to do |format|
       if @booking.save
         format.html do
           redirect_to regional_organization_acct_bookings_path(@booking.regional_organization),
-                      notice: 'Regional organization booking was successfully created.'
+                      notice: "Regional organization booking was successfully created."
         end
         format.json { render json: @booking, status: :created, location: @booking }
       else
@@ -62,7 +62,7 @@ class RegionalOrganizationBookingsController < AuthenticatedController
       if @booking.update(params[:regional_organization_booking])
         format.html do
           redirect_to regional_organization_acct_bookings_path(@booking.regional_organization),
-                      notice: t('regional_organization.change_success')
+                      notice: t("regional_organization.change_success")
         end
         format.json { head :no_content }
       else
@@ -81,7 +81,7 @@ class RegionalOrganizationBookingsController < AuthenticatedController
 
     respond_to do |format|
       format.html { redirect_to regional_organization_acct_bookings_path(@lv) }
-      format.json { render json: { status: 'ok', op: 'delete', entityId: @booking.id } }
+      format.json { render json: { status: "ok", op: "delete", entityId: @booking.id } }
     end
   end
 

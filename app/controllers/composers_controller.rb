@@ -44,7 +44,7 @@ class ComposersController < AuthenticatedController
 
     respond_to do |format|
       if @composer.save
-        format.html { redirect_to @composer, notice: 'Composer was successfully created.' }
+        format.html { redirect_to @composer, notice: "Composer was successfully created." }
         format.json { render json: @composer, status: :created, location: @composer }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -60,7 +60,7 @@ class ComposersController < AuthenticatedController
 
     respond_to do |format|
       if @composer.update(params[:composer])
-        format.html { redirect_to @composer, notice: 'Composer was successfully updated.' }
+        format.html { redirect_to @composer, notice: "Composer was successfully updated." }
         format.json { head :no_content }
       else
         format.html { render :edit, status: :unprocessable_entity }

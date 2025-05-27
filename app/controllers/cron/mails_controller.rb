@@ -1,4 +1,4 @@
-require 'mail'
+require "mail"
 
 module Cron
   class MailsController < ApplicationController
@@ -10,14 +10,14 @@ module Cron
       ## Set the From or Reply-To header to the following:
       # address.format # returns "John Doe <john@example.com>"
 
-      @users = User.where('role like ?', '%admin%')
+      @users = User.where("role like ?", "%admin%")
       base_url = cron_downloads_url
       invoices_url = "#{base_url}?year=2012&filename=20120529-rechnung_merge.pdf"
       dtaus_url = "#{base_url}?year=2012&filename=20120529_dtaus.zip"
 
       @users.each do |user|
         AdminNotifier.newinvoices_notification(user, invoices_url, dtaus_url).deliver
-        Rails.logger.debug 'sent to %s' % current_user.email
+        Rails.logger.debug "sent to %s" % current_user.email
       end
     end
   end

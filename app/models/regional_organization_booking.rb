@@ -10,8 +10,8 @@ class RegionalOrganizationBooking < ApplicationRecord
     booking.booking_date = Time.zone.now
     booking.booking_year = Time.zone.now.year
     booking.booking_txt = txt
-    booking.booking_mode = 'A'
-    booking.booking_type = 'G'
+    booking.booking_mode = "A"
+    booking.booking_type = "G"
     booking.amount = amount
 
     booking

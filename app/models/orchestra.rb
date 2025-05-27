@@ -1,4 +1,4 @@
-require 'valid_email'
+require "valid_email"
 class Orchestra < ApplicationRecord
   include Authority::Abilities
 
@@ -26,18 +26,18 @@ class Orchestra < ApplicationRecord
   }
 
   scope :nomail, lambda {
-    joins(:member).where("members.email is null or members.email=''").order('members.mglnr')
+    joins(:member).where("members.email is null or members.email=''").order("members.mglnr")
   }
 
   scope :mail, lambda {
     joins(:member).where("members.email is not null and members.email <>''")
   }
 
-  scope :regular, -> { where('orch_type <> ? ', 'X') }
+  scope :regular, -> { where("orch_type <> ? ", "X") }
   scope :regional, -> { where("orch_type = 'L' ") }
 
   scope :no_report_sheet, lambda { |year|
-    includes([:member]).joins("LEFT JOIN report_sheets ON report_sheets.orchestra_id = orchestras.id AND report_sheets.year=#{String(year)}").where(['report_sheets.id IS NULL AND orchestras.orch_type in ( "L","O")'])
+    includes([ :member ]).joins("LEFT JOIN report_sheets ON report_sheets.orchestra_id = orchestras.id AND report_sheets.year=#{String(year)}").where([ 'report_sheets.id IS NULL AND orchestras.orch_type in ( "L","O")' ])
   }
 
   def self.no_payment(before = nil, lv = nil)
@@ -58,7 +58,7 @@ class Orchestra < ApplicationRecord
   end
 
   def self.for_mglnr(mglnr)
-    member = Member.find_by('mglnr = ?', mglnr)
+    member = Member.find_by("mglnr = ?", mglnr)
 
     if member.nil? || !member.member_entity.is_a?(Orchestra)
       nil
@@ -72,7 +72,7 @@ class Orchestra < ApplicationRecord
   # validates :mglnr, :orch_mglnr => true
 
   def self.notinvoiced(year)
-    normal = joins(:member).joins("LEFT JOIN member_account_bookings mb ON members.id=mb.member_id AND mb.booking_type='B' and mb.booking_year = #{year}").where("mb.id IS NULL AND orchestras.orch_type <> 'X'").order('members.mglnr')
+    normal = joins(:member).joins("LEFT JOIN member_account_bookings mb ON members.id=mb.member_id AND mb.booking_type='B' and mb.booking_year = #{year}").where("mb.id IS NULL AND orchestras.orch_type <> 'X'").order("members.mglnr")
     joins(:member).joins("LEFT JOIN member_account_bookings mb ON members.id=mb.member_id AND mb.booking_type='B' and mb.booking_year = #{year}").where("mb.id IS NULL AND orch_type='K'")
 
     normal
@@ -80,9 +80,9 @@ class Orchestra < ApplicationRecord
 
   def self.mailForEvent(event, via_paper)
     if via_paper
-      joins([:member]).joins("LEFT JOIN member_events e ON members.id=e.member_id AND members.member_entity_id = orchestras.id AND members.member_entity_type='Orchestra' AND e.event_id='#{event}'").where(e: { id: nil })
+      joins([ :member ]).joins("LEFT JOIN member_events e ON members.id=e.member_id AND members.member_entity_id = orchestras.id AND members.member_entity_type='Orchestra' AND e.event_id='#{event}'").where(e: { id: nil })
     else
-      joins([:member]).joins("LEFT JOIN member_events e ON members.id=e.member_id AND members.member_entity_id = orchestras.id AND members.member_entity_type='Orchestra' AND e.event_type='E' and e.event_id='#{event}'").where('members.email IS NOT NULL and length(members.email) >3 and e.id IS NULL')
+      joins([ :member ]).joins("LEFT JOIN member_events e ON members.id=e.member_id AND members.member_entity_id = orchestras.id AND members.member_entity_type='Orchestra' AND e.event_type='E' and e.event_id='#{event}'").where("members.email IS NOT NULL and length(members.email) >3 and e.id IS NULL")
     end
   end
 
@@ -92,15 +92,15 @@ class Orchestra < ApplicationRecord
 
   def self.search(search)
     if search
-      where('members.mglnr = ? or orchestras.orchName like ? or members.email like ?', search.to_s, "%#{search}%",
+      where("members.mglnr = ? or orchestras.orchName like ? or members.email like ?", search.to_s, "%#{search}%",
             "%#{search}%")
     else
-      where('1')
+      where("1")
     end
   end
 
   def cleanOrchName
-    orchName.gsub("'", '').gsub(';', '\n')
+    orchName.gsub("'", "").gsub(";", '\n')
   end
 
   def inlineFullAddress
@@ -112,7 +112,7 @@ class Orchestra < ApplicationRecord
   end
 
   def lastReportSheet
-    @reportSheets = ReportSheet.where(orchestra_id: id).order('year desc')
+    @reportSheets = ReportSheet.where(orchestra_id: id).order("year desc")
     @reportSheets[0]
   end
 
@@ -127,7 +127,7 @@ class Orchestra < ApplicationRecord
   end
 
   def currentMagazines(override = true)
-    return BDZ_SETTINGS['tariff']['koopZtgCount'].to_i if is_coop?
+    return BDZ_SETTINGS["tariff"]["koopZtgCount"].to_i if is_coop?
 
     return member.magazines if (member.magazines >= 0) && override
 
@@ -168,7 +168,7 @@ class Orchestra < ApplicationRecord
     if rs
       rs.ageKeyStr
     else
-      ' kein Meldebogen'
+      " kein Meldebogen"
     end
   end
 
@@ -187,7 +187,7 @@ class Orchestra < ApplicationRecord
 
   def gen_invoice(year)
     invoice = CorikaInvoices::Invoice.new
-    invoice.invoice_type = 'beitragsrechnung'
+    invoice.invoice_type = "beitragsrechnung"
     invoice.invoice_date = Time.zone.now
     invoice.number = "#{member.mglnr}-BEITRAG#{year}"
 
@@ -195,14 +195,14 @@ class Orchestra < ApplicationRecord
     invoice.make_distinct
 
     # taxfree
-    invoice.tax_type = 'X'
+    invoice.tax_type = "X"
 
     invoice.customer = to_customer
 
     if is_coop?
-      invoice.addItem(1, Prices.coopRate, 'Beitrag kooperativ')
+      invoice.addItem(1, Prices.coopRate, "Beitrag kooperativ")
     elsif is_foreign_coop?
-      invoice.addItem(1, Prices.foreignCoopRate, 'Auslandsorchesterbeitrag')
+      invoice.addItem(1, Prices.foreignCoopRate, "Auslandsorchesterbeitrag")
     else
       sheet = sheet_for_year(year)
 
@@ -228,21 +228,21 @@ class Orchestra < ApplicationRecord
   end
 
   comma :minimal do
-    mglnr 'Mitgliedsnummer'
-    orchName 'Orchestername'
-    inlineFullAddress 'Adresse'
+    mglnr "Mitgliedsnummer"
+    orchName "Orchestername"
+    inlineFullAddress "Adresse"
   end
 
   # CSV
   comma :gema do
-    member.mglnr 'Mitgliedsnummer'
-    orchName 'Orchestername'
-    inlineFullAddress 'Adresse'
-    gema 'Mitglieder'
+    member.mglnr "Mitgliedsnummer"
+    orchName "Orchestername"
+    inlineFullAddress "Adresse"
+    gema "Mitglieder"
   end
 
   comma :magazine do
-    currentMagazines 'Zeitungen'
+    currentMagazines "Zeitungen"
     cleanOrchName
     fullname
     strasse
@@ -296,19 +296,19 @@ class Orchestra < ApplicationRecord
   end
 
   def is_coop?
-    orch_type == 'K'
+    orch_type == "K"
   end
 
   def is_foreign_coop?
-    orch_type == 'A'
+    orch_type == "A"
   end
 
   def is_lorch?
-    orch_type == 'L'
+    orch_type == "L"
   end
 
   def is_regular?
-    orch_type == 'O'
+    orch_type == "O"
   end
 
   delegate :is_direct_debit?, to: :member
@@ -330,7 +330,7 @@ class Orchestra < ApplicationRecord
     if ids.empty?
       Orchestra.includes(:report_sheets).joins(:member)
     else
-      Orchestra.includes(:report_sheets).joins(:member).where('NOT (members.id  in (?) )', ids)
+      Orchestra.includes(:report_sheets).joins(:member).where("NOT (members.id  in (?) )", ids)
     end
   end
 
@@ -405,7 +405,7 @@ class Orchestra < ApplicationRecord
 
     if restr.nil?
       Rails.logger.warning("User #{current_user.email} has no restriction entity configured - SAFETY NET!")
-      return where('1=0')
+      return where("1=0")
       # safety net
     end
 
@@ -414,7 +414,7 @@ class Orchestra < ApplicationRecord
     elsif restr.instance_of?(Orchestra)
       where(id: restr.id)
     elsif restr.instance_of?(PersonMember)
-      where('1=0')
+      where("1=0")
     end
   end
 
@@ -439,7 +439,7 @@ class Orchestra < ApplicationRecord
   end
 
   def full_url
-    if url.start_with?('http')
+    if url.start_with?("http")
       url
     else
       "http://#{url}"
@@ -463,8 +463,8 @@ class Orchestra < ApplicationRecord
         orch = Orchestra.joins(:member).where(members: { mglnr: o.mglnr })
 
         if !orch.nil? && !orch[0].nil?
-          Rails.logger.info('Found orchestra')
-          matching = OrchestraMember.where('orchestra_id = ? and first_name like ? and last_name like ?', orch[0].id,
+          Rails.logger.info("Found orchestra")
+          matching = OrchestraMember.where("orchestra_id = ? and first_name like ? and last_name like ?", orch[0].id,
                                            o.first_name, o.last_name).first
 
           if matching.nil?
@@ -492,7 +492,7 @@ class Orchestra < ApplicationRecord
 
   def report_sheet_required?
     # foreign orchestras and special members
-    orch_type != 'X' and orch_type != 'A'
+    orch_type != "X" and orch_type != "A"
   end
 
   def has_faulty_double_members?
@@ -514,7 +514,7 @@ class Orchestra < ApplicationRecord
     rsi = ReportSheetInput.for_orchestra_and_year(self, rs_year)
 
     unless rsi.nil?
-      logger.warn('Report sheet already exists for %s', rs_year.to_s)
+      logger.warn("Report sheet already exists for %s", rs_year.to_s)
       return rsi
     end
 
@@ -524,7 +524,7 @@ class Orchestra < ApplicationRecord
       rsi.save
     else
       logger.warn(rsi.report_sheet.errors.full_messages.join("\n"))
-      logger.warn('Something went wrong during save of report sheet!')
+      logger.warn("Something went wrong during save of report sheet!")
     end
   end
 
@@ -536,7 +536,7 @@ class Orchestra < ApplicationRecord
       identifier: member.mglnr,
       company: orchName,
       fullname: fullname(:delivery),
-      department: '',
+      department: "",
       street: street(:delivery),
       countryCode: countryCode(:delivery),
       zip: zip(:delivery),

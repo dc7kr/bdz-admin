@@ -1,4 +1,4 @@
-require 'English'
+require "English"
 class EventMailsController < AuthenticatedNonResourceController
   include BulkMailHelper
   include UploadHelper
@@ -9,7 +9,7 @@ class EventMailsController < AuthenticatedNonResourceController
 
   def kasitest
     authorize! :member, :edit
-    @mail_params = { subject: 'Testsubj', body: 'This is a shiny testbody', event_id: 'TEST_EVENT' }
+    @mail_params = { subject: "Testsubj", body: "This is a shiny testbody", event_id: "TEST_EVENT" }
     @results = []
 
     @orchCount = 0
@@ -20,13 +20,13 @@ class EventMailsController < AuthenticatedNonResourceController
 
     @err = nil
     begin
-      TestMail.notify('blah@tiscali.de', @mail_params).deliver
+      TestMail.notify("blah@tiscali.de", @mail_params).deliver
       recordMailSuccess(mail_params[:event_id], orchestra, @mail_params[:subject])
       @orchCount += 1
     rescue StandardError
       recordMailFailure(mail_params[:event_id], orchestra, $ERROR_INFO.to_s)
 
-      @result = { err: $ERROR_INFO, entity: orchestra, type: 'O' }
+      @result = { err: $ERROR_INFO, entity: orchestra, type: "O" }
       @results.push(@result)
       @orchFailCount += 1
     end
@@ -47,25 +47,25 @@ class EventMailsController < AuthenticatedNonResourceController
 
     @grp = @mail_params[:group]
     case @grp
-    when 'A'
+    when "A"
       orchestra = true
       em = true
-    when 'O'
+    when "O"
       orchestra = true
-    when 'E'
+    when "E"
       em = true
-    when 'T'
+    when "T"
       test = true
-    when 'F'
+    when "F"
       festival = true
-    when 'FP'
+    when "FP"
       festival = true
       permitted = true
-    when 'FS'
+    when "FS"
       true
-    when 'FJ'
+    when "FJ"
       festival_youth = true
-    when 'FG'
+    when "FG"
       festival_guests = true
     end
 
@@ -94,14 +94,14 @@ class EventMailsController < AuthenticatedNonResourceController
     end
 
     if test
-      @emails = ['thomas.kronenberger@bdz-online.de', 'someone@gibtsnicht.kasi-net.org',
-                 'theresa.brandt@bdz-online.de', 'dominik.hackner@bdz-online.de', 'karsten.richter@bdz-online.de']
+      @emails = [ "thomas.kronenberger@bdz-online.de", "someone@gibtsnicht.kasi-net.org",
+                 "theresa.brandt@bdz-online.de", "dominik.hackner@bdz-online.de", "karsten.richter@bdz-online.de" ]
       # @emails = [ 'karsten.richter@gmail.com', 'someone@gibtsnicht.kasi-net.org', 'karsten.richter@bdz-online.de']
       @emails.each do |email|
         CustomInfoMail.notify(email, params[:email], @att_file, @att_data).deliver
         @testCount += 1
       rescue StandardError
-        @result = { err: $ERROR_INFO, entity: email, type: 'T' }
+        @result = { err: $ERROR_INFO, entity: email, type: "T" }
         @results.push(@result)
         @testFailCount += 1
       end
@@ -112,9 +112,9 @@ class EventMailsController < AuthenticatedNonResourceController
 
       @orchestras.each do |orchestra|
         if is_mail_blacklisted?(orchestra.email)
-          recordMailFailure(params[:event_id], orchestra, 'blacklisted')
+          recordMailFailure(params[:event_id], orchestra, "blacklisted")
 
-          @result = { err: 'blacklisted', entity: orchestra, type: 'O' }
+          @result = { err: "blacklisted", entity: orchestra, type: "O" }
           @results.push(@result)
           @orchFailCount += 1
         else
@@ -124,7 +124,7 @@ class EventMailsController < AuthenticatedNonResourceController
         end
       rescue StandardError
         recordMailFailure(params[:event_id], orchestra, $ERROR_INFO)
-        @result = { err: $ERROR_INFO, entity: orchestra, type: 'O' }
+        @result = { err: $ERROR_INFO, entity: orchestra, type: "O" }
         @results.push(@result)
         @orchFailCount += 1
       end
@@ -134,8 +134,8 @@ class EventMailsController < AuthenticatedNonResourceController
       @persons = PersonMember.mailForEvent(@event)
       @persons.each do |person|
         if is_mail_blacklisted?(orchestra.email)
-          recordMailFailure(params[:event_id], person, 'blacklist')
-          @result = { err: 'blacklisted', entity: person, type: 'P' }
+          recordMailFailure(params[:event_id], person, "blacklist")
+          @result = { err: "blacklisted", entity: person, type: "P" }
           @results.push(@result)
           @personFailCount += 1
         else
@@ -145,7 +145,7 @@ class EventMailsController < AuthenticatedNonResourceController
         end
       rescue StandardError
         recordMailFailure(params[:event_id], person, $ERROR_INFO)
-        @result = { err: $ERROR_INFO, entity: person, type: 'P' }
+        @result = { err: $ERROR_INFO, entity: person, type: "P" }
         @results.push(@result)
         @personFailCount += 1
       end
@@ -155,22 +155,22 @@ class EventMailsController < AuthenticatedNonResourceController
 
       @applicants = if permitted
                       FestivalApplication.includes(:contact_person).where(permission: true)
-                    elsif festival_youth
-                      FestivalApplication.includes(:contact_person).where(permission: true, group_type: 'Y')
-                    elsif festival_soloists
-                      FestivalApplication.includes(:contact_person).where(permission: true, group_type: 'S')
-                    elsif festival_guests
-                      FestivalApplication.includes(:contact_person).where(permission: true, group_type: 'G')
-                    else
+      elsif festival_youth
+                      FestivalApplication.includes(:contact_person).where(permission: true, group_type: "Y")
+      elsif festival_soloists
+                      FestivalApplication.includes(:contact_person).where(permission: true, group_type: "S")
+      elsif festival_guests
+                      FestivalApplication.includes(:contact_person).where(permission: true, group_type: "G")
+      else
                       FestivalApplication.includes(:contact_person)
-                    end
+      end
 
       @applicants.each do |appl|
         contact = appl.contact_person
         begin
           if is_mail_blacklisted?(contact.email)
-            recordMailFailure(params[:event_id], contact, 'blacklist')
-            @result = { err: 'blacklisted', entity: contact, type: 'F' }
+            recordMailFailure(params[:event_id], contact, "blacklist")
+            @result = { err: "blacklisted", entity: contact, type: "F" }
             @results.push(@result)
             @festivalFailCount += 1
           else
@@ -181,7 +181,7 @@ class EventMailsController < AuthenticatedNonResourceController
           end
         rescue StandardError
           recordMailFailure(params[:event_id], contact, $ERROR_INFO)
-          @result = { err: $ERROR_INFO, entity: contact, type: 'F' }
+          @result = { err: $ERROR_INFO, entity: contact, type: "F" }
           @results.push(@result)
           @festivalFailCount += 1
         end
@@ -194,8 +194,8 @@ class EventMailsController < AuthenticatedNonResourceController
         contact = appl.contact_person
         begin
           if is_mail_blacklisted?(contact.email)
-            recordMailFailure(params[:event_id], contact, 'blacklist')
-            @result = { err: 'blacklisted', entity: contact, type: 'F' }
+            recordMailFailure(params[:event_id], contact, "blacklist")
+            @result = { err: "blacklisted", entity: contact, type: "F" }
             @results.push(@result)
             @permittedFailCount += 1
           else
@@ -206,7 +206,7 @@ class EventMailsController < AuthenticatedNonResourceController
           end
         rescue StandardError
           recordMailFailure(params[:event_id], contact, $ERROR_INFO)
-          @result = { err: $ERROR_INFO, entity: contact, type: 'F' }
+          @result = { err: $ERROR_INFO, entity: contact, type: "F" }
           @results.push(@result)
           @permittedFailCount += 1
         end

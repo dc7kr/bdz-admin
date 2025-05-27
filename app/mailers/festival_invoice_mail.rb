@@ -5,11 +5,11 @@ class FestivalInvoiceMailMailer < ApplicationMailer
     @inv = params[:invoice]
     locale = params[:locale]
 
-    bdz_contact = BDZ_SETTINGS['contacts']['festival']
+    bdz_contact = BDZ_SETTINGS["contacts"]["festival"]
 
-    @iban = bdz_contact['iban']
-    @bic = bdz_contact['bic']
-    @bank = bdz_contact['bank']
+    @iban = bdz_contact["iban"]
+    @bic = bdz_contact["bic"]
+    @bank = bdz_contact["bank"]
 
     locale = :de if locale.nil?
 

@@ -5,8 +5,8 @@ module Cron
 
       fa = FileArchiveTool.new(DOCS_CONFIG)
 
-      datePrefix = Time.zone.now.strftime('%Y%m%d_')
-      year = Time.zone.now.strftime('%Y')
+      datePrefix = Time.zone.now.strftime("%Y%m%d_")
+      year = Time.zone.now.strftime("%Y")
 
       @orchestras = Orchestra.no_report_sheet(Time.zone.now.year)
 
@@ -32,7 +32,7 @@ module Cron
 
       send_mail(pdf_filename)
 
-      render text: ' OK.'
+      render text: " OK."
     end
 
     def payment
@@ -40,8 +40,8 @@ module Cron
 
       fa = FileArchiveTool.new(DOCS_CONFIG)
 
-      datePrefix = Time.zone.now.strftime('%Y%m%d_')
-      year = Time.zone.now.strftime('%Y')
+      datePrefix = Time.zone.now.strftime("%Y%m%d_")
+      year = Time.zone.now.strftime("%Y")
 
       Time.zone.now
       30.days
@@ -84,12 +84,12 @@ module Cron
 
       send_mail(pdf_filename)
 
-      render text: ' OK.'
+      render text: " OK."
     end
 
     def send_mail(pdf_file)
-      year = Time.zone.now.strftime('%Y')
-      Time.zone.now.strftime '%Y%m%d'
+      year = Time.zone.now.strftime("%Y")
+      Time.zone.now.strftime "%Y%m%d"
 
       @users = User.with_any_role(:admin, :bulk_notify)
       base_url = cron_downloads_url

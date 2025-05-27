@@ -7,7 +7,7 @@ class EnsembleConcertsController < AuthenticatedController
 
   # GET /ensembles
   # GET /ensembles.json
-  before_action :authenticate_user!, except: [:some_action_without_auth]
+  before_action :authenticate_user!, except: [ :some_action_without_auth ]
 
   def publish
     @ensemble_concert = EnsembleConcert.find(params[:id])
@@ -20,7 +20,7 @@ class EnsembleConcertsController < AuthenticatedController
       if @ensemble_concert.save
         format.html do
           redirect_to ensemble_ensemble_concert_path(@ensemble, @ensemble_concert),
-                      notice: t('ensemble_concert.publish_success')
+                      notice: t("ensemble_concert.publish_success")
         end
         format.json { render json: @ensemble_concert, status: :created, location: @ensemble_concert }
       else
@@ -44,9 +44,9 @@ class EnsembleConcertsController < AuthenticatedController
 
     @ensemble_concerts = if @ensemble.nil?
                            EnsembleConcert.inactive.page(params[:page]).per(20)
-                         else
+    else
                            EnsembleConcert.inactive.where(ensemble_id: params[:ensemble_id]).page(params[:page]).per(20)
-                         end
+    end
 
     respond_to do |format|
       format.html # index.html.erb
@@ -59,9 +59,9 @@ class EnsembleConcertsController < AuthenticatedController
     @ensemble = nil
     @ensemble_concerts = nil
 
-    if @namespace == 'public'
+    if @namespace == "public"
       public
-      @method = 'public'
+      @method = "public"
     end
     if params[:ensemble_id]
       @ensemble = Ensemble.find(params[:ensemble_id])
@@ -112,7 +112,7 @@ class EnsembleConcertsController < AuthenticatedController
       if @ensemble_concert.save
         format.html do
           redirect_to ensemble_ensemble_concerts_path(@ensemble, @ensemble_concert),
-                      notice: t('ensemble_concert.create_success')
+                      notice: t("ensemble_concert.create_success")
         end
         format.json { render json: @ensemble_concert, status: :created, location: @ensemble_concert }
       else
@@ -132,7 +132,7 @@ class EnsembleConcertsController < AuthenticatedController
       if @ensemble_concert.update(params[:ensemble_concert])
         format.html do
           redirect_to ensemble_ensemble_concert_path(@ensemble, @ensemble_concert),
-                      notice: t_update_success('ensemble_concert')
+                      notice: t_update_success("ensemble_concert")
         end
         format.json { head :ok }
       else
@@ -163,6 +163,6 @@ class EnsembleConcertsController < AuthenticatedController
   private
 
   def sort_column
-    EnsembleConcert.column_names.include?(params[:sort]) ? params[:sort] : 'datum'
+    EnsembleConcert.column_names.include?(params[:sort]) ? params[:sort] : "datum"
   end
 end

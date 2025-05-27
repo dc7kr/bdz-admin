@@ -1,5 +1,5 @@
 class ReportSheetInputMailer < ApplicationMailer
-  default from: 'geschaeftsstelle@zupfmusiker.de'
+  default from: "geschaeftsstelle@zupfmusiker.de"
 
   def notify(recipient, personalized_hash, _attachment_hash, params)
     # the MailingFiles are serialized here so we need to deserialize from hash first
@@ -15,15 +15,15 @@ class ReportSheetInputMailer < ApplicationMailer
 
     @salutation = t("common.salutation_full.#{member.anrede}")
 
-    @url = BDZ_SETTINGS['meldebogen_url']
+    @url = BDZ_SETTINGS["meldebogen_url"]
 
     @mb_url = if @orchestra.is_lorch?
-                BDZ_SETTINGS['mb_form_url_l']
-              else
-                BDZ_SETTINGS['mb_form_url_v']
-              end
+                BDZ_SETTINGS["mb_form_url_l"]
+    else
+                BDZ_SETTINGS["mb_form_url_v"]
+    end
 
-    @from = BDZ_SETTINGS['contacts']['gs']
+    @from = BDZ_SETTINGS["contacts"]["gs"]
 
     DOCS_CONFIG.archive_dir
 

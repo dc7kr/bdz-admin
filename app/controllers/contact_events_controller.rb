@@ -53,7 +53,7 @@ class ContactEventsController < AuthenticatedController
 
     respond_to do |format|
       if @contact_event.save
-        format.html { redirect_to @contact_event, notice: 'Contact event was successfully created.' }
+        format.html { redirect_to @contact_event, notice: "Contact event was successfully created." }
         format.json { render json: @contact_event, status: :created, location: @contact_event }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -69,7 +69,7 @@ class ContactEventsController < AuthenticatedController
 
     respond_to do |format|
       if @contact_event.update(params[:contact_event])
-        format.html { redirect_to @contact_event, notice: 'Contact event was successfully updated.' }
+        format.html { redirect_to @contact_event, notice: "Contact event was successfully updated." }
         format.json { head :no_content }
       else
         format.html { render :edit, status: :unprocessable_entity }

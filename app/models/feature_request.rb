@@ -7,7 +7,7 @@ class FeatureRequest < ApplicationRecord
     if user
       user.email
     else
-      I18n.t('common.no_one')
+      I18n.t("common.no_one")
     end
   end
 end

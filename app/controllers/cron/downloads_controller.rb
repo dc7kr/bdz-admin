@@ -8,7 +8,7 @@ module Cron
       fullPath = "#{DOCS_CONFIG.archive_dir}/#{params[:year]}/#{fNam}"
 
       if File.exist?(fullPath)
-        send_file(fullPath, filename: fNam, type: 'application/octet-stream')
+        send_file(fullPath, filename: fNam, type: "application/octet-stream")
       else
         respond_to do |format|
           format.html

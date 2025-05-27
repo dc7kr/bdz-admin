@@ -40,7 +40,7 @@ module Public
 
       respond_to do |format|
         if @contest.save
-          format.html { redirect_to @contest, notice: 'Contest was successfully created.' }
+          format.html { redirect_to @contest, notice: "Contest was successfully created." }
           format.json { render json: @contest, status: :created, location: @contest }
         else
           format.html { render :new, status: :unprocessable_entity }
@@ -50,7 +50,7 @@ module Public
     end
 
     def sort_column
-      Contest.column_names.include?(params[:sort]) ? params[:sort] : 'startDate'
+      Contest.column_names.include?(params[:sort]) ? params[:sort] : "startDate"
     end
 
     def contest_params

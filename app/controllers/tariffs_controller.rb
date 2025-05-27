@@ -44,7 +44,7 @@ class TariffsController < AuthenticatedController
 
     respond_to do |format|
       if @tariff.save
-        format.html { redirect_to @tariff, notice: 'Tariff was successfully created.' }
+        format.html { redirect_to @tariff, notice: "Tariff was successfully created." }
         format.json { render json: @tariff, status: :created, location: @tariff }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -60,7 +60,7 @@ class TariffsController < AuthenticatedController
 
     respond_to do |format|
       if @tariff.update(tariff_params)
-        format.html { redirect_to @tariff, notice: 'Tariff was successfully updated.' }
+        format.html { redirect_to @tariff, notice: "Tariff was successfully updated." }
         format.json { head :no_content }
       else
         format.html { render :edit, status: :unprocessable_entity }

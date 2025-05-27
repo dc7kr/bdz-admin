@@ -1,4 +1,4 @@
-require 'fileutils'
+require "fileutils"
 
 module Cron
   class InvoicesController < AuthenticatedNonResourceController
@@ -8,18 +8,18 @@ module Cron
       authorize! :member, :edit
       year = if params[:year]
                params[:year].to_i
-             else
+      else
                Time.zone.now.year
-             end
+      end
 
       orchestraInvoices(year)
       personMemberInvoices(year)
-      render text: 'Generation OK.'
+      render text: "Generation OK."
     end
 
     def ping
       authorize! :member, :edit
-      render text: 'Pong'
+      render text: "Pong"
     end
 
     def gen_orchestras
@@ -27,14 +27,14 @@ module Cron
 
       year = if params[:year]
                params[:year].to_i
-             else
+      else
                Time.zone.now.year
-             end
+      end
 
       OrchestraInvoicesJob.perform_later(year, @current_user.id)
 
       respond_to do |format|
-        format.html { redirect_to home_cron_path, notice: t('cron.invoice_orchestras_success') }
+        format.html { redirect_to home_cron_path, notice: t("cron.invoice_orchestras_success") }
       end
     end
 
@@ -43,22 +43,21 @@ module Cron
 
       year = if params[:year]
                params[:year].to_i
-             else
+      else
                Time.zone.now.year
-             end
+      end
 
       PersonMemberInvoicesJob.perform_later(year, @current_user.id)
 
       respond_to do |format|
-        format.html { redirect_to home_cron_path, notice: t('cron.invoice_person_member_success') }
+        format.html { redirect_to home_cron_path, notice: t("cron.invoice_person_member_success") }
       end
     end
 
     def test_gen
       authorize! :member, :edit
       testGen(params[:date])
-      render text: 'Generation OK.'
+      render text: "Generation OK."
     end
-
   end
 end

@@ -7,12 +7,12 @@ class GemaSpreadsheet
 
   def render
     self.sheet = RODF::Spreadsheet.new
-    t = sheet.table 'GEMA Zahlen'
+    t = sheet.table "GEMA Zahlen"
     t.row do
-      cell I18n.t('member.mglnr')
-      cell I18n.t('orchestra.orchName')
-      cell 'Adresse'
-      cell 'Mitglieder'
+      cell I18n.t("member.mglnr")
+      cell I18n.t("orchestra.orchName")
+      cell "Adresse"
+      cell "Mitglieder"
     end
 
     orchestras.each do |o|

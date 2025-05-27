@@ -11,73 +11,73 @@ class EventCard < ApplicationRecord
 
   def self.search(search)
     if search
-      where('name like ? or id = ?', "%#{search}%", search)
+      where("name like ? or id = ?", "%#{search}%", search)
     else
-      where('1')
+      where("1")
     end
   end
 
   def ordered_cards
     ordered = []
-    prices = BDZ_SETTINGS['festival_prices']
+    prices = BDZ_SETTINGS["festival_prices"]
 
     if nr_fest.positive?
-      c = OrderedCard.new(nr_fest, prices['fest'], 'fest')
+      c = OrderedCard.new(nr_fest, prices["fest"], "fest")
       ordered << c
     end
 
     if nr_fest_erm.positive?
-      c = OrderedCard.new(nr_fest_erm, prices['fest_erm'], 'fest_erm')
+      c = OrderedCard.new(nr_fest_erm, prices["fest_erm"], "fest_erm")
       ordered << c
     end
 
     if nr_fest_bdz.positive?
-      c = OrderedCard.new(nr_fest_bdz, prices['fest_bdz'], 'fest_bdz')
+      c = OrderedCard.new(nr_fest_bdz, prices["fest_bdz"], "fest_bdz")
       ordered << c
     end
 
     if nr_fest_bdz_erm.positive?
-      c = OrderedCard.new(nr_fest_bdz_erm, prices['fest_bdz_erm'], 'fest_bdz_erm')
+      c = OrderedCard.new(nr_fest_bdz_erm, prices["fest_bdz_erm"], "fest_bdz_erm")
       ordered << c
     end
 
     if nr_do.positive?
-      c = OrderedCard.new(nr_do, prices['tageskarte'], 'do')
+      c = OrderedCard.new(nr_do, prices["tageskarte"], "do")
       ordered << c
     end
 
     if nr_do_erm.positive?
-      c = OrderedCard.new(nr_do_erm, prices['tageskarte_erm'], 'do_erm')
+      c = OrderedCard.new(nr_do_erm, prices["tageskarte_erm"], "do_erm")
       ordered << c
     end
 
     if nr_fr.positive?
-      c = OrderedCard.new(nr_fr, prices['tageskarte'], 'fr')
+      c = OrderedCard.new(nr_fr, prices["tageskarte"], "fr")
       ordered << c
     end
 
     if nr_fr_erm.positive?
-      c = OrderedCard.new(nr_fr_erm, prices['tageskarte_erm'], 'fr_erm')
+      c = OrderedCard.new(nr_fr_erm, prices["tageskarte_erm"], "fr_erm")
       ordered << c
     end
 
     if nr_sa.positive?
-      c = OrderedCard.new(nr_sa, prices['tageskarte'], 'sa')
+      c = OrderedCard.new(nr_sa, prices["tageskarte"], "sa")
       ordered << c
     end
 
     if nr_sa_erm.positive?
-      c = OrderedCard.new(nr_sa_erm, prices['tageskarte_erm'], 'sa_erm')
+      c = OrderedCard.new(nr_sa_erm, prices["tageskarte_erm"], "sa_erm")
       ordered << c
     end
 
     if nr_concert_so.positive?
-      c = OrderedCard.new(nr_concert_so, prices['concert'], 'concert_so')
+      c = OrderedCard.new(nr_concert_so, prices["concert"], "concert_so")
       ordered << c
     end
 
     if nr_concert_so_erm.positive?
-      c = OrderedCard.new(nr_concert_so_erm, prices['concert_erm'], 'concert_so_erm')
+      c = OrderedCard.new(nr_concert_so_erm, prices["concert_erm"], "concert_so_erm")
       ordered << c
     end
 
@@ -89,21 +89,21 @@ class EventCard < ApplicationRecord
   end
 
   def sum
-    prices = BDZ_SETTINGS['festival_prices']
+    prices = BDZ_SETTINGS["festival_prices"]
     sum = 0
-    sum += nr_fest * prices['fest']
-    sum += nr_fest_erm * prices['fest_erm']
-    sum += nr_fest_bdz * prices['fest_bdz']
-    sum += nr_fest_bdz_erm * prices['fest_bdz_erm']
-    sum += (nr_do + nr_fr + nr_sa) * prices['tageskarte']
-    sum += (nr_do_erm + nr_fr_erm + nr_sa_erm) * prices['tageskarte_erm']
-    sum += nr_concert_so * prices['concert']
-    sum + (nr_concert_so_erm * prices['concert_erm'])
+    sum += nr_fest * prices["fest"]
+    sum += nr_fest_erm * prices["fest_erm"]
+    sum += nr_fest_bdz * prices["fest_bdz"]
+    sum += nr_fest_bdz_erm * prices["fest_bdz_erm"]
+    sum += (nr_do + nr_fr + nr_sa) * prices["tageskarte"]
+    sum += (nr_do_erm + nr_fr_erm + nr_sa_erm) * prices["tageskarte_erm"]
+    sum += nr_concert_so * prices["concert"]
+    sum + (nr_concert_so_erm * prices["concert_erm"])
   end
 
   def invoice
-    BDZ_SETTINGS['festival_prices']
-    ts = Time.zone.now.strftime '%Y%m%d'
+    BDZ_SETTINGS["festival_prices"]
+    ts = Time.zone.now.strftime "%Y%m%d"
 
     renr = ts + "-EC#{id}"
 
@@ -112,22 +112,22 @@ class EventCard < ApplicationRecord
     customer = to_customer
     invoice.customer = customer
 
-    invoice.tax_type = 'B'
+    invoice.tax_type = "B"
 
-    prices = BDZ_SETTINGS['festival_prices']
+    prices = BDZ_SETTINGS["festival_prices"]
 
-    invoice.considerItem(nr_fest, prices['fest'], I18n.t('event_card.fest'))
-    invoice.considerItem(nr_fest_erm, prices['fest_erm'], I18n.t('event_card.fest_erm'))
-    invoice.considerItem(nr_fest_bdz, prices['fest_bdz'], I18n.t('event_card.fest_bdz'))
-    invoice.considerItem(nr_fest_bdz_erm, prices['fest_bdz_erm'], I18n.t('event_card.fest_bdz_erm'))
-    invoice.considerItem(nr_do, prices['tageskarte'], I18n.t('event_card.do'))
-    invoice.considerItem(nr_fr, prices['tageskarte'], I18n.t('event_card.fr'))
-    invoice.considerItem(nr_sa, prices['tageskarte'], I18n.t('event_card.sa'))
-    invoice.considerItem(nr_do_erm, prices['tageskarte_erm'], I18n.t('event_card.do_erm'))
-    invoice.considerItem(nr_fr_erm, prices['tageskarte_erm'], I18n.t('event_card.fr_erm'))
-    invoice.considerItem(nr_sa_erm, prices['tageskarte_erm'], I18n.t('event_card.sa_erm'))
-    invoice.considerItem(nr_concert_so, prices['concert'], I18n.t('event_card.concert_so'))
-    invoice.considerItem(nr_concert_so_erm, prices['concert_erm'], I18n.t('event_card.concert_so_erm'))
+    invoice.considerItem(nr_fest, prices["fest"], I18n.t("event_card.fest"))
+    invoice.considerItem(nr_fest_erm, prices["fest_erm"], I18n.t("event_card.fest_erm"))
+    invoice.considerItem(nr_fest_bdz, prices["fest_bdz"], I18n.t("event_card.fest_bdz"))
+    invoice.considerItem(nr_fest_bdz_erm, prices["fest_bdz_erm"], I18n.t("event_card.fest_bdz_erm"))
+    invoice.considerItem(nr_do, prices["tageskarte"], I18n.t("event_card.do"))
+    invoice.considerItem(nr_fr, prices["tageskarte"], I18n.t("event_card.fr"))
+    invoice.considerItem(nr_sa, prices["tageskarte"], I18n.t("event_card.sa"))
+    invoice.considerItem(nr_do_erm, prices["tageskarte_erm"], I18n.t("event_card.do_erm"))
+    invoice.considerItem(nr_fr_erm, prices["tageskarte_erm"], I18n.t("event_card.fr_erm"))
+    invoice.considerItem(nr_sa_erm, prices["tageskarte_erm"], I18n.t("event_card.sa_erm"))
+    invoice.considerItem(nr_concert_so, prices["concert"], I18n.t("event_card.concert_so"))
+    invoice.considerItem(nr_concert_so_erm, prices["concert_erm"], I18n.t("event_card.concert_so_erm"))
 
     invoice
   end
@@ -142,10 +142,10 @@ class EventCard < ApplicationRecord
     cust.last_name
 
     cust.street = if street.nil?
-                    '- via mail -'
-                  else
+                    "- via mail -"
+    else
                     street
-                  end
+    end
 
     cust.zip = zip
     cust.city = city
@@ -153,7 +153,7 @@ class EventCard < ApplicationRecord
 
     # cust.preferred_lang = preferred_lang
 
-    cust.country = 'de' if email.end_with?('.de') || email.end_with?('.at')
+    cust.country = "de" if email.end_with?(".de") || email.end_with?(".at")
 
     cust
   end

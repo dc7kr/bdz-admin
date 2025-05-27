@@ -5,7 +5,7 @@ class MailingFile
     if hash.nil?
       nil
     else
-      MailingFile.new(hash['visible_filename'], hash['orig_filename'], hash['archive_folder'])
+      MailingFile.new(hash["visible_filename"], hash["orig_filename"], hash["archive_folder"])
     end
   end
 
@@ -19,9 +19,9 @@ class MailingFile
 
     self.archive_folder = if archive_folder.nil?
                             Time.zone.now.year.to_s
-                          else
+    else
                             archive_folder.to_s
-                          end
+    end
   end
 
   def full_dir

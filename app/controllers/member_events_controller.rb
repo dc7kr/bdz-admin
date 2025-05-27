@@ -9,10 +9,10 @@ class MemberEventsController < AuthenticatedController
     page = params[:page]
 
     @member_events = if @member_entity
-                       MemberEvent.where('member_id=?', @member_entity.member.id).page(page).per(20)
-                     else
+                       MemberEvent.where("member_id=?", @member_entity.member.id).page(page).per(20)
+    else
                        MemberEvent.all.page(page).per(20)
-                     end
+    end
 
     respond_to do |format|
       format.html # index.html.erb
@@ -64,7 +64,7 @@ class MemberEventsController < AuthenticatedController
 
     respond_to do |format|
       if @member_event.save
-        format.html { redirect_to @member_event, notice: 'Member event was successfully created.' }
+        format.html { redirect_to @member_event, notice: "Member event was successfully created." }
         format.json { render json: @member_event, status: :created, location: @member_event }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -80,7 +80,7 @@ class MemberEventsController < AuthenticatedController
 
     respond_to do |format|
       if @member_event.update!(member_event_params)
-        format.html { redirect_to @member_event, notice: 'Member event was successfully updated.' }
+        format.html { redirect_to @member_event, notice: "Member event was successfully updated." }
         format.json { head :no_content }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -92,7 +92,7 @@ class MemberEventsController < AuthenticatedController
   # DELETE /member_events/1
   # DELETE /member_events/1.json
   def destroy
-    @return_path = ''
+    @return_path = ""
     if params[:orchestra_id]
       @return_path = orchestra_member_events_path(params[:orchestra_id])
     elsif params[:person_member_id]
@@ -104,18 +104,18 @@ class MemberEventsController < AuthenticatedController
 
     respond_to do |format|
       format.html { redirect_to @return_path }
-      format.json { render json: { status: 'ok', op: 'delete', entityId: @member_event.id } }
+      format.json { render json: { status: "ok", op: "delete", entityId: @member_event.id } }
     end
   end
 
   def download
     @event = MemberEvent.find(params[:id])
     fullPath = "#{INVOICE_CONFIG.archive_dir}/#{@event.filename}"
-    send_file(fullPath, filename: File.basename(@event.filename), type: 'application/pdf', x_sendfile: true)
+    send_file(fullPath, filename: File.basename(@event.filename), type: "application/pdf", x_sendfile: true)
   end
 
   def sort_column
-    MemberEvent.column_names.include?(params[:sort]) ? params[:sort] : 'event_date'
+    MemberEvent.column_names.include?(params[:sort]) ? params[:sort] : "event_date"
   end
 
   private

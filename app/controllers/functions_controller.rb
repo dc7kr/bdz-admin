@@ -9,7 +9,7 @@ class FunctionsController < AuthenticatedController
     if ro_id
       @regional_organization = RegionalOrganization.find(params[:regional_organization_id])
       @functions = Function.includes(:regional_organization, :board_contact).where(
-        'functions.regional_organization_id=?', ro_id
+        "functions.regional_organization_id=?", ro_id
       ).page(params[:page])
     else
       @functions = Function.includes(:regional_organization,
@@ -57,7 +57,7 @@ class FunctionsController < AuthenticatedController
 
     respond_to do |format|
       if @function.save
-        format.html { redirect_to @function, notice: 'Function was successfully created.' }
+        format.html { redirect_to @function, notice: "Function was successfully created." }
         format.json { render json: @function, status: :created, location: @function }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -73,7 +73,7 @@ class FunctionsController < AuthenticatedController
 
     respond_to do |format|
       if @function.update(function_params)
-        format.html { redirect_to @function, notice: 'Function was successfully updated.' }
+        format.html { redirect_to @function, notice: "Function was successfully updated." }
         format.json { head :ok }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -106,7 +106,7 @@ class FunctionsController < AuthenticatedController
   private
 
   def sort_column
-    Function.column_names.include?(params[:sort]) ? "functions.#{params[:sort]}" : 'functions.id'
+    Function.column_names.include?(params[:sort]) ? "functions.#{params[:sort]}" : "functions.id"
   end
 
   def function_params

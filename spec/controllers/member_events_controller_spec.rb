@@ -39,7 +39,7 @@ RSpec.describe MemberEventsController, type: :controller do
     it 'assigns all member_events as @member_events' do
       member_event = MemberEvent.create! valid_attributes
       get :index
-      expect(assigns(:member_events)).to eq([member_event])
+      expect(assigns(:member_events)).to eq([ member_event ])
     end
   end
 

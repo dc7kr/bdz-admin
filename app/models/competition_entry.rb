@@ -5,11 +5,11 @@ class CompetitionEntry < ApplicationRecord
   validates :last_name, uniqueness: { scope: %i[first_name date_of_birth] }
 
   def self.drawable
-    where('winner = false and correct=true')
+    where("winner = false and correct=true")
   end
 
   def fullname
-    result = ''
+    result = ""
     result = "#{result}#{first_name} " if first_name
     result += last_name if last_name
     result
@@ -23,13 +23,13 @@ class CompetitionEntry < ApplicationRecord
 
     correct = true
 
-    correct = false if 'Thomas Kronenberger'.casecmp(resp1) != 0
+    correct = false if "Thomas Kronenberger".casecmp(resp1) != 0
 
-    correct = false if 'Nikolaus Neuroth'.casecmp(resp2) != 0
+    correct = false if "Nikolaus Neuroth".casecmp(resp2) != 0
 
-    correct = false if 'Marcel Wirtz'.casecmp(resp3) != 0
+    correct = false if "Marcel Wirtz".casecmp(resp3) != 0
 
-    correct = false if 'Steffen Trekel'.casecmp(resp4) != 0
+    correct = false if "Steffen Trekel".casecmp(resp4) != 0
     self.correct = correct
 
     correct

@@ -14,7 +14,7 @@ class FeatureRequestsController < AuthenticatedController
     @feature_requests = FeatureRequest.order(%i[priority title]).where("status <> 'D'")
 
     respond_to do |format|
-      format.html { render 'index' } # index.html.erb
+      format.html { render "index" } # index.html.erb
       format.json { render json: @feature_requests }
     end
   end
@@ -54,7 +54,7 @@ class FeatureRequestsController < AuthenticatedController
 
     respond_to do |format|
       if @feature_request.save
-        format.html { redirect_to @feature_request, notice: 'Feature request was successfully created.' }
+        format.html { redirect_to @feature_request, notice: "Feature request was successfully created." }
         format.json { render json: @feature_request, status: :created, location: @feature_request }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -68,11 +68,11 @@ class FeatureRequestsController < AuthenticatedController
   def update
     @feature_request = FeatureRequest.find(params[:id])
 
-    format.html { redirect_to @feature_request, error: 'Permission denied.' } if !current_user.admin? && (feature_request.user_id != user.id)
+    format.html { redirect_to @feature_request, error: "Permission denied." } if !current_user.admin? && (feature_request.user_id != user.id)
 
     respond_to do |format|
       if @feature_request.update(feature_request_params)
-        format.html { redirect_to @feature_request, error: 'Feature request successfully updated.' }
+        format.html { redirect_to @feature_request, error: "Feature request successfully updated." }
         format.json { head :no_content }
       else
         format.html { render :edit, status: :unprocessable_entity }

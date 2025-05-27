@@ -20,31 +20,31 @@ class CustomInfoMailJob < ApplicationJob
     letterfile = MailingFile.from_hash(letterfile_hash)
     attachment = MailingFile.from_hash(attachment_hash)
 
-    Time.zone.now.strftime '%Y%m%d_'
+    Time.zone.now.strftime "%Y%m%d_"
 
     orchestra = false
     em = false
     test = false
 
     case grp
-    when 'A'
+    when "A"
       orchestra = true
       em = true
-    when 'O'
+    when "O"
       orchestra = true
-    when 'E'
+    when "E"
       em = true
-    when 'T'
+    when "T"
       test = true
-    when 'F'
+    when "F"
       true
     end
 
     cur_year = Time.zone.now.year
-    date_prefix = Time.zone.now.strftime('%Y%d%m%H%M_')
+    date_prefix = Time.zone.now.strftime("%Y%d%m%H%M_")
     results = []
 
-    tool = MailingTool.new(cur_year.to_s, 'gs', event_id, subject)
+    tool = MailingTool.new(cur_year.to_s, "gs", event_id, subject)
 
     letterArray = []
 
@@ -56,7 +56,7 @@ class CustomInfoMailJob < ApplicationJob
       orchestras.each do |orchestra|
         addr = orchestra.to_addressee
         Rails.logger.debug { "Generating for: #{addr.id}" }
-        filled_template = customize_letter(date_prefix, cur_year.to_s, 'gs', addr, event_id, letterfile)
+        filled_template = customize_letter(date_prefix, cur_year.to_s, "gs", addr, event_id, letterfile)
         o_result = tool.deliver_mailing(CustomInfoMail, addr, filled_template, attachment, letterArray, mailer_params)
         results.push(o_result)
       end
@@ -68,7 +68,7 @@ class CustomInfoMailJob < ApplicationJob
       addrs << Addressee.dummy_for_letter
 
       addrs.each do |addr|
-        filled_template = customize_letter(date_prefix, cur_year.to_s, 'gs', addr, event_id, letterfile)
+        filled_template = customize_letter(date_prefix, cur_year.to_s, "gs", addr, event_id, letterfile)
         o_result = tool.deliver_mailing(CustomInfoMail, addr, filled_template, attachment, letterArray, mailer_params)
         results.push(o_result)
       end
@@ -81,7 +81,7 @@ class CustomInfoMailJob < ApplicationJob
         addr = person.to_addressee
 
         Rails.logger.debug { "Generating for: EM #{addr.id}" }
-        filled_template = customize_letter(date_prefix, cur_year.to_s, 'gs', addr, event_id, letterfile)
+        filled_template = customize_letter(date_prefix, cur_year.to_s, "gs", addr, event_id, letterfile)
         o_result = tool.deliver_mailing(CustomInfoMail, addr, filled_template, attachment, letterArray, mailer_params)
         results.push(o_result)
       end

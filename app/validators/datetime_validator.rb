@@ -8,6 +8,6 @@ class DatetimeValidator < ActiveModel::EachValidator
 
     return if value =~ /^[0-9]{1,2}\.[0-9]{1,2}\.20[0-9]{2} [0-9]{1,2}:[0-9]{1,2}.*$/
 
-    object.errors.add(attribute, (options[:message] || I18n.t('common.invalid_datetime')))
+    object.errors.add(attribute, (options[:message] || I18n.t("common.invalid_datetime")))
   end
 end

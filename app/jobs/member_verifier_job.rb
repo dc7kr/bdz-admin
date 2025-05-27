@@ -20,7 +20,7 @@ class MemberVerifierJob < ApplicationJob
 
     users.each do |user|
       AdminNotifier.invalid_member_notification(user, orch_invalid, em_invalid).deliver
-      logger.info 'Admin notify sent to %s' % user.email
+      logger.info "Admin notify sent to %s" % user.email
     end
   end
 end

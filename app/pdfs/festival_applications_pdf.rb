@@ -25,7 +25,7 @@ class FestivalApplicationsPdf < Prawn::Document
 
   def address(contact)
     move_down 20
-    text 'Kontaktperson', style: :bold
+    text "Kontaktperson", style: :bold
     return if contact.nil?
 
     text "#{I18n.t("common.salutations.#{contact.salutation}")} #{contact.first_name} #{contact.last_name}"
@@ -37,7 +37,7 @@ class FestivalApplicationsPdf < Prawn::Document
 
   def pieces(app)
     move_down 20
-    text I18n.t('festival_piece', count: 3), style: :bold
+    text I18n.t("festival_piece", count: 3), style: :bold
 
     if app.festival_pieces.count.positive?
       table piece_rows(app) do
@@ -47,15 +47,15 @@ class FestivalApplicationsPdf < Prawn::Document
         self.header = true
       end
     else
-      text 'keine', style: :bold
+      text "keine", style: :bold
     end
     move_down 30
   end
 
   def piece_rows(app)
-    [[I18n.t('festival_piece.composer'), I18n.t('festival_piece.title'), I18n.t('festival_piece.duration')]] +
+    [ [ I18n.t("festival_piece.composer"), I18n.t("festival_piece.title"), I18n.t("festival_piece.duration") ] ] +
       app.festival_pieces.map do |p|
-        [p.composer, p.title, p.duration]
+        [ p.composer, p.title, p.duration ]
       end
   end
 end

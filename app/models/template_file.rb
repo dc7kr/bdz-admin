@@ -5,7 +5,7 @@ class TemplateFile
     if hash.nil?
       nil
     else
-      TemplateFile.new(hash['visible_filename'], hash['orig_filename'], hash['archive_folder'])
+      TemplateFile.new(hash["visible_filename"], hash["orig_filename"], hash["archive_folder"])
     end
   end
 
@@ -14,10 +14,10 @@ class TemplateFile
     @orig_filename = orig_filename
 
     @archive_folder = if archive_folder.nil?
-                        ''
-                      else
+                        ""
+    else
                         archive_folder.to_s
-                      end
+    end
   end
 
   def full_dir

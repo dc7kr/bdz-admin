@@ -2,8 +2,8 @@ class ReportSheetReminderJob < ApplicationJob
   def perform
     fa = FileArchiveTool.new(DOCS_CONFIG)
 
-    datePrefix = Time.zone.now.strftime('%Y%m%d_')
-    year = Time.zone.now.strftime('%Y')
+    datePrefix = Time.zone.now.strftime("%Y%m%d_")
+    year = Time.zone.now.strftime("%Y")
 
     orchestras = Orchestra.no_report_sheet(Time.zone.now.year)
 

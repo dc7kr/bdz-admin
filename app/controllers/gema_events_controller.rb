@@ -23,7 +23,7 @@ class GemaEventsController < ApplicationController
 
     respond_to do |format|
       if @gema_event.save
-        format.html { redirect_to @gema_event, notice: 'Gema event was successfully created.' }
+        format.html { redirect_to @gema_event, notice: "Gema event was successfully created." }
         format.json { render :show, status: :created, location: @gema_event }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -36,7 +36,7 @@ class GemaEventsController < ApplicationController
   def update
     respond_to do |format|
       if @gema_event.update(gema_event_params)
-        format.html { redirect_to @gema_event, notice: 'Gema event was successfully updated.' }
+        format.html { redirect_to @gema_event, notice: "Gema event was successfully updated." }
         format.json { render :show, status: :ok, location: @gema_event }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -50,7 +50,7 @@ class GemaEventsController < ApplicationController
     @gema_event.destroy!
 
     respond_to do |format|
-      format.html { redirect_to gema_events_path, status: :see_other, notice: 'Gema event was successfully destroyed.' }
+      format.html { redirect_to gema_events_path, status: :see_other, notice: "Gema event was successfully destroyed." }
       format.json { head :no_content }
     end
   end

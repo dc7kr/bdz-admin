@@ -47,7 +47,7 @@ class FestivalConcertsController < AuthenticatedController
 
     respond_to do |format|
       if @festival_concert.save
-        format.html { redirect_to @festival_concert, notice: 'Festival concert was successfully created.' }
+        format.html { redirect_to @festival_concert, notice: "Festival concert was successfully created." }
         format.json { render json: @festival_concert, status: :created, location: @festival_concert }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -63,7 +63,7 @@ class FestivalConcertsController < AuthenticatedController
 
     respond_to do |format|
       if @festival_concert.update(festival_concert_params)
-        format.html { redirect_to @festival_concert, notice: 'Festival concert was successfully updated.' }
+        format.html { redirect_to @festival_concert, notice: "Festival concert was successfully updated." }
         format.json { head :no_content }
       else
         format.html { render :edit, status: :unprocessable_entity }

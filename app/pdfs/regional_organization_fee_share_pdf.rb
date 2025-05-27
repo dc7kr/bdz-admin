@@ -1,4 +1,4 @@
-require 'prawn'
+require "prawn"
 class RegionalOrganizationFeeSharePdf < Prawn::Document
   def initialize(regional_organization, orchestras, person_members, view)
     super(top_margin: 70)
@@ -8,14 +8,14 @@ class RegionalOrganizationFeeSharePdf < Prawn::Document
     @view = view
     @cur_year = Time.zone.now.year
 
-    font_dir = '/usr/share/fonts/truetype/liberation'
-    font_families.update('LiberationSans' => {
-                           normal: File.join(font_dir, 'LiberationSans-Regular.ttf'),
-                           italic: File.join(font_dir, 'LiberationSans-Italic.ttf'),
-                           bold: File.join(font_dir, 'LiberationSans-Bold.ttf'),
-                           bold_italic: File.join(font_dir, 'LiberationSans-BoldItalic.ttf')
+    font_dir = "/usr/share/fonts/truetype/liberation"
+    font_families.update("LiberationSans" => {
+                           normal: File.join(font_dir, "LiberationSans-Regular.ttf"),
+                           italic: File.join(font_dir, "LiberationSans-Italic.ttf"),
+                           bold: File.join(font_dir, "LiberationSans-Bold.ttf"),
+                           bold_italic: File.join(font_dir, "LiberationSans-BoldItalic.ttf")
                          })
-    font 'LiberationSans', size: 10
+    font "LiberationSans", size: 10
 
     heading
     orchestra_list
@@ -24,7 +24,7 @@ class RegionalOrganizationFeeSharePdf < Prawn::Document
   end
 
   def person_list
-    text 'Einzelmitglieder', size: 24, style: :bold
+    text "Einzelmitglieder", size: 24, style: :bold
     table format_persons do
       row(0).font_style = :bold
       columns(0).align = :right
@@ -40,24 +40,24 @@ class RegionalOrganizationFeeSharePdf < Prawn::Document
     @sum = 0
 
     @result = []
-    @result << ['Mitgl.Nr.', 'Name']
+    @result << [ "Mitgl.Nr.", "Name" ]
 
     @result += @person_members.map do |item|
       @count += 1
 
-      suffix = ''
-      suffix = 'nicht abgerechnet' unless item.member.zero_member_fee_balance?
+      suffix = ""
+      suffix = "nicht abgerechnet" unless item.member.zero_member_fee_balance?
 
       @sum += item.lvPart
       [
         mglnr(item.member),
         item.fullname,
-        @view.format_currency(item.lvPart, 'EUR'),
+        @view.format_currency(item.lvPart, "EUR"),
         suffix
       ]
     end
 
-    @result << ['', 'Summe', @view.format_currency(@sum, 'EUR')]
+    @result << [ "", "Summe", @view.format_currency(@sum, "EUR") ]
   end
 
   def format_orchestras
@@ -83,21 +83,21 @@ class RegionalOrganizationFeeSharePdf < Prawn::Document
       @count += member_count
       @sum += lv_part
       suffix = nil
-      suffix = ' nicht abgrechnet' unless item.member.zero_member_fee_balance?
-      [mglnr(item.member),
+      suffix = " nicht abgrechnet" unless item.member.zero_member_fee_balance?
+      [ mglnr(item.member),
        item.orchName,
        member_count,
        @view.format_currency(lv_part),
-       suffix]
+       suffix ]
     end
 
-    @result << ['', 'Summe', @count, @view.format_currency(@sum)]
+    @result << [ "", "Summe", @count, @view.format_currency(@sum) ]
 
     @result
   end
 
   def orchestra_list
-    text 'Orchester', size: 24, style: :bold
+    text "Orchester", size: 24, style: :bold
     table format_orchestras do
       row(0).font_style = :bold
       columns(0).align = :right
@@ -113,9 +113,9 @@ class RegionalOrganizationFeeSharePdf < Prawn::Document
     str = member.mglnr.to_s
 
     if member.eintritt && (member.eintritt.year == @cur_year)
-      str += ' (N)'
+      str += " (N)"
     elsif !member.austritt_zum.nil?
-      str += ' (A)'
+      str += " (A)"
     end
     str
   end

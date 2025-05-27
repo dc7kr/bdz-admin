@@ -19,7 +19,7 @@ class EventCardsController < AuthenticatedController
   end
 
   def open_orders
-    @event_cards = EventCard.where('pickup = 0')
+    @event_cards = EventCard.where("pickup = 0")
   end
 
   def pickup
@@ -29,10 +29,10 @@ class EventCardsController < AuthenticatedController
 
     respond_to do |format|
       if @event_card.save
-        flash[:notice] = t('event_card.pickup_success')
-        format.html { redirect_to event_cards_path, notice: t('event_card.pickup_success') }
-        format.js {}
-        format.json { render json: { status: 'ok', op: 'delete', entityId: @event_card.id } }
+        flash[:notice] = t("event_card.pickup_success")
+        format.html { redirect_to event_cards_path, notice: t("event_card.pickup_success") }
+        format.js { }
+        format.json { render json: { status: "ok", op: "delete", entityId: @event_card.id } }
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @event_card.errors, status: :unprocessable_entity }
@@ -55,7 +55,7 @@ class EventCardsController < AuthenticatedController
   # GET /event_cards/new.json
   def new
     @event_card = EventCard.new
-    @prices = BDZ_SETTINGS['festival_prices']
+    @prices = BDZ_SETTINGS["festival_prices"]
 
     respond_to do |format|
       format.html # new.html.erb
@@ -66,7 +66,7 @@ class EventCardsController < AuthenticatedController
   # GET /event_cards/1/edit
   def edit
     @event_card = EventCard.find(params[:id])
-    @prices = BDZ_SETTINGS['festival_prices']
+    @prices = BDZ_SETTINGS["festival_prices"]
   end
 
   # POST /event_cards
@@ -76,7 +76,7 @@ class EventCardsController < AuthenticatedController
 
     respond_to do |format|
       if @event_card.save
-        format.html { redirect_to @event_card, notice: 'Event card was successfully created.' }
+        format.html { redirect_to @event_card, notice: "Event card was successfully created." }
         format.json { render json: @event_card, status: :created, location: @event_card }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -92,7 +92,7 @@ class EventCardsController < AuthenticatedController
 
     respond_to do |format|
       if @event_card.update(params[:event_card])
-        format.html { redirect_to @event_card, notice: 'Event card was successfully updated.' }
+        format.html { redirect_to @event_card, notice: "Event card was successfully updated." }
         format.json { head :no_content }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -109,7 +109,7 @@ class EventCardsController < AuthenticatedController
 
     respond_to do |format|
       format.html { redirect_to event_cards_url }
-      format.json { render json: { status: 'ok', op: 'delete', entityId: @event_card.id } }
+      format.json { render json: { status: "ok", op: "delete", entityId: @event_card.id } }
     end
   end
 
@@ -119,13 +119,13 @@ class EventCardsController < AuthenticatedController
 
     fa = FileArchiveTool.new(DOCS_CONFIG)
 
-    prefix = Time.zone.now.strftime('%Y%m%d%H%M%S_')
+    prefix = Time.zone.now.strftime("%Y%m%d%H%M%S_")
     year = Time.zone.now.year
     invoice = @event_card.invoice
-    tw.writeInvoice(invoice, 'festival', year)
+    tw.writeInvoice(invoice, "festival", year)
 
-    inv_type = 'event_card.en'
-    inv_type = 'event_card.de' if (invoice.customer.country == 'de') || (invoice.customer.country == 'at')
+    inv_type = "event_card.en"
+    inv_type = "event_card.de" if (invoice.customer.country == "de") || (invoice.customer.country == "at")
     logger.debug("Customer: #{invoice.customer.name}")
 
     work_pdf_file = tw.gen_pdf(inv_type, prefix, invoice.customer.id)
@@ -133,11 +133,11 @@ class EventCardsController < AuthenticatedController
     workdir = INVOICE_CONFIG.work_dir
     invoice_file = fa.archive_file(workdir, work_pdf_file, year)
 
-    send_file(invoice_file.full_path, filename: invoice_file.orig_filename, type: 'application/octet-stream')
+    send_file(invoice_file.full_path, filename: invoice_file.orig_filename, type: "application/octet-stream")
   end
 
   def invoices
-    date_prefix = Time.zone.now.strftime '%Y%m%d'
+    date_prefix = Time.zone.now.strftime "%Y%m%d"
     year = Time.zone.now.year
 
     tw = TexWriter.new
@@ -152,13 +152,13 @@ class EventCardsController < AuthenticatedController
   end
 
   def overview
-    datePrefix = Time.zone.now.strftime '%Y%m%d%H%M%s'
-    @event_cards = EventCard.where('pickup=0').order(:id)
+    datePrefix = Time.zone.now.strftime "%Y%m%d%H%M%s"
+    @event_cards = EventCard.where("pickup=0").order(:id)
     respond_to do |format|
       format.pdf do
         pdf = TicketOrderOverviewPdf.new(@event_cards, view_context)
-        send_data pdf.render, filename: "#{datePrefix}_ticket_orders.pdf", type: 'application/pdf',
-                              disposition: 'inline'
+        send_data pdf.render, filename: "#{datePrefix}_ticket_orders.pdf", type: "application/pdf",
+                              disposition: "inline"
       end
     end
   end
@@ -170,9 +170,9 @@ class EventCardsController < AuthenticatedController
     invoice = event_card.gen_invoice(renr)
     tw.write(invoice.customer, year)
 
-    invoice_type = 'event_card'
+    invoice_type = "event_card"
 
-    tw.writeInvoice(invoice, 'gs', year)
+    tw.writeInvoice(invoice, "gs", year)
 
     work_pdf_file = tw.gen_pdf(invoice_type, datePrefix, invoice.customer.customer_id)
 

@@ -12,7 +12,7 @@ class LetterFileRegenerationJob < ApplicationJob
     fa = FileArchiveTool.new(DOCS_CONFIG)
 
     member_events.each do |event|
-      path = event.filename.split('/')
+      path = event.filename.split("/")
 
       pdf_files << MailingFile.new(path[1], path[1], path[0])
     end
@@ -22,7 +22,7 @@ class LetterFileRegenerationJob < ApplicationJob
 
     fa.merge_pdfs(pdf_files, tmp)
 
-    AdminNotifier.with(recipient: triggered_by, topic: 'Letter File Regeneration',
+    AdminNotifier.with(recipient: triggered_by, topic: "Letter File Regeneration",
                        attachment: tmp.to_hash).generic_pdf_notification.deliver
   end
 end

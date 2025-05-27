@@ -19,7 +19,7 @@ class MagazineIssueAuthorizer < ApplicationAuthorizer
   end
 
   def self.readable_by?(user)
-    Rails.logger.debug('readable static: Orchestra')
+    Rails.logger.debug("readable static: Orchestra")
     user.is_admin? or user.has_role? :national
   end
 

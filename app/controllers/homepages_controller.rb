@@ -1,7 +1,7 @@
 class HomepagesController < AuthorityController
   authorize_actions_for Homepage, except: :create
 
-  authority_actions future: 'read', inactive: 'read', publish: 'update'
+  authority_actions future: "read", inactive: "read", publish: "update"
 
   before_action :set_homepage, only: %i[show edit update destroy]
 
@@ -51,7 +51,7 @@ class HomepagesController < AuthorityController
 
     respond_to do |format|
       if @homepage.save
-        format.html { redirect_to @homepage, notice: 'Homepage was successfully created.' }
+        format.html { redirect_to @homepage, notice: "Homepage was successfully created." }
         format.json { render json: @homepage, status: :created, location: @homepage }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -67,7 +67,7 @@ class HomepagesController < AuthorityController
 
     respond_to do |format|
       if @homepage.update(homepage_params)
-        format.html { redirect_to @homepage, notice: 'Homepage was successfully updated.' }
+        format.html { redirect_to @homepage, notice: "Homepage was successfully updated." }
         format.json { head :no_content }
       else
         format.html { render :edit, status: :unprocessable_entity }

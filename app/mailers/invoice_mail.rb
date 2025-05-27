@@ -1,5 +1,5 @@
 class InvoiceMailMailer < ApplicationMailer
-  default from: 'geschaeftsstelle@zupfmusiker.de'
+  default from: "geschaeftsstelle@zupfmusiker.de"
 
   def notify(recipient, invoice_hash, _attachment_hash, params)
     year = params[:year]

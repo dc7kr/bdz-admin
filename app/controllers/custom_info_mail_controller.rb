@@ -1,4 +1,4 @@
-require 'English'
+require "English"
 class CustomInfoMailController < AuthenticatedNonResourceController
   include PdfHelper
   include BulkMailHelper
@@ -21,31 +21,31 @@ class CustomInfoMailController < AuthenticatedNonResourceController
     authorize! :member, :edit
     form_params = params[:custom_info_mail]
 
-    date_prefix = Time.zone.now.strftime '%Y%m%d'
-    cur_year = Time.zone.now.strftime '%Y'
+    date_prefix = Time.zone.now.strftime "%Y%m%d"
+    cur_year = Time.zone.now.strftime "%Y"
 
     letterfile = form_params[:datafile]
 
     letter_file = store_uploaded_file(cur_year.to_s, letterfile.original_filename, letterfile) unless letterfile.nil?
 
     addressee = DummyAddress.new
-    addressee.mglnr = '4711'
-    addressee.company = 'Mandolinenverein HARMONIE 1931 e.V.'
-    addressee.fullname = 'Karsten Richter'
-    addressee.street = 'Turmstr. 65'
-    addressee.city = 'Dinslaken'
-    addressee.zip = '46539'
-    addressee.country_code = 'CH'
+    addressee.mglnr = "4711"
+    addressee.company = "Mandolinenverein HARMONIE 1931 e.V."
+    addressee.fullname = "Karsten Richter"
+    addressee.street = "Turmstr. 65"
+    addressee.city = "Dinslaken"
+    addressee.zip = "46539"
+    addressee.country_code = "CH"
 
-    filled_template = customize_letter(date_prefix, cur_year.to_s, 'gs', addressee, 'TPL_TEST', letter_file)
+    filled_template = customize_letter(date_prefix, cur_year.to_s, "gs", addressee, "TPL_TEST", letter_file)
 
     send_file(filled_template.full_path, filename: filled_template.relative_filename,
-                                         type: 'application/octet-stream')
+                                         type: "application/octet-stream")
   end
 
   def kasitest
     authorize! :member, :edit
-    @mail_params = { subject: 'Testsubj', body: 'This is a shiny testbody', event_id: 'TEST_EVENT' }
+    @mail_params = { subject: "Testsubj", body: "This is a shiny testbody", event_id: "TEST_EVENT" }
     @results = []
 
     @orchCount = 0
@@ -56,13 +56,13 @@ class CustomInfoMailController < AuthenticatedNonResourceController
 
     @err = nil
     begin
-      TestMail.notify('blah@tiscali.de', @mail_params).deliver
+      TestMail.notify("blah@tiscali.de", @mail_params).deliver
       recordMailSuccess(mail_params[:event_id], orchestra, @mail_params[:subject])
       @orchCount += 1
     rescue StandardError
       recordMailFailure(mail_params[:event_id], orchestra, $ERROR_INFO.to_s)
 
-      @result = { err: $ERROR_INFO, entity: orchestra, type: 'O' }
+      @result = { err: $ERROR_INFO, entity: orchestra, type: "O" }
       @results.push(@result)
       @orchFailCount += 1
     end
@@ -88,9 +88,9 @@ class CustomInfoMailController < AuthenticatedNonResourceController
 
     @mail_params = { subject: subject, body: body, event_id: event_id }
 
-    if event_id.blank? || event_id.include?(' ')
+    if event_id.blank? || event_id.include?(" ")
       respond_to do |format|
-        format.html { render action: 'index', warning: 'custom_info_mail.event_id_invalid' }
+        format.html { render action: "index", warning: "custom_info_mail.event_id_invalid" }
       end
       return
     end
@@ -98,7 +98,7 @@ class CustomInfoMailController < AuthenticatedNonResourceController
     cur_year = Time.zone.now.year
 
     if letterfile.nil?
-      Rails.logger.info('Letter mode disabled due to nil letterfile')
+      Rails.logger.info("Letter mode disabled due to nil letterfile")
       via_paper = false
     else
       letter_file = store_uploaded_file(cur_year.to_s, letterfile.original_filename, letterfile)
@@ -114,7 +114,7 @@ class CustomInfoMailController < AuthenticatedNonResourceController
                                     via_paper)
 
     respond_to do |format|
-      format.html { redirect_to home_cron_path, notice: t('cron.custom_info_mail_success') }
+      format.html { redirect_to home_cron_path, notice: t("cron.custom_info_mail_success") }
     end
   end
 end

@@ -39,7 +39,7 @@ RSpec.describe MagazineSamplingsController, type: :controller do
     it 'assigns all magazine_samplings as @magazine_samplings' do
       magazine_sampling = MagazineSampling.create! valid_attributes
       get :index
-      expect(assigns(:magazine_samplings)).to eq([magazine_sampling])
+      expect(assigns(:magazine_samplings)).to eq([ magazine_sampling ])
     end
   end
 

@@ -39,7 +39,7 @@ RSpec.describe ReportSheetInputsController, type: :controller do
     it 'assigns all report_sheet_inputs as @report_sheet_inputs' do
       report_sheet_input = ReportSheetInput.create! valid_attributes
       get :index
-      expect(assigns(:report_sheet_inputs)).to eq([report_sheet_input])
+      expect(assigns(:report_sheet_inputs)).to eq([ report_sheet_input ])
     end
   end
 

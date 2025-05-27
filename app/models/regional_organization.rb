@@ -35,8 +35,8 @@ class RegionalOrganization < ApplicationRecord
   def report; end
 
   def remaining_fee_share_for_year(year:, before: nil)
-    minimum = BDZ_SETTINGS['tariff']['lvMinimum']
-    percentage = BDZ_SETTINGS['tariff']['lvPart']
+    minimum = BDZ_SETTINGS["tariff"]["lvMinimum"]
+    percentage = BDZ_SETTINGS["tariff"]["lvPart"]
 
     fees = member_fees_for_year(year, before)
 
@@ -52,7 +52,7 @@ class RegionalOrganization < ApplicationRecord
 
     orch_ids = []
 
-    @sheets = ReportSheet.final(year).includes(orchestra: [:member]).where('year = ? and report_date < ? ', year,
+    @sheets = ReportSheet.final(year).includes(orchestra: [ :member ]).where("year = ? and report_date < ? ", year,
                                                                            before)
     @sheets.each do |s|
       orch = s.orchestra
@@ -95,10 +95,10 @@ class RegionalOrganization < ApplicationRecord
   end
 
   def currentMagazines(override = false)
-    return BDZ_SETTINGS['tariff']['lvZtgCount'].to_i unless override
+    return BDZ_SETTINGS["tariff"]["lvZtgCount"].to_i unless override
     return member.magazines if member.magazines >= 0
 
-    BDZ_SETTINGS['tariff']['lvZtgCount'].to_i
+    BDZ_SETTINGS["tariff"]["lvZtgCount"].to_i
   end
 
   def to_customer
@@ -125,7 +125,7 @@ class RegionalOrganization < ApplicationRecord
       mglnr: member.mglnr,
       company: "Bund Deutscher Zupfmusiker LV #{name}",
       fullname: member.fullname,
-      department: '',
+      department: "",
       street: member.strasse,
       countryCode: member.country_code,
       zip: member.plz,

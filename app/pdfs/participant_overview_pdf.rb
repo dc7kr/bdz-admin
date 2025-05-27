@@ -1,11 +1,11 @@
-require 'prawn'
+require "prawn"
 class ParticipantOverviewPdf < Prawn::Document
   def initialize(participants, view)
     super(top_margin: 70)
     @participants = participants
     @view = view
 
-    font 'Helvetica', size: 10
+    font "Helvetica", size: 10
     heading
     participant_list
   end
@@ -15,7 +15,7 @@ class ParticipantOverviewPdf < Prawn::Document
 
     count = 0
 
-    retval = ''
+    retval = ""
     invoice.items.each do |item|
       count += item.count if item.price.positive?
       retval += "#{item.count} #{item.label}\n"
@@ -28,13 +28,13 @@ class ParticipantOverviewPdf < Prawn::Document
   def format_participants
     @result = []
 
-    @result << ['Nr.', 'Name', 'Tickets', 'Solisten']
+    @result << [ "Nr.", "Name", "Tickets", "Solisten" ]
 
     @result += @participants.map do |item|
-      [item.id,
+      [ item.id,
        item.orch_name,
        format_ticket_list(item),
-       item.soloist_tickets]
+       item.soloist_tickets ]
     end
 
     @result
@@ -53,7 +53,7 @@ class ParticipantOverviewPdf < Prawn::Document
   end
 
   def heading
-    text 'Festival-Teilnehmer', size: 30, style: :bold
+    text "Festival-Teilnehmer", size: 30, style: :bold
     text "Stand: #{Time.zone.now.strftime '%d.%m.%Y %H:%M Uhr'}", size: 20
   end
 end

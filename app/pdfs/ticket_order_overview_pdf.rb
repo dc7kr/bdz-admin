@@ -1,11 +1,11 @@
-require 'prawn'
+require "prawn"
 class TicketOrderOverviewPdf < Prawn::Document
   def initialize(event_cards, view)
     super(top_margin: 70)
     @event_cards = event_cards
     @view = view
 
-    font 'Helvetica', size: 10
+    font "Helvetica", size: 10
     heading
     ticket_list
   end
@@ -13,7 +13,7 @@ class TicketOrderOverviewPdf < Prawn::Document
   def format_ticket_list(event_card)
     invoice = event_card.invoice
 
-    retval = ''
+    retval = ""
     invoice.items.each do |item|
       retval += "#{item.count} #{item.label}\n"
     end
@@ -23,23 +23,23 @@ class TicketOrderOverviewPdf < Prawn::Document
 
   def render_payed(item)
     if item.payment_received
-      'x'
+      "x"
     else
-      ''
+      ""
     end
   end
 
   def format_orders
     @result = []
 
-    @result << ['Nr.', 'Name', 'Tickets', 'Summe', 'Bezahlt']
+    @result << [ "Nr.", "Name", "Tickets", "Summe", "Bezahlt" ]
 
     @result += @event_cards.map do |item|
-      [item.id,
+      [ item.id,
        item.name,
        format_ticket_list(item),
        @view.format_currency(item.invoice.sum),
-       render_payed(item)]
+       render_payed(item) ]
     end
 
     @result
@@ -58,7 +58,7 @@ class TicketOrderOverviewPdf < Prawn::Document
   end
 
   def heading
-    text 'Kartenbestellungen', size: 30, style: :bold
+    text "Kartenbestellungen", size: 30, style: :bold
     text "Stand: #{Time.zone.now.strftime '%d.%m.%Y %H:%M Uhr'}", size: 20
   end
 end

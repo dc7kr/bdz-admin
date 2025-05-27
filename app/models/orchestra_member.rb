@@ -25,7 +25,7 @@ class OrchestraMember < ApplicationRecord
 
   def year_of_birth
     if date_of_birth.nil?
-      'N/A'
+      "N/A"
     else
       date_of_birth.year
     end
@@ -33,15 +33,15 @@ class OrchestraMember < ApplicationRecord
 
   def age_category(year)
     if age(year) <= 14
-      'C'
+      "C"
     elsif age(year) <= 18
-      'T'
+      "T"
     elsif age(year) <= 27
-      'Y'
+      "Y"
     elsif age(year) <= 65
-      'A'
+      "A"
     else
-      'S'
+      "S"
     end
   end
 

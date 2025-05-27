@@ -1,4 +1,4 @@
-require 'rodf'
+require "rodf"
 class FestivalApplicationsController < AuthenticatedController
   include CountryHelper
 
@@ -10,8 +10,8 @@ class FestivalApplicationsController < AuthenticatedController
   # GET /festival_applications
   # GET /festival_applications.json
 
-  def calc_sums(year = BDZ_SETTINGS['config']['festival_year'])
-    result = FestivalApplication.where(year: year).select('SUM(num_players) as players, SUM(tickets) as tickets, SUM(tickets_red) as tickets_red, SUM(bdz_tickets) as bdz_tickets, SUM(bdz_tickets_red) as bdz_tickets_red').first
+  def calc_sums(year = BDZ_SETTINGS["config"]["festival_year"])
+    result = FestivalApplication.where(year: year).select("SUM(num_players) as players, SUM(tickets) as tickets, SUM(tickets_red) as tickets_red, SUM(bdz_tickets) as bdz_tickets, SUM(bdz_tickets_red) as bdz_tickets_red").first
 
     sums = {}
     sums[:tickets] = nil_safe_value result[:tickets]
@@ -45,19 +45,18 @@ class FestivalApplicationsController < AuthenticatedController
 
 
     now = Time.zone.now
-    currDate = now.strftime('%d.%m.%Y')
+    currDate = now.strftime("%d.%m.%Y")
 
     if params["year"].nil?
-    	@sum_players = 42  #FestivalApplication.current_festival.sum(:num_players)
+      @sum_players = 42  # FestivalApplication.current_festival.sum(:num_players)
         @festival_applications = FestivalApplication.current_festival.where(permission: true).order("#{sort_column} #{sort_direction}").page(params[:page]).per(20)
     else
-	      @sum_players = FestivalApplication.where(year: params["year"]).sum(:num_players)
+        @sum_players = FestivalApplication.where(year: params["year"]).sum(:num_players)
         @festival_applications = FestivalApplication.where(permission: true, year: params["year"]).order("#{sort_column} #{sort_direction}").page(params[:page]).per(20)
-    end 
+    end
 
 
     respond_to do |format|
-
       format.js
 
       format.html do
@@ -70,16 +69,16 @@ class FestivalApplicationsController < AuthenticatedController
 
       format.pdf do
         pdf = FestivalApplicationsPdf.new(@festival_applications, view_context)
-        send_data pdf.render, filename: "festival_applications_#{currDate}.pdf", type: 'application/pdf',
-                              disposition: 'inline'
+        send_data pdf.render, filename: "festival_applications_#{currDate}.pdf", type: "application/pdf",
+                              disposition: "inline"
       end
 
       format.ods do
         @festival_applications = FestivalApplication.current_festival.where(permission: true).order("#{sort_column} #{sort_direction}")
         @sum_players = FestivalApplication.where(permission: true).sum(:num_players)
-        renderApplicationOds(@festival_applications, '/tmp/festival_applications.ods')
-        send_file('/tmp/festival_applications.ods',
-                  filename: "festival_permissions_#{Time.zone.now.year}.ods", type: 'application/octet-stream')
+        renderApplicationOds(@festival_applications, "/tmp/festival_applications.ods")
+        send_file("/tmp/festival_applications.ods",
+                  filename: "festival_permissions_#{Time.zone.now.year}.ods", type: "application/octet-stream")
       end
     end
   end
@@ -87,19 +86,19 @@ class FestivalApplicationsController < AuthenticatedController
   def list
     @festival_applications = FestivalApplication.current_festival.order(%i[group_type orch_name])
     now = Time.zone.now
-    currDate = now.strftime('%d.%m.%Y')
+    currDate = now.strftime("%d.%m.%Y")
 
     respond_to do |format|
       format.html { render }
       format.pdf do
         pdf = FestivalApplicationsPdf.new(@festival_applications, view_context)
-        send_data pdf.render, filename: "festival_applications_#{currDate}.pdf", type: 'application/pdf',
-                              disposition: 'inline'
+        send_data pdf.render, filename: "festival_applications_#{currDate}.pdf", type: "application/pdf",
+                              disposition: "inline"
       end
       format.ods do
-        renderApplicationOds(@festival_applications, '/tmp/festival_applications.ods')
-        send_file('/tmp/festival_applications.ods',
-                  filename: "festival_applications_#{Time.zone.now.year}.ods", type: 'application/octet-stream')
+        renderApplicationOds(@festival_applications, "/tmp/festival_applications.ods")
+        send_file("/tmp/festival_applications.ods",
+                  filename: "festival_applications_#{Time.zone.now.year}.ods", type: "application/octet-stream")
       end
     end
   end
@@ -109,19 +108,19 @@ class FestivalApplicationsController < AuthenticatedController
                                                                                                                       orch_name])
 
     now = Time.zone.now
-    currDate = now.strftime('%d.%m.%Y')
+    currDate = now.strftime("%d.%m.%Y")
 
     respond_to do |format|
       format.html { render }
       format.pdf do
         pdf = FestivalApplicationsPdf.new(@festival_applications, view_context)
-        send_data pdf.render, filename: "festival_applications_#{currDate}.pdf", type: 'application/pdf',
-                              disposition: 'inline'
+        send_data pdf.render, filename: "festival_applications_#{currDate}.pdf", type: "application/pdf",
+                              disposition: "inline"
       end
       format.ods do
-        renderApplicationOds(@festival_applications, '/tmp/festival_applications.ods')
-        send_file('/tmp/festival_applications.ods',
-                  filename: "festival_applications_#{Time.zone.now.year}.ods", type: 'application/octet-stream')
+        renderApplicationOds(@festival_applications, "/tmp/festival_applications.ods")
+        send_file("/tmp/festival_applications.ods",
+                  filename: "festival_applications_#{Time.zone.now.year}.ods", type: "application/octet-stream")
       end
     end
   end
@@ -165,7 +164,7 @@ class FestivalApplicationsController < AuthenticatedController
   def create
     @festival_application = FestivalApplication.new(festival_application_params)
 
-    Rails.logger.debug('Festival application contact person')
+    Rails.logger.debug("Festival application contact person")
     contact_person = ContactPerson.new(contact_person_params)
     @festival_application.contact_person = contact_person
     @festival_application.token = SecureRandom.uuid
@@ -173,7 +172,7 @@ class FestivalApplicationsController < AuthenticatedController
     if @festival_application.contact_person.save
       respond_to do |format|
         if @festival_application.save
-          format.html { redirect_to @festival_application, notice: t('festival_application.create_success') }
+          format.html { redirect_to @festival_application, notice: t("festival_application.create_success") }
           format.json { render json: @festival_application, status: :created, location: @festival_application }
         else
           format.html { render :new, status: :unprocessable_entity }
@@ -200,7 +199,7 @@ class FestivalApplicationsController < AuthenticatedController
       if @festival_application.update(festival_application_params)
         format.html do
           redirect_to @festival_application,
-                      notice: t_update_success('festival_application')
+                      notice: t_update_success("festival_application")
         end
         format.json { head :no_content }
       else
@@ -225,46 +224,46 @@ class FestivalApplicationsController < AuthenticatedController
 
   def renderApplicationOds(applications, filename)
     RODF::Spreadsheet.file(filename) do
-      table 'Festival Anmeldungen' do
+      table "Festival Anmeldungen" do
         row do
-          cell I18n.t('common.number')
-          cell I18n.t('festival_application.group_type')
-          cell I18n.t('festival_application.orch_name')
-          cell I18n.t('festival_application.country_id')
-          cell I18n.t('festival_application.num_players')
-          cell I18n.t('contact_person.salutation')
-          cell I18n.t('contact_person.first_name')
-          cell I18n.t('contact_person.last_name')
-          cell I18n.t('contact_person.street')
-          cell I18n.t('contact_person.zip')
-          cell I18n.t('contact_person.city')
-          cell I18n.t('contact_person.country_code')
-          cell I18n.t('contact_person.email')
-          cell I18n.t('festival_application.special_cast')
-          cell I18n.t('festival_application.equipment')
-          cell I18n.t('festival_piece.composer')
-          cell I18n.t('festival_piece.title')
-          cell I18n.t('festival_piece.duration')
-          cell I18n.t('festival_piece.composer')
-          cell I18n.t('festival_piece.title')
-          cell I18n.t('festival_piece.duration')
-          cell I18n.t('festival_piece.composer')
-          cell I18n.t('festival_piece.title')
-          cell I18n.t('festival_piece.duration')
-          cell I18n.t('festival_piece.composer')
-          cell I18n.t('festival_piece.title')
-          cell I18n.t('festival_piece.duration')
-          cell I18n.t('festival_piece.composer')
-          cell I18n.t('festival_piece.title')
-          cell I18n.t('festival_piece.duration')
+          cell I18n.t("common.number")
+          cell I18n.t("festival_application.group_type")
+          cell I18n.t("festival_application.orch_name")
+          cell I18n.t("festival_application.country_id")
+          cell I18n.t("festival_application.num_players")
+          cell I18n.t("contact_person.salutation")
+          cell I18n.t("contact_person.first_name")
+          cell I18n.t("contact_person.last_name")
+          cell I18n.t("contact_person.street")
+          cell I18n.t("contact_person.zip")
+          cell I18n.t("contact_person.city")
+          cell I18n.t("contact_person.country_code")
+          cell I18n.t("contact_person.email")
+          cell I18n.t("festival_application.special_cast")
+          cell I18n.t("festival_application.equipment")
+          cell I18n.t("festival_piece.composer")
+          cell I18n.t("festival_piece.title")
+          cell I18n.t("festival_piece.duration")
+          cell I18n.t("festival_piece.composer")
+          cell I18n.t("festival_piece.title")
+          cell I18n.t("festival_piece.duration")
+          cell I18n.t("festival_piece.composer")
+          cell I18n.t("festival_piece.title")
+          cell I18n.t("festival_piece.duration")
+          cell I18n.t("festival_piece.composer")
+          cell I18n.t("festival_piece.title")
+          cell I18n.t("festival_piece.duration")
+          cell I18n.t("festival_piece.composer")
+          cell I18n.t("festival_piece.title")
+          cell I18n.t("festival_piece.duration")
         end
 
         applications.each do |app|
-          grp_locale = if app.country_code == ISO3166::Country['DE'].alpha2
+          grp_locale = if app.country_code == ISO3166::Country["DE"].alpha2
                          :de
-                       else
+          else
                          :en
-                       end
+          end
 
           row do
             cell app.id
@@ -296,30 +295,30 @@ class FestivalApplicationsController < AuthenticatedController
   end
 
   def participant_overview
-    datePrefix = Time.zone.now.strftime('%Y%m%d%H%M%S_')
+    datePrefix = Time.zone.now.strftime("%Y%m%d%H%M%S_")
 
     @participants = if params[:alpha]
-                      FestivalApplication.where('permission = 1').order(:orch_name)
-                    else
-                      FestivalApplication.where('permission = 1').order(:id)
-                    end
+                      FestivalApplication.where("permission = 1").order(:orch_name)
+    else
+                      FestivalApplication.where("permission = 1").order(:id)
+    end
 
     pdf = ParticipantOverviewPdf.new(@participants, view_context)
-    send_data pdf.render, filename: "participant_overview_#{datePrefix}.pdf", type: 'application/pdf',
-                          disposition: 'inline'
+    send_data pdf.render, filename: "participant_overview_#{datePrefix}.pdf", type: "application/pdf",
+                          disposition: "inline"
   end
 
   def gen_invoice
     @festival_application = FestivalApplication.find_by token: params[:token]
     tw = CorikaInvoices::TexWriter.new(INVOICE_CONFIG)
 
-    Time.zone.now.strftime('%Y%m%d%H%M%S_')
+    Time.zone.now.strftime("%Y%m%d%H%M%S_")
     Time.zone.now.year
     invoice = @festival_application.invoice
 
     invoice_file = invoice.gen_pdf(tw)
 
-    send_file(invoice_file.full_path, filename: invoice_file.orig_filename, type: 'application/octet-stream')
+    send_file(invoice_file.full_path, filename: invoice_file.orig_filename, type: "application/octet-stream")
   end
 
   def gen_participant_sheets
@@ -328,7 +327,7 @@ class FestivalApplicationsController < AuthenticatedController
     @appl.each do |a|
       pdf = ParticipantSheetPdf.new(a, view_context)
 
-      pdf.render_file(BDZ_SETTINGS['invoice_workdir'] + "/participant_sheet_#{a.id}.pdf")
+      pdf.render_file(BDZ_SETTINGS["invoice_workdir"] + "/participant_sheet_#{a.id}.pdf")
     end
   end
 
@@ -336,7 +335,7 @@ class FestivalApplicationsController < AuthenticatedController
     @appl = FestivalApplication.find_by token: params[:token]
 
     pdf = ParticipantSheetPdf.new(@appl, view_context)
-    send_data pdf.render, filename: "participant_sheet_#{@appl.id}.pdf", type: 'application/pdf', disposition: 'inline'
+    send_data pdf.render, filename: "participant_sheet_#{@appl.id}.pdf", type: "application/pdf", disposition: "inline"
   end
 
   def open_issues
@@ -344,7 +343,7 @@ class FestivalApplicationsController < AuthenticatedController
   end
 
   def sort_column
-    FestivalApplication.column_names.include?(params[:sort]) ? params[:sort] : 'id'
+    FestivalApplication.column_names.include?(params[:sort]) ? params[:sort] : "id"
     # group_type [:group_type,:orch_name])
   end
 

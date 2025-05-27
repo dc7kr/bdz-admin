@@ -1,4 +1,4 @@
-require 'rodf'
+require "rodf"
 class ReportSheet < ApplicationRecord
   validates :report_date, presence: { unless: -> { orchestra.blank? } }
   validates :adult, presence: true
@@ -11,7 +11,7 @@ class ReportSheet < ApplicationRecord
   validates :senior, presence: true
   validates :senior_ens, presence: true
   validates :teens, presence: true
-  validates :uv, inclusion: { in: [true, false] }
+  validates :uv, inclusion: { in: [ true, false ] }
   validates :youth, presence: true
   validates :youth_ens, presence: true
   validates :zusatz_uv, presence: true
@@ -28,14 +28,14 @@ class ReportSheet < ApplicationRecord
     lv = RegionalOrganization.find(regional_organization_id)
     ids = lv.orchestras.pluck(:id)
 
-    ReportSheet.includes(:orchestra).where('orchestra_id in (?) and year=?', ids, year)
+    ReportSheet.includes(:orchestra).where("orchestra_id in (?) and year=?", ids, year)
   end
 
-  scope :final, ->(year) { where('year = ? and orchestra_id is not null', year) }
+  scope :final, ->(year) { where("year = ? and orchestra_id is not null", year) }
   scope :not_final, -> {  where(orchestra_id: nil) }
 
   scope :current,
-        -> { { conditions: ['year =  ?', String(Time.zone.now.year)] } }
+        -> { { conditions: [ "year =  ?", String(Time.zone.now.year) ] } }
 
   def self.age_categories
     @@age_categories = %w[C T Y A S]
@@ -59,7 +59,7 @@ class ReportSheet < ApplicationRecord
     if uv.nil?
       self.uv = false
     else
-      logger.debug 'UV was not nil'
+      logger.debug "UV was not nil"
     end
 
     self.youth ||= 0
@@ -78,7 +78,7 @@ class ReportSheet < ApplicationRecord
   end
 
   def self.for_orchestra_and_year(orchestra, year)
-    report_sheet = ReportSheet.where('orchestra_id = ? and year = ?', orchestra.id, year).first
+    report_sheet = ReportSheet.where("orchestra_id = ? and year = ?", orchestra.id, year).first
 
     if report_sheet.nil?
       report_sheet = ReportSheet.new
@@ -98,7 +98,7 @@ class ReportSheet < ApplicationRecord
     if report_date
       I18n.l(report_date)
     else
-      ''
+      ""
     end
   end
 
@@ -173,7 +173,7 @@ class ReportSheet < ApplicationRecord
   end
 
   def calcLvPart
-    calcBeitrag * BDZ_SETTINGS['tariff']['lvPart']
+    calcBeitrag * BDZ_SETTINGS["tariff"]["lvPart"]
   end
 
   def kronenberger_algorithm
@@ -212,7 +212,7 @@ class ReportSheet < ApplicationRecord
   end
 
   def ageKeyStr
-    str = '|'
+    str = "|"
     str += "#{children}|"
     str += "#{teens}|"
     str += "#{youth}|"
@@ -244,39 +244,39 @@ class ReportSheet < ApplicationRecord
 
   def add_invoice_items(invoice)
     if orchestra.is_coop? || orchestra.is_foreign_coop?
-      logger.info('No additional items - special orchestra')
+      logger.info("No additional items - special orchestra")
       return
     elsif orchestra.is_lorch?
       # regional orchestras only pay a fixed fee no calculation...
-      invoice.addItem(1, Prices.lvOrchRate, 'Landesorchesterbeitrag')
+      invoice.addItem(1, Prices.lvOrchRate, "Landesorchesterbeitrag")
     else
       if isMinTariff? || isMaxTariff?
         # in case of min or max tariff we don't
         # charge the real fees but 0 (just print out the statistics)
-        invoice.addItem(children, 0, I18n.t('report_sheet.children_rate'))
-        invoice.addItem(teens, 0, I18n.t('report_sheet.teens_rate'))
-        invoice.addItem(youth, 0, I18n.t('report_sheet.youth_rate'))
-        invoice.addItem(adult, 0, I18n.t('report_sheet.adult_rate'))
-        invoice.addItem(senior, 0, I18n.t('report_sheet.senior_rate'))
+        invoice.addItem(children, 0, I18n.t("report_sheet.children_rate"))
+        invoice.addItem(teens, 0, I18n.t("report_sheet.teens_rate"))
+        invoice.addItem(youth, 0, I18n.t("report_sheet.youth_rate"))
+        invoice.addItem(adult, 0, I18n.t("report_sheet.adult_rate"))
+        invoice.addItem(senior, 0, I18n.t("report_sheet.senior_rate"))
       else
         # regular price calculation
-        invoice.addItem(children, Prices.childrenRate, I18n.t('report_sheet.children_rate'))
-        invoice.addItem(teens, Prices.teensRate, I18n.t('report_sheet.teens_rate'))
-        invoice.addItem(youth, Prices.youthRate, I18n.t('report_sheet.youth_rate'))
-        invoice.addItem(adult, Prices.adultRate, I18n.t('report_sheet.adult_rate'))
-        invoice.addItem(senior, Prices.seniorRate, I18n.t('report_sheet.senior_rate'))
+        invoice.addItem(children, Prices.childrenRate, I18n.t("report_sheet.children_rate"))
+        invoice.addItem(teens, Prices.teensRate, I18n.t("report_sheet.teens_rate"))
+        invoice.addItem(youth, Prices.youthRate, I18n.t("report_sheet.youth_rate"))
+        invoice.addItem(adult, Prices.adultRate, I18n.t("report_sheet.adult_rate"))
+        invoice.addItem(senior, Prices.seniorRate, I18n.t("report_sheet.senior_rate"))
       end
 
       if isMinTariff?
-        invoice.addItem(1, Prices.minTariff, I18n.t('report_sheet.min_tariff'))
+        invoice.addItem(1, Prices.minTariff, I18n.t("report_sheet.min_tariff"))
       elsif isMaxTariff?
-        invoice.addItem(1, Prices.maxTariff, I18n.t('report_sheet.max_tariff'))
+        invoice.addItem(1, Prices.maxTariff, I18n.t("report_sheet.max_tariff"))
       end
     end
 
-    invoice.addItem(calcUvCount, Prices.uvRate, I18n.t('report_sheet.uv')) if uv
+    invoice.addItem(calcUvCount, Prices.uvRate, I18n.t("report_sheet.uv")) if uv
 
-    invoice.addItem(1, Prices.delayFee, I18n.t('report_sheet.delay_fee')) if delayed?
+    invoice.addItem(1, Prices.delayFee, I18n.t("report_sheet.delay_fee")) if delayed?
 
     invoice
   end
@@ -293,7 +293,7 @@ class ReportSheet < ApplicationRecord
   end
 
   def total_ensembles
-    data = [child_ens, youth_ens, adult_ens, senior_ens, chamber_ens]
+    data = [ child_ens, youth_ens, adult_ens, senior_ens, chamber_ens ]
 
     sum = data.compact.sum
 
@@ -303,7 +303,7 @@ class ReportSheet < ApplicationRecord
   end
 
   def ens_key_string
-    data = [child_ens, youth_ens, adult_ens, senior_ens, chamber_ens]
+    data = [ child_ens, youth_ens, adult_ens, senior_ens, chamber_ens ]
     data.map!(&:to_i)
     "|#{data.join('|')}|"
   end
@@ -314,36 +314,36 @@ class ReportSheet < ApplicationRecord
 
   def self.renderOds(report_sheets, filename)
     RODF::Spreadsheet.file(filename) do
-      table 'Meldebögen' do
+      table "Meldebögen" do
         row do
-          cell I18n.t('member.mglnr')
-          cell I18n.t('common.year')
-          cell I18n.t('helpers.label.report_sheet.children')
-          cell I18n.t('helpers.label.report_sheet.teens')
-          cell I18n.t('helpers.label.report_sheet.youth')
-          cell I18n.t('helpers.label.report_sheet.adult')
-          cell I18n.t('helpers.label.report_sheet.senior')
-          cell I18n.t('helpers.label.report_sheet.uv')
-          cell I18n.t('helpers.label.report_sheet.zusatz_uv')
-          cell I18n.t('helpers.label.report_sheet.gema')
-          cell I18n.t('helpers.label.report_sheet.azubi')
-          cell I18n.t('helpers.label.report_sheet.passive')
-          cell I18n.t('helpers.label.report_sheet.child_ens')
-          cell I18n.t('helpers.label.report_sheet.youth_ens')
-          cell I18n.t('helpers.label.report_sheet.adult_ens')
-          cell I18n.t('helpers.label.report_sheet.senior_ens')
-          cell I18n.t('helpers.label.report_sheet.chamber_ens')
-          cell I18n.t('helpers.label.report_sheet.other_ens')
-          cell I18n.t('helpers.label.report_sheet.azubi_child')
-          cell I18n.t('helpers.label.report_sheet.azubi_teens')
-          cell I18n.t('helpers.label.report_sheet.azubi_youth')
-          cell I18n.t('helpers.label.report_sheet.azubi_adult')
-          cell I18n.t('helpers.label.report_sheet.azubi_senior')
-          cell I18n.t('helpers.label.report_sheet.supporters')
-          cell I18n.t('helpers.label.report_sheet.zo')
-          cell I18n.t('helpers.label.report_sheet.zi_o')
-          cell I18n.t('helpers.label.report_sheet.go')
-          cell I18n.t('helpers.label.report_sheet.oz')
+          cell I18n.t("member.mglnr")
+          cell I18n.t("common.year")
+          cell I18n.t("helpers.label.report_sheet.children")
+          cell I18n.t("helpers.label.report_sheet.teens")
+          cell I18n.t("helpers.label.report_sheet.youth")
+          cell I18n.t("helpers.label.report_sheet.adult")
+          cell I18n.t("helpers.label.report_sheet.senior")
+          cell I18n.t("helpers.label.report_sheet.uv")
+          cell I18n.t("helpers.label.report_sheet.zusatz_uv")
+          cell I18n.t("helpers.label.report_sheet.gema")
+          cell I18n.t("helpers.label.report_sheet.azubi")
+          cell I18n.t("helpers.label.report_sheet.passive")
+          cell I18n.t("helpers.label.report_sheet.child_ens")
+          cell I18n.t("helpers.label.report_sheet.youth_ens")
+          cell I18n.t("helpers.label.report_sheet.adult_ens")
+          cell I18n.t("helpers.label.report_sheet.senior_ens")
+          cell I18n.t("helpers.label.report_sheet.chamber_ens")
+          cell I18n.t("helpers.label.report_sheet.other_ens")
+          cell I18n.t("helpers.label.report_sheet.azubi_child")
+          cell I18n.t("helpers.label.report_sheet.azubi_teens")
+          cell I18n.t("helpers.label.report_sheet.azubi_youth")
+          cell I18n.t("helpers.label.report_sheet.azubi_adult")
+          cell I18n.t("helpers.label.report_sheet.azubi_senior")
+          cell I18n.t("helpers.label.report_sheet.supporters")
+          cell I18n.t("helpers.label.report_sheet.zo")
+          cell I18n.t("helpers.label.report_sheet.zi_o")
+          cell I18n.t("helpers.label.report_sheet.go")
+          cell I18n.t("helpers.label.report_sheet.oz")
         end
 
         report_sheets.each do |rs|
@@ -383,7 +383,7 @@ class ReportSheet < ApplicationRecord
   end
 
   def find_booking
-    bookings = orchestra.member.member_account_bookings.where(booking_year: year, booking_type: 'B')
+    bookings = orchestra.member.member_account_bookings.where(booking_year: year, booking_type: "B")
     return unless !bookings.nil? && (bookings.count >= 1)
 
     bookings.first
@@ -411,20 +411,20 @@ class ReportSheet < ApplicationRecord
   end
 
   def update_from_age_categories(age_categories)
-    self.children = age_categories['C']
-    self.teens = age_categories['T']
-    self.youth = age_categories['Y']
-    self.adult = age_categories['A']
-    self.senior = age_categories['S']
+    self.children = age_categories["C"]
+    self.teens = age_categories["T"]
+    self.youth = age_categories["Y"]
+    self.adult = age_categories["A"]
+    self.senior = age_categories["S"]
     save
   end
 
   def is_consistent_with_age_categories(age_categories)
-    return false if self.children != age_categories['C']
-    return false if self.teens != age_categories['T']
-    return false if self.youth != age_categories['Y']
-    return false if self.adult != age_categories['A']
-    return false if self.senior != age_categories['S']
+    return false if self.children != age_categories["C"]
+    return false if self.teens != age_categories["T"]
+    return false if self.youth != age_categories["Y"]
+    return false if self.adult != age_categories["A"]
+    return false if self.senior != age_categories["S"]
 
     true
   end
@@ -465,7 +465,7 @@ class ReportSheet < ApplicationRecord
 
     return unless calcGemaCount <= 0
 
-    errors.add(:adult, I18n.t('errors.report_sheet.at_least_one'))
+    errors.add(:adult, I18n.t("errors.report_sheet.at_least_one"))
   end
 
   #	TODO: def scoped for easier retrieval!

@@ -15,11 +15,11 @@ class MemberAccountBooking < ApplicationRecord
     @booking.booking_date = Time.zone.now
     @booking.booking_year = Time.zone.now.year
     @booking.booking_txt = txt
-    @booking.booking_mode = 'A'
+    @booking.booking_mode = "A"
     @booking.booking_type = type
     @booking.amount = amount
 
-    @dateprefix = Time.zone.now.strftime '%Y%m%d'
+    @dateprefix = Time.zone.now.strftime "%Y%m%d"
 
     @booking.filename = "#{@dateprefix}-#{prefix}#{mglnrStr}.pdf"
 
@@ -27,7 +27,7 @@ class MemberAccountBooking < ApplicationRecord
   end
 
   def self.new_distinction_invoice(txt, amount, mglnrStr, pdf)
-    booking = genericType(txt, 'ehrungsrechnung', 'E', amount, mglnrStr)
+    booking = genericType(txt, "ehrungsrechnung", "E", amount, mglnrStr)
 
     booking.filename = pdf.orig_filename
 
@@ -35,7 +35,7 @@ class MemberAccountBooking < ApplicationRecord
   end
 
   def self.new_invoice(txt, amount, mglnrStr)
-    genericType(txt, 'rechnung', 'B', amount, mglnrStr)
+    genericType(txt, "rechnung", "B", amount, mglnrStr)
   end
 
   def self.new_dd(txt, amount, filename = nil)
@@ -43,8 +43,8 @@ class MemberAccountBooking < ApplicationRecord
     booking.booking_date = Time.zone.now
     booking.booking_year = Time.zone.now.year
     booking.booking_txt = txt
-    booking.booking_mode = 'A'
-    booking.booking_type = 'L'
+    booking.booking_mode = "A"
+    booking.booking_type = "L"
     booking.amount = amount
     booking.filename = filename
 
@@ -56,15 +56,15 @@ class MemberAccountBooking < ApplicationRecord
     booking.booking_date = Time.zone.now
     booking.booking_year = Time.zone.now.year
     booking.booking_txt = txt
-    booking.booking_mode = 'A'
-    booking.booking_type = 'G'
+    booking.booking_mode = "A"
+    booking.booking_type = "G"
     booking.amount = amount
 
     booking
   end
 
   def self.nonZeroBalance
-    where('sum(amount)<0').group(:member_id)
+    where("sum(amount)<0").group(:member_id)
   end
 
   comma :gema do
@@ -73,9 +73,9 @@ class MemberAccountBooking < ApplicationRecord
   def self.balanced_before(year = nil)
     accounts = if year.nil?
                  MemberAccountBooking.group(:member_id).sum(:amount)
-               else
+    else
                  MemberAccountBooking.where(booking_year: ...year).group(:member_id).sum(:amount)
-               end
+    end
 
     ids = Set.new
     accounts.each do |account|
@@ -88,9 +88,9 @@ class MemberAccountBooking < ApplicationRecord
   def self.unbalanced_before_year(year = nil, lv = nil)
     accounts = if year.nil?
                  MemberAccountBooking.group(:member_id).sum(:amount)
-               else
+    else
                  MemberAccountBooking.where(booking_year: ...year).group(:member_id).sum(:amount)
-               end
+    end
 
     ids = Set.new
     lv_ids = nil

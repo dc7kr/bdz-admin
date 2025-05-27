@@ -1,15 +1,15 @@
 class MemberReportController < AuthenticatedNonResourceController
   def index
     authorize! :member, :edit
-    @sums = ReportSheet.select('year, count(*) as anzahl, sum(report_sheets.children) as sum_children , sum(report_sheets.teens) as sum_teens, sum(report_sheets.youth) as sum_youth ,sum(report_sheets.adult) as sum_adult, sum(report_sheets.senior) as sum_senior , sum(report_sheets.azubi) as sum_azubi, sum(report_sheets.passive) as sum_passive, sum(child_ens) as sum_child_ens, sum(youth_ens) as sum_youth_ens, sum(adult_ens) as sum_adult_ens, sum(senior_ens) as sum_senior_ens, sum(chamber_ens) as sum_chamber_ens, sum(other_ens) as sum_other_ens').group(:year).order(:year)
+    @sums = ReportSheet.select("year, count(*) as anzahl, sum(report_sheets.children) as sum_children , sum(report_sheets.teens) as sum_teens, sum(report_sheets.youth) as sum_youth ,sum(report_sheets.adult) as sum_adult, sum(report_sheets.senior) as sum_senior , sum(report_sheets.azubi) as sum_azubi, sum(report_sheets.passive) as sum_passive, sum(child_ens) as sum_child_ens, sum(youth_ens) as sum_youth_ens, sum(adult_ens) as sum_adult_ens, sum(senior_ens) as sum_senior_ens, sum(chamber_ens) as sum_chamber_ens, sum(other_ens) as sum_other_ens").group(:year).order(:year)
 
     @em_count = PersonMember.count
 
     sheets = ReportSheet.includes(:orchestra).group(:year).order(:year)
 
     @l_orch_no_pay = sheets.where("orchestras.orch_type='L'").calculate(:sum,
-                                                                        'children+teens+youth+adult+senior-azubi')
-    @l_orch_all = sheets.where("orchestras.orch_type='L'").calculate(:sum, 'children+teens+youth+adult+senior')
+                                                                        "children+teens+youth+adult+senior-azubi")
+    @l_orch_all = sheets.where("orchestras.orch_type='L'").calculate(:sum, "children+teens+youth+adult+senior")
 
     @o_nomail = Orchestra.nomail.count
     @em_nomail = PersonMember.nomail.count
@@ -18,16 +18,16 @@ class MemberReportController < AuthenticatedNonResourceController
     @vers_sums = []
     @vers_hash = {}
 
-    @uv_sum = sheets.where("orchestras.orch_type<>'K' and uv=1").calculate(:sum, 'children+teens+youth+adult+senior')
+    @uv_sum = sheets.where("orchestras.orch_type<>'K' and uv=1").calculate(:sum, "children+teens+youth+adult+senior")
 
     @uv_sum.each do |uv|
       @vers_sums.push(uv[0])
       h = {}
-      h['uv'] = uv[1]
+      h["uv"] = uv[1]
       @vers_hash[uv[0]] = h
     end
 
-    @haft_sum = sheets.where("orchestras.orch_type='O'").calculate(:sum, 'children+teens+youth+adult+senior')
+    @haft_sum = sheets.where("orchestras.orch_type='O'").calculate(:sum, "children+teens+youth+adult+senior")
     @haft_sum.each do |hv|
       vals = @vers_hash[hv[0]]
       if vals.nil?
@@ -35,7 +35,7 @@ class MemberReportController < AuthenticatedNonResourceController
         @vers_hash[hv[0]] = vals
       end
 
-      vals['hv'] = hv[1]
+      vals["hv"] = hv[1]
     end
 
     @l_orch_all.each do |lv|
@@ -60,10 +60,10 @@ class MemberReportController < AuthenticatedNonResourceController
       params[:year]
     end
 
-    @sums = ReportSheet.query('SELECT rs.*,m.regional_organization_id from report_sheets rs,members m where rs.orchestra_id=m.id and year=? GROUP BY m.regional_organization_id')
+    @sums = ReportSheet.query("SELECT rs.*,m.regional_organization_id from report_sheets rs,members m where rs.orchestra_id=m.id and year=? GROUP BY m.regional_organization_id")
 
     @sums = ReportSheet.includes(%i[orchestra member]).all(
-      select: 'year, count(*) as anzahl, sum(report_sheets.children) as sum_children , sum(report_sheets.teens) as sum_teens, sum(report_sheets.youth) as sum_youth ,sum(report_sheets.adult) as sum_adult, sum(report_sheets.senior) as sum_senior , sum(report_sheets.azubi) as sum_azubi, sum(report_sheets.passive) as sum_passive', order: 'member.regional_organization', group: 'year'
+      select: "year, count(*) as anzahl, sum(report_sheets.children) as sum_children , sum(report_sheets.teens) as sum_teens, sum(report_sheets.youth) as sum_youth ,sum(report_sheets.adult) as sum_adult, sum(report_sheets.senior) as sum_senior , sum(report_sheets.azubi) as sum_azubi, sum(report_sheets.passive) as sum_passive", order: "member.regional_organization", group: "year"
     )
   end
 

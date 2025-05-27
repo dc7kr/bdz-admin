@@ -19,7 +19,7 @@ class GenerateReportSheetInputsJob < ApplicationJob
           @count += 1
         end
       elsif o.nil?
-        logger.warn('Nil orchestra detected!!!')
+        logger.warn("Nil orchestra detected!!!")
       else
         logger.info("NO report sheet required: #{o.member.mglnr}")
       end

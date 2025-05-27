@@ -7,7 +7,7 @@ module Magazine
 
       per_page = 20 if per_page.nil?
 
-      @advertisers = Advertiser.includes(:contact).order('contacts.company, contacts.last_name,contacts.first_name').page(params[:page]).per(per_page)
+      @advertisers = Advertiser.includes(:contact).order("contacts.company, contacts.last_name,contacts.first_name").page(params[:page]).per(per_page)
       authorize_action_for(@advertisers)
 
       respond_to do |format|
@@ -33,7 +33,7 @@ module Magazine
     def new
       @advertiser = Advertiser.new
       @advertiser.contact = Contact.new
-      @advertiser.contact.country_code = 'DE'
+      @advertiser.contact.country_code = "DE"
       authorize_action_for(@advertiser)
 
       respond_to do |format|
@@ -55,7 +55,7 @@ module Magazine
 
       respond_to do |format|
         if @advertiser.save
-          format.html { redirect_to [:magazine, @advertiser], notice: 'Advertiser was successfully created.' }
+          format.html { redirect_to [ :magazine, @advertiser ], notice: "Advertiser was successfully created." }
           format.json { render json: @advertiser, status: :created, location: @advertiser }
         else
           format.html { render :new, status: :unprocessable_entity }
@@ -71,10 +71,10 @@ module Magazine
 
       respond_to do |format|
         if @advertiser.update(advertiser_params)
-          format.html { redirect_to [:magazine, @advertiser], notice: 'Advertiser was successfully updated.' }
+          format.html { redirect_to [ :magazine, @advertiser ], notice: "Advertiser was successfully updated." }
           format.json { head :no_content }
         else
-          format.html { render action: 'edit', status: :unprocessable_entity }
+          format.html { render action: "edit", status: :unprocessable_entity }
           format.json { render json: @advertiser.errors, status: :unprocessable_entity }
         end
       end

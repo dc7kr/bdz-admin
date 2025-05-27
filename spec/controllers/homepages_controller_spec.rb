@@ -39,7 +39,7 @@ RSpec.describe HomepagesController, type: :controller do
     it 'assigns all homepages as @homepages' do
       homepage = Homepage.create! valid_attributes
       get :index, session: valid_session
-      expect(assigns(:homepages)).to eq([homepage])
+      expect(assigns(:homepages)).to eq([ homepage ])
     end
   end
 

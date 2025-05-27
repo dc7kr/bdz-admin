@@ -1,4 +1,4 @@
-require 'fileutils'
+require "fileutils"
 module UploadHelper
   def store_uploaded_file(target_dir, target_name, datafile)
     storage_root = DOCS_CONFIG.archive_dir

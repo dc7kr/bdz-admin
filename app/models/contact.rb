@@ -13,7 +13,7 @@ class Contact < ApplicationRecord
   end
 
   def fullname
-    result = ''
+    result = ""
     result = "#{result}#{first_name} " if first_name
     result += last_name if last_name
     result
@@ -24,7 +24,7 @@ class Contact < ApplicationRecord
   end
 
   def letter_country
-    return '' if country_code.nil?
+    return "" if country_code.nil?
 
     country_code.upcase
   end
@@ -51,6 +51,6 @@ class Contact < ApplicationRecord
     components << street
     components << ("#{zip} #{city}")
 
-    components.join(', ')
+    components.join(", ")
   end
 end

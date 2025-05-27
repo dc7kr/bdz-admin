@@ -5,13 +5,13 @@ module BulkMailHelper
     doc = prepare_pdf(addressee, our_contact, false)
     suffix = "#{event_id}_#{addressee.id}"
 
-    tmpfile = Tempfile.new('ci_addr')
+    tmpfile = Tempfile.new("ci_addr")
 
     doc.render_file(tmpfile)
 
     Rails.logger.info("Tempfile: #{tmpfile.path}")
 
-    Tempfile.new('mb_stamped')
+    Tempfile.new("mb_stamped")
 
     filled_filename = "#{date_prefix}#{suffix}.pdf"
     file = MailingFile.new(filled_filename, filled_filename, year.to_s)
@@ -24,7 +24,7 @@ module BulkMailHelper
     # result = PDF::Toolkit.pdftk("A="+tmpfile2.path, "B="+template.full_path, "cat", "A1", "B1", "output", file.full_path)
     # Rails.logger.debug("Result 2: #{result}")
 
-    PDF::Toolkit.pdftk(tmpfile.path, 'background', template.full_path, 'output', file.full_path)
+    PDF::Toolkit.pdftk(tmpfile.path, "background", template.full_path, "output", file.full_path)
 
     file
   end
@@ -32,7 +32,7 @@ module BulkMailHelper
   def prepare_pdf(addressee, our_contact, print_date = true)
     doc = CompanyPaperDocument.new
     doc.print_address(addressee)
-    doc.print_date(BDZ_SETTINGS['contacts'][our_contact]['ort'], Time.zone.now) if print_date
+    doc.print_date(BDZ_SETTINGS["contacts"][our_contact]["ort"], Time.zone.now) if print_date
 
     doc
   end
@@ -42,7 +42,7 @@ module BulkMailHelper
   end
 
   def send_admin_mail(letterFile, triggered_by, results)
-    year = Time.zone.now.strftime('%Y')
+    year = Time.zone.now.strftime("%Y")
 
     users = User.for_admin_notify
 
@@ -54,7 +54,7 @@ module BulkMailHelper
 
     users.each do |user|
       AdminNotifier.new_custom_info_mail_notification(user, letters_url, results, triggered_by).deliver
-      logger.info 'sent to %s' % user.email
+      logger.info "sent to %s" % user.email
     end
   end
 end

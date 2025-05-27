@@ -5,7 +5,7 @@ class GenericView < ApplicationRecord
     view_names = []
 
     all.each do |v|
-      view_names << v.to_s.delete_prefix('public_') if v.start_with? 'public'
+      view_names << v.to_s.delete_prefix("public_") if v.start_with? "public"
     end
 
     view_names

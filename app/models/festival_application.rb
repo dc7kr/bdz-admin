@@ -4,7 +4,7 @@ class FestivalApplication < ApplicationRecord
   # attr_accessible :conductor, :contact_person, :equipment, :country_code, :num_players, :orch_name, :orchestra, :special_cast, :group_type,:permission,:festival_concert_id, :visitor_type, :rehearsal_time, :stage_time, :payment_status, :tickets, :tickets_red, :bdz_tickets_red, :bdz_tickets, :amount, :soloist_tickets, :contact_phone
   has_many :festival_pieces
   has_many :festival_application_attachments
-  has_one :event_meal, foreign_key: 'participant_id'
+  has_one :event_meal, foreign_key: "participant_id"
   has_one :contact_person
 
   accepts_nested_attributes_for :festival_pieces, allow_destroy: true
@@ -14,19 +14,19 @@ class FestivalApplication < ApplicationRecord
   belongs_to :orchestra, optional: true
   belongs_to :festival_concert, optional: true
 
-  scope :current_festival, -> { where(year: BDZ_SETTINGS['config']['festival_year']) }
+  scope :current_festival, -> { where(year: BDZ_SETTINGS["config"]["festival_year"]) }
 
   scope :current_with_contacts, -> { FestivalApplication.current_festival.includes(:contact_person) }
 
-  def t_country(locale = 'de')
+  def t_country(locale = "de")
     translated_country(country_code, locale)
   end
 
   def self.search(search)
     if search
-      where('orch_name like ? or id = ?', "%#{search}%", search)
+      where("orch_name like ? or id = ?", "%#{search}%", search)
     else
-      where('1')
+      where("1")
     end
   end
 
@@ -57,36 +57,36 @@ class FestivalApplication < ApplicationRecord
   end
 
   def invoice
-    prices = BDZ_SETTINGS['festival_prices']
-    ts = Time.zone.now.strftime '%Y%m%d'
+    prices = BDZ_SETTINGS["festival_prices"]
+    ts = Time.zone.now.strftime "%Y%m%d"
 
-    germany = ISO3166::Country['DE']
-    austria = ISO3166::Country['AT']
+    germany = ISO3166::Country["DE"]
+    austria = ISO3166::Country["AT"]
 
     renr = ts + "-TLN#{id}"
 
     inv = CorikaInvoices::Invoice.new
     inv.number = renr
-    inv.our_contact = 'festival_gs'
+    inv.our_contact = "festival_gs"
 
     # taxfree
-    inv.tax_type = 'X'
+    inv.tax_type = "X"
 
     if (contact_person.country_code == germany.alpha2) || (country_code == austria.alpha2)
       locale = :de
-      inv.invoice_type = 'festival.de'
+      inv.invoice_type = "festival.de"
     else
       locale = :en
-      inv.invoice_type = 'festival.en'
+      inv.invoice_type = "festival.en"
     end
 
     inv.customer = to_customer
 
-    inv.considerItem(tickets, prices['fest'], I18n.t('event_card.fest', locale: locale))
-    inv.considerItem(tickets_red, prices['fest_erm'], I18n.t('event_card.fest_erm', locale: locale))
-    inv.considerItem(bdz_tickets, prices['fest_bdz'], I18n.t('event_card.fest_bdz', locale: locale))
-    inv.considerItem(bdz_tickets_red, prices['fest_bdz_erm'], I18n.t('event_card.fest_bdz_erm', locale: locale))
-    inv.considerItem(1, -1 * amount, I18n.t('common.advance_payment', locale: locale)) unless amount.nil?
+    inv.considerItem(tickets, prices["fest"], I18n.t("event_card.fest", locale: locale))
+    inv.considerItem(tickets_red, prices["fest_erm"], I18n.t("event_card.fest_erm", locale: locale))
+    inv.considerItem(bdz_tickets, prices["fest_bdz"], I18n.t("event_card.fest_bdz", locale: locale))
+    inv.considerItem(bdz_tickets_red, prices["fest_bdz_erm"], I18n.t("event_card.fest_bdz_erm", locale: locale))
+    inv.considerItem(1, -1 * amount, I18n.t("common.advance_payment", locale: locale)) unless amount.nil?
 
     inv
   end

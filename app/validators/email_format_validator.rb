@@ -4,6 +4,6 @@ class EmailFormatValidator < ActiveModel::EachValidator
 
     return if value =~ /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
 
-    object.errors.add(attribute, (options[:message] || I18n.t('member.invalid_mail')))
+    object.errors.add(attribute, (options[:message] || I18n.t("member.invalid_mail")))
   end
 end

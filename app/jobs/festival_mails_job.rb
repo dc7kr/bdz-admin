@@ -23,25 +23,25 @@ class FestivalMailsJob < ApplicationJob
     applicants = nil
 
     case group
-    when 'FA'
+    when "FA"
       applicants = FestivalApplication.current_with_contacts
-    when 'FP'
+    when "FP"
       applicants = FestivalApplication.current_with_contacts.where(permission: true)
-    when 'FR'
-      applicants = FestivalApplication.current_with_contacts.where(permission: true, visitor_type: 'R')
-    when 'FS'
-      applicants = FestivalApplication.current_with_contacts.where(permission: true, visitor_type: 'V')
-    when 'FJ'
-      applicants = FestivalApplication.current_with_contacts.where(permission: true, visitor_type: 'Y')
-    when 'FG'
-      applicants = FestivalApplication.current_with_contacts.where(permission: true, visitor_type: 'G')
-    when 'FO'
-      applicants = FestivalApplication.current_with_contacts.where(permission: true, visitor_type: 'O')
+    when "FR"
+      applicants = FestivalApplication.current_with_contacts.where(permission: true, visitor_type: "R")
+    when "FS"
+      applicants = FestivalApplication.current_with_contacts.where(permission: true, visitor_type: "V")
+    when "FJ"
+      applicants = FestivalApplication.current_with_contacts.where(permission: true, visitor_type: "Y")
+    when "FG"
+      applicants = FestivalApplication.current_with_contacts.where(permission: true, visitor_type: "G")
+    when "FO"
+      applicants = FestivalApplication.current_with_contacts.where(permission: true, visitor_type: "O")
     else
       logger.error("NO GROUP identified: #{group}")
     end
 
-    tool = MailingTool.new(cur_year.to_s, 'festival', event_id, subject, via_paper)
+    tool = MailingTool.new(cur_year.to_s, "festival", event_id, subject, via_paper)
 
     letterArray = []
 
@@ -87,19 +87,18 @@ class FestivalMailsJob < ApplicationJob
     @festival_concert = appl.festival_concert
 
     substitutes = {
-      '%id%' => appl.id.to_s,
-      '%teilnehmer_name%' => appl.orch_name
+      "%id%" => appl.id.to_s,
+      "%teilnehmer_name%" => appl.orch_name
     }
 
-    substitutes['%probenzeit%'] = appl.rehearsal_time.to_s unless appl.rehearsal_time.nil?
+    substitutes["%probenzeit%"] = appl.rehearsal_time.to_s unless appl.rehearsal_time.nil?
 
     unless @festival_concert.nil?
-      substitutes['%konzert%'] = @festival_concert.label.to_s
-      substitutes['%konzert_zeit%'] = I18n.l(@festival_concert.event_time)
-      substitutes['%konzert_ort%'] = @festival_concert.location
+      substitutes["%konzert%"] = @festival_concert.label.to_s
+      substitutes["%konzert_zeit%"] = I18n.l(@festival_concert.event_time)
+      substitutes["%konzert_ort%"] = @festival_concert.location
     end
 
     replace_body(body, substitutes)
   end
-
 end

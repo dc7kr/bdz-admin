@@ -1,4 +1,4 @@
-require 'rodf'
+require "rodf"
 
 class PersonMembersController < AuthenticatedController
   #  before_action :authenticate_user!, :except => @publicActions
@@ -18,8 +18,8 @@ class PersonMembersController < AuthenticatedController
       format.json { render json: @person_members }
       format.ods do
         @person_members = PersonMember.includes(:member).order("#{sort_column} #{sort_direction}")
-        renderOds('/tmp/em.ods', @person_members)
-        send_file('/tmp/em.ods', filename: "em_#{Time.zone.now.year}.ods", type: 'application/octet-stream')
+        renderOds("/tmp/em.ods", @person_members)
+        send_file("/tmp/em.ods", filename: "em_#{Time.zone.now.year}.ods", type: "application/octet-stream")
       end
     end
   end
@@ -38,9 +38,9 @@ class PersonMembersController < AuthenticatedController
   def addresses
     @person_members = if params[:nomail]
                         PersonMember.includes(:member).nomail
-                      else
+    else
                         PersonMember.includes(:member).all
-                      end
+    end
     # where("members.email IS NULL or members.email=''")
     respond_to do |format|
       format.json do
@@ -70,9 +70,9 @@ class PersonMembersController < AuthenticatedController
       format.json { render json: @members }
       format.csv { render csv: @members, style: :minimal, filename: "nopayment_em_#{Time.zone.now.year}" }
       format.ods do
-        renderNoPayOds('/tmp/nopayment.ods', @accounts, @members)
-        send_file('/tmp/nopayment.ods', filename: "em_nopay_#{Time.zone.now.year}.ods",
-                                        type: 'application/octet-stream')
+        renderNoPayOds("/tmp/nopayment.ods", @accounts, @members)
+        send_file("/tmp/nopayment.ods", filename: "em_nopay_#{Time.zone.now.year}.ods",
+                                        type: "application/octet-stream")
       end
     end
   end
@@ -94,7 +94,7 @@ class PersonMembersController < AuthenticatedController
   def new
     @person_member = PersonMember.new
     @person_member.build_member
-    @person_member.member.country_code = ISO3166::Country['DE'].alpha2
+    @person_member.member.country_code = ISO3166::Country["DE"].alpha2
     @person_member.member.magazines = -1
 
     respond_to do |format|
@@ -115,7 +115,7 @@ class PersonMembersController < AuthenticatedController
 
     respond_to do |format|
       if @person_member.save
-        format.html { redirect_to @person_member, notice: 'Person member was successfully created.' }
+        format.html { redirect_to @person_member, notice: "Person member was successfully created." }
         format.json { render json: @person_member, status: :created, location: @person_member }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -131,7 +131,7 @@ class PersonMembersController < AuthenticatedController
 
     respond_to do |format|
       if @person_member.update(person_member_params)
-        format.html { redirect_to @person_member, notice: 'Person member was successfully updated.' }
+        format.html { redirect_to @person_member, notice: "Person member was successfully updated." }
         format.json { head :ok }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -164,13 +164,13 @@ class PersonMembersController < AuthenticatedController
     filename = "magazine.em.#{Time.zone.now.strftime('%m-%d-%Y')}.ods"
     render_magazine_address_list("/tmp/#{filename}", result)
 
-    send_file("/tmp/#{filename}", filename: filename, type: 'application/octet-stream')
+    send_file("/tmp/#{filename}", filename: filename, type: "application/octet-stream")
 
-    flash[:notice] = 'Export complete!'
+    flash[:notice] = "Export complete!"
   end
 
   def nomail
-    @members = PersonMember.nomail.page(params['page']).per(20)
+    @members = PersonMember.nomail.page(params["page"]).per(20)
     respond_to do |format|
       format.html
     end
@@ -182,13 +182,13 @@ class PersonMembersController < AuthenticatedController
     if Member.column_names.include?(params[:sort])
       "members.#{params[:sort]}"
     else
-      PersonMember.column_names.include?(params[:sort]) ? params[:sort] : 'members.mglnr'
+      PersonMember.column_names.include?(params[:sort]) ? params[:sort] : "members.mglnr"
     end
   end
 
   def renderNoPayOds(filename, accounts, members)
     RODF::Spreadsheet.file(filename) do
-      table 'No payment' do
+      table "No payment" do
         members.each do |m|
           row do
             cell m.mglnr.to_s
@@ -207,7 +207,7 @@ class PersonMembersController < AuthenticatedController
 
   def renderOds(filename, person_members)
     RODF::Spreadsheet.file(filename) do
-      table 'EM' do
+      table "EM" do
         person_members.each do |m|
           row do
             cell m.member.mglnr.to_s

@@ -24,7 +24,7 @@ class ParticipantSheetPdf < Prawn::Document
     text "#{app.orch_name} (#{I18n.t("festival_application.group_types.#{app.group_type}")})", size: 20, style: :bold
 
     if app.event_meal.nil? || app.event_meal.arrival_time.nil?
-      text 'Unknown arrival time.'
+      text "Unknown arrival time."
     else
       text "#{I18n.t('event_meal.arrival_time')} #{@view.l app.event_meal.arrival_time}"
     end
@@ -32,50 +32,50 @@ class ParticipantSheetPdf < Prawn::Document
     move_down 20
     text "#{I18n.t('contact_person.phone')}:", size: 14, style: :bold
 
-    return unless app.payment_status != 'S'
+    return unless app.payment_status != "S"
 
     if @invoice.sum.negative?
       save_stroke_and_fill
-      fill_color '00ff00'
-      fill_and_stroke_rounded_rectangle([400, 700], 100, 25, 5)
-      stroke_color '000000'
-      fill_color '000000'
-      draw_text @view.format_currency(@invoice.sum, 'EUR'), at: [420, 685]
+      fill_color "00ff00"
+      fill_and_stroke_rounded_rectangle([ 400, 700 ], 100, 25, 5)
+      stroke_color "000000"
+      fill_color "000000"
+      draw_text @view.format_currency(@invoice.sum, "EUR"), at: [ 420, 685 ]
       restore_stroke_and_fill
     elsif @invoice.sum.positive?
       save_stroke_and_fill
-      fill_color 'ff0000'
-      stroke_color 'ff0000'
-      fill_and_stroke_rounded_rectangle([400, 700], 100, 25, 5)
-      stroke_color 'ffffff'
-      fill_color 'ffffff'
-      draw_text @view.format_currency(@invoice.sum, 'EUR'), at: [420, 685]
+      fill_color "ff0000"
+      stroke_color "ff0000"
+      fill_and_stroke_rounded_rectangle([ 400, 700 ], 100, 25, 5)
+      stroke_color "ffffff"
+      fill_color "ffffff"
+      draw_text @view.format_currency(@invoice.sum, "EUR"), at: [ 420, 685 ]
       restore_stroke_and_fill
     end
   end
 
   def invoice(appl)
     move_down 20
-    text I18n.t('participant_sheet.tickets'), style: :bold, size: 14
+    text I18n.t("participant_sheet.tickets"), style: :bold, size: 14
     rows = []
     count = 0
 
     @invoice.items.each do |i|
       count += i.count if i.price.positive?
 
-      if appl.payment_status == 'S'
-        rows << [i.count, i.label, '', ''] if i.price.positive?
+      if appl.payment_status == "S"
+        rows << [ i.count, i.label, "", "" ] if i.price.positive?
       else
-        rows << [i.count, i.label, @view.format_currency(i.price, 'EUR'),
-                 @view.format_currency(i.count * i.price, 'EUR')]
+        rows << [ i.count, i.label, @view.format_currency(i.price, "EUR"),
+                 @view.format_currency(i.count * i.price, "EUR") ]
       end
     end
 
-    rows << if appl.payment_status == 'S'
-              [count, I18n.t('common.sum'), '', '']
-            else
-              [count, I18n.t('common.sum'), '', @view.format_currency(@invoice.sum, 'EUR')]
-            end
+    rows << if appl.payment_status == "S"
+              [ count, I18n.t("common.sum"), "", "" ]
+    else
+              [ count, I18n.t("common.sum"), "", @view.format_currency(@invoice.sum, "EUR") ]
+    end
 
     table rows do
       cells.borders = []
@@ -95,7 +95,7 @@ class ParticipantSheetPdf < Prawn::Document
 
   def performance(app)
     move_down 20
-    text I18n.t('participant_sheet.performance'), style: :bold
+    text I18n.t("participant_sheet.performance"), style: :bold
 
     text "#{I18n.t('festival_application.num_players')}: #{app.num_players}"
     concert = app.festival_concert
@@ -116,11 +116,11 @@ class ParticipantSheetPdf < Prawn::Document
     move_down 20
     if app.event_meal.nil?
       save_stroke_and_fill
-      fill_color 'ff0000'
-      text 'KEINE ESSENSMELDUNG!', style: :bold, size: 20
+      fill_color "ff0000"
+      text "KEINE ESSENSMELDUNG!", style: :bold, size: 20
       restore_stroke_and_fill
     else
-      text I18n.t('participant_sheet.food'), style: :bold
+      text I18n.t("participant_sheet.food"), style: :bold
       text "#{I18n.t('participant_sheet.meals')} #{app.event_meal.tln}"
       text "#{I18n.t('event_meal.veg')} #{app.event_meal.veg}"
     end

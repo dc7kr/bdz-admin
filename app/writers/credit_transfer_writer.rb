@@ -1,11 +1,11 @@
-class CreditTransferWriter 
+class CreditTransferWriter
   attr_accessor :date_prefix, :outfile, :workdir
 
-  def initialize(date_prefix=nil)
+  def initialize(date_prefix = nil)
     self.date_prefix date_prefix
 
     if self.date_prefix.nil?
-      self.date_prefix = Time.zone.now.strftime '%Y%m%d%H%M%S'
+      self.date_prefix = Time.zone.now.strftime "%Y%m%d%H%M%S"
     end
 
     @tool = SepaTool.new(INVOICE_CONFIG)
@@ -44,7 +44,7 @@ class CreditTransferWriter
 
     filename = "#{@date_prefix}_sepa_ct.xml"
     outfile = MailingFile.new(filename, filename, Time.zone.now.year.to_s)
-    sepa_file = File.open(outfile.full_path, 'w')
+    sepa_file = File.open(outfile.full_path, "w")
     sepa_file << sepaxml
     sepa_file.close
 

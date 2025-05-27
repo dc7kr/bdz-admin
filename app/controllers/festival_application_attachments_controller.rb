@@ -46,7 +46,7 @@ class FestivalApplicationAttachmentsController < ApplicationController
       if @festival_application_attachment.save
         format.html do
           redirect_to @festival_application_attachment,
-                      notice: 'Festival application attachment was successfully created.'
+                      notice: "Festival application attachment was successfully created."
         end
         format.json do
           render json: @festival_application_attachment, status: :created, location: @festival_application_attachment
@@ -67,7 +67,7 @@ class FestivalApplicationAttachmentsController < ApplicationController
       if @festival_application_attachment.update(params[:festival_application_attachment])
         format.html do
           redirect_to @festival_application_attachment,
-                      notice: 'Festival application attachment was successfully updated.'
+                      notice: "Festival application attachment was successfully updated."
         end
         format.json { head :no_content }
       else

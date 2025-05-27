@@ -15,7 +15,7 @@ module Mgl
       url_id = params[:id].to_i
 
       if @sess_token.nil? || (@input_id != url_id)
-        flash[:error] = t('report_sheet_input.login_first')
+        flash[:error] = t("report_sheet_input.login_first")
         redirect_to url_for(action: :login)
         return
       end
@@ -25,12 +25,12 @@ module Mgl
       #		return
       #	end
       if @report_sheet_input.nil?
-        redirect_to url_for(action: :login), flash: { notice: t('report_sheet_input.not_found') }
+        redirect_to url_for(action: :login), flash: { notice: t("report_sheet_input.not_found") }
         return
       end
       return unless @report_sheet_input.token != @sess_token
 
-      redirect_to url_for(action: :login), flash: { error: t('report_sheet_input.not_authorized') }
+      redirect_to url_for(action: :login), flash: { error: t("report_sheet_input.not_authorized") }
       nil
     end
 
@@ -46,11 +46,11 @@ module Mgl
 
       @dsgvo = params[:dsgvo]
       if !@dsgvo
-        flash[:error] = t('report_sheet_input.please_confirm_dsgvo')
+        flash[:error] = t("report_sheet_input.please_confirm_dsgvo")
         redirect_to action: :login
       elsif @report_sheet_input.nil?
-        Rails.logger.warn('Invalid token: ')
-        flash[:error] = t('report_sheet_input.invalid_token')
+        Rails.logger.warn("Invalid token: ")
+        flash[:error] = t("report_sheet_input.invalid_token")
         redirect_to action: :login
       else
         @orchestra = @report_sheet_input.orchestra
@@ -94,7 +94,7 @@ module Mgl
       @report_sheet_input.save
 
       respond_to do |format|
-        format.html { redirect_to @report_sheet_input, notice: 'Report sheet input was successfully created.' }
+        format.html { redirect_to @report_sheet_input, notice: "Report sheet input was successfully created." }
         format.json { render json: @report_sheet_input, status: :created, location: @report_sheet_input }
       end
     end
@@ -121,38 +121,38 @@ module Mgl
       respond_to do |format|
         if @report_sheet_input.orchestra.update(orchestra_params(params[:report_sheet_input])) && @report_sheet_input.report_sheet.update(report_sheet_params(params[:report_sheet_input]))
           format.html do
-            redirect_to action: :step2, id: @report_sheet_input, notice: t('report_sheet_input.save_success')
+            redirect_to action: :step2, id: @report_sheet_input, notice: t("report_sheet_input.save_success")
           end
           format.json do
             render json: @report_sheet_input, status: :created,
                    location: url_for(action: :step2, id: @report_sheet_input)
           end
         else
-          format.html { render action: 'step1' }
+          format.html { render action: "step1" }
           format.json { render json: @report_sheet_input.errors, status: :unprocessable_entity }
         end
       end
     end
 
     def submit2
-      data = params.require('report_sheet_input')
+      data = params.require("report_sheet_input")
 
       # params[:report_sheet_input];
 
-      @contacts = data['contact']
+      @contacts = data["contact"]
 
       @contacts.each_value do |c|
-        if c['id'] != ''
-          oc = OrchestraContact.find(c['id'])
+        if c["id"] != ""
+          oc = OrchestraContact.find(c["id"])
           if oc.orchestra_id == @report_sheet_input.orchestra.id
             oc.update(contact_params(c))
             oc.save
-            Rails.logger.warn('Created orchestra contact')
+            Rails.logger.warn("Created orchestra contact")
             Rails.logger.warn(oc)
           else
             Rails.logger.warn("ID has been tampered with!: #{c['id']}")
           end
-        elsif c['last_name'].length > 1
+        elsif c["last_name"].length > 1
           oc = OrchestraContact.new(contact_params(c))
           oc.orchestra_id = @report_sheet_input.orchestra_id
           oc.save
@@ -161,7 +161,7 @@ module Mgl
 
       respond_to do |format|
         format.html do
-          redirect_to action: :step3, id: @report_sheet_input, notice: t('report_sheet_input.save_success')
+          redirect_to action: :step3, id: @report_sheet_input, notice: t("report_sheet_input.save_success")
         end
       end
     end
@@ -170,7 +170,7 @@ module Mgl
       @report_sheet_input = ReportSheetInput.find(params[:id])
       @contacts = @report_sheet_input.orchestra.orchestra_contacts
       roles = OrchestraContact.roles
-      roles.delete('Z')
+      roles.delete("Z")
 
       @contact_hash = {}
 
@@ -180,7 +180,7 @@ module Mgl
 
       roles.each do |r|
         # create empty contact, exept "Versandadresse"
-        next unless @contact_hash[r].nil? && (r != 'Z')
+        next unless @contact_hash[r].nil? && (r != "Z")
 
         contact = OrchestraContact.new
         contact.role = r
@@ -189,11 +189,11 @@ module Mgl
     end
 
     def step3
-      @report_sheet_input = ReportSheetInput.includes([:orchestra]).find(params[:id])
+      @report_sheet_input = ReportSheetInput.includes([ :orchestra ]).find(params[:id])
 
       @orchestra = @report_sheet_input.orchestra
 
-      @members = @orchestra.orchestra_members.order(['last_name, first_name'])
+      @members = @orchestra.orchestra_members.order([ "last_name, first_name" ])
 
       @year = @report_sheet_input.report_sheet.year
 
@@ -210,7 +210,7 @@ module Mgl
     end
 
     def step4
-      @report_sheet_input = ReportSheetInput.includes([:orchestra]).find(params[:id])
+      @report_sheet_input = ReportSheetInput.includes([ :orchestra ]).find(params[:id])
       @report_sheet = @report_sheet_input.report_sheet
     end
 
@@ -224,10 +224,10 @@ module Mgl
         format.html do
           if @rs.update(report_sheet_params(params))
             redirect_to url_for(action: :finalize, id: @report_sheet_input),
-                        notice: t('report_sheet_input.save_success')
+                        notice: t("report_sheet_input.save_success")
           else
             redirect_to url_for(action: :step4, id: @report_sheet_input),
-                        flash: { error: t('report_sheet_input.save_error') }
+                        flash: { error: t("report_sheet_input.save_error") }
           end
         end
       end
@@ -243,26 +243,26 @@ module Mgl
       @members = OrchestraMember.where(orchestra_id: @report_sheet_input.orchestra.id)
 
       @counts = {
-        'C' => 0,
-        'T' => 0,
-        'Y' => 0,
-        'A' => 0,
-        'S' => 0
+        "C" => 0,
+        "T" => 0,
+        "Y" => 0,
+        "A" => 0,
+        "S" => 0
       }
 
       @year = @rs.year
 
       @members.each do |m|
         if m.age(@year) < 15
-          @counts['C'] += 1
+          @counts["C"] += 1
         elsif m.age(@year) <= 18
-          @counts['T'] += 1
+          @counts["T"] += 1
         elsif m.age(@year) <= 27
-          @counts['Y'] += 1
+          @counts["Y"] += 1
         elsif m.age(@year) < 65
-          @counts['A'] += 1
+          @counts["A"] += 1
         else
-          @counts['S'] += 1
+          @counts["S"] += 1
         end
       end
 
@@ -273,13 +273,13 @@ module Mgl
       @roles = OrchestraContact.roles
 
       @orchestration = []
-      @orchestration.append 'Zupforchester' if @rs.zo
+      @orchestration.append "Zupforchester" if @rs.zo
 
-      @orchestration.append 'Zitherorchester' if @rs.zi_o
+      @orchestration.append "Zitherorchester" if @rs.zi_o
 
-      @orchestration.append 'Gitarrenorchester' if @rs.go
+      @orchestration.append "Gitarrenorchester" if @rs.go
 
-      @orchestration.append 'Andere' if @rs.oz
+      @orchestration.append "Andere" if @rs.oz
 
       respond_to do |format|
         format.html
@@ -290,10 +290,10 @@ module Mgl
       @rsi = ReportSheetInput.includes(:orchestra).find(params[:id])
       @rs = @rsi.report_sheet
 
-      cur_year = Time.zone.now.strftime '%Y'
+      cur_year = Time.zone.now.strftime "%Y"
       event_id = "MB_#{@rs.year}_CONFIRM"
 
-      tool = MailingTool.new(cur_year.to_s, 'gs', event_id, 'Bestaetigung Meldebogeneingabe', false)
+      tool = MailingTool.new(cur_year.to_s, "gs", event_id, "Bestaetigung Meldebogeneingabe", false)
       mailer_params = { rsi: @rsi }
 
       if @rs.orchestra.nil?
@@ -318,10 +318,10 @@ module Mgl
 
       mglnr = @rsi.orchestra.member.mglnr
 
-      datePrefix = Time.zone.now.strftime('%Y%m%d%H%M%S')
+      datePrefix = Time.zone.now.strftime("%Y%m%d%H%M%S")
       filename = "#{datePrefix}_meldebogen_#{@rsi.report_sheet.year}_#{mglnr}.pdf"
       pdf = ReportSheetInputPdf.new(@rsi, view_context)
-      pdf_file = MailingFile.new(filename, filename, Time.zone.now.strftime('%Y'))
+      pdf_file = MailingFile.new(filename, filename, Time.zone.now.strftime("%Y"))
       pdf.render_file pdf_file.full_path
 
       respond_to do |format|
@@ -332,8 +332,8 @@ module Mgl
         format.pdf do
           Rails.logger.debug { "Sending PDF: #{pdf_file.full_path}" }
           send_file pdf_file.full_path, filename: "meldebogen_#{@rsi.report_sheet.year}_#{mglnr}.pdf",
-                                        type: 'application/pdf',
-                                        disposition: 'inline'
+                                        type: "application/pdf",
+                                        disposition: "inline"
         end
       end
     end
@@ -347,7 +347,7 @@ module Mgl
 
       respond_to do |format|
         if @report_sheet_input.save
-          format.html { redirect_to @report_sheet_input, notice: 'Report sheet input was successfully created.' }
+          format.html { redirect_to @report_sheet_input, notice: "Report sheet input was successfully created." }
           format.json { render json: @report_sheet_input, status: :created, location: @report_sheet_input }
         else
           format.html { render :new, status: :unprocessable_entity }
@@ -363,7 +363,7 @@ module Mgl
 
       respond_to do |format|
         if @report_sheet_input.update(params[:report_sheet_input])
-          format.html { redirect_to @report_sheet_input, notice: 'Report sheet input was successfully updated.' }
+          format.html { redirect_to @report_sheet_input, notice: "Report sheet input was successfully updated." }
           format.json { head :no_content }
         else
           format.html { render :edit, status: :unprocessable_entity }
@@ -391,11 +391,11 @@ module Mgl
 
       if datafile.nil?
         redirect_to url_for(action: :step3, id: @report_sheet_input),
-                    flash: { error: t('report_sheet_input.no_file_selected') }
+                    flash: { error: t("report_sheet_input.no_file_selected") }
         return
       end
 
-      uploaded_file = DataFile.save(prefix, '/tmp', params[:datafile])
+      uploaded_file = DataFile.save(prefix, "/tmp", params[:datafile])
 
       return if datafile.nil?
 
@@ -405,11 +405,11 @@ module Mgl
 
       if doc.nil?
         redirect_to url_for(action: :step3, id: @report_sheet_input),
-                    flash: { error: t('report_sheet_input.invalid_upload') }
+                    flash: { error: t("report_sheet_input.invalid_upload") }
       else
         unless verify_report(doc)
           redirect_to url_for(action: :step3, id: @report_sheet_input),
-                      flash: { error: t('orchestra.invalid_report_sheet_upload') }
+                      flash: { error: t("orchestra.invalid_report_sheet_upload") }
           return
         end
 
@@ -421,11 +421,11 @@ module Mgl
 
         if @error_count.positive?
           redirect_to url_for(action: :step3, id: @report_sheet_input),
-                      flash: { warning: t('orchestra.report_sheet_upload_warning', error: @error_count,
+                      flash: { warning: t("orchestra.report_sheet_upload_warning", error: @error_count,
                                                                                    success: @success_count) }
         else
           redirect_to url_for(action: :step3, id: @report_sheet_input),
-                      flash: { notice: t('orchestra.report_sheet_upload_success', success: @success_count) }
+                      flash: { notice: t("orchestra.report_sheet_upload_success", success: @success_count) }
         end
       end
     end
@@ -437,7 +437,7 @@ module Mgl
       respond_to do |format|
         format.html do
           redirect_to url_for(action: :step3, id: @report_sheet_input),
-                      notice: t('report_sheet_input.member_delete_success')
+                      notice: t("report_sheet_input.member_delete_success")
         end
       end
     end

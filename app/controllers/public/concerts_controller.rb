@@ -42,10 +42,10 @@ module Public
     # GET /concerts/new.json
     def new
       @concert = Concert.new
-      @concert.country_code = 'DE'
+      @concert.country_code = "DE"
       @lvs = RegionalOrganization.all
       @states = State.all
-      @festivals = Festival.where('startdate > ? or id=0', Time.zone.now)
+      @festivals = Festival.where("startdate > ? or id=0", Time.zone.now)
 
       respond_to do |format|
         format.html # new.html.erb
@@ -57,7 +57,7 @@ module Public
       @concert = Concert.find_by uid: params[:id]
       @lvs = RegionalOrganization.all
       @states = State.all
-      @festivals = Festival.where('startdate > ? or id=0', Time.zone.now)
+      @festivals = Festival.where("startdate > ? or id=0", Time.zone.now)
     end
 
     # POST /concerts.json
@@ -66,11 +66,11 @@ module Public
       @concert.reported = Time.zone.now
       @concert.uid = SecureRandom.uuid
       @states = State.all
-      @festivals = Festival.where('startdate > ? or id=0', Time.zone.now)
+      @festivals = Festival.where("startdate > ? or id=0", Time.zone.now)
 
       respond_to do |format|
         if @concert.save
-          format.html { redirect_to @concert, notice: 'Concert was successfully created.' }
+          format.html { redirect_to @concert, notice: "Concert was successfully created." }
           format.json { render json: @concert, status: :created, location: @concert }
         else
           format.html { render :new, status: :unprocessable_entity }
@@ -92,7 +92,7 @@ module Public
     private
 
     def sort_column
-      Concert.column_names.include?(params[:sort]) ? params[:sort] : 'datum'
+      Concert.column_names.include?(params[:sort]) ? params[:sort] : "datum"
     end
 
     def concert_params
