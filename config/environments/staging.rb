@@ -87,5 +87,5 @@ BDZAdmin::Application.configure do
   config.action_mailer.perform_deliveries = true
   config.action_mailer.logger = nil
 
-  config.time_zone = 'Berlin'
+  config.time_zone = "Berlin"
 end

@@ -1,30 +1,41 @@
 # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-require 'sidekiq/web'
-require 'sidekiq/cron/web'
+require "sidekiq/web"
+require "sidekiq/cron/web"
 
 Rails.application.routes.draw do
+  # Can be used by load balancers and uptime monitors to verify that the app is live.
+  get "up" => "rails/health#show", as: :rails_health_check
+
+  mount ActionCable.server => '/cable'
+
+
+  # Render dynamic PWA files from app/views/pwa/*
+  get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
+  get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
+
+  resources :gema_events
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 
   # custom errors
-  match '/403', to: 'errors#forbidden', via: :all
-  match '/404', to: 'errors#not_found', via: :all
-  match '/500', to: 'errors#internal_server_error', via: :all
+  match "/403", to: "errors#forbidden", via: :all
+  match "/404", to: "errors#not_found", via: :all
+  match "/500", to: "errors#internal_server_error", via: :all
 
   # test for exception notification via Mail
-  get 'test_exception_notifier' => 'application#test_exception_notifier'
+  get "test_exception_notifier" => "application#test_exception_notifier"
 
   # Start page
-  root to: 'home#landing_page'
+  root to: "home#landing_page"
 
   # login and logout urls ...
   devise_scope :user do
-    get '/login' => 'devise/sessions#new'
-    get '/logout' => 'devise/sessions#destroy'
-    get '/edit_password' => 'devise/passwords#edit'
+    get "/login" => "devise/sessions#new"
+    get "/logout" => "devise/sessions#destroy"
+    get "/edit_password" => "devise/passwords#edit"
   end
 
   authenticate :user, ->(u) { u.admin? } do
-    mount Sidekiq::Web, at: '/sidekiq'
+    mount Sidekiq::Web, at: "/sidekiq"
   end
 
   resources :gema_events do
@@ -33,16 +44,16 @@ Rails.application.routes.draw do
     end
   end
 
-  mount CorikaInvoices::Engine, at: '/invoice_engine', as: 'invoice_engine'
+  mount CorikaInvoices::Engine, at: "/invoice_engine", as: "invoice_engine"
 
-  get '/auth/:provider/callback', to: 'sessions#create'
+  get "/auth/:provider/callback", to: "sessions#create"
 
   resources :orchestra_members do
     collection do
       get :search
     end
     member do
-      get 'exchange'
+      get "exchange"
     end
   end
 
@@ -84,7 +95,7 @@ Rails.application.routes.draw do
         get :finalize
         get :confirm
         put :confirm
-        post 'upload'
+        post "upload"
         get :delete_members
       end
     end
@@ -144,24 +155,24 @@ Rails.application.routes.draw do
 
   resources :uploaded_files
 
-  get 'magazine_reports/calendar' => 'magazine_reports#calendar'
-  get 'magazine_reports/counts' => 'magazine_reports#counts'
+  get "magazine_reports/calendar" => "magazine_reports#calendar"
+  get "magazine_reports/counts" => "magazine_reports#counts"
 
-  get 'api/rsm/gen_data' => 'report_sheet_mailings#gen_data'
-  get 'api/rsm/gen_mailings' => 'report_sheet_mailings#gen_mailings'
-  get 'api/rsm/test' => 'report_sheet_mailings#test'
+  get "api/rsm/gen_data" => "report_sheet_mailings#gen_data"
+  get "api/rsm/gen_mailings" => "report_sheet_mailings#gen_mailings"
+  get "api/rsm/test" => "report_sheet_mailings#test"
 
   # Invoice generation checks
-  get '/adm/invoice_check' => 'adm/invoice_check#index'
-  get '/adm/invoice_check/distinction' => 'adm/invoice_check#distinction'
-  get '/adm/invoice_check/orchestra' => 'adm/invoice_check#orchestra'
-  get '/adm/mail_check/admin' => 'adm/mail_check#admin_notify'
+  get "/adm/invoice_check" => "adm/invoice_check#index"
+  get "/adm/invoice_check/distinction" => "adm/invoice_check#distinction"
+  get "/adm/invoice_check/orchestra" => "adm/invoice_check#orchestra"
+  get "/adm/mail_check/admin" => "adm/mail_check#admin_notify"
 
   resources :uploads
 
-  get 'errors/error_404'
+  get "errors/error_404"
 
-  get 'errors/error_500'
+  get "errors/error_500"
 
   resources :contacts
   resources :honor_members
@@ -175,8 +186,8 @@ Rails.application.routes.draw do
 
   resources :advertisements
 
-  devise_for :users, skip: [:registrations]
-  devise_for :members, controllers: { registrations: 'registrations' }, path_prefix: 'mem'
+  devise_for :users, skip: [ :registrations ]
+  devise_for :members, controllers: { registrations: "registrations" }, path_prefix: "mem"
 
   resources :users, path: :accounts do
     collection do
@@ -186,29 +197,29 @@ Rails.application.routes.draw do
 
   resources :member_account_bookings
 
-  get 'member_report' => 'member_report#index'
-  get 'member_report/by_lv' => 'member_report#by_lv'
-  get 'member_report/report_sheet_stats' => 'member_report#report_sheet_stats'
+  get "member_report" => "member_report#index"
+  get "member_report/by_lv" => "member_report#by_lv"
+  get "member_report/report_sheet_stats" => "member_report#report_sheet_stats"
 
-  get 'home/member_data' => 'home#member_data'
-  get 'home/reference_data' => 'home#reference_data'
-  get 'home/admin_data' => 'home#admin_data'
-  get 'home/landing_page' => 'home#landing_page'
-  get 'home/magazine_data' => 'home#magazine_data'
-  get 'home/festival_data' => 'home#festival_data'
-  get 'home/cron' => 'home#cron'
-  get 'home/tools' => 'home#tools'
-  post 'home/export_view' => 'home#export_view'
+  get "home/member_data" => "home#member_data"
+  get "home/reference_data" => "home#reference_data"
+  get "home/admin_data" => "home#admin_data"
+  get "home/landing_page" => "home#landing_page"
+  get "home/magazine_data" => "home#magazine_data"
+  get "home/festival_data" => "home#festival_data"
+  get "home/cron" => "home#cron"
+  get "home/tools" => "home#tools"
+  post "home/export_view" => "home#export_view"
 
-  get 'modify_pdf' => 'modify_pdf#index'
+  get "modify_pdf" => "modify_pdf#index"
 
-  get 'about' => 'about#index'
-  get 'config' => 'about#settings'
+  get "about" => "about#index"
+  get "config" => "about#settings"
 
-  get 'custom_info_mail' => 'custom_info_mail#index'
-  get 'custom_info_mail/test' => 'custom_info_mail#test'
-  post 'custom_info_mail/send_mail' => 'custom_info_mail#send_mail'
-  get 'custom_info_mail/template_test' => 'custom_info_mail#template_test'
+  get "custom_info_mail" => "custom_info_mail#index"
+  get "custom_info_mail/test" => "custom_info_mail#test"
+  post "custom_info_mail/send_mail" => "custom_info_mail#send_mail"
+  get "custom_info_mail/template_test" => "custom_info_mail#template_test"
 
   resources :festival_mails do
     collection do
@@ -228,7 +239,9 @@ Rails.application.routes.draw do
       get :public
     end
   end
+
   resources :states
+  resources :board_contacts
 
   resources :regional_organizations do
     collection do
@@ -275,13 +288,13 @@ Rails.application.routes.draw do
 
       resources :regional_organization_bookings, shallow: true do
         member do
-          get 'download'
+          get "download"
         end
       end
     end
     resources :member_account_bookings, shallow: true do
       member do
-        get 'download'
+        get "download"
       end
     end
   end
@@ -291,26 +304,26 @@ Rails.application.routes.draw do
   # confidential
   resources :report_sheets do
     collection do
-      get 'payed'
-      get 'final'
-      get 'not_final'
-      get 'analysis'
+      get "payed"
+      get "final"
+      get "not_final"
+      get "analysis"
     end
     member do
-      get 'gen_pdf'
+      get "gen_pdf"
     end
   end
 
   resources :person_members do
     resources :member_events do
       member do
-        get 'download'
+        get "download"
       end
     end
 
     resources :member_account_bookings do
       member do
-        get 'download'
+        get "download"
       end
     end
 
@@ -361,23 +374,23 @@ Rails.application.routes.draw do
 
     resources :member_account_bookings do
       member do
-        get 'download'
+        get "download"
       end
     end
 
     resources :member_events do
       member do
-        get 'download'
+        get "download"
       end
     end
 
     resources :orchestra_members do
       collection do
-        get 'delete_all'
+        get "delete_all"
         post :exchange_all
-        get 'check_double'
-        get 'upload_report'
-        post 'upload'
+        get "check_double"
+        get "upload_report"
+        post "upload"
       end
     end
 
@@ -412,28 +425,28 @@ Rails.application.routes.draw do
 
   # automated controllers
   namespace :cron do
-    get 'invoices/gen_all' => 'invoices#gen_all'
-    get 'invoices/gen_orchestras' => 'invoices#gen_orchestras'
-    get 'invoices/gen_persons' => 'invoices#gen_persons'
-    get 'invoices/gen_lorch' => 'invoices#gen_lorch'
-    get 'invoices/ping' => 'invoices#ping'
-    get 'lv_fee_bookings/index' => 'lv_fee_bookings#index'
-    get 'reminders/report_sheet' => 'reminders#report_sheet'
-    get 'reminders/payment' => 'reminders#payment'
-    get 'cancellations' => 'batch#cancellations'
+    get "invoices/gen_all" => "invoices#gen_all"
+    get "invoices/gen_orchestras" => "invoices#gen_orchestras"
+    get "invoices/gen_persons" => "invoices#gen_persons"
+    get "invoices/gen_lorch" => "invoices#gen_lorch"
+    get "invoices/ping" => "invoices#ping"
+    get "lv_fee_bookings/index" => "lv_fee_bookings#index"
+    get "reminders/report_sheet" => "reminders#report_sheet"
+    get "reminders/payment" => "reminders#payment"
+    get "cancellations" => "batch#cancellations"
 
-    get 'cleanup/remove_resigned' => 'cleanup#remove_resigned'
+    get "cleanup/remove_resigned" => "cleanup#remove_resigned"
 
     # TODO: These aren't resources!
     resources :mails
     resources :downloads
   end
 
-  get 'member_tools/kto_blz_to_iban_bic' => 'member_tools#kto_blz_to_iban'
-  get 'member_tools/iban_calculator' => 'member_tools#iban_calculator'
-  get 'home/index'
+  get "member_tools/kto_blz_to_iban_bic" => "member_tools#kto_blz_to_iban"
+  get "member_tools/iban_calculator" => "member_tools#iban_calculator"
+  get "home/index"
 
-  get 'reports/youth_addresses', to: 'reports/youth_addresses#index', defaults: { format: 'ods' }
+  get "reports/youth_addresses", to: "reports/youth_addresses#index", defaults: { format: "ods" }
 
   namespace :adm do
     resources :letter_file_regeneration
@@ -477,7 +490,7 @@ Rails.application.routes.draw do
 
   # BEGIN public namespace
   namespace :public do
-    resources :regional_organizations, as: 'lv' do
+    resources :regional_organizations, as: "lv" do
       resources :orchestras
       resources :concerts
     end
@@ -504,13 +517,13 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :regional_organizations, as: 'lv' do
+    resources :regional_organizations, as: "lv" do
     end
   end
 
   # MAGAZINE
   namespace :magazine do
-    get 'address_list', to: 'address_list#index'
+    get "address_list", to: "address_list#index"
     resources :magazine_issues, path: :issues, as: :issues do
       resources :magazine_adverts, path: :adverts, as: :adverts, shallow: true do
         member do
@@ -522,7 +535,7 @@ Rails.application.routes.draw do
 
     resources :advertisers
 
-    resources :samplings, controller: 'magazine_samplings' do
+    resources :samplings, controller: "magazine_samplings" do
       collection do
         get :print_list
         post :search

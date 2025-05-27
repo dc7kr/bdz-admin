@@ -1,4 +1,4 @@
-require 'active_support/core_ext/integer/time'
+require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb
@@ -18,7 +18,7 @@ Rails.application.configure do
 
   # Ensures that a master key has been made available in ENV["RAILS_MASTER_KEY"], config/master.key, or an environment
   # key such as config/credentials/production.key. This key is used to decrypt credentials (and other encrypted files).
-  config.require_master_key = ENV['SECRET_KEY_BASE_DUMMY'].nil?
+  config.require_master_key = ENV["SECRET_KEY_BASE_DUMMY"].nil?
 
   # Disable serving static files from `public/`, relying on NGINX/Apache to do so instead.
   # config.public_file_server.enabled = false
@@ -51,6 +51,9 @@ Rails.application.configure do
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   config.force_ssl = true
 
+  # Skip http-to-https redirect for the default health check endpoint.
+  # config.ssl_options = { redirect: { exclude: ->(request) { request.path == "/up" } } }
+
   # Log to STDOUT by default
   # config.logger = ActiveSupport::Logger.new(STDOUT)
   #  .tap  { |logger| logger.formatter = ::Logger::Formatter.new }
@@ -60,13 +63,13 @@ Rails.application.configure do
   config.logger = ActiveSupport::Logger.new("log/#{Rails.env}.log")
 
   # Prepend all log lines with the following tags
-  config.log_tags = [:request_id]
+  config.log_tags = [ :request_id ]
 
   # Info include generic and useful information about system operation, but avoids logging too much
   # information to avoid inadvertent exposure of personally identifiable information (PII). If you
   # want to log everything, set the level to "debug".
   # config.log_level = ENV.fetch("RAILS_LOG_LEVEL", "info")
-  config.log_level = 'debug'
+  config.log_level = "debug"
 
   # Use a different cache store in production
   # config.cache_store = :mem_cache_store
@@ -75,6 +78,8 @@ Rails.application.configure do
   # config.active_job.queue_adapter = :resque
   # config.active_job.queue_name_prefix = "railsdiff_production"
 
+  # Disable caching for Action Mailer templates even if Action Controller
+  # caching is enabled.
   config.action_mailer.perform_caching = false
 
   # Ignore bad email addresses and do not raise email delivery errors.
@@ -90,6 +95,9 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  # Only use :id for inspections in production.
+  config.active_record.attributes_for_inspect = [ :id ]
 
   # Enable DNS rebinding protection and other `Host` header attacks.
   # config.hosts = [
@@ -114,11 +122,11 @@ Rails.application.configure do
 
   config.log_level = :info
 
-  config.time_zone = 'Berlin'
+  config.time_zone = "Berlin"
 
   Rails.application.config.middleware.use ExceptionNotification::Rack,
                                           email: {
-                                            email_prefix: '[BDZDB] ', # Default: [ERROR]
+                                            email_prefix: "[BDZDB] ", # Default: [ERROR]
                                             sender_address: %('Notifier' <bdzdb@zupfmusiker.de>),
                                             exception_recipients: %w[kr@corika.com]
                                           }
