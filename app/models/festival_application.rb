@@ -16,6 +16,8 @@ class FestivalApplication < ApplicationRecord
 
   scope :current_festival, -> { where(year: BDZ_SETTINGS['config']['festival_year']) }
 
+  scope :current_with_contacts, -> { FestivalApplication.current_festival.includes(:contact_person) }
+
   def t_country(locale = 'de')
     translated_country(country_code, locale)
   end
