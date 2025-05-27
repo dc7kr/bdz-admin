@@ -46,73 +46,13 @@ class FestivalMailsController < AuthenticatedNonResourceController
 
   def send_mails
     authorize! :member, :edit
-    @mail_params = params['festival_mail']
-    @successCount = 0
-    @failCount = 0
-    @results = {}
-    logger.info('PARAMS')
-    logger.info(@mail_params)
-    @group = @mail_params['group']
-    datafile = @mail_params[:datafile]
 
-    cur_year = Time.zone.now.year
+    mail_params = params['festival_mail']
 
-    @att_file = nil
-    @att_data = nil
-
-    @results = []
-
-    @event_id = @mail_params[:event_id]
-
-    @letterfile = storeUploadedFile(cur_year.to_s, datafile.original_filename, datafile) unless datafile.nil?
-
-    @applicants = nil
-
-    case @group
-    when 'FA'
-      @applicants = FestivalApplication.includes(:contact_person)
-    when 'FP'
-      @applicants = FestivalApplication.includes(:contact_person).where(permission: true)
-    when 'FR'
-      @applicants = FestivalApplication.includes(:contact_person).where(permission: true, visitor_type: 'R')
-    when 'FS'
-      @applicants = FestivalApplication.includes(:contact_person).where(permission: true, visitor_type: 'V')
-    when 'FJ'
-      @applicants = FestivalApplication.includes(:contact_person).where(permission: true, visitor_type: 'Y')
-    when 'FG'
-      @applicants = FestivalApplication.includes(:contact_person).where(permission: true, visitor_type: 'G')
-    when 'FO'
-      @applicants = FestivalApplication.includes(:contact_person).where(permission: true, visitor_type: 'O')
-    else
-      logger.error("NO GROUP identified: #{@group}")
-    end
-
-    subject = @mail_params[:subject]
-
-    # via_paper is true by default
-    tool = MailingTool.new(cur_year.to_s, 'gs', @event_id, subject)
-
-    letterArray = []
-
-    @applicants.each do |appl|
-      addressee = appl.contact_person.to_addressee
-
-      body = prepare_body(appl, @mail_params[:body])
-      logger.debug("Result: #{body}")
-      mailer_params = { body: body, subject: subject }
-
-      result = tool.deliver_mailing(FestivalMail, addressee, nil, @letterfile, letterArray, mailer_params)
-      @results << result
-
-      if result[:success] == true
-        @successCount += 1
-      else
-        @failCount += 1
-      end
-    end
+    FestivalMailsJob.perform_later(current_user.id, mail_params)
 
     respond_to do |format|
-      format.html
+      format.html { redirect_to home_festival_data_path, notice: t('festival_mail.mails_success') }
     end
   end
 end
