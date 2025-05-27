@@ -1,22 +1,41 @@
 !!!
 %html
   %head
-    %title #{title}
+    %title= content_for(:title)
     %meta{:name=>"viewport", :content=>"width=device-width, initial-scale=1, shrink-to-fit=no"}
+    %meta{:name=>"apple-mobile-web-app-capable", :content=>"yes"}
     = csrf_meta_tags
     = csp_meta_tag
-    = stylesheet_link_tag "application", "data-turbo-track": "reload"
+    %script{:async => "", "data-turbo-track" => "reload", :src => "https://ga.jspm.io/npm:es-module-shims@1.8.2/dist/es-module-shims.js"}
+
     = javascript_importmap_tags
+    = yield :head
+
+    %link{:href => "/manifest.json", :rel => "manifest"}/
+    %link{:href => "/icon.png", :rel => "icon", :type => "image/png"}/
+    %link{:href => "/icon.svg", :rel => "icon", :type => "image/svg+xml"}/
+    %link{:href => "/icon.png", :rel => "apple-touch-icon"}/
+    = stylesheet_link_tag "application", "data-turbo-track": "reload"
   %body
     - if not current_user.nil?
       = render :partial => "main_menu"
     #flash-messages
       = render :partial => "flash_messages", locals: { :flash => flash }
+
     .wrapper
       #content.pb-5.w-100.container-fluid
         #main
           = yield
           = turbo_frame_tag :modal
+          .toast#remote_toast{"aria-atomic" => "true", "aria-live" => "assertive", :role => "alert"}
+            .toast-header
+              %i.fas.fa-info-circle
+              %strong.me-auto#rt_title
+              %small#rt_time
+              %button.btn-close{"aria-label" => "Close", "data-bs-dismiss" => "toast", :type => "button"}
+            .toast-body#rt_body
+
+
       - if not current_user.nil?
         .offcanvas.offcanvas-end#offcanvasSidebar{ :data => { :bs => { :backdrop => "static"} }, :aria => { :labelledby=> "sidebarLabel" } }
           .offcanvas-header
@@ -24,5 +43,12 @@
             %button.btn-close.text-reset{ :type=>"button", :data=> { :bs=> { :dismiss=> "offcanvas"}, :aria => {:label => "close"}}}
           .offcanvas-body 
             = yield :sidebar
+ 
     %footer.page-footer.fixed-bottom.font-small.d-print-none.text-white.bg-dark
       %p.text-center.p-1.mb-0 Copyright &copy; 2011-#{Time.now.year} by Karsten Richter - Version #{IMAGE_VERSION}-#{GIT_REVISION}
+    %script
+      window.onload = (event) => {
+      const toastElList = document.querySelectorAll('.toast')
+      const toastList = [...toastElList].map(toastEl => new bootstrap.Toast(toastEl))
+      console.log(toastElList);
+      };
