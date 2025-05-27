@@ -14,5 +14,13 @@ consumer.subscriptions.create("NotificationChannel", {
     console.log("Notification received.");
     // Called when there's incoming data on the websocket for this channel
     console.log(data)
+    var toastRef = document.getElementById('remote_toast')
+
+    document.getElementById('rt_title').textContent = data['title'];
+    document.getElementById('rt_body').textContent = data['message'];
+
+    const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastRef);
+    toastBootstrap.show();
+
   }
 });
