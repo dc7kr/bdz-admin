@@ -1,33 +1,45 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
+  sap_nr: 1
   kdnr: 1
+  orchestra: one
   name: MyString
-  zip: MyString
-  city: MyString
-  date: 2017-05-11
-  title: MyString
-  tariff: MyString
-  amount: 1.5
+  license_nr: 1
+  event_date: 2025-02-03
+  description: MyString
   location: MyString
-  location_city: MyString
-  program_available: false
-  source: MyString
-  par_mgl: MyString
-  nf_id: MyString
+  tariff: MyString
+  ticket_total: 1.5
+  admission_price: 1.5
+  music_effort: 1.5
+  visitors: 1
+  room_size: 1
+  setlist: MyString
+  gema_amount: 1.5
+  gstv_reduction: 1.5
+  cultural_reduction: 1.5
+  e_reduction: 1.5
+  netto: 1.5
 
 two:
+  sap_nr: 1
   kdnr: 1
+  orchestra: two
   name: MyString
-  zip: MyString
-  city: MyString
-  date: 2017-05-11
-  title: MyString
-  tariff: MyString
-  amount: 1.5
+  license_nr: 1
+  event_date: 2025-02-03
+  description: MyString
   location: MyString
-  location_city: MyString
-  program_available: false
-  source: MyString
-  par_mgl: MyString
-  nf_id: MyString
+  tariff: MyString
+  ticket_total: 1.5
+  admission_price: 1.5
+  music_effort: 1.5
+  visitors: 1
+  room_size: 1
+  setlist: MyString
+  gema_amount: 1.5
+  gstv_reduction: 1.5
+  cultural_reduction: 1.5
+  e_reduction: 1.5
+  netto: 1.5
