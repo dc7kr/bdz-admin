@@ -215,7 +215,7 @@ class Member < ApplicationRecord
   end
 
   def create_invoice_delta_booking(year, amount, filename, booking_txt)
-    booking = MemberAccountBooking.newInvoice(booking_txt, -1 * amount, mglnr.to_s)
+    booking = MemberAccountBooking.new_invoice(booking_txt, -1 * amount, mglnr.to_s)
     booking.member_id = id
     booking.booking_year = year
     booking.filename = filename
@@ -225,7 +225,7 @@ class Member < ApplicationRecord
   end
 
   def create_invoice_booking(year, invoice, filename, booking_txt)
-    booking = MemberAccountBooking.newInvoice(booking_txt, -1 * invoice.sum, mglnr.to_s)
+    booking = MemberAccountBooking.new_invoice(booking_txt, -1 * invoice.sum, mglnr.to_s)
     booking.member_id = id
     booking.booking_year = year
     booking.filename = filename
@@ -244,7 +244,7 @@ class Member < ApplicationRecord
 
     if is_direct_debit?
       if sepa_writer.add_credit_transfer(customer, booking_txt, amount)
-        booking = MemberAccountBooking.newCreditTransfer("Überweisung #{booking_txt}", amount)
+        booking = MemberAccountBooking.new_credit_transfer("Überweisung #{booking_txt}", amount)
         booking.member_id = id
         booking.booking_year = year
         booking.save
@@ -274,7 +274,7 @@ class Member < ApplicationRecord
     return unless is_direct_debit?
 
     sepa_writer.add_direct_debit(customer, amount, booking_txt, 'RCUR')
-    booking = MemberAccountBooking.newWithdrawal("Lastschrift #{booking_txt}", amount)
+    booking = MemberAccountBooking.new_dd("Lastschrift #{booking_txt}", amount)
     booking.member_id = id
     booking.booking_year = year
     booking.save

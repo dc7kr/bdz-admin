@@ -5,7 +5,7 @@ class RegionalOrganizationBooking < ApplicationRecord
     !filename.nil? and filename.length.positive?
   end
 
-  def self.newCredit(txt, amount)
+  def self.new_ct(txt, amount)
     booking = RegionalOrganizationBooking.new
     booking.booking_date = Time.zone.now
     booking.booking_year = Time.zone.now.year

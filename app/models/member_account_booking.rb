@@ -26,7 +26,7 @@ class MemberAccountBooking < ApplicationRecord
     @booking
   end
 
-  def self.newDistinctionInvoice(txt, amount, mglnrStr, pdf)
+  def self.new_distinction_invoice(txt, amount, mglnrStr, pdf)
     booking = genericType(txt, 'ehrungsrechnung', 'E', amount, mglnrStr)
 
     booking.filename = pdf.orig_filename
@@ -34,11 +34,11 @@ class MemberAccountBooking < ApplicationRecord
     booking
   end
 
-  def self.newInvoice(txt, amount, mglnrStr)
+  def self.new_invoice(txt, amount, mglnrStr)
     genericType(txt, 'rechnung', 'B', amount, mglnrStr)
   end
 
-  def self.newWithdrawal(txt, amount, filename = nil)
+  def self.new_dd(txt, amount, filename = nil)
     booking = MemberAccountBooking.new
     booking.booking_date = Time.zone.now
     booking.booking_year = Time.zone.now.year
@@ -51,7 +51,7 @@ class MemberAccountBooking < ApplicationRecord
     booking
   end
 
-  def self.newCreditTransfer(txt, amount)
+  def self.new_credit_transfer(txt, amount)
     booking = MemberAccountBooking.new
     booking.booking_date = Time.zone.now
     booking.booking_year = Time.zone.now.year
