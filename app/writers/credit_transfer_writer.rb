@@ -1,11 +1,23 @@
-class CreditTransferWriter < BankTransferWriter
-  def initialize(datePrefix)
-    super
+class CreditTransferWriter 
+  attr_accessor :date_prefix, :outfile, :workdir
+
+  def initialize(date_prefix=nil)
+    self.date_prefix date_prefix
+
+    if self.date_prefix.nil?
+      self.date_prefix = Time.zone.now.strftime '%Y%m%d%H%M%S'
+    end
+
     @tool = SepaTool.new(INVOICE_CONFIG)
     @credit_transfers = []
   end
 
-  def addCreditTransfer(regional_organization, remittance_txt, amount)
+  def override_date(pref)
+    self.date_prefix = "#{pref}_"
+  end
+
+
+  def add_credit_transfer(regional_organization, remittance_txt, amount)
     customer = regional_organization.to_customer
 
     unless customer.is_direct_debit?
@@ -19,22 +31,22 @@ class CreditTransferWriter < BankTransferWriter
     @credit_transfers << ct
   end
 
-  def generateFile
+  def generate_file
     writeXml
   end
 
   private
 
-  def writeXml
+  def write_xml
     return nil if @credit_transfers.count.zero?
 
     sepaxml = @tool.create_credit_transfer(@credit_transfers)
 
     filename = "#{@date_prefix}_sepa_ct.xml"
     outfile = MailingFile.new(filename, filename, Time.zone.now.year.to_s)
-    sepaFile = File.open(outfile.full_path, 'w')
-    sepaFile << sepaxml
-    sepaFile.close
+    sepa_file = File.open(outfile.full_path, 'w')
+    sepa_file << sepaxml
+    sepa_file.close
 
     outfile
   end
