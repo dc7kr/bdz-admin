@@ -1,0 +1,13 @@
+development:
+  adapter: redis
+  url: <%= Rails.application.credentials.redis_url %>
+  channel_prefix: bdzadmin_development
+
+test: 
+    adapter: test
+
+production:
+  adapter: redis
+  url: <%= Rails.application.credentials.redis_url %>
+  channel_prefix: bdzadmin_production
+
