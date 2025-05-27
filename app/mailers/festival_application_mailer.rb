@@ -16,4 +16,5 @@ class FestivalApplicationMailer < ApplicationMailer
     @appl = FestivalApplication.find_by token: festival_application_id
 
     mail to: @appl.contact_person.email
+  end
 end
