@@ -19,6 +19,7 @@ de:
     body: Mail-Inhalt
     datafile: Datei-Anhang
     send_invoices_button: "Rechnungen generieren"
+    templating_hint: "Hier können die folgenden Platzhalter verwendet werden: %id% %teilnehmer_name% %probenzeit% %konzert% %konzert_zeit%, %konzert_ort%"
   helpers:
     label:
       festival_mail:

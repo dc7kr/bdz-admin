@@ -3,7 +3,8 @@
     = f.text_field :event_id
     = f.select :group, group_options
     = f.text_field :subject 
-    = f.text_area :body,:rows=>10,:columns=> 60
+    = f.text_area :body,:rows=>10,:columns=> 60, help: t('festival_mail.templating_hint')
+
     = f.file_field :datafile
     .col-sm-12.col-md-12.center-block
       = submit_button t("common.send")
