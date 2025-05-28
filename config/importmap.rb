@@ -10,7 +10,7 @@ pin_all_from "app/javascript/channels", under: "channels"
 # Boilerplate ends
 
 pin "popper", to: "popper.js"
-pin "bootstrap", to: "bootstrap.min.js"
+pin "bootstrap", to: "bootstrap.min.js", preload: true
 pin "sidebar", to: "sidebar.js"
 pin "jquery" # @3.7.1
 pin "@hotwired/turbo-rails", to: "turbo.min.js", preload: true
