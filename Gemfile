@@ -12,8 +12,6 @@ gem "sqlite3", "~> 1.4"
 # Use Puma as the app server
 gem "puma", "~> 5.0"
 
-gem "rack", "< 3.0"
-
 # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
 gem "importmap-rails"
 
@@ -142,16 +140,13 @@ gem "roo-xls"
 gem "spreadsheet"
 # gem "to_xml-rails"
 
-gem "hpricot"
-gem "ruby_parser"
 
 # JS exec environment for asset precompile
 gem "mini_racer"
 
-gem "parseconfig"
-
 # Bootstrap 5
-gem "bootstrap", "~> 5.2.3"
+gem "sassc-rails"
+gem "bootstrap", "~> 5.3.5"
 gem "bootstrap_form", "~> 5.4"
 gem "font_awesome5_rails"
 
