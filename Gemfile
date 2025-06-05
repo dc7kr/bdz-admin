@@ -83,7 +83,7 @@ gem "mysql2", "~> 0.5.0"
 
 # ASYNC Execution
 gem "redis-client"
-gem "sidekiq", "~> 7.0"
+gem "sidekiq", "~> 7.3"
 gem "sidekiq-cron", "~> 1.1"
 
 # authenticate
