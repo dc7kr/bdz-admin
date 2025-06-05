@@ -4,6 +4,7 @@ class Ability
   def initialize(user)
     if user.nil?
       can :delete, FestivalPiece
+      can :update, FestivalApplication
     else
       can :read, Concert
       can :read, Course
