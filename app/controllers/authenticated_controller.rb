@@ -16,9 +16,7 @@ class AuthenticatedController < ApplicationController
     Rails.logger.warn(exception.message)
 
     msg = exception.message
-
-    msg = " CANCAN: #{msg}" unless Rails.env.production?
-
+    
     flash[:error] = msg
 
     redirect_to root_url
