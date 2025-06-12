@@ -425,17 +425,17 @@ Rails.application.routes.draw do
 
   # automated controllers
   namespace :cron do
-    get "invoices/gen_all" => "invoices#gen_all"
-    get "invoices/gen_orchestras" => "invoices#gen_orchestras"
-    get "invoices/gen_persons" => "invoices#gen_persons"
-    get "invoices/gen_lorch" => "invoices#gen_lorch"
-    get "invoices/ping" => "invoices#ping"
-    get "lv_fee_bookings/index" => "lv_fee_bookings#index"
-    get "reminders/report_sheet" => "reminders#report_sheet"
-    get "reminders/payment" => "reminders#payment"
-    get "cancellations" => "batch#cancellations"
+    post "invoices/gen_all" => "invoices#gen_all"
+    post "invoices/gen_orchestras" => "invoices#gen_orchestras"
+    post "invoices/gen_persons" => "invoices#gen_persons"
+    post "get invoices/gen_lorch" => "invoices#gen_lorch"
+    post "invoices/ping" => "invoices#ping"
+    post "lv_fee_bookings/index" => "lv_fee_bookings#index"
+    post "reminders/report_sheet" => "reminders#report_sheet"
+    post "reminders/payment" => "reminders#payment"
+    post "cancellations" => "batch#cancellations"
 
-    get "cleanup/remove_resigned" => "cleanup#remove_resigned"
+    post "cleanup/remove_resigned" => "cleanup#remove_resigned"
 
     # TODO: These aren't resources!
     resources :mails
