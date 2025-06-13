@@ -9,8 +9,7 @@
         = f.select :group, group_options
         = f.text_field :subject, :size => 60 
         = f.text_area :body, :rols => 10, :cols => 60 
-        = f.form_group :via_paper, label: { text: t("custom_info_mail.via_paper") }  do
-          = f.check_box :via_paper,hide_label: true
+        = f.check_box :via_paper, label: t("custom_info_mail.via_paper")
         = f.file_field :datafile, help: "In das Anschreiben wird die Adresse eingedruckt! Kann entfallen, wenn nur Mail-Versand gewählt wird."
         = f.file_field :attachment, help: "Zusätzlicher Mail-Anhang - wird unverändert beigefügt"
         %br
