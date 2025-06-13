@@ -8,6 +8,6 @@ test:
 
 production:
   adapter: redis
-  url: <%= Rails.application.credentials.redis_url %>
+  url: <%= ENV["REDIS_URL"] %>
   channel_prefix: bdzadmin_production
 
