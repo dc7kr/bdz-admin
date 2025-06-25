@@ -7,6 +7,7 @@ class OrchestrasController < AuthenticatedController
 
   authority_actions lorch: "read"
 
+  include ApplicationHelper
   include UploadHelper
   include ReportSheetUploadHelper
   include PdfHelper
