@@ -1,11 +1,14 @@
-.panel.panel-default
-  = bootstrap_form_for :festival_mail, :url => { :controller => :festival_mails, :action => :send_mails }, :layout=>:horizontal  do |f|
-    = f.text_field :event_id
-    = f.select :group, group_options
-    = f.text_field :subject 
-    = f.text_area :body,:rows=>10,:columns=> 60, help: t('festival_mail.templating_hint')
+.container
+  %h2=t("festival_mails",count:1)
 
-    = f.file_field :datafile
-    .col-sm-12.col-md-12.center-block
-      = submit_button t("common.send")
+  .panel.panel-default
+    = bootstrap_form_for :festival_mail, :url => { :controller => :festival_mails, :action => :send_mails }, :layout=>:horizontal  do |f|
+      = f.text_field :event_id
+      = f.select :group, group_options
+      = f.text_field :subject 
+      = f.text_area :body,:rows=>10,:columns=> 60, help: t('festival_mail.templating_hint')
+
+      = f.file_field :datafile
+      .col-sm-12.col-md-12.center-block
+        = submit_button t("common.send")
 
