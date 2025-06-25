@@ -29,6 +29,8 @@ class FestivalApplicationsController < AuthenticatedController
   def index
     @festival_applications = FestivalApplication.current_festival.order("#{sort_column} #{sort_direction}").search(params[:search]).page(params[:page]).per(20)
 
+    set_year(params)
+
     @sums = calc_sums(@year)
 
     respond_to do |format|
@@ -39,10 +41,9 @@ class FestivalApplicationsController < AuthenticatedController
   end
 
   def permitted
-    @year  = params["year"]
+    set_year(params)
 
     @sums = calc_sums(@year)
-
 
     now = Time.zone.now
     currDate = now.strftime("%d.%m.%Y")
@@ -375,9 +376,18 @@ class FestivalApplicationsController < AuthenticatedController
     )
   end
 
-  def contact_person_params
-    my_params = params.require(:festival_application).permit(contact_person: ContactPerson.nested_params)
-    Rails.logger.debug { "My params: #{my_params}" }
-    my_params[:contact_person]
-  end
+  private
+	  def set_year(params)
+	    if params[:year].nil? 
+		@year = BDZ_SETTINGS["config"]["festival_year"]
+	    else
+		@year = params["year"]
+	    end
+	  end
+
+	  def contact_person_params
+	    my_params = params.require(:festival_application).permit(contact_person: ContactPerson.nested_params)
+	    Rails.logger.debug { "My params: #{my_params}" }
+	    my_params[:contact_person]
+	  end
 end
