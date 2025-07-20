@@ -2,6 +2,13 @@
 require "sidekiq/web"
 require "sidekiq/cron/web"
 
+hosts = {
+  development: "admin-dev.zupfmusiker.de",
+  production: "admin.zupfmusiker.de"
+}.freeze
+
+Rails.application.routes.default_url_options[:host] = hosts[Rails.env.to_sym]
+
 Rails.application.routes.draw do
   # Can be used by load balancers and uptime monitors to verify that the app is live.
   get "up" => "rails/health#show", as: :rails_health_check
