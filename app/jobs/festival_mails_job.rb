@@ -20,6 +20,8 @@ class FestivalMailsJob < ApplicationJob
 
     cur_year = Time.zone.now.year
 
+    triggered_by = User.find(_user_id)
+
     results = []
 
     fa = FileArchiveTool.new(DOCS_CONFIG)
