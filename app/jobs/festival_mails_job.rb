@@ -11,8 +11,12 @@ class FestivalMailsJob < ApplicationJob
     successCount = 0
     failCount = 0
 
-    letterfile = MailingFile.from_hash(letterfile_hash)
+    #letterfile = MailingFile.from_hash(letterfile_hash)
     attachment = MailingFile.from_hash(mail_params[:datafile])
+    group = mail_params[:group]
+    event_id = mail_params[:event_id]
+    subject = mail_params[:subject]
+    body_template = mail_params[:body]
 
     cur_year = Time.zone.now.year
 
@@ -41,7 +45,7 @@ class FestivalMailsJob < ApplicationJob
       logger.error("NO GROUP identified: #{group}")
     end
 
-    tool = MailingTool.new(cur_year.to_s, "festival", event_id, subject, via_paper)
+    tool = MailingTool.new(cur_year.to_s, "festival", event_id, subject, false)
 
     letterArray = []
 
@@ -52,7 +56,7 @@ class FestivalMailsJob < ApplicationJob
       logger.debug("Result: #{body}")
       mailer_params = { body: body, subject: subject }
 
-      result = tool.deliver_mailing(FestivalMail, appl.contact_person.to_addressee, nil, letterfile, letterArray,
+      result = tool.deliver_mailing(FestivalMail, appl.contact_person.to_addressee, nil, nil , letterArray,
                                     mailer_params)
       results << result
 
@@ -63,13 +67,7 @@ class FestivalMailsJob < ApplicationJob
       end
     end
 
-    if via_paper
-      pdf_filename = "#{date_prefix}#{event_id}_letters.pdf"
-      pdf_merged_file = MailingFile.new(pdf_filename, pdf_filename, attachment.archive_folder)
-      fa.merge_pdfs(letterArray, pdf_merged_file)
-    end
-
-    send_admin_mail(pdf_merged_file, triggered_by, results)
+    send_admin_mail(nil, triggered_by, results)
   end
 
   private
@@ -90,6 +88,8 @@ class FestivalMailsJob < ApplicationJob
       "%id%" => appl.id.to_s,
       "%teilnehmer_name%" => appl.orch_name
     }
+
+    substitutes["%link%"] =  ef_festival_application_url(appl)
 
     substitutes["%probenzeit%"] = appl.rehearsal_time.to_s unless appl.rehearsal_time.nil?
 

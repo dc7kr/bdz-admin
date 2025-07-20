@@ -1,5 +1,5 @@
 .container
-  %h2=t("festival_mails",count:1)
+  %h2=t("festival_mail",count:1)
 
   .panel.panel-default
     = bootstrap_form_for :festival_mail, :url => { :controller => :festival_mails, :action => :send_mails }, :layout=>:horizontal  do |f|

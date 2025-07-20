@@ -47,12 +47,25 @@ class FestivalMailsController < AuthenticatedNonResourceController
   def send_mails
     authorize! :member, :edit
 
-    mail_params = params["festival_mail"]
+    cur_year = Time.zone.now.strftime "%Y"
 
-    FestivalMailsJob.perform_later(current_user.id, mail_params)
+    job_params = mail_params
+
+    datafile = mail_params[:datafile]
+
+    if not datafile.nil?
+      data_mailing_file = store_uploaded_file(cur_year.to_s, datafile.original_filename, datafile) unless datafile.nil?
+      job_params[:datafile] = data_mailing_file.to_hash
+    end
+
+    FestivalMailsJob.perform_later(current_user.id, job_params)
 
     respond_to do |format|
       format.html { redirect_to home_festival_data_path, notice: t("festival_mail.mails_success") }
     end
+  end
+
+  def mail_params
+    params.require("festival_mail").permit(:event_id, :group, :subject, :body, :datafile)
   end
 end
