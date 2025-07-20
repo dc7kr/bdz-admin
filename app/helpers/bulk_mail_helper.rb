@@ -54,7 +54,7 @@ module BulkMailHelper
 
     users.each do |user|
       AdminNotifier.new_custom_info_mail_notification(user, letters_url, results, triggered_by).deliver
-      logger.info "sent to %s" % user.email
+      logger.debug "sent to %s" % user.email
     end
   end
 end
