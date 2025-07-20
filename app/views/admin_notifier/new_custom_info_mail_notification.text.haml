@@ -1,11 +1,11 @@
 Hallo #{@recipient.name},
 
-ein neues Rundschreiben wurde von #{@triggeredBy} erstellt.
-- if @letterUrl
-  Die verbleibenden Briefe können unter #{@letterUrl} heruntergeladen werden.
+ein neues Rundschreiben wurde von #{@triggered_by} erstellt.
+- if @letter_url
+  Die verbleibenden Briefe können unter #{@letter_url} heruntergeladen werden.
   \.
 - else
-  Sämtliche Schreiben wurde per E-Mail versandt.
+  Sämtliche Schreiben wurden per E-Mail versandt.
 Ergebnisse:
 - @results.each do |res|
   - if not res.nil? then
