@@ -19,7 +19,8 @@ de:
     body: Mail-Inhalt
     datafile: Datei-Anhang
     send_invoices_button: "Rechnungen generieren"
-    templating_hint: "Hier können die folgenden Platzhalter verwendet werden: %id% %teilnehmer_name% %probenzeit% %konzert% %konzert_zeit%, %konzert_ort%"
+    mails_success: "Der Versand des Festival Rundschreibens wurde im Hintergrund gestartet."
+    templating_hint: "Hier können die folgenden Platzhalter verwendet werden: %id% %teilnehmer_name% %probenzeit% %konzert% %konzert_zeit%, %konzert_ort% %link%"
   helpers:
     label:
       festival_mail:
