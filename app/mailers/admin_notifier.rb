@@ -79,8 +79,8 @@ class AdminNotifier < ApplicationMailer
   def new_custom_info_mail_notification(recipient, letters_url, results, triggered_by)
     @recipient = recipient
     @results = results
-    @letterUrl = letters_url
-    @triggeredBy = triggered_by
+    @letter_url = letters_url
+    @triggered_by = triggered_by
 
     mail(to: recipient.email, subject: "Rundschreiben wurde erstellt")
   end
