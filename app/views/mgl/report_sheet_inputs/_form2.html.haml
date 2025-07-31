@@ -5,6 +5,7 @@
 = bootstrap_form_for @report_sheet_input, :url=> url_for(:action => :submit2, :id=> @report_sheet_input), layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10", :html => { :class => "form form-horizontal" } do |f|
    
   -OrchestraContact.roles.each_with_index do |role,i|
+    - next if role == 'Z' 
     - contact = @contact_hash[role]
     = f.fields_for 'contact['+i.to_s+']',contact do |cf|
       .card.mb-3
