@@ -1,6 +1,7 @@
 class ReportSheetsController < AuthenticatedController
   include ReportSheetHelper
-  include ApplicationHelper
+
+  helper ApplicationHelper
 
   # GET /report_sheets
   # GET /report_sheets.json

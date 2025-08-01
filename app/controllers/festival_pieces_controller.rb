@@ -1,4 +1,5 @@
 class FestivalPiecesController < AuthenticatedController
+  helper ApplicationHelper
   respond_to :html, :js
   # GET /festival_pieces
   # GET /festival_pieces.json

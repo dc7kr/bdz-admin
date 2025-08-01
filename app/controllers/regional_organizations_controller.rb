@@ -6,6 +6,7 @@ class RegionalOrganizationsController < AuthenticatedController
 
   authority_actions orch: "read"
   authority_actions share_overview: "read"
+  helper ApplicationHelper
 
   def index
     @regional_organizations = RegionalOrganizationAuthorizer.readable_by(current_user)

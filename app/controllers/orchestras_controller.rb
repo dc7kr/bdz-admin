@@ -2,12 +2,12 @@ require "rodf"
 require "csv"
 
 class OrchestrasController < AuthenticatedController
+  helper ApplicationHelper
   # for table sort by column click
   helper_method :sort_column, :sort_direction
 
   authority_actions lorch: "read"
 
-  include ApplicationHelper
   include UploadHelper
   include ReportSheetUploadHelper
   include PdfHelper
