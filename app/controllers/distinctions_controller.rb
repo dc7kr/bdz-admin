@@ -2,7 +2,7 @@ class DistinctionsController < AuthenticatedController
   # for table sort by column click
   helper_method :sort_column, :sort_direction
 
-  helper ApplicationHelper 
+  helper ApplicationHelper
 
   def gen_invoice
     Time.zone.now.year

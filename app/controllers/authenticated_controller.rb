@@ -16,7 +16,7 @@ class AuthenticatedController < ApplicationController
     Rails.logger.warn(exception.message)
 
     msg = exception.message
-    
+
     flash[:error] = msg
 
     redirect_to root_url

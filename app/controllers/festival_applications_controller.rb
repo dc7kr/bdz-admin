@@ -377,17 +377,17 @@ class FestivalApplicationsController < AuthenticatedController
   end
 
   private
-	  def set_year(params)
-	    if params[:year].nil? 
-		@year = BDZ_SETTINGS["config"]["festival_year"]
-	    else
-		@year = params["year"]
-	    end
-	  end
+    def set_year(params)
+      if params[:year].nil?
+    @year = BDZ_SETTINGS["config"]["festival_year"]
+      else
+    @year = params["year"]
+      end
+    end
 
-	  def contact_person_params
-	    my_params = params.require(:festival_application).permit(contact_person: ContactPerson.nested_params)
-	    Rails.logger.debug { "My params: #{my_params}" }
-	    my_params[:contact_person]
-	  end
+    def contact_person_params
+      my_params = params.require(:festival_application).permit(contact_person: ContactPerson.nested_params)
+      Rails.logger.debug { "My params: #{my_params}" }
+      my_params[:contact_person]
+    end
 end

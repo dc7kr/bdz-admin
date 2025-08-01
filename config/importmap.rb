@@ -2,7 +2,7 @@
 
 pin "application", preload: true
 
-#don't put the actual URLs here - use bin/importmap update / outdated
+# don't put the actual URLs here - use bin/importmap update / outdated
 
 pin "@rails/actioncable", to: "actioncable.esm.js"
 pin "@rails/activestorage", to: "activestorage.esm.js"
@@ -17,8 +17,8 @@ pin_all_from "app/javascript/channels", under: "channels"
 # Boilerplate ends
 
 # we explicitly use bootstrap from the gem for consistency
-pin "popper", to: 'popper.js', preload: true
-pin "bootstrap", to: 'bootstrap.min.js', preload: true
+pin "popper", to: "popper.js", preload: true
+pin "bootstrap", to: "bootstrap.min.js", preload: true
 
 
 pin "sidebar", to: "sidebar.js", preload: true

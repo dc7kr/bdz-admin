@@ -11,7 +11,7 @@ class FestivalMailsJob < ApplicationJob
     successCount = 0
     failCount = 0
 
-    #letterfile = MailingFile.from_hash(letterfile_hash)
+    # letterfile = MailingFile.from_hash(letterfile_hash)
     attachment = MailingFile.from_hash(mail_params[:datafile])
     group = mail_params[:group]
     event_id = mail_params[:event_id]
@@ -58,7 +58,7 @@ class FestivalMailsJob < ApplicationJob
       logger.debug("Result: #{body}")
       mailer_params = { body: body, subject: subject }
 
-      result = tool.deliver_mailing(FestivalMail, appl.contact_person.to_addressee, nil, nil , letterArray,
+      result = tool.deliver_mailing(FestivalMail, appl.contact_person.to_addressee, nil, nil, letterArray,
                                     mailer_params)
       results << result
 

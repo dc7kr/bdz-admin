@@ -1,6 +1,6 @@
 class StatesController < AuthenticatedController
   before_action :determine_scope
-  
+
   helper ApplicationHelper
 
   # GET /states
