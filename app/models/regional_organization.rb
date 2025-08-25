@@ -25,9 +25,6 @@ class RegionalOrganization < ApplicationRecord
 
   include IbanHelper
 
-  # //validates :blz , :blz => true
-  # validates :konto, :konto => true
-
   def to_s
     name
   end

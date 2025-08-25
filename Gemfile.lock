@@ -327,7 +327,6 @@ GEM
       zeitwerk (~> 2.6)
     rainbow (3.1.1)
     rake (13.2.1)
-    rbktoblzcheck (0.1.2)
     rdoc (6.13.1)
       psych (>= 4.0.0)
     redis (5.4.0)
@@ -537,7 +536,6 @@ DEPENDENCIES
   puma (~> 5.0)
   rails (~> 7.2.2, >= 7.2.2.1)
   rails-i18n (~> 7.0.0)
-  rbktoblzcheck
   redis (>= 4.0.1)
   redis-client
   rodf (~> 1.0.0)

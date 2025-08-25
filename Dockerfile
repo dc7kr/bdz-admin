@@ -16,7 +16,6 @@ RUN apt-get update -qq && \
     apt-get --no-install-recommends -y install \
       curl libjemalloc2 libvips sqlite3 \
       libmariadb3 \
-      libktoblzcheck1v5 \
       git \
       vim \
       less
@@ -41,7 +40,7 @@ FROM base AS build
 RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y build-essential git libvips pkg-config
 
-RUN apt-get install --no-install-recommends -y libmariadb-dev libktoblzcheck1-dev libyaml-dev
+RUN apt-get install --no-install-recommends -y libmariadb-dev libyaml-dev
 
 #####################################
 # Rails production preparation phase

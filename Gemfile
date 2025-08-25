@@ -110,8 +110,6 @@ gem "fastercsv"
 
 gem "icalendar"
 
-gem "rbktoblzcheck"
-
 # 0.3.1 seems to be broken
 # 0.3.5 works fine :)
 # 0.3.6 has encoding issues!
