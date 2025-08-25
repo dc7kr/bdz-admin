@@ -5,6 +5,16 @@ class FestivalApplicationsPdf < Prawn::Document
     super(top_margin: 70)
     @applications = applications
 
+    self.font_families.update("OpenSans" => {
+                                :normal => Rails.root.join("vendor/assets/fonts/Open_Sans/OpenSans-Regular.ttf"),
+                                :italic => Rails.root.join("vendor/assets/fonts/Open_Sans/OpenSans-Italic.ttf"),
+                                :bold => Rails.root.join("vendor/assets/fonts/Open_Sans/OpenSans-Bold.ttf"),
+                                :bold_italic => Rails.root.join("vendor/assets/fonts/Open_Sans/OpenSans-BoldItalic.ttf")
+    })
+
+    font "OpenSans"
+
+
     @view = view
     @applications.each do |app|
       head(app)
