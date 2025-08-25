@@ -2,7 +2,7 @@ require "rodf"
 class FestivalApplicationsController < AuthenticatedController
   include CountryHelper
 
-  helper ApplicationHelper
+  include ApplicationHelper
 
   helper_method :sort_column, :sort_direction
 
