@@ -1,5 +1,5 @@
 class OrchestraContactsController < AuthenticatedController
-  helper ApplicationHelper
+  include ApplicationHelper
   helper_method :sort_column, :sort_direction
 
   # GET /orchestra_contacts

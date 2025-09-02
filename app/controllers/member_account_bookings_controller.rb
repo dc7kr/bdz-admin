@@ -1,5 +1,5 @@
 class MemberAccountBookingsController < AuthenticatedController
-  helper ApplicationHelper
+  include ApplicationHelper
   # GET /bookings
   # GET /bookings.json
   def index

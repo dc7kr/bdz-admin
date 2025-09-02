@@ -2,7 +2,7 @@ class EnsembleConcertsController < AuthenticatedController
   # for table sort by column click
 
   include CountryHelper
-  helper ApplicationHelper
+  include ApplicationHelper
 
   helper_method :sort_column, :sort_direction
 

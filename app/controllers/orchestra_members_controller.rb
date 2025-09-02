@@ -1,5 +1,5 @@
 class OrchestraMembersController < AuthenticatedController
-  helper ApplicationHelper
+  include ApplicationHelper
   helper_method :sort_column, :sort_direction
 
   include ReportSheetUploadHelper
