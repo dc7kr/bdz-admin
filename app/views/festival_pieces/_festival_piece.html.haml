@@ -1,6 +1,8 @@
 %tr.festival_piece{:id => dom_id(festival_piece) }
-  %td= festival_piece.composer
   %td= festival_piece.title
+  %td= festival_piece.composer
+  %td= festival_piece.arranger
+  %td= festival_piece.publisher
   %td= festival_piece.duration
   %td
     - f_appl = festival_piece.festival_application

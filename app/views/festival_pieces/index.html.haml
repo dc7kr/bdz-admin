@@ -5,8 +5,10 @@
     = t('festival_piece',:count=>3)
   %table.table-sm.table-hover.table-condensed
     %thead
-      %th.first= attr_heading(FestivalPiece, :composer)
       %th= attr_heading(FestivalPiece, :title)
+      %th.first= attr_heading(FestivalPiece, :composer)
+      %th.first= attr_heading(FestivalPiece, :arranger)
+      %th.first= attr_heading(FestivalPiece, :publisher)
       %th= attr_heading(FestivalPiece, :duration)
       %th.last &nbsp;
     %tbody#festvial_pieces

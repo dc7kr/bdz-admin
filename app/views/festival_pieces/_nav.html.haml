@@ -7,4 +7,5 @@
     %li{ :class => 'first'}= link_to_up_path t("common.up"), home_member_data_path
   -if (@festival_piece and @festival_piece[:id] != nil)
     %li{ :class => tabActiveClass(@current_action,'show',nil)}= link_to t("common.show"), festival_application_festival_piece_path(@festival_application,@festival_piece)
+    %li{ :class => tabActiveClass(@current_action,'edit',nil)}= link_to t("common.edit"), edit_festival_application_festival_piece_path(@festival_application,@festival_piece)
 

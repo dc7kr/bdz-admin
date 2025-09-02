@@ -1,7 +1,9 @@
 = bootstrap_form_for([@festival_application,@festival_piece], layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10") do |f| 
   .container-fluid
-    =f.text_field :composer
     =f.text_field :title
+    =f.text_field :composer
+    =f.text_field :arranger
+    =f.text_field :publisher
     =f.text_field :duration
     .actions
       =submit_button
