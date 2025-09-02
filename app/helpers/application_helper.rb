@@ -49,7 +49,8 @@ module ApplicationHelper
   end
 
   def attr_heading(clazz, attr)
-    clazz.human_attribute_name(attr)
+    prefix = clazz.name.underscore
+    I18n.t("#{prefix}.#{attr}")
   end
 
   def c_t(entity, field)
