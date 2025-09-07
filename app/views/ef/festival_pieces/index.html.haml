@@ -5,8 +5,10 @@
     .inner
       %table.table-sm.table-hover.table-condensed
         %thead
-          %th.first= attr_heading(FestivalPiece, :composer)
           %th= attr_heading(FestivalPiece, :title)
+          %th= attr_heading(FestivalPiece, :composer)
+          %th= attr_heading(FestivalPiece, :arranger)
+          %th= attr_heading(FestivalPiece, :publisher)
           %th= attr_heading(FestivalPiece, :duration)
           %th.last &nbsp;
         %tbody#festvial_pieces

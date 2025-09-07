@@ -21,6 +21,8 @@ en:
     group_type: "Group type"
     stage_time: Stage time
     rehearsal_time: Rehearsal time
+    comment: "Comment"
+    public_comment: "Additional information"
     create: "Create festival application"
     create_success: "Festival application successfully created."
     update_success: "Festival application successfully updated."

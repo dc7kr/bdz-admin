@@ -21,6 +21,7 @@ de:
       O: "OpenAir Teilnehmer"
     rehearsal_time: "Einspiel-Beginn"
     comment: "Kommentar"
+    public_comment: "Sonstige Hinweise"
     closed: "Eine Anmeldung ist nicht mehr möglich. Wir bitten um Ihr Verständnis."
     group_list: Gruppen-Liste
     soloist_tickets: Solisten-Tageskarten

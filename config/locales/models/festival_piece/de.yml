@@ -1,15 +1,23 @@
 de:
-  helpers:
-    label:
-      festival_piece: &festival_piece_labels
+  festival_piece: &festival_piece_labels
         composer: Komponist
+        arranger: Bearbeiter
+        publisher: Verlag
         title: Titel
         duration: Dauer
         add_piece: "Stück hinzufügen"
         one: "Gemeldetes Stück"
+        create_festival_piece: "Stück hinzufügen"
         other: "Gemeldete Stücke"
 
-  festival_piece:
-    <<: *festival_piece_labels
-    create_festival_piece: "Stück hinzufügen"
+  helpers:
+    label:
+      festival_piece: 
+        <<: *festival_piece_labels
 
+  activerecord:
+    models:
+      festival_piece: "Gemeldetes Stück"
+    attributes:
+      festival_piece:
+        <<: *festival_piece_labels

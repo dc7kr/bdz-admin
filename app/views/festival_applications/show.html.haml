@@ -46,6 +46,9 @@
       .row
         .col-md-2 #{t("festival_application.contact_person")}:
         .col-md-10= render(:partial =>  'contact_person_oneline') 
+      .row
+        .col-md-2 #{t("festival_application.public_comment")}:
+        .col-md-10=@festival_application.comment
       .card
         .card-header 
           %h5=t("festival_application.invoice")

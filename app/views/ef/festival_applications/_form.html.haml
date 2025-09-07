@@ -39,6 +39,7 @@
       = f.text_field :equipment
       = f.text_field :special_cast
       = f.text_area :workshop_request
+      = f.text_area :comment, label: t("festival_application.public_comment")
       - if @festival_application.new_record?
         = f.submit t("festival_application.create")
       - else

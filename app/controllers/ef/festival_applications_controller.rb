@@ -152,6 +152,7 @@ module Ef
         :orch_name,
         :equipment,
         :num_players,
+        :comment,
         contact_person: ContactPerson.nested_params
       )
     end

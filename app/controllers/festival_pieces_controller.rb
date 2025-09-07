@@ -1,5 +1,5 @@
 class FestivalPiecesController < AuthenticatedController
-  helper ApplicationHelper
+  include ApplicationHelper
   respond_to :html, :js
   # GET /festival_pieces
   # GET /festival_pieces.json
@@ -94,8 +94,10 @@ class FestivalPiecesController < AuthenticatedController
 
   def festival_piece_params
     params.require(:festival_piece).permit(
-      :composer,
       :title,
+      :composer,
+      :arranger,
+      :publisher,
       :duration
     )
   end

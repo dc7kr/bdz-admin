@@ -10,8 +10,17 @@ en:
         composer: Composer
         title: Title
         duration: Duration
+        arranger: Arranger
+        publisher: Publisher
  
   helpers:
     label:
+      festival_piece:
+        <<: *festival_piece_labels
+
+  activerecord:
+    models:
+      festival_piece: "Piece"
+    attributes:
       festival_piece:
         <<: *festival_piece_labels
