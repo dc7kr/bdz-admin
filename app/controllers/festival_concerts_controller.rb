@@ -5,7 +5,8 @@ class FestivalConcertsController < AuthenticatedController
   helper FestivalApplicationsHelper
 
   def index
-    @festival_concerts = FestivalConcert.all
+    year = BDZ_SETTINGS["config"]["festival_year"]
+    @festival_concerts = FestivalConcert.where("year(event_time)= ?", year )
 
     respond_to do |format|
       format.html # index.html.erb
