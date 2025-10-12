@@ -5,9 +5,9 @@ class EventCard < ApplicationRecord
   validates :email, presence: true
   validates_with EventCardValidator
   
-  scope :current_festival -> { where("festival_year = ?", year =BDZ_SETTINGS["config"]["festival_year"]) }
+  scope :current_festival, -> { where("festival_year = ?", year =BDZ_SETTINGS["config"]["festival_year"]) }
 
-  scope :not_invoiced -> { where(invoiced: 0) }
+  scope :not_invoiced, -> { where(invoiced: 0) }
 
   def self.search(search)
     if search
