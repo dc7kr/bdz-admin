@@ -5,8 +5,7 @@ class FestivalConcertsController < AuthenticatedController
   helper FestivalApplicationsHelper
 
   def index
-    year = BDZ_SETTINGS["config"]["festival_year"]
-    @festival_concerts = FestivalConcert.where("year(event_time)= ?", year )
+    @festival_concerts = FestivalConcert.current_festival
 
     respond_to do |format|
       format.html # index.html.erb
@@ -29,7 +28,6 @@ class FestivalConcertsController < AuthenticatedController
   # GET /festival_concerts/new.json
   def new
     @festival_concert = FestivalConcert.new
-    @festival_concert.festival_year = BDZ_SETTINGS["config"]["festival_year"]
 
     respond_to do |format|
       format.html # new.html.erb
