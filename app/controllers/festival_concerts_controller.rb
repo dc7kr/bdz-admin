@@ -29,6 +29,7 @@ class FestivalConcertsController < AuthenticatedController
   # GET /festival_concerts/new.json
   def new
     @festival_concert = FestivalConcert.new
+    @festival_concert.festival_year = BDZ_SETTINGS["config"]["festival_year"]
 
     respond_to do |format|
       format.html # new.html.erb

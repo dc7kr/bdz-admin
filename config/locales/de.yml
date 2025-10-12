@@ -449,7 +449,7 @@ de:
         company: "Firma/Gruppe"
         pickup_success: "Abholung erfolgreich eingetragen."
         name: Name
-        email: Emailadresse
+        email: E-Mail-Adresse
         invoiced: Rechnung erstellt
         preferred_lang: Sprache
         country_code: Land

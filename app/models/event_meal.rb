@@ -9,5 +9,4 @@ class EventMeal < ApplicationRecord
   validates :tln, meal: true
   validates :veg, meal: true
 
-  self.table_name = "event_food"
 end

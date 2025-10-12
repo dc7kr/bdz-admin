@@ -3,7 +3,8 @@ class EventMealsController < AuthenticatedController
   # GET /event_meals
   # GET /event_meals.json
   def index
-    @event_meals = EventMeal.all
+    year =BDZ_SETTINGS["config"]["festival_year"]
+    @event_meals = EventMeal.where("festival_year = ?", year)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -74,6 +75,7 @@ class EventMealsController < AuthenticatedController
   def create
     @event_meal = EventMeal.new(event_meal_params)
     @event_meal.orderdate = Time.zone.now
+    @event_meal.festival_year = BDZ_SETTINGS["config"]["festival_year"]
 
     respond_to do |format|
       if @event_meal.save

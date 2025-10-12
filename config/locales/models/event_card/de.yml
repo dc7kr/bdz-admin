@@ -1,7 +1,7 @@
 de:
   event_card: &event_card_labels
     order_form:
-        title: "Kartenbestellung für das eurofestival 2018"
+        title: "Kartenbestellung für das eurofestival 2026"
         submit: "Bestellen"
         info1: "Die Tageskarten enthalten keine Verpflegung. Essensbons können nur an der Infotheke des BÜZ erworben werden."
 

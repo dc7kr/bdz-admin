@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_09_02_164347) do
+ActiveRecord::Schema[7.2].define(version: 2025_10_12_112900) do
   create_table "Inserenten", id: false, charset: "utf8mb3", collation: "utf8mb3_general_ci", options: "ENGINE=InnoDB ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.string "Firmenname", limit: 35
     t.string "Titel", limit: 5
@@ -367,9 +367,10 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_02_164347) do
     t.string "preferred_lang"
     t.string "zip"
     t.boolean "pickup", default: false
+    t.integer "festival_year"
   end
 
-  create_table "event_food", charset: "utf8mb3", collation: "utf8mb3_general_ci", options: "ENGINE=InnoDB ROW_FORMAT=DYNAMIC", force: :cascade do |t|
+  create_table "event_meals", charset: "utf8mb3", collation: "utf8mb3_general_ci", options: "ENGINE=InnoDB ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "tln", null: false
     t.integer "veg", null: false
     t.string "name", null: false
@@ -377,6 +378,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_02_164347) do
     t.datetime "orderdate", precision: nil, null: false
     t.integer "participant_id"
     t.datetime "arrival_time", precision: nil
+    t.integer "festival_year"
   end
 
   create_table "feature_requests", id: :integer, charset: "utf8mb3", collation: "utf8mb3_general_ci", options: "ENGINE=InnoDB ROW_FORMAT=DYNAMIC", force: :cascade do |t|

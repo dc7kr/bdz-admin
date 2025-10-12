@@ -2,7 +2,8 @@ class EventCardsController < AuthenticatedController
   # GET /event_cards
   # GET /event_cards.json
   def index
-    @event_cards = EventCard.search(params[:search])
+    year = BDZ_SETTINGS["config"]["festival_year"]
+    @event_cards = EventCard.where("festival_year= ?", year).search(params[:search])
 
     @sum = 0
     @payed = 0
@@ -73,6 +74,7 @@ class EventCardsController < AuthenticatedController
   # POST /event_cards.json
   def create
     @event_card = EventCard.new(params[:event_card])
+    @event_card.festival_year = BDZ_SETTINGS["config"]["festival_year"]
 
     respond_to do |format|
       if @event_card.save
