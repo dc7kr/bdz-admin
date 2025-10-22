@@ -172,7 +172,7 @@ class DistinctionsController < AuthenticatedController
 
     "#{base_url}?year=#{invoice.invoice_date.year}&filename=#{sepa.orig_filename}" unless sepa.nil?
 
-    AdminNotifier.newdistinction_notification(invoice).deliver
+    AdminNotifier.new_distinction_notification(invoice, sepa).deliver
   end
 
   def distinction_params

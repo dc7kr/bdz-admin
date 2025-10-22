@@ -1,7 +1,7 @@
 class DistinctionNotifier < ApplicationMailer
   default from: "bdzdb@zupfmusiker.de"
 
-  def newdistinction_notification(user, _invoices, dtaus)
+  def new_distinction_notification(user, _invoices, dtaus)
     @recipient = user
     @dtaus_url = dtaus
 

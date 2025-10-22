@@ -105,7 +105,7 @@ class AdminNotifier < ApplicationMailer
     mail(to: current_user.email, subject: "[BDZDB] Test Notification")
   end
 
-  def newdistinction_notification(invoice, sepa_file)
+  def new_distinction_notification(invoice, sepa_file)
     @sepafile_url = sepa_file
 
     @is_direct_debit = invoice.customer.is_direct_debit?
