@@ -205,13 +205,19 @@ class PersonMember < ApplicationRecord
 
     invoice = CorikaInvoices::Invoice.new
     invoice.invoice_date = Time.zone.now
-    invoice.invoice_type = "beitragsrechnung"
+    invoice.booking_year = year
+    invoice.template_subdir = "bdz"
+    invoice.template = "beitragsrechnung"
 
     # taxfree
     invoice.tax_mode = "E"
 
     invoice.number = "#{member.mglnr}-BEITRAG#{year}"
     invoice.customer = to_customer
+
+    c_hash = INVOICE_CONTACT_HASH["gs"]
+    contact = CorikaInvoices::Contact.new(c_hash)
+    invoice.contact = contact
 
     invoice.add_item(1, tariff.amount, "Beitrag #{tariff.description}")
 

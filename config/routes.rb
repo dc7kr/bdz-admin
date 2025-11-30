@@ -178,6 +178,7 @@ Rails.application.routes.draw do
   get "/adm/invoice_check" => "adm/invoice_check#index"
   get "/adm/invoice_check/distinction" => "adm/invoice_check#distinction"
   get "/adm/invoice_check/orchestra" => "adm/invoice_check#orchestra"
+  get "/adm/invoice_check/person_member" => "adm/invoice_check#person_member"
   get "/adm/mail_check/admin" => "adm/mail_check#admin_notify"
 
   resources :uploads

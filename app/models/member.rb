@@ -93,6 +93,7 @@ class Member < ApplicationRecord
     c = CorikaInvoices::Customer.new
     c.customer_id = mglnr
     c.direct_debit = dd
+    c.salutation = anrede 
     c.first_name = vorname
     c.last_name = name
     c.entity = self
@@ -104,6 +105,9 @@ class Member < ApplicationRecord
     c.sig_date = sig_date
     c.mandate_id =  mandate_id
     c.account_owner = zahler
+    c.company = ""
+
+
     if dd
       c.iban = iban
       c.bic = bic

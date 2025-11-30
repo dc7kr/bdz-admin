@@ -187,8 +187,11 @@ class Orchestra < ApplicationRecord
 
   def gen_invoice(year)
     invoice = CorikaInvoices::Invoice.new
-    invoice.invoice_type = "beitragsrechnung"
     invoice.invoice_date = Time.zone.now
+    invoice.booking_year = year
+    invoice.template_subdir = "bdz"
+    invoice.template = "beitragsrechnung"
+
     invoice.number = "#{member.mglnr}-BEITRAG#{year}"
 
     # this ensures that the invoice number is unique (generates -XX suffix)
@@ -198,6 +201,10 @@ class Orchestra < ApplicationRecord
     invoice.tax_mode = "E"
 
     invoice.customer = to_customer
+
+    c_hash = INVOICE_CONTACT_HASH["gs"]
+    contact = CorikaInvoices::Contact.new(c_hash)
+    invoice.contact = contact
 
     if is_coop?
       invoice.add_item(1, Prices.coopRate, "Beitrag kooperativ")
