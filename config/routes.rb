@@ -10,6 +10,7 @@ hosts = {
 Rails.application.routes.default_url_options[:host] = hosts[Rails.env.to_sym]
 
 Rails.application.routes.draw do
+  resources :festival_exhibitors
   # Can be used by load balancers and uptime monitors to verify that the app is live.
   get "up" => "rails/health#show", as: :rails_health_check
 
@@ -63,6 +64,8 @@ Rails.application.routes.draw do
       get "exchange"
     end
   end
+
+  resources :festival_exhibitors
 
   resources :festival_concerts do
     member do
@@ -137,6 +140,7 @@ Rails.application.routes.draw do
     member do
       get :gen_invoice
       get :gen_participant_sheet
+      get :gen_fee_invoice
     end
 
     resources :festival_pieces
@@ -168,6 +172,7 @@ Rails.application.routes.draw do
   get "api/rsm/gen_data" => "report_sheet_mailings#gen_data"
   get "api/rsm/gen_mailings" => "report_sheet_mailings#gen_mailings"
   get "api/rsm/test" => "report_sheet_mailings#test"
+
 
   # Invoice generation checks
   get "/adm/invoice_check" => "adm/invoice_check#index"
@@ -473,6 +478,8 @@ Rails.application.routes.draw do
       member do
         get :step2
         get :finalize
+        get :fee_invoice
+        get :ticket_invoice
       end
       collection do
         get :closed
