@@ -158,9 +158,9 @@ gem "acts_as_paranoid"
 # Google libphonenumber
 gem "telephone_number"
 
-# TODO: CHANGE TO THE REAL PATH ONCE IT IS FINAL!
-# gem "corika_invoices",  git: 'https://github.com/dc7kr/invoices-gem', branch: "main"
-gem "corika_invoices", git: "https://github.com/dc7kr/invoices-gem", tag: "1.5"
+gem "corika_invoices",  git: 'https://github.com/dc7kr/invoices-gem', tag: "2.0"
+# for developing the gem in parallel: 
+# gem "corika_invoices", path: "/srv/src/invoices-gem"
 
 # crypto
 # gem "attr_encrypted", "~> 3.1.0"
