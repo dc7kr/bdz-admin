@@ -22,7 +22,7 @@ module Adm
 
       invoice = distinction.gen_invoice
 
-      pdf = invoice.gen_pdf
+      pdf = invoice.gen_pdf(true)
 
       send_file(pdf.full_path, filename: "test_ehrungsrechnung.pdf", type: "application/octet-stream")
     end
@@ -33,14 +33,18 @@ module Adm
 
       invoice = orch.gen_invoice(Time.zone.now.year)
 
-      tw = CorikaInvoices::TexWriter.new(INVOICE_CONFIG)
-      pdf = invoice.gen_pdf(tw)
+      pdf = invoice.gen_pdf(true)
 
       send_file(pdf.full_path, filename: "test_beitragsrechnung.pdf", type: "application/octet-stream")
     end
 
     def person_member
       authorize! :member, :edit
+      pm = PersonMember.last
+      invoice = pm.gen_invoice(Time.zone.now.year)
+      pdf = invoice.gen_pdf(true)
+      
+      send_file(pdf.full_path, filename: "test_em_beitragsrechnung.pdf", type: "application/octet-stream")
     end
   end
 end
