@@ -63,7 +63,7 @@ class RegionalOrganization < ApplicationRecord
 
       orch_ids << orch.member.mglnr
 
-      if s.orchestra.is_direct_debit?
+      if s.orchestra.direct_debit?
         share.direct_debit.insurance += s.calcUV
         share.direct_debit.orchestras += s.calcBeitrag
       else
@@ -73,7 +73,7 @@ class RegionalOrganization < ApplicationRecord
     end
 
     PersonMember.with_zero_balance(true).includes(:member).where(members: { regional_organization_id: id.to_s }).find_each do |p|
-      if p.is_direct_debit?
+      if p.direct_debit?
         share.direct_debit.persons += p.tariff.amount
       else
         share.invoiced.persons += p.tariff.amount

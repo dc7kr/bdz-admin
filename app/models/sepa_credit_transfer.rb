@@ -9,13 +9,13 @@ class SepaCreditTransfer
   attr_reader :amount
 
   def iban
-    return unless @customer.is_direct_debit?
+    return unless @customer.direct_debit?
 
     @customer.iban
   end
 
   def bic
-    return unless @customer.is_direct_debit?
+    return unless @customer.direct_debit?
 
     @customer.bic
   end

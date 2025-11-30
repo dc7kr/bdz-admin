@@ -36,7 +36,7 @@ class Member < ApplicationRecord
     end
   end
 
-  def is_direct_debit?
+  def direct_debit?
     za == "L" and valid?
   end
 
@@ -89,7 +89,7 @@ class Member < ApplicationRecord
   end
 
   def to_customer
-    dd = is_direct_debit?
+    dd = direct_debit?
     c = CorikaInvoices::Customer.new
     c.customer_id = mglnr
     c.direct_debit = dd
@@ -242,7 +242,7 @@ class Member < ApplicationRecord
 
     customer = member_entity.to_customer
 
-    if is_direct_debit?
+    if direct_debit?
       if sepa_writer.add_credit_transfer(customer, booking_txt, amount)
         booking = MemberAccountBooking.new_credit_transfer("Überweisung #{booking_txt}", amount)
         booking.member_id = id
@@ -271,7 +271,7 @@ class Member < ApplicationRecord
       booking_txt += " Nachzahlung"
     end
 
-    return unless is_direct_debit?
+    return unless direct_debit?
 
     sepa_writer.add_direct_debit(customer, amount, booking_txt, "RCUR")
     booking = MemberAccountBooking.new_dd("Lastschrift #{booking_txt}", amount)

@@ -75,7 +75,7 @@ module Adm
         mglnr = orch.member.mglnr
 
         logger.debug("Booking: #{orch.account_owner} #{mglnr} #{orch.iban} #{orch.bic}")
-        sw.addDirectDebit(orch, invoice.sum, "#{booking_txt} #{mglnr}", "RCUR") if orch.is_direct_debit?
+        sw.addDirectDebit(orch, invoice.sum, "#{booking_txt} #{mglnr}", "RCUR") if orch.direct_debit?
 
         ddFile = sw.generateFile
         send_file(ddFile.full_path, filename: ddFile.orig_filename, type: "application/octet-stream")

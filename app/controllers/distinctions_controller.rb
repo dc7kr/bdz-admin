@@ -32,7 +32,7 @@ class DistinctionsController < AuthenticatedController
     booking.invoice_id = invoice.id.to_s
     booking.save
 
-    if invoice.customer.is_direct_debit?
+    if invoice.customer.direct_debit?
       @wdbooking = MemberAccountBooking.new_dd("Lastschrift #{booking_txt}", invoice.sum, sepa.orig_filename)
       @wdbooking.member_id = orchestra.member.id
       @wdbooking.save

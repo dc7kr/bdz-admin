@@ -157,7 +157,7 @@ class ReportSheetMailingsJob < ApplicationJob
         text "#{from['city']}, #{l_date}"
       end
 
-      if orchestra.is_direct_debit?
+      if orchestra.direct_debit?
         bounding_box([ 21, 310 ], width: 500, height: 50) do
           text I18n.t("report_sheet_input.dd_to_sepa_valid", iban: member.iban, bic: member.bic, mref: member.mref)
         end

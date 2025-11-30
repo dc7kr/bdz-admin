@@ -49,8 +49,8 @@
     .accordion-header 
       %button.accordion-button.collapsed{"aria-controls" => "paymentDataCollapse", "aria-expanded" => "false", "data-bs-target" => "#paymentDataCollapse", "data-bs-toggle" => "collapse", :type => "button"}
         Zahlungsdaten
-        - if member.is_direct_debit? then
-          %span.badge.bg-info=t("member.is_direct_debit")
+        - if member.direct_debit? then
+          %span.badge.bg-info=t("member.direct_debit")
     #paymentDataCollapse.accordion-collapse.collapse{"data-bs-parent" => "#memberAccordion"}
       .accordion-body
         .row

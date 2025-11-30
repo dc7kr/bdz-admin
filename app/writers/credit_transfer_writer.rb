@@ -20,7 +20,7 @@ class CreditTransferWriter
   def add_credit_transfer(regional_organization, remittance_txt, amount)
     customer = regional_organization.to_customer
 
-    unless customer.is_direct_debit?
+    unless customer.direct_debit?
       Rails.logger.info("LV #{regional_organization.name} is not considered for CreditTransfer!")
       return
     end
