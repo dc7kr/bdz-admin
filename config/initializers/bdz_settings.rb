@@ -5,7 +5,8 @@ if ENV["ASSET_PRECOMPILE"].blank?
     unless bdz_yml.nil?
       BDZ_SETTINGS = bdz_yml[Rails.env]
       APP_CONFIG_HASH = bdz_yml[Rails.env]
-      DOCS_CONFIG = DocumentsConfig.new(APP_CONFIG_HASH["documents"])
+      doc_hash = APP_CONFIG_HASH["documents"]
+      DOCS_CONFIG = DocumentsConfig.new(doc_hash)
     end
   end
 end
