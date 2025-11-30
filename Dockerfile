@@ -103,6 +103,7 @@ COPY tex-invoices/src/tex_invoices ./tex_invoices
 COPY tex-invoices/gen_invoice.py .
 COPY tex-invoices/locale.yml .
 COPY tex-invoices/bin ./bin
+COPY tex-invoices/tex/ ./tex
 COPY tex-invoices/custom/ ./custom
 
 
