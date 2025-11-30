@@ -1,0 +1,74 @@
+class FestivalExhibitorsController < ApplicationController
+  before_action :set_festival_exhibitor, only: %i[ show edit update destroy ]
+
+  # GET /festival_exhibitors or /festival_exhibitors.json
+  def index
+    @festival_exhibitors = FestivalExhibitor.all
+  end
+
+  # GET /festival_exhibitors/1 or /festival_exhibitors/1.json
+  def show
+  end
+
+  # GET /festival_exhibitors/new
+  def new
+    @festival_exhibitor = FestivalExhibitor.new
+    @festival_exhibitor.contact = Contact.new
+  end
+
+  # GET /festival_exhibitors/1/edit
+  def edit
+  end
+
+  # POST /festival_exhibitors or /festival_exhibitors.json
+  def create
+    @festival_exhibitor = FestivalExhibitor.new(festival_exhibitor_params)
+    @festival_exhibitor.year = BDZ_SETTINGS["config"]["festival_year"]
+
+    p @festival_exhibitor.contact
+
+    respond_to do |format|
+      if @festival_exhibitor.save
+        format.html { redirect_to @festival_exhibitor, notice: "Festival exhibitor was successfully created." }
+        format.json { render :show, status: :created, location: @festival_exhibitor }
+      else
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: @festival_exhibitor.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # PATCH/PUT /festival_exhibitors/1 or /festival_exhibitors/1.json
+  def update
+    respond_to do |format|
+      if @festival_exhibitor.update(festival_exhibitor_params)
+        format.html { redirect_to @festival_exhibitor, notice: "Festival exhibitor was successfully updated." }
+        format.json { render :show, status: :ok, location: @festival_exhibitor }
+      else
+        format.html { render :edit, status: :unprocessable_entity }
+        format.json { render json: @festival_exhibitor.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # DELETE /festival_exhibitors/1 or /festival_exhibitors/1.json
+  def destroy
+    @festival_exhibitor.destroy!
+
+    respond_to do |format|
+      format.html { redirect_to festival_exhibitors_path, status: :see_other, notice: "Festival exhibitor was successfully destroyed." }
+      format.json { head :no_content }
+    end
+  end
+
+  private
+    # Use callbacks to share common setup or constraints between actions.
+    def set_festival_exhibitor
+      @festival_exhibitor = FestivalExhibitor.find(params[:id])
+    end
+
+    # Only allow a list of trusted parameters through.
+    def festival_exhibitor_params
+      params.require(:festival_exhibitor).permit(:year, :special_tariff, :special_amount, :tariff, contact_attributes: Contact.nested_attributes)
+    end
+end

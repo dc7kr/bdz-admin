@@ -1,0 +1,30 @@
+.secondary-navigation
+  =render :partial=>'nav'
+.container
+  %h2.title
+
+  %table
+    %thead
+      %tr
+        %th Year
+        %th Special tariff
+        %th Special amount
+        %th Tariff
+        %th
+        %th
+        %th
+
+    %tbody
+      - @festival_exhibitors.each do |festival_exhibitor|
+        %tr
+          %td= festival_exhibitor.year
+          %td= festival_exhibitor.special_tariff
+          %td= festival_exhibitor.special_amount
+          %td= festival_exhibitor.tariff
+          %td= link_to 'Show', festival_exhibitor
+          %td= link_to 'Edit', edit_festival_exhibitor_path(festival_exhibitor)
+          %td= link_to 'Destroy', festival_exhibitor, method: :delete, data: { confirm: 'Are you sure?' }
+
+  %br
+
+  = link_to 'New Festival exhibitor', new_festival_exhibitor_path

@@ -1,0 +1,14 @@
+.secondary-navigation
+  = render :partial=>'nav'
+.content
+  %h2= t("festival_exhibitor", count: 1)
+
+  = entity_row(@festival_exhibitor, :year)
+  = entity_row(@festival_exhibitor, :special_tariff)
+  = entity_row(@festival_exhibitor, :special_amount)
+  = entity_row(@festival_exhibitor, :tariff)
+  %hr
+  = render partial: "contacts/contact_show", :locals => { :contact =>  @festival_exhibitor.contact }
+
+
+

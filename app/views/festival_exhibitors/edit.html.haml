@@ -1,0 +1,6 @@
+.secondary-navigation
+  = render :partial => 'nav'
+.container
+  %h1= t("common.edit_entity", entity: t("festival_exhibitor", count:1))
+  = form_for @festival_exhibitor do |f|
+    = render :partial => "form", :locals => {:f => f}
