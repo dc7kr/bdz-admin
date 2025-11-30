@@ -1,11 +1,11 @@
 Sehr geehrte Damen und Herren,
 
-als Anlage erhalten Sie die Rechnung Nr. <%= @inv.number %> über Ihre vorbestellten Tickets für das eurofestival Zupfmusik 2018.
+als Anlage erhalten Sie die Rechnung Nr. <%= @inv.full_number %> 
 
-Bitte überweisen Sie den Rechnungsbetrag innerhalb von 14 Tagen nach Erhalt dieser Mail auf unser Festivalkonto IBAN <%= @iban %> BIC <%= @bic %> bei der 
-<%= @bank %> unter Angabe der Rechnungsnummer <%= @inv.number %> und Teilnehmernummer  <%= @inv.customer.id %>
+Bitte überweisen Sie den Rechnungsbetrag innerhalb von 14 Tagen nach Erhalt dieser Mail auf unser Festivalkonto IBAN <%= @inv.contact.iban %> BIC <%= @inv.contact.bic %> bei der 
+<%= @inv.contact.bank %> unter Angabe der Rechnungsnummer <%= @inv.full_number %> und Teilnehmernummer  <%= @inv.customer.id %>
 
-Wir freuen uns, sie schon bald beim Festival begrüßen zu dürfen.
+Wir freuen uns, sie schon bald beim BDZ eurofestival <%= BDZ_SETTINGS["config"]["festival_year"] %> begrüßen zu dürfen.
 
 Mit freundlichen Grüßen
 

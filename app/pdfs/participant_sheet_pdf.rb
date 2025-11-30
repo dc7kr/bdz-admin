@@ -2,7 +2,7 @@ class ParticipantSheetPdf < Prawn::Document
   def initialize(appl, view)
     super(top_margin: 70, left_margin: 70)
     @appl = appl
-    @invoice = appl.invoice
+    @invoice = appl.get_ticket_invoice
 
     @view = view
     head(@appl)
@@ -104,6 +104,7 @@ class ParticipantSheetPdf < Prawn::Document
       text "#{I18n.t('festival_application.festival_concert_id')}: N/A"
     else
       text "#{I18n.t('festival_application.festival_concert_id')}: #{app.festival_concert.title} #{@view.l app.festival_concert.event_time}"
+      text "#{I18n.t('festival_concert.location')}: #{app.festival_concert.location}"
     end
 
     text "#{I18n.t('festival_application.rehearsal_time')}: #{app.rehearsal_time.localtime.strftime('%H:%M')}" unless app.rehearsal_time.nil?

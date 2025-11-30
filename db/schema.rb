@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_10_12_112900) do
+ActiveRecord::Schema[7.2].define(version: 2025_11_13_112331) do
   create_table "Inserenten", id: false, charset: "utf8mb3", collation: "utf8mb3_general_ci", options: "ENGINE=InnoDB ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.string "Firmenname", limit: 35
     t.string "Titel", limit: 5
@@ -368,6 +368,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_10_12_112900) do
     t.string "zip"
     t.boolean "pickup", default: false
     t.integer "festival_year"
+    t.string "checkout_reference"
+    t.string "checkout_id"
   end
 
   create_table "event_meals", charset: "utf8mb3", collation: "utf8mb3_general_ci", options: "ENGINE=InnoDB ROW_FORMAT=DYNAMIC", force: :cascade do |t|
@@ -434,6 +436,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_10_12_112900) do
     t.text "workshop_request"
     t.integer "year"
     t.boolean "confirmed"
+    t.string "fee_invoice_id"
+    t.string "ticket_invoice_id"
   end
 
   create_table "festival_concerts", id: :integer, charset: "utf8mb3", collation: "utf8mb3_general_ci", options: "ENGINE=InnoDB ROW_FORMAT=DYNAMIC", force: :cascade do |t|
@@ -445,6 +449,15 @@ ActiveRecord::Schema[7.2].define(version: 2025_10_12_112900) do
     t.string "title"
     t.boolean "outdoor"
     t.column "concert_type", "enum('B','O','W','K','S')"
+  end
+
+  create_table "festival_exhibitors", charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
+    t.integer "year", null: false
+    t.integer "special_tariff", default: 0
+    t.float "special_amount", default: 0.0
+    t.integer "tariff"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "festival_pieces", id: :integer, charset: "utf8mb3", collation: "utf8mb3_general_ci", options: "ENGINE=InnoDB ROW_FORMAT=DYNAMIC", force: :cascade do |t|

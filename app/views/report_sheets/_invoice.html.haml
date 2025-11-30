@@ -3,8 +3,8 @@
     .col-md-3.text-end
       %label=i.label
     .col-md-1.text-end #{i.count}x
-    .col-md-2.text-end=format_currency(i.price)
-    .col-md-2.text-end=format_currency(i.count*i.price)
+    .col-md-2.text-end=format_currency(i.basis)
+    .col-md-2.text-end=format_currency(i.total)
 %hr.calc
 .row
   .col-md-3.text-end.fw-bold

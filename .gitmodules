@@ -1,0 +1,3 @@
+[submodule "tex-invoices"]
+	path = tex-invoices
+	url = git@gitlab.corika.com:tex-projects/tex-invoices.git

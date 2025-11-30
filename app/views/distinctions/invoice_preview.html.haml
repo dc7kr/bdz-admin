@@ -9,7 +9,7 @@
     .col=@invoice.invoice_type
   .row
     .col tax_type
-    .col=@invoice.tax_type
+    .col=@invoice.tax_mode
 
   %table.table.table-bordered
     %thead.table-dark
@@ -22,15 +22,15 @@
       %tr
         %td=it.count
         %td=it.label
-        %td=format_currency it.price
-        %td=format_currency it.count*it.price
+        %td=format_currency it.basis
+        %td=format_currency it.total
 
     %tr
       %td &nbsp;
       %td.fw-bold Gesamtsumme
       %td.fw-bold=format_currency @invoice.net_sum
       %td.fw-bold=format_currency @invoice.sum
-    - if @invoice.tax_type == 'B'
+    - if @invoice.tax_mode == 'S'
       %tr
         %td &nbsp;
         %td enthaltene MwSt

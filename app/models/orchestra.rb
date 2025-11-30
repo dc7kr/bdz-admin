@@ -195,14 +195,14 @@ class Orchestra < ApplicationRecord
     invoice.make_distinct
 
     # taxfree
-    invoice.tax_type = "X"
+    invoice.tax_mode = "E"
 
     invoice.customer = to_customer
 
     if is_coop?
-      invoice.addItem(1, Prices.coopRate, "Beitrag kooperativ")
+      invoice.add_item(1, Prices.coopRate, "Beitrag kooperativ")
     elsif is_foreign_coop?
-      invoice.addItem(1, Prices.foreignCoopRate, "Auslandsorchesterbeitrag")
+      invoice.add_item(1, Prices.foreignCoopRate, "Auslandsorchesterbeitrag")
     else
       sheet = sheet_for_year(year)
 
@@ -311,7 +311,7 @@ class Orchestra < ApplicationRecord
     orch_type == "O"
   end
 
-  delegate :is_direct_debit?, to: :member
+  delegate :direct_debit?, to: :member
 
   def has_notify_event?(event_id)
     member.has_event?(%w[E L], event_id)

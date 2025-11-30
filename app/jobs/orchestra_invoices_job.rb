@@ -78,7 +78,7 @@ class OrchestraInvoicesJob < BaseInvoicesJob
     invoice.generator_session_id = generator_session_id
     invoice.save
 
-    invoice_file = invoice.gen_pdf(tex_writer)
+    invoice_file = invoice.gen_pdf(pdf_writer)
 
     return nil if invoice_file.nil?
 

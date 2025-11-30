@@ -1,13 +1,13 @@
 require "fileutils"
 
 class BaseInvoicesJob < ApplicationJob
-  attr_accessor :generator_session_id, :date_prefix, :tex_writer, :sepa_writer, :triggered_by, :archive_tool
+  attr_accessor :generator_session_id, :date_prefix, :pdf_writer, :sepa_writer, :triggered_by, :archive_tool
 
   include BulkMailHelper
   include Rails.application.routes.url_helpers
 
   # sidekiq_options queue: "high"
-  # sidekiq_options retry: false
+  sidekiq_options retry: false
 
   def default_url_options
     {
@@ -20,7 +20,7 @@ class BaseInvoicesJob < ApplicationJob
     self.generator_session_id = SecureRandom.uuid
     self.date_prefix = Time.zone.now.strftime "%Y%m%d%H%M%S"
 
-    self.tex_writer = CorikaInvoices::TexWriter.new(INVOICE_CONFIG)
+    self.pdf_writer = CorikaInvoices::PdfWriter.new(INVOICE_CONFIG)
     self.sepa_writer = CorikaInvoices::SepaWriter.new(date_prefix, INVOICE_CONFIG)
 
     self.archive_tool = FileArchiveTool.new(DOCS_CONFIG)

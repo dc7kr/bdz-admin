@@ -1,15 +1,14 @@
 class FestivalInvoiceMail < ApplicationMailer
-  def notify(recipient, personalized_file, _attachment_file, params)
+  def notify(recipient, personalized_file_hash, _attachment_file, params)
     subject = params[:subject]
 
-    @inv = params[:invoice]
+    @inv = CorikaInvoices::Invoice.find(params[:invoice_id])
+
+    personalized_file = CorikaInvoices::ArchiveFile.from_hash(personalized_file_hash)
+
     locale = params[:locale]
 
     bdz_contact = BDZ_SETTINGS["contacts"]["festival"]
-
-    @iban = bdz_contact["iban"]
-    @bic = bdz_contact["bic"]
-    @bank = bdz_contact["bank"]
 
     locale = :de if locale.nil?
 
@@ -19,7 +18,7 @@ class FestivalInvoiceMail < ApplicationMailer
     end
 
     I18n.with_locale(locale) do
-      mail(to: recipient, subject: subject, cc: params[:cc], bcc: params[:bcc])
+      mail(from: @inv.contact.email, to: recipient, subject: subject, cc: params[:cc], bcc: params[:bcc])
     end
   end
 end

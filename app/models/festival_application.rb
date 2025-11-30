@@ -56,37 +56,88 @@ class FestivalApplication < ApplicationRecord
     cust
   end
 
-  def invoice
-    prices = BDZ_SETTINGS["festival_prices"]
-    ts = Time.zone.now.strftime "%Y%m%d"
+  def has_fee_invoice?
+    not fee_invoice_id.nil?
+  end
 
+  def has_ticket_invoice?
+    not ticket_invoice_id.nil?
+  end
+
+  def prepare_invoice(inv_nr)
     germany = ISO3166::Country["DE"]
     austria = ISO3166::Country["AT"]
 
-    renr = ts + "-TLN#{id}"
-
     inv = CorikaInvoices::Invoice.new
-    inv.number = renr
-    inv.our_contact = "festival_gs"
+    inv.booking_year = Time.now.year
+    inv.invoice_date = Time.now
+    inv.number = inv_nr
+    inv.template_subdir = "ef"
 
-    # taxfree
-    inv.tax_type = "X"
+    c_hash = INVOICE_CONTACT_HASH["festival_gs"]
+    p c_hash
+
+    contact = CorikaInvoices::Contact.new(c_hash)
+    p contact.iban
+    inv.contact = contact
+
+    if INVOICE_CONFIG.default_tax_mode == "E"
+      # tax exempt
+      inv.tax_mode = "E"
+      inv.exemption_reason = I18n.t("invoice.exempt_reason")
+    else
+      inv.tax_mode = "S"
+    end
 
     if (contact_person.country_code == germany.alpha2) || (country_code == austria.alpha2)
       locale = :de
-      inv.invoice_type = "festival.de"
+      inv.template = "festival.de"
     else
       locale = :en
-      inv.invoice_type = "festival.en"
+      inv.template= "festival.en"
     end
 
+    inv.locale = locale
     inv.customer = to_customer
 
-    inv.considerItem(tickets, prices["fest"], I18n.t("event_card.fest", locale: locale))
-    inv.considerItem(tickets_red, prices["fest_erm"], I18n.t("event_card.fest_erm", locale: locale))
-    inv.considerItem(bdz_tickets, prices["fest_bdz"], I18n.t("event_card.fest_bdz", locale: locale))
-    inv.considerItem(bdz_tickets_red, prices["fest_bdz_erm"], I18n.t("event_card.fest_bdz_erm", locale: locale))
-    inv.considerItem(1, -1 * amount, I18n.t("common.advance_payment", locale: locale)) unless amount.nil?
+    inv
+  end
+
+  def get_fee_invoice
+    if has_fee_invoice?
+      i = CorikaInvoices::Invoice.find(fee_invoice_id)
+      return i
+    end
+
+    prices = BDZ_SETTINGS["festival_prices"]
+
+    ts = Time.zone.now.strftime "%Y%m%d"
+    inv_nr = ts + "-F-#{id}"
+    inv = prepare_invoice(inv_nr)
+
+    item = CorikaInvoices::InvoiceItem.create_gross(1, prices["fee"], I18n.t("festival_application.fee"), "C62", 7)
+    inv.invoice_items << item
+
+    inv
+  end
+
+  def get_ticket_invoice
+    if has_ticket_invoice?
+      i = CorikaInvoices::Invoice.find(ticket_invoice_id)
+      return i
+    end
+
+    prices = BDZ_SETTINGS["festival_prices"]
+
+    ts = Time.zone.now.strftime "%Y%m%d"
+    inv_nr = ts + "-T-#{id}"
+    inv = prepare_invoice(inv_nr)
+
+    inv.consider_item(tickets, prices["fest"], I18n.t("event_card.fest"))
+    inv.consider_item(tickets_red, prices["fest_erm"], I18n.t("event_card.fest_erm"))
+    inv.consider_item(bdz_tickets, prices["fest_bdz"], I18n.t("event_card.fest_bdz"))
+    inv.consider_item(bdz_tickets_red, prices["fest_bdz_erm"], I18n.t("event_card.fest_bdz_erm"))
+    inv.consider_item(1, -1 * amount, I18n.t("common.advance_payment")) unless amount.nil?
 
     inv
   end

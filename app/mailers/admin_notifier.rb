@@ -108,9 +108,9 @@ class AdminNotifier < ApplicationMailer
   def new_distinction_notification(invoice, sepa_file)
     @sepafile_url = sepa_file
 
-    @is_direct_debit = invoice.customer.is_direct_debit?
+    @direct_debit = invoice.customer.direct_debit?
 
-    @invoice_number = invoice.number
+    @invoice_number = invoice.full_number
     @mglnr = invoice.customer.customer_id
     user = nil
     if ENV["RAILS_ENV"] == "production"
@@ -123,7 +123,7 @@ class AdminNotifier < ApplicationMailer
 
     cc = BDZ_SETTINGS["contacts"]["admin"]["mail"]
 
-    mail(to: user, cc: cc, subject: "Neue Ehrungsrechnung Nr. #{invnr}")
+    mail(to: user, cc: cc, subject: "Neue Ehrungsrechnung Nr. #{@invoice_number}")
   end
 
   def generic_pdf_notification

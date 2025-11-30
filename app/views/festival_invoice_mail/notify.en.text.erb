@@ -1,12 +1,12 @@
 Ladies and gentlemen,
 
-please find attached the invoice no.  <%= @inv.number %> for your festival ticket reservation for the eurofestival zupfmusik 2018. 
+please find attached our invoice no.  <%= @inv.full_number %> 
 
-Please transfer the invoiced amount to our bank account IBAN <%= @iban %> BIC/SWIFT-CODE <%= @bic %> at the 
-<%= @bank %> stating the invoice no. <%= @inv.number %> and participant no. <%= @inv.customer.id %>
+Please transfer the invoiced amount to our bank account IBAN <%= @inv.contact.iban %> BIC/SWIFT-CODE <%= @inv.contact.bic %> at the 
+<%= @inv.contact.bank %> stating the invoice no. <%= @inv.full_number %> and participant no. <%= @inv.customer.id %>
 
 
-We are looking forward to welcoming you to the eurofestival 2018 in Bruchsal soon.
+We are looking forward to welcoming you to the BDZ eurofestival <%= BDZ_SETTINGS["config"]["festival_year"] %> in Bruchsal soon.
 
 Kind regards
 

@@ -30,19 +30,19 @@ class FestivalInvoiceMailsJob < BaseInvoicesJob
       else
 
         locale = :en
-        subject = "eurofestival zupfmusik 2018 ticket invoice no. #{invoice.number} for participant no. #{appl.id}"
+        subject = "BDZ eurofestival zupfmusik 2018 ticket invoice no. #{invoice.number} for participant no. #{appl.id}"
 
         if (invoice.customer.country == "de") || (invoice.customer.country == "at")
-          subject = "eurofestival zupfmusik 2018 - Ticket Rechnung Nr. #{invoice.number} fuer Teilnehmer Nr. #{appl.id}"
+          subject = "BDZ eurofestival zupfmusik 2018 - Ticket Rechnung Nr. #{invoice.number} fuer Teilnehmer Nr. #{appl.id}"
           locale = :de
         end
 
-        invoice_file = invoice.gen_pdf(tex_writer)
+        invoice_file = invoice.gen_pdf(pdf_writer)
 
         contact = appl.contact_person
 
         mailer_params = { subject: subject, cc: BDZ_SETTINGS["contacts"]["treasurer"]["mail"],
-                          bcc: "webmaster@bdz-online.de", invoice: invoice, locale: locale }
+                          bcc: BDZ_SETTINGS["contacts"]["dbadmin"], invoice: invoice, locale: locale }
 
         result = tool.deliver_mailing(FestivalInvoiceMail, contact.to_addressee, invoice_file, nil, letterArray,
                                       mailer_params)

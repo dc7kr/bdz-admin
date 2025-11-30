@@ -53,13 +53,14 @@
         .card-header 
           %h5=t("festival_application.invoice")
         .card-body
-          -invoice = @festival_application.invoice
+          -invoice = @festival_application.get_ticket_invoice
           -invoice.items.each do |i|
             =invoice_item_row(i)
           = calculation_sum(t("common.sum"), invoice.sum)
           =entity_row(@festival_application,:amount)
           =custom_entity_row(t("festival_application.payment_status"), t("festival_application.payment_states.#{@festival_application.payment_status}"))
           =link_to "PDF", gen_invoice_festival_application_path(@festival_application),:class=>"btn btn-primary btn-sm", data: { turbolinks:false }
+          =link_to "Fee PDF", gen_fee_invoice_festival_application_path(@festival_application),:class=>"btn btn-primary btn-sm", data: { turbolinks:false }
       - if not @festival_application.event_meal.nil?
         -@event_meal = @festival_application.event_meal
         .card

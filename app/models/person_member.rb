@@ -134,7 +134,7 @@ class PersonMember < ApplicationRecord
     "#{member.address_block}\n#{contact_info_block}"
   end
 
-  delegate :is_direct_debit?, to: :member
+  delegate :direct_debit?, to: :member
 
   delegate :contact_info, to: :member
 
@@ -208,12 +208,12 @@ class PersonMember < ApplicationRecord
     invoice.invoice_type = "beitragsrechnung"
 
     # taxfree
-    invoice.tax_type = "X"
+    invoice.tax_mode = "E"
 
     invoice.number = "#{member.mglnr}-BEITRAG#{year}"
     invoice.customer = to_customer
 
-    invoice.addItem(1, tariff.amount, "Beitrag #{tariff.description}")
+    invoice.add_item(1, tariff.amount, "Beitrag #{tariff.description}")
 
     invoice
   end

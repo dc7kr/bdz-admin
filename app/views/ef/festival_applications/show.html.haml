@@ -54,15 +54,27 @@
             =entity_row(@festival_application,:special_cast)
             =entity_row(@festival_application,:soloist_tickets)
         #invoice-tab-pane.tab-pane.fade{ role: "tabpanel", 'aria-labelledby': "invoice-tab", 'tabindex': 0 } 
-          -invoice = @festival_application.invoice
-          -invoice.items.each do |i|
-            = invoice_item_row(i)
-          = calculation_sum(t("common.sum"), invoice.sum)
-          =custom_entity_row(t("festival_application.payment_status"), t("festival_application.payment_states.#{@festival_application.payment_status}"))
-          - if not @festival_application.event_meal.nil?
-            -@event_meal = @festival_application.event_meal
-            =entity_row(@event_meal,:tln)
-            =entity_row(@event_meal,:veg)
-            =entity_row(@event_meal,:arrival_time,:date)
+          .container 
+            - if not @festival_application.fee_invoice_id.nil?
+              .row
+                .col-md-8
+                  = t('festival_application.fee_invoice')
+                  - invoice = CorikaInvoices::Invoice.find(@festival_application.fee_invoice_id)
+                  = invoice.full_number
+                .col-md-4
+                  =link_to my_fa_icon('file-download', 'fas'), fee_invoice_ef_festival_application_path(@festival_application),:class=>"btn btn-primary btn-sm", data: { turbolinks:false }
+            - if not @festival_application.ticket_invoice_id.nil?
+              .row
+                .col-md-8
+                  = t('festival_application.ticket_invoice') 
+                  - invoice = CorikaInvoices::Invoice.find(@festival_application.ticket_invoice_id)
+                  = invoice.full_number
+                .col-md-4=link_to my_fa_icon('file-dowload', 'fas'), ticket_invoice_ef_festival_application_path(@festival_application),:class=>"btn btn-primary btn-sm", data: { turbolinks:false }
+            =custom_entity_row(t("festival_application.payment_status"), t("festival_application.payment_states.#{@festival_application.payment_status}"))
+            - if not @festival_application.event_meal.nil?
+              -@event_meal = @festival_application.event_meal
+              =entity_row(@event_meal,:tln)
+              =entity_row(@event_meal,:veg)
+              =entity_row(@event_meal,:arrival_time,:date)
 
 = render :partial => "ef/footer"

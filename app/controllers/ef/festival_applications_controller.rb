@@ -3,9 +3,9 @@ module Ef
     #  include ApplicationHelper
     helper ApplicationHelper
 
-    def show
-      @festival_application = FestivalApplication.find_by token: params[:token]
+    before_action :set_festival_application, only: %i[show edit update finalize step2 ticket_invoice fee_invoice]
 
+    def show
       respond_to do |format|
         format.html # show.html.erb
         format.json { render json: @festival_application }
@@ -22,6 +22,16 @@ module Ef
         @festival_application.confirmed = true
         @festival_application.save!
       end
+    end
+
+    def fee_invoice
+      invoice = CorikaInvoices::Invoice.find(@festival_application.fee_invoice_id)
+      invoice_file = CorikaInvoices::ArchiveFile.new(invoice.pdf_filename, invoice.pdf_filename, invoice.booking_year.to_s)
+      send_file(invoice_file.full_path, filename: invoice_file.orig_filename, type: "application/octet-stream")
+    end
+    
+    def ticket_invoice
+      invoice = CorikaInvoices::Invoice.find(@festival_application.ticket_invoice_id)
     end
 
     def closed; end
@@ -50,7 +60,6 @@ module Ef
 
     # GET /festival_applications/1/edit
     def edit
-      @festival_application = FestivalApplication.find_by token: params[:token]
     end
 
     # POST /festival_applications
@@ -95,7 +104,6 @@ module Ef
     # PUT /festival_applications/1
     # PUT /festival_applications/1.json
     def update
-      @festival_application = FestivalApplication.find_by token: params[:token]
 
       @contact_person = @festival_application.contact_person
 
@@ -122,25 +130,14 @@ module Ef
       end
     end
 
-    # DELETE /festival_applications/1
-    # DELETE /festival_applications/1.json
-    def destroy
-      @festival_application = FestivalApplication.find(params[:id])
-      @festival_application.destroy
-
-      respond_to do |format|
-        format.html { redirect_to festival_applications_url }
-        format.json { head :no_content }
-        format.js { render layout: false }
-      end
-    end
-
     def step2
-      @festival_application = FestivalApplication.find_by token: params[:token]
       @festival_pieces = @festival_application.festival_pieces
     end
 
     private
+    def set_festival_application
+      @festival_application = FestivalApplication.find_by token: params[:token]
+    end
 
     def festival_application_params
       params.require(:festival_application).permit(

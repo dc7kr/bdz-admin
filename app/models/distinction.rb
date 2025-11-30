@@ -4,22 +4,33 @@ class Distinction < ApplicationRecord
 
   def gen_invoice
     invoice = CorikaInvoices::Invoice.new
-    invoice.invoice_type = "ehrungsrechnung"
+    invoice.template = "ehrungsrechnung"
+    invoice.template_subdir = "bdz"
     invoice.invoice_date = Time.zone.now
-    invoice.our_contact = "distinction"
+
     invoice.customer = orchestra.to_customer
+
+    # invoice.our_contact = "distinction"
+
+    invoice.booking_year = Time.now.year
+    invoice.invoice_date = Time.now
+
+    c_hash = INVOICE_CONTACT_HASH["distinction"]
+    contact = CorikaInvoices::Contact.new(c_hash)
+    invoice.contact = contact
+
     invoiceNumber = "E-#{Time.zone.now.strftime('%Y%m%d-')}#{invoice.customer.customer_id}"
     invoice.number = invoiceNumber
 
     # Brutto Rechnung
-    invoice.tax_type = "B"
+    invoice.tax_mode = "E"
 
-    invoice.considerItem(certificates, Prices.certificate, "Urkunden")
-    invoice.considerItem(silver_needles, Prices.silverNeedle, "Silbernadel")
-    invoice.considerItem(gold_needles, Prices.goldenNeedle, "Goldnadel")
-    invoice.considerItem(honorletters, Prices.honorLetter, "Ehrenbrief mit Urkundenmappe")
-    invoice.considerItem(medals, Prices.medal, "BDZ-Verdienstmedaille")
-    invoice.considerItem(national_needles, Prices.nationalNeedle, "BDZ-Bundesnadel")
+    invoice.consider_item(certificates, Prices.certificate, "Urkunden")
+    invoice.consider_item(silver_needles, Prices.silverNeedle, "Silbernadel")
+    invoice.consider_item(gold_needles, Prices.goldenNeedle, "Goldnadel")
+    invoice.consider_item(honorletters, Prices.honorLetter, "Ehrenbrief mit Urkundenmappe")
+    invoice.consider_item(medals, Prices.medal, "BDZ-Verdienstmedaille")
+    invoice.consider_item(national_needles, Prices.nationalNeedle, "BDZ-Bundesnadel")
 
     portoPrice = if porto.nil?
                    Prices.distinctionPorto
@@ -27,7 +38,7 @@ class Distinction < ApplicationRecord
                    porto
     end
 
-    item = invoice.considerItem(1, portoPrice, "Porto und Verpackungskostenanteil")
+    item = invoice.consider_item(1, portoPrice, "Porto und Verpackungskostenanteil")
     item.tax_rate = 0
 
     invoice
