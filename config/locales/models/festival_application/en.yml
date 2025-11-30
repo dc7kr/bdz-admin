@@ -3,6 +3,8 @@ en:
     zero: "No festival applications"
     other: "%{count} festival applications"
     one: "Festival application"
+
+    fee: "Participant fee"
     general_panel_title: "General Information"
     new: "New festival application"
     planned_programme: "Planned programme (max. 20 minutes)"
@@ -27,6 +29,14 @@ en:
     create_success: "Festival application successfully created."
     update_success: "Festival application successfully updated."
     workshop_request: "Suggested workshop topics"
+    payment_status: "Payment status"
+    download_fee_invoice: "Download fee invoice"
+    download_ticket_invoice: "Download ticket invoice"
+    payment_states:
+      N: "Not payed"
+      P: "Participant fee payed"
+      F: "Fully paid"
+      S: "Special conditions"
 
     group_types:
       O: Orchestra

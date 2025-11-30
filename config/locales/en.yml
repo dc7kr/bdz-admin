@@ -38,6 +38,7 @@ en:
     delete: Delete
     cancel: Cancel
     info: Info
+    sum: "Sum"
     submit: Submit
     confirm: "Are you sure?"
     exchange: Exchange

@@ -34,7 +34,7 @@ de:
     nopayment: Säumige Zahler
     last_payment: "Letzte Zahlung"
     nonzero_balance: "Zahlungsrückstand im Beitragskonto!"
-    is_direct_debit: "Lastschrift"
+    direct_debit: "Lastschrift"
     notinvoiced: Keine Rechnung
     invalid_mail: Ungültige Mailadresse
     eintritt: Eintritt

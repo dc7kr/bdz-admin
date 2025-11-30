@@ -1,0 +1,7 @@
+de:
+  festival_exhibitor: &festival_exhibitor_labels
+    one: "Aussteller"
+    other: "Aussteller"
+    special_tariff: "Sondervereinbarung"
+    special_amount: "Sonder-Betrag"
+    tariff: "Tarif"
