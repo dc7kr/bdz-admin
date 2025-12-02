@@ -1,7 +1,7 @@
 = turbo_frame_tag 'modal' do
-  .modal.fade{"aria-hidden" => "true", "data-controller" => "modal", "data-modal-target" => "modal", :role => "dialog", :tabindex => "-1"}
+  .modal.fade{"aria-hidden" => "true", "data-controller" => "modal", "data-bs-backdrop"=>"static", "data-modal-target" => "modal", :role => "dialog", :tabindex => "-1"}
     .modal-dialog.modal-dialog-centered.modal-xl
-      .modal-content
+      .modal-content.shadow
         .modal-header.position-relative.d-flex.justify-content-between
           %h5.modal-title.font-18= title
           %button.btn.btn-primary{"aria-label" => "Close", "data-action" => "modal#close", :type => "button"}
