@@ -77,7 +77,7 @@ module ApplicationHelper
   def link_to_generated_download_path(_txt, path)
     return unless can? :read, path
 
-    link_to my_fa_icon("download"), path, class: "btn btn-sm btn-outline-default", data: { turbolinks: false }
+    link_to my_fa_icon("download"), path, class: "btn btn-sm btn-outline-default", data: { turbo: false }
   end
 
   def icon_link(txt, img, path)

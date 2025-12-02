@@ -26,8 +26,13 @@ module ButtonHelper
 
   def link_to_download_path(_txt, path, entity)
     return unless entity.has_attachment? && can?(:read, entity)
-
-    link_to my_fa_icon("download"), path, class: "btn btn-sm btn-outline-dark", data: { turbolinks: false }
+    link_to path, class: "btn btn-sm btn-outline-dark", data: { turbo: false } do
+      concat(my_fa_icon("download"))
+      if not _txt.nil? 
+        concat(raw("&nbsp;"))
+        concat(_txt)
+      end
+    end
   end
 
   def link_to_show_path(path, _txt, entity)

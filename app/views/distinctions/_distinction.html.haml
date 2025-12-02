@@ -14,5 +14,5 @@
     - if (distinction.member_account_booking == nil)
       = link_to_generate_path t('distinction.generate_invoice'), gen_invoice_orchestra_distinction_path(@orchestra,distinction)
     - else
-      = link_to_download_path(t('common.download'),download_orchestra_member_account_booking_path(@orchestra,distinction.member_account_booking),distinction.member_account_booking)
+      = link_to_download_path(nil, download_orchestra_member_account_booking_path(@orchestra,distinction.member_account_booking),distinction.member_account_booking)
 

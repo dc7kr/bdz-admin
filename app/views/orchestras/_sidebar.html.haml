@@ -13,5 +13,5 @@
           %ul.btn-toggle-nav.list-unstyled.fw-normal.pb-1.small
             %li=link_to "Säumige GJ #{@previousYear}", nopayment_orchestras_path( :lastyear=> @previousYear), :class => "link-body-emphasis d-inline-flex text-decoration-none rounded" 
             %li=link_to "GEMA Zahlen", "/orchestras/gema.csv", :class => "link-body-emphasis d-inline-flex text-decoration-none rounded" 
-            %li=link_to "Jugendleiter-Adressen",  reports_youth_addresses_path, data: { turbolinks:false }, :class => "link-body-emphasis d-inline-flex text-decoration-none rounded" 
+            %li=link_to "Jugendleiter-Adressen",  reports_youth_addresses_path, data: { turbo:false }, :class => "link-body-emphasis d-inline-flex text-decoration-none rounded" 
             %li=link_to "Vereine ueber 90",  pro_musica_orchestras_path, :class => "link-body-emphasis d-inline-flex text-decoration-none rounded"
