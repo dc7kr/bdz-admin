@@ -323,9 +323,11 @@ class OrchestrasController < AuthenticatedController
     year = Time.zone.now.year
     @invoice = @orchestra.gen_invoice(year)
 
+    @invoice_hash = @invoice.to_hash[:invoice]
+
     respond_to do |format|
-      format.turbo_stream
-      format.html
+      format.turbo_stream { render template: "corika_invoices/invoices/preview" }
+      format.html { render template: "corika_invoices/invoices/preview" }
       format.json { render json: @invoice }
     end
   end

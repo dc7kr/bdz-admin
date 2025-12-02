@@ -7,7 +7,6 @@
         #{t("distinction",:count=>1)}
         &nbsp;
         #{@distinction.orchestra.orchName} (#{@distinction.orchestra.member.mglnr.to_s})
-        = link_to 'Rechnungsvorschau', invoice_preview_orchestra_distinction_path(@distinction.orchestra,@distinction),  data: { 'turbo_frame' => 'modal' }, class: 'btn btn-secondary btn-sm'
       .container-fluid
         =entity_row @distinction, :dist_date,:date
         =entity_row @distinction, :gold_needles
@@ -18,13 +17,16 @@
         =entity_row @distinction, :medals
         =entity_row @distinction, :porto, :currency
 
+        .row 
+          .col-md-3.text-end=t("invoice", count: 1)
+          .col-md-9
+            = link_to 'Rechnungsvorschau', invoice_preview_orchestra_distinction_path(@distinction.orchestra,@distinction),  data: { 'turbo_frame' => 'modal' }, class: 'btn btn-secondary btn-sm'
+            - if not @distinction.invoice_id.present?
+              = generate_button(t('distinction.generate_invoice'), gen_invoice_orchestra_distinction_path(@orchestra,@distinction), @distinction)
+            - else
+              - invoice = CorikaInvoices::Invoice.find(@distinction.invoice_id)
+              %b Nr. #{invoice.full_number} vom #{l invoice.invoice_date}
+              = link_to_download_path(t('common.download'),download_orchestra_member_account_booking_path(@orchestra,@distinction.member_account_booking),@distinction.member_account_booking)
 
-        - if not @distinction.invoice_id.present?
-          %b ***VORSCHAU*** 
-          = render :partial=>"invoice", :locals => { :invoice=> @distinction.gen_invoice }
-        -else 
-          = render :partial=>"invoice", :locals => { :invoice=> CorikaInvoices::Invoice.find(@distinction.invoice_id) }
-  
+      
       = edit_button edit_orchestra_distinction_path(@distinction.orchestra,@distinction), @distinction
-      - if not @distinction.has_booking? then
-        = generate_button(t('distinction.generate_invoice'), gen_invoice_orchestra_distinction_path(@orchestra,@distinction), @distinction)

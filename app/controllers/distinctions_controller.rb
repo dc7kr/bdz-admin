@@ -74,11 +74,20 @@ class DistinctionsController < AuthenticatedController
   end
 
   def invoice_preview
-    @invoice = @distinction.gen_invoice
+    @ínvoice = CorikaInvoices::Invoice.find(@distinction.invoice_id)
+
+    if not @distinction.invoice_id.nil?
+      @invoice = CorikaInvoices::Invoice.find(@distinction.invoice_id)
+    else
+      @invoice = @distinction.gen_invoice
+    end
+
+    @invoice_hash = @invoice.to_hash[:invoice]
+
 
     respond_to do |format|
-      format.turbo_stream
-      format.html
+      format.turbo_stream { render template: "corika_invoices/invoices/preview" }
+      format.html { render template: "corika_invoices/invoices/preview" }
       format.json { render json: @invoice }
     end
   end
