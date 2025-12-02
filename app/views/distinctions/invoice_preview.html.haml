@@ -1,12 +1,12 @@
 = render layout: 'layouts/modal', locals: { title: 'Rechnungsvorschau' } do 
-  %h2=@invoice.number
+  %h2=@invoice.full_number
   .row
     .col Rechnungsdatum
     .col=l @invoice.invoice_date
 
   .row
-    .col invoice_type
-    .col=@invoice.invoice_type
+    .col template
+    .col=@invoice.template
   .row
     .col tax_type
     .col=@invoice.tax_mode

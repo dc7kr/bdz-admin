@@ -5,11 +5,11 @@
     .col=l @invoice.invoice_date
 
   .row
-    .col invoice_type
-    .col=@invoice.invoice_type
+    .col template
+    .col=@invoice.template
   .row
-    .col tax_type
-    .col=@invoice.tax_type
+    .col tax_mode
+    .col=@invoice.tax_mode
 
   %table.table.table-bordered
     %thead.table-dark
@@ -22,8 +22,8 @@
       %tr
         %td=it.count
         %td=it.label
-        %td=format_currency it.price
-        %td=format_currency it.count*it.price
+        %td=format_currency it.basis
+        %td=format_currency it.count*it.basis
 
     %tr
       %td &nbsp;
