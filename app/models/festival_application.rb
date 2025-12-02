@@ -15,6 +15,7 @@ class FestivalApplication < ApplicationRecord
   belongs_to :festival_concert, optional: true
 
   scope :current_festival, -> { where(year: BDZ_SETTINGS["config"]["festival_year"]) }
+  scope :regular, -> { where("permission = 1 and visitor_type='R'") }
 
   scope :current_with_contacts, -> { FestivalApplication.current_festival.includes(:contact_person) }
 
@@ -115,7 +116,12 @@ class FestivalApplication < ApplicationRecord
     inv_nr = ts + "-F-#{id}"
     inv = prepare_invoice(inv_nr)
 
-    item = CorikaInvoices::InvoiceItem.create_gross(1, prices["fee"], I18n.t("festival_application.fee"), "C62", 7)
+    if num_players < 30 
+      item = CorikaInvoices::InvoiceItem.create_gross(1, prices["reduced_fee"], I18n.t("festival_application.fee"), "C62", 7)
+    else 
+      item = CorikaInvoices::InvoiceItem.create_gross(1, prices["fee"], I18n.t("festival_application.fee"), "C62", 7)
+    end
+
     inv.invoice_items << item
 
     inv
