@@ -1,5 +1,5 @@
 class InvoiceMail < ApplicationMailer
-  default from: "geschaeftsstelle@zupfmusiker.de"
+
 
   def notify(recipient, invoice_hash, _attachment_hash, params)
     year = params[:year]
@@ -18,6 +18,6 @@ class InvoiceMail < ApplicationMailer
 
     @mglnr = mglnr
 
-    mail(to: recipient, subject: subject)
+    mail(to: recipient, subject: subject, from: report_sheet_from)
   end
 end

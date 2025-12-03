@@ -1,5 +1,4 @@
 class TestMail < ApplicationMailer
-  default from: "karsten.richter@zupfmusiker.de"
 
   def notify(recipient, email_params)
     dataFile = email_params[:datafile]
@@ -7,6 +6,6 @@ class TestMail < ApplicationMailer
     attachments[dataFile.original_filename] = dataFile.read if dataFile
     @body = email_params[:body]
 
-    mail(to: recipient, subject: email_params[:subject])
+    mail(from: contact_email("system"), to: recipient, subject: email_params[:subject], cc: recipient)
   end
 end

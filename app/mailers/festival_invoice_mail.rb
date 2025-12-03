@@ -1,6 +1,9 @@
 class FestivalInvoiceMail < ApplicationMailer
   def notify(recipient, personalized_file_hash, _attachment_file, params)
     subject = params[:subject]
+    cc = contact_email("treasurer")
+    bcc = [ invoice_out_bcc, contact_email("admin") ]
+
 
     @inv = CorikaInvoices::Invoice.find(params[:invoice_id])
 
@@ -18,7 +21,7 @@ class FestivalInvoiceMail < ApplicationMailer
     end
 
     I18n.with_locale(locale) do
-      mail(from: @inv.contact.email, to: recipient, subject: subject, cc: params[:cc], bcc: params[:bcc])
+      mail(from: @inv.contact.email, to: recipient, subject: subject, cc: cc, bcc: bcc)
     end
   end
 end

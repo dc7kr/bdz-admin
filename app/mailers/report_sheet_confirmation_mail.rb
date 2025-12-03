@@ -1,6 +1,4 @@
 class ReportSheetConfirmationMail < ApplicationMailer
-  default from: "geschaeftsstelle@zupfmusiker.de"
-
   def notify(recipient, personalized_file_hash, _attachment_file, params)
     @rsi = params[:rsi]
     @year = @rsi.report_sheet.year.to_s
@@ -16,6 +14,6 @@ class ReportSheetConfirmationMail < ApplicationMailer
       attachments[personalized_file.orig_filename] = attachment_data
     end
 
-    mail(to: recipient, subject: "Meldebogen #{@year} erfolgreich eingereicht.")
+    mail(from: report_sheet_from, to: recipient, subject: "Meldebogen #{@year} erfolgreich eingereicht.")
   end
 end

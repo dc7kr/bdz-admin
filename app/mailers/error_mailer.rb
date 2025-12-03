@@ -1,9 +1,8 @@
 class ErrorMailer < ApplicationMailer
   def deliver_snapshot(exception, env, _current_user)
     @body = "#{exception}\n#{exception.backtrace.join("\n")}"
-    sender = "bdzdb@zupfmusiker.de"
 
-    admin_mail = BDZ_SETTINGS["contacts"]["admin"]["mail"]
-    mail(to: admin_mail, subject: "Exception in #{env}", from: sender).deliver_later
+    admin_mail = contact_email("admin")
+    mail(to: admin_mail, subject: "Exception in #{env}").deliver_later
   end
 end

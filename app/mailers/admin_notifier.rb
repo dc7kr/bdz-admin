@@ -102,7 +102,12 @@ class AdminNotifier < ApplicationMailer
   end
 
   def test_notification(current_user)
-    mail(to: current_user.email, subject: "[BDZDB] Test Notification")
+    current_user_addr = email_address_with_name(current_user.email, current_user.name)
+
+    adm = contact_email("admin")
+    from = contact_email("system")
+
+    mail(to: current_user_addr, subject: "[BDZDB] Test Notification", from:  from, bcc: adm  )
   end
 
   def new_distinction_notification(invoice, sepa_file)
@@ -112,16 +117,9 @@ class AdminNotifier < ApplicationMailer
 
     @invoice_number = invoice.full_number
     @mglnr = invoice.customer.customer_id
-    user = nil
-    if ENV["RAILS_ENV"] == "production"
-      BDZ_SETTINGS["contacts"]["treasurer"]["name"]
-      user = BDZ_SETTINGS["contacts"]["treasurer"]["mail"]
-    else
-      BDZ_SETTINGS["contacts"]["admin"]["name"]
-      user = BDZ_SETTINGS["contacts"]["admin"]["mail"]
-    end
 
-    cc = BDZ_SETTINGS["contacts"]["admin"]["mail"]
+    user = contact_email("treasurer")
+    cc = contact_email("admin")
 
     mail(to: user, cc: cc, subject: "Neue Ehrungsrechnung Nr. #{@invoice_number}")
   end

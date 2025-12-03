@@ -1,5 +1,4 @@
 class ReportSheetInputMailer < ApplicationMailer
-  default from: "geschaeftsstelle@zupfmusiker.de"
 
   def notify(recipient, personalized_hash, _attachment_hash, params)
     # the MailingFiles are serialized here so we need to deserialize from hash first
@@ -32,6 +31,6 @@ class ReportSheetInputMailer < ApplicationMailer
       attachments[personalized_file.orig_filename] = attachment_data
     end
 
-    mail(to: recipient, subject: "Mitgliedermeldung #{@year}")
+    mail(from: report_sheet_from, to: recipient, subject: "Mitgliedermeldung #{@year}")
   end
 end

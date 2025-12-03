@@ -1,5 +1,5 @@
 class FestivalMail < ApplicationMailer
-  default from: "info@eurofestival-zupfmusik.de"
+  default from: BDZ_SETTINGS["config"]["festival_email"]
 
   def notify(recipient, personalized_file, attachment_file, params)
     subject = params[:subject]
