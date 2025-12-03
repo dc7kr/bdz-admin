@@ -376,7 +376,7 @@ class FestivalApplicationsController < AuthenticatedController
   end
 
   def open_issues
-    @appl = FestivalApplication.current_festival.order(:id)
+    @festival_applications = FestivalApplication.current_festival.order(:id)
   end
 
   def sort_column
