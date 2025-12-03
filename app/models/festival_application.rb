@@ -104,10 +104,18 @@ class FestivalApplication < ApplicationRecord
     inv
   end
 
+  def needs_fee_invoice?
+    return visitor_type == "R"
+  end
+
   def get_fee_invoice
     if has_fee_invoice?
       i = CorikaInvoices::Invoice.find(fee_invoice_id)
       return i
+    end
+
+    if visitor_type != "R"
+      return
     end
 
     prices = BDZ_SETTINGS["festival_prices"]
