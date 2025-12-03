@@ -24,13 +24,18 @@ class FestivalFeeInvoiceMailsJob < BaseInvoicesJob
 
     Time.zone.now.strftime("%Y%m%d%H%M%S_")
 
-    applicants = FestivalApplication.current_festival.where("permission=1 AND payment_status='N' AND visitor_type='R'")
+    applicants = FestivalApplication.current_festival.regular.where("fee_invoice_id IS NULL").order(:id)
 
     applicants.each do |appl|
       invoice = appl.get_fee_invoice
 
       if invoice.sum <= 0
         Rails.logger.info("Skipped invoice for TLN #{invoice.customer.id} because of zero or negative invoice.")
+        next
+      end
+
+      if not needs_fee_invoice?
+        Rails.logger.warn("BUG: Festival application #{appl.id} should not need fee invoice")
         next
       end
 
@@ -58,8 +63,8 @@ class FestivalFeeInvoiceMailsJob < BaseInvoicesJob
       contact = appl.contact_person
 
       mailer_params = { subject: subject, 
-                        cc: BDZ_SETTINGS["contacts"]["treasurer"]["mail"],
-                        bcc: BDZ_SETTINGS["contacts"]["dbadmin"], invoice_id: appl.fee_invoice_id, locale: locale }
+                        invoice_id: appl.fee_invoice_id, 
+                        locale: locale }
 
       result = tool.deliver_mailing(FestivalInvoiceMail, contact.to_addressee, invoice_file, nil, letterArray, mailer_params)
       results << result
