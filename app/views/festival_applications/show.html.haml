@@ -7,7 +7,7 @@
       (#{t('festival_application.permission_granted')})
     %br
     =@festival_application.orch_name
-  =link_to "Datenblatt", gen_participant_sheet_festival_application_path(@festival_application),:class=>"btn btn-primary btn-sm", data: { turbolinks:false }
+  =link_to "Datenblatt", gen_participant_sheet_festival_application_path(@festival_application),:class=>"btn btn-primary btn-sm", data: { turbo:false }
   .container-fluid
 
     #accordion.panel-group{:role=>"tablist", :aria=>{:multiselectable=>"true"}}
@@ -60,9 +60,14 @@
           =entity_row(@festival_application,:amount)
           =custom_entity_row(t("festival_application.payment_status"), t("festival_application.payment_states.#{@festival_application.payment_status}"))
           - if @festival_application.has_ticket_invoice?
-            =link_to "PDF", gen_invoice_festival_application_path(@festival_application),:class=>"btn btn-primary btn-sm", data: { turbolinks:false }
-          - if @festival_application.has_fee_invoice?
-            =link_to "Fee PDF", gen_fee_invoice_festival_application_path(@festival_application),:class=>"btn btn-primary btn-sm", data: { turbolinks:false }
+            =link_to "Ticket PDF", ticket_invoice_festival_application_path(@festival_application),:class=>"btn btn-primary btn-sm", data: { turbo:false }
+          - else 
+            = link_to 'Ticket Preview', ticket_invoice_preview_festival_application_path(@festival_application),  data: { 'turbo_frame' => 'modal' }, class: 'btn btn-secondary btn-sm'
+          - if @festival_application.needs_fee_invoice?
+            - if @festival_application.has_fee_invoice?
+              =link_to "Fee PDF", fee_invoice_festival_application_path(@festival_application),:class=>"btn btn-primary btn-sm", data: { turbo:false }
+            - else 
+              = link_to 'Fee Preview', fee_invoice_preview_festival_application_path(@festival_application),  data: { 'turbo_frame' => 'modal' }, class: 'btn btn-secondary btn-sm'
       - if not @festival_application.event_meal.nil?
         -@event_meal = @festival_application.event_meal
         .card
