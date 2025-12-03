@@ -327,32 +327,34 @@ class FestivalApplicationsController < AuthenticatedController
                           disposition: "inline"
   end
 
-  def gen_fee_invoice
+  def fee_invoice
     @festival_application = FestivalApplication.find_by token: params[:token]
 
-    Time.zone.now.strftime("%Y%m%d%H%M%S_")
-    Time.zone.now.year
+    if @festival_application.fee_invoice_id.nil?
+        respond_to do |format|
+            format.html { render :show, status: :unprocessable_entity }
+        end
+        return
+    end
+
     invoice = @festival_application.get_fee_invoice
 
     invoice_file = invoice.gen_pdf
 
-    if not invoice_file.nil?
-      @festival_application.fee_invoice_id = invoice.id
-      @festival_application.save
-      send_file(invoice_file.full_path, filename: invoice_file.orig_filename, type: "application/octet-stream")
-    else
-      format.html { render :show, status: :unprocessable_entity }
-    end
+    send_file(invoice_file.full_path, filename: invoice_file.orig_filename, type: "application/octet-stream")
   end
 
-  def gen_invoice
+  def ticket_invoice
     @festival_application = FestivalApplication.find_by token: params[:token]
-    tw = CorikaInvoices::TexWriter.new(INVOICE_CONFIG)
 
-    Time.zone.now.strftime("%Y%m%d%H%M%S_")
-    Time.zone.now.year
-    invoice = @festival_application.invoice
+    if @festival_application.fee_invoice_id.nil?
+        respond_to do |format|
+            format.html { render :show, status: :unprocessable_entity }
+        end
+        return
+    end
 
+    invoice = @festival_application.get_ticket_invoice
     invoice_file = invoice.gen_pdf
 
     send_file(invoice_file.full_path, filename: invoice_file.orig_filename, type: "application/octet-stream")
