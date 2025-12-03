@@ -2,6 +2,7 @@ class ErrorsController < ApplicationController
   layout "error"
   def show
     @exception = request.env["action_dispatch.exception"]
+    Rails.logger.error(@exception.backtrace.join("\n"))
     @status_code = @exception.try(:status_code) ||
                    ActionDispatch::ExceptionWrapper.new(
                      request.env, @exception
