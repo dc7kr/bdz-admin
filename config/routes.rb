@@ -138,9 +138,11 @@ Rails.application.routes.draw do
       get :open_issues
     end
     member do
-      get :gen_invoice
       get :gen_participant_sheet
-      get :gen_fee_invoice
+      get :ticket_invoice
+      get :ticket_invoice_preview
+      get :fee_invoice
+      get :fee_invoice_preview
     end
 
     resources :festival_pieces
