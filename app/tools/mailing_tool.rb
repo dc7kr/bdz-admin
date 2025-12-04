@@ -106,13 +106,13 @@ class MailingTool
         { err: "blacklisted", entity: addressee, type: type, mode: "E" }
 
       else
-        mailer.notify(addressee.email, letter_hash, attachment_hash, additional_mailer_params).deliver_later
+        # to correctly record failed mails we have to use deliver_now ... 
+        mailer.notify(addressee.email, letter_hash, attachment_hash, additional_mailer_params).deliver_now
         record_mail_success(addressee, @event_title, letter)
         { success: true, mode: "E", entity: addressee }
 
       end
-    rescue StandardError => e
-      # TODO: be more specific about the errors: Catch all is bad!
+    rescue Net::SMTPAuthenticationError, Net::SMTPServerBusy, Net::SMTPSyntaxError, Net::SMTPFatalError, Net::SMTPUnknownError => e
       record_mail_failure(addressee, e.message)
       Rails.logger.warn e.backtrace.join("\n")
       { err: e.message, entity: addressee, type: type, mode: "E" }
