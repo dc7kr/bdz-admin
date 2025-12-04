@@ -1,8 +1,9 @@
 - if readable? person_member 
   %tr{:class => cycle("odd", "even")}
     %td
-      - if !person_member.valid? then
-        = image_tag('/assets/warn.svg',{:size=>"16x16"})
+      - if not person_member.valid? then
+        %a.d-inline-block{"aria-label" => "Person Member errors", "data-bs-title" => "BLAH #{person_member.errors.to_a.join("\n")}", "data-bs-toggle" => "tooltip", :href => "#"}
+          %i.fas.fa-exclamation-triangle.text-warning
       - if person_member.member.nil? then
         INCONSISTENT
       - else

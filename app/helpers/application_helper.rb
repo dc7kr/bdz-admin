@@ -154,12 +154,20 @@ module ApplicationHelper
     t("common.no_")
   end
 
-  def sortable(column, title = nil)
+  def sortable(column, title = nil, css_class = "")
     title ||= column.titleize
-    css_class = column == sort_column ? " sort current #{sort_direction}" : " sort"
-    direction = column == sort_column && sort_direction == "asc" ? "desc" : "asc"
-    link_to title, params.merge(sort: column, direction: direction, page: nil).permit(:sort, :direction, :page),
-            { class: css_class }
+    current = column == params[:sort]
+
+    css_class += current ? " sort current #{sort_direction}" : " sort"
+
+    direction = current && params[:direction ] == "asc" ? "desc" : "asc"
+
+    link_to params.merge(sort: column, direction: direction, page: nil).permit(:sort, :direction, :page), { class: css_class } do
+      concat(title)
+      if current
+              concat(my_fa_icon(sort_direction == "asc" ? "sort-up" : "sort-down"))
+      end
+    end
   end
 
   def nav_action_class(action, prefix = nil)

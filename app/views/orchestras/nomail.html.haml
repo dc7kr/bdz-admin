@@ -5,9 +5,9 @@
     Orchester ohne E-Mail
   %table.table.table-sm.table-hover.table-condensed
     %thead.table-dark
-      %th= sortable "mglnr", attr_heading(Member,:mglnr)
-      %th= sortable "orchName", attr_heading(Orchestra,:orchName)
-      %th= sortable "email", attr_heading(Member,:email)
+      %th= sortable "mglnr", attr_heading(Member,:mglnr), "table-dark"
+      %th= sortable "orchName", attr_heading(Orchestra,:orchName), "table-dark"
+      %th= sortable "email", attr_heading(Member,:email), "table-dark"
       %th &nbsp;
     %tbody#orchestras
       = render partial: "orchestra_nomail", collection: @members

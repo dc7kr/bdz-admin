@@ -9,12 +9,12 @@
   #paginator= paginate @members
   %table.table.table-sm.table-hover.table-condensed
     %thead.table-dark
-      %th= sortable "mglnr", attr_heading(Member,:mglnr)
-      %th=t("member.salutation")
-      %th=t("member.vorname")
-      %th=t("member.name")
-      %th=t("member.strasse")
-      %th=t("member.ort")
+      %th= sortable "mglnr", attr_heading(Member,:mglnr), "table-dark"
+      %th=attr_heading(Member, :salutation)
+      %th=attr_heading(Member, :vorname)
+      %th=attr_heading(Member, :name)
+      %th=attr_heading(Member, :strasse)
+      %th=attr_heading(Member, :ort)
       %th &nbsp;
     %tbody#person_members
       = render partial: "person_member_nomail", collection: @members, :as => :person_member

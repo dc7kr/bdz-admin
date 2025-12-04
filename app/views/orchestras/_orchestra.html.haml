@@ -1,6 +1,9 @@
 -if readable?(orchestra) 
   %tr
     %td
+      - if not orchestra.valid? 
+        %a.d-inline-block{"aria-label" => "Orchestra errors", "data-bs-title" => "BLAH #{orchestra.errors.to_a.join("\n")}", "data-bs-toggle" => "tooltip", :href => "#"}
+          %i.fas.fa-exclamation-triangle.text-warning
       - if orchestra.member.nil? then
         INCONSISTENT
       - else
@@ -9,8 +12,6 @@
           %span.badge.bg-primary kein Meldebogen
           
     %td
-      - if not orchestra.valid? 
-        = image_tag('/assets/icons/warning.svg', {:size=>'16x16',:title=>orchestra.errors.to_a.join("\n")} )
       = truncate(orchestra.orchName,:length => 50)
 
     - if orchestra.member.nil? then

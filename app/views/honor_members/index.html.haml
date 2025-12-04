@@ -5,12 +5,12 @@
     = t("honor_member",:count=>99)
   %table.table.table-sm.table-hover.table-condensed
     %thead.table-dark
-      %th.first= attr_heading(HonorMember,:nr)
+      %th=sortable "nr", attr_heading(HonorMember,:nr), "table-dark"
       %th= attr_heading(HonorMember,:vorname)
       %th= attr_heading(HonorMember,:name)
       %th= attr_heading(HonorMember,:ort)
-      %th= sortable "honortype", attr_heading(HonorMember,:honorType)
-      %th= attr_heading(HonorMember,:honorDate)
+      %th= sortable "honorType", attr_heading(HonorMember,:honorType), "table-dark"
+      %th= sortable "honorDate", attr_heading(HonorMember,:honorDate), "table-dark"
       %th.last &nbsp;
     %tbody#orchestras
       = render @honor_members

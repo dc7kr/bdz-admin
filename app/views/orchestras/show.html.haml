@@ -4,23 +4,23 @@
   %h2 #{@orchestra.member.mglnr} (#{t("orchestra.type_"+@orchestra.orch_type)})
   %h3
     =  @orchestra.orchName
-    = link_to 'Rechnungsvorschau', invoice_preview_orchestra_path(@orchestra),  data: { 'turbo_frame' => 'modal' }, class: 'btn btn-secondary btn-sm'
+    - if not @orchestra.report_sheet_required? or not @orchestra.currentReportSheet.nil? then
+      = link_to 'Rechnungsvorschau', invoice_preview_orchestra_path(@orchestra),  data: { 'turbo_frame' => 'modal' }, class: 'btn btn-secondary btn-sm'
   #orchestraAccordion.accordion
     .accordion-item
       .accordion-header 
-        %button.accordion-button{"aria-controls" => "paymentDataCollapse", "aria-expanded" => "true", "data-bs-target" => "#orchestraDataCollapse", "data-bs-toggle" => "collapse", :type => "button"}
+        %button.accordion-button{"aria-controls" => "paymentDataCollapse", "aria-expanded" => "true" }
           Orchesterdaten
-      #orchestraDataCollapse.accordion-collapse.collapse.show{"data-bs-parent" => "#orchestraAccordion"}
-        .accordion-body
-          = entity_row(@orchestra,:fullname)
-          = entity_row(@orchestra,:gruendung,:date)
-          = entity_row(@orchestra,:promusica,:date)
-          .row
-            .col-md-3.text-end=label :orchestra,:url
-            .col-md-9=link_to @orchestra.url, sanitize_url(@orchestra.url)
-          = entity_row(@orchestra,:gema_kdnr)
-          = entity_row(@orchestra,:gema_kdnr_new)
-          = entity_row(@orchestra,:bemerkung)
+      .accordion-body
+        = entity_row(@orchestra,:fullname)
+        = entity_row(@orchestra,:gruendung,:date)
+        = entity_row(@orchestra,:promusica,:date)
+        .row
+          .col-md-3.text-end=label :orchestra,:url
+          .col-md-9=link_to @orchestra.url, sanitize_url(@orchestra.url)
+        = entity_row(@orchestra,:gema_kdnr)
+        = entity_row(@orchestra,:gema_kdnr_new)
+        = entity_row(@orchestra,:bemerkung)
 
   = render @orchestra.member,:partial=>"member"
 

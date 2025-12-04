@@ -1,7 +1,7 @@
 #memberAccordion.accordion
   .accordion-item
     .accordion-header 
-      %button.accordion-button{"aria-controls" => "memberDataCollapse", "aria-expanded" => "true", "data-bs-target" => "#memberDataCollapse", "data-bs-toggle" => "collapse", :type => "button"}
+      %button.accordion-button{"aria-controls" => "memberDataCollapse", "aria-expanded" => "true"}
         Mitgliedsdaten
         - if not member.zero_member_fee_balance?
           %span.badge.bg-danger=t("member.nonzero_balance")
@@ -28,41 +28,39 @@
 
   .accordion-item
     .accordion-header
-      %button.accordion-button{"aria-controls" => "contactDataCollapse", "aria-expanded" => "true", "data-bs-target" => "#contactDataCollapse", "data-bs-toggle" => "collapse", :type => "button"}
+      %button.accordion-button
         Kontaktdaten
-    #contactDataCollapse.accordion-collapse.collapse.show{"data-bs-parent" => "#memberAccordion"}
-      .accordion-body
-        .row
-          .col-md-3.text-end=label :member,:salutation
-          .col-md-9= t("common.salutations."+member.anrede)
-        =entity_row(member,:fullname)
-        =entity_row(member,:strasse)
-        =entity_row(member,:plz)
-        =entity_row(member,:ort)
-        .row
-          .col-md-3.text-end=label :member,:country
-          .col-md-9=translated_country(member.country_code)
-        =entity_row(member,:email,:mailto)
-        =entity_row(member,:telefon)
-        =entity_row(member,:fax)
+    .accordion-body
+      .row
+        .col-md-3.text-end=label :member,:salutation
+        .col-md-9= t("common.salutations."+member.anrede)
+      =entity_row(member,:fullname)
+      =entity_row(member,:strasse)
+      =entity_row(member,:plz)
+      =entity_row(member,:ort)
+      .row
+        .col-md-3.text-end=label :member,:country
+        .col-md-9=translated_country(member.country_code)
+      =entity_row(member,:email,:mailto)
+      =entity_row(member,:telefon)
+      =entity_row(member,:fax)
   .accordion-item
     .accordion-header 
-      %button.accordion-button.collapsed{"aria-controls" => "paymentDataCollapse", "aria-expanded" => "false", "data-bs-target" => "#paymentDataCollapse", "data-bs-toggle" => "collapse", :type => "button"}
+      %button.accordion-button
         Zahlungsdaten
         - if member.direct_debit? then
           %span.badge.bg-info=t("member.direct_debit")
-    #paymentDataCollapse.accordion-collapse.collapse{"data-bs-parent" => "#memberAccordion"}
-      .accordion-body
-        .row
-          .col-md-3.text-end=label :member,:za
-          .col-md-9=t("common.za_"+member.za)
-        =entity_row(member,:iban)
-        .row
-          .col-md-3.text-end=label :member, :bic
-          .col-md-9
-            =member.bic
-            - if not BIC_FINDER.valid?(member.bic)
-              %span.badge.bg-danger=t("member.bic_invalid")
-        =entity_row(member,:zahler)
-        =entity_row(member,:sepa_date)
-        =entity_row(member,:sepa_mandate_nr)
+    .accordion-body
+      .row
+        .col-md-3.text-end=label :member,:za
+        .col-md-9=t("common.za_"+member.za)
+      =entity_row(member,:iban)
+      .row
+        .col-md-3.text-end=label :member, :bic
+        .col-md-9
+          =member.bic
+          - if not BIC_FINDER.valid?(member.bic)
+            %span.badge.bg-danger=t("member.bic_invalid")
+      =entity_row(member,:zahler)
+      =entity_row(member,:sepa_date)
+      =entity_row(member,:sepa_mandate_nr)

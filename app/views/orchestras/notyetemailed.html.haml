@@ -8,8 +8,8 @@
     .inner
       %table.table-sm
         %thead
-          %th.first= sortable "mglnr", t("orchestra.mglnr")
-          %th= sortable "orchName", t("orchestra.orchName")
+          %th.first= sortable "mglnr", attr_heading(Member, :mglnr)
+          %th= sortable "orchName", attr_heading(Orchestra, :orchName)
           %th= sortable "email", t("member.email")
           %th.last &nbsp;
         %tbody#orchestras

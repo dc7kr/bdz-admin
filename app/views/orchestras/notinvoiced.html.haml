@@ -10,9 +10,9 @@
   %table.table.table-sm.table-hover.table-condensed
     %thead.table-dark
       %tr
-        %th= sortable "mglnr", t("orchestra.mglnr", :default => "Mglnr")
-        %th= sortable "orchName", t("orchestra.orchName", :default => "Name")
-        %th= t("member.email")
+        %th= sortable "mglnr", attr_heading(Member, :mglnr), "table-dark"
+        %th= sortable "orchName", attr_heading(Orchestra, :orchName), "table-dark"
+        %th= attr_heading(Member,:email)
         %th.last &nbsp;
     =render @orchestras
 - content_for :sidebar, render(:partial => 'sidebar')

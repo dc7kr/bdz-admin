@@ -8,11 +8,11 @@
   %table.table.table-sm.table-condensed
     %thead.table-dark
       %tr
-        %th= sortable "mglnr", t("member.mglnr", :default =>"#mglr#")
-        %th=t("member.fullname")
-        %th=t("member.email")
-        %th=t("member_account_booking.balance")
-        %th=t("member.last_payment")
+        %th=sortable "mglnr", attr_heading(Member, :mglnr), "table-dark"
+        %th=attr_heading(Member, :fullname)
+        %th=attr_heading(Member, :email)
+        %th=attr_heading(MemberAccountBooking, :balance)
+        %th=attr_heading(Member, :last_payment)
         %th.last &nbsp;
     %tbody
       - @members.each do |member|

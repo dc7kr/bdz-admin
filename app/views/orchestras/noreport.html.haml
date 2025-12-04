@@ -10,8 +10,8 @@
     %table.table.table-sm
       %thead.table-dark
         %tr
-          %th= sortable "mglnr", t("member.mglnr")
-          %th= sortable "orchName", t("orchestra.orchName")
+          %th= sortable "mglnr", attr_heading(Member, :mglnr), "table-dark"
+          %th= sortable "orchName", attr_heading(Orchestra, :orchName), "table-dark"
           %th= t("member.email")
           %th &nbsp;
       =render @orchestras

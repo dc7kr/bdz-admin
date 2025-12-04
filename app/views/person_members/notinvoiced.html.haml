@@ -8,9 +8,9 @@
   %table.table.table-sm.table-condensed
     %thead.table-dark
       %tr
-        %th= sortable "mglnr", t("member.mglnr", :default =>"#mglr#")
-        %th= sortable "name", t("member.fullname", :default => "Name")
-        %th= t("member.email", :default => "#email")
+        %th= sortable "mglnr", attr_heading(Member, :mglnr), "table-dark"
+        %th= sortable "name", attr_heading(Member, :fullname), "table-dark"
+        %th= attr_heading(Member, :email)
         %th.last &nbsp;
     - @person_members.each do |person_member|
       %tr{:class => cycle("odd", "even")}

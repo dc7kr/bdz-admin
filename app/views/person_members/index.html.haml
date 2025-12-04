@@ -8,12 +8,13 @@
   #paginator= paginate @person_members
   %table.table.table-sm.table-hover.table-condensed
     %thead.table-dark
-      %th= sortable "mglnr", attr_heading(Member,:mglnr)
-      %th= sortable "name", attr_heading(Member,:fullname)
-      %th= attr_heading(Member,:city)
-      %th= attr_heading(Member,:email)
-      %th=sortable "eintritt", attr_heading(Member,:eintritt)
-      %th &nbsp;
+      %tr
+        %th= sortable "mglnr", attr_heading(Member,:mglnr), "table-dark"
+        %th= sortable "name", attr_heading(Member,:fullname), "table-dark"
+        %th= attr_heading(Member,:city)
+        %th= attr_heading(Member,:email)
+        %th=sortable "eintritt", attr_heading(Member,:eintritt), "table-dark"
+        %th &nbsp;
     %tbody#person_members
       = render @person_members
 
