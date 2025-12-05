@@ -34,7 +34,7 @@ class FestivalFeeInvoiceMailsJob < BaseInvoicesJob
         next
       end
 
-      if not needs_fee_invoice?
+      if not appl.needs_fee_invoice?
         Rails.logger.warn("BUG: Festival application #{appl.id} should not need fee invoice")
         next
       end
