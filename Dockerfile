@@ -37,7 +37,7 @@ RUN apt-get update -qq && \
 	pdftk 
 
 RUN ln -s /usr/bin/python3 /usr/bin/python
-RUN sed -i '/de_DE.UTF-8/s/^# //g' /etc/locale.gen && locale-gen
+RUN sed -i '/de_DE.UTF-8/s/^# //g;/en_GB.UTF-8/s/^# //g' /etc/locale.gen && locale-gen
 
 # Throw-away build stage to reduce size of final image
 FROM base AS build
