@@ -1,39 +1,45 @@
-.block
-  .secondary-navigation
-    =render :partial=>'nav'
-  .content
-    %h2.title
-      =t('common.about')
-      =@git_info[:application].html_safe
-    .inner
-      %b Current selected locale:
-      =I18n.locale
-      %br
-      %b Docs Config
-      %table.table
-        %tr
-          %td Archive Dir
-          %td= DOCS_CONFIG.archive_dir
-        %tr
-          %td Work Dir
-          %td= DOCS_CONFIG.work_dir
-        %tr
-          %td Template Dir
-          %td= DOCS_CONFIG.template_dir
-      %table
-        %tr
-          %td.label SEPA-Mode
-          %td= @sepa
-      %p
-        %b #{t('about.last_commits')}: 
-        %table.table-sm
-          - @git_info[:last_commits].each do |commit|
-            %tr
-              %td.align-top=commit[:id]
-              %td.align-top=l commit[:date]
-              %td.align-top
-                %pre
-                  -commit[:lines].each do |line|
-                    -if not line.html_safe.empty?
-                      =line.html_safe
-                      %br
+=render :partial=>'nav'
+.container
+  %h2.title
+    =t('common.about')
+    =@git_info[:application].html_safe
+    #{IMAGE_VERSION} (#{GIT_REVISION})
+  %h3 #{t('about.last_commits')}: 
+
+  %table.table.table-sm
+    - @git_info[:last_commits].each do |commit|
+      %tr
+        %td.align-top=commit[:id]
+        %td.align-top=l commit[:date]
+        %td.align-top
+          %pre
+            -commit[:lines].each do |line|
+              -if not line.html_safe.empty?
+                =line.html_safe
+              %br
+
+  %h3 Session
+  %table.table
+    %tr
+      %td Current selected locale:
+      %td=I18n.locale
+
+  %h3 Subsystems
+
+  %table.table
+    %tr
+      %td.label Invoice Gem Version:
+      %td=CorikaInvoices::VERSION
+
+
+  %h3 Docs Config
+  %table.table
+    %tr
+      %td Archive Dir
+      %td= DOCS_CONFIG.archive_dir
+    %tr
+      %td Work Dir
+      %td= DOCS_CONFIG.work_dir
+    %tr
+      %td Template Dir
+      %td= DOCS_CONFIG.template_dir
