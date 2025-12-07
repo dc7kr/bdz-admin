@@ -1,10 +1,16 @@
 Dear #{@appl.contact_person.first_name} #{@appl.contact_person.last_name},
-%br
-%p your updates to application for the eurofestival Zupfmusik #{@appl.year} were saved. 
 
-%p
-  You can check and edit your details any time here: 
-  = ef_festival_application_url(@appl)
+your updates to your BDZ eurofestival zupfmusik #{@appl.year} data were saved. 
+
+- if not @appl.tickets.nil? and @appl.tickets > 0 
+  Ordered festival tickets: 
+  regular: #{@appl.tickets}
+  reduced: #{@appl.tickets_red}
+  soloist day tickets: #{@appl.soloist_tickets}
+  
+
+You can check and edit your details any time here: 
+= ef_festival_application_url(@appl)
 
 This is an automated mail. The mailbox is not monitored. Please do not reply.
 
