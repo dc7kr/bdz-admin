@@ -1,5 +1,6 @@
 class FestivalApplication < ApplicationRecord
   include CountryHelper
+  include InvoiceHelper
 
   # attr_accessible :conductor, :contact_person, :equipment, :country_code, :num_players, :orch_name, :orchestra, :special_cast, :group_type,:permission,:festival_concert_id, :visitor_type, :rehearsal_time, :stage_time, :payment_status, :tickets, :tickets_red, :bdz_tickets_red, :bdz_tickets, :amount, :soloist_tickets, :contact_phone
   has_many :festival_pieces
@@ -71,7 +72,7 @@ class FestivalApplication < ApplicationRecord
 
     inv = CorikaInvoices::Invoice.new
     inv.booking_year = Time.now.year
-    inv.invoice_date = Time.now
+    inv.invoice_date = Time.now.to_date
     inv.number = inv_nr
     inv.template_subdir = "ef"
 
@@ -147,11 +148,11 @@ class FestivalApplication < ApplicationRecord
     inv_nr = ts + "-T-#{id}"
     inv = prepare_invoice(inv_nr)
 
-    inv.consider_item(tickets, prices["fest"], I18n.t("event_card.fest"))
-    inv.consider_item(tickets_red, prices["fest_erm"], I18n.t("event_card.fest_erm"))
-    inv.consider_item(bdz_tickets, prices["fest_bdz"], I18n.t("event_card.fest_bdz"))
-    inv.consider_item(bdz_tickets_red, prices["fest_bdz_erm"], I18n.t("event_card.fest_bdz_erm"))
-    inv.consider_item(1, -1 * amount, I18n.t("common.advance_payment")) unless amount.nil?
+    
+    consider_item_gross(inv, tickets, prices["fest"], I18n.t("event_card.fest"))
+    consider_item_gross(inv, tickets_red, prices["fest_erm"], I18n.t("event_card.fest_erm"))
+    consider_item_gross(inv, bdz_tickets, prices["fest_bdz"], I18n.t("event_card.fest_bdz"))
+    consider_item_gross(inv, bdz_tickets_red, prices["fest_bdz_erm"], I18n.t("event_card.fest_bdz_erm"))
 
     inv
   end
