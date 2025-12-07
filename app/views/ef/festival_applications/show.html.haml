@@ -75,7 +75,7 @@
                 .col-md-8
                   = t('festival_application.fee_invoice')
                   - invoice = CorikaInvoices::Invoice.find(@festival_application.fee_invoice_id)
-                  = render :partial => "invoice_preview", invoice_hash: invoice.get_hash
+                  = invoice.full_number
                 .col-md-4
                   =link_to my_fa_icon('file-download', 'fas'), fee_invoice_ef_festival_application_path(@festival_application),:class=>"btn btn-primary btn-sm", data: { turbo:false }
             - if not @festival_application.ticket_invoice_id.nil?
