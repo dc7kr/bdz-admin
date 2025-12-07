@@ -118,9 +118,9 @@ module Ef
             render :edit, status: :unprocessable_entity
           end
         elsif @festival_application.update(fa_params)
+          FestivalApplicationMailer.confirm_update(@festival_application.token).deliver
           format.html do
-            redirect_to step2_ef_festival_application_path(@festival_application),
-                        notice: t_update_success("festival_application")
+            redirect_to @festival_application, notice: t_update_success("festival_application")
           end
           format.json { head :no_content }
         else
@@ -150,7 +150,10 @@ module Ef
         :equipment,
         :num_players,
         :comment,
-        contact_person: ContactPerson.nested_params
+        contact_person: ContactPerson.nested_params,
+        :tickets,
+        :tickets_red,
+        :soloist_tickets
       )
     end
 
