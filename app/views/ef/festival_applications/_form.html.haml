@@ -3,44 +3,53 @@
     = e.to_json
 
 
-= bootstrap_form_for [:ef,@festival_application], :layout=> :horizontal do |f|
-  .panel.panel-default
-    .panel-heading
-      %h3.panel-title=t("festival_application.general_panel_title")
-    .panel-body
-      .row.mb-3
-        .col-md-2=f.label :country_code, { class: "control-label col-md-2" }
-        .col-md-10= f.country_select(:country_code, { iso_codes:true }, { class:  "form-control"})
-      = f.select :group_type, get_group_type_options( @festival_application.group_type)
-      = f.text_field :orch_name
-      = f.text_field :conductor
-      = f.number_field :num_players
-  .panel.panel-default
-    .panel-heading
-      %h3.panel-title=t("helpers.label.contact_person",:count=>1)
-    .panel-body
-      =  f.fields_for(@festival_application.contact_person)  do |person_f|
-        =person_f.select :salutation, get_salutation_options( @festival_application.contact_person.salutation)
-        =person_f.text_field :first_name 
-        =person_f.text_field :last_name
-        =person_f.text_field :street
-        =person_f.text_field :zip
-        =person_f.text_field :city
-        .row.mb-3
-          .col-md-2=person_f.label :country_code, { class: "control-label col-md-2" }
-          .col-md-10=person_f.country_select( :country_code ,{ iso_codes:true}, {class: "form-control"}) 
-        =person_f.text_field :phone
-        =person_f.text_field :email
+= bootstrap_form_for [:ef,@festival_application], :layout=> :horizontal, label_col: "col-sm-3", control_col: "col-sm-9" do |f|
+  .container-fluid
+    %ul.nav.nav-tabs
+      %li.nav-item{:role => "presentation"}
+        %button#general-tab.nav-link.active{"aria-controls" => "general-tab-pane", "aria-selected" => "true", "data-bs-target" => "#general-tab-pane", "data-bs-toggle" => "tab", :role => "tab", :type => "button"}=t("festival_application.general_panel_title")
+      %li.nav-item{:role => "presentation"}
+        %button#contact-tab.nav-link{"aria-controls" => "contact-tab-pane", "aria-selected" => "false", "data-bs-target" => "#contact-tab-pane", "data-bs-toggle" => "tab", :role => "tab", :type => "button"}=t("contact_person",count: 1)
+      %li.nav-item{:role => "presentation"}
+        %button#additional-tab.nav-link{"aria-controls" => "additional-tab-pane", "aria-selected" => "false", "data-bs-target" => "#additional-tab-pane", "data-bs-toggle" => "tab", :role => "tab", :type => "button"}=t("festival_application.additional_panel_title")
+      - if @festival_application.permission
+        %li.nav-item{:role => "presentation"}
+          %button#ticket-tab.nav-link{"aria-controls" => "ticket-tab-pane", "aria-selected" => "false", "data-bs-target" => "#ticket-tab-pane", "data-bs-toggle" => "tab", :role => "tab", :type => "button"}=t("festival_application.festival_tickets")
 
-  .panel.panel-default
-    .panel-heading
-      %h3.panel-title=t("festival_application.additional_panel_title")
-    .panel-body
-      = f.text_field :equipment
-      = f.text_field :special_cast
-      = f.text_area :workshop_request
-      = f.text_area :comment, label: t("festival_application.public_comment")
-      - if @festival_application.new_record?
-        = f.submit t("festival_application.create")
-      - else
-        = f.submit t("common.update")
+    #faTabContent.tab-content{}
+      #general-tab-pane.tab-pane.fade.show.active{ role: "tabpanel", 'aria-labelledby': "general-tab", 'tabindex': 0 }
+        .row.mb-3
+          .col-md-2=f.label :country_code, { class: "control-label col-md-2" }
+          .col-md-10= f.country_select(:country_code, { iso_codes:true }, { class:  "form-control"})
+        = f.select :group_type, get_group_type_options( @festival_application.group_type)
+        = f.text_field :orch_name
+        = f.text_field :conductor
+        = f.number_field :num_players
+      #contact-tab-pane.tab-pane.fade{ role: "tabpanel", 'aria-labelledby': "contact-tab", 'tabindex': 0 }
+        =  f.fields_for(@festival_application.contact_person)  do |person_f|
+          =person_f.select :salutation, get_salutation_options( @festival_application.contact_person.salutation)
+          =person_f.text_field :first_name 
+          =person_f.text_field :last_name
+          =person_f.text_field :street
+          =person_f.text_field :zip
+          =person_f.text_field :city
+          .row.mb-3
+            .col-md-2=person_f.label :country_code, { class: "control-label col-md-2" }
+            .col-md-10=person_f.country_select( :country_code ,{ iso_codes:true}, {class: "form-control"}) 
+          =person_f.text_field :phone
+          =person_f.text_field :email
+      #additional-tab-pane.tab-pane.fade{ role: "tabpanel", 'aria-labelledby': "additional-tab", 'tabindex': 0 }
+        = f.text_field :equipment
+        = f.text_field :special_cast
+        = f.text_area :workshop_request
+        = f.text_area :comment, label: t("festival_application.public_comment")
+      #ticket-tab-pane.tab-pane.fade{ role: "tabpanel", 'aria-labelledby': "ticket-tab", 'tabindex': 0 }
+        = f.number_field :tickets
+        = f.number_field :tickets_red
+        = f.number_field :soloist_tickets
+    - if @festival_application.new_record?
+      = f.submit t("festival_application.create")
+    - else
+      = f.submit t("common.update")
+
+     

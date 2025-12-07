@@ -14,9 +14,13 @@
         %button#fa-tab.nav-link.active{"aria-controls" => "fa-tab-pane", "aria-selected" => "true", "data-bs-target" => "#fa-tab-pane", "data-bs-toggle" => "tab", :role => "tab", :type => "button"}=t("festival_application",:count=>1)
       %li.nav-item{:role => "presentation"}
         %button#contact-tab.nav-link{"aria-controls" => "contact-tab-pane", "aria-selected" => "false", "data-bs-target" => "#contact-tab-pane", "data-bs-toggle" => "tab", :role => "tab", :type => "button"}=t("contact_person",count: 1)
+      %li.nav-item{:role => "presentation"}
+        %button#music-tab.nav-link{"aria-controls" => "music-tab-pane", "aria-selected" => "false", "data-bs-target" => "#music-tab-pane", "data-bs-toggle" => "tab", :role => "tab", :type => "button"}=t("festival_piece", count: 3)
       - if @festival_application.permission
         %li.nav-item{:role => "presentation"}
           %button#concert-tab.nav-link{"aria-controls" => "concert-tab-pane", "aria-selected" => "false", "data-bs-target" => "#concert-tab-pane", "data-bs-toggle" => "tab", :role => "tab", :type => "button"}=t("festival_application.festival_concert_id")
+        %li.nav-item{:role => "presentation"}
+          %button#ticket-tab.nav-link{"aria-controls" => "ticket-tab-pane", "aria-selected" => "false", "data-bs-target" => "#ticket-tab-pane", "data-bs-toggle" => "tab", :role => "tab", :type => "button"}=t("festival_application.festival_tickets")
         %li.nav-item{:role => "presentation"}
           %button#invoice-tab.nav-link{"aria-controls" => "invoice-tab-pane", "aria-selected" => "false", "data-bs-target" => "#invoice-tab-pane", "data-bs-toggle" => "tab", :role => "tab", :type => "button"}=t("festival_application.invoice")
 
@@ -39,6 +43,7 @@
         =entity_row(contact,:email,:mailto)
         =entity_row(contact,:phone)
 
+        
       -if @festival_application.permission
         -if @festival_application.festival_concert then
           #concert-tab-pane.tab-pane.fade{ role: "tabpanel", 'aria-labelledby': "concert-tab", 'tabindex': 0 }
@@ -46,13 +51,23 @@
               .col-md-9.text-center
                 %h2
                   = t("festival_concert", count: 1)
-                  = @festival_application.festival_concert.label
+                  - concert = @festival_application.festival_concert
+                  = concert.label
             =entity_row(@festival_application,:stage_time)
             =entity_row(@festival_application,:rehearsal_time)
             =entity_row(@festival_application,:num_players)
             =entity_row(@festival_application,:equipment)
             =entity_row(@festival_application,:special_cast)
-            =entity_row(@festival_application,:soloist_tickets)
+        #ticket-tab-pane.tab-pane.fade{ role: "tabpanel", 'aria-labelledby': "ticket-tab", 'tabindex': 0 } 
+          .container
+            =entity_row(@festival_application,:tickets)
+            =entity_row(@festival_application,:tickets_red)
+            .row
+              .col-md-3.text-end=t("festival_application.soloist_tickets")
+              .col-md-9
+                = @festival_application.soloist_tickets
+                = l(concert.event_time, format: "(%A)")
+              
         #invoice-tab-pane.tab-pane.fade{ role: "tabpanel", 'aria-labelledby': "invoice-tab", 'tabindex': 0 } 
           .container 
             - if not @festival_application.fee_invoice_id.nil?
@@ -60,7 +75,7 @@
                 .col-md-8
                   = t('festival_application.fee_invoice')
                   - invoice = CorikaInvoices::Invoice.find(@festival_application.fee_invoice_id)
-                  = invoice.full_number
+                  = render :partial => "invoice_preview", invoice_hash: invoice.get_hash
                 .col-md-4
                   =link_to my_fa_icon('file-download', 'fas'), fee_invoice_ef_festival_application_path(@festival_application),:class=>"btn btn-primary btn-sm", data: { turbo:false }
             - if not @festival_application.ticket_invoice_id.nil?
@@ -76,5 +91,25 @@
               =entity_row(@event_meal,:tln)
               =entity_row(@event_meal,:veg)
               =entity_row(@event_meal,:arrival_time,:date)
+      #music-tab-pane.tab-pane.fade{ role: "tabpanel", 'aria-labelledby': "music-tab", 'tabindex': 0 }
+        %table.table
+          %thead
+            %tr
+              %th=t("festival_piece.title")
+              %th=t("festival_piece.composer")
+              %th=t("festival_piece.arranger")
+              %th=t("festival_piece.publisher")
+              %th=t("festival_piece.duration")
+            %tbody
+              - @festival_application.festival_pieces.each do |fp|
+                %tr
+                  %td=fp.title
+                  %td=fp.composer
+                  %td=fp.arranger
+                  %td=fp.publisher
+                  %td=fp.duration
+        = link_to_edit_path(step2_ef_festival_application_path(@festival_application), t("common.edit_entity", entity: t("festival_piece", count:3)), @festival_application, "btn-primary") 
+                
+
 
 = render :partial => "ef/footer"
