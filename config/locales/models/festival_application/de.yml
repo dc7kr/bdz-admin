@@ -15,6 +15,7 @@ de:
     additional_panel_title: "Weitere Angaben"
     concert_panel_title: "Konzert-Daten"
     tickets_panel_title: "Tickets"
+    tickets_not_yet_ordered: "Tickets noch nicht bestellt"
     visitor_type: "Besucher-Typ"
     visitor_types:
       R: "Regulärer Teilnehmer"

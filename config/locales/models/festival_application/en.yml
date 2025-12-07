@@ -17,6 +17,7 @@ en:
     orchestra: Orchestra
     orch_name: Group name
     conductor: Conductor
+    tickets_not_yet_ordered: "Tickets not yet ordered"
     num_players: "Number of players"
     equipment: "Required equipment"
     special_cast: "Special cast"
