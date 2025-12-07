@@ -498,8 +498,8 @@ module ApplicationHelper
       concat(content_tag(:div, item.label, class: "col-md-3 text-end"))
       concat(content_tag(:div, count.to_s, class: "col-md-1 text-end"))
       concat(content_tag(:div, "x", class: "col-md-1"))
-      concat(content_tag(:div, format_currency(item.price, "€"), class: "col-md-2 text-end"))
-      concat(content_tag(:div, format_currency(count * item.price, "€"), class: "col-md-2 text-end"))
+      concat(content_tag(:div, format_currency(item.basis, "€"), class: "col-md-2 text-end"))
+      concat(content_tag(:div, format_currency(count * item.basis, "€"), class: "col-md-2 text-end"))
     end
   end
 

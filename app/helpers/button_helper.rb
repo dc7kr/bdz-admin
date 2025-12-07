@@ -18,10 +18,16 @@ module ButtonHelper
     end
   end
 
-  def link_to_edit_path(path, _txt, entity)
+  def link_to_edit_path(path, _txt, entity, btn_class = "btn-sm btn-outline-dark")
     return unless can? :update, entity
 
-    link_to my_fa_icon("edit"), path, class: "btn btn-sm btn-outline-dark"
+    link_to path, class: "btn #{btn_class}" do 
+      concat(my_fa_icon("edit"))
+      if not _txt.nil? 
+        concat(raw("&nbsp;"))
+        concat(_txt)
+      end
+    end
   end
 
   def link_to_download_path(_txt, path, entity)
