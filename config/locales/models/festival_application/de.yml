@@ -3,6 +3,7 @@ de:
     one: "Festival-Bewerbung"
     other: "Festival-Bewerbungen"
     zero: "Keine Festival-Bewerbung"
+    public_view: "Öffentliche Ansicht"
 
     fee: "Teilnahme-Gebühr"
     new: "Neue Festival-Bewerbung"
@@ -74,7 +75,7 @@ de:
       festival_application:
         <<: *festival_app_labels
   helpers:
-    label:      
+    label:
       festival_application: 
         <<: *festival_app_labels
   festival_participant:
