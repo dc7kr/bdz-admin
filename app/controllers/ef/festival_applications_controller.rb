@@ -150,10 +150,10 @@ module Ef
         :equipment,
         :num_players,
         :comment,
-        contact_person: ContactPerson.nested_params,
         :tickets,
         :tickets_red,
-        :soloist_tickets
+        :soloist_tickets,
+        contact_person: ContactPerson.nested_params
       )
     end
 
