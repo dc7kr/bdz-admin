@@ -8,7 +8,7 @@
         .card-header Unfallversicherung
         .card-body
           .form-group
-            =rs.check_box :uv,  label: ''
+            =rs.check_box :uv,  label: '', switch: true 
 
   = f.fields_for @report_sheet_input.orchestra do |orch|
     .card.mb-3

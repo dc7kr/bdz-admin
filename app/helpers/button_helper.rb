@@ -30,6 +30,17 @@ module ButtonHelper
     end
   end
 
+  def download_button(url, txt=nil, css_class="btn-primary")
+    link_to url, class: "btn #{css_class}" do
+      concat(my_fa_icon("download"))
+
+      if not txt.nil?
+        concat(raw("&nbsp;"))
+        concat(txt)
+      end
+    end
+  end
+
   def link_to_download_path(_txt, path, entity)
     return unless entity.has_attachment? && can?(:read, entity)
     link_to path, class: "btn btn-sm btn-outline-dark", data: { turbo: false } do

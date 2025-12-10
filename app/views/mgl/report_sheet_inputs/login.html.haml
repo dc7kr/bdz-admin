@@ -1,24 +1,12 @@
 .notice=notice
-.block
-  .content
-    %h2.title
-      = t("report_sheet_input.login_title")
-    .inner
-      .container-fluid
-        =form_tag({:controller => "report_sheet_inputs", :action => "submit_login", :method => "post"},{:class=>"form form-horizontal"}) do
-          .row
-            .col-md-2.col-sm-12=label(:member,:mglnr, :class=>"control-label col-md-2 col-sm-2")
-            .col-md-6.col-sm-12=text_field_tag(:mglnr,@mglnr,:class=>"form-control")
-          .row
-            .col-md-2.col-sm-12
-              =label(:report_sheet_input,:token, :class=>"control-label col-md-2 col-sm-2")
-            .col-md-6.col-sm-12=password_field_tag(:token,@token,:class=>"form-control")
-          .row
-            .col-md-2.col-sm-12
-            .col-md-10.col-sm-12
-              =check_box_tag(:dsgvo,1,false)
-              %b=t('report_sheet_input.dsgvo')
-          .row
-            .col-md-2
-            .col-md-5.col-sm-12
-              =submit_button(t('report_sheet_input.login'))
+.card.card-primary.w-50.mb-3.mt-3.mx-auto.shadow
+  .card-header.text-white.bg-primary= t("report_sheet_input.login_title")
+  .card-body
+    = bootstrap_form_tag url: submit_login_mgl_report_sheet_inputs_path do |f|
+      =f.text_field :mglnr, value: @mglnr, label: t("member.mglnr")
+      =f.password_field :token, value: @token, label: t("report_sheet_input.token")
+      .mb-3
+        =check_box_tag(:dsgvo,1,false)
+        %b=t('report_sheet_input.dsgvo')
+
+      .text-center=f.submit t('report_sheet_input.login'), class: "btn btn-primary"
