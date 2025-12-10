@@ -11,6 +11,12 @@ class AdminNotifier < ApplicationMailer
     end
   end
 
+  def template_missing_notification(user, template_file, job_class)
+    @job_class = job_class
+    @template = template_file
+    mail(to: user.email, subject: "[BDZDB] Job Fehler: #{job_class}")
+  end
+
   def cleanup_notification(user, resigned_persons, resigned_orchestras)
     @recipient = user
     @resigned_persons = resigned_persons

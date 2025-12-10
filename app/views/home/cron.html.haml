@@ -14,10 +14,13 @@
               =t('member',:count=>3)
       #tabContent.tab-content
         #report_sheets.tab-pane.fade.show.active{:role=>"tabpanel", :'aria-labelledby'=>"report-sheet-tab"}
-          %ul.nav.flex-column
-            %li.nav-item= link_to "Meldebogen Anschreiben", "/api/rsm/gen_mailings", method: :post, class: "nav-link"
-            %li.nav-item= link_to "Mahnungen Meldebogen", cron_reminders_report_sheet_path, method: :post, class: "nav-link"
-            %li.nav-item= link_to "Meldebogen-Eingabe generieren", generate_report_sheet_inputs_path, method: :post, class: "nav-link"
+          - if current_user.admin? 
+            %ul.nav.flex-column
+              %li.nav-item= link_to "Mahnungen Meldebogen", cron_reminders_report_sheet_path, method: :post, class: "nav-link"
+              %li.nav-item= link_to "Meldebogen Anschreiben", "/api/rsm/gen_mailings", method: :post, class: "nav-link"
+              %li.nav-item= link_to "Meldebogen-Eingabe generieren", generate_report_sheet_inputs_path, method: :post, class: "nav-link"
+          - else
+            %h5 Ab sofort durch automatisierte Jobs ersetzt
         #tarriffs.tab-pane.fade{:role => "tabpanel", :'aria-labelledby'=>"tarriff-tab"}
           %ul.nav.flex-column
             %li.nav-item= link_to t('cron.invoice_person_members'), cron_invoices_gen_persons_path, method: :post, class: "nav-link"

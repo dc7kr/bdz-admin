@@ -1,5 +1,6 @@
 class GenerateReportSheetInputsJob < ApplicationJob
   queue_as :default
+  sidekiq_options retry: false
 
   after_perform do |job|
     AdminNotifier.gen_rsi_notification(job.arguments)
