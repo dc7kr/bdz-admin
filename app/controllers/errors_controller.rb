@@ -7,7 +7,7 @@ class ErrorsController < ApplicationController
                    ActionDispatch::ExceptionWrapper.new(
                      request.env, @exception
                    ).status_code
-    render view_for_code(@status_code), status: @status_code, formats: :html
+    render view_for_code(@status_code), status: @status_code, content_type: "text/html"
   end
 
   private
@@ -20,7 +20,7 @@ class ErrorsController < ApplicationController
     {
       403 => "access_denied",
       404 => "not_found",
-      406 => "unsupported_browser",
+      406 => "not_acceptable",
       422 => "change_rejected",
       500 => "internal_server_error"
     }
