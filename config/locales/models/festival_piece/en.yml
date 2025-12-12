@@ -1,26 +1,34 @@
 en:
-  festival_piece:
+  festival_piece: &festival_piece_labels
     one: "Piece"
     other: "Pieces"
     create_festival_piece: "Add piece"
     add_piece: "Add piece"
-  activerecord:
-    attributes:
-      festival_piece: &festival_piece_labels
-        composer: Composer
-        title: Title
-        duration: Duration
-        arranger: Arranger
-        publisher: Publisher
- 
+    composer: Composer
+    title: Title
+    duration: Duration 
+    arranger: Arranger
+    publisher: Publisher
+    soloist: Soloist
+    additional_info: Additional info
+
   helpers:
     label:
-      festival_piece:
+      festival_piece: 
         <<: *festival_piece_labels
 
   activerecord:
     models:
-      festival_piece: "Piece"
+      festival_piece: "Gemeldetes Stück"
     attributes:
       festival_piece:
         <<: *festival_piece_labels
+
+  activerecord:
+    attributes:
+      festival_piece: &festival_piece_labels
+      helpers:
+    label:
+      festival_piece:
+        <<: *festival_piece_labels
+

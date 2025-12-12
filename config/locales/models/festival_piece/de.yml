@@ -3,8 +3,11 @@ de:
         composer: Komponist
         arranger: Bearbeiter
         publisher: Verlag
+        soloist: Solist
+        premiere: Uraufführung
         title: Titel
         duration: Dauer
+        additional_info: "Weitere Angaben"
         add_piece: "Stück hinzufügen"
         one: "Gemeldetes Stück"
         create_festival_piece: "Stück hinzufügen"

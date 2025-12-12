@@ -4,7 +4,11 @@
     =f.text_field :composer
     =f.text_field :arranger
     =f.text_field :publisher
-    =f.text_field :duration
+    =f.time_field :duration
+
+    %h4=t("festival_piece.additional_info")
+    =f.text_field :soloist
+    =f.check_box :premiere
     .actions
       =submit_button
       =cancel_button

@@ -127,7 +127,7 @@ module Ef
     end
 
     def festival_piece_params
-      params.require(:festival_piece).permit(:composer, :title, :duration, :arranger, :publisher)
+      params.require(:festival_piece).permit(:composer, :title, :duration, :arranger, :publisher, :soloist, :premiere)
     end
   end
 end

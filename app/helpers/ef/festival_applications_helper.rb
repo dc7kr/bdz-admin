@@ -1,5 +1,10 @@
 module Ef
   module FestivalApplicationsHelper
+
+    def render_duration(duration_time)
+      duration_time.nil? ? "" : duration_time.strftime("%H:%M")
+    end
+
     def get_group_type_options(selected)
       options_for_select(
         [
