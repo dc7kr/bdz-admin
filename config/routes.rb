@@ -29,6 +29,11 @@ Rails.application.routes.draw do
   match "/404", to: "errors#not_found", via: :all
   match "/500", to: "errors#internal_server_error", via: :all
 
+  match "/errors/403", to: "errors#access_denied", via: :all
+  match "/errors/404", to: "errors#not_found", via: :all
+  match "/errors/406", to: "errors#not_acceptable", via: :all
+  match "/errors/500", to: "errors#internal_server_error", via: :all
+
   # test for exception notification via Mail
   get "test_exception_notifier" => "application#test_exception_notifier"
 
@@ -455,8 +460,10 @@ Rails.application.routes.draw do
     # TODO: These aren't resources!
     resources :mails
     resources :downloads
+
   end
 
+  get "downloads/:year/:filename" => "downloads#show"
   get "member_tools/kto_blz_to_iban_bic" => "member_tools#kto_blz_to_iban"
   get "member_tools/iban_calculator" => "member_tools#iban_calculator"
   get "home/index"
