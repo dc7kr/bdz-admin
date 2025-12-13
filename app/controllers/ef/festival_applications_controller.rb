@@ -2,6 +2,7 @@ module Ef
   class FestivalApplicationsController < Ef::ApplicationController
     #  include ApplicationHelper
     helper ApplicationHelper
+    helper FestivalPiecesHelper
 
     before_action :set_festival_application, only: %i[show edit update finalize step2 ticket_invoice fee_invoice]
 
@@ -29,7 +30,7 @@ module Ef
       invoice_file = CorikaInvoices::ArchiveFile.new(invoice.pdf_filename, invoice.pdf_filename, invoice.booking_year.to_s)
       send_file(invoice_file.full_path, filename: invoice_file.orig_filename, type: "application/octet-stream")
     end
-    
+
     def ticket_invoice
       invoice = CorikaInvoices::Invoice.find(@festival_application.ticket_invoice_id)
     end
@@ -104,7 +105,6 @@ module Ef
     # PUT /festival_applications/1
     # PUT /festival_applications/1.json
     def update
-
       @contact_person = @festival_application.contact_person
 
       fa_params = festival_application_params
