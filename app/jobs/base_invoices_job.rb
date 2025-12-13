@@ -33,7 +33,7 @@ class BaseInvoicesJob < ApplicationJob
   end
 
   def send_mail(ddFile, letterFile)
-    base_url = cron_downloads_url
+    base_url = Rails.application.routes.url_helpers.cron_downloads_url
     dd_url = nil
     invoices_url = nil
 
