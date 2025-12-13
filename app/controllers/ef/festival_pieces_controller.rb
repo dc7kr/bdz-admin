@@ -3,6 +3,7 @@ module Ef
     respond_to :html, :js
 
     helper ApplicationHelper
+    helper FestivalPiecesHelper
     # GET /festival_pieces
     # GET /festival_pieces.json
     def index
