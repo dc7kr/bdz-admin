@@ -1,28 +1,26 @@
-.block
-  .content
-    %h2.title
-      = t('festival_piece',:count=>3)
-    .inner
-      %table.table-sm.table-hover.table-condensed
-        %thead
-          %th= attr_heading(FestivalPiece, :title)
-          %th= attr_heading(FestivalPiece, :composer)
-          %th= attr_heading(FestivalPiece, :arranger)
-          %th= attr_heading(FestivalPiece, :publisher)
-          %th= attr_heading(FestivalPiece, :duration)
-          %th.last &nbsp;
-        %tbody#festvial_pieces
-          =render @festival_pieces
+.page-title-section
+  %h1
+    #{t("festival_application",:count=>1)} Nr. #{@festival_application.id}
+    - if @festival_application.permission
+      (#{t('festival_application.permission_granted')})
+
+.ef-inner
+  %h2.title
+    = t('festival_piece',:count=>3)
+  %table.table
+    %thead
+      %th= attr_heading(FestivalPiece, :title)
+      %th= attr_heading(FestivalPiece, :composer)
+      %th= attr_heading(FestivalPiece, :arranger)
+      %th= attr_heading(FestivalPiece, :publisher)
+      %th= attr_heading(FestivalPiece, :duration)
+      %th.last &nbsp;
+    %tbody#festvial_pieces
+      =render @festival_pieces
 
 
 
-      %h3=t('festival_application.add_piece')
+  %h3=t('festival_application.add_piece')
+  = render partial: "form", locals: { :festival_application => @festival_application, :festival_piece => FestivalPiece.new } 
       
-      = bootstrap_form_for [:ef,@festival_application,FestivalPiece.new], :remote => true,:format=>:js do |f| 
-        %table
-          %tr
-            %td= f.text_field :composer
-            %td= f.text_field :title
-            %td= f.text_field :duration
-            %td= f.submit  t('festival_piece.create_festival_piece')
 

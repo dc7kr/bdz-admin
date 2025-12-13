@@ -19,7 +19,7 @@
    
      
   %h3=t('festival_application.add_piece')
-  = render("step2_form")
+  = render partial: "ef/festival_pieces/form", locals: { festival_application: @festival_application, festival_piece: FestivalPiece.new }
   
   = wizard_forward_button(t('common.finalize'),finalize_ef_festival_application_path(@festival_application))
 = render :partial => "ef/footer"
