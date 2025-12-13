@@ -104,13 +104,7 @@
               %th=t("festival_piece.publisher")
               %th=t("festival_piece.duration")
             %tbody
-              - @festival_application.festival_pieces.each do |fp|
-                %tr
-                  %td=fp.title
-                  %td=fp.composer
-                  %td=fp.arranger
-                  %td=fp.publisher
-                  %td=fp.duration
+              = render @festival_application.festival_pieces
         = link_to_edit_path(step2_ef_festival_application_path(@festival_application), t("common.edit_entity", entity: t("festival_piece", count:3)), @festival_application, "btn-primary") 
                 
 
