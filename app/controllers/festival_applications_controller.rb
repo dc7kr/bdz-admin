@@ -145,23 +145,23 @@ class FestivalApplicationsController < AuthenticatedController
     @invoice = @festival_application.get_fee_invoice
 
     @invoice_hash = @invoice.to_hash[:invoice]
-    
+
     respond_to do |format|
-      format.turbo_stream { render template: "corika_invoices/invoices/preview"}
+      format.turbo_stream { render template: "corika_invoices/invoices/preview" }
       format.html { render template: "corika_invoices/invoices/preview" }
       format.json { render json: @invoice }
     end
   end
-  
+
   def ticket_invoice_preview
     @festival_application = FestivalApplication.find_by token: params[:token]
 
     @invoice = @festival_application.get_ticket_invoice
 
     @invoice_hash = @invoice.to_hash[:invoice]
-    
+
     respond_to do |format|
-      format.turbo_stream { render template: "corika_invoices/invoices/preview"}
+      format.turbo_stream { render template: "corika_invoices/invoices/preview" }
       format.html { render template: "corika_invoices/invoices/preview" }
       format.json { render json: @invoice }
     end

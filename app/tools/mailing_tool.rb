@@ -106,7 +106,7 @@ class MailingTool
         { err: "blacklisted", entity: addressee, type: type, mode: "E" }
 
       else
-        # to correctly record failed mails we have to use deliver_now ... 
+        # to correctly record failed mails we have to use deliver_now ...
         mailer.notify(addressee.email, letter_hash, attachment_hash, additional_mailer_params).deliver_now
         record_mail_success(addressee, @event_title, letter)
         { success: true, mode: "E", entity: addressee }

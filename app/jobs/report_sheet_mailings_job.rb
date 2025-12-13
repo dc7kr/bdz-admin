@@ -3,7 +3,7 @@ require "securerandom"
 class ReportSheetMailingsJob < ApplicationJob
   sidekiq_options retry: false
 
-  def perform(p_year=Time.now.year+1, p_triggered_by=nil)
+  def perform(p_year = Time.now.year+1, p_triggered_by = nil)
     counters = {}
 
     counters[:skip] = 0
@@ -20,8 +20,8 @@ class ReportSheetMailingsJob < ApplicationJob
     template_file = "#{DOCS_CONFIG.template_dir}/meldebogen_anschreiben.#{p_year}.template.pdf"
     users = User.for_admin_notify
 
-    if not File.file?(template_file) 
-        Rails.logger.warn("Job #{self.class.to_s} could not start due to missing template file: #{template_file}")
+    if not File.file?(template_file)
+        Rails.logger.warn("Job #{self.class} could not start due to missing template file: #{template_file}")
         users.each do |u|
           AdminNotifier.template_missing_notification(u, template_file, self.class.to_s).deliver
         end
@@ -96,7 +96,7 @@ class ReportSheetMailingsJob < ApplicationJob
     end
 
     unless pdf_merged_file.nil?
-      base_url = cron_downloads_url
+      base_url = Rails.application.routes.url_helpers.cron_downloads_url
       doc_url = "#{base_url}?year=#{cur_year}&filename=#{pdf_merged_file.orig_filename}"
     end
 

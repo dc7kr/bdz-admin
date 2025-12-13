@@ -106,7 +106,7 @@ class FestivalApplication < ApplicationRecord
   end
 
   def needs_fee_invoice?
-    return visitor_type == "R"
+    visitor_type == "R"
   end
 
   def get_fee_invoice
@@ -125,9 +125,9 @@ class FestivalApplication < ApplicationRecord
     inv_nr = ts + "-F-#{id}"
     inv = prepare_invoice(inv_nr)
 
-    if num_players < 30 
+    if num_players < 30
       item = CorikaInvoices::InvoiceItem.create_gross(1, prices["reduced_fee"], I18n.t("festival_application.fee"), "C62", 7)
-    else 
+    else
       item = CorikaInvoices::InvoiceItem.create_gross(1, prices["fee"], I18n.t("festival_application.fee"), "C62", 7)
     end
 
@@ -148,7 +148,7 @@ class FestivalApplication < ApplicationRecord
     inv_nr = ts + "-T-#{id}"
     inv = prepare_invoice(inv_nr)
 
-    
+
     consider_item_gross(inv, tickets, prices["fest"], I18n.t("event_card.fest"))
     consider_item_gross(inv, tickets_red, prices["fest_erm"], I18n.t("event_card.fest_erm"))
     consider_item_gross(inv, bdz_tickets, prices["fest_bdz"], I18n.t("event_card.fest_bdz"))

@@ -160,7 +160,7 @@ module ApplicationHelper
 
     css_class += current ? " sort current #{sort_direction}" : " sort"
 
-    direction = current && params[:direction ] == "asc" ? "desc" : "asc"
+    direction = current && params[:direction] == "asc" ? "desc" : "asc"
 
     link_to params.merge(sort: column, direction: direction, page: nil).permit(:sort, :direction, :page), { class: css_class } do
       concat(title)

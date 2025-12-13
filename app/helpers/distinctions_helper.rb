@@ -1,7 +1,7 @@
 module DistinctionsHelper
   def link_to_generate_path(txt, path)
-    link_to path, data: { turbo: false } do 
-      my_fa_icon("new") #image_tag("/assets/icons/new.png", { size: "16x16", alt: txt, title: txt, class: "btn" }), 
+    link_to path, data: { turbo: false } do
+      my_fa_icon("new") # image_tag("/assets/icons/new.png", { size: "16x16", alt: txt, title: txt, class: "btn" }),
     end
   end
 

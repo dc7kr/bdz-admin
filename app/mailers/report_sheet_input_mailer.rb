@@ -1,5 +1,4 @@
 class ReportSheetInputMailer < ApplicationMailer
-
   def notify(recipient, personalized_hash, _attachment_hash, params)
     # the MailingFiles are serialized here so we need to deserialize from hash first
 

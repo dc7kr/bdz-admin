@@ -1,5 +1,4 @@
 class CustomInfoMail < ApplicationMailer
-
   def notify(recipient, letter_hash, attachment_hash, params)
     @subject = params[:subject]
     @body = params[:body]

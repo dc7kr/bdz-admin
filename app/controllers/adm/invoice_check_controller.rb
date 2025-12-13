@@ -43,7 +43,7 @@ module Adm
       pm = PersonMember.last
       invoice = pm.gen_invoice(Time.zone.now.year)
       pdf = invoice.gen_pdf(true)
-      
+
       send_file(pdf.full_path, filename: "test_em_beitragsrechnung.pdf", type: "application/octet-stream")
     end
   end

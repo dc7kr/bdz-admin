@@ -93,7 +93,7 @@ class Member < ApplicationRecord
     c = CorikaInvoices::Customer.new
     c.customer_id = mglnr
     c.direct_debit = dd
-    c.salutation = anrede 
+    c.salutation = anrede
     c.first_name = vorname
     c.last_name = name
     c.entity = self

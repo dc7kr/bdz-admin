@@ -13,7 +13,7 @@ class FestivalFeeInvoiceMailsJob < BaseInvoicesJob
 
     festival_year = BDZ_SETTINGS["config"]["festival_year"]
     cur_year = Time.zone.now.year
-    
+
     event_id = "FEE_INV_#{festival_year}"
 
     results = []
@@ -43,7 +43,7 @@ class FestivalFeeInvoiceMailsJob < BaseInvoicesJob
 
       subject = "BDZ eurofestival zupfmusik #{festival_year} invoice no. #{invoice.full_number} for participant no. #{appl.id}"
 
-      if (invoice.locale == "de") 
+      if invoice.locale == "de"
         subject = "BDZ eurofestival zupfmusik #{festival_year} - Rechnung Nr. #{invoice.full_number} fuer Teilnehmer Nr. #{appl.id}"
       end
 
@@ -62,8 +62,8 @@ class FestivalFeeInvoiceMailsJob < BaseInvoicesJob
 
       contact = appl.contact_person
 
-      mailer_params = { subject: subject, 
-                        invoice_id: appl.fee_invoice_id, 
+      mailer_params = { subject: subject,
+                        invoice_id: appl.fee_invoice_id,
                         locale: locale }
 
       result = tool.deliver_mailing(FestivalInvoiceMail, contact.to_addressee, invoice_file, nil, letterArray, mailer_params)

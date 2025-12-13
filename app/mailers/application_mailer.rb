@@ -9,7 +9,7 @@ class ApplicationMailer < ActionMailer::Base
 
     contact_hash = BDZ_SETTINGS["contacts"][key]
 
-    return email_address_with_name(contact_hash["email"], contact_hash["name"])
+    email_address_with_name(contact_hash["email"], contact_hash["name"])
   end
 
   def report_sheet_from

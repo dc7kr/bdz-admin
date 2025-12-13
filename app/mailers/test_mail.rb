@@ -1,5 +1,4 @@
 class TestMail < ApplicationMailer
-
   def notify(recipient, email_params)
     dataFile = email_params[:datafile]
 

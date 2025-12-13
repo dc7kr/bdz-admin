@@ -113,7 +113,7 @@ class AdminNotifier < ApplicationMailer
     adm = contact_email("admin")
     from = contact_email("system")
 
-    mail(to: current_user_addr, subject: "[BDZDB] Test Notification", from:  from, bcc: adm  )
+    mail(to: current_user_addr, subject: "[BDZDB] Test Notification", from:  from, bcc: adm)
   end
 
   def new_distinction_notification(invoice, sepa_file)

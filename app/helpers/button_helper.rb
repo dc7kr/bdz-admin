@@ -21,16 +21,16 @@ module ButtonHelper
   def link_to_edit_path(path, _txt, entity, btn_class = "btn-sm btn-outline-dark")
     return unless can? :update, entity
 
-    link_to path, class: "btn #{btn_class}" do 
+    link_to path, class: "btn #{btn_class}" do
       concat(my_fa_icon("edit"))
-      if not _txt.nil? 
+      if not _txt.nil?
         concat(raw("&nbsp;"))
         concat(_txt)
       end
     end
   end
 
-  def download_button(url, txt=nil, css_class="btn-primary")
+  def download_button(url, txt = nil, css_class = "btn-primary")
     link_to url, class: "btn #{css_class}" do
       concat(my_fa_icon("download"))
 
@@ -45,7 +45,7 @@ module ButtonHelper
     return unless entity.has_attachment? && can?(:read, entity)
     link_to path, class: "btn btn-sm btn-outline-dark", data: { turbo: false } do
       concat(my_fa_icon("download"))
-      if not _txt.nil? 
+      if not _txt.nil?
         concat(raw("&nbsp;"))
         concat(_txt)
       end

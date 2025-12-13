@@ -1,6 +1,4 @@
 class InvoiceMail < ApplicationMailer
-
-
   def notify(recipient, invoice_hash, _attachment_hash, params)
     year = params[:year]
     mglnr = params[:mglnr]

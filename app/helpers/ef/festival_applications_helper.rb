@@ -1,6 +1,5 @@
 module Ef
   module FestivalApplicationsHelper
-
    def get_group_type_options(selected)
       options_for_select(
         [

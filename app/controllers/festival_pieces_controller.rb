@@ -98,7 +98,7 @@ class FestivalPiecesController < AuthenticatedController
       :composer,
       :arranger,
       :publisher,
-      :duration, 
+      :duration,
       :soloist,
       :premiere
     )
