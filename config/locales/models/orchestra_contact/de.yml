@@ -1,0 +1,37 @@
+de:
+  orchestra_contact: &orchestra_contact_labels
+    one: Kontakt-Adresse
+    other: Kontakt-Adressen
+    role_V: "1. Vorsitzender"
+    role_S: "Stellvertreter"
+    role_G: "Geschäftsführer"
+    role_D: "Dirigent"
+    role_J: "Jugendleitung"
+    role_O: "Seniorenbeauftragter"
+    role_R: "Rechnungsanschrift"
+    role_Z: "Versandanschrift"
+    first_name: Vorname
+    last_name: Nachname
+    fullname: "Name"
+    street: Straße
+    zip: PLZ
+    city: Ort
+    email: E-Mail
+    phone: Telefon
+    role: Rolle
+    salutation: Anrede
+    role: Rolle        
+  activerecord:
+    attributes:
+      orchestra_contact:
+  helpers:
+    label:
+      orchestra_contact:
+        <<: *orchestra_contact_labels
+
+  activerecord:
+    models:
+      orchestra_contacts: "Kontakt-Adresse"
+    attributes:
+      orchestra_contacts:
+        <<: *orchestra_contact_labels
