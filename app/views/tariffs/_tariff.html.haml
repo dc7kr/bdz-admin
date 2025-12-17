@@ -1,0 +1,11 @@
+%tr
+  %td= tariff.tariff_type
+  %td= tariff.description
+  %td= tariff.tag
+  %td= format_currency(tariff.amount, "EUR")
+  %td
+    = link_to_show tariff
+    = link_to_edit tariff
+    = link_to_delete tariff
+
+ 

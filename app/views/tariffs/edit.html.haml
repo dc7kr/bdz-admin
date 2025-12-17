@@ -1,7 +1,9 @@
-%h1 Editing tariff
+.secondary-navigation
+  = render :partial=>'nav'
+.container
+  %h1
+    =t("common.edit")
+    =t("tariff", count:1)
 
-= render 'form'
+  = render 'form'
 
-= link_to 'Show', @tariff
-\|
-= link_to 'Back', tariffs_path

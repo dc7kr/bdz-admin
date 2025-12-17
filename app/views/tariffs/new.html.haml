@@ -1,5 +1,8 @@
-%h1 New tariff
+.secondary-navigation
+  = render :partial=>'nav'
+.container
+  %h1
+    =t("common.new")
+    =t("tariff", count:1)
 
-= render 'form'
-
-= link_to 'Back', tariffs_path
+  = render 'form'

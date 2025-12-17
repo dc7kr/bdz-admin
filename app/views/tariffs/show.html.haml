@@ -1,15 +1,8 @@
-%p#notice= notice
+.secondary-navigation
+  = render :partial=>'nav'
+.container
+  = entity_row(@tariff, :tariff_type)
+  = entity_row(@tariff, :description)
+  = entity_row(@tariff, :tag)
+  = entity_row(@tariff, :amount, :currency)
 
-%p
-  %b Tariff type:
-  = @tariff.tariff_type
-%p
-  %b Description:
-  = @tariff.description
-%p
-  %b Amount:
-  = @tariff.amount
-
-= link_to 'Edit', edit_tariff_path(@tariff)
-\|
-= link_to 'Back', tariffs_path
