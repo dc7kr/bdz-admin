@@ -82,6 +82,6 @@ class TariffsController < AuthenticatedController
   end
 
   def tariff_params
-    params.require(:tariff).permit(:tariff_type, :description, :amount)
+    params.require(:tariff).permit(:tariff_type, :description, :amount, :tag)
   end
 end
