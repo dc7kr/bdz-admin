@@ -10,10 +10,10 @@
   - @groups.each do |g|
     .mb-2
       %b=g.orch_name
-      %table 
+      %table.table
         - g.festival_pieces.each do |p|
           %tr
-            %td=p.title
             %td=p.composer
+            %td=p.title
             %td.right #{render_duration(p.duration)} min
 
