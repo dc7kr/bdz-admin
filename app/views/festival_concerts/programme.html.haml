@@ -1,29 +1,19 @@
-.block
-  .secondary-navigation
-    = render :partial=>'nav'
-  .content
-    %h2.title
-      #{t("festival_concert")} Nr. #{@festival_concert.number}
-    .inner
-      %table
-        %tr
-          %td=t('festival_concert.title')
-          %td=@festival_concert.title
-        %tr
-          %td=t('festival_concert.location')
-          %td=@festival_concert.location
-        %tr
-          %td=t('festival_concert.event_time')
-          %td=l @festival_concert.event_time
+= render layout: 'layouts/modal', locals: { title: t("festival_concert.programme") } do 
+  %h1.title 
+    #{t("festival_concert", count: 1)} Nr. #{@festival_concert.number}
+    “#{@festival_concert.title}”
+  %h3
+    =l @festival_concert.event_time
+    (#{@festival_concert.location}) 
+  %hr
 
-      %h3 Programm
-
-      - @groups.each do |g|
-        %b=g.orch_name
-        %table 
-          - g.festival_pieces.each do |p|
-            %tr
-              %td=p.title
-              %td=p.composer
-              %td.right #{p.duration} min
+  - @groups.each do |g|
+    .mb-2
+      %b=g.orch_name
+      %table 
+        - g.festival_pieces.each do |p|
+          %tr
+            %td=p.title
+            %td=p.composer
+            %td.right #{render_duration(p.duration)} min
 

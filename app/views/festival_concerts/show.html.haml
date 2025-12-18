@@ -9,9 +9,17 @@
       =entity_row(@festival_concert,:title)
       =entity_row(@festival_concert,:location)
       =entity_row(@festival_concert,:event_time)
+      = link_to t("festival_concert.programme"), programme_festival_concert_path(@festival_concert),  data: { 'turbo_frame' => 'modal' }, class: 'btn btn-secondary btn-sm'
+
 
   %h3 Teilnehmer
 
   %table
-    = render @festival_concert.festival_applications
+    %thead
+      %tr
+        %th=t("common.id")
+        %th=t("festival_application.orch_name")
+        %th=t("festival_application.num_players")
+        %th=t("festival_application.payment_status")
+    %tbody= render @festival_concert.festival_applications
 - content_for :sidebar, render(:partial => 'sidebar_show')

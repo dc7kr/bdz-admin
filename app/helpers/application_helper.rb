@@ -148,10 +148,14 @@ module ApplicationHelper
     number_with_precision(val, precision: 0)
   end
 
-  def format_bool(val)
-    return t("common.yes_") if val
-
-    t("common.no_")
+  def format_bool(val, symbol = false)
+    if symbol
+      return my_fa_icon("check") if val
+      return my_fa_icon("times")
+    else
+      t("common.yes_") if val
+      t("common.no_")
+    end
   end
 
   def sortable(column, title = nil, css_class = "")

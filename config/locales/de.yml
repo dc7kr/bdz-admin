@@ -7,9 +7,6 @@ de:
     meals: "Essensmarken"
     tickets: "Tickets"
     food: "Essen"
-  tariff:
-    one: Beitrag
-    other: Beiträge
   country:
     one: Land
     other: Länder
@@ -31,6 +28,7 @@ de:
     admin_data: Administration
     cron: Tasks
   common:
+    id: "ID"
     identifier: "ID"
     please_select_country: "Bitte wählen Sie ein Land"
     fineprint: "Das Kleingedruckte"

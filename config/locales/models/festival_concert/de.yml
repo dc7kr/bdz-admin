@@ -1,15 +1,16 @@
 de:
+  festival_concert:  &festival_concert_labels
+    other: Festival-Konzerte
+    one: Festival-Konzert
+    programme: Programmübersicht
+    title: Titel
+    location: Veranstaltungsort
+    concert_type: Konzert-Typ
+    event_time: Veranstaltungszeit
+    outdoor: "Open-Air Veranstaltung"
+    programme: "Konzertprogramm"
+
   helpers:
     label:
       festival_concert: &festival_concert_labels
-        other: Festival-Konzerte
-        one: Festival-Konzert
-        title: Titel
-        location: Veranstaltungsort
-        concert_type: Konzert-Typ
-        event_time: Veranstaltungszeit
-        outdoor: "Open-Air Veranstaltung"
-        programme: "Konzertprogramm"
 
-  festival_concert: 
-    <<: *festival_concert_labels

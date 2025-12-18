@@ -3,6 +3,7 @@ class FestivalConcertsController < AuthenticatedController
   # GET /festival_concerts.json
 
   helper FestivalApplicationsHelper
+  helper FestivalPiecesHelper
 
   def index
     @festival_concerts = FestivalConcert.current_festival
@@ -89,12 +90,18 @@ class FestivalConcertsController < AuthenticatedController
 
     @groups = FestivalApplication.where(festival_concert_id: params[:id])
 
+
     respond_to do |format|
-      format.html
+      format.turbo_stream { render template: "festival_concerts/programme" }
+      format.html { render template: "festival_concerts/programme" }
     end
   end
 
   def festival_concert_params
     params.require(:festival_concert).permit(:concert_type, :number, :title, :location, :event_time, :outdoor)
+  end
+
+  def overview
+
   end
 end
