@@ -1,0 +1,20 @@
+de:
+  tariff: &tariff_labels
+    one: Beitragsart
+    other: Beitragsarten
+    amount: Beitrag
+    tag: ID
+    tariff_type: Beitragsart
+    description: Beschreibung
+
+  helpers:
+    label:
+      tariff:
+        <<: *tariff_labels
+        anrede: Anrede
+  activerecord:
+    models:
+      tariffs: "Beitragsart"
+    attributes:
+      tariff:
+        <<: *tariff_labels
