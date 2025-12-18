@@ -4,6 +4,12 @@ module FestivalPiecesHelper
   end
 
   def render_duration(duration_time)
-    duration_time.nil? ? "" : duration_time.strftime("%H:%M")
+    begin
+      duration_time.nil? ? "" : duration_time.strftime("%H:%M")
+    rescue => e
+      "INVALID"
+      Rails.logger.error e.message
+      Rails.logger.error e.backtrace.join("\n")
+    end
   end
 end
