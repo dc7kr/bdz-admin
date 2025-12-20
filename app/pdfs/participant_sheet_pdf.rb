@@ -61,20 +61,20 @@ class ParticipantSheetPdf < Prawn::Document
     count = 0
 
     @invoice.items.each do |i|
-      count += i.count if i.price.positive?
+      count += i.count if i.basis.positive?
 
       if appl.payment_status == "S"
-        rows << [ i.count, i.label, "", "" ] if i.price.positive?
+        rows << [ i.count, i.label, "", "" ] if i.basis.positive?
       else
-        rows << [ i.count, i.label, @view.format_currency(i.price, "EUR"),
-                 @view.format_currency(i.count * i.price, "EUR") ]
+        rows << [ i.count, i.label, @view.format_currency(i.basis, "EUR"),
+                 @view.format_currency(i.count * i.basis, "EUR") ]
       end
     end
 
     rows << if appl.payment_status == "S"
               [ count, I18n.t("common.sum"), "", "" ]
     else
-              [ count, I18n.t("common.sum"), "", @view.format_currency(@invoice.sum, "EUR") ]
+              [ count, I18n.t("common.sum"), "", @view.format_currency(@invoice.total, "EUR") ]
     end
 
     table rows do
