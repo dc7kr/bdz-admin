@@ -1,7 +1,8 @@
 class PersonMemberInvoicesJob < BaseInvoicesJob
   sidekiq_options lock: :while_executing,
                   lock_timeout: 2,
-                  on_conflict: :reject
+                  on_conflict: :reject,
+                  retry: false
 
   def perform(year = nil, user_id = nil)
     year = Time.zone.now.year if year.nil?
