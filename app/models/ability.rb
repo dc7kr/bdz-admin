@@ -36,6 +36,12 @@ class Ability
           can :read, OrchestraMember
         end
 
+        if user.has_role? :festival
+          can %i[read permitted], FestivalApplication
+          can :read, FestivalPiece
+          can :read, FestivalConcert
+        end
+
         if user.has_role?(:regional, :any)
           lv = RegionalOrganization.with_role(:regional, user).first
           lv_restriction = { regional_organization_id: lv.id }
