@@ -2,15 +2,9 @@ Hallo #{@recipient.name},
 \
 die automatische Tarifanpassung für Einzelmitglieder wurde durchgeführt.
 \
-- if @normal.length > 0 
-  Folgende Mitglieder wurden auf Normaltarif gestellt:
-  - @normal.each do |m|
-    #{m.member.mglnr} - #{m.member.fullname} 
-\
-- if @digital.length > 0 
-  Folgende Mitglieder wurden auf den Digital-Tarif umgestellt:
-  - @digital.each do |m|
-    #{m.member.mglnr} - #{m.member.fullname} 
-\
-\
-Insgesamt wurden #{@changed} Mitglieder umgestellt, #{@unchanged} Mitglieder blieben unverändert.
+- if @changes.length > 0 
+  Folgende Mitglieder wurden umgestellt: 
+  - @changes.each do |line|
+    #{line}
+- else
+  Es gab keine Tarifanpassungen
