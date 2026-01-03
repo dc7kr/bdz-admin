@@ -1,0 +1,2 @@
+class ContestPolicy < ApplicationPolicy 
+end

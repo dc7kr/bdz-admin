@@ -1,0 +1,2 @@
+class MemberEventPolicy < ApplicationPolicy 
+end

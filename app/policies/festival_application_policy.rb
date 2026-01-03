@@ -1,0 +1,2 @@
+class FestivalApplicationPolicy < ApplicationPolicy 
+end

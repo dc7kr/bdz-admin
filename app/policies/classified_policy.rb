@@ -1,0 +1,2 @@
+class ClassifiedPolicy < ApplicationPolicy 
+end

@@ -1,0 +1,2 @@
+class RegionalOrganizationBookingPolicy < ApplicationPolicy 
+end

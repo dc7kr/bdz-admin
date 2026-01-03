@@ -1,0 +1,2 @@
+class EnsemblePolicy < ApplicationPolicy 
+end

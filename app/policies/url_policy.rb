@@ -1,0 +1,2 @@
+class UrlPolicy < ApplicationPolicy 
+end

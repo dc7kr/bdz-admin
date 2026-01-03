@@ -1,0 +1,2 @@
+class DataFilePolicy < ApplicationPolicy 
+end

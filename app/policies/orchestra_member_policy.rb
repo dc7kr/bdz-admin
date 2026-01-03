@@ -1,0 +1,2 @@
+class OrchestraMemberPolicy < ApplicationPolicy 
+end

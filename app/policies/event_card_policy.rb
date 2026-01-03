@@ -1,0 +1,2 @@
+class EventCardPolicy < ApplicationPolicy 
+end

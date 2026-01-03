@@ -1,0 +1,2 @@
+class FunctionPolicy < ApplicationPolicy 
+end

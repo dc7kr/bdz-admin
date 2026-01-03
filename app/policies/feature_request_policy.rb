@@ -1,0 +1,2 @@
+class FeatureRequestPolicy < ApplicationPolicy 
+end

@@ -1,0 +1,2 @@
+class DistinctionPolicy < ApplicationPolicy 
+end

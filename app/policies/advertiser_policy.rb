@@ -1,0 +1,2 @@
+class AdvertiserPolicy < ApplicationPolicy 
+end

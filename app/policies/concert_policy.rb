@@ -1,0 +1,2 @@
+class ConcertPolicy < ApplicationPolicy 
+end

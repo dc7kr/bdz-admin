@@ -1,0 +1,2 @@
+class MagazineSamplingPolicy < ApplicationPolicy 
+end

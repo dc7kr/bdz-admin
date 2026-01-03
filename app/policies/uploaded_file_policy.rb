@@ -1,0 +1,2 @@
+class UploadedFilePolicy < ApplicationPolicy 
+end

@@ -1,0 +1,2 @@
+class UniversityPolicy < ApplicationPolicy 
+end

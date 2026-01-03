@@ -1,0 +1,2 @@
+class EventMealPolicy < ApplicationPolicy 
+end

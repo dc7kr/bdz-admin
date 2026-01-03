@@ -1,0 +1,2 @@
+class HonorMemberPolicy < ApplicationPolicy 
+end

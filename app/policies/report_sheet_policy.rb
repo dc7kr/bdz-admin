@@ -1,0 +1,2 @@
+class ReportSheetPolicy < ApplicationPolicy 
+end

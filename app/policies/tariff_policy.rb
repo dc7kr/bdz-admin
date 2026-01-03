@@ -1,0 +1,2 @@
+class TariffPolicy < ApplicationPolicy 
+end
