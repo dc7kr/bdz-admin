@@ -1,5 +1,7 @@
 Sidekiq.configure_server do |config|
-  config.redis = { url: ENV.fetch("REDIS_URL") { "" } }
+  redis_url = Rails.application.credentials[:redis_url]
+
+  config.redis = { url: redis_url }
 
   config.capsule("serialized") do |cap|
     cap.concurrency = 1
@@ -7,13 +9,11 @@ Sidekiq.configure_server do |config|
     # cap.queues = %w[queue_a,3 queue_b,1] # weighted
   end
 
-  config.on(:startup) do
-    schedule_file = "config/schedule.yml"
+end
 
-    Sidekiq::Cron::Job.load_from_hash YAML.load_file(schedule_file) if File.exist?(schedule_file) && Sidekiq.server?
-  end
+Sidekiq::Cron.configure do |config|
 end
 
 Sidekiq.configure_client do |config|
-  config.redis = { url: ENV.fetch("REDIS_URL") { "" } }
+  config.redis = { url: Rails.application.credentials[:redis_url] }
 end
