@@ -9,10 +9,11 @@
         %ul.navbar-nav.navbar-left
           %li
             %a.nav-link{:href=>"/"}= my_fa_icon(:home)
-          %li.nav-item.dropdown
-            %a.nav-link.dropdown-toggle{:href=>"#", :role=>"button" ,:data=> { :bs=> { :toggle=>"dropdown" }}, :aria => { :expanded => "false"}}
-              =t("main_menu.member_data")
-            =render :partial => "member_data_dropdown"
+          - if current_user and current_user.member_data_permission? then
+            %li.nav-item.dropdown
+              %a.nav-link.dropdown-toggle{:href=>"#", :role=>"button" ,:data=> { :bs=> { :toggle=>"dropdown" }}, :aria => { :expanded => "false"}}
+                =t("main_menu.member_data")
+              =render :partial => "member_data_dropdown"
           - if current_user and current_user.reference_data_permission? then
             %li.nav-item.dropdown
               %a.nav-link.dropdown-toggle{:href=>"#", :role=>"button" ,:data=> { :bs => { :toggle=> "dropdown" }}}

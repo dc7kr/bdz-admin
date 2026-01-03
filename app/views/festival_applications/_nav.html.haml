@@ -5,14 +5,13 @@
   %li.nav-item
     = link_to "#{t("festival_application.permission_granted").capitalize}", permitted_festival_applications_path, :class =>    tabActiveClass(@current_action,'permitted',"nav-link")
   %li.nav-item 
-    = link_to t("festival_application.open_issues"), open_issues_festival_applications_path, :class => tabActiveClass(@current_action,'open_issues',"nav-link")
+    - if can? :open_issues, FestivalApplication
+      = link_to t("festival_application.open_issues"), open_issues_festival_applications_path, :class => tabActiveClass(@current_action,'open_issues',"nav-link")
   -if (@festival_application and not @festival_application.id.nil?)
     %li.nav-item
       = link_to t("common.show"), festival_application_path(@festival_application), :class => tabActiveClass(@current_action,'show',"nav-link")
-    %li.nav-item
-      = link_to t("common.edit"), edit_festival_application_path(@festival_application), :class => tabActiveClass(@current_action,'edit',"nav-link")
+    = nav_to_edit @festival_application
     %li.nav-item 
       = link_to t("festival_piece",:count=>3), festival_application_festival_pieces_path(@festival_application), :class => tabActiveClass(@current_action,'festival_pieces',"nav-link")
-  %li.nav-item
-    = link_to "#{t("common.new")}", new_festival_application_path, :class => tabActiveClass(@current_action,'new',"nav-link")
+  = nav_to_new FestivalApplication 
 

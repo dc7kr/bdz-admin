@@ -8,5 +8,5 @@
     =entity_row(@festival_piece,:composer) 
     =entity_row(@festival_piece,:arranger) 
     =entity_row(@festival_piece,:publisher) 
-    =entity_row(@festival_piece,:duration) 
+    =custom_entity_row(t('festival_piece.duration'), render_duration(@festival_piece.duration))
 

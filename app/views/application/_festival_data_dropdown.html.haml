@@ -2,11 +2,14 @@
   %li= link_to t('festival_application.other'), festival_applications_path, :class=>"dropdown-item"
   %li= link_to t('festival_participant.other'), permitted_festival_applications_path, :class=>"dropdown-item"
   %li= link_to t('festival_concert.other'), festival_concerts_path, :class=>"dropdown-item"
-  %li.divider{:role=>"separator"}
-  %li= link_to t('event_meal.other'), event_meals_path, :class=>"dropdown-item"
-  %li= link_to t('event_card.other'), event_cards_path, :class=>"dropdown-item"
-  %li= link_to t('event_meal.arrival_overview'), arrival_overview_event_meals_path, :class=>"dropdown-item"
-  %li.divider{:role=>"separator"}
-  %li= link_to t('festival_mail.other'), festival_mails_path, :class=>"dropdown-item"
-  %li= link_to t('festival_mail.gen_invoices'), invoices_festival_mails_path, :class=>"dropdown-item"
-  %li= link_to t('festival_mail.reservation_invoices'), reservation_invoices_festival_mails_path, :class=>"dropdown-item"
+  -if current_user.has_role? :national 
+    %li
+      %hr.dropdown-divider
+    %li= link_to t('event_meal.other'), event_meals_path, :class=>"dropdown-item"
+    %li= link_to t('event_card.other'), event_cards_path, :class=>"dropdown-item"
+    %li= link_to t('event_meal.arrival_overview'), arrival_overview_event_meals_path, :class=>"dropdown-item"
+    %li
+      %hr.dropdown-divider
+    %li= link_to t('festival_mail.other'), festival_mails_path, :class=>"dropdown-item"
+    %li= link_to t('festival_mail.gen_invoices'), invoices_festival_mails_path, :class=>"dropdown-item"
+    %li= link_to t('festival_mail.reservation_invoices'), reservation_invoices_festival_mails_path, :class=>"dropdown-item"
