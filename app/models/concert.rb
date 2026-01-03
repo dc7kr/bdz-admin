@@ -1,6 +1,6 @@
 class Concert < ApplicationRecord
-  include Authority::Abilities
-  self.authorizer = PublicEntityAuthorizer
+  
+  #self.authorizer = PublicEntityAuthorizer
 
   validates :eintritt, presence: true
   validates :ort, :stadt, :concert_date, presence: true

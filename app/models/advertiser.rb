@@ -1,7 +1,7 @@
 class Advertiser < ApplicationRecord
   # attr_accessible :advert_type
 
-  include Authority::Abilities
+  
 
   validates :iban, iban: true
   validates :bic, bic: true

@@ -1,5 +1,5 @@
 class GemaEvent
-  include Authority::Abilities
+  
   include Mongoid::Document
   include Mongoid::Timestamps
   field :sap_nr, type: Integer

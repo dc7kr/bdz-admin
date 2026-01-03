@@ -1,5 +1,5 @@
 class Url < ApplicationRecord
-  include Authority::Abilities
+  
   belongs_to :url_category, foreign_key: "category"
   belongs_to :state, foreign_key: "bland"
 

@@ -1,8 +1,6 @@
 class User < ApplicationRecord
   rolify
 
-  include Authority::UserAbilities
-
   before_create :generate_api_token
 
   has_many :concerts
@@ -64,6 +62,10 @@ class User < ApplicationRecord
     has_role? :admin
   end
 
+  def member_data_permission?
+    national_permission? or has_role? :regional
+  end
+
   def tools_permission?
     (has_role? :admin or has_role? :accounting)
   end
@@ -85,7 +87,7 @@ class User < ApplicationRecord
   end
 
   def festival_permission?
-    national_permission?
+    national_permission? or has_role? :festival
   end
 
   def magazine_permission?

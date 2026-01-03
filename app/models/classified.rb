@@ -1,5 +1,5 @@
 class Classified < ApplicationRecord
-  include Authority::Abilities
+  
 
   validates :object, :description, :name, presence: true
   validates :email, presence: true, email_format: true

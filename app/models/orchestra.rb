@@ -1,6 +1,6 @@
 require "valid_email"
 class Orchestra < ApplicationRecord
-  include Authority::Abilities
+  
 
   acts_as_paranoid
 

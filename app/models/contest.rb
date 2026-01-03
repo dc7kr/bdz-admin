@@ -1,5 +1,5 @@
 class Contest < ApplicationRecord
-  include Authority::Abilities
+  
 
   def self.inactive
     where("visible=0")

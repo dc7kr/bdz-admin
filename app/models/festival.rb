@@ -1,5 +1,5 @@
 class Festival < ApplicationRecord
-  include Authority::Abilities
+  
   belongs_to :state, foreign_key: "bland"
 
   scope :published, -> { where("visible=1 and startdate >= now()") }

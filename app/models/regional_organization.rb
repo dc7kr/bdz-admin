@@ -1,5 +1,5 @@
 class RegionalOrganization < ApplicationRecord
-  include Authority::Abilities
+  
 
   has_one :member, as: :member_entity
   accepts_nested_attributes_for :member

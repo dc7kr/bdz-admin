@@ -2,7 +2,7 @@ class Member < ApplicationRecord
   acts_as_paranoid
   # acts_as_superclass
   resourcify
-  # include Authority::Abilities
+  # 
 
   # attr_encrypted :iban, key: Rails.application.secrets.member_iban_key
   # attr_encrypted :bic, key: Rails.application.secrets.member_bic_key
