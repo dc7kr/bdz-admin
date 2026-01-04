@@ -1,6 +1,7 @@
 module ApplicationHelper
   include CountryHelper
   include ButtonHelper
+  include NavHelper
   include FontAwesomeHelper
 
   def is_production?
