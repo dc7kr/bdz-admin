@@ -121,7 +121,7 @@ class ReportSheetInputPdf < Prawn::Document
   end
 
   def check_txt(bool)
-    if bool
+    if bool == true
       "x"
     else
       "-"
