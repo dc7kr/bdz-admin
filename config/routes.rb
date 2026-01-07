@@ -10,7 +10,11 @@ hosts = {
 Rails.application.routes.default_url_options[:host] = hosts[Rails.env.to_sym]
 
 Rails.application.routes.draw do
-  resources :festival_exhibitors
+  resources :festival_exhibitors do 
+        member do 
+          get :invoice_preview
+        end 
+  end
   # Can be used by load balancers and uptime monitors to verify that the app is live.
   get "up" => "rails/health#show", as: :rails_health_check
 
@@ -41,10 +45,11 @@ Rails.application.routes.draw do
   root to: "home#landing_page"
 
   # login and logout urls ...
-  devise_scope :user do
+  as :user do
     get "/login" => "devise/sessions#new"
     get "/logout" => "devise/sessions#destroy"
-    get "/edit_password" => "devise/passwords#edit"
+    get "users/edit" => "devise/registrations#edit", :as => "edit_user_registration"
+    put "users" => "devise/registrations/update", :as => "user_registration"
   end
 
   authenticate :user, ->(u) { u.admin? } do
@@ -213,6 +218,9 @@ Rails.application.routes.draw do
     collection do
       get :for_admin_notify
     end
+    member do 
+      post :add_role
+    end
   end
 
   resources :member_account_bookings
@@ -221,12 +229,7 @@ Rails.application.routes.draw do
   get "member_report/by_lv" => "member_report#by_lv"
   get "member_report/report_sheet_stats" => "member_report#report_sheet_stats"
 
-  get "home/member_data" => "home#member_data"
-  get "home/reference_data" => "home#reference_data"
-  get "home/admin_data" => "home#admin_data"
   get "home/landing_page" => "home#landing_page"
-  get "home/magazine_data" => "home#magazine_data"
-  get "home/festival_data" => "home#festival_data"
   get "home/cron" => "home#cron"
   get "home/tools" => "home#tools"
   post "home/export_view" => "home#export_view"
@@ -292,7 +295,11 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :report_sheets
+    resources :report_sheets do 
+      member do 
+        get :invoice_preview
+      end
+    end
     resources :reports do
       member do
         get :members
@@ -331,6 +338,7 @@ Rails.application.routes.draw do
     end
     member do
       get "gen_pdf"
+      get "invoice_preview"
     end
   end
 
@@ -460,7 +468,6 @@ Rails.application.routes.draw do
     # TODO: These aren't resources!
     resources :mails
     resources :downloads
-
   end
 
   get "downloads/:year/:filename" => "downloads#show"
@@ -562,7 +569,6 @@ Rails.application.routes.draw do
     resources :samplings, controller: "magazine_samplings" do
       collection do
         get :print_list
-        post :search
       end
     end
   end
