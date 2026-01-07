@@ -20,7 +20,6 @@ class BaseInvoicesJob < ApplicationJob
     self.generator_session_id = SecureRandom.uuid
     self.date_prefix = Time.zone.now.strftime "%Y%m%d%H%M%S"
 
-    self.pdf_writer = CorikaInvoices::PdfWriter.new(INVOICE_CONFIG)
     self.sepa_writer = CorikaInvoices::SepaWriter.new(date_prefix, INVOICE_CONFIG)
 
     self.archive_tool = FileArchiveTool.new(DOCS_CONFIG)

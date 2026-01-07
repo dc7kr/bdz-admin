@@ -57,7 +57,7 @@ class PersonMemberInvoicesJob < BaseInvoicesJob
     invoice.generator_session_id = generator_session_id
     invoice.save
 
-    invoice_file = invoice.gen_pdf(pdf_writer)
+    invoice_file = invoice.gen_pdf
 
     if invoice_file.nil?
       logger.error("Could not generate invoice: #{person.member.mglnr}")
