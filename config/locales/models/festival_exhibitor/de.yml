@@ -5,3 +5,15 @@ de:
     special_tariff: "Sondervereinbarung"
     special_amount: "Sonder-Betrag"
     tariff: "Tarif"
+
+  helpers:
+    label:
+      festival_exhibitor:
+        <<: *festival_exhibitor_labels
+        anrede: Anrede
+  activerecord:
+    models:
+      festival_exhibitor: "Aussteller"
+    attributes:
+      festival_exhibitor:
+        <<: *festival_exhibitor_labels

@@ -12,5 +12,12 @@ de:
 
   helpers:
     label:
-      festival_concert: &festival_concert_labels
-
+      festival_concert:
+        <<: *festival_concert_labels
+        anrede: Anrede
+  activerecord:
+    models:
+      festival_concert: "Konzert"
+    attributes:
+      festival_concert:
+        <<: *festival_concert_labels

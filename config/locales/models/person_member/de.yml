@@ -14,7 +14,9 @@ de:
         <<: *person_member_labels
   activerecord:
     models:
-        person_member: "Einzelmitglied"
+        person_member: 
+          one: Einzelmitglied
+          other: Einzelmitglieder
     attributes:
       person_member:
         <<: *person_member_labels

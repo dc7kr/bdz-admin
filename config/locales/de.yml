@@ -38,6 +38,7 @@ de:
     no_: "Nein"
     no_one: niemand
     all: Alle
+    admin: "Administration"
     submit: Absenden
     number: Nr.
     year: Jahr
@@ -325,21 +326,6 @@ de:
     update_success: Ehrung erfolgreich aktualisiert
     generate_invoice: Rechnung generieren
     invoice_already_exists: Die Ehrungsrechnung wurde bereits erstellt!
-  orchestra_member:
-    one: Orchestermitglied
-    other: Orchestermitglieder
-    search: "Orchestermitglieder suchen"
-    search_txt: "Anfänge der Namen werden ebenfalls gefunden"
-    first_name: Vorname
-    last_name: Nachname
-    date_of_birth: Geburtstag
-    year_of_birth: Geburtsjahr
-    instrument: Instrument
-    mglnr: Mitgliedsnummer
-    update_success: "Orchestermitglied erfolgreich geändert."
-    delete_all: "Alle Orchestermitglieder löschen"
-    exchange_success: "Vorname und Name erfolgreich ausgetauscht."
-    check_double: "Doppel-Mitgliedschaft prüfen"
   member_account:
     balance: Saldo
   regional_organization_booking:

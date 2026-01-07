@@ -11,6 +11,7 @@ de:
     index: Mitgliedskonto
     create_success: Buchung wurde erfolgreich angelegt.
     update_success: Buchung wurde erfolgreich aktualisiert.
+    has_reference: Referenz
     balance: Saldo
     booking_type: Buchungstyp
     booking_type_A: Beitragszahlung

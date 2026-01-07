@@ -4,6 +4,7 @@ en:
     other: "Pieces"
     create_festival_piece: "Add piece"
     add_piece: "Add piece"
+    edit_piece: "Edit piece"
     composer: Composer
     title: Title
     duration: Duration 
@@ -19,12 +20,7 @@ en:
 
   activerecord:
     models:
-      festival_piece: "Gemeldetes Stück"
-    attributes:
-      festival_piece:
-        <<: *festival_piece_labels
-
-  activerecord:
+      festival_piece: "Reported Piece"
     attributes:
       festival_piece: &festival_piece_labels
       helpers:

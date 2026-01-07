@@ -21,6 +21,7 @@ de:
     role: Rolle
     salutation: Anrede
     role: Rolle        
+
   activerecord:
     attributes:
       orchestra_contact:

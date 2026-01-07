@@ -1,0 +1,31 @@
+de:
+  orchestra_member: &orchestra_member_labels
+    one: Orchestermitglied
+    other: Orchestermitglieder
+    search: "Orchestermitglieder suchen"
+    search_txt: "Anfänge der Namen werden ebenfalls gefunden"
+    first_name: Vorname
+    last_name: Nachname
+    date_of_birth: Geburtstag
+    year_of_birth: Geburtsjahr
+    instrument: Instrument
+    mglnr: Weitere Mitgliedsnummer
+    update_success: "Orchestermitglied erfolgreich geändert."
+    delete_all: "Alle Orchestermitglieder löschen"
+    exchange_success: "Vorname und Name erfolgreich ausgetauscht."
+    check_double: "Doppel-Mitgliedschaft prüfen"
+
+  activerecord:
+    attributes:
+      orchestra_member:
+  helpers:
+    label:
+      orchestra_member:
+        <<: *orchestra_member_labels
+
+  activerecord:
+    models:
+      orchestra_members: "Orchestermitglied"
+    attributes:
+      orchestra_member:
+        <<: *orchestra_member_labels

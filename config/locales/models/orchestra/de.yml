@@ -45,7 +45,7 @@ de:
         anrede: Anrede
   activerecord:
     models:
-      orchestras: "Orchester"
+      orchestra: "Orchester"
     attributes:
       orchestra:
         <<: *orchestra_labels

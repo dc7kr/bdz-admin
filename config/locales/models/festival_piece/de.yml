@@ -8,10 +8,11 @@ de:
         title: Titel
         duration: Dauer
         additional_info: "Weitere Angaben"
-        add_piece: "Stück hinzufügen"
-        one: "Gemeldetes Stück"
-        create_festival_piece: "Stück hinzufügen"
-        other: "Gemeldete Stücke"
+        add_piece: "Werk hinzufügen"
+        edit_piece: "Werk bearbeiten"
+        one: "Gemeldetes Werk"
+        create_festival_piece: "Werk hinzufügen"
+        other: "Gemeldete Werke"
 
   helpers:
     label:
@@ -20,7 +21,7 @@ de:
 
   activerecord:
     models:
-      festival_piece: "Gemeldetes Stück"
+      festival_piece: "Gemeldetes Werk"
     attributes:
       festival_piece:
         <<: *festival_piece_labels
