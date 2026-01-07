@@ -1,5 +1,8 @@
 class FestivalPiecesController < AuthenticatedController
   include ApplicationHelper
+
+  before_action :set_festival_piece, only: %i[ show edit update destroy ]
+
   respond_to :html, :js
   # GET /festival_pieces
   # GET /festival_pieces.json
@@ -21,9 +24,6 @@ class FestivalPiecesController < AuthenticatedController
   # GET /festival_pieces/1.json
   def show
     @festival_application = policy_scope(FestivalApplication).find_by(token: params[:festival_application_token])
-    @festival_piece = policy_scope(FestivalPiece).find(params[:id])
-
-    authorize @festival_piece
 
     respond_to do |format|
       format.html # show.html.erb
@@ -36,6 +36,7 @@ class FestivalPiecesController < AuthenticatedController
   def new
     @festival_application = policy_scope(FestivalApplication).find_by(token: params[:festival_application_token])
     @festival_piece = FestivalPiece.new
+    authorize @festival_piece
 
     respond_to do |format|
       format.html # new.html.erb
@@ -46,8 +47,6 @@ class FestivalPiecesController < AuthenticatedController
   # GET /festival_pieces/1/edit
   def edit
     @festival_application = policy_scope(FestivalApplication).find_by(token: params[:festival_application_token])
-    @festival_piece = policy_scope(FestivalPiece).find(params[:id])
-    authorize @festival_piece
   end
 
   # POST /festival_pieces
@@ -67,7 +66,6 @@ class FestivalPiecesController < AuthenticatedController
   # PUT /festival_pieces/1.json
   def update
     @festival_application = policy_scope(FestivalApplication).find_by(token: params[:festival_application_token])
-    @festival_piece = policy_scope(FestivalPiece).find(params[:id])
 
     respond_to do |format|
       if @festival_piece.update(festival_piece_params)
@@ -87,8 +85,6 @@ class FestivalPiecesController < AuthenticatedController
   # DELETE /festival_pieces/1.json
   def destroy
     @festival_application = policy_scope(FestivalApplication).find_by(token: params[:festival_application_token])
-    @festival_piece = policy_scope(FestivalPiece).find(params[:id])
-    @festival_piece.destroy
 
     respond_with @festival_piece, location: festival_application_festival_pieces_url(@festival_application)
   end
@@ -105,5 +101,10 @@ class FestivalPiecesController < AuthenticatedController
       :soloist,
       :premiere
     )
+  end
+
+  def set_festival_piece
+    @festival_piece = policy_scope(FestivalPiece).find(params[:id])
+    authorize @festival_piece
   end
 end

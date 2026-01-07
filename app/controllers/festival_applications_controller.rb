@@ -6,6 +6,8 @@ class FestivalApplicationsController < AuthenticatedController
 
   helper_method :sort_column, :sort_direction
 
+  before_action :set_festival_application, only: %i[ show edit update destroy fee_invoice_preview fee_invoice ticket_invoice_preview ticket_invoice finalize gen_participant_sheet ]
+
   layout :choose_layout
   # GET /festival_applications
   # GET /festival_applications.json
@@ -130,11 +132,9 @@ class FestivalApplicationsController < AuthenticatedController
   # GET /festival_applications/1
   # GET /festival_applications/1.json
   def show
-    @festival_application = policy_scope(FestivalApplication).find_by token: params[:token]
 
     @contact_person = @festival_application.contact_person
     
-    authorize @festival_application
 
     respond_to do |format|
       format.html # show.html.erb
@@ -143,8 +143,6 @@ class FestivalApplicationsController < AuthenticatedController
   end
 
   def fee_invoice_preview
-    @festival_application = policy_scope(FestivalApplication).find_by token: params[:token]
-
     @invoice = @festival_application.get_fee_invoice
 
     @invoice_hash = @invoice.to_hash[:invoice]
@@ -157,8 +155,6 @@ class FestivalApplicationsController < AuthenticatedController
   end
 
   def ticket_invoice_preview
-    @festival_application = policy_scope(FestivalApplication).find_by token: params[:token]
-
     @invoice = @festival_application.get_ticket_invoice
 
     @invoice_hash = @invoice.to_hash[:invoice]
@@ -172,7 +168,6 @@ class FestivalApplicationsController < AuthenticatedController
 
 
   def finalize
-    @festival_application = policy_scope(FestivalApplication).find_by token: params[:token]
   end
 
   # GET /festival_applications/new
@@ -191,8 +186,6 @@ class FestivalApplicationsController < AuthenticatedController
 
   # GET /festival_applications/1/edit
   def edit
-    @festival_application = policy_scope(FestivalApplication).find_by(token: params[:token])
-    authorize @festival_application
   end
 
   # POST /festival_applications
@@ -228,11 +221,6 @@ class FestivalApplicationsController < AuthenticatedController
   # PUT /festival_applications/1
   # PUT /festival_applications/1.json
   def update
-    @festival_application = policy_scope(FestivalApplication).find_by token: params[:token]
-
-    Rails.logger.debug { "Params: #{contact_person_params}" }
-    @festival_application.contact_person
-
     @festival_application.contact_person.update(contact_person_params)
 
     respond_to do |format|
@@ -253,7 +241,6 @@ class FestivalApplicationsController < AuthenticatedController
   # DELETE /festival_applications/1.json
 
   def destroy
-    @festival_application = policy_scope(FestivalApplication).find_by token: params[:token]
     @festival_application.destroy
 
     respond_to do |format|
@@ -349,8 +336,6 @@ class FestivalApplicationsController < AuthenticatedController
   end
 
   def fee_invoice
-    @festival_application = policy_scope(FestivalApplication).find_by token: params[:token]
-
     if @festival_application.fee_invoice_id.nil?
         respond_to do |format|
             format.html { render :show, status: :unprocessable_entity }
@@ -366,8 +351,6 @@ class FestivalApplicationsController < AuthenticatedController
   end
 
   def ticket_invoice
-    @festival_application = policy_scope(FestivalApplication).find_by token: params[:token]
-
     if @festival_application.fee_invoice_id.nil?
         respond_to do |format|
             format.html { render :show, status: :unprocessable_entity }
@@ -392,10 +375,8 @@ class FestivalApplicationsController < AuthenticatedController
   end
 
   def gen_participant_sheet
-    @appl = policy_scope(FestivalApplication).find_by token: params[:token]
-
-    pdf = ParticipantSheetPdf.new(@appl, view_context)
-    send_data pdf.render, filename: "participant_sheet_#{@appl.id}.pdf", type: "application/pdf", disposition: "inline"
+    pdf = ParticipantSheetPdf.new(@festival_application, view_context)
+    send_data pdf.render, filename: "participant_sheet_#{@festival_application.id}.pdf", type: "application/pdf", disposition: "inline"
   end
 
   def open_issues
@@ -448,6 +429,11 @@ class FestivalApplicationsController < AuthenticatedController
       else
     @year = params["year"]
       end
+    end
+
+    def set_festival_application
+      @festival_application = policy_scope(FestivalApplication).find_by token: params[:token]
+      authorize @festival_application
     end
 
     def contact_person_params
