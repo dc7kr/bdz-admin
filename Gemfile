@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails', branch: 'main'
-gem "rails", "~> 7.2.2", ">= 7.2.2.1"
+gem "rails", "~> 7.2.3"
 
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails"
@@ -10,7 +10,7 @@ gem "sprockets-rails"
 gem "sqlite3", "~> 1.4"
 
 # Use Puma as the app server
-gem "puma", "~> 5.0"
+gem "puma", ">= 5.0"
 
 # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
 gem "importmap-rails"
@@ -84,16 +84,17 @@ gem "mysql2", "~> 0.5.0"
 # ASYNC Execution
 gem "redis-client"
 gem "sidekiq", "~> 7.3"
-gem "sidekiq-cron", "~> 1.1"
+gem "sidekiq-cron"
+
+# Version 3.0.2 makes sidekiq fail - see https://github.com/mperham/connection_pool/issues/212
+gem "connection_pool", "<3"
 
 # authenticate
 gem "devise"
 # gem 'devise-async'
 
 # authorize
-gem "authority"
-gem "cancancan", "~> 3.3.0"
-gem "cancancan-mongoid"
+gem "pundit", "~> 2.5.2"
 gem "rolify"
 
 # DANGER: DONT OMIT iso otherwise it pollutes the default namespace
@@ -158,9 +159,9 @@ gem "acts_as_paranoid"
 # Google libphonenumber
 gem "telephone_number"
 
-gem "corika_invoices",  git: 'https://github.com/dc7kr/invoices-gem', tag: "2.1", ref: "0e0b63bf5066ec2215ae5a1cd030a715b9cdef83"
-# for developing the gem in parallel: 
-# gem "corika_invoices", path: "/srv/src/invoices-gem"
+gem "corika_invoices",  git: 'https://github.com/dc7kr/invoices-gem', tag: "2.2", ref: "8c07cd0117c0d2451c87b3693ff7a015473e0be9"
+# for developing the gem in parallel:
+#gem "corika_invoices", path: "/srv/src/invoices-gem"
 
 # crypto
 # gem "attr_encrypted", "~> 3.1.0"
