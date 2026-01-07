@@ -1,29 +1,28 @@
-.block
-  .content
-    %h2.title
-      Neue Mitglieder 
-    .inner
-      %table.table-sm
-        %thead
-          %th.first= t("member.mglnr")
-          %th= t("orchestra.orchName")
-          %th.last &nbsp;
-        %tbody#orchestras
-          - @orchestras.each do |o|
-            %tr
-              %td=o.mglnr
-              %td=o.orchName
+.container
+  %h2.title
+    Neue Mitglieder 
   
-      %table.table-sm
-        %thead
-          %th.first= t("member.mglnr")
-          %th= t("member.name")
-          %th= t("member.vorname")
-          %th.last &nbsp;
-        %tbody#orchestras
-          - @persons.each do |p|
-            %tr
-              %td=p.mglnr
-              %td=p.name
-              %td=p.vorname
-  
+  %table.table-sm
+    %thead
+      %th.first= t("member.mglnr")
+      %th= t("orchestra.orchName")
+      %th.last &nbsp;
+    %tbody#orchestras
+      - @orchestras.each do |o|
+        %tr
+          %td=o.mglnr
+          %td=o.orchName
+
+  %table.table-sm
+    %thead
+      %th.first= t("member.mglnr")
+      %th= t("member.name")
+      %th= t("member.vorname")
+      %th.last &nbsp;
+    %tbody#orchestras
+      - @persons.each do |p|
+        %tr
+          %td=p.mglnr
+          %td=p.name
+          %td=p.vorname
+

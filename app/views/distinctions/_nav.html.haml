@@ -1,5 +1,6 @@
 %ul.nav.nav-tabs
   %li.nav-item= link_to_up_path t("common.up"), orchestra_path(params[:orchestra_id])
-  %li.nav-item= link_to t("common.list"), orchestra_distinctions_path(@orchestra),:class=> tabActiveClass(@current_action,'index','nav-link')
-  - if can? :create, Distinction 
-    %li.nav-item=nav_to_new Distinction, new_orchestra_distinction_path(@orchestra)
+  = nav_to_list Distinction, orchestra_distinctions_path(@orchestra)
+  = nav_to_show @distinction
+  = nav_to_edit @distinction
+  = nav_to_new Distinction, new_orchestra_distinction_path(@orchestra)

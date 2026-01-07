@@ -1,17 +1,15 @@
-.block
-  .secondary-navigation
+.secondary-navigation
     
-  .content
-    .inner
-      %h2=t('custom_info_mail.one')
-      = bootstrap_form_for :custom_info_mail,  layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10" , :url => { :controller => 'custom_info_mail', :action => 'send_mail' } do |f|
-        = f.text_field :event_id, value: @event_id, :size => 60, help: "Event ist eine EINDEUTIGE, maschinenlesbare ID, wird diese erneut verwendet, werden nur Mitglieder angeschrieben die im letzten Lauf noch nicht dabei waren."
-        = f.select :group, group_options
-        = f.text_field :subject, :size => 60 
-        = f.text_area :body, :rols => 10, :cols => 60 
-        = f.check_box :via_paper, label: t("custom_info_mail.via_paper")
-        = f.file_field :datafile, help: "In das Anschreiben wird die Adresse eingedruckt! Kann entfallen, wenn nur Mail-Versand gewählt wird."
-        = f.file_field :attachment, help: "Zusätzlicher Mail-Anhang - wird unverändert beigefügt"
-        %br
-        = f.submit t('custom_info_mail.submit')
+.container
+  %h2=t('custom_info_mail.one')
+  = bootstrap_form_for :custom_info_mail,  layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10" , :url => { :controller => 'custom_info_mail', :action => 'send_mail' } do |f|
+    = f.text_field :event_id, value: @event_id, :size => 60, help: "Event ist eine EINDEUTIGE, maschinenlesbare ID, wird diese erneut verwendet, werden nur Mitglieder angeschrieben die im letzten Lauf noch nicht dabei waren."
+    = f.select :group, group_options
+    = f.text_field :subject, :size => 60 
+    = f.text_area :body, :rols => 10, :cols => 60 
+    = f.check_box :via_paper, label: t("custom_info_mail.via_paper")
+    = f.file_field :datafile, help: "In das Anschreiben wird die Adresse eingedruckt! Kann entfallen, wenn nur Mail-Versand gewählt wird."
+    = f.file_field :attachment, help: "Zusätzlicher Mail-Anhang - wird unverändert beigefügt"
+    %br
+    = f.submit t('custom_info_mail.submit')
 

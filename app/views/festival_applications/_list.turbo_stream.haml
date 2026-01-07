@@ -1,0 +1,7 @@
+= turbo_stream.update :festival_applications do
+  = render @festival_applications
+= turbo_stream.update :paginator do 
+  = paginate @festival_applications
+= turbo_stream.update :entry_info do 
+  = page_entries_info @festival_applications
+

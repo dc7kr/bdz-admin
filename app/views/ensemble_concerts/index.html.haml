@@ -1,24 +1,18 @@
-.block
-  .secondary-navigation
-    =render :partial=>'nav'
-  .content
-    %h2.title
-      = t("common.all")
-      = t("ensemble_ensemble_concert.title")
-    .inner
-      %table.table-sm.table-hover.table-condensed
-        %tr
-          %th.first 
-            = sortable "datum", attr_heading(EnsembleConcert, :datum)
-          %th= attr_heading(EnsembleConcert, :zeit)
-          %th= sortable "stadt", attr_heading(EnsembleConcert, :stadt)
-          %th= sortable "ort", attr_heading(EnsembleConcert, :ort)
-          %th= attr_heading(EnsembleConcert, :interpret)
-          %th= attr_heading(EnsembleConcert, :url)
-          %th.last &nbsp;
-        %tbody#ensemble_concerts
-          =render @ensemble_concerts
-      #paginator
-        = paginate @ensemble_concerts
-      .actions-bar.wat-cf
-        .actions
+.secondary-navigation
+  =render :partial=>'nav'
+.container
+  %h2.title
+    = t("common.all")
+    = t("ensemble_ensemble_concert.title")
+  %table.table.table-sm.table-hover.table-condensed
+    %tr
+      %th= sortable "datum", attr_heading(EnsembleConcert, :datum)
+      %th= attr_heading(EnsembleConcert, :zeit)
+      %th= sortable "stadt", attr_heading(EnsembleConcert, :stadt)
+      %th= sortable "ort", attr_heading(EnsembleConcert, :ort)
+      %th= attr_heading(EnsembleConcert, :interpret)
+      %th= attr_heading(EnsembleConcert, :url)
+      %th &nbsp;
+    %tbody#ensemble_concerts
+      =render @ensemble_concerts
+  #paginator= paginate @ensemble_concerts

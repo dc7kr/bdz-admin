@@ -1,16 +1,14 @@
-.block
-  .secondary-navigation
-    =render :partial=>'nav'
-  .content
-    %h2.title
-      = t("common.all")
-      = t("magazine_advert",:count=>3)
-    .inner
-      %table.table-sm.table-hover.table-condensed
-        %thead
-          %th.first=t('advertiser',:count=>1)
-          %th=attr_heading(MagazineIssue,:number)
-          %th=attr_heading(MagazineIssue,:year)
-          %th=attr_heading(MagazineAdvert,:advert_type)
-          %th.last
-        = render @magazine_adverts
+.secondary-navigation
+  =render :partial=>'nav'
+.container
+  %h2.title
+    = t("common.all")
+    = t("magazine_advert",:count=>3)
+  %table.table-sm.table-hover.table-condensed
+    %thead
+      %th.first=t('advertiser',:count=>1)
+      %th=attr_heading(MagazineIssue,:number)
+      %th=attr_heading(MagazineIssue,:year)
+      %th=attr_heading(MagazineAdvert,:advert_type)
+      %th.last
+    %tbody#magazine_adverts= render @magazine_adverts

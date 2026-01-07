@@ -1,25 +1,23 @@
 .secondary-navigation
   = render :partial => 'nav'
-.content
-  .container
-    %h2= @regional_organization.member.mglnr
-    %h2= @regional_organization.name
-    -if not @regional_organization.valid?
-      %h3
-        - @regional_organization.errors.each do |e|
-          = e
-          
-    .card
-      .card-body
-        =entity_row(@regional_organization, :subname)
-        =entity_row(@regional_organization,:homepage,:url)
-        =entity_row(@regional_organization,:jugend_url,:url)
-        =entity_row(@regional_organization,:gema_kdnr)
-        =entity_row(@regional_organization,:gema_kdnr_new)
+.container
+  %h2= @regional_organization.member.mglnr
+  %h2= @regional_organization.name
+  -if not @regional_organization.valid?
+    %h3
+      - @regional_organization.errors.each do |e|
+        = e
+        
+  .card
+    .card-body
+      =entity_row(@regional_organization, :subname)
+      =entity_row(@regional_organization,:homepage,:url)
+      =entity_row(@regional_organization,:jugend_url,:url)
+      =entity_row(@regional_organization,:gema_kdnr)
+      =entity_row(@regional_organization,:gema_kdnr_new)
 
-    = render @regional_organization.member,:partial=>"member"
+  = render @regional_organization.member,:partial=>"member"
 
-    = del_button @regional_organization,@regional_organization
-= render :partial => "function_table"
+  = render :partial => "function_table"
 
 - content_for :sidebar, render(:partial => 'sidebar_show')

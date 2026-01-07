@@ -1,19 +1,17 @@
-.block
-  .secondary-navigation
-    =render :partial=>'nav'
-  .content
-    %h2.title
-      = t("common.all")
-      Orchester ohne Mail für Event #{@event}
-    .inner
-      %table.table-sm
-        %thead
-          %th.first= sortable "mglnr", attr_heading(Member, :mglnr)
-          %th= sortable "orchName", attr_heading(Orchestra, :orchName)
-          %th= sortable "email", t("member.email")
-          %th.last &nbsp;
-        %tbody#orchestras
-          =render @orchestras
-      .actions-bar.wat-cf
-        .actions
+.secondary-navigation
+  =render :partial=>'nav'
+.container
+  %h2.title
+    = t("common.all")
+    Orchester ohne Mail für Event #{@event}
+  %table.table-sm
+    %thead
+      %th.first= sortable "mglnr", attr_heading(Member, :mglnr)
+      %th= sortable "orchName", attr_heading(Orchestra, :orchName)
+      %th= sortable "email", t("member.email")
+      %th.last &nbsp;
+    %tbody#orchestras
+      =render @orchestras
+  .actions-bar.wat-cf
+    .actions
 - content_for :sidebar, render(:partial => 'sidebar')

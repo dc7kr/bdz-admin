@@ -1,12 +1,18 @@
 .secondary-navigation
   = render :partial=>'nav'
-.content
-  %h2= t("festival_exhibitor", count: 1)
+.container
+  %h1
+    = t("festival_exhibitor", count: 1)
+    = t("common.number")
+    = @festival_exhibitor.id
+    %br
+    = @festival_exhibitor.contact.company
 
   = entity_row(@festival_exhibitor, :year)
   = entity_row(@festival_exhibitor, :special_tariff)
   = entity_row(@festival_exhibitor, :special_amount)
   = entity_row(@festival_exhibitor, :tariff)
+  = link_to 'Rechnungsvorschau', invoice_preview_festival_exhibitor_path(@festival_exhibitor),  data: { 'turbo_frame' => 'modal' }, class: 'btn btn-secondary btn-sm'
   %hr
   = render partial: "contacts/contact_show", :locals => { :contact =>  @festival_exhibitor.contact }
 

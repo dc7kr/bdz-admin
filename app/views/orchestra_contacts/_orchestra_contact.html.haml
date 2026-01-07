@@ -1,12 +1,11 @@
--if readable?(orchestra_contact) 
-  %tr{:class => cycle("odd", "even")}
-    %td
-      = link_to t('orchestra_contact.role_'+orchestra_contact.role), orchestra_orchestra_contact_path(@orchestra,orchestra_contact)
-    %td=orchestra_contact.first_name
-    %td=orchestra_contact.last_name
-    %td=mail_to orchestra_contact.email,orchestra_contact.email
-    %td=orchestra_contact.phone
-    %td.last
-      = link_to_show_path orchestra_orchestra_contact_path(@orchestra,orchestra_contact), t('common.show') , orchestra_contact
-      = link_to_edit_path  edit_orchestra_orchestra_contact_path(@orchestra,orchestra_contact), t('common.edit'), orchestra_contact
-      = link_to_del_path orchestra_orchestra_contact_path(@orchestra,orchestra_contact), orchestra_contact
+%tr{:class => cycle("odd", "even")}
+  %td
+    = link_to t('orchestra_contact.role_'+orchestra_contact.role), orchestra_orchestra_contact_path(@orchestra,orchestra_contact)
+  %td=orchestra_contact.first_name
+  %td=orchestra_contact.last_name
+  %td=mail_to orchestra_contact.email,orchestra_contact.email
+  %td=orchestra_contact.phone
+  %td.last
+    = link_to_show orchestra_contact, orchestra_orchestra_contact_path(@orchestra,orchestra_contact)
+    = link_to_edit orchestra_contact, edit_orchestra_orchestra_contact_path(@orchestra,orchestra_contact)
+    = link_to_delete orchestra_contact, orchestra_orchestra_contact_path(@orchestra,orchestra_contact)

@@ -1,34 +1,29 @@
-.block
-  .secondary-navigation
-    =render :partial=>'nav'
-  .content
-    %h2.title
-      = t("common.all")
-      = t("orchestra_member",:count=>3)
-      =link_to content_tag(:span,"",:class=>"glyphicon glyphicon-transfer"), exchange_all_orchestra_orchestra_members_path(@orchestra), {:class=>"btn btn-xs btn-default",:method=>:post}
-    .inner
-
-      #enty_info.text-center
-        = page_entries_info @orchestra_members
-      = link_to_generated_download_path(t('common.download'),orchestra_orchestra_members_path(@orchestra,:format=>:ods))
-      %table.table-sm.table-hover.table-condensed
-        %thead
-          %th.first= sortable "first_name", attr_heading(OrchestraMember,:first_name)
-          %th= sortable "last_name", attr_heading(OrchestraMember,:last_name)
-          %th= sortable "date_of_birth", attr_heading(OrchestraMember,:date_of_birth)
-          - if @orchestra.is_lorch?
-            %th= sortable "mglnr", attr_heading(OrchestraMember,:mglnr)
-          %th= sortable "instrument", attr_heading(OrchestraMember,:instrument)
-          %th.last &nbsp;
-        %tbody#orchestra_members
-          =render @orchestra_members
-      #paginator
-        = paginate @orchestra_members
-      .actions-bar.wat-cf
-        .actions
-          - if (@orchestra_members != nil and @orchestra_members.count > 0) then
-            = wizard_del_button(delete_all_orchestra_orchestra_members_path(@orchestra), t('orchestra_member.delete_all'),@orchestra_members[0]);
-            - if @orchestra.is_lorch?
-              = icon_link_to "glyphicon-ok-circle", t('orchestra_member.check_double'), check_double_orchestra_orchestra_members_path(@orchestra)
+.secondary-navigation
+  =render :partial=>'nav'
+.container
+  %h2.title
+    = t("common.all")
+    = t("orchestra_member",:count=>3)
+    =link_to content_tag(:span,"",:class=>"glyphicon glyphicon-transfer"), exchange_all_orchestra_orchestra_members_path(@orchestra), {:class=>"btn btn-xs btn-default",:method=>:post}
+  #enty_info.text-center
+    = page_entries_info @orchestra_members
+  = link_to_generated_download_path(t('common.download'),orchestra_orchestra_members_path(@orchestra,:format=>:ods))
+  %table.table-sm.table-hover.table-condensed
+    %thead
+      %th.first= sortable "first_name", attr_heading(OrchestraMember,:first_name)
+      %th= sortable "last_name", attr_heading(OrchestraMember,:last_name)
+      %th= sortable "date_of_birth", attr_heading(OrchestraMember,:date_of_birth)
+      - if @orchestra.is_lorch?
+        %th= sortable "mglnr", attr_heading(OrchestraMember,:mglnr)
+      %th= sortable "instrument", attr_heading(OrchestraMember,:instrument)
+      %th.last &nbsp;
+    %tbody#orchestra_members
+      =render @orchestra_members
+  #paginator
+    = paginate @orchestra_members
+  - if (@orchestra_members != nil and @orchestra_members.count > 0) then
+    = wizard_del_button(delete_all_orchestra_orchestra_members_path(@orchestra), t('orchestra_member.delete_all'),@orchestra_members[0]);
+    - if @orchestra.is_lorch?
+      = icon_link_to "glyphicon-ok-circle", t('orchestra_member.check_double'), check_double_orchestra_orchestra_members_path(@orchestra)
 
 - content_for :sidebar, render(:partial => 'sidebar')

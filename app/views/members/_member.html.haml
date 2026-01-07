@@ -14,7 +14,7 @@
         =entity_row(member,:dsgvo,:boolean)
         =entity_row(member,:dsgvo_date,:date)
         .row
-          .col-md-3.text-end=label :member,:magazines
+          .col-md-3.text-end.fw-bold=label :member,:magazines
           .col-md-9
             - if member.magazines >= 0 
               = member.magazines
@@ -31,16 +31,12 @@
       %button.accordion-button
         Kontaktdaten
     .accordion-body
-      .row
-        .col-md-3.text-end=label :member,:salutation
-        .col-md-9= t("common.salutations."+member.anrede)
+      =custom_entity_row(t("member.salutation"), t("common.salutations."+member.anrede))
       =entity_row(member,:fullname)
       =entity_row(member,:strasse)
       =entity_row(member,:plz)
       =entity_row(member,:ort)
-      .row
-        .col-md-3.text-end=label :member,:country
-        .col-md-9=translated_country(member.country_code)
+      =custom_entity_row(t("member.country_code"), translated_country(member.country_code))
       =entity_row(member,:email,:mailto)
       =entity_row(member,:telefon)
       =entity_row(member,:fax)
@@ -51,12 +47,10 @@
         - if member.direct_debit? then
           %span.badge.bg-info=t("member.direct_debit")
     .accordion-body
-      .row
-        .col-md-3.text-end=label :member,:za
-        .col-md-9=t("common.za_"+member.za)
+      =custom_entity_row(t("member.za"), t("common.za_"+member.za))
       =entity_row(member,:iban)
       .row
-        .col-md-3.text-end=label :member, :bic
+        .col-md-3.text-end.fw-bold=label :member, :bic
         .col-md-9
           =member.bic
           - if not BIC_FINDER.valid?(member.bic)

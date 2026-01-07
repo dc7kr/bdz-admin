@@ -1,6 +1,6 @@
 %ul.nav.nav-tabs
-  %li{ :class => tabActiveClass(@current_action,'index','first')}= link_to t("common.list"), functions_path
-  -if (@function and @function.id!=nil)
-    %li{ :class => tabActiveClass(@current_action,'show',nil)}= link_to t("common.show"), @function
-  %li{:class => tabActiveClass(@current_action,'new',nil)}= link_to "#{t("common.new", :default => "New")}", new_function_path
+  = nav_to_list Function 
+  = nav_to_show @function
+  = nav_to_edit @function
+  = nav_to_new Function 
 

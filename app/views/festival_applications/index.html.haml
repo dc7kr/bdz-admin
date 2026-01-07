@@ -5,25 +5,30 @@
     = t("common.all")
     = t("festival_application", count: 3)
 
+
   %table.table-sm.table-hover.table-condensed
-    %tr
-      %th &nbsp;
-      %th Regulär
-      %th Ermäßigt
-    %tr
-      %td Festivalkarten
-      %td=@sums[:tickets]
-      %td=@sums[:tickets_red]
-    %tr
-      %td BDZ-Festivalkarten
-      %td=@sums[:bdz_tickets]
-      %td=@sums[:bdz_tickets_red]
-    %tr 
-      %td Gesamtanzahl Spieler:
-      %td=@sums[:players]
-    %tr 
-      %td Spieler ohne Karte
-      %td=@sums[:no_ticket]
+    %thead
+      %tr
+        %th &nbsp;
+        %th Regulär
+        %th Ermäßigt
+      %tr
+        %td Festivalkarten
+        %td=@sums[:tickets]
+        %td=@sums[:tickets_red]
+      %tr
+        %td BDZ-Festivalkarten
+        %td=@sums[:bdz_tickets]
+        %td=@sums[:bdz_tickets_red]
+      %tr 
+        %td Gesamtanzahl Spieler:
+        %td=@sums[:players]
+      %tr 
+        %td Spieler ohne Karte
+        %td=@sums[:no_ticket]
+
+  #entry_info.text-center= page_entries_info @festival_applications
+  #paginator= paginate @festival_applications, params: { format: :turbo_stream }
   %table.table-sm#festival_applications
     %thead
       %tr
@@ -33,8 +38,5 @@
         %th=t("festival_application.payment_status")
         %th
 
-    %tbody.page 
-      =render @festival_applications
-  #paginator{:"data-table"=>"festival_applications"}
-    = paginate @festival_applications
+    %tbody#festival_applications=render @festival_applications
 - content_for :sidebar, render(:partial => 'sidebar')

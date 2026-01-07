@@ -1,10 +1,8 @@
 %ul.nav.nav-tabs
-  %li{ :class => 'first'}= link_to_up_path t("common.up"), home_public_data_path
+  %li{ :class => 'first'}= link_to_up_path t("common.up"), home_landing_page_path
 
-  %li{ :class => tabActiveClass(@current_action,'index','first')}= link_to t("common.list"), urls_path
-  -if (@url and @url.id)
-    %li{ :class => tabActiveClass(@current_action,'show',nil)}= link_to t("common.show"), '#'
-    -if can? :edit , :url
-      %li{ :class => tabActiveClass(@current_action,'noreport',nil)}= link_to t("url.edit"), edit_url_path(@url)
-  %li{:class => tabActiveClass(@current_action,'new',nil)}= link_to t("common.new"), new_url_path
+  = nav_to_list Url
+  = nav_to_show @url
+  = nav_to_edit @url
+  = nav_to_new Url 
 

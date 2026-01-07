@@ -1,12 +1,10 @@
-.block
-  .secondary-navigation
-    = render :partial =>'nav'
-  .content
-    %h2.title
-      = t("common.new")
-      = t("ensemble_concert")
-    .inner
-      = form_for :ensemble_concert, :url => ensemble_ensemble_concerts_path, :html => { :class => :form } do |f|
-        = render :partial => "form", :locals => {:f => f}
+.secondary-navigation
+  = render :partial =>'nav'
+.container
+  %h2.title
+    = t("common.new")
+    = t("ensemble_concert")
+  = form_for :ensemble_concert, :url => ensemble_ensemble_concerts_path, :html => { :class => :form } do |f|
+    = render :partial => "form", :locals => {:f => f}
 - content_for :sidebar, render(:partial => 'sidebar')
 

@@ -1,0 +1,8 @@
+-table_id=resources.first.class.name.underscore.pluralize.to_sym
+= turbo_stream.update table_id do
+  = render resources
+= turbo_stream.update :paginator do 
+  = paginate resources
+= turbo_stream.update :entry_info do 
+  = page_entries_info resources
+

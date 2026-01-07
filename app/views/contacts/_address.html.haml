@@ -1,4 +1,4 @@
-%tr{:class => cycle("odd", "even")}
+%tr
   %td
     = address.titel
     = address.vorname
@@ -11,7 +11,7 @@
   %td= address.fax
   %td= mail_to address.email, address.email
   %td
-    = link_to_show(address,'Show')
-    = link_to_edit(address,'Edit')
-    = link_to_delete(address, 'Destroy','Really?')
+    = link_to_show address
+    = link_to_edit address
+    = link_to_delete address
 

@@ -1,18 +1,16 @@
 -@contact = @function.board_contact.contact
-.block
-  .secondary-navigation
-    = render :partial=>'nav'
-  .content
-    .inner
-      %h2
-        =t("helpers.label.function",:count=>1) 
-        =@function.funktion
-      =entity_row(@function,:regional_organization)
-      =entity_row(@function,:label)
-      =entity_row(@function,:bund)
-      =entity_row(@function,:jugend)
-      =entity_row(@function,:nr)
-      =entity_row(@function,:funktion)
-      =entity_row(@function,:fkt_subtitle)
-      = render @function.board_contact.contact,:partial=>"contact"
+.secondary-navigation
+  = render :partial=>'nav'
+.container
+  %h2
+    =t("helpers.label.function",:count=>1) 
+    =@function.funktion
+  =entity_row(@function,:regional_organization)
+  =entity_row(@function,:label)
+  =entity_row(@function,:bund)
+  =entity_row(@function,:jugend)
+  =entity_row(@function,:nr)
+  =entity_row(@function,:funktion)
+  =entity_row(@function,:fkt_subtitle)
+  = render @function.board_contact.contact,:partial=>"contact"
 

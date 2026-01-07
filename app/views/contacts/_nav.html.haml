@@ -1,6 +1,5 @@
 %ul.nav.nav-tabs
-  %li{ :class => tabActiveClass(@current_action,'index','first')}= link_to t("common.list"), addresses_path
-  -if (@address)
-    %li{ :class => tabActiveClass(@current_action,'show',nil)}= link_to t("common.show"), '#'
-  %li{:class => tabActiveClass(@current_action,'new',nil)}= link_to t("common.new"), new_address_path
+  =nav_to_list Address 
+  =nav_to_show @address
+  =nav_to_new Address 
 

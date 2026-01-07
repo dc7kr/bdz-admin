@@ -1,24 +1,21 @@
-.block
-  .content
-    %h2.title
-      Mail "#{@mail_params[:subject]}" versandt. 
-    .inner
-      Mail wurde erfolgreich an #{@orchCount} Orchester und #{@personCount} Einzelmitglieder gesendet.
+.container
+  %h2.title
+    Mail "#{@mail_params[:subject]}" versandt. 
 
-      - if @results.size >0
-        %h3 
-          Beim Versenden an #{@orchFailCount} Orchester und #{@personFailCount} Einzelmitglieder sind Fehler aufgetreten. 
-          %br
+  Mail wurde erfolgreich an #{@orchCount} Orchester und #{@personCount} Einzelmitglieder gesendet.
 
-        %table.table-sm
-          %thead
-            %th.first Typ
-            %th= t("orchestra.mglnr")
-            %th Fehler
-          %tbody#results
-            - @results.each do |result|
-              %td=result[:type]
-              %td=link_to result[:entity].mglnr, result[:entity]
-              %td=result[:err]
-      .actions-bar.wat-cf
-        .actions
+  - if @results.size >0
+    %h3 
+      Beim Versenden an #{@orchFailCount} Orchester und #{@personFailCount} Einzelmitglieder sind Fehler aufgetreten. 
+      %br
+
+    %table.table-sm
+      %thead
+        %th.first Typ
+        %th= t("orchestra.mglnr")
+        %th Fehler
+      %tbody#results
+        - @results.each do |result|
+          %td=result[:type]
+          %td=link_to result[:entity].mglnr, result[:entity]
+          %td=result[:err]

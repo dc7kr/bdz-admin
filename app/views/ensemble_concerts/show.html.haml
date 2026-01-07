@@ -1,48 +1,46 @@
-.block
-  .secondary-navigation
-    = render :partial => "nav"
-  .content
-    .inner
-      %table
-        %tr
-          %td.label=t("ensemble_concert.datum")
-          %td=l @ensemble_concert.datum
-        %tr
-          %td.label=t("ensemble_concert.zeit")
-          %td=l @ensemble_concert.zeit
-        %tr
-          %td.label=t("ensemble_concert.stadt")
-          %td=@ensemble_concert.stadt
-        %tr
-          %td.label=t("ensemble_concert.ort")
-          %td=@ensemble_concert.ort
-        %tr
-          %td.label=t("ensemble_concert.festival")
-          %td=@ensemble_concert.festival.name
-        %tr
-          %td.label=t("ensemble_concert.titel")
-          %td=@ensemble_concert.titel
-        %tr
-          %td.label=t("ensemble_concert.comment")
-          %td=@ensemble_concert.comment
-        %tr
-          %td.label=t("ensemble_concert.eintritt")
-          %td=@ensemble_concert.eintritt
-        %tr
-          %td.label=t("ensemble_concert.bundesland")
-          %td=@ensemble_concert.bundesland
-        %tr
-          %td.label=t("ensemble_concert.land")
-          %td=translated_country(@ensemble_concert.country_code)
-        %tr
-          %td.label=t("ensemble_concert.email")
-          %td=@ensemble_concert.email
-        %tr
-          %td.label=t("ensemble_concert.datum")
-          %td=@ensemble_concert.fk_owner
-        %tr
-          %td.label=t("ensemble_concert.url")
-          %td=link_to @ensemble_concert.url,@ensemble_concert.url
-        %tr
-          %td.label=t("ensemble_concert.visible")
-          %td=@ensemble_concert.visible
+.secondary-navigation
+  = render :partial => "nav"
+.container
+  %table
+    %tr
+      %td.label=t("ensemble_concert.datum")
+      %td=l @ensemble_concert.datum
+    %tr
+      %td.label=t("ensemble_concert.zeit")
+      %td=l @ensemble_concert.zeit
+    %tr
+      %td.label=t("ensemble_concert.stadt")
+      %td=@ensemble_concert.stadt
+    %tr
+      %td.label=t("ensemble_concert.ort")
+      %td=@ensemble_concert.ort
+    %tr
+      %td.label=t("ensemble_concert.festival")
+      %td=@ensemble_concert.festival.name
+    %tr
+      %td.label=t("ensemble_concert.titel")
+      %td=@ensemble_concert.titel
+    %tr
+      %td.label=t("ensemble_concert.comment")
+      %td=@ensemble_concert.comment
+    %tr
+      %td.label=t("ensemble_concert.eintritt")
+      %td=@ensemble_concert.eintritt
+    %tr
+      %td.label=t("ensemble_concert.bundesland")
+      %td=@ensemble_concert.bundesland
+    %tr
+      %td.label=t("ensemble_concert.land")
+      %td=translated_country(@ensemble_concert.country_code)
+    %tr
+      %td.label=t("ensemble_concert.email")
+      %td=@ensemble_concert.email
+    %tr
+      %td.label=t("ensemble_concert.datum")
+      %td=@ensemble_concert.fk_owner
+    %tr
+      %td.label=t("ensemble_concert.url")
+      %td=link_to @ensemble_concert.url,@ensemble_concert.url
+    %tr
+      %td.label=t("ensemble_concert.visible")
+      %td=@ensemble_concert.visible

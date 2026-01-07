@@ -1,5 +1,4 @@
 %ul.nav.nav-tabs.d-print-none
-  %li.nav-item= link_to t("common.list"), states_path, :class=>tabActiveClass(@current_action,'index','nav-link')
-  
-  - if can? :create, State
-    %li.nav-item= nav_to_new State
+  %li.nav-item= link_to_up_path t("common.up"), home_landing_page_url
+  =nav_to_list State
+  =nav_to_new State

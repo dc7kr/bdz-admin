@@ -1,24 +1,18 @@
 %h1 Listing homepages
-.block
-  .secondary-navigation
-    =render :partial=>'nav'
-  .content
-    %h2.title
-      = t("common.all")
-      = t("homepage",:count=>3)
-    .inner
-      #enty_info.text-center
-        = page_entries_info @homepages
-      %table.table-sm.table-hover.table-condensed
-        %tr
-          %th Abbrev
-          %th Mitglnr
-          %th Name
-          %th Created
-          %th Lastchange
-          %th Redir url
-          %th
-        = render @homepages
-    %br
-
-= link_to 'New Homepage', new_homepage_path
+.secondary-navigation
+  =render :partial=>'nav'
+.container
+  %h2.title
+    = t("common.all")
+    = t("homepage",:count=>3)
+  #enty_info.text-center = page_entries_info @homepages
+  %table.table-sm.table-hover.table-condensed
+    %tr
+      %th Abbrev
+      %th Mitglnr
+      %th Name
+      %th Created
+      %th Lastchange
+      %th Redir url
+      %th
+    = render @homepages

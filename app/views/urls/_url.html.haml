@@ -6,8 +6,8 @@
   %td= mail_to url.email, url.email
   %td= url.lastchange
   %td
-    = link_to_show url,t('common.show')
-    = link_to_edit url,t('common.edit')
+    = link_to_show url
+    = link_to_edit url
     = link_to_delete url, t('common.delete'),t('url.confirm_delete')
     - if url.visible == 0 then
       = icon_link("OK",'/icons/confirm.svg',confirm_url_path(url))

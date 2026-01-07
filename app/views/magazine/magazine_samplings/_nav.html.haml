@@ -1,14 +1,9 @@
-%nav.navbar.navbar-expand-lg.navbar-light.bg-light
-  .container-fluid
-    %ul.navbar-nav.mr-auto
-      %li.nav-item= link_to_up_path t("common.up"), home_magazine_data_path
-      %li.nav-item=nav_to_list MagazineSampling 
-      - if @magazine_sampling and not @magazine_sampling.id.nil?
-        %li.nav-item=nav_to_show @magazine_sampling
-      %li.nav-item= nav_to_new MagazineSampling
+%ul.nav.nav-tabs.d-print-none
+  %li.nav-item= link_to_up_path t("common.up"), home_landing_page_path
+  =nav_to_list MagazineSampling 
+  =nav_to_show @magazine_sampling
+  =nav_to_edit @magazine_sampling
+  = nav_to_new MagazineSampling
 
-    //=bootstrap_form_tag layout: :horizontal, url: search_magazine_samplings_path, class: "d-flex" do |f|
-    //  =f.text_field :search, label: " ",placeholder: "Suchen"
-    //{"aria-label" => "Search", :placeholder => "Search", :type => "search"}/
-    //  %button.btn.btn-outline-success.my-2.my-sm-0{:type => "submit"} Search
 
+- content_for :search, render(:partial => 'nav_search', locals: { search_path: magazine_samplings_path })

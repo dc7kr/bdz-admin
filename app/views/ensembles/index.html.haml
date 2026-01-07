@@ -1,20 +1,18 @@
-.block
-  .secondary-navigation
-    %ul.wat-cf
-      =render :partial => 'nav'
-  .content
-    %h2.title
-      = t("common.all", :default => "All")
-      = t("ensemble",:count=>3)
-    .inner
-      %table.table-sm.table-hover.table-condensed
+.secondary-navigation
+  %ul.wat-cf
+    =render :partial => 'nav'
+.container
+  %h2.title
+    = t("common.all", :default => "All")
+    = t("ensemble",:count=>3)
+  .inner
+    %table.table-sm.table-hover.table-condensed
+      %head
         %tr
           %th.first 
             = sortable "id", attr_heading(Ensemble,:id)
           %th= sortable "name", attr_heading(Ensemble,:orchName)
           %th.last &nbsp;
-        = render @ensembles
-      = paginate @ensembles
-      .actions-bar.wat-cf
-        .actions
+      %tbody#ensembles= render @ensembles
+    #paginator= paginate @ensembles
 - content_for :sidebar, render(:partial => 'sidebar')

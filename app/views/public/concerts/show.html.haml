@@ -1,16 +1,14 @@
-.block
-  .content
-    .inner
-      .panel.panel-default
-        .panel-heading
-          = l @concert.concert_date
-          = @concert.titel
-        .panel-body 
-          = entity_row @concert,:titel
-          = entity_row @concert,:interpret
-          = entity_row @concert,:ort
-          = entity_row @concert,:stadt
-          = entity_row @concert.state,:name
-          = entity_row @concert,:country_code
-          = entity_row @concert,:eintritt,:currency
-          = entity_row @concert,:url,:url
+.container
+  .panel.panel-default
+    .panel-heading
+      = l @concert.concert_date
+      = @concert.titel
+    .panel-body 
+      = entity_row @concert,:titel
+      = entity_row @concert,:interpret
+      = entity_row @concert,:ort
+      = entity_row @concert,:stadt
+      = entity_row @concert.state,:name
+      = entity_row @concert,:country_code
+      = entity_row @concert,:eintritt,:currency
+      = entity_row @concert,:url,:url

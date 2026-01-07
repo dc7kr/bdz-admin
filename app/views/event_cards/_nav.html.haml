@@ -1,8 +1,7 @@
 %ul.nav.nav-tabs
-  %li.nav-item= link_to_up_path t("common.up"), home_festival_data_path
-  %li.nav-item= link_to t("common.list"), event_cards_path, class: "nav-link #{tabActiveClass(@current_action,'index')}"
-  -if (@event_card and not @event_card.id.nil?)
-    %li.nav-item= link_to t("common.show"), event_card_path(@event_card), class: "nav-link #{tabActiveClass(@current_action,'show')}"
-    %li.nav-item= link_to t("common.edit"), edit_event_card_path(@event_card), class: "nav-link #{tabActiveClass(@current_action,'edit',"nav-item")}"
-  %li.nav-item= link_to "#{t("common.new", :default => "New")}", new_event_card_path, class: "nav-link #{tabActiveClass(@current_action,'new',nil)}"
+  %li.nav-item= link_to_up_path t("common.up"), home_landing_page_path
+  = nav_to_list EventCard 
+  = nav_to_show @event_card
+  = nav_to_edit @event_card
+  = nav_to_new EventCard
 

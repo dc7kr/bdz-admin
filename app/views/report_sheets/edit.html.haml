@@ -1,16 +1,15 @@
 .secondary-navigation
   = render :partial=>"nav"
-.content
-  .inner
-    %h2
-      = @report_sheet.orchestra.orchName
-      %br
-      = t("report_sheet",:count=>1)
-      = @report_sheet.year
-      - if @report_sheet.generated
-        %span.badge.bg-danger=t("report_sheet.generated")
-      - if @report_sheet.invoiced then
-        %span.badge.bg-info=t("report_sheet.invoiced")
-    = render 'form'
+.container
+  %h2
+    = @report_sheet.orchestra.orchName
+    %br
+    = t("report_sheet",:count=>1)
+    = @report_sheet.year
+    - if @report_sheet.generated
+      %span.badge.bg-danger=t("report_sheet.generated")
+    - if @report_sheet.invoiced then
+      %span.badge.bg-info=t("report_sheet.invoiced")
+  = render 'form'
 
 

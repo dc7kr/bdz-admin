@@ -10,19 +10,8 @@
       %tr
         %th= sortable "mglnr", attr_heading(Member, :mglnr), "table-dark"
         %th= sortable "name", attr_heading(Member, :fullname), "table-dark"
+        %th= attr_heading(Member, :city)
         %th= attr_heading(Member, :email)
         %th.last &nbsp;
-    - @person_members.each do |person_member|
-      %tr{:class => cycle("odd", "even")}
-        %td
-          = link_to person_member.member.mglnr, person_member_path(person_member)
-        %td
-          = person_member.fullname
-        %td
-          = mail_to person_member.member.email, person_member.member.email
-        %td.last
-          = link_to_show(person_member_path(person_member), "#{t("web-app-theme.show", :default => "Show")}")
-          |
-          \#{link_to_edit(person_member, "#{t("web-app-theme.edit", :default => "Edit")}")} |
-          \#{link_to_delete(person_member, "#{t("web-app-theme.delete", :default => "Delete")}", "#{t("web-app-theme.confirm", :default => "Are you sure?")}")}
+    %tbody#person_members= render @person_members
 - content_for :sidebar, render(:partial => 'sidebar')

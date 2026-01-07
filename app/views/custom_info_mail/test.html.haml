@@ -1,11 +1,10 @@
-.block
-  .content
-    .inner
-      %h2=t('custom_info_mail',:count=>1)
-      = form_for :email, :url => { :controller => 'custom_info_mail', :action => 'template_test' } do |f|
-        %table.table-sm.table-hover.table-condensed
-          %tr
-            %td= f.label :datafile
-            %td= f.file_field :datafile
-        = submit_tag t('custom_info_mail.submit')
+.container
+  %h2=t('custom_info_mail',:count=>1)
+
+  = form_for :email, :url => { :controller => 'custom_info_mail', :action => 'template_test' } do |f|
+    %table.table-sm.table-hover.table-condensed
+      %tr
+        %td= f.label :datafile
+        %td= f.file_field :datafile
+    = submit_tag t('custom_info_mail.submit')
 

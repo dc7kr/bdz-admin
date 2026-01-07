@@ -1,22 +1,16 @@
-.block
-  .secondary-navigation
-    =render :partial=>'nav'
-  .content
-    %h2.title
-      = t("common.all")
-      = t("festival",:count=>3)
-    .inner
-      #enty_info.text-center
-        = page_entries_info @festivals
-      %table.table-sm.table-hover.table-condensed
-        %thead
-          %th.first= sortable "startdate", t("festival.startdate")
-          %th= sortable "name", t("festival.name")
-          %th= sortable "homepage", t("festival.homepage")
-          %th.last &nbsp;
-        %tbody#festivals
-          =render @festivals
-      #paginator
-        = paginate @festivals
-      .actions-bar.wat-cf
-        .actions
+.secondary-navigation
+  =render :partial=>'nav'
+.container
+  %h2.title
+    = t("common.all")
+    = t("festival",:count=>3)
+  #enty_info.text-center
+    = page_entries_info @festivals
+  %table.table-sm.table-hover.table-condensed
+    %thead
+      %th.first= sortable "startdate", t("festival.startdate")
+      %th= sortable "name", t("festival.name")
+      %th= sortable "homepage", t("festival.homepage")
+      %th.last &nbsp;
+    %tbody#festivals=render @festivals
+  #paginator= paginate @festivals

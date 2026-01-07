@@ -1,15 +1,13 @@
-.block
-  .secondary-navigation
-    = render :partial=>'nav'
-  .content
-    .inner
-      =entity_row @homepage, :abbrev
-      =entity_row @homepage, :mitglnr
-      =entity_row @homepage, :name
-      =entity_row @homepage, :kontakt
-      =entity_row @homepage, :proben
-      =entity_row @homepage, :descr
-      =entity_row @homepage, :created_at
-      =entity_row @homepage, :updated_at
-      =entity_row @homepage, :redir_url
+.secondary-navigation
+  = render :partial=>'nav'
+.container
+  =entity_row @homepage, :abbrev
+  =entity_row @homepage, :mitglnr
+  =entity_row @homepage, :name
+  =entity_row @homepage, :kontakt
+  =entity_row @homepage, :proben
+  =entity_row @homepage, :descr
+  =entity_row @homepage, :created_at
+  =entity_row @homepage, :updated_at
+  =entity_row @homepage, :redir_url
 

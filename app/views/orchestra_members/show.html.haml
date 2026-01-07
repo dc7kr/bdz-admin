@@ -1,25 +1,23 @@
-.block
-  .secondary-navigation
-    =render :partial=>'nav'
-  .content
-    %h2.title
-      = t("orchestra_member",:count=>3)
-    .inner
-      %p
-        %b= t('orchestra.title')
-        = @orchestra_member.orchestra.orchName
-      %p
-        %b=t('member.first_name')
-        = @orchestra_member.first_name
-      %p
-        %b=t('member.last_name')
-        = @orchestra_member.last_name
-      %p
-        %b=t('orchestra_member.date_of_birth')
-        = l @orchestra_member.date_of_birth
-      %p
-        %b=t('orchestra_member.instrument')
-        = @orchestra_member.instrument
-      %p
-        %b=t('orchestra_member.mglnr')
-        = @orchestra_member.mglnr
+.secondary-navigation
+  =render :partial=>'nav'
+.container
+  %h2.title
+    = t("orchestra_member",:count=>3)
+  %p
+    %b= t('orchestra.title')
+    = @orchestra_member.orchestra.orchName
+  %p
+    %b=t('member.first_name')
+    = @orchestra_member.first_name
+  %p
+    %b=t('member.last_name')
+    = @orchestra_member.last_name
+  %p
+    %b=t('orchestra_member.date_of_birth')
+    = l @orchestra_member.date_of_birth
+  %p
+    %b=t('orchestra_member.instrument')
+    = @orchestra_member.instrument
+  %p
+    %b=t('orchestra_member.mglnr')
+    = @orchestra_member.mglnr

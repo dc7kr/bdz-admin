@@ -1,22 +1,21 @@
-.block
-  .secondary-navigation
-    =render :partial=>'nav'
-  .content
-    %h2.title #{t('report_sheet.final')} (gesamt: #{@final.size.to_s})
-    .inner
-      %table.table-sm
+.secondary-navigation
+  =render :partial=>'nav'
+.container
+  %h2.title #{t('report_sheet.final')} (gesamt: #{@final.size.to_s})
+  .inner
+    %table.table-sm
+      %tr
+        %th= t('member.mglnr')
+        %th= t('orchestra.orchName')
+      -@final.each do |r|
         %tr
-          %th= t('member.mglnr')
-          %th= t('orchestra.orchName')
-        -@final.each do |r|
-          %tr
 
-            - if r.orchestra.nil? 
-              %td Ungueltig: KEIN ORCHESTER
-            -else 
-              %td=link_to r.orchestra.member.mglnr, orchestra_report_sheet_path(r.orchestra.id,r)
-              %td=link_to r.orchestra.orchName, orchestra_report_sheet_path(r.orchestra.id,r)
-              %td
-                -if r.calcGemaCount == 0 then
-                  %b keine Mitglieder erfasst!
+          - if r.orchestra.nil? 
+            %td Ungueltig: KEIN ORCHESTER
+          -else 
+            %td=link_to r.orchestra.member.mglnr, orchestra_report_sheet_path(r.orchestra.id,r)
+            %td=link_to r.orchestra.orchName, orchestra_report_sheet_path(r.orchestra.id,r)
+            %td
+              -if r.calcGemaCount == 0 then
+                %b keine Mitglieder erfasst!
 

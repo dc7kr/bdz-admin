@@ -2,14 +2,14 @@
   %ul.nav.nav-tabs
     - if @orchestra
       %li.nav-item= link_to_up_path t("common.up"), orchestra_path(params[:orchestra_id])
-      %li.nav-item= link_to "#{t("common.list", :default => "List")}", orchestra_report_sheets_path(params[:orchestra_id]), :class => tabActiveClass(@current_action,'index')
+      = nav_to_list ReportSheet, orchestra_report_sheets_path(params[:orchestra_id])
     - else
       %li.nav-item= link_to_up_path t("common.up"), orchestras_path
       %li.nav-item= link_to t("report_sheet.final"), final_report_sheets_path, :class => tabActiveClass(@current_action,'final')
       %li.nav-item= link_to t("report_sheet.analysis"), analysis_report_sheets_path, :class => tabActiveClass(@current_action,'analysis')
     -if @orchestra
-      %li.nav-item=nav_to_new ReportSheet, new_orchestra_report_sheet_path(params[:orchestra_id])
-    -if ( @report_sheet != nil and @report_sheet.id != nil) then
-      %li.nav-item= link_to "#{t("common.show")}", orchestra_report_sheet_path(params[:orchestra_id],@report_sheet) , :class => tabActiveClass(@current_action,'show')
-      %li.nav-item= link_to "#{t("common.edit")}", edit_orchestra_report_sheet_path(params[:orchestra_id],@report_sheet) , :class =>  tabActiveClass(@current_action,'edit')
+      = nav_to_new ReportSheet, new_orchestra_report_sheet_path(params[:orchestra_id])
+      - if not @report_sheet.nil?
+        = nav_to_show @report_sheet, orchestra_report_sheet_path(params[:orchestra_id],@report_sheet)
+        = nav_to_edit @report_sheet, edit_orchestra_report_sheet_path(params[:orchestra_id],@report_sheet)
 

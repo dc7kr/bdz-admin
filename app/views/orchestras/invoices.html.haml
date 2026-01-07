@@ -1,22 +1,19 @@
-
-.block
-  .secondary-navigation
-    =render :partial=>'nav'
-  .content
-    %h2.title
-      = t("member.nopayment")
-      (#{t("orchestra",:count=>3)})
-    .inner
-      %table.table-sm
-        %tr
-          %th= sortable "mglnr", attr_heading(Member,:mglnr)
-          %th=attr_heading(Orchestra, :orchName)
-          %th=attr_heading(Member, :email)
-          %th=attr_heading(MemberAccountBooking, :balance)
-        - @orchestras.each do |orchestra| 
-          %tr
-            %td=link_to orchestra.mglnr, orchestra_path(orchestra)
-            %td=orchestra.orchName
-            %td=mail_to orchestra.email, orchestra.email
-            %td=format_currency(@accounts[orchestra.member_id],'€')
+.secondary-navigation
+  =render :partial=>'nav'
+.container
+  %h2.title
+    = t("member.nopayment")
+    (#{t("orchestra",:count=>3)})
+  %table.table-sm
+    %tr
+      %th= sortable "mglnr", attr_heading(Member,:mglnr)
+      %th=attr_heading(Orchestra, :orchName)
+      %th=attr_heading(Member, :email)
+      %th=attr_heading(MemberAccountBooking, :balance)
+    - @orchestras.each do |orchestra| 
+      %tr
+        %td=link_to orchestra.mglnr, orchestra_path(orchestra)
+        %td=orchestra.orchName
+        %td=mail_to orchestra.email, orchestra.email
+        %td=format_currency(@accounts[orchestra.member_id],'€')
 //- content_for :sidebar, render(:partial => 'sidebar')

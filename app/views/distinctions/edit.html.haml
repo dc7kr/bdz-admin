@@ -1,12 +1,11 @@
-.block
-  .secondary-navigation
-    %ul.wat-cf
-      = render :partial => 'nav'
-  .content
-    %h2.title
-      = t("web-app-theme.edit", :default => "Edit")
-      = t("distinction",:count=>1)
-    .inner
-      %h3= @orchestra.orchName
-      = render :partial => "form"
+.secondary-navigation
+  = render :partial => 'nav'
+.container
+  %h2.title
+    = t("web-app-theme.edit", :default => "Edit")
+    = t("distinction",:count=>1)
+  %h3= @orchestra.orchName
+
+  = render :partial => "form"
+
 - content_for :sidebar, render(:partial => 'sidebar')

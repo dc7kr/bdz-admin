@@ -1,96 +1,95 @@
-.block
-  .secondary-navigation
-    =render :partial=>'nav'
-  .content
-    - invoice = @festival_application.invoice
-    - if invoice.sum < 0 then
-      %span.payed 
-        = format_currency(invoice.sum,'€')
-        &nbsp; Gutschrift
-    - elsif invoice.sum > 0 then 
-      %span.not_payed 
-        = format_currency(-1*invoice.sum,'€')
-        &nbsp; offen
-    %h2.title
-      Nr. #{@festival_application.id}
-      = @festival_application.orch_name
-      %br
-      #{t('festival_application.contact_phone')}:
-      = @festival_application.contact_phone
-      %br
-      = display_visitor_type(@festival_application.visitor_type)
-    .inner
-      %table
-        -if @festival_application.permission
-          %tr
-            %td.label=t("festival_application.festival_concert_id")
-            %td
-              -if @festival_application.festival_concert then
-                = @festival_application.festival_concert.label
-              -else
-                keine Zuweisung
+.secondary-navigation
+  =render :partial=>'nav'
+.container
+  - invoice = @festival_application.invoice
+  - if invoice.sum < 0 then
+    %span.payed 
+      = format_currency(invoice.sum,'€')
+      &nbsp; Gutschrift
+  - elsif invoice.sum > 0 then 
+    %span.not_payed 
+      = format_currency(-1*invoice.sum,'€')
+      &nbsp; offen
+  %h2.title
+    Nr. #{@festival_application.id}
+    = @festival_application.orch_name
+    %br
+    #{t('festival_application.contact_phone')}:
+    = @festival_application.contact_phone
+    %br
+    = display_visitor_type(@festival_application.visitor_type)
+  .inner
+    %table
+      -if @festival_application.permission
         %tr
-          %td.label #{label :festival_application, :stage_time}:
-          %td= @festival_application.stage_time
-        %tr
-          %td.label #{label :festival_application, :rehearsal_time}:
-          %td= @festival_application.rehearsal_time
-        %tr
-          %td.label #{t("festival_application.conductor")}:
-          %td= @festival_application.conductor
-        %tr
-          %td.label #{t("festival_application.num_players")}:
-          %td= @festival_application.num_players
-        %tr
-          %td.label #{t("festival_application.equipment")}:
-          %td= @festival_application.equipment
-        %tr
-          %td.label #{t("festival_application.special_cast")}:
-          %td= @festival_application.special_cast
-        %tr
-          %td.label #{t("festival_application.contact_person")}:
-        %tr
-          %td.label #{t("festival_application.payment_status")}
-          %td= t("festival_application.payment_states.#{@festival_application.payment_status}")
-        %tr
-          %td.label #{t("festival_application.soloist_tickets")}
-          %td= @festival_application.soloist_tickets
-        %tr
-          %td.label #{t("festival_application.amount")}
-          %td= @festival_application.amount
-        %tr
-          %td.label #{t("festival_application.invoice")}
+          %td.label=t("festival_application.festival_concert_id")
           %td
-            %table
+            -if @festival_application.festival_concert then
+              = @festival_application.festival_concert.label
+            -else
+              keine Zuweisung
+      %tr
+        %td.label #{label :festival_application, :stage_time}:
+        %td= @festival_application.stage_time
+      %tr
+        %td.label #{label :festival_application, :rehearsal_time}:
+        %td= @festival_application.rehearsal_time
+      %tr
+        %td.label #{t("festival_application.conductor")}:
+        %td= @festival_application.conductor
+      %tr
+        %td.label #{t("festival_application.num_players")}:
+        %td= @festival_application.num_players
+      %tr
+        %td.label #{t("festival_application.equipment")}:
+        %td= @festival_application.equipment
+      %tr
+        %td.label #{t("festival_application.special_cast")}:
+        %td= @festival_application.special_cast
+      %tr
+        %td.label #{t("festival_application.contact_person")}:
+      %tr
+        %td.label #{t("festival_application.payment_status")}
+        %td= t("festival_application.payment_states.#{@festival_application.payment_status}")
+      %tr
+        %td.label #{t("festival_application.soloist_tickets")}
+        %td= @festival_application.soloist_tickets
+      %tr
+        %td.label #{t("festival_application.amount")}
+        %td= @festival_application.amount
+      %tr
+        %td.label #{t("festival_application.invoice")}
+        %td
+          %table
+            %tr
+              %th Anzahl
+              %th Bezeichung
+              %th Einzelpreis
+              %th Gesamt
+            -invoice.items.each do |i|
               %tr
-                %th Anzahl
-                %th Bezeichung
-                %th Einzelpreis
-                %th Gesamt
-              -invoice.items.each do |i|
-                %tr
-                  %td=i.count
-                  %td=i.label
-                  %td.currency=format_currency(i.price,'€')
-                  %td.currency=format_currency(i.count*i.price,'€')
-              %tr
-                %td
-                %td #{t("common.sum")}
-                %td 
-                %td.sum= format_currency(invoice.sum,'€')
-            =link_to "PDF", gen_invoice_festival_application_path(@festival_application)
-        - if not @festival_application.event_meal.nil?
-          -@event_meal = @festival_application.event_meal
-          %tr
-            %td.label=t('event_meal.tln')
-            %td=@event_meal.tln          
-          %tr
-            %td.label=t('event_meal.veg')
-            %td=@event_meal.veg
-          %tr
-            %td.label=t('event_meal.arrival_time')
-            %td=@event_meal.arrival_time
-      =link_to "Datenblatt", gen_participant_sheet_festival_application_path(@festival_application)
-            
+                %td=i.count
+                %td=i.label
+                %td.currency=format_currency(i.price,'€')
+                %td.currency=format_currency(i.count*i.price,'€')
+            %tr
+              %td
+              %td #{t("common.sum")}
+              %td 
+              %td.sum= format_currency(invoice.sum,'€')
+          =link_to "PDF", gen_invoice_festival_application_path(@festival_application)
+      - if not @festival_application.event_meal.nil?
+        -@event_meal = @festival_application.event_meal
+        %tr
+          %td.label=t('event_meal.tln')
+          %td=@event_meal.tln          
+        %tr
+          %td.label=t('event_meal.veg')
+          %td=@event_meal.veg
+        %tr
+          %td.label=t('event_meal.arrival_time')
+          %td=@event_meal.arrival_time
+    =link_to "Datenblatt", gen_participant_sheet_festival_application_path(@festival_application)
+          
 
 - content_for :sidebar, render(:partial => 'sidebar_show')

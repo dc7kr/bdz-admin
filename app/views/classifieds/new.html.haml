@@ -1,11 +1,9 @@
-.block
-  .secondary-navigation
-    = render :partial =>'nav'
-  .content
-    %h2.title
-      = t("common.new")
-      = t("classified")
-    .inner
-      = form_for :classified, :url => classifieds_path, :html => { :class => :form } do |f|
-        = render :partial => "form", :locals => {:f => f}
+.secondary-navigation
+  = render :partial =>'nav'
+.container
+  %h2.title
+    = t("common.new")
+    = t("classified")
+  = form_for :classified, :url => classifieds_path, :html => { :class => :form } do |f|
+    = render :partial => "form", :locals => {:f => f}
 - content_for :sidebar, render(:partial => 'sidebar')

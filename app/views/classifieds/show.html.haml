@@ -1,17 +1,15 @@
-.block
-  .secondary-navigation
-    = render :partial=>"nav"
-  .content
-    .inner
-      %h2
-        = t("classified",:count=>1)
-        = @classified.object
-      = entity_row(@classifie,:type)
-      = entity_row(@classified,:name)
-      = entity_row(@classified,:email)
-      = entity_row(@classified,:url,:url)
-      = entity_row(@classified,:object)
-      = entity_row(@classified,:description)
-      = entity_row(@classified,:entrydate,:date)
-      = entity_row(@classified,:validuntil,:date)
-      = entity_row(@classified,:visible,:boolean)
+.secondary-navigation
+  = render :partial=>"nav"
+.container
+  %h2
+    = t("classified",:count=>1)
+    = @classified.object
+  = entity_row(@classifie,:type)
+  = entity_row(@classified,:name)
+  = entity_row(@classified,:email)
+  = entity_row(@classified,:url,:url)
+  = entity_row(@classified,:object)
+  = entity_row(@classified,:description)
+  = entity_row(@classified,:entrydate,:date)
+  = entity_row(@classified,:validuntil,:date)
+  = entity_row(@classified,:visible,:boolean)

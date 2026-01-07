@@ -1,27 +1,23 @@
-.block
-  .content
-    %h2.title
-      Rundschreiben "#{@mail_params[:subject]}" versandt. 
-    .inner
-      %table.table-sm
-        %thead
-          %th.first Typ
-          %th= t("orchestra.email")
-          %th Fehler
-        %tbody#results
-          - @results.each do |r|
-            %tr
-              %td=r[:entity].mglnr.to_s
-              %td=r[:entity].email.to_s
-              %td
-                -if r[:success] then 
-                  OK
-                -else
-                  = r[:err]
-                
+.container
+  %h2.title
+    Rundschreiben "#{@mail_params[:subject]}" versandt. 
+  %table.table-sm
+    %thead
+      %th.first Typ
+      %th= t("orchestra.email")
+      %th Fehler
+    %tbody#results
+      - @results.each do |r|
+        %tr
+          %td=r[:entity].mglnr.to_s
+          %td=r[:entity].email.to_s
+          %td
+            -if r[:success] then 
+              OK
+            -else
+              = r[:err]
+            
 
-      %h2 
-        PDF-Datei für den Postversand: 
-        = link_to "PDF Letters", @pdf_link
-    .actions-bar.wat-cf
-      .actions
+  %h2 
+    PDF-Datei für den Postversand: 
+    = link_to "PDF Letters", @pdf_link

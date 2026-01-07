@@ -1,11 +1,10 @@
-.block
-  .secondary-navigation
-    = render :partial => 'nav'
-  .content
-    %h2.title
-      = t("common.edit")
-      = t('gema_event.s')
-    .inner
-      = form_for @gema_event do |f|
-        = render :partial => "form", :locals => {:f => f}
+.secondary-navigation
+  = render :partial => 'nav'
+.container
+  %h2.title
+    = t("common.edit")
+    = t('gema_event.s')
+  
+  = form_for @gema_event do |f|
+    = render :partial => "form", :locals => {:f => f}
 - content_for :sidebar, render(:partial => 'sidebar')

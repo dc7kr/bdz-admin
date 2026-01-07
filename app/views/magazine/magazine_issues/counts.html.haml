@@ -1,32 +1,30 @@
-.block
-  .secondary-navigation
-    = render :partial=>'nav'
-  .content
-    .inner
-      %h3
-        #{t("magazine_issue.counts")}
-        #{t("magazine_issue")} #{@magazine_issue.number}/#{@magazine_issue.year}
+.secondary-navigation
+  = render :partial=>'nav'
+.container
+  %h3
+    #{t("magazine_issue.counts")}
+    #{t("magazine_issue")} #{@magazine_issue.number}/#{@magazine_issue.year}
 
-%table 
-  %tr
-    %td.label_l=t("magazine_sampling",:count=>3)
-    %td.number=@magazine_samplings
-  %tr
-    %td.label_l=t("subscriber",:count=>3)
-    %td.number=@subscribers
-  %tr 
-    %td.label_l=t("advertiser",:count=>3)
-    %td.number=@adverts
-  %tr
-    %td.label_l=t("orchestra",:count=>3)
-    %td.number=@orchestra_count
-  %tr
-    %td.label_l=t("person_member",:count=>3)
-    %td.number=@person_member_count
-  %tr
-    %td.label_l=t("common.sum")
-    %td.sum=@overall
+  %table 
+    %tr
+      %td.label_l=t("magazine_sampling",:count=>3)
+      %td.number=@magazine_samplings
+    %tr
+      %td.label_l=t("subscriber",:count=>3)
+      %td.number=@subscribers
+    %tr 
+      %td.label_l=t("advertiser",:count=>3)
+      %td.number=@adverts
+    %tr
+      %td.label_l=t("orchestra",:count=>3)
+      %td.number=@orchestra_count
+    %tr
+      %td.label_l=t("person_member",:count=>3)
+      %td.number=@person_member_count
+    %tr
+      %td.label_l=t("common.sum")
+      %td.sum=@overall
 
 
-   
+     
 

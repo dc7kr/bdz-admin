@@ -7,12 +7,13 @@
   .container-fluid
     #entity_info.text-center
       = page_entries_info @magazine_samplings
-    %table.table-sm.table-hover.table-condensed
+    %table.table.table-sm.table-hover.table-condensed
       %thead
-        %th.first{:style=>"width: 30%"}=attr_heading(Contact,:company)
-        %th=attr_heading(MagazineSampling,:count)
-        %th=attr_heading(MagazineSampling,:inactive)
-        %th.last
+        %tr
+          %th.first{:style=>"width: 30%"}=attr_heading(Contact,:company)
+          %th=attr_heading(MagazineSampling,:count)
+          %th=attr_heading(MagazineSampling,:inactive)
+          %th.last
       %tbody#magazine_samplings
         = render @magazine_samplings
     #paginator

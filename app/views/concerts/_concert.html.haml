@@ -1,15 +1,14 @@
-- if can? :read, concert
-  %tr{:class => cycle("odd", "even"), :id=>"row#{concert.id}"}
-    %td= format_date_only(concert.concert_date)
-    %td= format_time(concert.concert_date)
-    %td= concert.interpret
-    %td
-      = concert.ort
-      = concert.stadt
-    %td= link_to concert.url,concert.url
-    %td
-      - if concert.visible == 0 then
-        = link_to_publish concert,  t("common.publish")
-      = link_to_show concert, t('common.show')
-      = link_to_edit concert, t('common.edit')
-      = link_to_delete concert, t('common.delete'),t('common.delete_confirm')
+%tr{:class => cycle("odd", "even"), :id=>"row#{concert.id}"}
+  %td= format_date_only(concert.concert_date)
+  %td= format_time(concert.concert_date)
+  %td= concert.interpret
+  %td
+    = concert.ort
+    = concert.stadt
+  %td= link_to concert.url,concert.url
+  %td
+    - if concert.visible == 0 then
+      = link_to_publish concert,  t("common.publish")
+    = link_to_show concert
+    = link_to_edit concert
+    = link_to_delete concert

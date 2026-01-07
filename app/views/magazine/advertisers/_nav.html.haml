@@ -1,8 +1,8 @@
 %ul.nav.nav-tabs
-  %li.nav-item= link_to_up_path t("common.up"), home_magazine_data_path
-  %li{ :class=> tabActiveClass(@current_action,'index','nav-item')}= nav_to_list Advertiser
-  - if @advertiser and not @advertiser.id.nil?
-    %li.nav-item=nav_to_show @advertiser
-  %li.nav-item= nav_to_new Advertiser
+  %li.nav-item= link_to_up_path t("common.up"), home_landing_page_path
+  = nav_to_list Advertiser
+  = nav_to_show @advertiser
+  = nav_to_edit @advertiser
+  = nav_to_new Advertiser
 
 

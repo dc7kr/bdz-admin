@@ -1,25 +1,23 @@
-.block
-  .secondary-navigation
-    = render :partial=>'nav'
-  .content
-    .inner
-      %table
-        %tr
-          %td=label :member_event, :event_type
-          %td=t("member_event.event_types."+@contact_event.event_type)
-        %tr
-          %td=label :contact_event, :event_date
-          %td=@contact_event.event_date
-        %tr
-          %td=label :contact_event, :event_id
-          %td=@contact_event.event_id
-        %tr
-          %td=label :contact, :p
-          %td=@contact_event.contact_person.fullname
-        %tr
-          %td=label :contact_event, :comment
-          %td=@contact_event.comment
-        %tr
-          %td=label :contact_event, :filename
-          %td=@contact_event.filename
+.secondary-navigation
+  = render :partial=>'nav'
+.container
+  %table.table
+    %tr
+      %td=label :member_event, :event_type
+      %td=t("member_event.event_types."+@contact_event.event_type)
+    %tr
+      %td=label :contact_event, :event_date
+      %td=@contact_event.event_date
+    %tr
+      %td=label :contact_event, :event_id
+      %td=@contact_event.event_id
+    %tr
+      %td=label :contact, :p
+      %td=@contact_event.contact_person.fullname
+    %tr
+      %td=label :contact_event, :comment
+      %td=@contact_event.comment
+    %tr
+      %td=label :contact_event, :filename
+      %td=@contact_event.filename
 

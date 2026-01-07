@@ -1,27 +1,22 @@
-.block
-  .secondary-navigation
-    =render :partial=>'nav'
-  .content
-    %h2.title
-      = t("common.all")
-      = t('function',:count=>3)
-    .inner
-      #enty_info.text-center
-        = page_entries_info @functions
-      %table.table-sm.table-hover.table-condensed
-        %thead
-          %th.first= attr_heading(Function,:label)
-          %th= sortable "regional_organization_id", t("regional_organization",:count=>1)
-          %th=t("contact",:count=>1)
-          %th=attr_heading(Function,:bund)
-          %th=attr_heading(Function,:jugend)
-          %th=attr_heading(Function,:nr)
-          %th=sortable "funktion", attr_heading(Function,:funktion)
-          %th.last &nbsp;
-        %tbody#functions
-          =render @functions
-      #paginator
-        = paginate @functions
-      .actions-bar.wat-cf
-        .actions
+.secondary-navigation
+  =render :partial=>'nav'
+.container
+  %h2.title
+    = t("common.all")
+    = t('function',:count=>3)
+  #enty_info.text-center
+    = page_entries_info @functions
+  %table.table-sm.table-hover.table-condensed
+    %thead
+      %th.first= attr_heading(Function,:label)
+      %th= sortable "regional_organization_id", t("regional_organization",:count=>1)
+      %th=t("contact",:count=>1)
+      %th=attr_heading(Function,:bund)
+      %th=attr_heading(Function,:jugend)
+      %th=attr_heading(Function,:nr)
+      %th=sortable "funktion", attr_heading(Function,:funktion)
+      %th.last &nbsp;
+    %tbody#functions=render @functions
+  #paginator= paginate @functions
+
 - content_for :sidebar, render(:partial => 'sidebar')

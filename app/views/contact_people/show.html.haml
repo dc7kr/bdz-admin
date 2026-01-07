@@ -1,34 +1,32 @@
-.block
-  .secondary-navigation
-    = render :partial=>'nav'
-  .content
-    .inner
-      %table
-        %tr
-          %td=label :contact_person, :salutation
-          %td=t("common.salutations."+@contact_person.salutation)
-        %tr
-          %td=label :contact_person, :first_name
-          %td= @contact_person.first_name
-        %tr
-          %td=label :contact_person, :last_name
-          %td= @contact_person.last_name
-        %tr
-          %td=label :contact_person, :street
-          %td= @contact_person.street
-        %tr
-          %td=label :contact_person, :zip
-          %td= @contact_person.zip
-        %tr
-          %td=label :contact_person, :city
-          %td= @contact_person.city
-        %tr
-          %td=label :contact_person, :country
-          %td=translated_country(@contact_person.country_code)
-        %tr
-          %td=label :contact_person, :email
-          %td= @contact_person.email
-        %tr
-          %td=label :contact_person, :phone
-          %td= @contact_person.phone
+.secondary-navigation
+  = render :partial=>'nav'
+.container
+  %table
+    %tr
+      %td=label :contact_person, :salutation
+      %td=t("common.salutations."+@contact_person.salutation)
+    %tr
+      %td=label :contact_person, :first_name
+      %td= @contact_person.first_name
+    %tr
+      %td=label :contact_person, :last_name
+      %td= @contact_person.last_name
+    %tr
+      %td=label :contact_person, :street
+      %td= @contact_person.street
+    %tr
+      %td=label :contact_person, :zip
+      %td= @contact_person.zip
+    %tr
+      %td=label :contact_person, :city
+      %td= @contact_person.city
+    %tr
+      %td=label :contact_person, :country
+      %td=translated_country(@contact_person.country_code)
+    %tr
+      %td=label :contact_person, :email
+      %td= @contact_person.email
+    %tr
+      %td=label :contact_person, :phone
+      %td= @contact_person.phone
 

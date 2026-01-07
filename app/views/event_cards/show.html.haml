@@ -1,39 +1,59 @@
-.block
-  .secondary-navigation
-    =render :partial=>'nav'
-  .content
-    %h2.title
-      #{t("event_card",:count=>1)} Nr. #{@event_card.id} 
-      - if @event_card.pickup then
-        (bereits abgeholt)
-    .inner
-      %h3=mail_to @event_card.email, @event_card.name
+.secondary-navigation
+  =render :partial=>'nav'
+.container
+  %h2.title
+    #{t("event_card",:count=>1)} Nr. #{@event_card.id} 
+    - if @event_card.pickup then
+      (bereits abgeholt)
+  .inner
+    %h3=mail_to @event_card.email, @event_card.name
 
-      =entity_row(@event_card,:company)
-      =entity_row(@event_card, :street)
-      =entity_row(@event_card, :zip)
-      =entity_row(@event_card, :city)
-      =entity_row(@event_card, :country_code,:country)
+    =entity_row(@event_card,:company)
+    =entity_row(@event_card, :street)
+    =entity_row(@event_card, :zip)
+    =entity_row(@event_card, :city)
+    =entity_row(@event_card, :country_code,:country)
       
-      %h4 #{t('event_card.orderdate')}:  #{format_date @event_card.orderdate}
-      %table 
+    %h4 #{t('event_card.orderdate')}:  #{format_date @event_card.orderdate}
+    %table 
+      %tr
+        %th=t('common.count')
+        %th=t('event_card.card_type')
+        %th=t('event_card.single_price')
+        %th=t('event_card.total_price')
+      - invoice = @event_card.invoice
+      - invoice.items.each do |i|
         %tr
-          %th=t('common.count')
-          %th=t('event_card.card_type')
-          %th=t('event_card.single_price')
-          %th=t('event_card.total_price')
-        - invoice = @event_card.invoice
-        - invoice.items.each do |i|
-          %tr
-            %td=i.count
-            %td=i.label
-            %td.currency=format_currency(i.price,'€')
-            %td.currency=format_currency(i.count*i.price,'€')
-        %tr
-          %td
-          %td #{t("common.sum")}
-          %td 
-          %td.sum= format_currency(invoice.sum,'€')
-      =link_to "PDF", gen_invoice_event_card_path(@event_card)
+          %td=i.count
+          %td=i.label
+          %td.currency=format_currency(i.price,'€')
+          %td.currency=format_currency(i.count*i.price,'€')
+      %tr
+        %td
+        %td #{t("common.sum")}
+        %td 
+        %td.sum= format_currency(invoice.sum,'€')
+  %h2 Zahlungsdaten
+
+  .row 
+    .col=t("event_card.checkout_reference")
+    .col=@event_card.checkout_reference
+  .row 
+    .col=t("event_card.checkout_id")
+    .col=@event_card.checkout_id
+  =link_to "PDF", gen_invoice_event_card_path(@event_card)
+
+#sumup-card
+%script{:src => "https://gateway.sumup.com/gateway/ecom/card/v2/sdk.js", :type => "text/javascript"}
+:javascript
+  SumUpCard.mount({
+    id: 'sumup-card',
+    checkoutId: '#{@event_card.checkout_id}',
+    onResponse: function (type, body) {
+      console.log('Type', type);
+      console.log('Body', body);
+    },
+  });
+        
     
         

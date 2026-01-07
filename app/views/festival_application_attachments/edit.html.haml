@@ -1,11 +1,9 @@
-.block
-  .secondary-navigation
-    = render :partial => 'nav'
-  .content
-    %h2.title
-      = t("common.edit")
-      = t('festival_application_attachment.s')
-    .inner
-      = form_for @festival_application_attachment do |f|
-        = render :partial => "form", :locals => {:f => f}
+.secondary-navigation
+  = render :partial => 'nav'
+.container
+  %h2.title
+    = t("common.edit")
+    = t('festival_application_attachment.s')
+  = form_for @festival_application_attachment do |f|
+    = render :partial => "form", :locals => {:f => f}
 - content_for :sidebar, render(:partial => 'sidebar')

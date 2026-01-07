@@ -1,23 +1,19 @@
-.block
-  .secondary-navigation
-    =render :partial=>'nav'
-  .content
-    %h2.title
-      = t("common.all")
-      = t("classified",:count=>3)
-    .inner
-      %table.table-sm.table-hover.table-condensed
-        %thead
-          %th.first= attr_heading(Classified, :adv_type)
-          %th= attr_heading(Classified, :object)
-          %th= attr_heading(Classified, :name)
-          %th= attr_heading(Classified, :validuntil)
-          %th.last &nbsp;
-        %tbody#classifieds
-          = render @classifieds
-      #paginator
-        = paginate @classifieds
-      .actions-bar.wat-cf
-        .actions
+.secondary-navigation
+  =render :partial=>'nav'
+.container
+  %h2.title
+    = t("common.all")
+    = t("classified",:count=>3)
+  %table.table.table-sm.table-hover.table-condensed
+    %thead
+      %th.first= attr_heading(Classified, :adv_type)
+      %th= attr_heading(Classified, :object)
+      %th= attr_heading(Classified, :name)
+      %th= attr_heading(Classified, :validuntil)
+      %th.last &nbsp;
+    %tbody#classifieds
+      = render @classifieds
+  #paginator
+    = paginate @classifieds
 - content_for :sidebar, render(:partial => 'sidebar')
 

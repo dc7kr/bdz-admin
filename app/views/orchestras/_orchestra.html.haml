@@ -1,26 +1,25 @@
--if readable?(orchestra) 
-  %tr
-    %td
-      - if not orchestra.valid? 
-        %a.d-inline-block{"aria-label" => "Orchestra errors", "data-bs-title" => "BLAH #{orchestra.errors.to_a.join("\n")}", "data-bs-toggle" => "tooltip", :href => "#"}
-          %i.fas.fa-exclamation-triangle.text-warning
-      - if orchestra.member.nil? then
-        INCONSISTENT
-      - else
-        = link_to orchestra.member.mglnr, orchestra_path(orchestra)
-        - if orchestra.report_sheet_required? and orchestra.currentReportSheet.nil? then
-          %span.badge.bg-primary kein Meldebogen
-          
-    %td
-      = truncate(orchestra.orchName,:length => 50)
-
+%tr
+  %td
+    - if not orchestra.valid? 
+      %a.d-inline-block{"aria-label" => "Orchestra errors", "data-bs-title" => "BLAH #{orchestra.errors.to_a.join("\n")}", "data-bs-toggle" => "tooltip", :href => "#"}
+        %i.fas.fa-exclamation-triangle.text-warning
     - if orchestra.member.nil? then
-      %td INCONSISTENT
+      INCONSISTENT
     - else
-      %td
-        = mail_to orchestra.member.email, orchestra.member.email
-    %td.last
-      = link_to_show orchestra
-      = link_to_edit orchestra
-      = link_to_delete orchestra
-      = link_to_orchestra_acct orchestra, t("orchestra.member_account")
+      = link_to orchestra.member.mglnr, orchestra_path(orchestra)
+      - if orchestra.report_sheet_required? and orchestra.currentReportSheet.nil? then
+        %span.badge.bg-primary kein Meldebogen
+        
+  %td
+    = truncate(orchestra.orchName,:length => 50)
+
+  - if orchestra.member.nil? then
+    %td INCONSISTENT
+  - else
+    %td
+      = mail_to orchestra.member.email, orchestra.member.email
+  %td.last
+    = link_to_show orchestra
+    = link_to_edit orchestra
+    = link_to_delete orchestra
+    = link_to_orchestra_acct orchestra, t("orchestra.member_account")

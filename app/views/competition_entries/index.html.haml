@@ -1,19 +1,16 @@
-.block
-  .secondary-navigation
-    = render :partial=>'nav'
-  .content
-    %h2.title
-      = t("common.all")
-      = t("competition_entry",:count=>3)
-    .inner
-    .inner
-      %table.table-sm.table-hover.table-condensed
-        %tr
-          %th=attr_heading Competition_entry, :date_of_birth
-          %th=attr_heading Competition_entry, :first_name
-          %th=attr_heading Competition_entry, :last_name
-          %th=attr_heading Competition_entry, :correct
-          %th=attr_heading Competition_entry, :winner
-          %th.last
-        = render @competition_entries
+.secondary-navigation
+  = render :partial=>'nav'
+.container
+  %h2.title
+    = t("common.all")
+    = t("competition_entry",:count=>3)
+  %table.table.table-sm.table-hover.table-condensed
+    %tr
+      %th=attr_heading Competition_entry, :date_of_birth
+      %th=attr_heading Competition_entry, :first_name
+      %th=attr_heading Competition_entry, :last_name
+      %th=attr_heading Competition_entry, :correct
+      %th=attr_heading Competition_entry, :winner
+      %th &nbsp;
+    = render @competition_entries
 

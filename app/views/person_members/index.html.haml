@@ -4,8 +4,8 @@
   %h2.title
     = t("common.all")
     = t("person_member",:count=>3)
-  #enty_info.text-center= page_entries_info @person_members
-  #paginator= paginate @person_members
+  #entry_info.text-center= page_entries_info @person_members
+  #paginator= paginate @person_members, params: { format: :turbo_stream }
   %table.table.table-sm.table-hover.table-condensed
     %thead.table-dark
       %tr

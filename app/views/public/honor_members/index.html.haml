@@ -1,15 +1,13 @@
-.block
-  .content
-    %h2.title
-      = t("honor_member",:count=>3)
-    .inner
-      %table.table-sm.table-hover.table-condensed
-        %thead
-          %th.first= attr_heading(HonorMember,:nr)
-          %th= attr_heading(HonorMember,:name)
-          %th= attr_heading(HonorMember,:ort)
-          %th= attr_heading(HonorMember,:honortype)
-          %th= attr_heading(HonorMember,:honordate)
-          %th.last &nbsp;
-        %tbody#honor_members
-          = render @honor_members
+.container
+  %h2= t("honor_member",:count=>3)
+
+  %table.table-sm.table-hover.table-condensed
+    %thead
+      %th.first= attr_heading(HonorMember,:nr)
+      %th= attr_heading(HonorMember,:name)
+      %th= attr_heading(HonorMember,:ort)
+      %th= attr_heading(HonorMember,:honortype)
+      %th= attr_heading(HonorMember,:honordate)
+      %th.last &nbsp;
+    %tbody#honor_members
+      = render @honor_members

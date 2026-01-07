@@ -1,3 +1,6 @@
-%h1 Buchung bearbeiten
+.secondary-navigation=render :partial=>'nav'
+.container
+  %h2.title
+    = t("member_account_booking.edit")
 
-= render :partial => "form"
+  = render :partial => "form"

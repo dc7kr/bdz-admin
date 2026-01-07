@@ -1,19 +1,18 @@
-.block
-  .secondary-navigation
-    =render :partial=>'nav'
-  .content
-    %h2.title
-      = t("common.all")
-      = t("event_meal.title")
-    .inner
-      %table.table-sm
-        %thead
-          %tr
-            %th=t('event_meal.participant_id')
-            %th=t('event_meal.name')
-            %th=t('event_meal.arrival_time')
-            %th=t('event_meal.meals')
-            %th=t('event_meal.veg')
-            %th=t('event_meal.email')
-            %th.last &nbsp;
-        = render @event_meals
+.secondary-navigation
+  =render :partial=>'nav'
+.container
+  %h2.title
+    = t("common.all")
+    = t("event_meal.title")
+  %table.table-sm
+    %thead
+      %tr
+        %th=t('event_meal.participant_id')
+        %th=t('event_meal.name')
+        %th=t('event_meal.arrival_time')
+        %th=t('event_meal.meals')
+        %th=t('event_meal.veg')
+        %th=t('event_meal.email')
+        %th &nbsp;
+
+    = render @event_meals

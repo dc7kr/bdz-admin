@@ -1,7 +1,6 @@
 %ul.nav.nav-tabs
-  %li{ :class => 'first'}= link_to_up_path t("common.up"), home_public_data_path
-  %li{ :class => tabActiveClass(@current_action,'index','first')}= link_to t("common.list"), addresses_path
-  -if (@address)
-    %li{ :class => tabActiveClass(@current_action,'show',nil)}= link_to t("common.show"), '#'
-  %li{:class => tabActiveClass(@current_action,'new',nil)}= link_to t("common.new"), new_address_path
+  %li.nav-item= link_to_up_path t("common.up"), home_landing_page_path
+  =link_to_list Address
+  =link_to_show @address
+  =link_to_new Address
 

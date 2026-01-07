@@ -1,29 +1,26 @@
-.block
-  .content
-    %h2.title
-      Mail "#{@mail_params[:subject]}" versandt. 
-    .inner
-      Rundschreiben wurde erfolgreich an #{@successCount} #{t("festival_mail.groups."+@group)} versendet.
+.container
+  %h2.title
+    Mail "#{@mail_params[:subject]}" versandt. 
 
-      - if @failCount > 0 
-        %h3 
-          Beim Versenden an #{@failCount} #{t("festival_mail.groups."+@group)} sind Fehler aufgetreten. 
-          %br
+  Rundschreiben wurde erfolgreich an #{@successCount} #{t("festival_mail.groups."+@group)} versendet.
 
-        %table.table-sm
-          %thead
-            %th.first Typ
-            %th= t("orchestra.email")
-            %th Fehler
-          %tbody#results
-            - @results.each do |result|
-              %tr
-                %td=t("member_event.event_types.#{result[:mode]}")
+  - if @failCount > 0 
+    %h3 
+      Beim Versenden an #{@failCount} #{t("festival_mail.groups."+@group)} sind Fehler aufgetreten. 
+      %br
 
-                %td
-                  -if result[:success] == true then
-                    OK
-                  -else 
-                    Fehler: #{result[:err]}
-      .actions-bar.wat-cf
-        .actions
+    %table.table-sm
+      %thead
+        %th.first Typ
+        %th= t("orchestra.email")
+        %th Fehler
+      %tbody#results
+        - @results.each do |result|
+          %tr
+            %td=t("member_event.event_types.#{result[:mode]}")
+
+            %td
+              -if result[:success] == true then
+                OK
+              -else 
+                Fehler: #{result[:err]}

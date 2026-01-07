@@ -1,29 +1,19 @@
-.block
-  .secondary-navigation
-    =render :partial=>'nav'
-  .content
-    %h2.title
-      = t("common.all")
-      = t("ensemble_ensemble_concert.title")
-    .inner
-      %table.table-sm
-        %tr
-          %th.first 
-            = sortable "datum", t("ensemble_concert.datum")
-          %th
-            = t("ensemble_concert.zeit")
-          %th
-            = sortable "stadt", t("ensemble_concert.stadt")
-          %th
-            = sortable "ort", t("ensemble_concert.ort")
-          %th
-            = t("ensemble_concert.interpret")
-          %th
-            = t("ensemble_concert.url")
-          %th.last &nbsp;
-        %tbody#ensemble_concerts
-          =render @ensemble_concerts
-      #paginator
-        = paginate @ensemble_concerts
-      .actions-bar.wat-cf
-        .actions
+.secondary-navigation
+  =render :partial=>'nav'
+.container
+  %h2.title
+    = t("common.all")
+    = t("ensemble_ensemble_concert.title")
+  %table.table.table-sm
+    %tr
+      %th = sortable "datum", t("ensemble_concert.datum")
+      %th= t("ensemble_concert.zeit")
+      %th= sortable "stadt", t("ensemble_concert.stadt")
+      %th= sortable "ort", t("ensemble_concert.ort")
+      %th= t("ensemble_concert.interpret")
+      %th= t("ensemble_concert.url")
+      %th &nbsp;
+    %tbody#ensemble_concerts
+      =render @ensemble_concerts
+  #paginator
+    = paginate @ensemble_concerts

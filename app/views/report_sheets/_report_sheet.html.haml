@@ -18,8 +18,8 @@
   %td=report_sheet.passive
   -if @orchestra
     %td
-      = link_to_show_path( orchestra_report_sheet_path(@orchestra,report_sheet),'Show',report_sheet)
-      = link_to_edit_path( edit_orchestra_report_sheet_path(@orchestra,report_sheet),'Edit',report_sheet)
+      = link_to_show report_sheet, orchestra_report_sheet_path(@orchestra,report_sheet)
+      = link_to_edit report_sheet, edit_orchestra_report_sheet_path(@orchestra,report_sheet)
   - else
     -if report_sheet.orchestra.orch_type=='L' and report_sheet.calcGemaCount-report_sheet.azubi <=0
       %td ALERT

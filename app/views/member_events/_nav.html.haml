@@ -1,13 +1,13 @@
 %ul.nav.nav-tabs
-  -if(@isOrchestra)
+  - if @member_type == :orchestra
     %li.nav-item= link_to_up_path t("common.up"), orchestra_path(params[:orchestra_id]) 
-    %li.nav-item=link_to t("common.list"), orchestra_member_events_path(@member_entity), :class =>tabActiveClass(@current_action,'index','nav-link')
-    %li.nav-item= link_to t("common.new"), new_orchestra_member_event_path(@member_entity),:class => tabActiveClass(@current_action,'new',)
-  - else
+    =nav_to_list MemberEvent, orchestra_member_events_path(@member_entity)
+    =nav_to_new MemberEvent, new_orchestra_member_event_path(@member_entity)
+  - elsif @member_type == :person_member
     %li.nav-item= link_to_up_path t("common.up"), person_member_path(@member_entity)
-    %li.nav-item{ :class => tabActiveClass(@current_action,'index','first')}= link_to "#{t("common.list", :default => "List")}", person_member_member_events_path(@member_entity)
-    %li.nav-item=link_to t("common.new"), new_person_member_member_event_path(@member_entity), :class =>  tabActiveClass(@current_action,'new',)
-  -if ( @event != nil and @event.id != nil) then
-    %li.nav-item{ :class => tabActiveClass(@current_action,'show',nil)}= link_to t("common.show"),'#'
+    =nav_to_list MemberEvent, person_member_member_events_path(@member_entity)
+    =nav_to_new MemberEvent, new_person_member_member_event_path(@member_entity)
+  -if ( @member_event != nil and @member_event.id != nil) then
+    =nav_to_show @member_event
 
 

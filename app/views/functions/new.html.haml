@@ -1,11 +1,10 @@
-.block
-  .secondary-navigation
-    = render :partial =>'nav'
-  .content
-    %h2.title
-      = t("common.new")
-      = t("function")
-    .inner
-      = form_for @function do |f|
-        = render :partial => "form", :locals => {:f => f}
+.secondary-navigation
+  = render :partial =>'nav'
+.container
+  %h2.title
+    = t("common.new")
+    = t("function")
+
+  = form_for @function do |f|
+    = render :partial => "form", :locals => {:f => f}
 

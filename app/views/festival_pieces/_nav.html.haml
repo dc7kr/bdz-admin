@@ -1,12 +1,11 @@
 %ul.nav.nav-tabs
   - if @festival_application then
     %li=link_to_up_path t("common.up"), festival_application_path(@festival_application)
-    %li{ :class => tabActiveClass(@current_action,'index')}= link_to t("common.list"), festival_application_festival_pieces_path(@festival_application)
-    = nav_to_new_path FestivalPiece, new_festival_application_festival_piece_path(@festival_application)
+    = nav_to_list FestivalApplication, festival_application_festival_pieces_path(@festival_application)
+    = nav_to_new FestivalPiece, new_festival_application_festival_piece_path(@festival_application)
   - else 
-    %li{ :class => 'first'}= link_to_up_path t("common.up"), home_member_data_path
+    %li{ :class => 'first'}= link_to_up_path t("common.up"), home_landing_page_path
   -if (@festival_piece and @festival_piece[:id] != nil)
-    %li{ :class => tabActiveClass(@current_action,'show',nil)}= link_to t("common.show"), festival_application_festival_piece_path(@festival_application,@festival_piece)
-    - if can? :edit, @festival_piece
-      %li{ :class => tabActiveClass(@current_action,'edit',nil)}= link_to t("common.edit"), edit_festival_application_festival_piece_path(@festival_application,@festival_piece)
+    = nav_to_show @festival_piece, festival_application_festival_piece_path(@festival_application,@festival_piece)
+    = nav_to_edit @festival_piece, edit_festival_application_festival_piece_path(@festival_application,@festival_piece)
 

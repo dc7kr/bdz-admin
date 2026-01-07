@@ -1,43 +1,74 @@
 module NavHelper
-  def nav_to_edit(entity)
+  def nav_to_edit(entity, path = nil)
+    return if entity.nil? 
 
-    if not can? :edit, entity
-      return ""
+    if entity.is_a?(Array)
+      namespace = entity[0]
+      entity = entity[1]
+      path = "edit_#{namespace}_#{entity.class.name.singularize.underscore}_path" if path.nil?
     end
+
+    return if entity.nil? or entity.id.nil?
+
+    return unless policy(entity).update?
+
+    path = { action: "edit", controller: entity.class.name.underscore.pluralize, id: entity }  if path.nil?
 
     content_tag(:li, class: "nav-item") do 
-      if entity.is_a?(Array)
-        namespace = entity[0]
-        entity = entity[1]
-        path = "edit_#{namespace}_#{entity.class.name.singularize.underscore}_path"
-      else
-        path = "edit_#{entity.class.name.singularize.underscore}_path"
+      link_to path, :class => tabActiveClass(action_name,'edit',"nav-link") do
+        concat(my_fa_icon("edit"))
+        concat("&nbsp;".html_safe)
+        concat(t("common.edit"))
       end
-
-      link_to t("common.edit"), path, :class => tabActiveClass(@current_action,'edit',"nav-link")
     end
   end
 
-  def nav_to_new(entity_clazz)
+  def nav_to_new(entity_class, path = nil)
+    return unless policy(entity_class).create?
 
-    if not can? :create, entity_clazz
-      return ""
-    end
-
-    path = "new_#{entity_clazz.name.singularize.underscore}_path"
+    path = { action: "new", controller: entity_class.name.underscore.pluralize } if path.nil?
 
     content_tag(:li, class: "nav-item") do
-      link_to t("common.new"), path, :class => tabActiveClass(@current_action,'new',"nav-link")
+      link_to path, :class => tabActiveClass(action_name,'new',"nav-link") do
+        concat(my_fa_icon("plus"))
+        concat("&nbsp;".html_safe)
+        concat(t("common.new"))
+      end
     end
   end
 
-  def nav_to_new_path(entity_clazz, new_path)
-    if not can? :create, entity_clazz
-      return ""
+  def nav_to_show(entity, path = nil)
+    
+    return if entity.nil? 
+
+    if entity.is_a?(Array)
+      namespace = entity[0]
+      entity = entity[1]
+      path = "#{namespace}_#{entity.class.name.singularize.underscore}_path" if path.nil?
     end
 
+    return if entity.nil? or entity.id.nil?
+
+    return unless policy(entity).show?
+
+    path = { action: "show", controller: entity.class.name.underscore.pluralize } if path.nil?
+
     content_tag(:li, class: "nav-item") do
-      link_to t("common.new"), path, :class => tabActiveClass(@current_action,'new',"nav-link")
+      link_to path, class: tabActiveClass(action_name, "show", "nav-link") do 
+        concat(my_fa_icon("eye"))
+        concat("&nbsp;".html_safe)
+        concat(t("common.show"))
+      end
+    end
+  end
+
+  def nav_to_list(entity_class, path = nil)
+    return unless policy(entity_class).show?
+
+    path = { action: "index", controller: entity_class.name.underscore.pluralize } if path.nil?
+
+    link_to path, class: tabActiveClass(action_name, "index", "nav-link") do
+       my_fa_icon("list")
     end
   end
 end

@@ -1,20 +1,19 @@
-.block
-  .secondary-navigation
-    =render :partial=>'nav'
-  .content
-    %h2.title
-      = t("common.all", :default => "All")
-      = t("contact.title")
-    .inner
-      %table.table-sm.table-hover.table-condensed
-        %thead
-          %th Vorname
-          %th Name
-          %th Adresse
-          %th Telefon
-          %th Fax
-          %th Email
-          %th
-        %tbody#contacts
-          = render @contacts
+.secondary-navigation
+  =render :partial=>'nav'
+.container
+  %h2.title
+    = t("common.all", :default => "All")
+    = t("contact.title")
+
+  %table.table.table-sm.table-hover.table-condensed
+    %thead
+      %th Vorname
+      %th Name
+      %th Adresse
+      %th Telefon
+      %th Fax
+      %th Email
+      %th
+    %tbody#contacts
+      = render @contacts
 

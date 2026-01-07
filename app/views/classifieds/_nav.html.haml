@@ -1,7 +1,7 @@
 %ul.nav.nav-tabs
-  %li{ :class => tabActiveClass(@current_action,'index','first')}= link_to t("common.list"), classifieds_path
+  = nav_to_new Classified
   %li{ :class => tabActiveClass(@current_action,'inactive','')}= link_to t("common.inactive"), inactive_classifieds_path
-  - if @classified
-    %li{ :class => tabActiveClass(@current_action,'edit','')}= link_to t("common.edit"), edit_classified_path(@classified)
-  %li{:class => tabActiveClass(@current_action,'new',nil)}= link_to "#{t("common.new", :default => "New")}", new_classified_path
+  = nav_to_show @classified
+  = nav_to_edit @classified
+  = nav_to_new Classified
 

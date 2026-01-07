@@ -1,37 +1,35 @@
-.block
-  .secondary-navigation
-    = render :partial => "nav"
-  .content
-    .inner
-      %table
-        %tr
-          %td.label=t("adressse.anrede")
-          %td= @address.anrede
-        %tr
-          %td.label=t("address.vorname")
-          %td= @address.vorname
-        %tr
-          %td.label=t("address.name")
-          %td= @address.name
-        %tr
-          %td.label=t("address.strasse")
-          %td= @address.strasse
-        %tr
-          %td.label=t("address.plz")
-          %td= @address.plz
-        %tr
-          %td.label=t("address.ort")
-          %td= @address.ort
-        %tr
-          %td.label=t("address.mobil")
-          %td= @address.mobil
-        %tr
-          %td.label=t("address.telefon")
-          %td= @address.telefon
-        %tr
-          %td.label=t("address.fax")
-          %td= @address.fax
-        %tr
-          %td.label=t("address.email")
-          %td= mail_to @address.email, @address.email
+.secondary-navigation
+  = render :partial => "nav"
+.container
+  %table
+    %tr
+      %td.label=t("adressse.anrede")
+      %td= @address.anrede
+    %tr
+      %td.label=t("address.vorname")
+      %td= @address.vorname
+    %tr
+      %td.label=t("address.name")
+      %td= @address.name
+    %tr
+      %td.label=t("address.strasse")
+      %td= @address.strasse
+    %tr
+      %td.label=t("address.plz")
+      %td= @address.plz
+    %tr
+      %td.label=t("address.ort")
+      %td= @address.ort
+    %tr
+      %td.label=t("address.mobil")
+      %td= @address.mobil
+    %tr
+      %td.label=t("address.telefon")
+      %td= @address.telefon
+    %tr
+      %td.label=t("address.fax")
+      %td= @address.fax
+    %tr
+      %td.label=t("address.email")
+      %td= mail_to @address.email, @address.email
 

@@ -1,5 +1,5 @@
 %ul
   %li{ :class => 'first'}= link_to_up_path t("common.up"), orchestra_path(@orchestra)
-  %li{ :class => tabActiveClass(@current_action,'index','first')}= link_to "#{t("common.list", :default => "List")}", orchestra_orchestra_members_path(@orchestra)
-  %li{:class => tabActiveClass(@current_action,'new',nil)}= link_to "#{t("common.new", :default => "New")}", new_orchestra_orchestra_member_path(@orchestra)
+  = nav_to_list OrchestraMember, orchestra_orchestra_members_path(@orchestra)
+  = nav_to_new OrchestraMember, new_orchestra_orchestra_member_path(@orchestra)
 

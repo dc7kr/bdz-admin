@@ -1,19 +1,14 @@
-.block
-  .secondary-navigation
-    = render :partial=>'nav'
-  .content
-    %h2.title
-      = @advertiser.contact.company
-      (#{t("advertiser.customer_number")} #{@advertiser.customer_number})
-    .inner
-      %table
-        = render @advertiser.contact,:partial=>"contact"
-        = entity_row(@advertiser,:iban)
-        = entity_row(@advertiser,:bic)
-        = entity_row(@advertiser,:account_owner)
-        = entity_row(@advertiser,:direct_debit)
-      .wat-cf
-        = edit_button edit_magazine_advertiser_path(@advertiser),@advertiser
-        = del_button(contact_path(@advertiser),@advertiser)
+.secondary-navigation
+  = render :partial=>'nav'
+.container
+  %h2.title
+    = @advertiser.contact.company
+    (#{t("advertiser.customer_number")} #{@advertiser.customer_number})
+  %table.table
+    = render @advertiser.contact,:partial=>"contact"
+    = entity_row(@advertiser,:iban)
+    = entity_row(@advertiser,:bic)
+    = entity_row(@advertiser,:account_owner)
+    = entity_row(@advertiser,:direct_debit)
 
 - content_for :sidebar, render(:partial => 'sidebar_show')

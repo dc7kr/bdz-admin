@@ -1,9 +1,8 @@
-.block
-  .secondary-navigation
-    = render :partial =>'nav'
-  .content
-    %h2.title
-      = t("common.new")
-      = t("magazine_issue",:count=>1)
-    .inner
-      = render :partial => "form"
+.secondary-navigation
+  = render :partial =>'nav'
+.container
+  %h2.title
+    = t("common.new")
+    = t("magazine_issue",:count=>1)
+
+  = render :partial => "form"

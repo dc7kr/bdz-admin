@@ -4,11 +4,8 @@
   %h2.title
     = t("common.all")
     = t("orchestra", count:3) 
-  #enty_info.text-center
-    = page_entries_info @orchestras
-  #paginator
-    = paginate @orchestras
-
+  #entry_info.text-center= page_entries_info @orchestras
+  #paginator= paginate @orchestras, params: { format: :turbo_stream }
   %table.table.table-sm.table-hover.table-condensed
     %thead.table-dark
       %tr

@@ -1,24 +1,23 @@
-.block
-  .secondary-navigation
-    =render :partial=>'nav'
-  .content
-    %h2.title
-      = t("booking.index")
-    .inner
-      #enty_info.text-center
-        = page_entries_info @bookings
-      %table.table-sm.table-hover.table-condensed
-        %thead
-          %tr
-            %th.first= attr_heading(MemberAccountBooking,:booking_date)
-            %th= attr_heading(MemberAccountBooking,:booking_type) 
-            %th= attr_heading(MemberAccountBooking,:booking_year)
-            %th= attr_heading(MemberAccountBooking,:text)
-            %th= attr_heading(MemberAccountBooking,:amount)
-            %th= attr_heading(MemberAccountBooking,:has_reference)
-            %th.last
-        %tbody#member_account_bookings
-          = render @bookings
-      #paginator
-        = paginate @bookings
+.secondary-navigation
+  =render :partial=>'nav'
+.container
+  %h2.title
+    = t("booking.index")
+  .inner
+    #enty_info.text-center
+      = page_entries_info @bookings
+    %table.table-sm.table-hover.table-condensed
+      %thead
+        %tr
+          %th.first= attr_heading(MemberAccountBooking,:booking_date)
+          %th= attr_heading(MemberAccountBooking,:booking_type) 
+          %th= attr_heading(MemberAccountBooking,:booking_year)
+          %th= attr_heading(MemberAccountBooking,:text)
+          %th= attr_heading(MemberAccountBooking,:amount)
+          %th= attr_heading(MemberAccountBooking,:has_reference)
+          %th.last
+      %tbody#member_account_bookings
+        = render @bookings
+    #paginator
+      = paginate @bookings
 

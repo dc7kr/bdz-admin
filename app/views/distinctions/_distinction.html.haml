@@ -7,12 +7,11 @@
   %td.text-center= distinction.honorletters
   %td.text-center= distinction.medals
   %td.border-0
-    = link_to_show_path orchestra_distinction_path(@orchestra,distinction), t("common.show"), distinction
-    - if (distinction.member_account_booking == nil or isAdmin?) then
-      = link_to_edit_path edit_orchestra_distinction_path(@orchestra,distinction),  t("common.edit"), distinction
-      = link_to_del_path orchestra_distinction_path(@orchestra,distinction), distinction, t("common.delete"), t("common.delete_confirm"), distinction
+    = link_to_show distinction, orchestra_distinction_path(@orchestra,distinction)
+    = link_to_edit distinction, edit_orchestra_distinction_path(@orchestra,distinction)
+    = link_to_delete distinction, orchestra_distinction_path(@orchestra,distinction)
     - if (distinction.member_account_booking == nil)
       = link_to_generate_path t('distinction.generate_invoice'), gen_invoice_orchestra_distinction_path(@orchestra,distinction)
     - else
-      = link_to_download_path(nil, download_orchestra_member_account_booking_path(@orchestra,distinction.member_account_booking),distinction.member_account_booking)
+      = link_to_download_path distinction.member_account_booking, download_orchestra_member_account_booking_path(@orchestra,distinction.member_account_booking)
 

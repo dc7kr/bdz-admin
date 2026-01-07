@@ -1,11 +1,10 @@
-.block
-  .secondary-navigation
-    =render :partial=>'nav'
-  .content
-    %h2.title
-      = t("common.all")
-      = t('member_account_bookings',:count=>3)
-    .inner
-      %table.table-sm
-        %thead
-        = render @bookings
+.secondary-navigation
+  =render :partial=>'nav'
+.container
+  %h2.title
+    = t("common.all")
+    = t('member_account_bookings',:count=>3)
+
+  %table.table-sm
+    %thead
+    = render @bookings

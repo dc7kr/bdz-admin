@@ -1,12 +1,10 @@
-.block
-  .secondary-navigation
-    = render :partial=>"nav"
-  .content
-    .inner
-      %h2
-        = @report_sheet.orchestra.orchName
-        %br
-        = t('common.new')
-        = t("report_sheet.one")
-      = render 'form'
+.secondary-navigation
+  = render :partial=>"nav"
+.container
+  %h2
+    = @report_sheet.orchestra.orchName
+    %br
+    = t('common.new')
+    = t("report_sheet.one")
+  = render 'form'
 

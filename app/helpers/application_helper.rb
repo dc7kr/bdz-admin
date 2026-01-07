@@ -76,7 +76,6 @@ module ApplicationHelper
   end
 
   def link_to_generated_download_path(_txt, path)
-    return unless can? :read, path
 
     link_to my_fa_icon("download"), path, class: "btn btn-sm btn-outline-default", data: { turbo: false }
   end
@@ -170,13 +169,13 @@ module ApplicationHelper
     link_to params.merge(sort: column, direction: direction, page: nil).permit(:sort, :direction, :page), { class: css_class } do
       concat(title)
       if current
-              concat(my_fa_icon(sort_direction == "asc" ? "sort-up" : "sort-down"))
+        concat(my_fa_icon(sort_direction == "asc" ? "sort-up" : "sort-down"))
       end
     end
   end
 
   def nav_action_class(action, prefix = nil)
-    if @current_action == action
+    if action_name == action
       "#{prefix} active"
     else
       prefix
@@ -198,7 +197,7 @@ module ApplicationHelper
   end
 
   def readable?(entity)
-    can? :read, entity
+    policy(entity).show?
   end
 
   def sanitize_url(url)
@@ -551,5 +550,15 @@ module ApplicationHelper
 
   def t_update_success(entity)
     I18n.t("common.update_success", entity: t(entity, count: 1))
+  end
+
+  def form_title(entity_class, action=action_name)
+    if action == "new"
+      key="create"
+    else
+      key=action
+    end
+
+    I18n.t("helpers.form_title.#{key}", model: t(entity_class.model_name.i18n_key, count: 1))
   end
 end

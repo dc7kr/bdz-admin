@@ -1,17 +1,16 @@
-.block
-  .secondary-navigation
-    =render :partial=>'nav'
-  .content
-    %h2.title
-      = t("common.all")
-      = t("university",:count=>3)
-    .inner
-      %table.table-sm.table-hover.table-condensed
-        %tr
-          %th=attr_heading(University,:name)
-          %th=attr_heading(University,:institute)
-          %th=attr_heading(University,:dozent)
-          %th=attr_heading(University,:email)
-          %th=attr_heading(University,:homepage)
-          %th
-        = render @universities
+.secondary-navigation
+  =render :partial=>'nav'
+.container
+  %h2.title
+    = t("common.all")
+    = t("university",:count=>3)
+
+  %table.table-sm.table-hover.table-condensed
+    %tr
+      %th=attr_heading(University,:name)
+      %th=attr_heading(University,:institute)
+      %th=attr_heading(University,:dozent)
+      %th=attr_heading(University,:email)
+      %th=attr_heading(University,:homepage)
+      %th
+    %tbody#universities= render @universities

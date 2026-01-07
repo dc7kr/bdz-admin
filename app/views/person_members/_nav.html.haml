@@ -1,13 +1,12 @@
 %ul.nav.nav-tabs
-  %li.nav-item=link_to_up_path t("common.up"), home_member_data_path
-  %li.nav-item=link_to t("common.list"), person_members_path, :class=> tabActiveClass(@current_action,'index','nav-link')
-  - if (@person_member)
-    %li.nav-item= link_to t("common.show"), @person_member,:class => tabActiveClass(@current_action,'show','nav-link')
-  - else 
-    -if current_user.national_permission? 
-      %li.nav-item= link_to t("member.nopayment"), nopayment_person_members_path, :class=> tabActiveClass(@current_action,'nopayment','nav-link')
-      %li.nav-item= link_to t("member.notinvoiced"), notinvoiced_person_members_path,:class=> tabActiveClass(@current_action,'notinvoiced','nav-link')
-      %li.nav-item= link_to t("member.nomail"), nomail_person_members_path, :class=>tabActiveClass(@current_action,'nomail','nav-link')
-  - if can? :create, PersonMember
-    %li.nav-item= nav_to_new PersonMember
+  %li.nav-item=link_to_up_path t("common.up"), home_landing_page_path
+  = nav_to_list PersonMember
+  = nav_to_show @person_member
+  = nav_to_edit @person_member
+  -if current_user.national_permission? 
+    %li.nav-item= link_to t("member.nopayment"), nopayment_person_members_path, :class=> tabActiveClass(@current_action,'nopayment','nav-link')
+    %li.nav-item= link_to t("member.notinvoiced"), notinvoiced_person_members_path,:class=> tabActiveClass(@current_action,'notinvoiced','nav-link')
+    %li.nav-item= link_to t("member.nomail"), nomail_person_members_path, :class=>tabActiveClass(@current_action,'nomail','nav-link')
+  =nav_to_new PersonMember
 
+- content_for :search, render(:partial => 'nav_search', locals: { search_path: person_members_path})

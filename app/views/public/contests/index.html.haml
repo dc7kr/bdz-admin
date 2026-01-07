@@ -1,19 +1,15 @@
-.block
-  .content
-    %h2.title
-      #{t("common.list")} #{t("contests.title")}
-    .inner
-      %table.table-sm.table-hover.table-condensed
-        %tr
-          %th.first= attr_heading(Contest, :startDate)
-          %th.first= attr_heading(Contest, :endDate)
-          %th.first= attr_heading(Contest, :title)
-          %th.first= attr_heading(Contest, :deadline)
-          %th.first= attr_heading(Contest, :visible)
-          
-          %th.last &nbsp;
-        = render @contests
+.content
+  %h2.title
+    #{t("common.list")} #{t("contests.title")}
 
-%br
+  %table.table-sm.table-hover.table-condensed
+    %tr
+      %th.first= attr_heading(Contest, :startDate)
+      %th.first= attr_heading(Contest, :endDate)
+      %th.first= attr_heading(Contest, :title)
+      %th.first= attr_heading(Contest, :deadline)
+      %th.first= attr_heading(Contest, :visible)
+      
+      %th.last &nbsp;
+    = render @contests
 
-= link_to 'New Contest', new_contest_path

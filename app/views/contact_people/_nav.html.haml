@@ -1,7 +1,7 @@
 %ul.nav.nav-tabs
   %li{ :class => 'first'}= link_to_up_path t("common.up"), @up_path
-  %li{ :class => tabActiveClass(@current_action,'index','first')}= link_to t("common.list"), contact_people_path
-  -if (@contact_person)
-    %li{ :class => tabActiveClass(@current_action,'show',nil)}= link_to t("common.show"), '#'
-  %li{:class => tabActiveClass(@current_action,'new',nil)}= link_to t("common.new"), new_contact_person_path
+  = nav_to_list ContactPerson
+  = nav_to_show @contact_person
+  = nav_to_edit @contact_person
+  = nav_to_new ContactPerson 
 

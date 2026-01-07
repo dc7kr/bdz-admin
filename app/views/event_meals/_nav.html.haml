@@ -1,13 +1,7 @@
 %ul.nav.nav-tabs
-  %li.nav-item
-    = link_to_up_path t("common.up"), home_festival_data_path
-  %li.nav-item
-    = link_to t("common.list"), event_meals_path, :class => tabActiveClass(@current_action,'index','nav-link')
-  -if (@event_meal and @event_meal.id)
-    %li.nav-item
-      = link_to t("common.show"), event_meal_path(@event_meal), :class => tabActiveClass(@current_action,'show',"nav-link")
-    %li.nav-item
-      = link_to t("common.edit"), edit_event_meal_path(@event_meal), :class => tabActiveClass(@current_action,'edit',"nav-link")
-  %li.nav-item
-    = link_to "#{t("common.new", :default => "New")}", new_event_meal_path, :class => tabActiveClass(@current_action,'new',"nav-link")
+  %li.nav-item= link_to_up_path t("common.up"), home_landing_page_path
+  = nav_to_list EventMeal
+  = nav_to_show @event_meal 
+  = nav_to_edit @event_meal
+  = nav_to_new EventMeal
 

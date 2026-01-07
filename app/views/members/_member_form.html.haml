@@ -8,13 +8,13 @@
     -else
       = form_my_field(f,member, :regional_organization_id,:static)
 
-    = f.date_field :eintritt, :class => "datetimepicker"
+    = f.date_field :eintritt
     = f.date_field :austritt_zum
     .form-group.row
       =f.label :dsgvo, :class =>"col-form-label col-sm-2"
       .col-sm-10
         = f.check_box :dsgvo, custom: :switch, label: "&nbsp;".html_safe
-    = f.date_field :dsgvo_date,:class=> "datetimepicker"
+    = f.date_field :dsgvo_date
     = f.number_field :magazines, help: t("member.magazine_help")
 
 

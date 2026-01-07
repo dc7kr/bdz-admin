@@ -1,22 +1,17 @@
-%ul.nav.nav-tabs
-  -if @member_type == :orchestra
-    %li{ :class => 'nav-item'}= link_to_up_path t("common.up"), orchestra_path(params[:orchestra_id])
-    %li{ :class => tabActiveClass(@current_action,'index','nav-tab')}
-      = link_to "#{t("common.list")}", orchestra_member_account_bookings_path(@member_entity), class: "nav-link"
-    - if current_user.accounting_permission?
-      %li{:class => tabActiveClass(@current_action,'new','nav-tab')}
-        = link_to "#{t("common.new")}", new_orchestra_member_account_booking_path(@member_entity), class: "nav-link"
-  - elsif @member_type == :person_member and not @member.nil?
-    %li{ :class => 'nav-tab'}= link_to_up_path t("common.up"), person_member_path(@member_entity)
-    %li{ :class => tabActiveClass(@current_action,'index','nav-tab')}= link_to "#{t("common.list")}", person_member_member_account_bookings_path(@member_entity), class: "nav-link"
-    - if current_user.accounting_permission?
-      %li{:class => tabActiveClass(@current_action,'new',nil)}= link_to "#{t("common.new")}", new_person_member_member_account_booking_path(@member_entity), class: "nav-link"
-  -else 
-    %li{ :class => 'nav-tab'}= link_to_up_path t("common.up"), regional_organization_path(@member_entity)
-    %li{ :class => tabActiveClass(@current_action,'index','nav-tab')}= link_to "#{t("common.list")}", regional_organization_member_account_bookings_path(@member_entity), class: "nav-link"
-    - if current_user.accounting_permission?
-      %li{:class => tabActiveClass(@current_action,'new',nil)}= link_to "#{t("common.new")}", new_regional_organization_member_account_booking_path(@member_entity), class: "nav-link"
+%ul.nav.nav-tabs.d-print-none
+  - if @member_type == :orchestra
+    %li.nav-item= link_to_up_path t("common.up"), orchestra_path(@member_entity)
+    = nav_to_list MemberAccountBooking, orchestra_member_account_bookings_path(@member_entity)
+    = nav_to_new MemberAccountBooking, new_orchestra_member_account_booking_path(@member_entity)
+  - elsif @member_type == :person_member 
+    %li{ :class => 'nav-item'}= link_to_up_path t("common.up"), person_member_path(@member_entity)
+    = nav_to_list MemberAccountBooking, person_member_member_account_bookings_path(@member_entity)
+    = nav_to_new MemberAccountBooking, new_person_member_member_account_booking_path(@member_entity)
+  - elsif @member_type == :regional_organization 
+    %li{ :class => 'nav-item'}= link_to_up_path t("common.up"), regional_organization_path(@member_entity)
+    = nav_to_list MemberAccountBooking, regional_organization_member_account_bookings_path(@member_entity)
+    = nav_to_new MemberAccountBooking, new_regional_organization_member_account_booking_path(@member_entity)
   -if ( @booking != nil and @booking.id != nil) then
-    %li{ :class => tabActiveClass(@current_action,'show',nil)}= link_to t("common.show"),'#', class: "nav-link"
+    = nav_to_edit @booking
 
 

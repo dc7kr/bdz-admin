@@ -1,37 +1,45 @@
 module ButtonHelper
-  def link_to_edit(entity, txt = "", btn_class = "btn-sm btn-outline-dark")
-    txt = raw("&nbsp;") + txt if txt.present?
+  def link_to_edit(entity, path=nil, txt:nil, btn_class:"btn-sm btn-outline-dark", authz: true, turbo: false)
 
     if entity.is_a?(Array)
       namespace = entity[0]
       entity = entity[1]
-      path = "edit_#{namespace}_#{entity.class.name.singularize.underscore}_path"
+      # resolve by reflection
+      path = send("edit_#{namespace}_#{entity.class.name.singularize.underscore}_path",entity) if path.nil?
     else
-      path = "edit_#{entity.class.name.singularize.underscore}_path"
+      path = send("edit_#{entity.class.name.singularize.underscore}_path",entity) if path.nil?
+    end
+      
+    if authz == true
+      return unless policy(entity).update? 
     end
 
-    return unless can? :update, entity
+    html_options = { 
+      class: "btn #{btn_class}"
+    }
 
-    link_to send(path, entity), class: "btn #{btn_class}" do
-      my_fa_icon("edit") + raw("&nbsp;") +
-        txt
+    if turbo
+      html_options["data"]={
+        turbo: true,
+        "turbo_stream": true
+      }
+    else
+      # escape turbo_stream if turbo inactive
+      html_options["format"] = :html
     end
-  end
 
-  def link_to_edit_path(path, _txt, entity, btn_class = "btn-sm btn-outline-dark")
-    return unless can? :update, entity
 
-    link_to path, class: "btn #{btn_class}" do
+    link_to path, html_options do
       concat(my_fa_icon("edit"))
-      if not _txt.nil?
+      if not txt.nil?
         concat(raw("&nbsp;"))
-        concat(_txt)
+        concat(txt)
       end
     end
   end
 
-  def download_button(url, txt = nil, css_class = "btn-primary")
-    link_to url, class: "btn #{css_class}" do
+  def download_button(url, txt = nil, btn_class = "btn-primary")
+    link_to url, class: "btn #{btn_class}" do
       concat(my_fa_icon("download"))
 
       if not txt.nil?
@@ -41,92 +49,97 @@ module ButtonHelper
     end
   end
 
-  def link_to_download_path(_txt, path, entity)
-    return unless entity.has_attachment? && can?(:read, entity)
-    link_to path, class: "btn btn-sm btn-outline-dark", data: { turbo: false } do
+  def link_to_download_path(entity, path, txt=nil, btn_class="btn-sm btn-outline-dark")
+    return unless entity.has_attachment? and policy(entity).show?
+    link_to path, class: "btn #{btn_class}", data: { turbo: false } do
       concat(my_fa_icon("download"))
-      if not _txt.nil?
+      if not txt.nil?
         concat(raw("&nbsp;"))
-        concat(_txt)
+        concat(txt)
       end
     end
   end
 
-  def link_to_show_path(path, _txt, entity)
-    return unless can? :read, entity
+  def link_to_show(entity, path = nil, txt = nil, btn_class = "btn-sm btn-outline-dark")
+    return unless policy(entity).show?
 
-    link_to my_fa_icon("eye"), path, class: "btn btn-sm btn-outline-dark"
+    if entity.is_a?(Array)
+      namespace = entity[0]
+      entity = entity[1]
+      # resolve by reflection
+      path = send("#{namespace}_#{entity.class.name.singularize.underscore}_path",entity) if path.nil?
+    else
+      path = send("#{entity.class.name.singularize.underscore}_path",entity) if path.nil?
+    end
+      
+    link_to path, class: "btn btn-sm #{btn_class}" do 
+      concat(my_fa_icon("eye"))
+      if not txt.nil?
+        concat(raw("&nbsp;"))
+        concat(txt)
+      end
+    end
   end
 
-  def link_to_show(entity, txt = nil)
-    t("common.show") if txt.nil?
-    return unless can? :read, entity
+  def link_to_new(entity, path=nil, txt:nil, btn_class:"btn-sm btn-outline-dark", authz: true, turbo: false)
 
-    link_to my_fa_icon("eye"), entity, class: "btn btn-sm btn-outline-dark"
+    if authz == true
+      return unless policy(entity).create? 
+    end
+
+    path = "new_#{entity.class.name.underscore.singularize}_path" if path.nil?
+
+    html_options = { 
+      class: "btn #{btn_class}"
+    }
+
+    if turbo
+      html_options["data"]={
+        turbo: true,
+        "turbo_stream": true
+      }
+    end
+
+    link_to path, html_options do
+      concat(my_fa_icon("plus"))
+
+      if not txt.nil?
+        concat(raw("&nbsp;"))
+        concat(txt)
+      end
+    end
   end
 
-  def link_to_new(path, _txt, clazz)
-    return unless can? :create, clazz
 
-    #    if user_signed_in?
-    link_to my_fa_icon("plus"), path, class: "btn btn-sm btn-outline-dark"
-    #    end
-  end
-
-  def nav_to_show(entity)
-    path = { action: "show", controller: entity.class.name.underscore.pluralize }
-
-    return unless can? :show, entity
-
-    link_to my_fa_icon("eye"), path, class: tabActiveClass(@current_action, "new", "nav-link")
-  end
-
-  def nav_to_new(entity_clazz, path = nil)
-    path = { action: "new", controller: entity_clazz.name.underscore.pluralize } if path.nil?
-    return unless can? :create, entity_clazz
-
-    link_to my_fa_icon("plus"), path, class: tabActiveClass(@current_action, "new", "nav-link")
-  end
-
-  def nav_to_list(entity_clazz, path = nil)
-    path = { action: "index", controller: entity_clazz.name.underscore.pluralize } if path.nil?
-
-    link_to my_fa_icon("list"), path, class: tabActiveClass(@current_action, "index", "nav-link")
-  end
-
-  def link_to_publish(entity, _txt)
-    return unless can? :update, entity
+  def link_to_publish(entity, txt)
+    return unless policy(entity).update?
 
     link_to content_tag(:span, "", class: "glyphicon glyphicon-cloud-upload"), { id: entity, action: "publish" },
             { "data-type" => :json, :remote => true, :class => "btn btn-sm btn-default" }
   end
 
-  def link_to_del_path(path, entity, _remote = false, authorize = true, cfm = true, txt = nil, confirm = nil)
-    link_class = "delete-#{entity.class.model_name}"
-    label_or_default(txt, "common.delete")
-    confirm = label_or_default(confirm, "common.confirm_delete")
-    return unless can?(:delete, entity) || !authorize
-
-    link_to my_fa_icon("trash-alt"), path, data: { 'turbo-method': :delete, 'turbo-confirm': cfm ? confirm : nil },
-                                           class: "btn btn-sm btn-danger #{link_class}"
-  end
-
-  def link_to_delete(entity, txt = nil, confirm = nil)
-    t("common.delete") if txt.nil?
+  def link_to_delete(p_entity, path=nil, txt: nil, confirm: nil, btn_class: "btn-sm btn-danger", authz: true)
     confirm = t("common.delete_confirm") if confirm.nil?
-
-    if entity.is_a?(Array)
-      namespace = entity[0]
-      entity = entity[1]
-      path = "#{namespace}_#{entity.class.name.singularize.underscore}_path"
+    
+    if p_entity.is_a?(Array)
+      namespace = p_entity[0]
+      entity = p_entity[1]
+      path = "#{namespace}_#{entity.class.name.singularize.underscore}_path" if path.nil?
     else
-      path = "#{entity.class.name.singularize.underscore}_path"
+      entity = p_entity
     end
 
-    return unless can? :delete, entity
+    path = { action: "destroy", controller: entity.class.name.underscore.pluralize, id: entity } if path.nil?
 
-    link_to my_fa_icon("trash-alt"),
-            send(path, entity), data: { 'turbo-method': :delete, 'turbo-confirm': confirm }, class: "btn btn-sm btn-danger"
+    return unless not authz or policy(p_entity).destroy?
+
+    link_to path, data: { 'turbo-method': :delete, 'turbo-confirm': confirm }, class: "btn #{btn_class}" do 
+      concat(my_fa_icon("trash-alt"))
+      if not txt.nil?
+        concat(raw("&nbsp;"))
+        concat(txt)
+      end
+    end
   end
 
   def del_button(entity)
@@ -134,7 +147,7 @@ module ButtonHelper
   end
 
   def del_button(path, entity)
-    return unless can? :destroy, entity
+    return unless policy(entity).destroy?
 
     glyph_button("trash-alt", path, t("common.delete"), true, :button, "btn btn-sm btn-danger")
   end
@@ -155,19 +168,19 @@ module ButtonHelper
   end
 
   def edit_glyph_link(path, entity)
-    return unless can? :update, entity
+    return unless policy(entity).update?
 
     glyph_button("edit", path, t("common.edit"), true, :link, "btn btn-sm btn-outline-dark")
   end
 
   def del_glyph_link(path, entity)
-    return unless can? :destroy, entity
+    return unless policy(entity).destroy?
 
     glyph_button("trash-alt", path, t("common.delete"), true, :link, "btn btn-sm btn-outline-dark")
   end
 
   def edit_button(path, entity)
-    return unless can? :update, entity
+    return unless policy(entity).update?
 
     glyph_button("edit", path, t("common.edit"), true, :button, "btn btn-sm btn-outline-dark")
   end

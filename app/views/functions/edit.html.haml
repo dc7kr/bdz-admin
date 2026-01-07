@@ -1,11 +1,10 @@
-.block
-  .secondary-navigation
-    = render :partial => 'nav'
-  .content
-    %h2.title
-      = t('function',:count=>1)
-      = t("common.edit")
-    .inner
-      = form_for @function, :url => function_path(@function), :html => { :class => :form } do |f|
-        = render :partial => "form", :locals => {:f => f}
+.secondary-navigation
+  = render :partial => 'nav'
+.container
+  %h2.title
+    = t('function',:count=>1)
+    = t("common.edit")
+
+  = form_for @function, :url => function_path(@function), :html => { :class => :form } do |f|
+    = render :partial => "form", :locals => {:f => f}
 - content_for :sidebar, render(:partial => 'sidebar')

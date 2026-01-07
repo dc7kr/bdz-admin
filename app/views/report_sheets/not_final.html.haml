@@ -1,14 +1,13 @@
-.block
-  .secondary-navigation
-    =render :partial=>'nav'
-  .content
-    %h2.title #{t('report_sheet.not_final')} (gesamt: #{@not_final.size.to_s})
-    .inner
-      %table.table-sm
-        %tr
-          %th= t('member.mglnr')
-          %th= t('orchestra.orchName')
-        -@not_final.each do |r|
-          %tr
-            %td=r.id
+.secondary-navigation
+  =render :partial=>'nav'
+.container
+  %h2.title #{t('report_sheet.not_final')} (gesamt: #{@not_final.size.to_s})
+
+  %table.table-sm
+    %tr
+      %th= t('member.mglnr')
+      %th= t('orchestra.orchName')
+    -@not_final.each do |r|
+      %tr
+        %td=r.id
 

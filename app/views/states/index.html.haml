@@ -1,15 +1,14 @@
 .secondary-navigation
   = render :partial=>"nav"
 .container
-  .content
-    %h2.title
-      = t("common.all")
-      = t("state",:count=>3)
-    %table.table-sm.table-hover.table-condensed
-      %tr
-        %th.first ID
-        %th=label :state,:country_id
-        %th=label :state,:name
-        %th &nbsp;
-      = render @states
+  %h2.title
+    = t("common.all")
+    = t("state",:count=>3)
+  %table.table-sm.table-hover.table-condensed
+    %tr
+      %th.first ID
+      %th=label :state,:country_id
+      %th=label :state,:name
+      %th &nbsp;
+    = render @states
 - content_for :sidebar, render(:partial => 'sidebar')

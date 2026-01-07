@@ -7,6 +7,6 @@
   %td
     - f_appl = festival_piece.festival_application
     - if not f_appl.nil?
-      = link_to_show_path festival_application_festival_piece_path(f_appl.token,festival_piece),t('common.show'), festival_piece
-      = link_to_edit_path edit_festival_application_festival_piece_path(f_appl.token, festival_piece),t('common.edit'), festival_piece
-      = link_to_del_path festival_application_festival_piece_path(f_appl.token,festival_piece),  festival_piece
+      = link_to_show festival_piece, festival_application_festival_piece_path(f_appl.token,festival_piece)
+      = link_to_edit festival_piece, edit_festival_application_festival_piece_path(f_appl.token, festival_piece)
+      = link_to_delete festival_piece, festival_application_festival_piece_path(f_appl.token,festival_piece)

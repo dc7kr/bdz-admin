@@ -1,15 +1,13 @@
-.block
-  .secondary-navigation
-    = render :partial=>'nav'
-  .content
-    .inner
-      %h3
-        #{t("magazine_issue",:count=>1)} #{@magazine_issue.number}/#{@magazine_issue.year}
-      %table
-        %tr
-          %td.label=t("magazine_issue.year")
-          %td= @magazine_issue.year
-        %tr
-          %td.label=t("magazine_issue.number")
-          %td= @magazine_issue.number
+.secondary-navigation
+  = render :partial=>'nav'
+.container
+  %h3
+    #{t("magazine_issue",:count=>1)} #{@magazine_issue.number}/#{@magazine_issue.year}
+  %table
+    %tr
+      %td.label=t("magazine_issue.year")
+      %td= @magazine_issue.year
+    %tr
+      %td.label=t("magazine_issue.number")
+      %td= @magazine_issue.number
 - content_for :sidebar, render(:partial => 'sidebar_show')

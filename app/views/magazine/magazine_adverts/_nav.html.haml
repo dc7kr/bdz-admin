@@ -1,7 +1,7 @@
 %ul.nav.nav-tabs
-  %li{ :class => 'first'}= link_to_up_path t("common.up"), home_magazine_data_path
-  %li{ :class=> tabActiveClass(@current_action,'index','first')}= link_to t("common.list"), magazine_issue_adverts_path(@magazine_issue)
-  - if (@magazine_advert)
-    %li{ :class => tabActiveClass(@current_action,'show',nil)}= link_to t("common.show"), '#'
-  %li= link_to t("common.new"), new_magazine_issue_advert_path(@magazine_issue)
+  %li.nav-item= link_to_up_path t("common.up"), home_landing_page_path
+  = nav_to_list Advert, magazine_issue_adverts_path(@magazine_issue)
+  = nav_to_show @magazine_advert
+  = nav_to_edit @magazine_advert
+  = nav_to_new Advert
 

@@ -1,21 +1,20 @@
-.block
-  .secondary-navigation
-    = render :partial => 'nav'
-  .content
-    %h2.title
-      = @regional_organization.name
-      =t('member_report.oddset_report')
-    .inner
-      %table
-        %tr
-          %td.label=t('member_report.orchestra_count')
-          %td=@sums[:orchestras]
-        %tr
-          %td.label=t('report_sheet.total_active')
-          %td=@sums[:active]
-        %tr
-          %td.label=t('report_sheet.total_youth')
-          %td=@sums[:youth]
-        %tr
-          %td.label=t('report_sheet.passive')
-          %td=@sums[:passive]
+.secondary-navigation
+  = render :partial => 'nav'
+.container
+  %h2.title
+    = @regional_organization.name
+    =t('member_report.oddset_report')
+
+  %table.table
+    %tr
+      %td.label=t('member_report.orchestra_count')
+      %td=@sums[:orchestras]
+    %tr
+      %td.label=t('report_sheet.total_active')
+      %td=@sums[:active]
+    %tr
+      %td.label=t('report_sheet.total_youth')
+      %td=@sums[:youth]
+    %tr
+      %td.label=t('report_sheet.passive')
+      %td=@sums[:passive]

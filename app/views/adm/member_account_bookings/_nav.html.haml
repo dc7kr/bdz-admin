@@ -1,5 +1,4 @@
 %ul.nav.nav-tabs
-  -if ( @booking != nil and @booking.id != nil) then
-    %li{ :class => tabActiveClass(@current_action,'show',nil)}= link_to t("common.show"),'#'
+  =nav_to_show @booking
 
 

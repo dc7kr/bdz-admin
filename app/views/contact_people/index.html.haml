@@ -1,20 +1,19 @@
-.block
-  .secondary-navigation
-    =render :partial=>'nav'
-  .content
-    %h2.title
-      = t("common.all")
-      = t("contact_person",:count=>3)
-    .inner
-      %table.table-sm.table-hover.table-condensed
-        %thead
-          %th=attr_heading Contact_person, :salutation
-          %th=attr_heading Contact_person, :first_name
-          %th=attr_heading Contact_person, :last_name
-          %th=attr_heading Contact_person, :email
-          %th=attr_heading Contact_person, :phone
-          %th
-        = render @contact_people
+.secondary-navigation
+  =render :partial=>'nav'
+.container
+  %h2.title
+    = t("common.all")
+    = t("contact_person",:count=>3)
+  %table.table.table-sm.table-hover.table-condensed
+    %thead
+      %th=attr_heading ContactPerson, :salutation
+      %th=attr_heading ContactPerson, :first_name
+      %th=attr_heading ContactPerson, :last_name
+      %th=attr_heading ContactPerson, :email
+      %th=attr_heading ContactPerson, :phone
+      %th
+    %tbody#contact_people
+    = render @contact_people
 
 
 

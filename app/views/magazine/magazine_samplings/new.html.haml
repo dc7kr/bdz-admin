@@ -1,11 +1,9 @@
-.block
-  .secondary-navigation
-    =render :partial=>'nav'
-  .content
-    %h2.title
-      = t("common.new")
-      = t("magazine_sampling",:count=>1)
-    .inner
-      = form_for @magazine_sampling do |f|
-        = render :partial => "form", :locals => {:f => f}
+.secondary-navigation
+  =render :partial=>'nav'
+.container
+  %h2.title
+    = t("common.new")
+    = t("magazine_sampling",:count=>1)
+  = form_for @magazine_sampling do |f|
+    = render :partial => "form", :locals => {:f => f}
 

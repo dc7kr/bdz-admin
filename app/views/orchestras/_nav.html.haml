@@ -1,17 +1,17 @@
 %ul.nav.nav-tabs.d-print-none
-  %li.nav-item= link_to_up_path t("common.up"), home_member_data_path
-  %li.nav-item= link_to t("common.list"), orchestras_path, :class=>tabActiveClass(@current_action,'index','nav-link')
+  %li.nav-item= link_to_up_path t("common.up"), home_landing_page_path
+  =nav_to_list Orchestra
   %li.nav-item= link_to t("orchestra.regional_orchestra",:count=>3), lorch_orchestras_path, :class=>tabActiveClass(@current_action,'lorch','nav-link')
   
   -if (not @orchestra.nil?)
-    -if can? :edit, @orchestra and not @orchestra.id.nil? 
-      %li.nav-item= link_to t("common.show"), @orchestra, :class => tabActiveClass(@current_action,'show',"nav-link")
-      %li.nav-item= link_to t("common.edit"), edit_orchestra_path(@orchestra), :class => tabActiveClass(@current_action,'edit',"nav-link")
+    = nav_to_show @orchestra
+    = nav_to_edit @orchestra
   -else
     - if current_user.national_permission?
       %li.nav-item= link_to t("orchestra.noreport"), noreport_orchestras_path, :class => tabActiveClass(@current_action,'noreport',"nav-link")
       %li.nav-item= link_to t("member.nopayment"), nopayment_orchestras_path, :class => tabActiveClass(@current_action,'nopayment',"nav-link")
       %li.nav-item= link_to t("member.nomail"), nomail_orchestras_path, :class => tabActiveClass(@current_action,'nomail',"nav-link")
       %li.nav-item= link_to t("member.notinvoiced"), notinvoiced_orchestras_path, :class => tabActiveClass(@current_action,'notinvoiced',"nav-link")
-  - if can? :create, Orchestra
-    %li.nav-item= nav_to_new Orchestra
+  = nav_to_new Orchestra
+
+- content_for :search, render(:partial => 'nav_search', locals: { search_path: orchestras_path })

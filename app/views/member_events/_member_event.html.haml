@@ -1,13 +1,15 @@
 %tr{:id=>"row#{member_event.id}"}
   %td=l member_event.event_date.to_date, :format => :long
-  %td=member_event.event_type
+  %td=t("member_event.event_types.#{member_event.event_type}")
   %td=truncate member_event.event_id, length: 15
   %td=truncate member_event.comment, length:40
   %td
-    -if (@isOrchestra) then
-      = link_to_edit_path( edit_orchestra_member_event_path(@member_entity,member_event),"edit",member_event)
-      = link_to_del_path( orchestra_member_event_path(@member_entity,member_event), member_event, 'Del',t('common.delete_confirm'),member_event)
-      = link_to_download_path(t('common.download'),download_orchestra_member_event_path(@member_entity,member_event),member_event)
-    -else
-      = link_to_edit_path( edit_person_member_member_event_path(@member_entity,member_event),'Edit',member_event)
-      = link_to_del_path person_member_member_event_path(@member_entity,member_event), member_event
+    -if @member_type == :orchestra
+      = link_to_edit member_event, edit_orchestra_member_event_path(@member_entity,member_event)
+      = link_to_delete member_event,  orchestra_member_event_path(@member_entity,member_event)
+      = link_to_download_path member_event, download_orchestra_member_event_path(@member_entity,member_event)
+    -elsif @member_type == :person_member
+      = link_to_edit member_event, edit_person_member_member_event_path(@member_entity,member_event)
+      = link_to_delete member_event, person_member_member_event_path(@member_entity,member_event)
+      = link_to_download_path member_event, download_person_member_member_event_path(@member_entity,member_event)
+

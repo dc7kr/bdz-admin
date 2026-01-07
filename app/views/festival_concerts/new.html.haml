@@ -1,10 +1,9 @@
-.block
-  .secondary-navigation
-    = render :partial =>'nav'
-  .content
-    %h2.title
-      = t("common.new")
-      = t("festival_concert",:count=>1)
-    .inner
-      = render 'form'
+.secondary-navigation
+  = render :partial =>'nav'
+.container
+  %h2.title
+    = t("common.new")
+    = t("festival_concert",:count=>1)
+
+  = render 'form'
 

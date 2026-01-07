@@ -1,23 +1,22 @@
-.block
-  .secondary-navigation
-    = render :partial=>'nav'
-  .content
-    .inner
-      %h2.title
-        =t("magazine_sampling",:count=>1)
-        - if not @magazine_sampling.contact.company.empty?
-          =@magazine_sampling.contact.company
-        - else
-          =@magazine_sampling.contact.fullname
-        - if @magazine_sampling.inactive
-          (#{t("magazine_sampling.inactive")})
-      %h3
-        = t("magazine", count:@magazine_sampling.current_count)
-      %table
-        = render @magazine_sampling.contact,:partial=>"contact"
-        = entity_row(@magazine_sampling,:count)
-      .wat-cf
-        = edit_glyph_link(edit_magazine_sampling_path(@magazine_sampling),@magazine_sampling)
-        = del_button(magazine_sampling_path(@magazine_sampling),@magazine_sampling)
+.secondary-navigation
+  = render :partial=>'nav'
+.container
+  .inner
+    %h2.title
+      =t("magazine_sampling",:count=>1)
+      - if not @magazine_sampling.contact.company.empty?
+        =@magazine_sampling.contact.company
+      - else
+        =@magazine_sampling.contact.fullname
+      - if @magazine_sampling.inactive
+        (#{t("magazine_sampling.inactive")})
+    %h3
+      = t("magazine", count:@magazine_sampling.current_count)
+    %table.table
+      = render @magazine_sampling.contact,:partial=>"contact"
+      = entity_row(@magazine_sampling,:count)
+    .wat-cf
+      = edit_glyph_link(edit_magazine_sampling_path(@magazine_sampling),@magazine_sampling)
+      = del_button(magazine_sampling_path(@magazine_sampling),@magazine_sampling)
 
 - content_for :sidebar, render(:partial => 'sidebar_show')

@@ -1,8 +1,6 @@
 %ul.nav.nav-tabs.d-print-none
-  %li.nav-item= link_to_up_path t("common.up"), home_member_data_path
-  %li.nav-item= link_to t("common.list"), tariffs_path, :class=>tabActiveClass(@current_action,'index','nav-link')
-  -if (not @tariff.nil?)
-    -if can? :edit, @tariff and not @tariff.id.nil? 
-      %li.nav-item= link_to t("common.show"), @tariff, :class => tabActiveClass(@current_action,'show',"nav-link")
-      %li.nav-item= link_to t("common.edit"), edit_tariff_path(@tariff), :class => tabActiveClass(@current_action,'edit',"nav-link")
-  -else
+  %li.nav-item= link_to_up_path t("common.up"), home_landing_page_url
+  =nav_to_list Tariff
+  =nav_to_show @tariff
+  =nav_to_edit @tariff 
+  =nav_to_new Tariff

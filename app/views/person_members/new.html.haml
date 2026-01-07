@@ -1,10 +1,7 @@
-.block
-  .secondary-navigation
-    =render :partial => 'nav'
-  .content
-    %h2.title
-      = t("common.new")
-      = t("person_member",:count=>1)
-    .inner
-      = render :partial => "form"
+.secondary-navigation
+  =render :partial => 'nav'
+.container
+  %h2
+    = t("helpers.form_title.create", model: t(PersonMember.model_name.i18n_key, count: 1))
+  = render :partial => "form"
 - content_for :sidebar, render(:partial => 'sidebar')

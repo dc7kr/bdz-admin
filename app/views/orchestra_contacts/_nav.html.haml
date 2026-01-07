@@ -1,12 +1,8 @@
 %ul.nav.nav-tabs
   %li.nav-item= link_to_up_path t("common.up"),  orchestra_path(@orchestra)
-  %li.nav-item= link_to t("common.list"), orchestra_orchestra_contacts_path(@orchestra), :class=>tabActiveClass(@current_action,'index','nav-link')
-  %li
-  - if (not @orchestra_contact.nil? and not @orchestra_contact.id.nil? and can? :edit, @orchestra_contact)
-    %li{:class => tabActiveClass(@current_action,'edit',nil)}= link_to t("common.edit"), edit_orchestra_orchestra_contact_path(@orchestra,@orchestra_contact)
-  -else
-    - if can? :create, OrchestraMember
-      %li.nav-item= nav_to_new(OrchestraContact, new_orchestra_orchestra_contact_path(@orchestra))
+  = nav_to_list OrchestraContact, orchestra_orchestra_contacts_path(@orchestra), :class=>tabActiveClass(@current_action,'index','nav-link')
+  = nav_to_edit @orchestra_contact, edit_orchestra_orchestra_contact_path(@orchestra,@orchestra_contact)
+  = nav_to_new OrchestraContact, new_orchestra_orchestra_contact_path(@orchestra)
 
 
 

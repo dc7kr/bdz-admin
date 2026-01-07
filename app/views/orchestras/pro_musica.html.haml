@@ -1,16 +1,15 @@
 .secondary-navigation
   =render :partial=>'nav'
-.content
+.container
   %h2.title
     Orchester über #{@age}
-  .inner
-    %table.table-sm.table-hover.table-condensed
-      %thead
-        %th= sortable "mglnr", attr_heading(Member,:mglnr)
-        %th= sortable "orchName", attr_heading(Orchestra,:orchName)
-        %th= sortable "email", attr_heading(Member,:email)
-        %th= sortable "gruendung", attr_heading(Orchestra,:gruendung)
-        %th.last &nbsp;
-      %tbody#orchestras
-        =render partial: "orchestra_pro_musica", collection: @orchestras, as: :orchestra
+  %table.table-sm.table-hover.table-condensed
+    %thead
+      %th= sortable "mglnr", attr_heading(Member,:mglnr)
+      %th= sortable "orchName", attr_heading(Orchestra,:orchName)
+      %th= sortable "email", attr_heading(Member,:email)
+      %th= sortable "gruendung", attr_heading(Orchestra,:gruendung)
+      %th.last &nbsp;
+    %tbody#orchestras
+      =render partial: "orchestra_pro_musica", collection: @orchestras, as: :orchestra
 - content_for :sidebar, render(:partial => 'sidebar')

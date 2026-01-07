@@ -1,18 +1,14 @@
-.block
-  .secondary-navigation
-    =render :partial=>'nav'
-  .content
-    %h2.title
-      = t("common.all")
-      = t("classified",:count=>3)
-    .inner
-      %table.table-sm
-        %thead
-        %tbody#classifieds
-          = render @classifieds
-      #paginator
-        = paginate @classifieds
-      .actions-bar.wat-cf
-        .actions
+.secondary-navigation
+  =render :partial=>'nav'
+.container
+  %h2.title
+    = t("common.all")
+    = t("classified",:count=>3)
+  %table.table.table-sm
+    %thead
+    %tbody#classifieds
+      = render @classifieds
+  #paginator
+    = paginate @classifieds
 - content_for :sidebar, render(:partial => 'sidebar')
 

@@ -1,4 +1,3 @@
-- content_for :sidebar, render(:partial => 'sidebar')
 .secondary-navigation
   = render :partial=>"nav"
 .container
@@ -24,6 +23,7 @@
     %span.badge.bg-danger=t("report_sheet.tag.not_invoiced")
 
   = link_to "PDF", report_sheet_path(@report_sheet, :format=>"pdf"), class: "btn btn-primary"
+  = link_to t("common.invoice_preview"), invoice_preview_report_sheet_path(@report_sheet),  data: { 'turbo_frame' => 'modal' }, class: 'btn btn-secondary btn-sm'
   .card
     .card-body
       %h5.card-title=t("invoice",count: 1)
@@ -73,3 +73,4 @@
   - if @needs_update and @consistent
     =button_to(t("report_sheet.update_invoice"), update_invoice_orchestra_report_sheet_path(@orchestra,@report_sheet), :class=>"btn btn-primary" )
 
+- content_for :sidebar, render(:partial => 'sidebar')

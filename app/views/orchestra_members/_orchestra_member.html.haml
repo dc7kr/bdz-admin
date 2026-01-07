@@ -18,7 +18,7 @@
           %td.faulty=orchestra_member.mglnr.to_s  
     %td= orchestra_member.instrument
     %td
-      = link_to_show_path orchestra_member_path(orchestra_member), t('common.show') , orchestra_member
-      = link_to_edit_path edit_orchestra_member_path(orchestra_member),'Edit',orchestra_member
-      = link_to_del_path orchestra_member_path(orchestra_member), orchestra_member
+      = link_to_show orchestra_member
+      = link_to_edit orchestra_member, edit_orchestra_member_path(orchestra_member)
+      = link_to_delete orchestra_member, orchestra_member_path(orchestra_member)
       = link_to_exchange exchange_orchestra_member_path(orchestra_member), t('common.exchange') , orchestra_member

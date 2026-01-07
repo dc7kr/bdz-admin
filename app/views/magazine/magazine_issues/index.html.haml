@@ -1,16 +1,15 @@
-.block
-  .secondary-navigation
-    =render :partial=>'nav'
-  .content
-    %h2.title
-      = t("common.all")
-      = t("magazine_issue",:count=>3)
-    .inner
-      %table.table-sm.table-hover.table-condensed
-        %thead
-          %th.first=t('common.year')
-          %th=attr_heading(MagazineIssue,:number)
-          %th.last
-        = render @magazine_issues
-      #paginator
-        = paginate @magazine_issues
+.secondary-navigation
+  =render :partial=>'nav'
+.container
+  %h2.title
+    = t("common.all")
+    = t("magazine_issue",:count=>3)
+  %table.table.table-sm.table-hover.table-condensed
+    %thead
+      %th.first=t('common.year')
+      %th=attr_heading(MagazineIssue,:number)
+      %th.last
+    %tbody#magazine_issues
+    = render @magazine_issues
+  #paginator
+    = paginate @magazine_issues

@@ -7,6 +7,6 @@
   %td
     - if contest.visible == false then
       = link_to_publish contest,  t("common.publish")
-    = link_to_show contest,  t("common.show")
-    = link_to_edit contest, t("common.edit")
-    = link_to_delete contest, t('common.delete'), t('common.delete_confirm')
+    = link_to_show contest
+    = link_to_edit contest
+    = link_to_delete contest

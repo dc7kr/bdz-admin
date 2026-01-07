@@ -1,8 +1,6 @@
 %ul.nav.nav-tabs
-  %li{ :class => 'first'}= link_to_up_path t("common.up"), home_member_data_path
-  %li{ :class => tabActiveClass(@current_action,'index','first')}= link_to "#{t("common.list", :default => "List")}", festivals_path
-  -if (@festival)
-    %li{ :class => tabActiveClass(@current_action,'show',nil)}= link_to t("common.show"), '#'
-  -if can? :create, Festival
-    %li{:class => tabActiveClass(@current_action,'new',nil)}= link_to "#{t("common.new", :default => "New")}", new_festival_path
+  %li{ :class => 'first'}= link_to_up_path t("common.up"), home_landing_page_path
+  =nav_to_list Festival 
+  =nav_to_show @festival
+  =nav_to_new Festival
 

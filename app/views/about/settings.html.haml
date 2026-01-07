@@ -1,16 +1,12 @@
-.block
-  .secondary-navigation
-    =render :partial=>'nav'
-  .content
-    %h2.title
-      =t('common.config')
-    .inner
-      .block.notice
-        .content
-          %table
-            %tr
-              %td.label SEPA-Mode:
-              %td= @sepa
-            %tr
-              %td.label Mail Delivery:
-              %td= @deliver_mails
+.secondary-navigation
+  =render :partial=>'nav'
+.container
+  %h2.title
+    =t('common.config')
+  %table
+    %tr
+      %td.label SEPA-Mode:
+      %td= @sepa
+    %tr
+      %td.label Mail Delivery:
+      %td= @deliver_mails

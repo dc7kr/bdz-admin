@@ -1,11 +1,14 @@
-.card.card-primary.w-50.mb-3.mt-3.mx-auto.shadow
-  .card-header.text-white.bg-primary=t("devise.sign_in")
+.card.card-primary.w-25.mb-3.mt-3.mx-auto.shadow
+  .card-header.text-white.bg-primary=t(".sign_in")
   .card-body
     = bootstrap_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
       = f.text_field :login, autofocus: true
       = f.password_field :password, autocomplete: "off"
       - if devise_mapping.rememberable?
         = f.check_box :remember_me
-      .actions
-        = f.submit t("devise.sign_in")
-    = render "devise/shared/links"
+      .d-grid.gap-2.mx-auto
+        = f.submit t(".sign_in")
+    .mt-5
+      = render "devise/shared/links"
+
+
