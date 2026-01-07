@@ -9,7 +9,7 @@ class User < ApplicationRecord
   # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable
   # FUTURE: async mailers !
   # devise :database_authenticatable, :async, :recoverable, :rememberable, :trackable, :validatable, :authentication_keys => [:login]
-  devise :database_authenticatable, :recoverable, :rememberable, :trackable, :validatable,
+  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable,
          authentication_keys: [ :login ]
 
   validates :username,
