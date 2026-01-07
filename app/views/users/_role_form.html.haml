@@ -1,0 +1,4 @@
+= bootstrap_form_tag url: add_role_user_path(@user) do |f|
+  .input-group
+    = f.select :role, Role.all.collect { |r| [ r.name, r.id ] }, label: false, wrapper: false 
+    = f.submit 

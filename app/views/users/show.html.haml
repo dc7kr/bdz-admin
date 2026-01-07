@@ -1,18 +1,23 @@
-.block
-  .secondary-navigation
-    = render :partial=>'nav'
-  .content
-    .inner
-      .container-fluid
-        =entity_row @user,:username
-        =entity_row @user,:name
-        =entity_row @user,:email,:mailto
-        .row
-          .col-md-3.text-end=label :user, :roles
-          .col-md-9
-            -@user.roles.each do |r|
-              =r.name
-              %br
-        =entity_row @user,:entity_class
-        =entity_row @user,:entity_id
-        =entity_row @user,:restricting_entity
+.secondary-navigation
+  = render :partial=>'nav'
+.container.w-50
+  %h2
+    =my_fa_icon("user")
+    &nbsp;
+    =t("user",count:1)
+    = @user.username
+  =entity_row @user,:username
+  =entity_row @user,:name
+  =entity_row @user,:email,:mailto
+  
+  .row
+    .col-md-3.text-end=label :user, :roles
+    .col-md-9
+      %table.table.table-sm#roles
+        = render @user.roles
+      = render partial: "role_form"
+
+  -if not @user.restricting_entity.nil?
+    =entity_row @user,:entity_class
+    =entity_row @user,:entity_id
+    =entity_row @user,:restricting_entity

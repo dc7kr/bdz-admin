@@ -1,0 +1,38 @@
+%li.nav-item.dropdown
+  %a.nav-link.dropdown-toggle{ data: { "bs-toggle": "dropdown", "bs-auto-close": "outside" }, href: "#", role: "button", "aria-expanded": false }
+    =my_fa_icon("user")
+    .dropdown-menu.p-4
+
+  %ul.dropdown-menu.dropdown-menu-end
+    %li.ps-4.pe-4
+      %strong
+        =current_user.name
+      %br
+      @#{current_user.username}
+    %li
+      %hr.dropdown-divider/
+    %li
+      = link_to edit_user_registration_path, class: "dropdown-item" do
+        = my_fa_icon("user-circle")
+        &nbsp;
+        =t("account.profile")
+    - if current_user and current_user.has_role? :admin
+      %li
+        %hr.dropdown-divider/
+      = render partial: "admin_dropdown"
+
+    %li
+      %hr.dropdown-divider/
+    %li
+      %a.dropdown-item{:href => "/about"}
+        =my_fa_icon "info-circle"
+        &nbsp;
+        =t("common.about")
+
+    %li
+      = link_to destroy_user_session_path, data: { turbo_method: :delete }, class: "dropdown-item" do
+        =my_fa_icon "sign-out-alt"
+        &nbsp;
+        =t("account.logout")
+     
+

@@ -1,10 +1,24 @@
-.dropdown-menu{ :aria => {:labelledby=>"dropdownMenuAdmin"}}
-  = link_to "Users", users_path, :class=>"dropdown-item"
-  .dropdown-divider
-  = link_to "SEPA regeneration", adm_sepa_regeneration_index_path, :class=>"dropdown-item"
-  = link_to "Invoice check", adm_invoice_check_path, :class=>"dropdown-item"
-  = link_to "SideKiq", "/sidekiq", :class=>"dropdown-item"
-  = link_to "Invoice Engine", "/invoice_engine/invoices", :class=>"dropdown-item"
-  .dropdown-divider
-  = link_to "Invoice test", "/adm/invoice_check/", :class=>"dropdown-item"
-  = link_to "Mail test", "/adm/mail_check/admin", :class=>"dropdown-item"
+%li.dropstart
+  %a.dropdown-item.dropdown-toggle{:href=>"#", :role=>"button" ,:data=> { "bs-toggle": "dropdown", "bs-auto-close": "outside" }}
+    =my_fa_icon "cog"
+    &nbsp;
+    =t("common.admin")
+  %ul.dropdown-menu.dropdown-menu-end
+    %li
+      = link_to users_path, :class=>"dropdown-item" do
+        =my_fa_icon("users")
+        &nbsp;
+        =t("user", count: 1)
+
+    %li= link_to "SideKiq", "/sidekiq", :class=>"dropdown-item"
+    %li
+      = link_to "/invoice_engine/invoices", :class=>"dropdown-item" do
+        =my_fa_icon("file-alt")
+        &nbsp;
+        Invoice Engine
+    .dropdown-divider
+    %li= link_to "SEPA regeneration", adm_sepa_regeneration_index_path, :class=>"dropdown-item"
+    %li= link_to "Invoice check", adm_invoice_check_path, :class=>"dropdown-item"
+    .dropdown-divider
+    %li= link_to "Invoice test", "/adm/invoice_check/", :class=>"dropdown-item"
+    %li= link_to "Mail test", "/adm/mail_check/admin", :class=>"dropdown-item"

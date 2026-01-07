@@ -1,23 +1,19 @@
-.block
-  .secondary-navigation
-    =render :partial=>'nav'
-  .content
-    %h2.title
-      = t("common.all")
-      = t('user',:count=>3)
-    .inner
-      %table.table-sm.table-hover.table-condensed
-        %thead
-          %th.first= attr_heading(User,:username)
-          %th= attr_heading(User,:email)
-          %th= attr_heading(User,:last_sign_in_at)
-          %th= attr_heading(User,:last_sign_in_ip)
-          %th= attr_heading(User,:sign_in_count)
-          %th.last &nbsp;
-        %tbody#users
-          =render @users
-      #paginator
-        = paginate @users
-      .actions-bar.wat-cf
-        .actions
+.secondary-navigation
+  =render :partial=>'nav'
+.container
+  %h2.title
+    = t("common.all")
+    = t('user',:count=>3)
+
+  %table.table.table-sm.table-hover.table-condensed
+    %thead
+      %th.first= attr_heading(User,:username)
+      %th= attr_heading(User,:email)
+      %th= attr_heading(User,:last_sign_in_at)
+      %th= attr_heading(User,:last_sign_in_ip)
+      %th= attr_heading(User,:sign_in_count)
+      %th.last &nbsp;
+    %tbody#users=render @users
+  #paginator= paginate @users
+
 - content_for :sidebar, render(:partial => 'sidebar')
