@@ -121,7 +121,7 @@ class ReportSheetInputPdf < Prawn::Document
   end
 
   def check_txt(bool)
-    if bool == true
+    if bool == true or bool > 0 
       "x"
     else
       "-"
@@ -188,12 +188,12 @@ class ReportSheetInputPdf < Prawn::Document
 
     move_down 20
     text "5. Instrumentierung", style: :bold, size: 20
-    rows = [
-      [ t_label("report_sheet.zo"), check_txt(@rs.zo) ],
-      [ t_label("report_sheet.zi_o"), check_txt(@rs.zi_o) ],
-      [ t_label("report_sheet.go"), check_txt(@rs.go) ],
-      [ t_label("report_sheet.oz"), check_txt(@rs.oz) ]
-    ]
+    rows = []
+    rows << [ t_label("report_sheet.zo"), @rs.zo ] unless @rs.zo == 0
+    rows << [ t_label("report_sheet.zi_o"), @rs.zi_o ] unless @rs.zi_o == 0
+    rows << [ t_label("report_sheet.go"), @rs.go ] unless @rs.zi_o == 0
+    rows << [ t_label("report_sheet.oz"), @rs.oz ] unless @rs.zi_o == 0
+
     table rows do
       columns(0).align = :right
       columns(1).align = :left
