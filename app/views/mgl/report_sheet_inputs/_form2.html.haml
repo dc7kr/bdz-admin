@@ -7,7 +7,7 @@
   -OrchestraContact.roles.each_with_index do |role,i|
     - next if role == 'Z' 
     - contact = @contact_hash[role]
-    = f.fields_for 'contact['+i.to_s+']',contact do |cf|
+    = f.fields_for "contact", contact, {index:i} do |cf|
       .card.mb-3
         .card-header=t('orchestra_contact.role_'+role)
         .card-body
