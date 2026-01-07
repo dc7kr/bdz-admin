@@ -9,6 +9,7 @@ module Ef
     def show
       respond_to do |format|
         format.html # show.html.erb
+        format.turbo_stream
         format.json { render json: @festival_application }
       end
     end

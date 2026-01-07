@@ -4,4 +4,6 @@
   %td= festival_piece.arranger
   %td= festival_piece.publisher
   %td= render_duration(festival_piece.duration)
-  %td= link_to_del_path ef_festival_application_festival_piece_path(@festival_application,festival_piece),  festival_piece
+  %td
+    = link_to_edit festival_piece, edit_ef_festival_application_festival_piece_path(@festival_application,festival_piece), authz: false, turbo: true
+    = link_to_delete festival_piece, ef_festival_application_festival_piece_path(@festival_application,festival_piece), authz: false

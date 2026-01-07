@@ -16,11 +16,9 @@
         %th=t('festival_piece.duration')
     %tbody#festival_pieces
       = render @festival_pieces 
-   
-     
-  %h3=t('festival_application.add_piece')
-  = render partial: "ef/festival_pieces/form", locals: { festival_application: @festival_application, festival_piece: FestivalPiece.new }
-  
+
+  = render partial: "ef/festival_pieces/new_piece_form", locals: { festival_application: @festival_application, festival_piece: FestivalPiece.new }
+    
   = wizard_forward_button(t('common.finalize'),finalize_ef_festival_application_path(@festival_application))
 = render :partial => "ef/footer"
 - content_for :sidebar, render(:partial => 'sidebar')

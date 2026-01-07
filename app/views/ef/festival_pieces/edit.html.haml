@@ -1,0 +1,10 @@
+.page-title-section
+  %h1
+    #{t("festival_application",:count=>1)} Nr. #{@festival_application.id}
+    - if @festival_application.permission
+      (#{t('festival_application.permission_granted')})
+
+.ef-inner
+  %h2.title=t("festival_piece", count:1)
+  .container-fluid
+    = render partial: "form", locals: { festival_application: @festival_application, festival_piece: @festival_piece }

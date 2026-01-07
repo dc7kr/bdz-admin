@@ -7,7 +7,7 @@
 .ef-inner
   %h2.title
     =@festival_application.orch_name
-    = link_to_edit([:ef,@festival_application],t("common.edit"), "btn-primary")
+    = link_to_edit([:ef,@festival_application],txt:t("common.edit"), btn_class:"btn-primary", authz: false)
   .container-fluid
     %ul.nav.nav-tabs
       %li.nav-item{:role => "presentation"}
@@ -103,10 +103,10 @@
               %th=t("festival_piece.arranger")
               %th=t("festival_piece.publisher")
               %th=t("festival_piece.duration")
-            %tbody
+            %tbody#festival_pieces
               = render @festival_application.festival_pieces
-        = link_to_edit_path(step2_ef_festival_application_path(@festival_application), t("common.edit_entity", entity: t("festival_piece", count:3)), @festival_application, "btn-primary") 
-                
-
+        = link_to_new FestivalPiece, new_ef_festival_application_festival_piece_path(@festival_application), turbo:true, authz: false
+        = turbo_frame_tag :piece_form do
+          &nbsp;
 
 = render :partial => "ef/footer"
