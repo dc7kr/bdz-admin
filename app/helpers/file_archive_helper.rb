@@ -4,14 +4,19 @@ module FileArchiveHelper
   def archive_file(srcdir, filename, year)
     target = MailingFile.new(filename, filename, year)
 
-    srcFileName = File.join(srcdir, filename)
+    src_file_name = File.join(srcdir, filename)
 
-    if File.exist? srcFileName
-      Rails.logger.debug { "move #{srcFileName} to #{target.full_path}" }
-      FileUtils.mv(srcFileName, target.full_path)
+    if File.exist? src_file_name
+      Rails.logger.debug { "move #{src_file_name} to #{target.full_path}" }
+
+      if not File.directory? target.full_dir 
+        FileUtils.mkdir_p target.full_dir
+      end
+
+      FileUtils.mv(src_file_name, target.full_path)
       target
     else
-      Rails.logger.error("Source file not found: #{srcFileName}")
+      Rails.logger.error("Source file not found: #{src_file_name}")
       nil
     end
   end
