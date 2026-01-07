@@ -32,12 +32,9 @@ class AdminNotifier < ApplicationMailer
     mail(to: user.email, subject: "[BDZDB] Ungültige Mitgliedsdaten")
   end
 
-  def em_tariff_fix_notification(user, digital, normal, changed, unchanged)
+  def em_tariff_fix_notification(user, changes)
+    @changes = changes 
     @recipient = user
-    @normal = normal
-    @digital = digital
-    @changed = changed
-    @unchanged = unchanged
     mail(to: user.email, subject: "[BDZDB] EM Tarifanpassung")
   end
 
