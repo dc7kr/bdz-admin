@@ -1,2 +1,2 @@
-class EventCardPolicy < ApplicationPolicy 
+class EventCardPolicy < FestivalDataPolicy
 end

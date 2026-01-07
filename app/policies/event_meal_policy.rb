@@ -1,2 +1,2 @@
-class EventMealPolicy < ApplicationPolicy 
+class EventMealPolicy < FestivalDataPolicy
 end

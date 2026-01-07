@@ -1,0 +1,3 @@
+class FestivalMealPolicy < FestivalDataPolicy
+
+end
