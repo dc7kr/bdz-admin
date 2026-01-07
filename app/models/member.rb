@@ -101,7 +101,7 @@ class Member < ApplicationRecord
     c.zip = plz
     c.city = ort
     c.email = email
-    c.country = country_code
+    c.country_code = country_code
     c.sig_date = sig_date
     c.mandate_id =  mandate_id
     c.account_owner = zahler

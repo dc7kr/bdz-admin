@@ -53,7 +53,7 @@ class FestivalApplication < ApplicationRecord
     cust.street = contact_person.street
     cust.zip = contact_person.zip
     cust.city = contact_person.city
-    cust.country = contact_person.country_code
+    cust.country_code = contact_person.country_code
 
     cust
   end
