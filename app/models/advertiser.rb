@@ -16,8 +16,6 @@ class Advertiser < ApplicationRecord
     joins(:contact).where("active=1")
   }
 
-  self.authorizer_name = "MagazineContextAuthorizer"
-
   def adv_id
     id
   end
