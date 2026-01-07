@@ -104,8 +104,7 @@ module Ef
           format.turbo_stream {
             render turbo_stream: [
               turbo_stream.replace(@festival_piece, partial: "ef/festival_pieces/festival_piece", locals: { festival_piece: @festival_piece }),
-              turbo_stream.replace(:piece_form, partial: "no_form" )
-              #partial: "new_piece_form", locals: { festival_piece: @festival_piece, festival_application: @festival_application})
+              turbo_stream.update(:piece_form, partial: "no_form" )
               ]
           }
 
