@@ -5,10 +5,11 @@ class EnsembleConcertsController < AuthenticatedController
   include ApplicationHelper
 
   helper_method :sort_column, :sort_direction
+  
+  skip_before_action :authenticate_user!, only: %i[index public]
 
   # GET /ensembles
   # GET /ensembles.json
-  before_action :authenticate_user!, except: [ :some_action_without_auth ]
 
   def publish
     @ensemble_concert = EnsembleConcert.find(params[:id])
@@ -153,12 +154,6 @@ class EnsembleConcertsController < AuthenticatedController
       format.html { redirect_to ensemble_ensemble_concerts_path(params[:ensemble_id]) }
       format.json { head :ok }
     end
-  end
-
-  protected
-
-  def noAuthActions
-    %w[index public]
   end
 
   private

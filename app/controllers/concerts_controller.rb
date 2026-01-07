@@ -1,7 +1,6 @@
-class ConcertsController < AuthorityController
-  authorize_actions_for Concert, except: :create
+class ConcertsController < AuthenticatedController
 
-  authority_actions future: "read", inactive: "read", publish: "update"
+  #  authority_actions future: "read", inactive: "read", publish: "update"
 
   before_action :set_concert, only: %i[show edit update destroy]
   # , :actions => {:neuter => :update},
@@ -105,7 +104,7 @@ class ConcertsController < AuthorityController
   # GET /concerts/1/edit
   def edit
     @concert = Concert.find(params[:id])
-    authorize_action_for @concert
+    authorize @concert
     @lvs = RegionalOrganization.all
     @states = State.all
   end
@@ -166,7 +165,7 @@ class ConcertsController < AuthorityController
   def set_concert
     @concert = Concert.find(params[:id])
 
-    authorize_action_for @concert
+    authorize @concert
   end
 
   def concert_params

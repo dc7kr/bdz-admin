@@ -1,11 +1,12 @@
 module Adm
-  class InvoiceCheckController < AuthenticatedNonResourceController
+  class InvoiceCheckController < AuthenticatedController
+    skip_after_action :verify_pundit_authorization
     def index
-      authorize! :member, :edit
+      authorize :admin, :show?
     end
 
     def distinction
-      authorize! :member, :edit
+      authorize :admin, :show?
 
       distinction = Distinction.new
 
@@ -17,7 +18,9 @@ module Adm
       distinction.national_needles = 6
       distinction.porto = 3.45
 
-      orchestra = Member.where("mglnr = 1045").first.member_entity
+      orchestra = policy_scope(Member).where("mglnr = 1045").first.member_entity
+      authorize orchestra, :show?
+
       distinction.orchestra = orchestra
 
       invoice = distinction.gen_invoice
@@ -28,10 +31,11 @@ module Adm
     end
 
     def orchestra
-      authorize! :member, :edit
-      orch = Orchestra.joins(:member).where("members.mglnr = 1045").first
+      authorize :admin, :show?
+      orch = policy_scope(Orchestra).joins(:member).where("members.mglnr = 1045").first
 
-      invoice = orch.gen_invoice(Time.zone.now.year)
+      year = orch.report_sheets.last.year
+      invoice = orch.gen_invoice(year)
 
       pdf = invoice.gen_pdf(true)
 
@@ -39,7 +43,7 @@ module Adm
     end
 
     def person_member
-      authorize! :member, :edit
+      authorize :admin, :show?
       pm = PersonMember.last
       invoice = pm.gen_invoice(Time.zone.now.year)
       pdf = invoice.gen_pdf(true)

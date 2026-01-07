@@ -2,11 +2,13 @@ class DistinctionsController < AuthenticatedController
   # for table sort by column click
   helper_method :sort_column, :sort_direction
 
+  before_action :set_distinction, only: %i[show edit update destroy invoice_preview]
+
   include ApplicationHelper
 
   def gen_invoice
-    Time.zone.now.year
-    distinction = Distinction.find(params[:id])
+    distinction = policy_scope(Distinction).find(params[:id])
+    authorize distinction
 
     orchestra = distinction.orchestra
 
@@ -51,7 +53,7 @@ class DistinctionsController < AuthenticatedController
   # GET /distinctions
   # GET /distinctions.json
   def index
-    @distinctions = Distinction.where(orchestra_id: params[:orchestra_id]).order("#{sort_column} #{sort_direction}").page(params[:page]).per(20)
+    @distinctions = policy_scope(Distinction).where(orchestra_id: params[:orchestra_id]).order("#{sort_column} #{sort_direction}").page(params[:page]).per(20)
 
     @orchestra = Orchestra.find(params[:orchestra_id])
 
@@ -64,8 +66,7 @@ class DistinctionsController < AuthenticatedController
   # GET /distinctions/1
   # GET /distinctions/1.json
   def show
-    @orchestra = Orchestra.find(params[:orchestra_id])
-    @distinction = Distinction.find(params[:id])
+    @orchestra = policy_scope(Orchestra).find(params[:orchestra_id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -74,7 +75,6 @@ class DistinctionsController < AuthenticatedController
   end
 
   def invoice_preview
-    @ínvoice = CorikaInvoices::Invoice.find(@distinction.invoice_id)
 
     if not @distinction.invoice_id.nil?
       @invoice = CorikaInvoices::Invoice.find(@distinction.invoice_id)
@@ -97,6 +97,7 @@ class DistinctionsController < AuthenticatedController
   def new
     @orchestra = Orchestra.find(params[:orchestra_id])
     @distinction = Distinction.new(orchestra_id: @orchestra.id, dist_date: Time.zone.now)
+    authorize @distinction
 
     respond_to do |format|
       format.html # new.html.erb
@@ -116,6 +117,7 @@ class DistinctionsController < AuthenticatedController
     @distinction = Distinction.new(distinction_params)
     @orchestra = Orchestra.find(params[:orchestra_id])
     @distinction.orchestra = @orchestra
+    authorize @distinction
 
     respond_to do |format|
       if @distinction.save
@@ -169,6 +171,11 @@ class DistinctionsController < AuthenticatedController
 
   def sort_column
     Orchestra.column_names.include?(params[:sort]) ? params[:sort] : "distinctions.dist_date"
+  end
+
+  def set_distinction
+    @distinction = policy_scope(Distinction).find(params[:id])
+    authorize @distinction
   end
 
   def send_mail(invoice, sepa)

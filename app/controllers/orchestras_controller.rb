@@ -6,7 +6,9 @@ class OrchestrasController < AuthenticatedController
   # for table sort by column click
   helper_method :sort_column, :sort_direction
 
-  authority_actions lorch: "read"
+  before_action :set_orchestra, only: %i[ show edit update destroy invoice_preview ]
+
+  #authority_actions lorch: "read"
 
   include UploadHelper
   include ReportSheetUploadHelper
@@ -53,11 +55,12 @@ class OrchestrasController < AuthenticatedController
 
     year = Time.zone.now.year if year.nil?
 
-    @orchestras = Orchestra.notinvoiced(year).search(params[:search]).order("#{sort_column} #{sort_direction}").page(params[:page]).per(20)
+    @orchestras = policy_scope(Orchestra).notinvoiced(year).search(params[:search]).order("#{sort_column} #{sort_direction}").page(params[:page]).per(20)
 
     respond_to do |format|
       format.js
       format.html
+      format.turbo_stream { render partial: "list" }
       format.json do
         render json: @orchestras.to_json(
           { member: { include: :member } }
@@ -67,7 +70,7 @@ class OrchestrasController < AuthenticatedController
   end
 
   def magazine
-    @orchestras = Orchestra.with_zero_balance
+    @orchestras = policy_scope(Orchestra).with_zero_balance
     @result = []
 
     @orchestras.each do |orchestra|
@@ -91,7 +94,7 @@ class OrchestrasController < AuthenticatedController
   def nopayment
     @regional_organization = RegionalOrganization.find(params[:regional_organization_id]) unless params[:regional_organization_id].nil?
 
-    data = @orchestras.no_payment(params[:before], @regional_organization)
+    data = policy_scope(Orchestra).no_payment(params[:before], @regional_organization)
 
     @members = data[:members]
     @accounts = data[:accounts]
@@ -99,6 +102,7 @@ class OrchestrasController < AuthenticatedController
     respond_to do |format|
       format.html
       format.json { render json: @members }
+      format.turbo_stream { render partial: "list", locals: { resources: @orchestras }  }
       format.csv { render csv: @members, style: :minimal, filename: "nopayment_#{Time.zone.now.year}" }
       format.ods do
         renderNoPayOds("/tmp/nopayment.ods", @accounts, @members)
@@ -130,17 +134,16 @@ class OrchestrasController < AuthenticatedController
   end
 
   def lorch
-    @orchestras = @orchestras.includes(:member).where("orch_type='L'").order("#{sort_column} #{sort_direction}").page(params[:page]).per(20)
+    @orchestras = policy_scope(Orchestra).includes(:member).where("orch_type='L'").order("#{sort_column} #{sort_direction}").page(params[:page]).per(20)
 
-    # authorize_action_for @orchestras
+    # authorize @orchestras
 
     respond_to do |format|
       format.html do
         redirect_to @orchestras[0] if @orchestras.length == 1
       end
-      # index.html.erb
+      format.turbo_stream { render partial: "list", locals: { resources: @orchestras }  }
       format.json { render json: @orchestras }
-      format.js
     end
   end
 
@@ -156,7 +159,7 @@ class OrchestrasController < AuthenticatedController
   end
 
   def index
-    @orchestras = @orchestras.includes(:member).search(params[:search]).order("#{sort_column} #{sort_direction}").page(params[:page]).per(20)
+    @orchestras = policy_scope(Orchestra).includes(:member).search(params[:search]).order("#{sort_column} #{sort_direction}").page(params[:page]).per(20)
 
     respond_to do |format|
       format.html do
@@ -164,11 +167,12 @@ class OrchestrasController < AuthenticatedController
       end
       # index.html.erb
       format.json { render json: @orchestras }
-      format.js
+      format.turbo_stream { render partial: "list", locals: { resources: @orchestras }  }
     end
   end
 
   def noreport
+    @orchestras = policy_scope(Orchestra)
     year = if params[:year].nil?
              Time.zone.now.year
     else
@@ -181,6 +185,7 @@ class OrchestrasController < AuthenticatedController
 
     respond_to do |format|
       format.html
+      format.turbo_stream { render partial: "list", locals: { resources: @orchestras }  }
       format.json { render json: @orchestras }
     end
   end
@@ -188,7 +193,6 @@ class OrchestrasController < AuthenticatedController
   # GET /orchestras/1
   # GET /orchestras/1.json
   def show
-    @orchestra = Orchestra.includes(:report_sheets).find(params[:id])
     @report_sheets = @orchestra.report_sheets
 
     respond_to do |format|
@@ -200,6 +204,8 @@ class OrchestrasController < AuthenticatedController
   # GET /orchestras/new
   # GET /orchestras/new.json
   def new
+
+    authorize Orchestra, :create?
     @orchestra = Orchestra.new
     @orchestra.build_member
     @orchestra.member.country_code = ISO3166::Country["DE"].alpha2
@@ -214,12 +220,16 @@ class OrchestrasController < AuthenticatedController
   # GET /orchestras/1/edit
   def edit
     @orchestra = Orchestra.find(params[:id])
-    authorize_action_for @orchestra
+
+    authorize @orchestra
   end
 
   # POST /orchestras
   # POST /orchestras.json
   def create
+
+    authorize Orchestra, :create?
+
     @orchestra = Orchestra.new(orchestra_params)
     respond_to do |format|
       if @orchestra.save
@@ -236,6 +246,8 @@ class OrchestrasController < AuthenticatedController
   # PUT /orchestras/1.json
   def update
     @orchestra = Orchestra.find(params[:id])
+
+    authorize(@orchestra)
 
     respond_to do |format|
       if @orchestra.update(orchestra_params)
@@ -333,7 +345,7 @@ class OrchestrasController < AuthenticatedController
   end
 
   def nomail
-    @orchestras = Orchestra.nomail
+    @orchestras = policy_scope(Orchestra).nomail
     respond_to do |format|
       format.html
     end
@@ -367,5 +379,16 @@ class OrchestrasController < AuthenticatedController
   def orchestra_params
     params.require(:orchestra).permit(:orchName, :url, :gruendung, :orch_type, :bemerkung, :zweitanschrift, :name2,
                                       :kuendigungErfasst, :gema_kdnr, :gema_kdnr_new, :promusica, :publish_url, :publish_address, :ztg_override, member_attributes: Member.nested_params)
+  end
+
+  protected 
+  def index_actions
+    super.append(:notinvoiced, :noreport, :lorch, :nomail, :nopayment)
+  end
+
+  private 
+  def set_orchestra
+    @orchestra = policy_scope(Orchestra).includes(:member).includes(:report_sheets).find(params[:id])
+    authorize @orchestra
   end
 end

@@ -11,7 +11,7 @@ class FestivalApplicationsController < AuthenticatedController
   # GET /festival_applications.json
 
   def calc_sums(year = BDZ_SETTINGS["config"]["festival_year"])
-    result = FestivalApplication.where(year: year).select("SUM(num_players) as players, SUM(tickets) as tickets, SUM(tickets_red) as tickets_red, SUM(bdz_tickets) as bdz_tickets, SUM(bdz_tickets_red) as bdz_tickets_red").first
+    result = policy_scope(FestivalApplication).where(year: year).select("SUM(num_players) as players, SUM(tickets) as tickets, SUM(tickets_red) as tickets_red, SUM(bdz_tickets) as bdz_tickets, SUM(bdz_tickets_red) as bdz_tickets_red").first
 
     sums = {}
     sums[:tickets] = nil_safe_value result[:tickets]
@@ -27,7 +27,7 @@ class FestivalApplicationsController < AuthenticatedController
   end
 
   def index
-    @festival_applications = FestivalApplication.current_festival.order("#{sort_column} #{sort_direction}").search(params[:search]).page(params[:page]).per(20)
+    @festival_applications = policy_scope(FestivalApplication).current_festival.order("#{sort_column} #{sort_direction}").search(params[:search]).page(params[:page]).per(20)
 
     set_year(params)
 
@@ -36,6 +36,7 @@ class FestivalApplicationsController < AuthenticatedController
     respond_to do |format|
       format.js
       format.html # index.html.erb
+      format.turbo_stream
       format.json { render json: @festival_applications }
     end
   end
@@ -50,10 +51,10 @@ class FestivalApplicationsController < AuthenticatedController
 
     if params["year"].nil?
       @sum_players = 42  # FestivalApplication.current_festival.sum(:num_players)
-        @festival_applications = FestivalApplication.current_festival.where(permission: true).order("#{sort_column} #{sort_direction}").page(params[:page]).per(20)
+        @festival_applications = policy_scope(FestivalApplication).current_festival.where(permission: true).order("#{sort_column} #{sort_direction}").page(params[:page]).per(20)
     else
-        @sum_players = FestivalApplication.where(year: params["year"]).sum(:num_players)
-        @festival_applications = FestivalApplication.where(permission: true, year: params["year"]).order("#{sort_column} #{sort_direction}").page(params[:page]).per(20)
+        @sum_players = policy_scope(FestivalApplication).where(year: params["year"]).sum(:num_players)
+        @festival_applications = policy_scope(FestivalApplication).where(permission: true, year: params["year"]).order("#{sort_column} #{sort_direction}").page(params[:page]).per(20)
     end
 
 
@@ -75,8 +76,8 @@ class FestivalApplicationsController < AuthenticatedController
       end
 
       format.ods do
-        @festival_applications = FestivalApplication.current_festival.where(permission: true).order("#{sort_column} #{sort_direction}")
-        @sum_players = FestivalApplication.where(permission: true).sum(:num_players)
+        @festival_applications = policy_scope(FestivalApplication).current_festival.where(permission: true).order("#{sort_column} #{sort_direction}")
+        @sum_players = policy_scope(FestivalApplication).where(permission: true).sum(:num_players)
         renderApplicationOds(@festival_applications, "/tmp/festival_applications.ods")
         send_file("/tmp/festival_applications.ods",
                   filename: "festival_permissions_#{Time.zone.now.year}.ods", type: "application/octet-stream")
@@ -85,7 +86,7 @@ class FestivalApplicationsController < AuthenticatedController
   end
 
   def list
-    @festival_applications = FestivalApplication.current_festival.order(%i[group_type orch_name])
+    @festival_applications = policy_scope(FestivalApplication).current_festival.order(%i[group_type orch_name])
     now = Time.zone.now
     currDate = now.strftime("%d.%m.%Y")
 
@@ -105,7 +106,7 @@ class FestivalApplicationsController < AuthenticatedController
   end
 
   def grp_list
-    @festival_applications = FestivalApplication.current_fetsival.where(visitor_type: params[:visitor_type]).order(%i[group_type
+    @festival_applications = policy_scope(FestivalApplication).current_fetsival.where(visitor_type: params[:visitor_type]).order(%i[group_type
                                                                                                                       orch_name])
 
     now = Time.zone.now
@@ -129,9 +130,11 @@ class FestivalApplicationsController < AuthenticatedController
   # GET /festival_applications/1
   # GET /festival_applications/1.json
   def show
-    @festival_application = FestivalApplication.find_by token: params[:token]
+    @festival_application = policy_scope(FestivalApplication).find_by token: params[:token]
 
     @contact_person = @festival_application.contact_person
+    
+    authorize @festival_application
 
     respond_to do |format|
       format.html # show.html.erb
@@ -140,7 +143,7 @@ class FestivalApplicationsController < AuthenticatedController
   end
 
   def fee_invoice_preview
-    @festival_application = FestivalApplication.find_by token: params[:token]
+    @festival_application = policy_scope(FestivalApplication).find_by token: params[:token]
 
     @invoice = @festival_application.get_fee_invoice
 
@@ -154,7 +157,7 @@ class FestivalApplicationsController < AuthenticatedController
   end
 
   def ticket_invoice_preview
-    @festival_application = FestivalApplication.find_by token: params[:token]
+    @festival_application = policy_scope(FestivalApplication).find_by token: params[:token]
 
     @invoice = @festival_application.get_ticket_invoice
 
@@ -169,7 +172,7 @@ class FestivalApplicationsController < AuthenticatedController
 
 
   def finalize
-    @festival_application = FestivalApplication.find_by token: params[:token]
+    @festival_application = policy_scope(FestivalApplication).find_by token: params[:token]
   end
 
   # GET /festival_applications/new
@@ -177,6 +180,8 @@ class FestivalApplicationsController < AuthenticatedController
   def new
     @festival_application = FestivalApplication.new
     @festival_application.contact_person = ContactPerson.new
+    
+    authorize @festival_application
 
     respond_to do |format|
       format.html # new.html.erb
@@ -186,13 +191,14 @@ class FestivalApplicationsController < AuthenticatedController
 
   # GET /festival_applications/1/edit
   def edit
-    @festival_application = FestivalApplication.find_by(token: params[:token])
+    @festival_application = policy_scope(FestivalApplication).find_by(token: params[:token])
+    authorize @festival_application
   end
 
   # POST /festival_applications
   # POST /festival_applications.json
   def create
-    @festival_application = FestivalApplication.new(festival_application_params)
+    @festival_application = policy_scope(FestivalApplication).new(festival_application_params)
 
     Rails.logger.debug("Festival application contact person")
     contact_person = ContactPerson.new(contact_person_params)
@@ -222,7 +228,7 @@ class FestivalApplicationsController < AuthenticatedController
   # PUT /festival_applications/1
   # PUT /festival_applications/1.json
   def update
-    @festival_application = FestivalApplication.find_by token: params[:token]
+    @festival_application = policy_scope(FestivalApplication).find_by token: params[:token]
 
     Rails.logger.debug { "Params: #{contact_person_params}" }
     @festival_application.contact_person
@@ -247,7 +253,7 @@ class FestivalApplicationsController < AuthenticatedController
   # DELETE /festival_applications/1.json
 
   def destroy
-    @festival_application = FestivalApplication.find_by token: params[:token]
+    @festival_application = policy_scope(FestivalApplication).find_by token: params[:token]
     @festival_application.destroy
 
     respond_to do |format|
@@ -332,9 +338,9 @@ class FestivalApplicationsController < AuthenticatedController
     datePrefix = Time.zone.now.strftime("%Y%m%d%H%M%S_")
 
     @participants = if params[:alpha]
-                      FestivalApplication.where("permission = 1").order(:orch_name)
+                      policy_scope(FestivalApplication).where("permission = 1").order(:orch_name)
     else
-                      FestivalApplication.where("permission = 1").order(:id)
+                      policy_scope(FestivalApplication).where("permission = 1").order(:id)
     end
 
     pdf = ParticipantOverviewPdf.new(@participants, view_context)
@@ -343,7 +349,7 @@ class FestivalApplicationsController < AuthenticatedController
   end
 
   def fee_invoice
-    @festival_application = FestivalApplication.find_by token: params[:token]
+    @festival_application = policy_scope(FestivalApplication).find_by token: params[:token]
 
     if @festival_application.fee_invoice_id.nil?
         respond_to do |format|
@@ -360,7 +366,7 @@ class FestivalApplicationsController < AuthenticatedController
   end
 
   def ticket_invoice
-    @festival_application = FestivalApplication.find_by token: params[:token]
+    @festival_application = policy_scope(FestivalApplication).find_by token: params[:token]
 
     if @festival_application.fee_invoice_id.nil?
         respond_to do |format|
@@ -376,7 +382,7 @@ class FestivalApplicationsController < AuthenticatedController
   end
 
   def gen_participant_sheets
-    @appl = FestivalApplication.order(:id)
+    @appl = policy_scope(FestivalApplication).order(:id)
 
     @appl.each do |a|
       pdf = ParticipantSheetPdf.new(a, view_context)
@@ -386,14 +392,14 @@ class FestivalApplicationsController < AuthenticatedController
   end
 
   def gen_participant_sheet
-    @appl = FestivalApplication.find_by token: params[:token]
+    @appl = policy_scope(FestivalApplication).find_by token: params[:token]
 
     pdf = ParticipantSheetPdf.new(@appl, view_context)
     send_data pdf.render, filename: "participant_sheet_#{@appl.id}.pdf", type: "application/pdf", disposition: "inline"
   end
 
   def open_issues
-    @festival_applications = FestivalApplication.current_festival.order(:id)
+    @festival_applications = policy_scope(FestivalApplication).current_festival.order(:id)
   end
 
   def sort_column
@@ -429,6 +435,12 @@ class FestivalApplicationsController < AuthenticatedController
     )
   end
 
+  protected 
+  def index_actions
+    super.append(:permitted, :open_issues)
+
+  end
+
   private
     def set_year(params)
       if params[:year].nil?
@@ -443,4 +455,5 @@ class FestivalApplicationsController < AuthenticatedController
       Rails.logger.debug { "My params: #{my_params}" }
       my_params[:contact_person]
     end
+
 end

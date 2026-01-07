@@ -1,13 +1,13 @@
 require "rodf"
 
-class RegionalOrganizationReportsController < AuthorityController
+class RegionalOrganizationReportsController < AuthenticatedController
   include OrchestrasHelper
 
-  authority_actions orch: "read"
-  authority_actions index: "read"
-  authority_actions members: "read"
-  authority_actions fee_shares: "read"
-  authority_actions person: "read"
+  #authority_actions orch: "read"
+  #authority_actions index: "read"
+  #authority_actions members: "read"
+  #authority_actions fee_shares: "read"
+  #authority_actions person: "read"
 
   # nasty workaround for authority exception
   def search; end
@@ -84,7 +84,7 @@ class RegionalOrganizationReportsController < AuthorityController
 
   def orch
     @regional_organization = RegionalOrganization.find(params[:regional_organization_id])
-    authorize_action_for @regional_organization
+    authorize @regional_organization
 
     @orchestras = Orchestra.includes(:member).where(members: { regional_organization_id: params[:regional_organization_id] }).order("members.mglnr")
     respond_to do |format|
@@ -98,7 +98,7 @@ class RegionalOrganizationReportsController < AuthorityController
 
   def person
     @regional_organization = RegionalOrganization.find(params[:regional_organization_id])
-    authorize_action_for @regional_organization
+    authorize @regional_organization
 
     @person_members = PersonMember.includes(:member).where(members: { regional_organization_id: params[:regional_organization_id] }).order("members.mglnr")
     respond_to do |format|
@@ -119,7 +119,7 @@ class RegionalOrganizationReportsController < AuthorityController
     end
 
     @regional_organization = RegionalOrganization.find(params[:regional_organization_id])
-    authorize_action_for @regional_organization
+    authorize @regional_organization
 
     @lvSum = 0
     @orchSum = 0
@@ -196,7 +196,7 @@ class RegionalOrganizationReportsController < AuthorityController
 
   def fee_shares
     @regional_organization = RegionalOrganization.find(params[:regional_organization_id])
-    authorize_action_for @regional_organization
+    authorize @regional_organization
 
     @lvSum = 0
     @orchSum = 0
@@ -233,7 +233,7 @@ class RegionalOrganizationReportsController < AuthorityController
 
   def share_overview
     @regional_organization = RegionalOrganization.find(params[:regional_organization_id])
-    authorize_action_for @regional_organization
+    authorize @regional_organization
     @year = params[:year]
 
     @year = Time.zone.now.year if @year.nil?

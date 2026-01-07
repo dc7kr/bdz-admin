@@ -1,8 +1,10 @@
-class HomeController < AuthenticatedNonResourceController
-  skip_authorization_check only: :landing_page
+class HomeController < AuthenticatedController
+  skip_after_action :verify_pundit_authorization, only: :landing_page
+  skip_before_action :authenticate_user!, only: :landing_page
+
   def landing_page
     if current_user.nil?
-      redirect_to new_user_session_path
+      redirect_to new_user_session_path, format: :html
       return
     end
 
@@ -17,7 +19,7 @@ class HomeController < AuthenticatedNonResourceController
 
   def member_data
     @website_area = "member_data"
-    authorize! :index, Orchestra
+    authorize Orchestra, :show?
     respond_to do |format|
       format.html
     end
@@ -25,7 +27,7 @@ class HomeController < AuthenticatedNonResourceController
 
   def public_data
     @website_area = "public_data"
-    authorize! :index, Concert
+    authorize Concert, :show?
     respond_to do |format|
       format.html
     end
@@ -33,7 +35,7 @@ class HomeController < AuthenticatedNonResourceController
 
   def reference_data
     @website_area = "reference_data"
-    authorize! :index, RegionalOrganization
+    authorize State, :show?
     respond_to do |format|
       format.html
     end
@@ -41,7 +43,7 @@ class HomeController < AuthenticatedNonResourceController
 
   def magazine_data
     @website_area = "magazine_data"
-    authorize! :index, Advertiser
+    authorize Advertiser, :show?
     respond_to do |format|
       format.html
     end
@@ -49,21 +51,21 @@ class HomeController < AuthenticatedNonResourceController
 
   def festival_data
     @website_area = "festival_data"
-    authorize! :index, FestivalConcert
+    authorize FestivalConcert, :show?
     respond_to do |format|
       format.html
     end
   end
 
   def admin_data
-    authorize! :user, :destroy
+    authorize User, :destroy
     respond_to do |format|
       format.html
     end
   end
 
   def tools
-    authorize! :member_account_booking, :show
+    authorize MemberAccountBooking, :show?
     @views = GenericView.public_views
 
     respond_to do |format|
@@ -72,7 +74,7 @@ class HomeController < AuthenticatedNonResourceController
   end
 
   def cron
-    authorize! :member_account_booking, :show
+    authorize MemberAccountBooking, :show?
 
     respond_to do |format|
       format.html
@@ -80,7 +82,7 @@ class HomeController < AuthenticatedNonResourceController
   end
 
   def export_view
-    authorize! :member_account_booking, :show
+    authorize MemberAccountBooking, :show? 
 
     prefix = "#{Time.zone.now.strftime('%Y%m%d')}_"
 

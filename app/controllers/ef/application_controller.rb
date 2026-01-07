@@ -17,7 +17,7 @@ module Ef
     def allow_iframe_requests
       response.headers.delete("X-Frame-Options")
       # response.headers.except!  "X-Frame-Options"
-      Rails.logger.debug("filter x-frame-options public controller")
+      #Rails.logger.debug("filter x-frame-options public controller")
     end
 
     private

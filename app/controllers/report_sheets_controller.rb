@@ -3,11 +3,13 @@ class ReportSheetsController < AuthenticatedController
 
   include ApplicationHelper
 
+  before_action :set_report_sheet, only: %i[ show edit update destroy invoice_preview ]
+
   # GET /report_sheets
   # GET /report_sheets.json
   def index
     if params[:orchestra_id]
-      @orchestra = Orchestra.find(params[:orchestra_id])
+      @orchestra = policy_scope(Orchestra).find(params[:orchestra_id])
 
       @report_sheets = @orchestra.report_sheets.order(:year)
       thisYear = Time.zone.now.year
@@ -121,8 +123,6 @@ class ReportSheetsController < AuthenticatedController
   # GET /report_sheets/1
   # GET /report_sheets/1.json
   def show
-    @report_sheet = ReportSheet.find(params[:id])
-
     @orchestra = @report_sheet.orchestra
 
     @booking = @report_sheet.find_booking
@@ -222,6 +222,24 @@ class ReportSheetsController < AuthenticatedController
       format.json { head :ok }
     end
   end
+
+  def invoice_preview
+    #if not @report_sheet.invoice_id.nil?
+    #  @invoice = CorikaInvoices::Invoice.find(@report_sheet.invoice_id)
+    #else
+      @invoice = @report_sheet.orchestra.gen_invoice(@report_sheet.year)
+    #end
+
+    @invoice_hash = @invoice.to_hash[:invoice]
+
+
+    respond_to do |format|
+      format.turbo_stream { render template: "corika_invoices/invoices/preview" }
+      format.html { render template: "corika_invoices/invoices/preview" }
+      format.json { render json: @invoice }
+    end
+  end
+
 
   def analysis
     @current_year = Time.zone.now.year
@@ -382,6 +400,11 @@ class ReportSheetsController < AuthenticatedController
   end
 
   private
+
+    def set_report_sheet
+      @report_sheet = policy_scope(ReportSheet).find(params[:id])
+      authorize @report_sheet
+    end
 
   def report_sheet_params
     params.require(:report_sheet).permit(

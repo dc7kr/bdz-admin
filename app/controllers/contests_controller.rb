@@ -2,7 +2,7 @@ class ContestsController < AuthenticatedController
   layout :choose_layout
   helper_method :sort_column, :sort_direction
   before_action :authenticate_user!, except: %i[index show public]
-  skip_authorize_resource only: [ :public ]
+  #skip_authorize_resource only: [ :public ]
 
   def inactive
     @contests = Contest.inactive

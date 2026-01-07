@@ -1,23 +1,24 @@
 require "rodf"
 
 class PersonMembersController < AuthenticatedController
-  #  before_action :authenticate_user!, :except => @publicActions
-  # [:some_action_without_auth]
   helper_method :sort_column, :sort_direction
+
+  before_action :set_person_member, only: %i[ show edit update destroy invoice_preview ]
   include MagazineReportHelper
 
   # GET /person_members
   # GET /person_members.json
   # TODO: inherited sort!!!
   def index
-    @person_members = @person_members.includes(:member).search(params[:search]).order("#{sort_column} #{sort_direction}").page(params[:page]).per(20)
+    @person_members = policy_scope(PersonMember).includes(:member).search(params[:search]).order("#{sort_column} #{sort_direction}").page(params[:page]).per(20)
 
     respond_to do |format|
       format.js # index.html.erb
       format.html # index.html.erb
       format.json { render json: @person_members }
+      format.turbo_stream { render partial: "list", locals: { resources: @person_members } }
       format.ods do
-        @person_members = PersonMember.includes(:member).order("#{sort_column} #{sort_direction}")
+        @person_members = policy_scope(PersonMember).includes(:member).order("#{sort_column} #{sort_direction}")
         renderOds("/tmp/em.ods", @person_members)
         send_file("/tmp/em.ods", filename: "em_#{Time.zone.now.year}.ods", type: "application/octet-stream")
       end
@@ -39,9 +40,9 @@ class PersonMembersController < AuthenticatedController
 
   def addresses
     @person_members = if params[:nomail]
-                        PersonMember.includes(:member).nomail
+                        policy_scope(PersonMember).includes(:member).nomail
     else
-                        PersonMember.includes(:member).all
+                        policy_scope(PersonMember).includes(:member).all
     end
     # where("members.email IS NULL or members.email=''")
     respond_to do |format|
@@ -52,17 +53,18 @@ class PersonMembersController < AuthenticatedController
   end
 
   def notinvoiced
-    @person_members = @person_members.notinvoiced(Time.zone.now.year).page(params[:page]).per(20)
+    @person_members = policy_scope(PersonMember).notinvoiced(Time.zone.now.year).page(params[:page]).per(20)
 
     respond_to do |format|
       format.html # index.html.erb
+      format.turbo_stream { render partial: "list", locals: { resources: @person_members } }
       format.json { render json: @person_members }
     end
   end
 
   def nopayment
     @regional_organization = RegionalOrganization.find(params[:regional_organization_id]) unless params[:regional_organization_id].nil?
-    data = @person_members.no_payment(params[:before], @regional_organization)
+    data = policy_scope(PersonMember).no_payment(params[:before], @regional_organization)
 
     @members = data[:members]
     @accounts = data[:accounts]
@@ -82,9 +84,6 @@ class PersonMembersController < AuthenticatedController
   # GET /person_members/1
   # GET /person_members/1.json
   def show
-    @person_member = PersonMember.includes(:tariff).find(params[:id])
-    # @bookings = @person_member.member_account_bookings
-
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @person_member }
@@ -99,6 +98,8 @@ class PersonMembersController < AuthenticatedController
     @person_member.member.country_code = ISO3166::Country["DE"].alpha2
     @person_member.member.magazines = -1
 
+    authorize @person_member
+
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @person_member }
@@ -107,13 +108,13 @@ class PersonMembersController < AuthenticatedController
 
   # GET /person_members/1/edit
   def edit
-    @person_member = PersonMember.find(params[:id])
   end
 
   # POST /person_members
   # POST /person_members.json
   def create
     @person_member = PersonMember.new(person_member_params)
+    authorize @person_member
 
     respond_to do |format|
       if @person_member.save
@@ -129,7 +130,6 @@ class PersonMembersController < AuthenticatedController
   # PUT /person_members/1
   # PUT /person_members/1.json
   def update
-    @person_member = PersonMember.find(params[:id])
 
     respond_to do |format|
       if @person_member.update(person_member_params)
@@ -145,7 +145,6 @@ class PersonMembersController < AuthenticatedController
   # DELETE /person_members/1
   # DELETE /person_members/1.json
   def destroy
-    @person_member = PersonMember.find(params[:id])
     @person_member.destroy
 
     respond_to do |format|
@@ -155,7 +154,7 @@ class PersonMembersController < AuthenticatedController
   end
 
   def magazine
-    person_members = PersonMember.with_zero_balance
+    person_members = policy_scope(PersonMember).with_zero_balance
     result = []
 
     person_members.each do |person_member|
@@ -172,11 +171,12 @@ class PersonMembersController < AuthenticatedController
   end
 
   def nomail
-    @members = PersonMember.nomail.page(params["page"]).per(20)
+    @members = policy_scope(PersonMember).nomail.page(params["page"]).per(20)
     respond_to do |format|
       format.html
     end
   end
+
 
   private
 
@@ -228,5 +228,16 @@ class PersonMembersController < AuthenticatedController
   def person_member_params
     params.require(:person_member).permit(:geburtstag, :telefonDienstl, :tariff_id, :bemerkung, :zeitungen,
                                           :kuendigungVom, :beitrag, :zusatzzeitung, member_attributes: Member.nested_params)
+  end
+
+  protected
+  def index_actions
+    super.append(:notinvoiced, :nopayment, :nomail)
+  end
+
+  private
+  def set_person_member
+    @person_member = policy_scope(PersonMember).includes(:tariff).find(params[:id])
+    authorize @person_member
   end
 end

@@ -23,7 +23,7 @@ class FestivalMailsController < AuthenticatedNonResourceController
     EventCardInvoiceMailsWorker.perform_async(@current_user.id, "ECINVOICE")
 
     respond_to do |format|
-      format.html { redirect_to home_festival_data_path, notice: t("festival_mail.reservation_invoice_success") }
+      format.html { redirect_to home_landing_page_path, notice: t("festival_mail.reservation_invoice_success") }
     end
   end
 
@@ -40,7 +40,7 @@ class FestivalMailsController < AuthenticatedNonResourceController
     FestivalInvoiceMailsWorker.perform_async(@current_user.id, "TLNINVOICE")
 
     respond_to do |format|
-      format.html { redirect_to home_festival_data_path, notice: t("festival_mail.invoice_success") }
+      format.html { redirect_to home_landing_page_path, notice: t("festival_mail.invoice_success") }
     end
   end
 
@@ -61,7 +61,7 @@ class FestivalMailsController < AuthenticatedNonResourceController
     FestivalMailsJob.perform_later(current_user.id, job_params)
 
     respond_to do |format|
-      format.html { redirect_to home_festival_data_path, notice: t("festival_mail.mails_success") }
+      format.html { redirect_to home_landing_page_path, notice: t("festival_mail.mails_success") }
     end
   end
 

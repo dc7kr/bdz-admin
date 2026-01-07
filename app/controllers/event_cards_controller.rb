@@ -1,9 +1,11 @@
 class EventCardsController < AuthenticatedController
+
+  before_action :set_event_card, only: %i[ show edit update destroy ]
   # GET /event_cards
   # GET /event_cards.json
   def index
     year = BDZ_SETTINGS["config"]["festival_year"]
-    @event_cards = EventCard.where("festival_year= ?", year).search(params[:search])
+    @event_cards = policy_scope(EventCard).where("festival_year= ?", year).search(params[:search])
 
     @sum = 0
     @payed = 0
@@ -20,11 +22,10 @@ class EventCardsController < AuthenticatedController
   end
 
   def open_orders
-    @event_cards = EventCard.where("pickup = 0")
+    @event_cards = policy_scope(EventCard).where("pickup = 0")
   end
 
   def pickup
-    @event_card = EventCard.find(params[:id])
     @event_card.pickup = true
     @event_card.save
 
@@ -143,7 +144,7 @@ class EventCardsController < AuthenticatedController
     year = Time.zone.now.year
 
     tw = TexWriter.new
-    orders = EventCard.all
+    orders = policy_scope(EventCard).all
 
     orders.each do |o|
       event_card_invoice(date_prefix, o, year, tw)
@@ -155,7 +156,7 @@ class EventCardsController < AuthenticatedController
 
   def overview
     datePrefix = Time.zone.now.strftime "%Y%m%d%H%M%s"
-    @event_cards = EventCard.where("pickup=0").order(:id)
+    @event_cards = policy_scope(EventCard).where("pickup=0").order(:id)
     respond_to do |format|
       format.pdf do
         pdf = TicketOrderOverviewPdf.new(@event_cards, view_context)
@@ -180,5 +181,10 @@ class EventCardsController < AuthenticatedController
 
     workdir = INVOICE_CONFIG.work_dir
     fa.archive_file(workdir, work_pdf_file, year)
+  end
+
+  def set_event_card
+    @event_card = policy_scope(EventCard).find(params[:id])
+    authorize @event_card
   end
 end

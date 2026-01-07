@@ -1,21 +1,20 @@
 module Magazine
-  class AddressListController < AuthenticatedNonResourceController
+  class AddressListController < AuthenticatedController
     # render_magazine_address_list
     include MagazineReportHelper
 
     def index
-      authorize! :index, Orchestra
       de_result = []
       ext_result = []
 
-      person_members = PersonMember.with_zero_balance
+      person_members = policy_scope(PersonMember).with_zero_balance
 
       person_members.each do |person_member|
         csvrow = person_member.magazine_address_list_row
         _add_csv_row(csvrow, de_result, ext_result)
       end
 
-      orchestras = Orchestra.with_zero_balance
+      orchestras = policy_scope(Orchestra).with_zero_balance
 
       orchestras.each do |orchestra|
         csvrow = orchestra.magazine_address_list_row

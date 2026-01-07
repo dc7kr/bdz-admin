@@ -2,6 +2,7 @@ class MemberEventsController < AuthenticatedController
   helper_method :sort_column, :sort_direction
 
   before_action :set_member_entity, only: %i[index new create show edit update destroy]
+  before_action :set_member_event , only: %i[show edit update destroy download]
 
   # GET /member_events
   # GET /member_events.json
@@ -9,9 +10,9 @@ class MemberEventsController < AuthenticatedController
     page = params[:page]
 
     @member_events = if @member_entity
-                       MemberEvent.where("member_id=?", @member_entity.member.id).page(page).per(20)
+                       policy_scope(MemberEvent).where("member_id=?", @member_entity.member.id).page(page).per(20)
     else
-                       MemberEvent.all.page(page).per(20)
+                       policy_scope(MemberEvent).all.page(page).per(20)
     end
 
     respond_to do |format|
@@ -25,7 +26,9 @@ class MemberEventsController < AuthenticatedController
   # GET /member_events/1
   # GET /member_events/1.json
   def show
-    @member_event = MemberEvent.find(params[:id])
+
+    @member = @member_event.member
+    @member_entity = @member.member_entity
 
     respond_to do |format|
       format.html # show.html.erb
@@ -38,6 +41,8 @@ class MemberEventsController < AuthenticatedController
   def new
     @member_event = MemberEvent.new
 
+    authorize @member_event
+
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @member_event }
@@ -46,8 +51,6 @@ class MemberEventsController < AuthenticatedController
 
   # GET /member_events/1/edit
   def edit
-    @member_event = MemberEvent.find(params[:id])
-
     @basemember = @member_event.member
 
     @member = @basemember.member_entity
@@ -76,8 +79,6 @@ class MemberEventsController < AuthenticatedController
   # PUT /member_events/1
   # PUT /member_events/1.json
   def update
-    @member_event = MemberEvent.find(params[:id])
-
     respond_to do |format|
       if @member_event.update!(member_event_params)
         format.html { redirect_to @member_event, notice: "Member event was successfully updated." }
@@ -99,7 +100,6 @@ class MemberEventsController < AuthenticatedController
       @return_path = person_member_member_events_path(params[:person_member_id])
     end
 
-    @member_event = MemberEvent.find(params[:id])
     @member_event.destroy
 
     respond_to do |format|
@@ -109,7 +109,6 @@ class MemberEventsController < AuthenticatedController
   end
 
   def download
-    @event = MemberEvent.find(params[:id])
     fullPath = "#{INVOICE_CONFIG.archive_dir}/#{@event.filename}"
     send_file(fullPath, filename: File.basename(@event.filename), type: "application/pdf", x_sendfile: true)
   end
@@ -124,16 +123,20 @@ class MemberEventsController < AuthenticatedController
     params.require(:member_event).permit(:event_type, :event_date, :event_id, :comment, :member_id)
   end
 
+  def set_member_event
+    @member_event = policy_scope(MemberEvent).find(params[:id])
+    authorize @member_event
+  end
+
   def set_member_entity
     if params[:orchestra_id]
       @member_entity = Orchestra.includes(:member).find(params[:orchestra_id])
       @orchestra = @member_entity
       @name = @member_entity.orchName
-      @isOrchestra = true
     elsif params[:person_member_id]
       @member_entity = PersonMember.includes(:member).find(params[:person_member_id])
       @name = @member_entity.fullname
-      @isOrchestra = false
     end
+    @member_type = @member_entity.class.name.singularize.underscore.to_sym
   end
 end

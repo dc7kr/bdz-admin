@@ -1,10 +1,9 @@
-class UrlsController < AuthenticatedController
+class UrlsController < PublicEntitiesController
   # for table sort by column click
   helper_method :sort_column, :sort_direction
 
   # GET /urls
   # GET /urls.json
-  before_action :authenticate_user! # , :except => [:index]
 
   def inactive
     @urls = Url.inactive.search(params[:search]).order("#{sort_column} #{sort_direction}").page(params[:page]).per(20)

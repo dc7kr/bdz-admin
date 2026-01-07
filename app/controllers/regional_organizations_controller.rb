@@ -4,12 +4,10 @@ class RegionalOrganizationsController < AuthenticatedController
   # GET /regional_organizations.json
   before_action :authenticate_user! # , :except => [:index]
 
-  authority_actions orch: "read"
-  authority_actions share_overview: "read"
   include ApplicationHelper
 
   def index
-    @regional_organizations = RegionalOrganizationAuthorizer.readable_by(current_user)
+    @regional_organizations = policy_scope(RegionalOrganization)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -21,7 +19,7 @@ class RegionalOrganizationsController < AuthenticatedController
   # GET /regional_organizations/1.json
   def show
     # set by before filter
-    authorize_action_for(@regional_organization)
+    authorize(@regional_organization)
 
     @lastYear = Time.zone.now.year - 1
 
@@ -39,6 +37,7 @@ class RegionalOrganizationsController < AuthenticatedController
   def new
     @regional_organization = RegionalOrganization.new
     @regional_organization.build_member
+    authorize RegionalOrganization
 
     respond_to do |format|
       format.html # new.html.erb
@@ -49,7 +48,7 @@ class RegionalOrganizationsController < AuthenticatedController
   # GET /regional_organizations/1/edit
   def edit
     # set by before filter
-    authorize_action_for(@regional_organization)
+    authorize(@regional_organization)
   end
 
   # POST /regional_organizations
@@ -101,7 +100,7 @@ class RegionalOrganizationsController < AuthenticatedController
 
   def share_overview
     @regional_organizations = RegionalOrganizationAuthorizer.readable_by(current_user)
-    authorize_action_for @regional_organizations.first
+    authorize @regional_organizations.first
     @year = params[:year]
 
     @year = Time.zone.now.year if @year.nil?
@@ -152,7 +151,8 @@ class RegionalOrganizationsController < AuthenticatedController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_regional_organization
-    @regional_organization = RegionalOrganization.find(params[:id])
+    @regional_organization = policy_scope(RegionalOrganization).find(params[:id])
+    authorize @regional_organization
   end
 
   def regional_organization_params

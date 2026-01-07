@@ -1,9 +1,9 @@
-class FestivalExhibitorsController < ApplicationController
-  before_action :set_festival_exhibitor, only: %i[ show edit update destroy ]
+class FestivalExhibitorsController < AuthenticatedController
+  before_action :set_festival_exhibitor, only: %i[ show edit update destroy invoice_preview ]
 
   # GET /festival_exhibitors or /festival_exhibitors.json
   def index
-    @festival_exhibitors = FestivalExhibitor.all
+    @festival_exhibitors = policy_scope(FestivalExhibitor).all
   end
 
   # GET /festival_exhibitors/1 or /festival_exhibitors/1.json
@@ -61,10 +61,28 @@ class FestivalExhibitorsController < ApplicationController
     end
   end
 
+  def invoice_preview
+    @invoice = @festival_exhibitor.gen_invoice
+
+    @invoice_hash = @invoice.to_hash[:invoice]
+
+    respond_to do |format|
+      format.turbo_stream { render template: "corika_invoices/invoices/preview" }
+      format.html { render template: "corika_invoices/invoices/preview" }
+      format.yaml {
+        filename = "#{@invoice.full_number}.yml"
+        send_data @invoice.to_yaml, type: "text/yaml", disposition: 'attachment', filename: filename
+      
+      }
+      format.json { render json: @invoice }
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_festival_exhibitor
       @festival_exhibitor = FestivalExhibitor.find(params[:id])
+      authorize @festival_exhibitor
     end
 
     # Only allow a list of trusted parameters through.

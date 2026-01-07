@@ -1,10 +1,9 @@
 module Magazine
-  class MagazineIssuesController < AuthorityController
+  class MagazineIssuesController < AuthenticatedController
     # GET /magazine_issues
     # GET /magazine_issues.json
     def index
-      @magazine_issues = MagazineIssue.order(year: :desc, number: :desc).page(params[:page]).per(3)
-      authorize_action_for(@magazine_issues)
+      @magazine_issues = policy_scope(MagazineIssue).order(year: :desc, number: :desc).page(params[:page]).per(3)
 
       respond_to do |format|
         format.html # index.html.erb
@@ -15,8 +14,8 @@ module Magazine
     # GET /magazine_issues/1
     # GET /magazine_issues/1.json
     def show
-      @magazine_issue = MagazineIssue.find(params[:id])
-      authorize_action_for(@magazine_issue)
+      @magazine_issue = policy_scope(MagazineIssue).find(params[:id])
+      authorize(@magazine_issue)
 
       respond_to do |format|
         format.html # show.html.erb
@@ -25,7 +24,7 @@ module Magazine
     end
 
     def gen_advert_invoices
-      @magazine_issue = MagazineIssue.find(params[:id])
+      @magazine_issue = policy_scope(MagazineIssue).find(params[:id])
 
       @adverts = @magazine_issue.magazine_adverts.includes(:advertiser)
       pdf = AdvertInvoicesPdf.new(@adverts, Rails.root.join("templates/briefpapier.pdf"))
@@ -34,7 +33,7 @@ module Magazine
     end
 
     def gen_subscriber_invoices
-      @magazine_issue = MagazineIssue.find(params[:id])
+      @magazine_issue = policy_scope(MagazineIssue).find(params[:id])
 
       @subscribers = Subscriber.includes(:contact).order("contacts.last_name,contacts.first_name")
       pdf = MagazineSubscriberInvoicesPdf.new(@subscribers, Rails.root.join("templates/briefpapier.pdf"))
@@ -46,7 +45,7 @@ module Magazine
     # GET /magazine_issues/new.json
     def new
       @magazine_issue = MagazineIssue.new
-      authorize_action_for(@magazine_issue)
+      authorize(@magazine_issue)
 
       respond_to do |format|
         format.html # new.html.erb
@@ -56,14 +55,14 @@ module Magazine
 
     # GET /magazine_issues/1/edit
     def edit
-      @magazine_issue = MagazineIssue.find(params[:id])
+      @magazine_issue = policy_scope(MagazineIssue).find(params[:id])
     end
 
     # POST /magazine_issues
     # POST /magazine_issues.json
     def create
       @magazine_issue = MagazineIssue.new(magazine_params)
-      authorize_action_for(@magazine_issue)
+      authorize(@magazine_issue)
 
       respond_to do |format|
         if @magazine_issue.save
@@ -79,7 +78,7 @@ module Magazine
     # PUT /magazine_issues/1
     # PUT /magazine_issues/1.json
     def update
-      @magazine_issue = MagazineIssue.find(params[:id])
+      @magazine_issue = policy_scope(MagazineIssue).find(params[:id])
 
       respond_to do |format|
         if @magazine_issue.update(magazine_params)
@@ -95,8 +94,8 @@ module Magazine
     # DELETE /magazine_issues/1
     # DELETE /magazine_issues/1.json
     def destroy
-      authorize_action_for(@magazine_issue)
-      @magazine_issue = MagazineIssue.find(params[:id])
+      authorize(@magazine_issue)
+      @magazine_issue = policy_scope(MagazineIssue).find(params[:id])
       @magazine_issue.destroy
 
       respond_to do |format|
@@ -107,7 +106,7 @@ module Magazine
 
     def counts
       @overall = 0
-      @magazine_issue = MagazineIssue.find(params[:id])
+      @magazine_issue = policy_scope(MagazineIssue).find(params[:id])
       @magazine_samplings = MagazineSampling.sum(:count)
 
       @overall += @magazine_samplings

@@ -4,7 +4,7 @@ class ContactEventsController < AuthenticatedController
   def index
     @contact_events = nil
     if params[:contact_person_id].nil?
-      @up_path = home_public_data_path
+      @up_path = home_landing_page_path
       @contact_events = ContactEvent.all
     else
       @contact_person = ContactPerson.find(params[:contact_person_id])

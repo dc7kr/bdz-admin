@@ -4,7 +4,7 @@ class ContactPeopleController < AuthenticatedController
   def index
     @contact_people = ContactPerson.all
 
-    @up_path = home_public_data_path
+    @up_path = home_landing_page_path
 
     respond_to do |format|
       format.html # index.html.erb

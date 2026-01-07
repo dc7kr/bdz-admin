@@ -1,5 +1,9 @@
 class MemberAccountBookingsController < AuthenticatedController
   include ApplicationHelper
+
+  before_action :set_booking, only: %i[ show edit update destroy download ]
+  helper_method :sort_column, :sort_direction
+
   # GET /bookings
   # GET /bookings.json
   def index
@@ -8,24 +12,24 @@ class MemberAccountBookingsController < AuthenticatedController
     @member_type = member_type_from_params(params)
 
     if params[:orchestra_id]
-      @member = Member.includes(:member_entity).find_by "member_entity_id = ? and member_entity_type='Orchestra'",
+      @member = policy_scope(Member).includes(:member_entity).find_by "member_entity_id = ? and member_entity_type='Orchestra'",
                                                         params[:orchestra_id]
       @orchestra = @member.member_entity
       @name = @orchestra.orchName
     elsif params[:person_member_id]
-      @member = Member.includes(:member_entity).find_by "member_entity_id = ? and member_entity_type='PersonMember'",
+      @member = policy_scope(Member).includes(:member_entity).find_by "member_entity_id = ? and member_entity_type='PersonMember'",
                                                         params[:person_member_id]
       @name = @member.member_entity.fullname
     elsif params[:regional_organization_id]
-      @member = Member.includes(:member_entity).find_by "member_entity_id = ? and member_entity_type='RegionalOrganization'",
+      @member = policy_scope(Member).includes(:member_entity).find_by "member_entity_id = ? and member_entity_type='RegionalOrganization'",
                                                         params[:regional_organization_id]
       @name = @member.member_entity.name
     end
 
     if @member.nil?
-      @bookings = MemberAccountBooking.order("booking_date").page(params[:page]).per(30)
+      @bookings = policy_scope(MemberAccountBooking).order("#{sort_column} #{sort_direction}").page(params[:page]).per(30)
     else
-      @bookings = MemberAccountBooking.where("member_id=?", @member.id).page(params[:page])
+      @bookings = policy_scope(MemberAccountBooking).where("member_id=?", @member.id).order("#{sort_column} #{sort_direction}").page(params[:page]).per(30)
       @member_entity = @member.member_entity
     end
 
@@ -39,8 +43,6 @@ class MemberAccountBookingsController < AuthenticatedController
   # GET /bookings/1
   # GET /bookings/1.json
   def show
-    @booking = MemberAccountBooking.find(params[:id])
-
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @booking }
@@ -50,21 +52,21 @@ class MemberAccountBookingsController < AuthenticatedController
   # GET /bookings/new
   # GET /bookings/new.json
   def new
-    @isOrchestra = false
-
     if params[:orchestra_id]
       @member_entity = Orchestra.find(params[:orchestra_id])
-      @isOrchestra = true
     elsif params[:person_member_id]
       @member_entity = PersonMember.find(params[:person_member_id])
     elsif params[:regional_organization_id]
       @member_entity = RegionalOrganization.find(params[:regional_organization_id])
     end
+
+    @member_type = @member_entity.class.name.singularize.underscore.to_sym
+
     @member = @member_entity.member
     @booking = MemberAccountBooking.new(member: @member, booking_date: Time.zone.now, booking_year: Time.zone.now.year,
                                         booking_mode: "M", booking_type: "Z")
 
-    @member_entity = @member.member_entity
+    authorize @booking
 
     respond_to do |format|
       format.html # new.html.erb
@@ -74,22 +76,18 @@ class MemberAccountBookingsController < AuthenticatedController
 
   # GET /bookings/1/edit
   def edit
-    @booking = MemberAccountBooking.find(params[:id])
-    @basemember = @booking.member
+    basemember = @booking.member
     @isOrchestra = false
-
-    if @basemember.member_entity_type == "PersonMember"
-      @member = Member.includes(:member_entity).find(@booking.member_id)
-    else
-      @member = Member.includes(:member_entity).find(@booking.member_id)
-      @isOrchestra = true
-    end
+    @member = policy_scope(Member).includes(:member_entity).find(@booking.member_id)
+    @member_entity = @member.member_entity
+    @member_type = @member_entity.class.name.singularize.underscore.to_sym
+    Rails.logger.debug(@member_type)
   end
 
   # POST /bookings
   # POST /bookings.json
   def create
-    @member_type = member_type_from_params(params)
+    @member_type = member_type_from_params(params).to_sym
 
     if params[:person_member_id]
       @member = PersonMember.find(params[:person_member_id])
@@ -163,7 +161,6 @@ class MemberAccountBookingsController < AuthenticatedController
   # DELETE /bookings/1
   # DELETE /bookings/1.json
   def destroy
-    @booking = MemberAccountBooking.find(params[:id])
     @booking.destroy
 
     respond_to do |format|
@@ -180,7 +177,6 @@ class MemberAccountBookingsController < AuthenticatedController
 
   def download
     x_sendfile = false
-    @booking = MemberAccountBooking.find(params[:id])
     fullPath = "#{INVOICE_CONFIG.archive_dir}/#{String(@booking.booking_year)}/#{@booking.filename}"
     # send_file(fullPath, :filename => @booking.filename, :type => "application/pdf", :x_sendfile=>true)
     # send_file(fullPath, :filename => @booking.filename, :x_sendfile=>true,:type=>"application/octet-stream")
@@ -203,4 +199,14 @@ class MemberAccountBookingsController < AuthenticatedController
       :regional_organization
     end
   end
+
+  private 
+  def set_booking
+    @booking = policy_scope(MemberAccountBooking).find(params[:id])
+    authorize @booking
+  end
+  def sort_column
+    MemberAccountBooking.column_names.include?(params[:sort]) ? params[:sort] : "booking_date"
+  end
+
 end

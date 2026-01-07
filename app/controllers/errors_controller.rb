@@ -7,7 +7,7 @@ class ErrorsController < ApplicationController
                    ActionDispatch::ExceptionWrapper.new(
                      request.env, @exception
                    ).status_code
-    render view_for_code(@status_code), status: @status_code, content_type: "text/html"
+    render view_for_code(@status_code), status: @status_code, content_type: "text/html", layout: false
   end
 
   private

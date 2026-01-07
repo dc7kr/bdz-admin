@@ -1,8 +1,10 @@
 class TariffsController < AuthenticatedController
+  before_action :set_tariff, only: %i[ show edit update destroy ]
+
   # GET /tariffs
   # GET /tariffs.json
   def index
-    @tariffs = Tariff.all
+    @tariffs = policy_scope(Tariff).all
 
     respond_to do |format|
       format.html # index.html.erb
@@ -13,8 +15,6 @@ class TariffsController < AuthenticatedController
   # GET /tariffs/1
   # GET /tariffs/1.json
   def show
-    @tariff = Tariff.find(params[:id])
-
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @tariff }
@@ -25,6 +25,7 @@ class TariffsController < AuthenticatedController
   # GET /tariffs/new.json
   def new
     @tariff = Tariff.new
+    authorize @tariff, :create?
 
     respond_to do |format|
       format.html # new.html.erb
@@ -34,7 +35,6 @@ class TariffsController < AuthenticatedController
 
   # GET /tariffs/1/edit
   def edit
-    @tariff = Tariff.find(params[:id])
   end
 
   # POST /tariffs
@@ -56,7 +56,6 @@ class TariffsController < AuthenticatedController
   # PUT /tariffs/1
   # PUT /tariffs/1.json
   def update
-    @tariff = Tariff.find(params[:id])
 
     respond_to do |format|
       if @tariff.update(tariff_params)
@@ -72,7 +71,6 @@ class TariffsController < AuthenticatedController
   # DELETE /tariffs/1
   # DELETE /tariffs/1.json
   def destroy
-    @tariff = Tariff.find(params[:id])
     @tariff.destroy
 
     respond_to do |format|
@@ -81,6 +79,11 @@ class TariffsController < AuthenticatedController
     end
   end
 
+  private
+  def set_tariff
+    @tariff = policy_scope(Tariff).find(params[:id])
+    authorize @tariff
+  end
   def tariff_params
     params.require(:tariff).permit(:tariff_type, :description, :amount, :tag)
   end

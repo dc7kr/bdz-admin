@@ -1,18 +1,17 @@
 class AuthenticatedController < ApplicationController
+
   protect_from_forgery
 
-  load_and_authorize_resource
+  include Pundit::Authorization
+  after_action :verify_pundit_authorization
 
-  before_action :authnUser
-  # ensure_authorization_performed :except => [:index, :search], :if => :auditing_security?, :unless => :devise_controller?
+  before_action :authenticate_user!
 
   def auditing_security?
     !Rails.env.production?
   end
 
-  #  skip_authorize_resource :only => [noAuthActions]
-
-  rescue_from CanCan::AccessDenied do |exception|
+  rescue_from Pundit::NotAuthorizedError do |exception|
     Rails.logger.warn(exception.message)
 
     msg = exception.message
@@ -20,33 +19,23 @@ class AuthenticatedController < ApplicationController
     flash[:error] = msg
 
     redirect_to root_url
-    # redirect_to home_landing_page_url
   end
 
-  rescue_from Authority::SecurityViolation do |exception|
-    flash[:error] = exception.message
+  def verify_pundit_authorization
 
-    Rails.logger.error(exception.message)
-    redirect_to root_url
+    if index_actions.include? action_name.to_sym
+      Rails.logger.debug("Action #{action_name} found in index_actions: #{index_actions}")
+      verify_policy_scoped
+    else
+      verify_authorized
+    end
   end
 
   private
 
-  def authnUser
-    return if noAuthActions.include?(@current_action)
-
-    # render :text => @current_action
-    authenticate_user!
-  end
-
-  # override for CANCAN
-  def skip?
-    noAuthAction.include(@current_action)
-  end
-
   protected
 
-  def noAuthActions
-    []
+  def index_actions
+    [ :index ]
   end
 end

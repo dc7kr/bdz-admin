@@ -1,6 +1,7 @@
 class OrchestraMembersController < AuthenticatedController
   include ApplicationHelper
   helper_method :sort_column, :sort_direction
+  before_action :set_orchestra_member, only: %i[ show edit update destroy ]
 
   include ReportSheetUploadHelper
 
@@ -10,8 +11,8 @@ class OrchestraMembersController < AuthenticatedController
     @orchestra = nil
 
     unless params[:orchestra_id].nil?
-      @orchestra = Orchestra.find(params[:orchestra_id])
-      @orchestra_members = @orchestra_members.where(orchestra_id: params[:orchestra_id])
+      @orchestra = policy_scope(Orchestra).find(params[:orchestra_id])
+      @orchestra_members = policy_scope(OrchestraMember).where(orchestra_id: params[:orchestra_id])
     end
 
     respond_to do |format|
@@ -39,7 +40,7 @@ class OrchestraMembersController < AuthenticatedController
   end
 
   def delete_members
-    @orchestra = Orchestra.find(params[:orchestra_id])
+    @orchestra = policy_scope(Orchestra.find(params[:orchestra_id]))
     @orchestra.orchestra_members.delete_all
     respond_to do |format|
       format.html do
@@ -60,15 +61,16 @@ class OrchestraMembersController < AuthenticatedController
   end
 
   def search
-    @orchestra_members = OrchestraMember.where("first_name like ? and last_name like ?", "#{params[:first_name]}%",
+    @orchestra_members = policy_scope(OrchestraMember).where("first_name like ? and last_name like ?", "#{params[:first_name]}%",
                                                "#{params[:last_name]}%")
   end
 
   # GET /orchestra_members/new
   # GET /orchestra_members/new.json
   def new
+    authorize OrchestraMember
     @orchestra_member = OrchestraMember.new
-    @orchestra = Orchestra.find(params[:orchestra_id])
+    @orchestra = policy_scope(Orchestra).find(params[:orchestra_id])
     @orchestra_member.orchestra = @orchestra
 
     respond_to do |format|
@@ -80,13 +82,15 @@ class OrchestraMembersController < AuthenticatedController
   # GET /orchestra_members/1/edit
   def edit
     session[:return_to] ||= request.referer
-    @orchestra_member = OrchestraMember.find(params[:id])
     @orchestra = @orchestra_member.orchestra
+
+    authorize @orchestra_member
   end
 
   # POST /orchestra_members
   # POST /orchestra_members.json
   def create
+    authorize OrchestraMember
     @orchestra = Orchestra.find(params[:orchestra_id])
     @orchestra_member = OrchestraMember.new(orchestra_member_params)
     @orchestra_member.orchestra = @orchestra
@@ -108,8 +112,6 @@ class OrchestraMembersController < AuthenticatedController
   # PUT /orchestra_members/1
   # PUT /orchestra_members/1.json
   def update
-    @orchestra_member = OrchestraMember.find(params[:id])
-
     respond_to do |format|
       if @orchestra_member.update(orchestra_member_params)
         format.html do
@@ -138,7 +140,7 @@ class OrchestraMembersController < AuthenticatedController
   end
 
   def exchange
-    @orchestra_member = OrchestraMember.find(params[:id])
+    @orchestra_member = policy_scope(OrchestraMember).find(params[:id])
 
     @orchestra_member.exchange_first_and_lastname
 
@@ -167,7 +169,7 @@ class OrchestraMembersController < AuthenticatedController
   # DELETE /orchestra_members/1
   # DELETE /orchestra_members/1.json
   def destroy
-    @orchestra_member = OrchestraMember.find(params[:id])
+    @orchestra_member = policy_scope(OrchestraMember).find(params[:id])
     orchestra = @orchestra_member.orchestra
     @orchestra_member.destroy
 
@@ -223,5 +225,10 @@ class OrchestraMembersController < AuthenticatedController
 
   def orchestra_member_params
     params.require(:orchestra_member).permit(:first_name, :last_name, :date_of_birth, :instrument, :mglnr)
+  end
+
+  def set_orchestra_member
+    @orchestra_member = policy_scope(OrchestraMember).find(params[:id])
+    authorize @orchestra_member
   end
 end

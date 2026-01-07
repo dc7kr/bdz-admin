@@ -1,9 +1,9 @@
-class UsersController < ApplicationController
+class UsersController < AuthenticatedController
+  before_action :set_user, only: %i[ show edit update destroy add_role ]
   # GET /users
   # GET /users.json
   def index
-    authorize! :index, @user, message: "Not authorized as an administrator."
-    @users = User.order("#{sort_column} #{sort_direction}").page(params[:page]).per(10)
+    @users = policy_scope(User).order("#{sort_column} #{sort_direction}").page(params[:page]).per(30)
 
     respond_to do |format|
       format.js
@@ -12,9 +12,24 @@ class UsersController < ApplicationController
     end
   end
 
+
+  def add_role 
+    role = Role.find(params[:role])
+    @user.add_role role.name.to_sym
+
+    respond_to do |format|
+        format.turbo_stream {
+            render turbo_stream: [
+              turbo_stream.append("roles", partial: "roles/role", locals: { role: role })
+            ]
+        
+        }
+      end
+  end
+
   def for_admin_notify
     authorize! :index, @user, message: "Not authorized as an administrator."
-    @users = User.for_admin_notify
+    @users = policy_scope(User.for_admin_notify)
 
     respond_to do |format|
       format.js
@@ -26,8 +41,6 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
-    @user = User.find(params[:id])
-
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @user }
@@ -47,7 +60,6 @@ class UsersController < ApplicationController
 
   # GET /users/1/edit
   def edit
-    @user = User.find(params[:id])
   end
 
   # POST /users
@@ -69,8 +81,6 @@ class UsersController < ApplicationController
   # PUT /users/1
   # PUT /users/1.json
   def update
-    @user = User.find(params[:id])
-
     filter_params = user_params
 
     if filter_params[:password].blank?
@@ -92,7 +102,6 @@ class UsersController < ApplicationController
   # DELETE /users/1
   # DELETE /users/1.json
   def destroy
-    @user = User.find(params[:id])
     @user.destroy
 
     respond_to do |format|
@@ -102,6 +111,11 @@ class UsersController < ApplicationController
   end
 
   private
+
+  def set_user 
+    @user = policy_scope(User).find(params[:id])
+    authorize @user
+  end
 
   def sort_column
     User.column_names.include?(params[:sort]) ? params[:sort] : "email"

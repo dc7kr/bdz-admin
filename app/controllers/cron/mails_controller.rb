@@ -2,7 +2,6 @@ require "mail"
 
 module Cron
   class MailsController < ApplicationController
-    load_and_authorize_resource
 
     def index
       # address = Mail::Address.new email # ex: "john@example.com"

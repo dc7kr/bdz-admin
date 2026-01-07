@@ -3,13 +3,15 @@ class ReportSheetInputsController < AuthenticatedController
   include UploadHelper
   include ReportSheetUploadHelper
 
+  before_action :set_report_sheet_input, only: %i[ show destroy ]
+
   # GET /report_sheet_inputs
   # GET /report_sheet_inputs.json
   def index
     @report_sheet_inputs = if params[:orch].nil?
-                             ReportSheetInput.includes(:orchestra)
+      policy_scope(ReportSheetInput).includes(:orchestra)
     else
-                             ReportSheetInput.includes(:orchestra).where(orchestra_id: params[:orch])
+      policy_scope(ReportSheetInput).includes(:orchestra).where(orchestra_id: params[:orch])
     end
 
     respond_to do |format|
@@ -33,7 +35,8 @@ class ReportSheetInputsController < AuthenticatedController
     @year = Time.zone.now.year + 1
 
     @orchestra = Orchestra.includes(:member).find(params[:orchestra_id])
-    @report_sheet_input = ReportSheetInput.new_for_orchestra(@orchestra, @year)
+    @report_sheet_input = policy_scope(ReportSheetInput).new_for_orchestra(@orchestra, @year)
+    authorize @report_sheet_input
 
     respond_to do |format|
       format.html { redirect_to @report_sheet_input, notice: "Report sheet input was successfully created." }
@@ -62,7 +65,7 @@ class ReportSheetInputsController < AuthenticatedController
   # PUT /report_sheet_inputs/1
   # PUT /report_sheet_inputs/1.json
   def update
-    @report_sheet_input = ReportSheetInput.find(params[:id])
+    @report_sheet_input = policy_scope(ReportSheetInput).find(params[:id])
 
     respond_to do |format|
       if @report_sheet_input.update(report_sheet_input_params)
@@ -78,7 +81,7 @@ class ReportSheetInputsController < AuthenticatedController
   # DELETE /report_sheet_inputs/1
   # DELETE /report_sheet_inputs/1.json
   def destroy
-    @report_sheet_input = ReportSheetInput.find(params[:id])
+    @report_sheet_input = policy_scope(ReportSheetInput).find(params[:id])
     @report_sheet_input.destroy
 
     respond_to do |format|
@@ -104,15 +107,21 @@ class ReportSheetInputsController < AuthenticatedController
   end
 
   def metadata
-    @report_sheet_input = ReportSheetInput.find(params[:id])
+    @report_sheet_input = policy_scope(ReportSheetInput).find(params[:id])
   end
 
   def lockdown
-    @report_sheet_inputs = ReportSheetInput.not_final
+    @report_sheet_inputs = policy_scope(ReportSheetInput).not_final
 
     @report_sheet_inputs.each do |rs|
       rs.report_sheet.destroy
       rs.destroy
     end
+  end
+
+  private 
+  def set_report_sheet_input
+    @report_sheet_input = policy_scope(ReportSheetInput).find(params[:id])
+    authorize @report_sheet_input
   end
 end

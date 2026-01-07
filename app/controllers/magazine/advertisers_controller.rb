@@ -1,5 +1,5 @@
 module Magazine
-  class AdvertisersController < AuthorityController
+  class AdvertisersController < AuthenticatedController
     # GET /advertisers
     # GET /advertisers.json
     def index
@@ -7,8 +7,7 @@ module Magazine
 
       per_page = 20 if per_page.nil?
 
-      @advertisers = Advertiser.includes(:contact).order("contacts.company, contacts.last_name,contacts.first_name").page(params[:page]).per(per_page)
-      authorize_action_for(@advertisers)
+      @advertisers = policy_scope(Advertiser).includes(:contact).order("contacts.company, contacts.last_name,contacts.first_name").page(params[:page]).per(per_page)
 
       respond_to do |format|
         format.html # index.html.erb
@@ -20,7 +19,7 @@ module Magazine
     # GET /advertisers/1.json
     def show
       @advertiser = Advertiser.find(params[:id])
-      authorize_action_for(@advertiser)
+      authorize(@advertiser)
 
       respond_to do |format|
         format.html # show.html.erb
@@ -34,7 +33,7 @@ module Magazine
       @advertiser = Advertiser.new
       @advertiser.contact = Contact.new
       @advertiser.contact.country_code = "DE"
-      authorize_action_for(@advertiser)
+      authorize(@advertiser)
 
       respond_to do |format|
         format.html # new.html.erb
@@ -45,7 +44,7 @@ module Magazine
     # GET /advertisers/1/edit
     def edit
       @advertiser = Advertiser.find(params[:id])
-      authorize_action_for(@advertiser)
+      authorize(@advertiser)
     end
 
     # POST /advertisers

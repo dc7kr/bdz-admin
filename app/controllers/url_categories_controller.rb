@@ -1,4 +1,4 @@
-class UrlCategoriesController < AuthenticatedController
+class UrlCategoriesController < PublicEntitiesController
   # GET /url_categories
   # GET /url_categories.json
   before_action :authenticate_user! # , :except => [:index]
@@ -81,4 +81,12 @@ class UrlCategoriesController < AuthenticatedController
       format.json { head :ok }
     end
   end
+
+  private  
+  # Use callbacks to share common setup or constraints between actions.
+  def set_url_category
+    @url_category = policy_scope(UrlCategory).find(params[:id])
+    authorize @url_category
+  end
+
 end

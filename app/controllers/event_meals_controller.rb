@@ -1,10 +1,12 @@
 require "rodf"
 class EventMealsController < AuthenticatedController
+
+  before_action :set_event_meal, only: %i[ show edit update destroy ]
   # GET /event_meals
   # GET /event_meals.json
   def index
     year =BDZ_SETTINGS["config"]["festival_year"]
-    @event_meals = EventMeal.where("festival_year = ?", year)
+    @event_meals = policy_scope(EventMeal).where("festival_year = ?", year)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -46,7 +48,6 @@ class EventMealsController < AuthenticatedController
   # GET /event_meals/1
   # GET /event_meals/1.json
   def show
-    @event_meal = EventMeal.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -58,6 +59,7 @@ class EventMealsController < AuthenticatedController
   # GET /event_meals/new.json
   def new
     @event_meal = EventMeal.new
+    authorize @event_meal
 
     respond_to do |format|
       format.html # new.html.erb
@@ -67,7 +69,6 @@ class EventMealsController < AuthenticatedController
 
   # GET /event_meals/1/edit
   def edit
-    @event_meal = EventMeal.find(params[:id])
   end
 
   # POST /event_meals
@@ -91,7 +92,6 @@ class EventMealsController < AuthenticatedController
   # PUT /event_meals/1
   # PUT /event_meals/1.json
   def update
-    @event_meal = EventMeal.find(params[:id])
 
     respond_to do |format|
       if @event_meal.update(event_meal_params)
@@ -107,7 +107,6 @@ class EventMealsController < AuthenticatedController
   # DELETE /event_meals/1
   # DELETE /event_meals/1.json
   def destroy
-    @event_meal = EventMeal.find(params[:id])
     @event_meal.destroy
 
     respond_to do |format|
@@ -117,7 +116,7 @@ class EventMealsController < AuthenticatedController
   end
 
   def arrival_overview
-    @event_meals = EventMeal.order(:arrival_time)
+    @event_meals = policy_scope(EventMeal).order(:arrival_time)
 
     @counts = {}
     @counts[:do] = { mittag: { tln: 0, veg: 0 }, abend: { tln: 0, veg: 0 } }
@@ -166,7 +165,19 @@ class EventMealsController < AuthenticatedController
     end
   end
 
+  protected 
+  def index_actions
+    super.append(:arrival_overview)
+  end
+
+  private 
   def event_meal_params
     params.require(:event_meal).permit(:participant_id, :name, :email, :arrival_time, :tln, :veg)
   end
+
+  def set_event_meal
+    @event_meal = policy_scope(EventMeal).find(params[:id])
+    authorize @event_meal
+  end
+
 end

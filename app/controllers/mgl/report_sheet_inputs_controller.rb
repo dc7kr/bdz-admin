@@ -39,6 +39,9 @@ module Mgl
       @mglnr = params[:mglnr]
       @token = params[:token]
       @dsgvo = false
+
+      @report_sheet_input = ReportSheetInput.new
+      @report_sheet_input.token = params[:token]
     end
 
     def submit_login
@@ -135,9 +138,7 @@ module Mgl
     end
 
     def submit2
-      data = params.require("report_sheet_input")
-
-      # params[:report_sheet_input];
+      data = params.require(:report_sheet_input)
 
       @contacts = data["contact"]
 

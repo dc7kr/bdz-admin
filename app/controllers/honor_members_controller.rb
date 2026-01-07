@@ -1,10 +1,12 @@
 class HonorMembersController < AuthenticatedController
   helper_method :sort_column, :sort_direction
 
+  before_action :set_honor_member, only: %i[show edit update destroy]
+
   # GET /honor_members
   # GET /honor_members.json
   def index
-    @honor_members = HonorMember.order("#{sort_column} #{sort_direction}")
+    @honor_members = policy_scope(HonorMember).order("#{sort_column} #{sort_direction}")
 
     respond_to do |format|
       format.html # index.html.erb
@@ -15,7 +17,6 @@ class HonorMembersController < AuthenticatedController
   # GET /honor_members/1
   # GET /honor_members/1.json
   def show
-    @honor_member = HonorMember.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -36,7 +37,6 @@ class HonorMembersController < AuthenticatedController
 
   # GET /honor_members/1/edit
   def edit
-    @honor_member = HonorMember.find(params[:id])
   end
 
   # POST /honor_members
@@ -58,7 +58,7 @@ class HonorMembersController < AuthenticatedController
   # PUT /honor_members/1
   # PUT /honor_members/1.json
   def update
-    @honor_member = HonorMember.find(params[:id])
+    @honor_member = policy_scope(HonorMember).find(params[:id])
 
     respond_to do |format|
       if @honor_member.update(honor_member_params)
@@ -74,7 +74,6 @@ class HonorMembersController < AuthenticatedController
   # DELETE /honor_members/1
   # DELETE /honor_members/1.json
   def destroy
-    @honor_member = HonorMember.find(params[:id])
     @honor_member.destroy
 
     respond_to do |format|
@@ -87,6 +86,11 @@ class HonorMembersController < AuthenticatedController
 
   def honor_member_params
     params.require(:honor_member).permit(:nr, :vorname, :name, :ort, :honorType, :honorDate, :deceased)
+  end
+
+  def set_honor_member
+    @honor_member = policy_scope(HonorMember).find(params[:id])
+    authorize @honor_member
   end
 
   def sort_column

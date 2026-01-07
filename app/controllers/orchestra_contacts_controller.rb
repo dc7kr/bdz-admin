@@ -2,10 +2,12 @@ class OrchestraContactsController < AuthenticatedController
   include ApplicationHelper
   helper_method :sort_column, :sort_direction
 
+  before_action :set_orchestra_contact, only: %i[ show edit update destroy ]
+
   # GET /orchestra_contacts
   # GET /orchestra_contacts.json
   def index
-    @orchestra = Orchestra.find(params[:orchestra_id])
+    @orchestra = policy_scope(Orchestra).find(params[:orchestra_id])
 
     @orchestra_contacts = @orchestra.orchestra_contacts.order("#{sort_column} #{sort_direction}").page(params[:page]).per(20)
 
@@ -18,7 +20,6 @@ class OrchestraContactsController < AuthenticatedController
   # GET /orchestra_contacts/1
   # GET /orchestra_contacts/1.json
   def show
-    @orchestra_contact = OrchestraContact.find(params[:id])
     @orchestra = Orchestra.find(params[:orchestra_id])
 
     respond_to do |format|
@@ -114,6 +115,11 @@ class OrchestraContactsController < AuthenticatedController
   # PRIVATE METHODS
   #########################
   private
+
+  def set_orchestra_contact
+    @orchestra_contact = OrchestraContact.find(params[:id])
+    authorize @orchestra_contact
+  end
 
   def sort_column
     OrchestraContact.column_names.include?(params[:sort]) ? params[:sort] : "last_name,first_name"

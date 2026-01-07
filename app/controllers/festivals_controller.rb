@@ -3,6 +3,8 @@ class FestivalsController < AuthenticatedController
   # GET /festivals.json
   before_action :authenticate_user! # , :except => [:index]
 
+  before_action :set_festival, only: %i[ show edit update destroy ]
+
   helper_method :sort_column, :sort_direction
 
   def index
@@ -86,7 +88,10 @@ class FestivalsController < AuthenticatedController
   end
 
   private
-
+  def set_festival
+    @festival = policy_scope(Festival).find(params[:id])
+    authorize @festival
+  end
   def sort_column
     Festival.column_names.include?(params[:sort]) ? params[:sort] : "festivals.startdate"
   end

@@ -19,7 +19,8 @@ class StatesController < AuthenticatedController
   # GET /states/1
   # GET /states/1.json
   def show
-    @state = State.find(params[:id])
+    @state = policy_scope(State).find(params[:id])
+    authorize @state
 
     respond_to do |format|
       format.html # show.html.erb
@@ -41,6 +42,7 @@ class StatesController < AuthenticatedController
   # GET /states/1/edit
   def edit
     @state = State.find(params[:id])
+    authorize @state
   end
 
   # POST /states
@@ -82,6 +84,7 @@ class StatesController < AuthenticatedController
   # DELETE /states/1.json
   def destroy
     @state = State.find(params[:id])
+    authorize @state
     @state.destroy
 
     respond_to do |format|
@@ -96,7 +99,7 @@ class StatesController < AuthenticatedController
     @scope = if params[:country_id]
                ISO3166::Country.find(params[:country_id]).states
     else
-               State
+               policy_scope(State)
     end
   end
 end

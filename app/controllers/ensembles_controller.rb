@@ -105,10 +105,6 @@ class EnsemblesController < AuthenticatedController
 
   protected
 
-  def noAuthActions
-    %w[index public]
-  end
-
   private
 
   def sort_column
