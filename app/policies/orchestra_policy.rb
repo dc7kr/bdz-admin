@@ -1,34 +1,37 @@
-class OrchestraPolicy < ApplicationPolicy
-  def create?
-    user.is_admin? or user.has_role? :national
+class OrchestraPolicy < MemberDataPolicy
+  attr_reader :user, :orchestra
+  def initialize(user, orchestra)
+    @user = user
+    @orchestra = orchestra
   end
 
   def create?
-    user.is_admin? or user.has_role? :national
+    national_permission?
   end
 
   def update?
-    result = (user.is_admin? or user.has_role? :national)
-    Rails.logger.debug { "updatable class: #{result}" }
+    result = (national_permission?)
 
     result
   end
 
-  def updatable_by?(user)
-    result = (user.is_admin? or user.has_role? :national)
-
-    Rails.logger.debug { "updatable: admin?: #{user.is_admin?} national: #{user.has_role? :national} : #{result}" }
-
-    result
-  end
-
-  # is ANY orchestra readable by user - entity tests follow!
   def show?
-    Rails.logger.debug("readable static: Orchestra")
-    user.is_admin? or user.has_role? :national or user.has_role? :regional
+    national_permission? or user.has_role? :regional
   end
 
-  def readable_by?(user)
-    user.is_admin? or user.has_role? :national or user.has_role? :distinction
+  def invoice_preview?
+    user.has_role? :accounting or user.has_role? :admin
+  end
+
+  class Scope < ApplicationPolicy::Scope
+    def resolve
+      if national_permission?
+        scope.all
+      end
+    end
+  end
+
+  def update?
+    national_permission?
   end
 end

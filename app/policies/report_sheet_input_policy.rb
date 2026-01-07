@@ -1,2 +1,2 @@
-class ReportSheetInputPolicy < ApplicationPolicy 
+class ReportSheetInputPolicy < MemberDataPolicy
 end

@@ -1,2 +1,3 @@
-class OrchestraMemberPolicy < ApplicationPolicy 
+class OrchestraMemberPolicy < MemberDataPolicy
+
 end

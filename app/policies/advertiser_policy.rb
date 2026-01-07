@@ -1,2 +1,2 @@
-class AdvertiserPolicy < ApplicationPolicy 
+class AdvertiserPolicy < MemberDataPolicy
 end

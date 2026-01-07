@@ -1,2 +1,2 @@
-class HonorMemberPolicy < ApplicationPolicy 
+class HonorMemberPolicy < MemberDataPolicy
 end

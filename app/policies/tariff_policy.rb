@@ -1,2 +1,2 @@
-class TariffPolicy < ApplicationPolicy 
+class TariffPolicy < MemberDataPolicy
 end

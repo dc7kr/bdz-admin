@@ -1,2 +1,3 @@
-class FestivalPiecePolicy < ApplicationPolicy 
+class FestivalPiecePolicy < FestivalDataPolicy
+
 end

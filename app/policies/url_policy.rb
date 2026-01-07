@@ -1,2 +1,2 @@
-class UrlPolicy < ApplicationPolicy 
+class UrlPolicy < PublicDataPolicy
 end
