@@ -1,12 +1,7 @@
 = bootstrap_form_for(@user, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10") do |f|
   .container-fluid
-    = form_my_field(f,@user, :username)
-    = form_my_field(f,@user, :name)
-    = form_my_field(f,@user, :email)
-    = form_my_field(f,@user, :password,:password)
-    = form_wrapped_field(f,@user, :admin, check_box_tag(:admin, 1, @user.has_role?(:admin)) )
-    = form_wrapped_field(f,@user, :regional, check_box_tag(:regional, 1, @user.has_role?(:regional)) )
-    = form_wrapped_field(f,@user, :member, check_box_tag(:member, 1, @user.has_role?(:member)) )
-    .actions
-      = submit_button
-      = cancel_button
+    = f.text_field :username
+    = f.text_field :name
+    = f.text_field :email
+    = f.password_field :password
+    = f.submit

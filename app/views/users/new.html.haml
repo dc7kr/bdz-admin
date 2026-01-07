@@ -1,4 +1,10 @@
-%h1 New user
+.secondary-navigation
+  = render partial: "nav"
+.container.w-50
+  %h2
+    =my_fa_icon("user")
+    &nbsp;
+    =t("common.new")
 
-= render 'form'
+  = render 'form'
 
