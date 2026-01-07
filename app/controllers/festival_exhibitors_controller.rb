@@ -14,6 +14,7 @@ class FestivalExhibitorsController < AuthenticatedController
   def new
     @festival_exhibitor = FestivalExhibitor.new
     @festival_exhibitor.contact = Contact.new
+    authorize @festival_exhibitor
   end
 
   # GET /festival_exhibitors/1/edit
@@ -24,8 +25,7 @@ class FestivalExhibitorsController < AuthenticatedController
   def create
     @festival_exhibitor = FestivalExhibitor.new(festival_exhibitor_params)
     @festival_exhibitor.year = BDZ_SETTINGS["config"]["festival_year"]
-
-    p @festival_exhibitor.contact
+    authorize @festival_exhibitor
 
     respond_to do |format|
       if @festival_exhibitor.save

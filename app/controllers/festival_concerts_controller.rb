@@ -2,6 +2,8 @@ class FestivalConcertsController < AuthenticatedController
   # GET /festival_concerts
   # GET /festival_concerts.json
 
+  before_action :set_festival_concert, only: %i[ show edit update detroy programme ]
+
   helper FestivalApplicationsHelper
   helper FestivalPiecesHelper
 
@@ -17,10 +19,6 @@ class FestivalConcertsController < AuthenticatedController
   # GET /festival_concerts/1
   # GET /festival_concerts/1.json
   def show
-    @festival_concert = policy_scope(FestivalConcert).find(params[:id])
-
-    authorize @festival_concert
-
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @festival_concert }
@@ -41,14 +39,13 @@ class FestivalConcertsController < AuthenticatedController
 
   # GET /festival_concerts/1/edit
   def edit
-    @festival_concert = policy_scope(FestivalConcert).find(params[:id])
-    authorize @festival_concert
   end
 
   # POST /festival_concerts
   # POST /festival_concerts.json
   def create
     @festival_concert = FestivalConcert.new(festival_concert_params)
+    authorize @festival_concert
 
     respond_to do |format|
       if @festival_concert.save
@@ -64,8 +61,6 @@ class FestivalConcertsController < AuthenticatedController
   # PUT /festival_concerts/1
   # PUT /festival_concerts/1.json
   def update
-    @festival_concert = policy_scope(FestivalConcert).find(params[:id])
-
     respond_to do |format|
       if @festival_concert.update(festival_concert_params)
         format.html { redirect_to @festival_concert, notice: "Festival concert was successfully updated." }
@@ -80,8 +75,6 @@ class FestivalConcertsController < AuthenticatedController
   # DELETE /festival_concerts/1
   # DELETE /festival_concerts/1.json
   def destroy
-    @festival_concert = policy_scope(FestivalConcert).find(params[:id])
-    authorize @festival_concert
     @festival_concert.destroy
 
     respond_to do |format|
@@ -91,8 +84,6 @@ class FestivalConcertsController < AuthenticatedController
   end
 
   def programme
-    @festival_concert = policy_scope(FestivalConcert).find(params[:id])
-
     @groups = policy_scope(FestivalApplication).where(festival_concert_id: params[:id])
 
 
@@ -108,5 +99,11 @@ class FestivalConcertsController < AuthenticatedController
 
   def overview
 
+  end
+
+  private
+  def set_festival_concert
+    @festival_concert = policy_scope(FestivalConcert).find(params[:id])
+    authorize @festival_concert
   end
 end
