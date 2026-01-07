@@ -2,7 +2,7 @@ class FestivalConcertsController < AuthenticatedController
   # GET /festival_concerts
   # GET /festival_concerts.json
 
-  before_action :set_festival_concert, only: %i[ show edit update detroy programme ]
+  before_action :set_festival_concert, only: %i[ show edit update destroy programme ]
 
   helper FestivalApplicationsHelper
   helper FestivalPiecesHelper
