@@ -38,7 +38,11 @@ class FestivalApplicationsController < AuthenticatedController
     respond_to do |format|
       format.js
       format.html # index.html.erb
-      format.turbo_stream
+
+      format.turbo_stream do
+        render partial: "list", locals: { resources: @festival_applications }
+      end
+
       format.json { render json: @festival_applications }
     end
   end
