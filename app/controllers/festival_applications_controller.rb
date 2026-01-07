@@ -67,6 +67,11 @@ class FestivalApplicationsController < AuthenticatedController
         render :index
       end
 
+      format.turbo_stream do
+        render partial: "list", locals: { resources: @festival_applications }
+      end
+
+
       format.json do
         render json: @festival_applications
       end
