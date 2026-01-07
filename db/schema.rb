@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_11_13_112331) do
+ActiveRecord::Schema[7.2].define(version: 2025_12_17_093158) do
   create_table "Inserenten", id: false, charset: "utf8mb3", collation: "utf8mb3_general_ci", options: "ENGINE=InnoDB ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.string "Firmenname", limit: 35
     t.string "Titel", limit: 5
@@ -464,11 +464,14 @@ ActiveRecord::Schema[7.2].define(version: 2025_11_13_112331) do
     t.integer "festival_application_id"
     t.string "composer"
     t.string "title"
-    t.string "duration"
+    t.string "duration_txt"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.text "arranger"
     t.text "publisher"
+    t.text "soloist"
+    t.boolean "premiere"
+    t.time "duration"
   end
 
   create_table "festivals", charset: "utf8mb3", collation: "utf8mb3_general_ci", options: "ENGINE=InnoDB ROW_FORMAT=DYNAMIC", force: :cascade do |t|
@@ -1023,6 +1026,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_11_13_112331) do
     t.integer "tariff_type", null: false
     t.string "description", limit: 50, null: false
     t.decimal "amount", precision: 10, null: false
+    t.string "tag"
   end
 
   create_table "universities", charset: "utf8mb3", collation: "utf8mb3_general_ci", options: "ENGINE=InnoDB ROW_FORMAT=DYNAMIC", force: :cascade do |t|
