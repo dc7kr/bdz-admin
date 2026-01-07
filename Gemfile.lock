@@ -21,15 +21,6 @@ GIT
       iban-tools
       nokogiri
 
-PATH
-  remote: /srv/src/sumup_gem
-  specs:
-    corika_sumup (1.0)
-      countries
-      kaminari
-      mongoid (~> 9.0)
-      rails (>= 5.0, < 8.0)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -547,7 +538,6 @@ DEPENDENCIES
   comma (~> 3.0)
   connection_pool (< 3)
   corika_invoices!
-  corika_sumup!
   countries
   country_select
   debug
