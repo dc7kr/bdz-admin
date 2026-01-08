@@ -41,7 +41,7 @@ class MailingTool
   private
 
   def mail_blacklisted?(mail)
-    mail.include?("aol.com")
+    false
   end
 
   # entity is either the superclass member or a similar object that supports calls to:
