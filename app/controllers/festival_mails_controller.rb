@@ -3,23 +3,22 @@ class FestivalMailsController < AuthenticatedNonResourceController
   include UploadHelper
   include FestivalMailsHelper
 
+  before_action :authorize_festival_mail
+
+
   def index
-    authorize! :member, :edit
     respond_to do |format|
       format.html
     end
   end
 
   def reservation_invoices
-    authorize! :member, :edit
     respond_to do |format|
       format.html
     end
   end
 
   def send_reservation_invoices
-    authorize! :member, :edit
-
     EventCardInvoiceMailsWorker.perform_async(@current_user.id, "ECINVOICE")
 
     respond_to do |format|
@@ -28,15 +27,12 @@ class FestivalMailsController < AuthenticatedNonResourceController
   end
 
   def invoices
-    authorize! :member, :edit
     respond_to do |format|
       format.html
     end
   end
 
   def send_invoices
-    authorize! :member, :edit
-
     FestivalInvoiceMailsWorker.perform_async(@current_user.id, "TLNINVOICE")
 
     respond_to do |format|
@@ -45,8 +41,6 @@ class FestivalMailsController < AuthenticatedNonResourceController
   end
 
   def send_mails
-    authorize! :member, :edit
-
     cur_year = Time.zone.now.strftime "%Y"
 
     job_params = mail_params
@@ -67,5 +61,10 @@ class FestivalMailsController < AuthenticatedNonResourceController
 
   def mail_params
     params.require("festival_mail").permit(:event_id, :group, :subject, :body, :datafile)
+  end
+
+  private def authorize_festival_mail
+    policy_method = "#{action_name}?"
+    authorize :festival_mail, policy_method.to_sym
   end
 end

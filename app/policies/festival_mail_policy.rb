@@ -1,0 +1,2 @@
+class FestivalMailPolicy < BulkPolicy
+end
