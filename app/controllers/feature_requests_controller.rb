@@ -1,6 +1,8 @@
 class FeatureRequestsController < AuthenticatedController
   # GET /feature_requests
   # GET /feature_requests.json
+
+  before_action :set_feature_request, only: %i[ show edit update destroy ]
   def index
     @feature_requests = FeatureRequest.order(%i[priority title])
 
@@ -34,6 +36,7 @@ class FeatureRequestsController < AuthenticatedController
   # GET /feature_requests/new.json
   def new
     @feature_request = FeatureRequest.new
+    authorize @feature_request
 
     respond_to do |format|
       format.html # new.html.erb
@@ -51,6 +54,7 @@ class FeatureRequestsController < AuthenticatedController
   def create
     @feature_request = FeatureRequest.new(feature_request_params)
     @feature_request.user = current_user
+    authorize @feature_request
 
     respond_to do |format|
       if @feature_request.save
