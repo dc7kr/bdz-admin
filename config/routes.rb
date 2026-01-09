@@ -68,7 +68,7 @@ Rails.application.routes.draw do
 
   resources :orchestra_members do
     collection do
-      get :search
+      post :search
     end
     member do
       get "exchange"
@@ -80,6 +80,9 @@ Rails.application.routes.draw do
   resources :festival_concerts do
     member do
       get :programme
+    end
+    collection do
+      get :overview
     end
   end
 
