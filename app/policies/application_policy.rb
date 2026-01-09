@@ -41,7 +41,7 @@ class ApplicationPolicy
   end
 
   def accounting_permission?
-    user.is_admin? or user.has_role? :national
+    user.is_admin? or user.has_role? :accounting
   end
 
   class Scope
