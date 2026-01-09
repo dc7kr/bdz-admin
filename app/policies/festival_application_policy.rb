@@ -4,6 +4,10 @@ class FestivalApplicationPolicy < FestivalDataPolicy
     super or user.has_role? :festival
   end
 
+  def destroy?
+    national_permission?
+  end
+
   def fee_invoice_preview?
     national_permission? 
   end
