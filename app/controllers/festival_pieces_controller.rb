@@ -54,10 +54,9 @@ class FestivalPiecesController < AuthenticatedController
   def create
     @festival_application = policy_scope(FestivalApplication).find_by(token: params[:festival_application_token])
     @festival_piece = FestivalPiece.new(festival_piece_params)
+    authorize @festival_piece
     @festival_application.festival_pieces << @festival_piece
     @festival_piece.save
-
-    logger.debug("New piece: #{@festival_piece.id}")
 
     respond_with @festival_piece, location: festival_application_festival_pieces_url(@festival_application)
   end
