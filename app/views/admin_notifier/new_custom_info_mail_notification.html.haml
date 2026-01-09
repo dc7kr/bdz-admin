@@ -1,0 +1,36 @@
+:css
+  body {
+    font-family: Arial, Helvetica, sans-serif
+  }
+
+  table,td {
+    border:solid silver 1px;
+    border-collapse: collapse;
+  }
+
+Hallo #{@recipient.name},
+%br
+%p 
+  ein neues 
+  %b Rundschreiben 
+  wurde von 
+  %b=@triggered_by 
+  erstellt.
+
+%p
+  - if @letter_url
+    Die verbleibenden Briefe können unter #{@letter_url} heruntergeladen werden.
+  - else
+    Sämtliche Schreiben wurden per E-Mail versandt.
+
+%h2 Ergebnisse:
+
+%table
+  - @results.each do |res|
+    - if not res.nil? then
+      %tr
+        %td=res[:mode]
+        %td=res[:entity].id
+        %td
+          %a{href: "mailto:#{res[:entity].email}"}
+            =res[:entity].email

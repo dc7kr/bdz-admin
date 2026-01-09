@@ -1,0 +1,20 @@
+Hallo #{@recipient.name}, 
+%br
+folgende Mitglieder wurden automatisch geloescht, da sie in der Vergangenheit ausgetreten sind:
+%br
+Einzelmitglieder:
+%br
+
+%table
+  - @resigned_persons.each do |m|
+    %tr
+      %td=m[:mglnr]
+      %td=m[:name]
+
+%h3 Orchester: 
+%table
+  - @resigned_orchestras.each do |m|
+    %tr
+      %td=m[:mglnr]
+      %td=m[:name]
+

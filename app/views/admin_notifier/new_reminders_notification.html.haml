@@ -1,0 +1,8 @@
+Hallo #{@recipient.name}, 
+%br
+%br
+%p ein neuer Mahnungslauf wurde von #{@triggered_by} durchgefuehrt. 
+
+Die Datei ist unter 
+%a{ href: "#{@reminders_url}"}= @reminders_url 
+verfuegbar.

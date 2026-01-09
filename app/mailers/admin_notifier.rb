@@ -83,12 +83,13 @@ class AdminNotifier < ApplicationMailer
     @recipient = recipient
     @results = results
     @letter_url = letters_url
-    @triggered_by = triggered_by
+    
+    set_triggered_by(triggered_by)
 
     mail(to: recipient.email, subject: "Rundschreiben wurde erstellt")
   end
 
-  def newreminders_notification(recipient, reminders, current_user)
+  def new_reminders_notification(recipient, reminders, current_user)
     @recipient = recipient
     @reminders_url = reminders
 
@@ -144,7 +145,7 @@ class AdminNotifier < ApplicationMailer
     @triggered_by = if current_user.nil?
                       "(System)"
     else
-                      "#{current_user.name} (#{current_user.email})"
+                      "#{current_user.name} (@#{current_user.username})"
     end
   end
 end
