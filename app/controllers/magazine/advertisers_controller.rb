@@ -1,5 +1,8 @@
 module Magazine
   class AdvertisersController < AuthenticatedController
+
+    before_action :set_advertiser, only: %i[ show edit update destroy ]
+
     # GET /advertisers
     # GET /advertisers.json
     def index
@@ -18,9 +21,6 @@ module Magazine
     # GET /advertisers/1
     # GET /advertisers/1.json
     def show
-      @advertiser = Advertiser.find(params[:id])
-      authorize(@advertiser)
-
       respond_to do |format|
         format.html # show.html.erb
         format.json { render json: @advertiser }
@@ -43,14 +43,13 @@ module Magazine
 
     # GET /advertisers/1/edit
     def edit
-      @advertiser = Advertiser.find(params[:id])
-      authorize(@advertiser)
     end
 
     # POST /advertisers
     # POST /advertisers.json
     def create
       @advertiser = Advertiser.new(advertiser_params)
+      authorize @advertiser
 
       respond_to do |format|
         if @advertiser.save
@@ -66,8 +65,6 @@ module Magazine
     # PUT /advertisers/1
     # PUT /advertisers/1.json
     def update
-      @advertiser = Advertiser.find(params[:id])
-
       respond_to do |format|
         if @advertiser.update(advertiser_params)
           format.html { redirect_to [ :magazine, @advertiser ], notice: "Advertiser was successfully updated." }
@@ -82,7 +79,6 @@ module Magazine
     # DELETE /advertisers/1
     # DELETE /advertisers/1.json
     def destroy
-      @advertiser = Advertiser.find(params[:id])
       @advertiser.destroy
 
       respond_to do |format|
@@ -91,9 +87,15 @@ module Magazine
       end
     end
 
+    private
     def advertiser_params
       params.require(:advertiser).permit(:magazines, :active, :iban, :bic, :account_owner, :direct_debit,
                                          :customer_number, contact_attributes: Contact.nested_attributes)
+    end
+
+    def set_advertiser
+      @advertiser = policy_scope(Advertiser).find(params[:id])
+      authorize @advertiser
     end
   end
 end
