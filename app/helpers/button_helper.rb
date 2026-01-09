@@ -124,12 +124,11 @@ module ButtonHelper
     if p_entity.is_a?(Array)
       namespace = p_entity[0]
       entity = p_entity[1]
-      path = "#{namespace}_#{entity.class.name.singularize.underscore}_path" if path.nil?
     else
       entity = p_entity
     end
 
-    path = { action: "destroy", controller: entity.class.name.underscore.pluralize, id: entity } if path.nil?
+    path = send("#{entity.class.name.singularize.underscore}_path",entity) if path.nil?
 
     return unless not authz or policy(p_entity).destroy?
 
