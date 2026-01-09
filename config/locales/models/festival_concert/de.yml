@@ -9,6 +9,7 @@ de:
     event_time: Veranstaltungszeit
     outdoor: "Open-Air Veranstaltung"
     programme: "Konzertprogramm"
+    overview: "GEMA-Übersicht"
 
   helpers:
     label:
