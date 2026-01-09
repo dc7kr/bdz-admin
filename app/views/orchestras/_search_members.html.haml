@@ -1,17 +1,7 @@
 .card
   .card-header.bg-primary.text-white=t("orchestra_member.search")
   .card-body
-    .text-muted=t("orchestra_member.search_txt")
-    = form_tag search_orchestra_members_path, :method => 'get' do
-      .form-group
-        %label=t("orchestra_member.first_name")
-        = text_field_tag :first_name, params[:first_name], :class=>"form-control"
-      .form-group
-        %label=t("orchestra_member.last_name")
-        %br
-        = text_field_tag :last_name, params[:last_name], :class=>"form-control"
-        %br
-      %button.btn.btn-primary{ :type=> "submit" } 
-        = my_fa_icon("search")
-        &nbsp;
-        Suchen
+    = bootstrap_form_with url: search_orchestra_members_path, data: { "turbo": false }  do |f|
+      = f.text_field :first_name, default: params[:first_name], label: t("orchestra_member.first_name")
+      = f.text_field :last_name, default: params[:last_name], label: t("orchestra_member.last_name"), help: t("orchestra_member.search_txt")
+      =f.submit t("common.search"), class: "btn btn-primary" 

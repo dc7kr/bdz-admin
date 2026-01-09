@@ -62,7 +62,10 @@ class OrchestraMembersController < AuthenticatedController
 
   def search
     @orchestra_members = policy_scope(OrchestraMember).where("first_name like ? and last_name like ?", "#{params[:first_name]}%",
-                                               "#{params[:last_name]}%")
+                                                             "#{params[:last_name]}%").order(:last_name,:first_name)
+    respond_to do |format|
+      format.html
+    end
   end
 
   # GET /orchestra_members/new
@@ -230,5 +233,9 @@ class OrchestraMembersController < AuthenticatedController
   def set_orchestra_member
     @orchestra_member = policy_scope(OrchestraMember).find(params[:id])
     authorize @orchestra_member
+  end
+
+  def index_actions
+    super.append(:search)
   end
 end
