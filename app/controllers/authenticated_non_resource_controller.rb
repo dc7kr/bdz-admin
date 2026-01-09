@@ -9,4 +9,28 @@ class AuthenticatedNonResourceController < ApplicationController
   #end
 
   #check_authorization
+
+  include Pundit::Authorization
+  after_action :verify_pundit_authorization
+
+  before_action :authenticate_user!
+
+  rescue_from Pundit::NotAuthorizedError do |exception|
+    Rails.logger.warn(exception.message)
+
+    msg = exception.message
+
+    flash[:error] = msg
+
+    redirect_to root_url
+  end
+
+  def verify_pundit_authorization
+    verify_authorized
+  end
+
+  private
+
+  protected
+
 end
