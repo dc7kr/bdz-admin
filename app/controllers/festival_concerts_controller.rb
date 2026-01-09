@@ -98,12 +98,25 @@ class FestivalConcertsController < AuthenticatedController
   end
 
   def overview
-
-  end
+      
+    @applications = policy_scope(FestivalApplication).current_festival.where(permission: true).includes(:festival_concert).includes(:festival_pieces).includes(:contact_person)
+    respond_to do |format|
+      format.html
+      format.ods do 
+        spreadsheet = FestivalConcertOverviewSpreadsheet.new(@applications)
+        spreadsheet.render(self)
+        send_data spreadsheet.bytes, filename: "concert_overview.ods", type: "application/octet-stream"
+      end
+    end
+  end 
+ 
 
   private
   def set_festival_concert
     @festival_concert = policy_scope(FestivalConcert).find(params[:id])
     authorize @festival_concert
+  end
+  def index_actions
+    super.append(:overview)
   end
 end

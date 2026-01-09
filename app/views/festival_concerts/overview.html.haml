@@ -1,0 +1,48 @@
+%table.table.table-sm.table-bordered
+  %thead
+    %tr
+      %th Konzert
+      %th Interpret
+      %th Spieler
+      %th Titel
+      %th Dauer
+      %th Komponist
+      %th Bearbeiter
+      %th Verlag
+      %th Uraufführung
+      %th Solist
+      %th Vorname
+      %th Name
+      %th Email
+      %th Telefon
+      %th Link
+      %th Werk letzte Änderung
+      %th Teilnehmer letzte Änderung
+
+  - @applications.each do |fa|
+    - fa.festival_pieces.each do |fp|
+      %tbody
+        %tr
+          %td
+            - if fa.festival_concert.nil?
+              keine
+            - else 
+              =fa.festival_concert.number
+          %td=fa.orch_name
+          %td=fa.num_players
+          %td=fp.title
+          %td=render_duration(fp.duration)
+          %td=fp.composer
+          %td=fp.arranger
+          %td=fp.publisher 
+          %td=fp.premiere
+          %td=fp.soloist
+          %td=fa.contact_person.first_name
+          %td=fa.contact_person.last_name
+          %td=fa.contact_person.email
+          %td=fa.contact_person.phone
+          %td=ef_festival_application_url(fa)
+          %td=fp.updated_at
+          %td=fa.updated_at
+
+
