@@ -35,6 +35,8 @@
           -if current_user and current_user.has_role?(:regional) then
             %li.nav-item.dropdown{ :class => tabActiveClass(current_area,'regional','last')}= link_to "#{t("main_menu.regional")}", RegionalOrganization.with_role(:regional, current_user).first
 
+          = yield :entity_menu
+
         - if current_user then
           .ms-auto
             = yield :search
