@@ -124,6 +124,7 @@ module ButtonHelper
     if p_entity.is_a?(Array)
       namespace = p_entity[0]
       entity = p_entity[1]
+      path = send("#{namespace}_#{entity.class.name.singularize.underscore}_path",entity) if path.nil?
     else
       entity = p_entity
     end
@@ -205,11 +206,32 @@ module ButtonHelper
     glyph_button("step-forward", path, txt, true, :link, "btn-primary")
   end
 
-  def wizard_del_button(path, txt, _entity)
-    link_to my_fa_icon("times") + txt, path, confirm: t("common.delete_confirm"), class: "btn btn-danger"
+  def wizard_del_button(path, txt, _entity, btn_class: "btn-danger")
+    html_options= {
+      data: { 
+        "turbo-confirm": t("common.delete_confirm"), 
+        "turbo-prefetch": false
+      },
+      class: "btn #{btn_class}"
+    }
+
+    link_to path, html_options do
+      concat(my_fa_icon("times"))
+      concat(raw("&nbsp;"))
+      concat(txt)
+    end
   end
 
-  def icon_link_to(glyph, txt, path)
-    link_to "#{my_fa_icon(glyph)} #{txt}", path, class: "btn btn-default"
+  def icon_link_to(glyph, txt, path=nil, btn_class: "btn-secondary", turbo:false )
+    html_options = {
+      class: "btn #{btn_class}",
+      data: { "turbo-prefetch": false }
+    }
+
+    link_to path, html_options  do
+      concat(my_fa_icon(glyph))
+      concat(raw("&nbsp;"))
+      concat(txt)
+    end
   end
 end
