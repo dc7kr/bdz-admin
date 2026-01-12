@@ -1,7 +1,7 @@
 class MemberAccountBookingsController < AuthenticatedController
   include ApplicationHelper
 
-  before_action :set_booking, only: %i[ show edit update destroy download ]
+  before_action :set_booking, only: %i[ show edit update destroy download invoice_preview invoice_sepa ]
   helper_method :sort_column, :sort_direction
 
   # GET /bookings
@@ -178,10 +178,32 @@ class MemberAccountBookingsController < AuthenticatedController
   def download
     x_sendfile = false
     fullPath = "#{INVOICE_CONFIG.archive_dir}/#{String(@booking.booking_year)}/#{@booking.filename}"
-    # send_file(fullPath, :filename => @booking.filename, :type => "application/pdf", :x_sendfile=>true)
     # send_file(fullPath, :filename => @booking.filename, :x_sendfile=>true,:type=>"application/octet-stream")
     send_file(fullPath, filename: @booking.filename, x_sendfile: x_sendfile, type: "application/octet-stream")
   end
+
+  def invoice_sepa
+    @invoice = CorikaInvoices::Invoice.find(@booking.invoice_id)
+
+    sepa = @invoice.gen_sepa_xml
+
+    filename = File.basename(@booking.filename)
+    filename.append(".sepa.xml")
+
+    send_data(sepa, filename: filename, type: "application/octet-stream")
+  end
+  
+  def invoice_preview
+    @invoice = CorikaInvoices::Invoice.find(@booking.invoice_id)
+
+    @invoice_hash = @invoice.to_hash[:invoice]
+
+    respond_to do |format|
+      format.turbo_stream { render template: "corika_invoices/invoices/preview" }
+      format.html { render template: "corika_invoices/invoices/preview" }
+    end
+  end
+
 
   private
 
@@ -195,8 +217,10 @@ class MemberAccountBookingsController < AuthenticatedController
       :orchestra
     elsif params[:person_member_id]
       :person_member
-    else
+    elsif params[:regional_organization_id]
       :regional_organization
+    else 
+      :none
     end
   end
 
