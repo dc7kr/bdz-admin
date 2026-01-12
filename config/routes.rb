@@ -226,7 +226,12 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :member_account_bookings
+  resources :member_account_bookings do
+    member do
+      get :invoice_preview
+      get :invoice_sepa
+    end
+  end
 
   get "member_report" => "member_report#index"
   get "member_report/by_lv" => "member_report#by_lv"
@@ -470,10 +475,15 @@ Rails.application.routes.draw do
 
     # TODO: These aren't resources!
     resources :mails
-    resources :downloads
+    resources :downloads  do 
+      member do 
+        get :combined_invoice_pdf
+      end
+    end
   end
 
-  get "downloads/:year/:filename" => "downloads#show"
+  get "combined_invoice_pdf/:generator_session_id", controller: "downloads", action: "combined_invoice_pdf"
+  get "downloads/:year/:filename", controller: "downloads", action: "show", format: false, defaults: { format: "html" }
   get "member_tools/kto_blz_to_iban_bic" => "member_tools#kto_blz_to_iban"
   get "member_tools/iban_calculator" => "member_tools#iban_calculator"
   get "home/index"
