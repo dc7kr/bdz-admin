@@ -1,6 +1,8 @@
 class CustomInfoMailJob < ApplicationJob
   include Rails.application.routes.url_helpers
 
+  sidekiq_options retry: false
+
   include PdfHelper
   include BulkMailHelper
   include UploadHelper
