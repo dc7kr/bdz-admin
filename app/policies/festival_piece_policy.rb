@@ -2,6 +2,11 @@ class FestivalPiecePolicy < FestivalDataPolicy
   def show?
     super or user.has_role? :festival
   end
+
+  def destroy?
+    national_permission?
+  end
+
   
   class Scope < FestivalDataPolicy::Scope
     def resolve
