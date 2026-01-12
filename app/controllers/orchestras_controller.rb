@@ -362,8 +362,8 @@ class OrchestrasController < AuthenticatedController
   end
 
   def renderNoPayOds(filename, accounts, members)
-    RODF::Spreadsheet.file(filename) do
-      table "Nopayment" do
+    RODF::Spreadsheet.file(filename) do |sheet|
+      sheet.table "Nopayment" do
         members.each do |m|
           row do
             cell m.mglnr.to_s
