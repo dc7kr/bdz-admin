@@ -281,6 +281,7 @@ class Member < ApplicationRecord
     booking = MemberAccountBooking.new_dd("Lastschrift #{booking_txt}", amount)
     booking.member_id = id
     booking.booking_year = year
+    booking.invoice_id = invoice.id
     booking.save
 
     booking
