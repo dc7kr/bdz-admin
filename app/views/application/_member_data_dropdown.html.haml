@@ -1,10 +1,13 @@
-%ul.dropdown-menu{ :aria => {:labelledby=>"dropdownMenu2"}}
-  %li= link_to "Landesverbände", regional_organizations_path, :class=>"dropdown-item"
-  %li= link_to "Orchester", orchestras_path , :class=>"dropdown-item"
-  %li= link_to "Einzelmitglieder", person_members_path , :class=>"dropdown-item"
-  %li= link_to "Ehrungen", honor_members_path , :class=>"dropdown-item"
-  .dropdown-divider
-  - if current_user and (current_user.has_role?(:admin) or current_user.has_role?(:national) )
-    %li= link_to "Mitgliederbericht", "/member_report", :class=>"dropdown-item"
-    %li= link_to t('report_sheet.final'), final_report_sheets_path, :class=>"dropdown-item"
-    %li= link_to t('report_sheet.analysis'), analysis_report_sheets_path, :class=>"dropdown-item"
+%li.nav-item.dropdown
+  %a.nav-link.dropdown-toggle{:href=>"#", :role=>"button" ,:data=> { :bs=> { :toggle=>"dropdown" }}, :aria => { :expanded => "false"}}
+    =t("main_menu.member_data")
+  %ul.dropdown-menu{ :aria => {:labelledby=>"dropdownMenu2"}}
+    %li= link_to "Landesverbände", regional_organizations_path, :class=>"dropdown-item"
+    %li= link_to "Orchester", orchestras_path , :class=>"dropdown-item"
+    %li= link_to "Einzelmitglieder", person_members_path , :class=>"dropdown-item"
+    %li= link_to "Ehrungen", honor_members_path , :class=>"dropdown-item"
+    .dropdown-divider
+    - if current_user and (current_user.has_role?(:admin) or current_user.has_role?(:national) )
+      %li= link_to "Mitgliederbericht", "/member_report", :class=>"dropdown-item"
+      %li= link_to t('report_sheet.final'), final_report_sheets_path, :class=>"dropdown-item"
+      %li= link_to t('report_sheet.analysis'), analysis_report_sheets_path, :class=>"dropdown-item"

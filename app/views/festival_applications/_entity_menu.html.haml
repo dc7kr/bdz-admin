@@ -1,0 +1,14 @@
+%li.nav-item.dropdown
+  %a.nav-link.dropdown-toggle{:href=>"#", :role=>"button" ,:data=> { :bs=> { :toggle=>"dropdown" }}, :aria => { :expanded => "false"}}
+    =t("festival_application", count:3)
+  %ul.dropdown-menu
+    - if @festival_application
+      %li= link_to "Contact Events", contact_person_contact_events_path(@festival_application.contact_person), class: "dropdown-item"
+      %li
+        %hr.dropdown-divider
+    %li= link_to "Bewerbungsliste (PDF)", "/festival_applications/list.pdf", class: "dropdown-item"
+    %li= link_to "Bewerbungsliste (ODS)", "/festival_applications/list.ods", class: "dropdown-item"
+    %li= link_to "Zulassungsliste (PDF)", "/festival_applications/permitted.pdf", class: "dropdown-item"
+    %li= link_to "Zulassungsliste (ODS)", "/festival_applications/permitted.ods", class: "dropdown-item"
+    %li= link_to "Teilnehmerliste (ODS)", "/festival_applications/permitted.ods", class: "dropdown-item"
+.block

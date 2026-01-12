@@ -6,9 +6,17 @@
   %td=format_currency(member_account_booking.amount,'€')
   %td=member_account_booking.has_reference?
   - member = member_account_booking.member
-  - is_orchestra = member.member_entity.is_a?(Orchestra)
-  - is_pm= member.member_entity.is_a?(PersonMember)
+  - if not member.nil? 
+    - is_orchestra = member.member_entity.is_a?(Orchestra)
+    - is_pm= member.member_entity.is_a?(PersonMember)
+    - is_lv=member.member_entity.is_a?(RegionalOrganization)
+  - else
+    - is_orchestra=false
+    - is_pm=false
+    - is_lv=false
+
   %td
+    = link_to_show member_account_booking
     -if ( member_account_booking.booking_mode=='M' or isAdmin?) then
       = link_to_edit member_account_booking
       = link_to_delete member_account_booking

@@ -1,0 +1,6 @@
+%li.nav-item.dropdown
+  %a.nav-link.dropdown-toggle{:href=>"#", :role=>"button" ,:data=> { :bs=> { :toggle=>"dropdown" }}, :aria => { :expanded => "false"}}
+    =t("magazine_sampling", count:3)
+    /=render :partial => "member_data_dropdown"
+  %ul.dropdown-menu{ :aria => {:labelledby=>"dropdownMenu2"}}
+    %li=link_to(t('magazine_sampling.print_list'),print_list_magazine_samplings_path(format: :ods), class: "dropdown-item", data: { no_turbolink: true })

@@ -5,33 +5,18 @@
       %button.navbar-toggler{ :type=>"button", :data => {  :bs => { :toggle=>"collapse", :target=>"#mainMenuNavbarContent" },  :aria => { :controls=>"navbarSupportedContent", :expanded=>"false", :label=>"Toggle navigation" }}}
         %span.navbar-toggler-icon
 
-      .collapse.navbar-collapse#mainMenuNavbarContent
+      #mainMenuNavbarContent.collapse.navbar-collapse
         %ul.navbar-nav.navbar-left
           %li
             %a.nav-link{:href=>"/"}= my_fa_icon(:home)
           - if current_user and current_user.member_data_permission? then
-            %li.nav-item.dropdown
-              %a.nav-link.dropdown-toggle{:href=>"#", :role=>"button" ,:data=> { :bs=> { :toggle=>"dropdown" }}, :aria => { :expanded => "false"}}
-                =t("main_menu.member_data")
-              =render :partial => "member_data_dropdown"
+            =render :partial => "member_data_dropdown"
           - if current_user and current_user.reference_data_permission? then
-            %li.nav-item.dropdown
-              %a.nav-link.dropdown-toggle{:href=>"#", :role=>"button" ,:data=> { :bs => { :toggle=> "dropdown" }}}
-                =t("main_menu.reference_data")
-                %span.caret
-              =render :partial => "reference_data_dropdown"
+            =render :partial => "reference_data_dropdown"
           - if current_user and current_user.magazine_permission? then
-            %li.nav-item.dropdown
-              %a.nav-link.dropdown-toggle{:href=>"#", :role=>"button" ,:data=> { :bs => { :toggle=> "dropdown" }}}
-                =t("main_menu.magazine_data")
-                %span.caret
-              =render :partial => "magazine_dropdown"
+            =render :partial => "magazine_dropdown"
           - if current_user and current_user.festival_permission? then
-            %li.nav-item.dropdown
-              %a.nav-link.dropdown-toggle{:href=>"#", :role=>"button" ,:data=> { :bs => { :toggle=> "dropdown" }}}
-                =t("main_menu.festival_data")
-                %span.caret
-              =render :partial => "festival_data_dropdown"
+            =render :partial => "festival_data_dropdown"
           -if current_user and current_user.has_role?(:regional) then
             %li.nav-item.dropdown{ :class => tabActiveClass(current_area,'regional','last')}= link_to "#{t("main_menu.regional")}", RegionalOrganization.with_role(:regional, current_user).first
 
@@ -52,5 +37,3 @@
               %a.nav-link.btn.btn-outline-dark.btn-sm{:href=>'#offcanvasSidebar',:aria=>{:controls=>"offcanvasSidebar" },:data=>{ :bs => { :toggle=>"offcanvas"}},:role=>"button"} 
                 =my_fa_icon("bars")
 
-
-        

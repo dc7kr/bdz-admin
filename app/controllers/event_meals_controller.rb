@@ -2,6 +2,7 @@ require "rodf"
 class EventMealsController < AuthenticatedController
 
   before_action :set_event_meal, only: %i[ show edit update destroy ]
+
   # GET /event_meals
   # GET /event_meals.json
   def index

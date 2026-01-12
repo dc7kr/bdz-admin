@@ -1,3 +1,7 @@
-.dropdown-menu{ :aria => {:labelledby=>"dropdownMenu3"}}
-  = link_to "Bundesländer", states_path , :class=>"dropdown-item"
-  = link_to "Beiträge", tariffs_path , :class=>"dropdown-item"
+%li.nav-item.dropdown
+  %a.nav-link.dropdown-toggle{:href=>"#", :role=>"button" ,:data=> { :bs => { :toggle=> "dropdown" }}}
+    =t("main_menu.reference_data")
+    %span.caret
+  .dropdown-menu{ :aria => {:labelledby=>"dropdownMenu3"}}
+    = link_to "Bundesländer", states_path , :class=>"dropdown-item"
+    = link_to "Beiträge", tariffs_path , :class=>"dropdown-item"

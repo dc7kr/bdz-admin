@@ -11,3 +11,4 @@
     %li.nav-item= link_to t("festival_piece",:count=>3), festival_application_festival_pieces_path(@festival_application), :class => tabActiveClass(@current_action,'festival_pieces',"nav-link")
   = nav_to_new FestivalApplication 
 
+- content_for :search, render(:partial => 'nav_search', locals: { search_path: festival_applications_path})

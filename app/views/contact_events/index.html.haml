@@ -1,20 +1,18 @@
-.block
-  .secondary-navigation
-    =render :partial=>'nav'
-  .content
-    %h2.title
-      = t("common.all")
-      = t("contact_event",:count=>3)
-    .inner
-      %table.table-sm.table-hover.table-condensed
-        %thead
-          %th=attr_heading ContactEvent, :event_type
-          %th=attr_heading ContactEvent, :event_date
-          %th=attr_heading ContactEvent, :event
-          %th=attr_heading Contact, :s
-          %th=attr_heading ContactEvent, :comment
-          %th=attr_heading ContactEvent, :filename
-          %th
-        = render @contact_events
+.secondary-navigation
+  =render :partial=>'nav'
+.container
+  %h2.title
+    = t("common.all")
+    = t("contact_event",count: 3)
+  %table.table-sm.table-hover.table-condensed
+    %thead
+      %th=attr_heading ContactEvent, :event_type
+      %th=attr_heading ContactEvent, :event_date
+      %th=attr_heading ContactEvent, :event
+      %th=t("contact_person", count: 1)
+      %th=attr_heading ContactEvent, :comment
+      %th=attr_heading ContactEvent, :filename
+      %th
+    = render @contact_events
 
 
