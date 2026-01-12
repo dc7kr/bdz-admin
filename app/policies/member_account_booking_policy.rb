@@ -22,6 +22,14 @@ class MemberAccountBookingPolicy < ApplicationPolicy
     user.has_role? :admin
   end
 
+  def invoice_preview?
+    accounting_permission?
+  end
+
+  def invoice_sepa?
+    accounting_permission?
+  end
+
   def download?
     national_permission?
   end
