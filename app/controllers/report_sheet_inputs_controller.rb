@@ -3,7 +3,7 @@ class ReportSheetInputsController < AuthenticatedController
   include UploadHelper
   include ReportSheetUploadHelper
 
-  before_action :set_report_sheet_input, only: %i[ show destroy ]
+  before_action :set_report_sheet_input, only: %i[ show destroy metadata ]
 
   # GET /report_sheet_inputs
   # GET /report_sheet_inputs.json
