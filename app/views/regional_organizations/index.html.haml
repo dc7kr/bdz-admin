@@ -11,4 +11,5 @@
       %th= attr_heading(RegionalOrganization,:homepage)
       %th.last &nbsp;
     = render @regional_organizations
-- content_for :sidebar, render(:partial => 'sidebar')
+
+- content_for :entity_menu, render(:partial => "entity_menu")
