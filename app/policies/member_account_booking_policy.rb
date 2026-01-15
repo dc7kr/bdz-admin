@@ -31,12 +31,12 @@ class MemberAccountBookingPolicy < ApplicationPolicy
   end
 
   def download?
-    national_permission?
+    national_permission? or user.has_role? :distinction
   end
 
   class Scope < ApplicationPolicy::Scope
     def resolve
-      if national_permission?
+      if national_permission? or user.has_role? :distinction
         scope.all
       end
     end

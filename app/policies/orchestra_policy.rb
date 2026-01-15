@@ -10,13 +10,11 @@ class OrchestraPolicy < MemberDataPolicy
   end
 
   def update?
-    result = (national_permission?)
-
-    result
+    national_permission?
   end
 
   def show?
-    national_permission? or user.has_role? :regional
+    national_permission? or user.has_role? :regional or user.has_role? :distinction
   end
 
   def invoice_preview?
@@ -25,7 +23,7 @@ class OrchestraPolicy < MemberDataPolicy
 
   class Scope < ApplicationPolicy::Scope
     def resolve
-      if national_permission?
+      if national_permission? or user.has_role? :distinction
         scope.all
       end
     end
