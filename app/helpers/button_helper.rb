@@ -50,7 +50,7 @@ module ButtonHelper
   end
 
   def link_to_download_path(entity, path, txt=nil, btn_class="btn-sm btn-outline-dark")
-    return unless entity.has_attachment? and policy(entity).show?
+    return unless entity.has_attachment? and policy(entity).download?
     link_to path, class: "btn #{btn_class}", data: { turbo: false } do
       concat(my_fa_icon("download"))
       if not txt.nil?
