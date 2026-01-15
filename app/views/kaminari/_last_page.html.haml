@@ -1,2 +1,2 @@
 %li.page-item
-  = link_to_unless current_page.last?, "&raquo".html_safe, url, {:class=>"page-link", :data=> { :remote => remote} }
+  = link_to_unless current_page.last?, "&raquo".html_safe, url, class: "page-link", data: { "turbo-prefetch": false, remote: remote }

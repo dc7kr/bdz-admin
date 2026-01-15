@@ -1,5 +1,5 @@
 %li.page-item
   - if not current_page.last?
-    = link_to url, { :rel => 'next', :data=> { :remote => remote},:class=>"page-link"} do
+    = link_to url, data: { "turbo-prefetch": false, remote: remote }, class: "page-link" do
       %span{:aria-hidden=>"true"} &gt;
       %span.sr-only Next
