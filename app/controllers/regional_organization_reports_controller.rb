@@ -8,6 +8,8 @@ class RegionalOrganizationReportsController < AuthenticatedController
   #authority_actions members: "read"
   #authority_actions fee_shares: "read"
   #authority_actions person: "read"
+  
+  before_action :set_regional_organization, only: %w[ index orchestras person_members members ]
 
   # nasty workaround for authority exception
   def search; end
@@ -19,93 +21,40 @@ class RegionalOrganizationReportsController < AuthenticatedController
     current_year = Time.zone.now.year
     orchestras = Orchestra.includes(:member).where(members: { regional_organization_id: lv.id }).order("members.mglnr")
 
-    tmpname = "/tmp/lv#{lv.id}.ods"
-    RODF::Spreadsheet.file(tmpname) do
-      table "Orchester" do |t|
-        t.row do
-          cell "Mglnr"
-          cell "Name"
-          cell "Email"
-          cell I18n.t("orchestra_contact.role_V")
-          cell I18n.t("orchestra_contact.role_S")
-          cell I18n.t("orchestra_contact.role_G")
-          cell I18n.t("orchestra_contact.role_D")
-          cell I18n.t("orchestra_contact.role_J")
-          cell I18n.t("orchestra_contact.role_O")
-        end
-        orchestras.each do |o|
-          oc = o.contacts_by_role
-          o.lastReportSheet
+    sheet = RegionalOrganizationOrchestrasSpreadsheet.new(@regional_organization, orchestras, year)
+    sheet.render
 
-          t.row do
-            cell o.member.mglnr
-            cell o.orchName
-            cell o.member.email
-            cell oc["V"].to_s
-            cell oc["S"].to_s
-            cell oc["G"].to_s
-            cell oc["D"].to_s
-            cell oc["J"].to_s
-            cell oc["O"].to_s
-          end
-        end
-      end
-      table "Orchester-Statistik" do |t|
-        t.row do
-          cell "Mglnr"
-          cell I18n.t("report_sheet.total_active")
-          cell I18n.t("report_sheet.passive")
-          cell I18n.t("report_sheet.child_ens")
-          cell I18n.t("report_sheet.youth_ens")
-          cell I18n.t("report_sheet.adult_ens")
-          cell I18n.t("report_sheet.senior_ens")
-          cell I18n.t("report_sheet.chamber_ens")
-        end
-        orchestras.each do |o|
-          rs = o.report_sheet_for_year(year)
-          t.row do
-            cell o.mglnr
-            cell o.orchName
-            cell rs.totalActiveMembers
-            cell rs.passive
-            cell rs.child_ens.to_i, type: :float
-            cell rs.youth_ens.to_i, type: :float
-            cell rs.adult_ens.to_i, type: :float
-            cell rs.senior_ens.to_i, type: :float
-            cell rs.chamber_ens.to_i, type: :float
-            cell rs.total_ensembles, type: :float
-            cell "(Meldebogen #{rs.year})" if rs.year != current_year
-          end
-        end
-      end
-    end
+    tmpname = "/tmp/lv#{lv.id}.ods"
+    sheet.gen_file(tmpname)
+
     send_file(tmpname, filename: "lv_#{lv.id}.ods", type: "application/octet-stream")
   end
 
-  def orch
-    @regional_organization = RegionalOrganization.find(params[:regional_organization_id])
-    authorize @regional_organization
-
+  def orchestras
     @orchestras = Orchestra.includes(:member).where(members: { regional_organization_id: params[:regional_organization_id] }).order("members.mglnr")
     respond_to do |format|
       format.ods do
         filename = "orch_lv#{@regional_organization.nummer}_#{Time.zone.now.year}.ods"
-        renderOrchOds("/tmp/#{filename}", @orchestras)
-        send_file("/tmp/#{filename}", filename: filename, type: "application/octet-stream")
+        sheet = RegionalOrganizationOrchestrasSpreadsheet.new(@regional_organization, @orchestras)
+        sheet.render
+
+        sheet.bytes
+  
+        send_data( sheet.bytes, filename: filename, type: "application/octet-stream")
       end
     end
   end
 
-  def person
-    @regional_organization = RegionalOrganization.find(params[:regional_organization_id])
-    authorize @regional_organization
-
+  def person_members
     @person_members = PersonMember.includes(:member).where(members: { regional_organization_id: params[:regional_organization_id] }).order("members.mglnr")
     respond_to do |format|
       format.ods do
         filename = "em_lv#{@regional_organization.nummer}_#{Time.zone.now.year}.ods"
-        render_person_members_ods("/tmp/#{filename}", @person_members)
-        send_file("/tmp/#{filename}", filename: filename, type: "application/octet-stream")
+
+        sheet = RegionalOrganizationPersonMembersSpreadsheet.new(@regional_organization, @person_members)
+        sheet.render
+
+        send_data( sheet.bytes, filename: filename, type: "application/octet-stream")
       end
     end
   end
@@ -117,9 +66,6 @@ class RegionalOrganizationReportsController < AuthenticatedController
       @year = Time.zone.now.year
       Rails.logger.debug("Year is nil!")
     end
-
-    @regional_organization = RegionalOrganization.find(params[:regional_organization_id])
-    authorize @regional_organization
 
     @lvSum = 0
     @orchSum = 0
@@ -234,6 +180,7 @@ class RegionalOrganizationReportsController < AuthenticatedController
   def share_overview
     @regional_organization = RegionalOrganization.find(params[:regional_organization_id])
     authorize @regional_organization
+
     @year = params[:year]
 
     @year = Time.zone.now.year if @year.nil?
@@ -275,115 +222,9 @@ class RegionalOrganizationReportsController < AuthenticatedController
   end
 
   private
-
-  def renderOrchOds(tmpname, orchestras)
-    RODF::Spreadsheet.file(tmpname) do
-      table "Orchester" do |t|
-        t.row do
-          cell "Mglnr"
-          cell "Orchester-Name"
-          cell "Name"
-          cell "Strasse"
-          cell "PLZ"
-          cell "Ort"
-          cell "Email"
-          cell "Meldebogen-Jahr"
-          cell I18n.t("report_sheet.children")
-          cell I18n.t("report_sheet.teens")
-          cell I18n.t("report_sheet.youth")
-          cell I18n.t("report_sheet.adult")
-          cell I18n.t("report_sheet.senior")
-          cell I18n.t("report_sheet.gema")
-          cell I18n.t("report_sheet.azubi")
-          cell I18n.t("report_sheet.azubi_child")
-          cell I18n.t("report_sheet.azubi_teens")
-          cell I18n.t("report_sheet.azubi_youth")
-          cell I18n.t("report_sheet.azubi_adult")
-          cell I18n.t("report_sheet.azubi_senior")
-          cell I18n.t("report_sheet.passive")
-          cell I18n.t("report_sheet.supporters")
-          cell I18n.t("report_sheet.child_ens")
-          cell I18n.t("report_sheet.youth_ens")
-          cell I18n.t("report_sheet.adult_ens")
-          cell I18n.t("report_sheet.senior_ens")
-          cell I18n.t("report_sheet.chamber_ens")
-          cell I18n.t("report_sheet.other_ens")
-          cell I18n.t("report_sheet.zo")
-          cell I18n.t("report_sheet.zi_o")
-          cell I18n.t("report_sheet.go")
-          cell I18n.t("report_sheet.oz")
-        end
-        orchestras.each do |o|
-          last_report = o.lastReportSheet
-
-          t.row do
-            cell o.member.mglnr
-            cell o.cleanOrchName
-            cell o.fullname
-            cell o.member.strasse
-            cell o.member.plz
-            cell o.member.ort
-            cell o.member.email
-            unless last_report.nil?
-              cell last_report.year
-              cell last_report.children
-              cell last_report.teens
-              cell last_report.youth
-              cell last_report.adult
-              cell last_report.senior
-              cell last_report.gema
-              cell last_report.azubi
-              cell last_report.azubi_child
-              cell last_report.azubi_teens
-              cell last_report.azubi_youth
-              cell last_report.azubi_adult
-              cell last_report.azubi_senior
-              cell last_report.passive
-              cell last_report.supporters
-              cell last_report.child_ens
-              cell last_report.youth_ens
-              cell last_report.adult_ens
-              cell last_report.senior_ens
-              cell last_report.chamber_ens
-              cell last_report.other_ens
-              cell last_report.zo
-              cell last_report.zi_o
-              cell last_report.go
-              cell last_report.oz
-            end
-          end
-        end
-      end
-    end
+  def set_regional_organization
+    @regional_organization = RegionalOrganization.find(params[:regional_organization_id])
+    authorize [:report, @regional_organization ]
   end
 
-  def render_person_members_ods(tmpfile, person_members)
-    RODF::Spreadsheet.file(tmpfile) do
-      table "Einzelmitglieder" do |t|
-        t.row do
-          cell "Mglnr"
-          cell "Anrede"
-          cell "Vorname"
-          cell "Name"
-          cell "Strasse"
-          cell "PLZ"
-          cell "Ort"
-          cell "Email"
-        end
-
-        person_members.each do |pm|
-          t.row do
-            cell pm.member.mglnr
-            cell pm.member.anrede
-            cell pm.member.vorname
-            cell pm.member.name
-            cell pm.member.strasse
-            cell pm.member.plz
-            cell pm.member.ort
-            cell pm.member.email
-          end
-        end
-      end
-    end
-  end
 end
