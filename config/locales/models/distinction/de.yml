@@ -12,8 +12,11 @@ de:
     honorletters: Ehrenbriefe
     medals: BDZ-Medaillen
     porto: Porto
+    invoice_generation_triggered: "Die Rechnung wird im Hintergrund erzeugt. Nach Abschluss ist sie hier zum Download verfügbar. Sie erhalten bei Fertigstellung eine Mail."
 
   activerecord:
+    models:
+      distinction: "Ehrung"
     attributes:
       distinction:
         <<: *distinction_labels
