@@ -2,7 +2,7 @@
   %button.btn.btn-outline-secondary.dropdown-toggle{:href=>"#", :role=>"button" ,:data=> { :bs=> { :toggle=>"dropdown" }}, :aria => { :expanded => "false"}}
     =t("orchestra", count:3)
   %ul.dropdown-menu
-    - if @orchestra
+    - if @orchestra and @orchestra.id.present?
       %li= link_to( "Mitgliedskonto", orchestra_member_account_bookings_url(@orchestra), class: "dropdown-item")
       %li= link_to( "Events", orchestra_member_events_url(@orchestra), class: "dropdown-item")
       %li= link_to( "Kontakt-Adressen", orchestra_orchestra_contacts_url(@orchestra), class: "dropdown-item")
