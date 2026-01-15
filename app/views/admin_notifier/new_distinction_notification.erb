@@ -5,12 +5,10 @@ eine neue Ehrungsrechnung für Mitgliedsnummer <%= @mglnr %> wurde erstellt.
 <br/>
 
 <%- if @direct_debit then %>
-Die zugehörige DTAUS-Datei ist unter <br/>
+Die zugehörige SEPA-Datei ist unter <br/>
 <a href="<%= @sepafile_url %>"><%= @sepafile_url %></a><br/>
 verfuegbar.
 <%- else %>
 <br/>
 Der Betrag wird überwiesen - Verwendungszweck: <%=@invoice_number %>.
 <%- end %>
-
-

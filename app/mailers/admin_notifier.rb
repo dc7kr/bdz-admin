@@ -114,7 +114,7 @@ class AdminNotifier < ApplicationMailer
     mail(to: current_user_addr, subject: "[BDZDB] Test Notification", from:  from, bcc: adm)
   end
 
-  def new_distinction_notification(invoice, sepa_file)
+  def new_distinction_notification(triggered_by, invoice, sepa_file)
     @sepafile_url = sepa_file
 
     @direct_debit = invoice.customer.direct_debit?
@@ -126,6 +126,7 @@ class AdminNotifier < ApplicationMailer
     cc = contact_email("admin")
 
     mail(to: user, cc: cc, subject: "Neue Ehrungsrechnung Nr. #{@invoice_number}")
+    mail(to: triggered_by, subject: "Neue Ehrungsrechnung Nr. #{@invoice_number}")
   end
 
   def generic_pdf_notification
