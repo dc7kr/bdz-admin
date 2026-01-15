@@ -24,7 +24,7 @@ class OrchestraMembersSpreadsheet
         cell om.first_name
         cell om.last_name
         cell om.mglnr
-        cell om.date_of_birth
+        cell om.date_of_birth.year
         cell om.instrument
       end
     end
@@ -37,5 +37,9 @@ class OrchestraMembersSpreadsheet
     sheet.write_to filename
 
     filename
+  end
+
+  def bytes
+    self.sheet.bytes
   end
 end

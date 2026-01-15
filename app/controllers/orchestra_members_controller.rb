@@ -32,9 +32,8 @@ class OrchestraMembersController < AuthenticatedController
 
         sheet = OrchestraMembersSpreadsheet.new(@orchestra_members)
         sheet.render
-        filename = sheet.gen_file
-
-        send_file(filename, filename: "orchestra_members.ods", type: "application/octet-stream")
+        
+        send_data(sheet.bytes, filename: "orchestra_members.ods", type: "application/octet-stream")
       end
     end
   end
