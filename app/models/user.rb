@@ -63,7 +63,7 @@ class User < ApplicationRecord
   end
 
   def member_data_permission?
-    national_permission? or has_role? :regional
+    national_permission? or has_role? :regional or has_role? :distinction
   end
 
   def tools_permission?
