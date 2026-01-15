@@ -1,8 +1,11 @@
 class ContactPeopleController < AuthenticatedController
+
+  before_action :set_contact_person, only: %w[ show edit update destroy ]
+
   # GET /contact_people
   # GET /contact_people.json
   def index
-    @contact_people = ContactPerson.all
+    @contact_people = policy_scope(ContactPerson).all
 
     @up_path = home_landing_page_path
 
@@ -15,8 +18,6 @@ class ContactPeopleController < AuthenticatedController
   # GET /contact_people/1
   # GET /contact_people/1.json
   def show
-    @contact_person = ContactPerson.find(params[:id])
-
     @up_path = contact_people_path
 
     respond_to do |format|
@@ -28,8 +29,6 @@ class ContactPeopleController < AuthenticatedController
   # GET /contact_people/new
   # GET /contact_people/new.json
   def new
-    @contact_person = ContactPerson.new
-
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @contact_person }
@@ -38,14 +37,11 @@ class ContactPeopleController < AuthenticatedController
 
   # GET /contact_people/1/edit
   def edit
-    @contact_person = ContactPerson.find(params[:id])
   end
 
   # POST /contact_people
   # POST /contact_people.json
   def create
-    @contact_person = ContactPerson.new(params[:contact_person])
-
     respond_to do |format|
       if @contact_person.save
         format.html { redirect_to @contact_person, notice: "Contact person was successfully created." }
@@ -83,5 +79,11 @@ class ContactPeopleController < AuthenticatedController
       format.html { redirect_to contact_people_url }
       format.json { head :no_content }
     end
+  end
+
+  private
+  def set_contact_person
+    @contact_person = policy_scope(ContactPerson).find(params[:id])
+    authorize @contact_person
   end
 end
