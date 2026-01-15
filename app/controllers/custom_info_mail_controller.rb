@@ -5,12 +5,12 @@ class CustomInfoMailController < AuthenticatedNonResourceController
   include UploadHelper
 
   def index
-    authorize! :member, :edit
+    authorize :bulk, :create?
     @event_id = SecureRandom.uuid
   end
 
   def test
-    authorize! :member, :edit
+    authorize! :bulk, :create?
 
     respond_to do |format|
       format.html
@@ -18,7 +18,7 @@ class CustomInfoMailController < AuthenticatedNonResourceController
   end
 
   def template_test
-    authorize! :member, :edit
+    authorize! :bulk, :create?
     form_params = params[:custom_info_mail]
 
     date_prefix = Time.zone.now.strftime "%Y%m%d"
@@ -44,7 +44,7 @@ class CustomInfoMailController < AuthenticatedNonResourceController
   end
 
   def kasitest
-    authorize! :member, :edit
+    authorize! :bulk, :create?
     @mail_params = { subject: "Testsubj", body: "This is a shiny testbody", event_id: "TEST_EVENT" }
     @results = []
 
@@ -73,7 +73,7 @@ class CustomInfoMailController < AuthenticatedNonResourceController
   end
 
   def send_mail
-    authorize! :member, :edit
+    authorize! :bulk, :create?
 
     form_params = params[:custom_info_mail]
 
