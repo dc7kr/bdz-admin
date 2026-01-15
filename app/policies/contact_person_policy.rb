@@ -1,4 +1,4 @@
-class ContactPersonPolicy < ApplicationPolicy 
+class ContactPersonPolicy < MemberDataPolicy
   class Scope < ApplicationPolicy::Scope
     def resolve
       if national_permission?
