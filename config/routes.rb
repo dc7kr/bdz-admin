@@ -282,8 +282,8 @@ Rails.application.routes.draw do
     resources :regional_organization_reports, path: :reports do
       collection do
         get :members
-        get :orch
-        get :person
+        get :orchestras
+        get :person_members
         get :oddset_report
         get :fee_shares
         get :index
