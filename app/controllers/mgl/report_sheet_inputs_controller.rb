@@ -1,6 +1,11 @@
 module Mgl
   class ReportSheetInputsController < ApplicationController
+    layout "mgl"
+
     before_action :authorize, except: %i[login submit_login]
+    
+    include ::ApplicationHelper
+    include ::ButtonHelper
 
     include NotifyHelper
     include UploadHelper
