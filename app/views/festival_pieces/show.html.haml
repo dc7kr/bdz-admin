@@ -4,9 +4,11 @@
   .card.bg-light.pb-3
     .card-body
       %h5.card-title= t('festival_piece',:count=>1)
-    =entity_row(@festival_piece,:title) 
-    =entity_row(@festival_piece,:composer) 
-    =entity_row(@festival_piece,:arranger) 
-    =entity_row(@festival_piece,:publisher) 
+    =entity_row(@festival_application, :orch_name)
+    =entity_row(@festival_piece, :title) 
+    =entity_row(@festival_piece, :composer) 
+    =entity_row(@festival_piece, :arranger) 
+    =entity_row(@festival_piece, :publisher) 
     =custom_entity_row(t('festival_piece.duration'), render_duration(@festival_piece.duration))
+    =entity_row(@festival_piece, :premiere)
 

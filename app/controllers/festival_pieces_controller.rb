@@ -8,7 +8,8 @@ class FestivalPiecesController < AuthenticatedController
   # GET /festival_pieces.json
   def index
     if params[:festival_application_token].nil?
-      @festival_pieces = policy_scope(FestivalPiece).all
+      @festival_pieces = policy_scope(FestivalPiece).current_festival
+      @premieres = policy_scope(FestivalPiece).current_festival.where("premiere = 1")
     else
       @festival_application = policy_scope(FestivalApplication).find_by(token: params[:festival_application_token])
       @festival_pieces = @festival_application.festival_pieces
