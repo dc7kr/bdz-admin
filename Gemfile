@@ -114,7 +114,8 @@ gem "icalendar"
 # 0.3.1 seems to be broken
 # 0.3.5 works fine :)
 # 0.3.6 has encoding issues!
-gem "rodf", "~> 1.0.0"
+gem "rodf", "~> 1.2.0"
+#gem "rodf", path: "/srv/src/rodf"
 
 # gem 'roo', :git => 'git://github.com/dc7kr/roo.git'
 gem "roo"
@@ -130,6 +131,8 @@ gem "prawn"
 gem "prawn-table", "~> 0.2.2"
 
 gem "pdf-toolkit"
+
+gem "combine_pdf"
 
 gem "valid_email"
 
@@ -159,7 +162,7 @@ gem "acts_as_paranoid"
 # Google libphonenumber
 gem "telephone_number"
 
-gem "corika_invoices",  git: 'https://github.com/dc7kr/invoices-gem', tag: "2.2", ref: "8c07cd0117c0d2451c87b3693ff7a015473e0be9"
+gem "corika_invoices",  git: 'https://github.com/dc7kr/invoices-gem', ref: "f04b2daeff1cd4851b4c6fa0a2b5ce7f4480a800", tag: "2.3"
 # for developing the gem in parallel:
 #gem "corika_invoices", path: "/srv/src/invoices-gem"
 
