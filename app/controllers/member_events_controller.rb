@@ -109,8 +109,8 @@ class MemberEventsController < AuthenticatedController
   end
 
   def download
-    fullPath = "#{INVOICE_CONFIG.archive_dir}/#{@event.filename}"
-    send_file(fullPath, filename: File.basename(@event.filename), type: "application/pdf", x_sendfile: true)
+    fullPath = "#{INVOICE_CONFIG.archive_dir}/#{@member_event.filename}"
+    send_file(fullPath, filename: File.basename(@member_event.filename), type: "application/pdf", x_sendfile: true)
   end
 
   def sort_column
