@@ -2,13 +2,13 @@ require "rodf"
 
 module MagazineReportHelper
   def render_magazine_address_list(filename, de_rows, ext_rows)
-    RODF::Spreadsheet.file(filename) do
-      table "Inland" do |t|
+    RODF::Spreadsheet.file(filename) do |sheet|
+      sheet.table "Inland" do |t|
         MagazineReportHelper._add_heading(t)
         MagazineReportHelper._add_data(t, de_rows)
       end
 
-      table "Ausland" do |t|
+      sheet.table "Ausland" do |t|
         MagazineReportHelper._add_heading(t)
         MagazineReportHelper._add_data(t, ext_rows)
       end
