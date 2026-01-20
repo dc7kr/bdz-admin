@@ -1,18 +1,9 @@
-.panel.panel-primary
-  .panel-heading Upload
-  .panel-body
-    %ul.navigation
-      %li
-        =link_to "Säumige GJ #{@previousYear}", nopayment_orchestras_path( :lastyear=> @previousYear)
-      %li= link_to "GEMA Zahlen", "/orchestras/gema.csv"
-
-
-.panel.panel-primary
-  .panel-heading Mitgliedertabelle hochladen
-  .panel-body
+.card
+  .card-header.bg-primary.text-white Mitgliedertabelle hochladen
+  .card-body
     %ul.navigation
       %li
         %p
-          = form_tag upload_orchestra_orchestra_members_path(@orchestra), :method => 'post', :multipart=>true do
-            = file_field_tag :datafile
-            = submit_tag "Hochladen", :name => nil
+          = bootstrap_form_tag url: upload_orchestra_orchestra_members_path(@orchestra), method: 'post', :multipart=>true do |f|
+            = f.file_field :datafile, hide_label: true
+            = f.submit "Hochladen"

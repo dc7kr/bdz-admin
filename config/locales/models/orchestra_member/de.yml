@@ -15,6 +15,15 @@ de:
     exchange_success: "Vorname und Name erfolgreich ausgetauscht."
     check_double: "Doppel-Mitgliedschaft prüfen"
 
+  orchestra_members:
+    new:
+      title: "Neues Orchestermitglied"
+    edit:
+      title: "Orchestermitglied bearbeiten"
+    show:
+      title: "Orchestermitglied anzeigen"
+
+
   activerecord:
     attributes:
       orchestra_member:

@@ -70,10 +70,10 @@ class OrchestraMembersController < AuthenticatedController
   # GET /orchestra_members/new
   # GET /orchestra_members/new.json
   def new
-    authorize OrchestraMember
     @orchestra_member = OrchestraMember.new
     @orchestra = policy_scope(Orchestra).find(params[:orchestra_id])
     @orchestra_member.orchestra = @orchestra
+    authorize @orchestra_member
 
     respond_to do |format|
       format.html # new.html.erb
