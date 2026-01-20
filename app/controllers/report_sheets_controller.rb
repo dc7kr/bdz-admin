@@ -91,7 +91,7 @@ class ReportSheetsController < AuthenticatedController
 
   def final
     @curYear = params[:year] || Time.zone.now.year
-    @final = ReportSheet.final(@curYear)
+    @final = policy_scope(ReportSheet).final(@curYear)
 
     respond_to do |format|
       format.js
@@ -245,7 +245,7 @@ class ReportSheetsController < AuthenticatedController
     @current_year = Time.zone.now.year
     @last_year = @current_year - 1
 
-    @sheets = ReportSheet.includes(:orchestra).where("year in  (?) and orchestra_id IS NOT NULL",
+    @sheets = policy_scope(ReportSheet).includes(:orchestra).where("year in  (?) and orchestra_id IS NOT NULL",
                                                      [ @current_year, @last_year ]).order(:orchestra_id)
 
     @counts = {}
@@ -416,4 +416,10 @@ class ReportSheetsController < AuthenticatedController
       :report_date, :report_date_str, :comment, :ms_total
     )
   end
+  
+  protected
+  def index_actions
+    super.append(:final, :analysis)
+  end
+
 end
