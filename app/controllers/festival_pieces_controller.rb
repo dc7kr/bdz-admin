@@ -13,6 +13,7 @@ class FestivalPiecesController < AuthenticatedController
     else
       @festival_application = policy_scope(FestivalApplication).find_by(token: params[:festival_application_token])
       @festival_pieces = @festival_application.festival_pieces
+      @premieres = @festival_pieces.where("premiere = 1")
     end
 
     respond_to do |format|
