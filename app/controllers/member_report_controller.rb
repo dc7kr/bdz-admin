@@ -1,6 +1,5 @@
-class MemberReportController < AuthenticatedNonResourceController
+class MemberReportController < AuthenticatedController
   def index
-    auhorize :member_data, :show
     @sums = policy_scope(ReportSheet).select("year, count(*) as anzahl, sum(report_sheets.children) as sum_children , sum(report_sheets.teens) as sum_teens, sum(report_sheets.youth) as sum_youth ,sum(report_sheets.adult) as sum_adult, sum(report_sheets.senior) as sum_senior , sum(report_sheets.azubi) as sum_azubi, sum(report_sheets.passive) as sum_passive, sum(child_ens) as sum_child_ens, sum(youth_ens) as sum_youth_ens, sum(adult_ens) as sum_adult_ens, sum(senior_ens) as sum_senior_ens, sum(chamber_ens) as sum_chamber_ens, sum(other_ens) as sum_other_ens").group(:year).order(:year)
 
     @em_count = policy_scope(PersonMember).count
@@ -67,7 +66,6 @@ class MemberReportController < AuthenticatedNonResourceController
   end
 
   def report_sheet_stats
-    authorize! :member, :edit
     sheets = policy_scope(ReportSheet).final(Time.zone.now.year).includes(:orchestra)
 
     @maxTariff = 0
@@ -85,4 +83,11 @@ class MemberReportController < AuthenticatedNonResourceController
       format.html
     end
   end
+
+
+  protected
+  def index_actions
+    super.append(:by_lv, :report_sheet_stats)
+  end
+
 end

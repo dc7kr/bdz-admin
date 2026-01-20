@@ -1,95 +1,90 @@
-.block
-  .secondary-navigation
-    =render :partial=>'nav'
-  .content
-    %h2.title
-      = t("member_report",:count=>1)
-    .inner
-      %table.table-sm.table-hover.table-condensed
-        %thead
-          %th.first= attr_heading(ReportSheet,:year)
-          %th= t("member_report.orchestra_count")
-          %th= attr_heading(ReportSheet,:children)
-          %th= attr_heading(ReportSheet,:teens)
-          %th= attr_heading(ReportSheet,:youth)
-          %th= attr_heading(ReportSheet,:adult)
-          %th= attr_heading(ReportSheet,:senior)
-          %th= attr_heading(ReportSheet,:azubi)
-          %th= attr_heading(ReportSheet,:pasive)
-          %th
-            = t("ensemble", :count=>3)
-            %br
-            K|J|E|Senior|Kammer|Andere
-          %th= t("member_report.active_sum")
-          %th.last= t("member_report.member_sum")
-        %tbody
-          - @sums.each do |sum|
-            %tr
-              %td=sum.year
-              %td=format_int sum.anzahl
-              %td=format_int sum.sum_children
-              %td=format_int sum.sum_teens
-              %td=format_int sum.sum_youth
-              %td=format_int sum.sum_adult
-              %td=format_int sum.sum_senior
-              %td=format_int sum.sum_azubi
-              %td=format_int sum.sum_passive
-              %td
-                =format_int sum.sum_child_ens
-                |
-                =format_int sum.sum_youth_ens
-                |
-                =format_int sum.sum_adult_ens
-                |
-                =format_int sum.sum_senior_ens
-                |
-                =format_int sum.sum_chamber_ens
-                |
-                =format_int sum.sum_other_ens
-              - sum_active = sum.sum_children+sum.sum_teens+sum.sum_youth+sum.sum_adult+sum.sum_senior+sum.sum_azubi
-              %td= format_int sum_active
-              %td= format_int (sum_active+sum.sum_passive)
+.secondary-navigation=render :partial=>'nav'
+.container
+  %h2.title
+    = t("member_report",:count=>1)
+  %table.table.table-sm.table-hover
+    %thead
+      %th.first= attr_heading(ReportSheet,:year)
+      %th= t("member_report.orchestra_count")
+      %th= attr_heading(ReportSheet,:children)
+      %th= attr_heading(ReportSheet,:teens)
+      %th= attr_heading(ReportSheet,:youth)
+      %th= attr_heading(ReportSheet,:adult)
+      %th= attr_heading(ReportSheet,:senior)
+      %th= attr_heading(ReportSheet,:azubi)
+      %th= attr_heading(ReportSheet,:pasive)
+      %th
+        = t("ensemble", :count=>3)
+        %br
+        K|J|E|Senior|Kammer|Andere
+      %th= t("member_report.active_sum")
+      %th.last= t("member_report.member_sum")
+    %tbody
+      - @sums.each do |sum|
+        %tr
+          %td=sum.year
+          %td=format_int sum.anzahl
+          %td=format_int sum.sum_children
+          %td=format_int sum.sum_teens
+          %td=format_int sum.sum_youth
+          %td=format_int sum.sum_adult
+          %td=format_int sum.sum_senior
+          %td=format_int sum.sum_azubi
+          %td=format_int sum.sum_passive
+          %td
+            =format_int sum.sum_child_ens
+            |
+            =format_int sum.sum_youth_ens
+            |
+            =format_int sum.sum_adult_ens
+            |
+            =format_int sum.sum_senior_ens
+            |
+            =format_int sum.sum_chamber_ens
+            |
+            =format_int sum.sum_other_ens
+          - sum_active = sum.sum_children+sum.sum_teens+sum.sum_youth+sum.sum_adult+sum.sum_senior+sum.sum_azubi
+          %td= format_int sum_active
+          %td= format_int (sum_active+sum.sum_passive)
 
-      %table.table-sm
-        %thead
-          %th.first= attr_heading(ReportSheet,:year)
-          %th= t("member_report.person_member_count")
-          %th= t("member_report.orchestra_count")
-          %th= t("member_report.orch_count")
-          %th= t("member_report.koop_count")
-          %th= t("member_report.lo_count")
-          %th= t("member_report.lo_only")
-          %th= t("member_report.lo_all")
-        %tbody
-          - @l_orch_no_pay.each do |lv|
-            %tr
-              %td=lv[0]
-              - if (lv[0] == Time.now.year) then
-                %td #{format_int @em_count} (#{@em_nomail})
-                %td #{format_int @orch_counts["O"]+@orch_counts["K"]+@orch_counts["L"]} (#{@o_nomail})
-                %td=format_int @orch_counts["O"]
-                %td=format_int @orch_counts["K"]
-                %td=format_int @orch_counts["L"]
-              -else
-                %td -
-                %td -
-                %td -
-                %td -
-                %td -
-              %td=format_int lv[1]
-              %td=format_int @lorch[lv[0]]
+  %table.table.table-sm.table-hover
+    %thead
+      %th.first= attr_heading(ReportSheet,:year)
+      %th= t("member_report.person_member_count")
+      %th= t("member_report.orchestra_count")
+      %th= t("member_report.orch_count")
+      %th= t("member_report.koop_count")
+      %th= t("member_report.lo_count")
+      %th= t("member_report.lo_only")
+      %th= t("member_report.lo_all")
+    %tbody
+      - @l_orch_no_pay.each do |lv|
+        %tr
+          %td=lv[0]
+          - if (lv[0] == Time.now.year) then
+            %td #{format_int @em_count} (#{@em_nomail})
+            %td #{format_int @orch_counts["O"]+@orch_counts["K"]+@orch_counts["L"]} (#{@o_nomail})
+            %td=format_int @orch_counts["O"]
+            %td=format_int @orch_counts["K"]
+            %td=format_int @orch_counts["L"]
+          -else
+            %td -
+            %td -
+            %td -
+            %td -
+            %td -
+          %td=format_int lv[1]
+          %td=format_int @lorch[lv[0]]
 
-      %h3=t('member_report.insurance_title')
-      %table.table-sm
-        %thead
-          %th.first= attr_heading(ReportSheet,:year)
-          %th.number= t("member_report.uv_count")
-          %th.number= t("member_report.haft_count")
-        %tbody
-          - @vers_sums.each do |v|
-            %tr
-              %td=v
-              %td.number=format_int @vers_hash[v]["uv"].to_s
-              %td.number=format_int @vers_hash[v]["hv"].to_s
-      .actions-bar.wat-cf
-        .actions
+  %h3=t('member_report.insurance_title')
+  %table.table.table-sm.table-hover
+    %thead
+      %th.first= attr_heading(ReportSheet,:year)
+      %th.number= t("member_report.uv_count")
+      %th.number= t("member_report.haft_count")
+    %tbody
+      - @vers_sums.each do |v|
+        %tr
+          %td=v
+          %td.number=format_int @vers_hash[v]["uv"].to_s
+          %td.number=format_int @vers_hash[v]["hv"].to_s
