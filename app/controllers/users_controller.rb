@@ -1,5 +1,6 @@
 class UsersController < AuthenticatedController
   before_action :set_user, only: %i[ show edit update destroy add_role ]
+
   # GET /users
   # GET /users.json
   def index
@@ -28,7 +29,6 @@ class UsersController < AuthenticatedController
   end
 
   def for_admin_notify
-    authorize! :index, @user, message: "Not authorized as an administrator."
     @users = policy_scope(User.for_admin_notify)
 
     respond_to do |format|
@@ -126,4 +126,10 @@ class UsersController < AuthenticatedController
   def user_params
     params.require(:user).permit(:username, :email, :password, :password_confirmation, :name)
   end
+  
+  protected
+  def index_actions
+    super.append(:for_admin_notify)
+  end
+
 end
