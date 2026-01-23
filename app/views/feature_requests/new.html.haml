@@ -1,11 +1,9 @@
-.block
-  .secondary-navigation
-    = render :partial => 'nav'
-  .content
-    %h2.title
-      = t("common.new")
-      = t('feature_request',:count=>1)
-    .inner
-      = render :partial => "form"
-- content_for :sidebar, render(:partial => 'sidebar')
+.secondary-navigation
+  = render :partial => 'nav'
+.container
+  %h2.title
+    = t("common.new")
+    = t('feature_request',:count=>1)
+  .inner
+    = render :partial => "form"
 

@@ -4,7 +4,7 @@ class FeatureRequestsController < AuthenticatedController
 
   before_action :set_feature_request, only: %i[ show edit update destroy ]
   def index
-    @feature_requests = FeatureRequest.order(%i[priority title])
+    @feature_requests = policy_scope(FeatureRequest).order(%i[priority title])
 
     respond_to do |format|
       format.html # index.html.erb
@@ -13,7 +13,7 @@ class FeatureRequestsController < AuthenticatedController
   end
 
   def open
-    @feature_requests = FeatureRequest.order(%i[priority title]).where("status <> 'D'")
+    @feature_requests = policy_scope(FeatureRequest).order(%i[priority title]).where("status <> 'D'")
 
     respond_to do |format|
       format.html { render "index" } # index.html.erb
@@ -24,7 +24,6 @@ class FeatureRequestsController < AuthenticatedController
   # GET /feature_requests/1
   # GET /feature_requests/1.json
   def show
-    @feature_request = FeatureRequest.includes(:user).find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -99,5 +98,14 @@ class FeatureRequestsController < AuthenticatedController
 
   def feature_request_params
     params.require(:feature_request).permit(:title, :description, :status, :priority, :user_id)
+  end
+
+  protected
+  def index_actions
+    super.append(:open)
+  end
+  private
+  def set_feature_request
+    @feature_request = policy_scope(FeatureRequest).includes(:user).find(params[:id])
   end
 end
