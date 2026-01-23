@@ -482,8 +482,9 @@ Rails.application.routes.draw do
     end
   end
 
-  get "combined_invoice_pdf/:generator_session_id", controller: "downloads", action: "combined_invoice_pdf"
-  get "downloads/:year/:filename", controller: "downloads", action: "show", format: false, defaults: { format: "html" }
+  get "downloads/combined_invoice_pdf/:generator_session_id" => "downloads#combined_invoice_pdf"
+  get "downloads/combined_sepa/:generator_session_id" => "downloads#combined_sepa"
+
   get "member_tools/kto_blz_to_iban_bic" => "member_tools#kto_blz_to_iban"
   get "member_tools/iban_calculator" => "member_tools#iban_calculator"
   get "home/index"
