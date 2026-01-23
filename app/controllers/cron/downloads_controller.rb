@@ -1,7 +1,7 @@
 module Cron
   class DownloadsController < AuthenticatedNonResourceController
     def index
-      authorize! :index, Orchestra
+      authorize :download
 
       fNam = params[:filename]
 
