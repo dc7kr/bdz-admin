@@ -8,8 +8,9 @@
       
   %td= format_bool(festival_concert.outdoor, symbol: true)
   %td
-    = link_to my_fa_icon("list"), programme_festival_concert_path(festival_concert),  data: { 'turbo_frame' => 'modal' }, class: 'btn btn-secondary btn-sm'
-    = link_to_show festival_concert
-    = link_to_edit festival_concert
-    = link_to_delete festival_concert
+    .btn-group 
+      = link_to my_fa_icon("list"), programme_festival_concert_path(festival_concert),  data: { 'turbo_frame' => 'modal' }, class: 'btn btn-secondary btn-sm'
+      = link_to_show festival_concert
+      = link_to_edit festival_concert
+      = link_to_delete festival_concert
 
