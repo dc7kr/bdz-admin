@@ -2,7 +2,7 @@ class ParticipantSheetPdf < Prawn::Document
   def initialize(appl, view)
     super(top_margin: 70, left_margin: 70)
     @appl = appl
-    @invoice = appl.get_ticket_invoice
+    @invoice_hash = appl.get_ticket_invoice.to_hash[:invoice]
 
     @view = view
     head(@appl)
@@ -34,22 +34,22 @@ class ParticipantSheetPdf < Prawn::Document
 
     return unless app.payment_status != "S"
 
-    if @invoice.sum.negative?
+    if @invoice_hash[:sum][:grand_total].negative?
       save_stroke_and_fill
       fill_color "00ff00"
       fill_and_stroke_rounded_rectangle([ 400, 700 ], 100, 25, 5)
       stroke_color "000000"
       fill_color "000000"
-      draw_text @view.format_currency(@invoice.sum, "EUR"), at: [ 420, 685 ]
+      draw_text @view.format_currency(@invoice_hash[:grand_total], "EUR"), at: [ 420, 685 ]
       restore_stroke_and_fill
-    elsif @invoice.sum.positive?
+    elsif @invoice_hash[:sum][:grand_total]
       save_stroke_and_fill
       fill_color "ff0000"
       stroke_color "ff0000"
       fill_and_stroke_rounded_rectangle([ 400, 700 ], 100, 25, 5)
       stroke_color "ffffff"
       fill_color "ffffff"
-      draw_text @view.format_currency(@invoice.sum, "EUR"), at: [ 420, 685 ]
+      draw_text @view.format_currency(@invoice_hash[:sum][:grand_total], "EUR"), at: [ 420, 685 ]
       restore_stroke_and_fill
     end
   end
@@ -60,21 +60,21 @@ class ParticipantSheetPdf < Prawn::Document
     rows = []
     count = 0
 
-    @invoice.items.each do |i|
-      count += i.count if i.basis.positive?
+    @invoice_hash[:items].each do |i|
+      count += i[:count].to_i if i[:basis].positive?
 
       if appl.payment_status == "S"
-        rows << [ i.count, i.label, "", "" ] if i.basis.positive?
+        rows << [ i[:count].to_i, i[:label], "", "" ] if i.basis.positive?
       else
-        rows << [ i.count, i.label, @view.format_currency(i.basis, "EUR"),
-                 @view.format_currency(i.count * i.basis, "EUR") ]
+        rows << [ i[:count].to_i, i[:label], @view.format_currency(i[:basis], "EUR"),
+                 @view.format_currency(i.count * i[:basis], "EUR") ]
       end
     end
 
     rows << if appl.payment_status == "S"
               [ count, I18n.t("common.sum"), "", "" ]
     else
-              [ count, I18n.t("common.sum"), "", @view.format_currency(@invoice.total, "EUR") ]
+              [ count, I18n.t("common.sum"), "", @view.format_currency(@invoice_hash[:sum][:grand_total], "EUR") ]
     end
 
     table rows do
