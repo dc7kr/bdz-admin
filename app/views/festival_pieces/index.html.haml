@@ -34,6 +34,8 @@
             %th= attr_heading(FestivalPiece, :duration)
             %th.last &nbsp;
           %tbody#festvial_pieces_premiere
-            - @premieres.each do |piece|
-              =render piece
-
+            - if @premieres.present?
+              - @premieres.each do |piece|
+                =render piece
+            - else
+               =t("common.none")
