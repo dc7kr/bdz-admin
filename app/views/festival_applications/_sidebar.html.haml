@@ -4,7 +4,7 @@
     %ul.nav.nav-pills.nav-stacked
       %li
         %p
-          = form_tag grp_list_festival_applications_path, :method => 'post', :format=>:pdf do
-            = select_tag :format, options_for_select([["HTML", "html"], ["PDF", "pdf"],["ODS","ods"]], "pdf")
+          = form_tag grp_list_festival_applications_path, method: :post, data: {turbo:false} do
+            = select_tag :file_format, options_for_select([["HTML", "html"], ["PDF", "pdf"],["ODS","ods"]], "pdf")
             = select_tag :visitor_type, get_visitor_type_options("")
-            = submit_tag "Liste", :name => nil
+            = submit_tag "Liste", :name => :list, data: { disable_with: false }
