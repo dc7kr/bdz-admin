@@ -9,7 +9,7 @@
       %th= sortable "orchName", attr_heading(Orchestra,:orchName)
       %th= sortable "email", attr_heading(Member,:email)
       %th= sortable "gruendung", attr_heading(Orchestra,:gruendung)
-      %th.last &nbsp;
+      %th Alter
     %tbody#orchestras
       =render partial: "orchestra_pro_musica", collection: @orchestras, as: :orchestra
 - content_for :sidebar, render(:partial => 'sidebar')

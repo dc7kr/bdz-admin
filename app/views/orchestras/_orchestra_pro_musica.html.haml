@@ -1,13 +1,11 @@
-%tr{:class => cycle("odd", "even")}
-  %td
-    = link_to orchestra.member.mglnr, orchestra_path(orchestra)
-  %td
-    = orchestra.orchName
-  %td
-    = mail_to orchestra.member.email, orchestra.member.email
+%tr
+  %td= link_to orchestra.member.mglnr, orchestra_path(orchestra)
+  %td= orchestra.orchName
+  %td= mail_to orchestra.member.email, orchestra.member.email
   %td
     - if orchestra.gruendung.nil? then 
       NIL
     -else
       =l orchestra.gruendung
+  %td=orchestra.age
 
