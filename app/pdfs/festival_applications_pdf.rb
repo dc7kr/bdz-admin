@@ -65,7 +65,7 @@ class FestivalApplicationsPdf < Prawn::Document
   def piece_rows(app)
     [ [ I18n.t("festival_piece.composer"), I18n.t("festival_piece.title"), I18n.t("festival_piece.duration") ] ] +
       app.festival_pieces.map do |p|
-        [ p.composer, p.title, p.duration ]
+        [ p.composer, p.title,  p.printable_duration ]
       end
   end
 end

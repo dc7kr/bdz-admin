@@ -6,4 +6,8 @@ class FestivalPiece < ApplicationRecord
   scope :current_festival, -> { joins(:festival_application).where("festival_applications.year = ?", BDZ_SETTINGS["config"]["festival_year"]) }
 
   validates_presence_of :title, :composer, :duration, :publisher
+
+  def printable_duration
+      duration.strftime("%H:%M")
+  end
 end
