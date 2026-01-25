@@ -1,4 +1,4 @@
-class GenerateDistinctionInvoiceJob < ApplicationJob
+class GenerateDistinctionInvoiceJob < BaseInvoicesJob
   queue_as :default
   sidekiq_options retry: false
 
@@ -6,12 +6,10 @@ class GenerateDistinctionInvoiceJob < ApplicationJob
 
   def perform(distinction_id, user_id)
     distinction = Distinction.find(distinction_id)
-    user = User.find(user_id)
     orchestra = distinction.orchestra
+    year = Time.zone.now.year
 
-    datePrefix = Time.zone.now.strftime "%Y%m%d%H%M%S"
-
-    CorikaInvoices::SepaWriter.new(datePrefix, INVOICE_CONFIG)
+    init_fields(year, user_id)
 
     invoice = distinction.gen_invoice
     invoice.save
@@ -36,7 +34,7 @@ class GenerateDistinctionInvoiceJob < ApplicationJob
     distinction.invoice_id = invoice.id.to_s
     distinction.save
 
-    send_mail(user, invoice, sepa)
+    send_mail(self.triggered_by, invoice, sepa)
 
   end
 

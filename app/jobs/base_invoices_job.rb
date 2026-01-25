@@ -25,9 +25,9 @@ class BaseInvoicesJob < ApplicationJob
     self.archive_tool = FileArchiveTool.new(DOCS_CONFIG)
 
     self.triggered_by = if user_id.nil?
-                          nil
+      nil
     else
-                          User.find(user_id)
+      User.find(user_id)
     end
   end
 
