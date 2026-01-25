@@ -7,7 +7,20 @@ class ErrorsController < ApplicationController
                    ActionDispatch::ExceptionWrapper.new(
                      request.env, @exception
                    ).status_code
-    render view_for_code(@status_code), status: @status_code, content_type: "text/html", layout: false
+
+    # redirect anything not html or json to the html error response
+    if not request.format in %w[ html turbo_stream json ]
+      request.format = "html"
+    end
+
+    respond_to do |format|
+      format.turbo_stream {
+        render view_for_code(@status_code), status: @status_code
+      }
+      format.html {
+        render view_for_code(@status_code), status: @status_code, content_type: "text/html", layout: false, format: :html
+      }
+    end
   end
 
   private
