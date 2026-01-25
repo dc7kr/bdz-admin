@@ -2,7 +2,7 @@
   %button.btn.btn-outline-secondary.dropdown-toggle{href: "#", role: "button" ,data:  { bs:  { toggle: "dropdown" }}, :aria => { expanded:  "false"}}
     =t(controller_name.singularize, count:3)
   .dropdown-menu
-    - if @festival_application
+    - if @festival_application and policy(:contact_event).show?
       = link_to "Contact Events", contact_person_contact_events_path(@festival_application.contact_person), class: "dropdown-item"
       .dropdown-divider
     %h4.px-4= t("common.list")
