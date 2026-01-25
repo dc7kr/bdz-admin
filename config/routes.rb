@@ -160,6 +160,7 @@ Rails.application.routes.draw do
 
     resources :festival_pieces
     resources :festival_application_attachments
+    resources :event_meals, as: :meals
   end
 
   resources :event_cards do
@@ -481,6 +482,8 @@ Rails.application.routes.draw do
       end
     end
   end
+
+  get "dl/:year/:filename", to: "downloads#show", as: "dl"
 
   get "downloads/combined_invoice_pdf/:generator_session_id" => "downloads#combined_invoice_pdf"
   get "downloads/combined_sepa/:generator_session_id" => "downloads#combined_sepa"
