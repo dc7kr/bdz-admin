@@ -35,6 +35,7 @@ en:
       N: Not started
   common:
     please_select_country: "Please select a country"
+    please_fix_form_errors: "Please fix the following errors:"
     delete: Delete
     cancel: Cancel
     info: Info

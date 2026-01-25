@@ -1,5 +1,5 @@
 de:
-  member_event: &member_event_labels
+  contact_event: &contact_event_labels
     one: Mitglieds-Ereignis
     other: Mitglieds-Ereignisse
     event_type: Event-Typ
@@ -10,11 +10,16 @@ de:
       L: Brief
       F: E-Mail-Fehler
     filename: Dateiname
+    comment: Kommentar
   activerecord: 
     models:
-      member_event: 
-        <<: *member_event_labels
+      contact_event: 
+        <<: *contact_event_labels
+
   helpers:
     label:
-      member_event: 
-        <<: *member_event_labels
+      contact_event: 
+        <<: *contact_event_labels
+
+  contact_event: 
+    <<: *contact_event_labels

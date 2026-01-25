@@ -31,12 +31,14 @@ de:
     id: "ID"
     identifier: "ID"
     please_select_country: "Bitte wählen Sie ein Land"
+    please_fix_form_errors: "Bitte beheben Sie folgene Fehler:"
     fineprint: "Das Kleingedruckte"
     in: "in"
     count: "Anzahl"
     yes_: "Ja"
     no_: "Nein"
     no_one: niemand
+    file_format: "Format"
     all: Alle
     admin: "Administration"
     submit: Absenden

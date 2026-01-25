@@ -5,8 +5,7 @@ de:
         submit: "Bestellen"
         info1: "Die Tageskarten enthalten keine Verpflegung. Essensbons können nur an der Infotheke des BÜZ erworben werden."
 
-        info2: "Bestellte Karten werden für Sie unter dem angegebenen Namen an der Infotheke im Bürgerzentrum zurückgelegt. Kontingente für Kinderkonzert und Jugendmusiktheater am Freitag, den 11.05.2018 erhalten sie unter geschaeftsstelle@bdz-online.de"
-        info3: "Die Bezahlung der Karten erfolgt in bar bei Abholung an der Infotheke"
+        info3: "Die Auswahl der Zahlugsart folgt im nächsten Schitt. "
     order_confirm:
       thanks: "Vielen Dank für Ihre Kartenbestellung. Sie erhalten in Kürze eine Bestätigungs-Email an %{email}. Ihre Bestellung wird bei uns unter der Nummer %{nr} geführt."
       heading: "Kartenbestellung Nr. %{nr} für das eurofestival Zupfmusik 2018 in Bruchsal"
@@ -32,10 +31,30 @@ de:
     card_type: "Kartentyp"
     single_price: "Einzelpreis"
     total_price: "Gesamtpreis"
+    payment_method: "Zahlungsart"
+    payment_methods: 
+      pickup: "Bei Abholung an der Infotheke"
+      credit_card: "Kreditkarte"
+      direct_debit: "Lastschrift"
 
+  activerecord: 
+    models:
+      event_card: "Kartenbestellung"
+    errors:
+      models:
+        event_card:
+          attributes:
+            base:
+              total_card_count_zero: "Bitte bestellen Sie mindestens eine Eintrittskarte."
   helpers:
     label:
       event_card:
         <<: *event_card_labels
-
-
+    submit:
+      event_card:
+        create: "Bestellung aufgeben"
+        order_form: "Bestellung aufgeben 2"
+  ef:
+    event_cards:
+      choose_payment: 
+        title: "Bitte Zahlungsart auswählen"
