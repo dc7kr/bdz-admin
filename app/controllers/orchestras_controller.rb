@@ -149,11 +149,10 @@ class OrchestrasController < AuthenticatedController
 
   def pro_musica
     @age = 90
-    Rails.logger.debug { "AGE: #{@age}" }
     year = Time.zone.now.year - @age
 
-    Rails.logger.debug { "Year: #{year}" }
-    @orchestras = Orchestra.includes(:member).where(
+    Rails.logger.debug { "Orchestra age: #{@age} year: #{year}" }
+    @orchestras = policy_scope(Orchestra).includes(:member).where(
       "YEAR(gruendung) <= ? and gruendung <> '0000-00-00' and gruendung IS NOT NULL ", year
     ).order("members.mglnr")
   end
@@ -383,7 +382,7 @@ class OrchestrasController < AuthenticatedController
 
   protected 
   def index_actions
-    super.append(:notinvoiced, :noreport, :lorch, :nomail, :nopayment)
+    super.append(:notinvoiced, :noreport, :lorch, :nomail, :nopayment, :pro_musica)
   end
 
   private 
