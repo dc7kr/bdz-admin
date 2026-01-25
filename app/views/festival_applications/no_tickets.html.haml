@@ -1,9 +1,8 @@
 .secondary-navigation
   =render :partial=>'nav'
 .container
-  %h2.title=t(".title")
-
-  = render partial: "sums", locals: { sums: @sums }
+  %h2.title= t(".title")
   = render partial: "index_table", locals: { festival_applications: @festival_applications }
 - content_for :sidebar, render(:partial => 'sidebar')
 - content_for :entity_menu, render(:partial => 'entity_menu')
+

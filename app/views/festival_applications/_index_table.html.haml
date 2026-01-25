@@ -1,0 +1,13 @@
+#entry_info.text-center= page_entries_info festival_applications
+#paginator= paginate festival_applications, params: { format: :turbo_stream }
+%table.table.table-sm#festival_applications
+  %thead
+    %tr
+      %th=t("common.number")
+      %th=sortable :orch_name, t("festival_application.orch_name")
+      %th=t("festival_application.num_players")
+      %th=t("festival_application.payment_status")
+      %th
+
+  %tbody#festival_applications=render festival_applications
+

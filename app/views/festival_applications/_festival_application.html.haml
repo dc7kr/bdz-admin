@@ -16,8 +16,9 @@
   %td= t("festival_application.payment_states.#{festival_application.payment_status}")
   %td=format_currency festival_application.amount
   %td
-    =link_to_show festival_application
-    =link_to_edit festival_application
-    =link_to_delete festival_application
+    .btn-group 
+      =link_to_show festival_application
+      =link_to_edit festival_application
+      =link_to_delete festival_application
 
 
