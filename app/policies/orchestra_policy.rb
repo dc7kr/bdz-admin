@@ -28,8 +28,4 @@ class OrchestraPolicy < MemberDataPolicy
       end
     end
   end
-
-  def update?
-    national_permission?
-  end
 end
