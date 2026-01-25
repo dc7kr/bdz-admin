@@ -146,6 +146,7 @@ Rails.application.routes.draw do
       post :grp_list
       get :list
       get :permitted
+      get :no_tickets
       get :participant_overview
       get :gen_participant_sheets
       get :open_issues
