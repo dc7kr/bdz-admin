@@ -6,7 +6,7 @@ module DistinctionsHelper
   end
 
   def generate_button(txt, path, _entity)
-    link_to path, class: "btn btn-primary", data: { turbo: false } do
+    link_to path, class: "btn btn-sm btn-primary", data: { turbo: false } do
       content_tag(:span, "", class: "glyphicon glyphicon-open-file") + " #{txt}"
     end
   end
