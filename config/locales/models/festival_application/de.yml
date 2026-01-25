@@ -4,6 +4,7 @@ de:
     other: "Festival-Bewerbungen"
     zero: "Keine Festival-Bewerbung"
     public_view: "Öffentliche Ansicht"
+    no_tickets: "Keine Tickets"
 
     fee: "Teilnahme-Gebühr"
     new: "Neue Festival-Bewerbung"
@@ -31,7 +32,6 @@ de:
     soloist_tickets: Solisten-Tageskarten
     stage_time: Auftrittszeit
     contact_phone: Kontakt-Telefon
-    open_issues: Offene Posten
     invoice: Rechnung
     payment_status: Zahlungsstatus
     fee_invoice: "Teilnahme-Gebühr Rechnung "
@@ -70,6 +70,21 @@ de:
       S: Solist
       D: Duo 
       T: Trio
+
+  festival_applications:
+    index:
+      title: "Alle Festival-Bewerbungen"
+    new:
+      title: "Neue Festival-Bewerbung"
+    permitted:
+      title: "Zugelassene Festival-Bewerbungen"
+      nav: "Zugelassen"
+    no_tickets:
+      title: "Festival-Bewerbungen ohne Tickets"
+      nav: "Keine Tickets"
+    open_issues: 
+      title: "Offene Posten"
+      nav: "Offene Posten"
 
   activerecord:
     attributes:
