@@ -3,7 +3,7 @@
 .container
   %h2.title
     Orchester über #{@age}
-  %table.table-sm.table-hover.table-condensed
+  %table.table.table-sm.table-hover
     %thead
       %th= sortable "mglnr", attr_heading(Member,:mglnr)
       %th= sortable "orchName", attr_heading(Orchestra,:orchName)

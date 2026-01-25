@@ -556,4 +556,12 @@ class Orchestra < ApplicationRecord
   def delivery_contact
     orchestra_contacts.where("role='Z'").first
   end
+
+  def age(year = Time.now.year)
+    if gruendung.present?
+      year-gruendung.year
+    else
+      nil
+    end
+  end
 end
