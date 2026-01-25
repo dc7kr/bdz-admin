@@ -104,6 +104,7 @@ class FestivalApplicationsController < AuthenticatedController
   end
 
   def no_tickets
+    authorize :festival_application, :no_tickets?
     set_year(params)
 
     @sums = calc_sums(@year)
