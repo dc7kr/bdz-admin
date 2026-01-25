@@ -74,7 +74,7 @@ class FestivalApplicationsController < AuthenticatedController
       format.js
 
       format.html do
-        render :index
+        render
       end
 
       format.turbo_stream do
@@ -100,6 +100,34 @@ class FestivalApplicationsController < AuthenticatedController
 
         send_data(sheet.bytes,   filename: "festival_permissions_#{Time.zone.now.year}.ods", type: "application/octet-stream")
       end
+    end
+  end
+
+  def no_tickets
+    set_year(params)
+
+    @sums = calc_sums(@year)
+
+    now = Time.zone.now
+    currDate = now.strftime("%d.%m.%Y")
+
+    if params["year"].nil?
+        @festival_applications = policy_scope(FestivalApplication).current_festival
+    else
+        @festival_applications = policy_scope(FestivalApplication).where(permission: true, year: params["year"]).order("#{sort_column} #{sort_direction}").page(params[:page]).per(20)
+    end
+
+    @festival_applications = @festival_applications.where(permission: true).where("(tickets IS NULL or tickets = 0) and (tickets_red IS NULL or tickets_red =0)" ).order("#{sort_column} #{sort_direction}").page(params[:page]).per(20) 
+
+    respond_to do |format|
+      format.js
+      format.html # index.html.erb
+
+      format.turbo_stream do
+        render partial: "list", locals: { resources: @festival_applications }
+      end
+
+      format.json { render json: @festival_applications }
     end
   end
 
@@ -392,7 +420,7 @@ class FestivalApplicationsController < AuthenticatedController
 
   protected 
   def index_actions
-    super.append(:permitted, :open_issues, :list, :grp_list )
+    super.append(:permitted, :open_issues, :list, :grp_list, :no_tickets )
 
   end
 
