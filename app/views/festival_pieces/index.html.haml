@@ -9,8 +9,9 @@
     %ul.nav.nav-tabs#piece_tab
       %li.nav-item{:role => "presentation"}
         %button#all-tab.nav-link.active{"aria-controls" => "all-tab-pane", "aria-selected" => "true", "data-bs-target" => "#all-tab-pane", "data-bs-toggle" => "tab", :role => "tab", :type => "button"}=t("common.all")
-      %li.nav-item{:role => "presentation"}
-        %button#premiere-tab.nav-link{"aria-controls" => "premiere-tab-pane", "aria-selected" => "true", "data-bs-target" => "#premiere-tab-pane", "data-bs-toggle" => "tab", :role => "tab", :type => "button"}=t("festival_piece.premiere")
+      - if @premieres.present?
+        %li.nav-item{:role => "presentation"}
+          %button#premiere-tab.nav-link{"aria-controls" => "premiere-tab-pane", "aria-selected" => "true", "data-bs-target" => "#premiere-tab-pane", "data-bs-toggle" => "tab", :role => "tab", :type => "button"}=t("festival_piece.premiere")
   
     #piece_tab_content.tab-content
       #all-tab-pane.tab-pane.fade.show.active{ role: "tabpanel", 'aria-labelledby': "all-tab", 'tabindex': 0 }
@@ -37,5 +38,3 @@
             - if @premieres.present?
               - @premieres.each do |piece|
                 =render piece
-            - else
-               =t("common.none")
