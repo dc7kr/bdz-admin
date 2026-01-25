@@ -18,7 +18,7 @@
   .row 
     .col-md-3.text-end=t("invoice", count: 1)
     .col-md-9
-      = link_to 'Rechnungsvorschau', invoice_preview_orchestra_distinction_path(@distinction.orchestra,@distinction),  data: { 'turbo_frame' => 'modal' }, class: 'btn btn-secondary'
+      = link_to 'Rechnungsvorschau', invoice_preview_orchestra_distinction_path(@distinction.orchestra,@distinction),  data: { 'turbo_frame' => 'modal' }, class: 'btn btn-secondary btn-sm'
       - if not @distinction.invoice_id.present?
         = generate_button(t('distinction.generate_invoice'), gen_invoice_orchestra_distinction_path(@orchestra,@distinction), @distinction)
       - else
@@ -26,6 +26,3 @@
         %b Nr. #{invoice.full_number} vom #{l invoice.invoice_date}
         = link_to_download_path @distinction.member_account_booking, download_orchestra_member_account_booking_path(@orchestra,@distinction.member_account_booking), t("common.download")
 
-
-
-  = edit_button edit_orchestra_distinction_path(@distinction.orchestra,@distinction), @distinction
