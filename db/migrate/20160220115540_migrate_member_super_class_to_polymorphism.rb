@@ -3,12 +3,12 @@ class MigrateMemberSuperClassToPolymorphism < ActiveRecord::Migration[4.2]
     execute <<-SQL
       UPDATE members set member_entity_type=subtype
     SQL
-    Orchestra.all.each do |o|
+    Orchestra.unscoped.all.each do |o|
       m = o.member
       m.member_entity_id=o.id
       m.save
     end
-    PersonMember.all.each do |p|
+    PersonMember.unscoped.all.each do |p|
       m = p.member
       m.member_entity_id=p.id
       m.save

@@ -3,7 +3,7 @@ class PopulateBicMembers < ActiveRecord::Migration[4.2]
 
     bic_finder = BicFinder.new
 
-    Member.all.each do |m|
+    Member.unscoped.all.each do |m|
       m.update_attribute :bic , bic_finder.bic_for_blz(m.blz)
     end
     
