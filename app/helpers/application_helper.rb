@@ -552,6 +552,12 @@ module ApplicationHelper
     I18n.t("common.update_success", entity: t(entity, count: 1))
   end
 
+  def download_exists? filename
+    full_path = File.join(DOCS_CONFIG.archive_dir, filename)
+    Rails.logger.debug(full_path)
+    return  File.exist?(full_path)
+  end
+
   def form_title(entity_class, action=action_name)
     if action == "new"
       key="create"
