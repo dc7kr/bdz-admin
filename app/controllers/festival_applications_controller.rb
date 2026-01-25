@@ -12,8 +12,14 @@ class FestivalApplicationsController < AuthenticatedController
   # GET /festival_applications
   # GET /festival_applications.json
 
-  def calc_sums(year = BDZ_SETTINGS["config"]["festival_year"])
-    result = policy_scope(FestivalApplication).where(year: year).select("SUM(num_players) as players, SUM(tickets) as tickets, SUM(tickets_red) as tickets_red, SUM(bdz_tickets) as bdz_tickets, SUM(bdz_tickets_red) as bdz_tickets_red").first
+  def calc_sums(year = BDZ_SETTINGS["config"]["festival_year"], visitor_type = nil)
+    query = policy_scope(FestivalApplication).where(year: year).select("SUM(num_players) as players, SUM(tickets) as tickets, SUM(tickets_red) as tickets_red, SUM(bdz_tickets) as bdz_tickets, SUM(bdz_tickets_red) as bdz_tickets_red")
+
+    if visitor_type.present?
+      query= query.where(visitor_type: visitor_type)
+    end
+
+    result = query.first
 
     sums = {}
     sums[:tickets] = nil_safe_value result[:tickets]
@@ -89,14 +95,16 @@ class FestivalApplicationsController < AuthenticatedController
       format.ods do
         @festival_applications = policy_scope(FestivalApplication).current_festival.where(permission: true).order("#{sort_column} #{sort_direction}")
         @sum_players = policy_scope(FestivalApplication).where(permission: true).sum(:num_players)
-        renderApplicationOds(@festival_applications, "/tmp/festival_applications.ods")
-        send_file("/tmp/festival_applications.ods",
-                  filename: "festival_permissions_#{Time.zone.now.year}.ods", type: "application/octet-stream")
+        sheet = FestivalApplicationsSpreadsheet.new(@festival_applications)
+        sheet.render
+
+        send_data(sheet.bytes,   filename: "festival_permissions_#{Time.zone.now.year}.ods", type: "application/octet-stream")
       end
     end
   end
 
   def list
+    
     @festival_applications = policy_scope(FestivalApplication).current_festival.order(%i[group_type orch_name])
     now = Time.zone.now
     currDate = now.strftime("%d.%m.%Y")
@@ -108,32 +116,56 @@ class FestivalApplicationsController < AuthenticatedController
         send_data pdf.render, filename: "festival_applications_#{currDate}.pdf", type: "application/pdf",
                               disposition: "inline"
       end
+
       format.ods do
-        renderApplicationOds(@festival_applications, "/tmp/festival_applications.ods")
-        send_file("/tmp/festival_applications.ods",
-                  filename: "festival_applications_#{Time.zone.now.year}.ods", type: "application/octet-stream")
+         sheet = FestivalApplicationsSpreadsheet.new(@festival_applications)
+        sheet.render
+
+        send_data(sheet.bytes,   filename: "festival_applications_#{currDate}.pdf", type: "application/pdf",
+                              disposition: "inline")
       end
     end
   end
 
   def grp_list
-    @festival_applications = policy_scope(FestivalApplication).current_fetsival.where(visitor_type: params[:visitor_type]).order(%i[group_type
-                                                                                                                      orch_name])
+    set_year(params)
+
+    @visitor_type =  group_list_params[:visitor_type]
+    file_format = group_list_params[:file_format]
+
+    @festival_applications = policy_scope(FestivalApplication).current_festival.where(visitor_type: @visitor_type) 
+        .order(%i[group_type orch_name]) 
+
+    @sums = calc_sums(@year, @visitor_type)
 
     now = Time.zone.now
-    currDate = now.strftime("%d.%m.%Y")
+    curr_date = now.strftime("%d.%m.%Y")
+
+    type_str = t("festival_application.visitor_types.#{@visitor_type}").parameterize
+
+    base_filename =  "#{type_str}_#{curr_date}"
+
+    Rails.logger.info("Rendering list: #{params[:visitor_type]} #{params[:file_format]}")
+    request.format = file_format
 
     respond_to do |format|
-      format.html { render }
       format.pdf do
+        Rails.logger.info("PDF")
         pdf = FestivalApplicationsPdf.new(@festival_applications, view_context)
-        send_data pdf.render, filename: "festival_applications_#{currDate}.pdf", type: "application/pdf",
-                              disposition: "inline"
+        #send_data(pdf.render, filename: "#{base_filename}.pdf", type: "application/pdf", disposition: "inline")
+        send_data(pdf.render, filename: "#{base_filename}.pdf", type: "application/octet-stream")
       end
-      format.ods do
-        renderApplicationOds(@festival_applications, "/tmp/festival_applications.ods")
-        send_file("/tmp/festival_applications.ods",
-                  filename: "festival_applications_#{Time.zone.now.year}.ods", type: "application/octet-stream")
+
+      format.ods do 
+        Rails.logger.info("ODS")
+        sheet = FestivalApplicationsSpreadsheet.new(@festival_applications)
+        sheet.render
+        send_data(sheet.bytes, filename: "#{base_filename}.ods", type: "application/octet-stream")
+      end
+
+      format.html do
+        Rails.logger.info("HTML")
+        render 
       end
     end
   end
@@ -143,7 +175,6 @@ class FestivalApplicationsController < AuthenticatedController
   def show
 
     @contact_person = @festival_application.contact_person
-    
 
     respond_to do |format|
       format.html # show.html.erb
@@ -258,77 +289,7 @@ class FestivalApplicationsController < AuthenticatedController
     end
   end
 
-  def renderApplicationOds(applications, filename)
-    RODF::Spreadsheet.file(filename) do
-      table "Festival Anmeldungen" do
-        row do
-          cell I18n.t("common.number")
-          cell I18n.t("festival_application.group_type")
-          cell I18n.t("festival_application.orch_name")
-          cell I18n.t("festival_application.country_id")
-          cell I18n.t("festival_application.num_players")
-          cell I18n.t("contact_person.salutation")
-          cell I18n.t("contact_person.first_name")
-          cell I18n.t("contact_person.last_name")
-          cell I18n.t("contact_person.street")
-          cell I18n.t("contact_person.zip")
-          cell I18n.t("contact_person.city")
-          cell I18n.t("contact_person.country_code")
-          cell I18n.t("contact_person.email")
-          cell I18n.t("festival_application.special_cast")
-          cell I18n.t("festival_application.equipment")
-          cell I18n.t("festival_piece.composer")
-          cell I18n.t("festival_piece.title")
-          cell I18n.t("festival_piece.duration")
-          cell I18n.t("festival_piece.composer")
-          cell I18n.t("festival_piece.title")
-          cell I18n.t("festival_piece.duration")
-          cell I18n.t("festival_piece.composer")
-          cell I18n.t("festival_piece.title")
-          cell I18n.t("festival_piece.duration")
-          cell I18n.t("festival_piece.composer")
-          cell I18n.t("festival_piece.title")
-          cell I18n.t("festival_piece.duration")
-          cell I18n.t("festival_piece.composer")
-          cell I18n.t("festival_piece.title")
-          cell I18n.t("festival_piece.duration")
-        end
-
-        applications.each do |app|
-          grp_locale = if app.country_code == ISO3166::Country["DE"].alpha2
-                         :de
-          else
-                         :en
-          end
-
-          row do
-            cell app.id
-            cell I18n.t("festival_application.group_types.#{app.group_type}")
-            cell app.orch_name
-            cell app.t_country
-            cell app.num_players
-            cell I18n.t("common.salutations.#{app.contact_person.salutation}", locale: grp_locale)
-            cell app.contact_person.first_name
-            cell app.contact_person.last_name
-            cell app.contact_person.street
-            cell app.contact_person.zip
-            cell app.contact_person.city
-            cell app.contact_person.t_country
-            cell app.contact_person.email
-
-            cell app.special_cast
-            cell app.equipment
-
-            app.festival_pieces.each do |p|
-              cell p.composer
-              cell p.title
-              cell p.duration
-            end
-          end
-        end
-      end
-    end
-  end
+  
 
   def participant_overview
     datePrefix = Time.zone.now.strftime("%Y%m%d%H%M%S_")
@@ -399,6 +360,10 @@ class FestivalApplicationsController < AuthenticatedController
 
   private
 
+  def group_list_params
+    params.permit(:visitor_type, :file_format)
+  end
+
   def festival_application_params
     params.require(:festival_application).permit(
       :group_type,
@@ -427,7 +392,7 @@ class FestivalApplicationsController < AuthenticatedController
 
   protected 
   def index_actions
-    super.append(:permitted, :open_issues)
+    super.append(:permitted, :open_issues, :list, :grp_list )
 
   end
 
