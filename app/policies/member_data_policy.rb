@@ -4,6 +4,10 @@ class MemberDataPolicy < ApplicationPolicy
     @user = user
     @member_data_entity = member_data_entity
   end
+  
+  def index?
+    national_permission?
+  end
 
   def create?
     national_permission?
