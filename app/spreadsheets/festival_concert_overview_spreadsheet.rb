@@ -13,10 +13,6 @@ class FestivalConcertOverviewSpreadsheet
       s.property :number, 'number:date-format' => "DD.MM.YYYY HH:MM"
     end
     
-    sheet.style 'time-style-duration', family: :cell do |s|
-      s.property :number, 'number:time-format' => "MM:SS"
-    end
-    
     t.row do
       cell "Konzert"
       cell "Interpret"
@@ -50,7 +46,7 @@ class FestivalConcertOverviewSpreadsheet
           cell fa.orch_name
           cell fa.num_players
           cell fp.title
-          cell fp.duration, style: 'time-duration-style'
+          cell fp.printable_duration
           cell fp.composer
           cell fp.arranger
           cell fp.publisher 
