@@ -4,7 +4,13 @@
   %td= contact_event.event_id
   %td= contact_event.contact_person.fullname
   %td= contact_event.comment
-  %td= contact_event.filename
+  %td
+    - if contact_event.filename.present? 
+      - if download_exists? contact_event.filename
+        -  path = contact_event.filename.split("/")
+        =link_to contact_event.filename, dl_path(path[0], path[1])
+      - else
+        FILE NOT FOUND
   %td
     = link_to_show contact_event
     = link_to_edit contact_event
