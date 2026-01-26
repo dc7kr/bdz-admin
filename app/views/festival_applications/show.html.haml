@@ -28,6 +28,15 @@
       .card.mb-2
         .card-header
           %h4
+            =t("festival_application.tickets", count:1)
+            - if @festival_application.ticket_warning?
+              %span.badge.bg-warning=t("festival_application.ticket_deviation")
+        .card-body
+          =entity_row(@festival_application,:tickets)
+          =entity_row(@festival_application,:tickets_red)
+      .card.mb-2
+        .card-header
+          %h4
             =t("festival_application.festival_concert_id")
             - if @festival_application.festival_concert then
               = @festival_application.festival_concert.label
