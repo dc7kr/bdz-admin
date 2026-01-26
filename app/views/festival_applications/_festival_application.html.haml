@@ -1,10 +1,12 @@
-%tr{:class => cycle("f_appl odd", "f_appl even")}
+%tr
   %td= festival_application.id
   %td
     = display_group_visitor_type(festival_application)
     %br
     %b
       = festival_application.orch_name
+    - if festival_application.ticket_warning?
+      %span.badge.bg-warning=t("festival_application.ticket_deviation")
     %br
     #{t('festival_application.conductor')}: #{festival_application.conductor}
     %br
@@ -13,6 +15,7 @@
     -else
       = mail_to festival_application.contact_person.email, festival_application.contact_person.email
   %td= festival_application.num_players
+  %td= festival_application.tickets_total
   %td= t("festival_application.payment_states.#{festival_application.payment_status}")
   %td=format_currency festival_application.amount
   %td
