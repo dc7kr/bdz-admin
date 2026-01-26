@@ -5,6 +5,8 @@ de:
     zero: "Keine Festival-Bewerbung"
     public_view: "Öffentliche Ansicht"
     no_tickets: "Keine Tickets"
+    tickets_total: "Bestellte Karten"
+    ticket_deviation: "Ticket-Abweichung"
 
     fee: "Teilnahme-Gebühr"
     new: "Neue Festival-Bewerbung"
