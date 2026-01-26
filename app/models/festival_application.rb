@@ -169,7 +169,7 @@ class FestivalApplication < ApplicationRecord
   end
 
   def ticket_quota
-    (num_players - tickets_total)/num_players
+    tickets_total*1.0/num_players
   end
 
   def to_param
