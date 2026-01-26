@@ -157,6 +157,21 @@ class FestivalApplication < ApplicationRecord
     inv
   end
 
+  def tickets_total
+    sum=0
+    sum+= tickets unless tickets.nil?
+    sum+= tickets_red unless tickets_red.nil?
+    sum
+  end
+
+  def ticket_warning?
+    tickets_total > 0 and ticket_quota < 0.9
+  end
+
+  def ticket_quota
+    (num_players - tickets_total)/num_players
+  end
+
   def to_param
     token
   end
