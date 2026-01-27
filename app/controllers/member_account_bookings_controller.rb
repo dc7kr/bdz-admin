@@ -99,6 +99,7 @@ class MemberAccountBookingsController < AuthenticatedController
     end
 
     @booking = MemberAccountBooking.new(member_account_booking_params)
+    authorize @booking
 
     @booking.booking_mode = "M"
     @booking.member = @member.member
