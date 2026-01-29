@@ -1,7 +1,10 @@
 module Ef
   class ApplicationController < ActionController::Base
-    include ::ApplicationHelper
-    include ::ButtonHelper
+    helper ::ApplicationHelper
+    helper ::ButtonHelper
+    helper ::FontAwesomeHelper
+    helper ::NavHelper
+
 
     layout :ef_layout
 
