@@ -14,10 +14,6 @@ de:
     step2_title: "Festival Bewerbung (Teil 2)"
     finalize_title: "Festival Bewerbung"
     confirm: "Vielen Dank für Ihre Festival-Bewerbung. Wir werden sie kontaktieren sobald Ihre Bewerbung ausgewertet wurde."
-    general_panel_title: "Allgemeine Angaben"
-    additional_panel_title: "Weitere Angaben"
-    concert_panel_title: "Konzert-Daten"
-    tickets_panel_title: "Tickets"
     tickets_not_yet_ordered: "Tickets noch nicht bestellt"
     visitor_type: "Besucher-Typ"
     visitor_types:
@@ -78,6 +74,10 @@ de:
       title: "Alle Festival-Bewerbungen"
     new:
       title: "Neue Festival-Bewerbung"
+    contact_panel:
+      title: "Kontakt-Person"
+    additional_panel: 
+      title: "Weitere Angaben"
     permitted:
       title: "Zugelassene Festival-Bewerbungen"
       nav: "Zugelassen"
@@ -87,8 +87,18 @@ de:
     open_issues: 
       title: "Offene Posten"
       nav: "Offene Posten"
+    general_panel: 
+      title: "Allgemeine Angaben"
+    concert_panel: 
+      title: "Konzert-Daten"
+    tickets_panel: 
+      title: "Tickets"
 
   activerecord:
+    model:
+      festival_application:
+        one: "Festival-Bewerbung"
+        other: "Festival-Bewerbungen"
     attributes:
       festival_application:
         <<: *festival_app_labels

@@ -21,7 +21,9 @@ de:
 
   activerecord:
     models:
-      festival_piece: "Gemeldetes Werk"
+      festival_piece: 
+        one: "Gemeldetes Werk"
+        other: "Gemeldete Werke"
     attributes:
       festival_piece:
         <<: *festival_piece_labels

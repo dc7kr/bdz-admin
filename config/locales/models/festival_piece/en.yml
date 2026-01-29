@@ -20,7 +20,9 @@ en:
 
   activerecord:
     models:
-      festival_piece: "Reported Piece"
+      festival_piece: 
+        one: "Reported Work"
+        one: "Reported Works"
     attributes:
       festival_piece: &festival_piece_labels
       helpers:

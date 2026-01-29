@@ -5,10 +5,11 @@ en:
     one: "Festival application"
 
     fee: "Participant fee"
-    general_panel_title: "General Information"
     public_view: "Public view"
     new: "New festival application"
     planned_programme: "Planned programme (max. 20 minutes)"
+    tickets: "Festival Tickets"
+    tickets_red: "Tickets (reduced price)"
     step2_title: "Festival application (part 2)"
     finalize_title: "Festival application - finalize"
     add_piece: "Add piece"
@@ -46,7 +47,33 @@ en:
       S: "Soloist"
       D: Duo 
       T: Trio
+
+  festival_applications:
+    additional_panel: 
+      title: "Additional Info"
+    permitted:
+      title: "Permitted Festival Applications"
+      nav: "Permitted"
+    no_tickets:
+      title: "Without Tickets"
+      nav: "Without Tickets"
+    open_issues:
+      title: "Open issues"
+      nav: "Open issues"
+    contact_panel:
+      title: "Contact Person"
+    general_panel: 
+      title: "General Information"
+    concert_panel: 
+      title: "Concert Data"
+    tickets_panel: 
+      title: "Tickets"
+
   activerecord:
+    model:
+      festival_application:
+        one: "Festival application"
+        other: "Festival applications"
     attributes:
       festival_application: 
         <<: *festival_app_labels
