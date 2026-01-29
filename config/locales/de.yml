@@ -429,22 +429,6 @@ de:
         zip: PLZ
         street: "Straße"
         payment_received: Bezahlt
-      event_meal:
-        participant_id:
-          one: "Teilnehmer Nr."
-          other: "{{count}} Participant IDs"
-        tln:
-          one: "Anzahl der bestellten Festivalkarten"
-        arrival_time:
-          one: "Ankunft in Bruchsal"
-        meals:
-          one: "Anzahl der bestellten Festivalkarten"
-        veg:
-          one: "Anzahl vegetarisches Essen"
-        email:
-          one: "E-Mail Adresse"
-        name:
-          one: "Name"
     errors:
       template:
         header: Fehler im Formular

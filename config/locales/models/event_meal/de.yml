@@ -20,7 +20,7 @@ de:
     additional_note: "Zusätzliche Essen können an der Infotheke im Bürgerzentrum erworben werden."
   ef:
     event_meals:
-      new_meal_form:
+      meal_form:
         title: "Essen melden"
       show_event_meal: 
         order_tickets_first: "Bitte zuerst Festivaltickets bestellen."
