@@ -1,0 +1,4 @@
+#meal-tab-pane.tab-pane.fade{ role: "tabpanel", 'aria-labelledby': "meals-tab", 'tabindex': 0 }
+  = turbo_frame_tag :meal_form do
+    = render partial: "ef/event_meals/show_event_meal", locals: { festival_application: @festival_application }
+

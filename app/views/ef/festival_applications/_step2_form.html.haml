@@ -7,7 +7,7 @@
       %td= f.text_field :publisher
       %td= f.time_field :duration
 
-  %h4 Weitere Angaben
+  %h4=t("festival_application.additional_info")
   =f.text_field :soloist
   =f.check_box :premiere
   =f.submit  t('festival_piece.create_festival_piece')

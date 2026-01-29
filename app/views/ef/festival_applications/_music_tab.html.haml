@@ -1,0 +1,15 @@
+#music-tab-pane.tab-pane.fade{ role: "tabpanel", 'aria-labelledby': "music-tab", 'tabindex': 0 }
+  %table.table
+    %thead
+      %tr
+        %th=t("festival_piece.title")
+        %th=t("festival_piece.composer")
+        %th=t("festival_piece.arranger")
+        %th=t("festival_piece.publisher")
+        %th=t("festival_piece.duration")
+      %tbody#festival_pieces
+        = render @festival_application.festival_pieces
+  = link_to_new FestivalPiece, new_ef_festival_application_festival_piece_path(@festival_application), turbo:true, authz: false
+  = turbo_frame_tag :piece_form do
+    &nbsp;
+

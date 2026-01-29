@@ -7,20 +7,20 @@
   .container-fluid
     %ul.nav.nav-tabs
       %li.nav-item{:role => "presentation"}
-        %button#general-tab.nav-link.active{"aria-controls" => "general-tab-pane", "aria-selected" => "true", "data-bs-target" => "#general-tab-pane", "data-bs-toggle" => "tab", :role => "tab", :type => "button"}=t("festival_application.general_panel_title")
+        %button#general-tab.nav-link.active{"aria-controls" => "general-tab-pane", "aria-selected" => "true", "data-bs-target" => "#general-tab-pane", "data-bs-toggle" => "tab", :role => "tab", :type => "button"}=t("festival_applications.general_panel.title")
       %li.nav-item{:role => "presentation"}
-        %button#contact-tab.nav-link{"aria-controls" => "contact-tab-pane", "aria-selected" => "false", "data-bs-target" => "#contact-tab-pane", "data-bs-toggle" => "tab", :role => "tab", :type => "button"}=t("contact_person",count: 1)
+        %button#contact-tab.nav-link{"aria-controls" => "contact-tab-pane", "aria-selected" => "false", "data-bs-target" => "#contact-tab-pane", "data-bs-toggle" => "tab", :role => "tab", :type => "button"}=t("festival_applications.contact_panel.title",count: 1)
       %li.nav-item{:role => "presentation"}
-        %button#additional-tab.nav-link{"aria-controls" => "additional-tab-pane", "aria-selected" => "false", "data-bs-target" => "#additional-tab-pane", "data-bs-toggle" => "tab", :role => "tab", :type => "button"}=t("festival_application.additional_panel_title")
+        %button#additional-tab.nav-link{"aria-controls" => "additional-tab-pane", "aria-selected" => "false", "data-bs-target" => "#additional-tab-pane", "data-bs-toggle" => "tab", :role => "tab", :type => "button"}=t("festival_applications.additional_panel.title")
       - if @festival_application.permission
         %li.nav-item{:role => "presentation"}
-          %button#ticket-tab.nav-link{"aria-controls" => "ticket-tab-pane", "aria-selected" => "false", "data-bs-target" => "#ticket-tab-pane", "data-bs-toggle" => "tab", :role => "tab", :type => "button"}=t("festival_application.festival_tickets")
+          %button#ticket-tab.nav-link{"aria-controls" => "ticket-tab-pane", "aria-selected" => "false", "data-bs-target" => "#ticket-tab-pane", "data-bs-toggle" => "tab", :role => "tab", :type => "button"}=t("festival_applications.tickets_panel.title")
 
     #faTabContent.tab-content{}
       #general-tab-pane.tab-pane.fade.show.active{ role: "tabpanel", 'aria-labelledby': "general-tab", 'tabindex': 0 }
         .row.mb-3
-          .col-md-2=f.label :country_code, { class: "control-label col-md-2" }
-          .col-md-10= f.country_select(:country_code, { iso_codes:true }, { class:  "form-control"})
+          .col-md-3=f.label :country_code, { class: "control-label col-md-2" }
+          .col-md-9= f.country_select(:country_code, { iso_codes:true }, { class:  "form-control"})
         = f.select :group_type, get_group_type_options( @festival_application.group_type)
         = f.text_field :orch_name
         = f.text_field :conductor
@@ -34,8 +34,8 @@
           =person_f.text_field :zip
           =person_f.text_field :city
           .row.mb-3
-            .col-md-2=person_f.label :country_code, { class: "control-label col-md-2" }
-            .col-md-10=person_f.country_select( :country_code ,{ iso_codes:true}, {class: "form-control"}) 
+            .col-md-3=person_f.label :country_code, { class: "control-label col-md-3" }
+            .col-md-9=person_f.country_select( :country_code ,{ iso_codes:true}, {class: "form-control"}) 
           =person_f.text_field :phone
           =person_f.text_field :email
       #additional-tab-pane.tab-pane.fade{ role: "tabpanel", 'aria-labelledby': "additional-tab", 'tabindex': 0 }

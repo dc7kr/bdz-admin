@@ -1,0 +1,15 @@
+.container
+- if not @festival_application.tickets_total == 0 
+  =entity_row(@festival_application,:tickets)
+  =entity_row(@festival_application,:tickets_red)
+  .row
+    .col-md-3.text-end=t("festival_application.soloist_tickets")
+    .col-md-9
+      = @festival_application.soloist_tickets
+      - concert = @festival_application.festival_concert
+      - if concert.present?
+        = l(concert.event_time, format: "(%A)")
+  = link_to_edit(@festival_application, edit_tickets_ef_festival_application_path(@festival_application), txt:t("common.edit"), authz: false, turbo: true)
+- else 
+  %h3=t("festival_application.tickets_not_yet_ordered")
+

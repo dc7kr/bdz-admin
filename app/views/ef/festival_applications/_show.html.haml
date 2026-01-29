@@ -1,0 +1,8 @@
+.page-title-section
+  %h1
+    #{t("festival_application",:count=>1)} Nr. #{@festival_application.id}
+    - if @festival_application.permission
+      (#{t('festival_application.permission_granted')})
+
+.ef-inner#ef_inner=render partial: "show_appl"
+= render :partial => "ef/footer"

@@ -1,0 +1,50 @@
+%h2.title
+  =@festival_application.orch_name
+  = link_to_edit([:ef,@festival_application],txt:t("common.edit"), btn_class:"btn-primary", authz: false)
+.container-fluid
+  %ul.nav.nav-tabs
+    %li.nav-item{:role => "presentation"}
+      %button#fa-tab.nav-link.active{"aria-controls" => "fa-tab-pane", "aria-selected" => "true", "data-bs-target" => "#fa-tab-pane", "data-bs-toggle" => "tab", :role => "tab", :type => "button"}=t("festival_application",:count=>1)
+    %li.nav-item{:role => "presentation"}
+      %button#contact-tab.nav-link{"aria-controls" => "contact-tab-pane", "aria-selected" => "false", "data-bs-target" => "#contact-tab-pane", "data-bs-toggle" => "tab", :role => "tab", :type => "button"}=t("festival_applications.contact_panel.title")
+    %li.nav-item{:role => "presentation"}
+      %button#music-tab.nav-link{"aria-controls" => "music-tab-pane", "aria-selected" => "false", "data-bs-target" => "#music-tab-pane", "data-bs-toggle" => "tab", :role => "tab", :type => "button"}=t("festival_piece", count: 3)
+    - if @festival_application.permission
+      %li.nav-item{:role => "presentation"}
+        %button#concert-tab.nav-link{"aria-controls" => "concert-tab-pane", "aria-selected" => "false", "data-bs-target" => "#concert-tab-pane", "data-bs-toggle" => "tab", :role => "tab", :type => "button"}=t("festival_application.festival_concert_id")
+      %li.nav-item{:role => "presentation"}
+        %button#ticket-tab.nav-link{"aria-controls" => "ticket-tab-pane", "aria-selected" => "false", "data-bs-target" => "#ticket-tab-pane", "data-bs-toggle" => "tab", :role => "tab", :type => "button"}=t("festival_application.festival_tickets")
+      %li.nav-item{:role => "presentation"}
+        %button#meal-tab.nav-link{"aria-controls" => "meal-tab-pane", "aria-selected" => "false", "data-bs-target" => "#meal-tab-pane", "data-bs-toggle" => "tab", :role => "tab", :type => "button"}=t("event_meal", count: 1)
+      %li.nav-item{:role => "presentation"}
+        %button#invoice-tab.nav-link{"aria-controls" => "invoice-tab-pane", "aria-selected" => "false", "data-bs-target" => "#invoice-tab-pane", "data-bs-toggle" => "tab", :role => "tab", :type => "button"}=t("festival_application.invoice")
+
+
+  #faTabContent.tab-content{}
+    #fa-tab-pane.tab-pane.fade.show.active{ role: "tabpanel", 'aria-labelledby': "fa-tab", 'tabindex': 0 }
+      =custom_entity_row(t("festival_application.group_type"), display_group_type(@festival_application.group_type))
+      =entity_row(@festival_application,:contact_phone)
+      =entity_row(@festival_application,:country_code,:country) 
+      =entity_row(@festival_application,:orch_name)
+      =entity_row(@festival_application,:conductor)
+    #contact-tab-pane.tab-pane.fade{ role: "tabpanel", 'aria-labelledby': "contact-tab", 'tabindex': 0 }
+      - contact = @festival_application.contact_person
+      =entity_row(contact,:first_name)
+      =entity_row(contact,:last_name)
+      =entity_row(contact,:street)
+      =entity_row(contact,:zip)
+      =entity_row(contact,:city)
+      =entity_row(contact,:country_code,:country)
+      =entity_row(contact,:email,:mailto)
+      =entity_row(contact,:phone)
+
+      
+    -if @festival_application.permission
+      - concert = @festival_application.festival_concert
+      -if concert.present? then
+        = render partial: "concert_tab"
+      = render partial: "ticket_tab" 
+      = render partial: "invoice_tab"
+      = render partial: "meals_tab"
+           
+    = render partial: "music_tab"
