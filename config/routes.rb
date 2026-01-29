@@ -486,8 +486,10 @@ Rails.application.routes.draw do
 
   get "dl/:year/:filename", to: "downloads#show", as: "dl"
 
-  get "downloads/combined_invoice_pdf/:generator_session_id" => "downloads#combined_invoice_pdf"
-  get "downloads/combined_sepa/:generator_session_id" => "downloads#combined_sepa"
+  scope format: false do
+    get "downloads/combined_invoice_pdf/:generator_session_id" => "downloads#combined_invoice_pdf", as: "dl_combined_invoice"
+    get "downloads/combined_sepa/:generator_session_id" => "downloads#combined_sepa", as: "dl_combined_sepa"
+  end
 
   get "member_tools/kto_blz_to_iban_bic" => "member_tools#kto_blz_to_iban"
   get "member_tools/iban_calculator" => "member_tools#iban_calculator"
@@ -515,17 +517,19 @@ Rails.application.routes.draw do
         get :finalize
         get :fee_invoice
         get :ticket_invoice
+        get :edit_tickets
+        patch :update_tickets
       end
       collection do
         get :closed
       end
       resources :festival_pieces
-    end
 
-    resources :event_cards do
-      collection do
-        get :order_form
-        post :order_success
+      resources :event_meals do
+        collection do
+          get :order_form
+          post :order_success
+        end
       end
     end
 
