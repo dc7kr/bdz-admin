@@ -1,0 +1,12 @@
+- event_meal = festival_application.event_meal
+- if event_meal.present?
+  =entity_row(event_meal, :tln)
+  =entity_row(event_meal, :veg)
+  =entity_row(event_meal, :arrival_time,:date)
+  = link_to_edit event_meal, edit_ef_festival_application_event_meal_path(festival_application, event_meal), txt: t("common.edit"), turbo:true, authz: false
+- else
+  - if festival_application.tickets_total == 0
+    %h3= t(".order_tickets_first")
+  - else 
+    = link_to_new EventMeal, new_ef_festival_application_event_meal_path(festival_application), txt: t("ef.event_meals.new_meal_form.title"), turbo:true, authz: false
+

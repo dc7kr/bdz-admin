@@ -1,8 +1,6 @@
-= bootstrap_form_for @event_meal, :layout=> :horizontal, :url => order_success_ef_event_meals_path  do |f|
-  =f.number_field :participant_id
-  =f.text_field :name
-  =f.text_field :email
-  =f.text_field :arrival_time, :id => 'festival_arrival_time'
-  =f.number_field :tln 
+= bootstrap_form_for [:ef, festival_application, event_meal], :layout=> :horizontal, control_col: "col-sm-9", label_col: "col-sm-3"  do |f|
+  =f.datetime_field :arrival_time, :id => 'festival_arrival_time'
+  =f.static_control :tln
   =f.number_field :veg
   =f.primary t('common.submit')
+  =f.submit t("common.cancel"), name: :cancel
