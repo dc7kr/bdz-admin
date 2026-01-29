@@ -1,7 +1,7 @@
 module Ef
   class FestivalApplicationsController < Ef::ApplicationController
     #  include ApplicationHelper
-    helper ApplicationHelper
+    helper ::ApplicationHelper
     helper FestivalPiecesHelper
 
     before_action :set_festival_application, only: %i[show edit update finalize step2 ticket_invoice fee_invoice]
@@ -108,6 +108,23 @@ module Ef
     def update
       @contact_person = @festival_application.contact_person
 
+      cancel = params[:cancel].present?
+
+      if cancel 
+        respond_to do |format|
+          format.turbo_stream {
+            redirect_to ef_festival_application(@festival_application),
+              notice: t("festival_applciations.update_success")
+          }
+          format.html {
+            redirect_to ef_festival_application(@festival_application),
+            notice: t("festival_applications.update_success")
+          }
+        end
+        return
+      end
+
+
       fa_params = festival_application_params
 
       cp_params = fa_params[:contact_person]
@@ -115,14 +132,11 @@ module Ef
 
       respond_to do |format|
         if !@contact_person.update(cp_params)
-          format.html do
-            render :edit, status: :unprocessable_entity
-          end
+          format.html { render :edit, status: :unprocessable_entity }
         elsif @festival_application.update(fa_params)
           FestivalApplicationMailer.confirm_update(@festival_application.token).deliver
-          format.html do
-            redirect_to @festival_application, notice: t_update_success("festival_application")
-          end
+          format.html { redirect_to ef_festival_application_path(@festival_application), notice: view_context.t_update_success("festival_application") }
+          format.turbo_stream { redirect_to ef_festival_application_path(@festival_application), notice: view_context.t_update_success("festival_application") }
           format.json { head :no_content }
         else
           format.html { render :edit, status: :unprocessable_entity }
@@ -133,6 +147,27 @@ module Ef
 
     def step2
       @festival_pieces = @festival_application.festival_pieces
+    end
+
+    def edit_tickets
+      @festival_application = FestivalApplication.find_by token: params[:token]
+
+      respond_to do |format|
+        format.turbo_stream
+      end
+    end
+
+    def update_tickets
+      @festival_application = FestivalApplication.find_by token: params[:token]
+      
+      fa_params = festival_application_params
+      respond_to do |format|
+        if @festival_application.update(fa_params)
+          format.turbo_stream
+        else
+          format.turbo_stream status: :unprocessable_entity
+        end
+      end
     end
 
     private
