@@ -8,5 +8,5 @@
   - if festival_application.tickets_total == 0
     %h3= t(".order_tickets_first")
   - else 
-    = link_to_new EventMeal, new_ef_festival_application_event_meal_path(festival_application), txt: t("ef.event_meals.new_meal_form.title"), turbo:true, authz: false
+    = link_to_new EventMeal, new_ef_festival_application_event_meal_path(festival_application), txt: t("ef.event_meals.meal_form.title"), turbo:true, authz: false
 
