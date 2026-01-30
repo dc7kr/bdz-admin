@@ -1,6 +1,7 @@
 module Adm
-  class LetterFileRegenerationController < AuthenticatedNonResourceController
+  class LetterFileRegenerationController < AuthenticatedController
     def index
+      authorize :admin, :show?
       params[:event]
 
       LetterFileRegenerationJob.with(event: params[:event], triggered_by: current_user).perform_later

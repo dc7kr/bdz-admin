@@ -1,11 +1,11 @@
 module Adm
   class MailCheckController < AuthenticatedNonResourceController
     def index
-      authorize! :member, :edit
+      authorize :admin, :show?
     end
 
     def admin_notify
-      authorize! :member, :edit
+      authorize! :admin, :show?
 
       AdminNotifier.test_notification(current_user).deliver
     end

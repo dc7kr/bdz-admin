@@ -1,11 +1,11 @@
 module Adm
   class SepaRegenerationController < AuthenticatedNonResourceController
     def index
-      authorize! :member, :edit
+      authorize :admin, :show?
     end
 
     def regenerate_by_date_and_type
-      authorize! :member, :edit
+      authorize :admin, :show?
       booking_date = params[:sepa][:booking_date]
       member_type = params[:sepa][:member_type]
       max_mglnr = params[:sepa][:max_mglnr]
@@ -58,7 +58,7 @@ module Adm
     end
 
     def regenerate
-      authorize! :member, :edit
+      authorize :admin, :show?
       @bookings = MemberAccountBooking.includes(:member).where(booking_txt: params[:sepa][:booking_txt])
 
       datePrefix = Time.zone.now.strftime "%Y%m%d%H%M%S"
