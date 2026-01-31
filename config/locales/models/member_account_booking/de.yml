@@ -26,6 +26,11 @@ de:
     booking_date: Buchungsdatum
     booking_text: Buchungstext
     amount: Betrag
+  member_account_bookings:
+    edit:
+      title: "Buchung bearbeiten"
+    new: 
+      title: "Neue Buchung erstellen"
 
   activerecord: 
     models:
