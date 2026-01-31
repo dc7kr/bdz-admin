@@ -1,7 +1,7 @@
 class OrchestraMembersController < AuthenticatedController
   include ApplicationHelper
   helper_method :sort_column, :sort_direction
-  before_action :set_orchestra_member, only: %i[ show edit update destroy ]
+  before_action :set_orchestra_member, only: %i[ show edit update destroy exchange ]
 
   include ReportSheetUploadHelper
 
@@ -92,10 +92,10 @@ class OrchestraMembersController < AuthenticatedController
   # POST /orchestra_members
   # POST /orchestra_members.json
   def create
-    authorize OrchestraMember
     @orchestra = Orchestra.find(params[:orchestra_id])
     @orchestra_member = OrchestraMember.new(orchestra_member_params)
     @orchestra_member.orchestra = @orchestra
+    authorize @orchestra_member
 
     respond_to do |format|
       if @orchestra_member.save
@@ -129,7 +129,7 @@ class OrchestraMembersController < AuthenticatedController
   end
 
   def exchange_all
-    orchestra = Orchestra.find(params[:orchestra_id])
+    orchestra = policy_scope(Orchestra).find(params[:orchestra_id])
 
     orchestra.orchestra_members.each do |om|
       om.exchange_first_and_lastname
@@ -142,8 +142,6 @@ class OrchestraMembersController < AuthenticatedController
   end
 
   def exchange
-    @orchestra_member = policy_scope(OrchestraMember).find(params[:id])
-
     @orchestra_member.exchange_first_and_lastname
 
     respond_to do |format|
@@ -157,7 +155,7 @@ class OrchestraMembersController < AuthenticatedController
   end
 
   def check_double
-    @orchestra = Orchestra.find(params[:orchestra_id])
+    @orchestra = policy_scope(Orchestra).find(params[:orchestra_id])
     @current_report_sheet = @orchestra.currentReportSheet
     @needs_update = false
 
@@ -171,7 +169,6 @@ class OrchestraMembersController < AuthenticatedController
   # DELETE /orchestra_members/1
   # DELETE /orchestra_members/1.json
   def destroy
-    @orchestra_member = policy_scope(OrchestraMember).find(params[:id])
     orchestra = @orchestra_member.orchestra
     @orchestra_member.destroy
 
@@ -235,6 +232,6 @@ class OrchestraMembersController < AuthenticatedController
   end
 
   def index_actions
-    super.append(:search)
+    super.append(:search, :exchange_all, :delete_members, :upload)
   end
 end
