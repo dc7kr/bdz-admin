@@ -1,7 +1,7 @@
 %ul.nav.nav-tabs
   %li.nav-item= link_to_up_path t("common.up"),  orchestra_path(@orchestra)
   = nav_to_list OrchestraContact, orchestra_orchestra_contacts_path(@orchestra)
-  - if @orchestra_contact 
+  - if @orchestra_contact and @orchestra_contact.id.present?
     = nav_to_edit @orchestra_contact, edit_orchestra_orchestra_contact_path(@orchestra,@orchestra_contact)
   = nav_to_new OrchestraContact, new_orchestra_orchestra_contact_path(@orchestra)
 
