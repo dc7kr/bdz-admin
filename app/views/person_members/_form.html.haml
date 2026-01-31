@@ -1,16 +1,18 @@
 = bootstrap_form_for(@person_member, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10") do |f| 
-  .group
-    .container-fluid
-      = f.fields_for :member do |member_form|
-        = render :partial => "members/member_form", :locals => { :f => member_form,:member=>@person_member.member}
+  .container-fluid
+    = f.fields_for :member do |member_form|
+      = render :partial => "members/member_form", :locals => { :f => member_form,:member=>@person_member.member}
+    .card.mb-3.mt-3
+      .card-header#memberData
+        Einzelmitglieds-Daten
+      .card-body
+        = f.date_field :geburtstag
+        = f.text_field :telefonDienstl
 
-      = f.date_field :geburtstag
-      = f.text_field :telefonDienstl
-
-      = f.collection_select(:tariff_id, Tariff.all, :id, :description,{})
-      = f.date_field :kuendigungVom
-      
-      = f.text_area :bemerkung, cols: 80, rows:5
-      =f.submit class: "btn btn-primary"
-      =cancel_button
+        = f.collection_select(:tariff_id, Tariff.all, :id, :description,{})
+        = f.date_field :kuendigungVom
+        
+        = f.text_area :bemerkung, cols: 80, rows:5
+        =f.submit class: "btn btn-primary"
+        =cancel_button
 
