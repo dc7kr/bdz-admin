@@ -11,8 +11,8 @@ class OdsViewWriter
   def write(tmpfile)
     table_name = view_name
     data = self.data
-    RODF::Spreadsheet.file(tmpfile.path) do
-      table table_name do |t|
+    RODF::Spreadsheet.file(tmpfile.path) do |sheet| 
+      sheet.table table_name do |t|
         t.row do
           data.columns.each do |c|
             cell c.to_s
