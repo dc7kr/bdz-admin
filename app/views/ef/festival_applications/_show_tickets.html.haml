@@ -12,4 +12,4 @@
   = link_to_edit(@festival_application, edit_tickets_ef_festival_application_path(@festival_application), txt:t("common.edit"), authz: false, turbo: true)
 - else 
   %h3=t("festival_application.tickets_not_yet_ordered")
-
+  = link_to_edit(@festival_application, edit_tickets_ef_festival_application_path(@festival_application), txt:t("common.edit"), authz: false, turbo: true)
