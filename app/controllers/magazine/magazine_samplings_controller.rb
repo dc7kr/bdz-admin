@@ -45,6 +45,7 @@ module Magazine
     # GET /magazine_samplings/new.json
     def new
       @magazine_sampling = MagazineSampling.new
+      authorize @magazine_sampling
 
       @magazine_sampling.count = 1
 

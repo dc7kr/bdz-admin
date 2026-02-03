@@ -1,8 +1,9 @@
 %ul.nav.nav-tabs.d-print-none
   %li.nav-item= link_to_up_path t("common.up"), home_landing_page_path
   =nav_to_list MagazineSampling 
-  =nav_to_show @magazine_sampling
-  =nav_to_edit @magazine_sampling
+  - if @magazine_sampling.present? and @magazine_sampling.id.present?
+    =nav_to_show @magazine_sampling
+    =nav_to_edit @magazine_sampling
   = nav_to_new MagazineSampling
 
 
