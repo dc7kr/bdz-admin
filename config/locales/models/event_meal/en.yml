@@ -2,10 +2,8 @@ en:
   event_meal: &event_meal_labels
     one: Meal report
     other: Meal reports
-
-    participant_id: participant number
-    meals: Overall meals 
-    veg: "- thereof vegan/vegetarian"
+    tln: "Total nr. of meals"
+    veg: "- thereof vegan"
     name: name
     email: e-mail
     arrival_time: Estimated arrival time
@@ -26,4 +24,21 @@ en:
     label:
       event_meal:
         <<: *event_meal_labels
-
+  activerecord:
+    attributes:
+      event_meal:
+        <<: *event_meal_labels
+    errors:
+      template:
+        header: Errors in form 
+        body: Affected fields
+      models:
+        event_meal:
+          attributes:
+            veg:
+              must_be_leq_tln: " must be less or equal overall meals"
+            tln:
+              at_least_one: "Please order at least one meal."
+              must_be_leq_tickets: " must bel less or equal the number of ordered festival tickets."
+            arrival_time:
+              blank: "Please enter your estimated arrival time."

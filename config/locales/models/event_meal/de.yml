@@ -3,10 +3,10 @@ de:
     one: Essensmeldung
     other: Essensmeldungen
     meals: "Anzahl der bestellten Festivalkarten"
-    veg: "davon Anzahl veganes/vegetarisches Essen"
+    veg: "davon veganes Essen"
     arrival_time: "Ankunft in Bruchsal"
     meals: "Anzahl der bestellten Festivalkarten"
-    tln: "Bestellte Festival-Karten"
+    tln: "Gesamtanzahl Essen"
 
     name: Name
     email: "E-Mail Adresse"
@@ -30,8 +30,21 @@ de:
       event_meal:
         <<: *event_meal_labels
   activerecord:
+    errors:
+      models:
+        event_meal:
+          attributes:
+            veg:
+              must_be_leq_tln: " muss kleiner oder gleich der Gesamtanzahl sein."
+            tln:
+              must_be_leq_tickets: " muss kleiner oder gleich der bestellten Anzahl Festivaltickets sein!"
+              at_least_one: "Bitte mindestens ein Essen bestellen."
+            arrival_time:
+              blank: "Bitte geben Sie Ihre Ankunftszeit ein."
+
     models:
       event_meal: "Essen-Meldung"
     attributes: 
+
       event_meal: 
         <<: *event_meal_labels
