@@ -17,7 +17,8 @@ class ReportSheet < ApplicationRecord
   validates :zusatz_uv, presence: true
   validates :zusatz_ztg, presence: true
 
-  validate :at_least_one_member
+  #validate :at_least_one_member
+  #validate :at_least_one_instrumentation
 
   belongs_to :orchestra, optional: true
   has_one :member, through: :orchestra
@@ -153,7 +154,7 @@ class ReportSheet < ApplicationRecord
     end
   end
 
-  def calcUvCount
+  def calc_uv_count
     if uv && !orchestra.is_coop?
       children + teens + youth + adult + senior + zusatz_uv
     else
@@ -162,7 +163,7 @@ class ReportSheet < ApplicationRecord
   end
 
   def calcUV
-    calcUvCount * Prices.uvRate
+    calc_uv_count * Prices.uvRate
   end
 
   def calcInvoice
@@ -274,8 +275,11 @@ class ReportSheet < ApplicationRecord
       end
     end
 
-    invoice.add_item(calcUvCount, Prices.uvRate, I18n.t("report_sheet.uv")) if uv
+    invoice.add_item(calc_uv_count, Prices.uvRate, I18n.t("report_sheet.uv")) if uv
+    booking = find_booking
 
+    invoice.add_item(1, booking.amount, I18n.t("report_sheet.already_payed_amount")) if booking.present?
+    
     invoice.add_item(1, Prices.delayFee, I18n.t("report_sheet.delay_fee")) if delayed?
 
     invoice
@@ -460,9 +464,22 @@ class ReportSheet < ApplicationRecord
     end
   end
 
+  def at_least_one_instrumentation
+    instr_sum = 0
+    instr_sum+=zo unless zo.nil?
+    instr_sum+=go unless go.nil?
+    instr_sum+=zi_o unless zi_o.nil?
+    instr_sum+=oz unless oz.nil?
+    
+    Rails.logger.info("Instrumentation: #{instr_sum}")
+    return if instr_sum > 0
+
+    errors.add(:zo, I18n.t("errors.report_sheet.at_least_one"))
+  end
+
   def at_least_one_member
     return unless !orchestra.nil? && !orchestra.is_coop?
-
+    
     return unless calcGemaCount <= 0
 
     errors.add(:adult, I18n.t("errors.report_sheet.at_least_one"))
