@@ -33,6 +33,7 @@ class OrchestraContactsController < AuthenticatedController
   def new
     @orchestra_contact = OrchestraContact.new
     @orchestra_contact.country_code = "DE"
+    authorize @orchestra_contact
 
     @orchestra = Orchestra.find(params[:orchestra_id])
     @orchestra_contact.orchestra = @orchestra
@@ -54,10 +55,9 @@ class OrchestraContactsController < AuthenticatedController
   def create
     @orchestra_contact = OrchestraContact.new(orchestra_contact_params)
     @orchestra = Orchestra.find(params[:orchestra_id])
-
-    Rails.logger.info("Orchestra id: #{params[:orchestra_id]}")
-
     @orchestra_contact.orchestra = @orchestra
+
+    authorize @orchestra_contact
 
     respond_to do |format|
       if @orchestra_contact.save
