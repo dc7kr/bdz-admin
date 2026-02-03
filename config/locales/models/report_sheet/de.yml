@@ -15,6 +15,7 @@ de:
     senior_rate: "Beitrag Erwachsene 55+"
     max_tariff: "Höchstbeitrag"
     min_tariff: "Mindestbeitrag"
+    already_payed_amount: "bereits geleistete Zahlung"
 
     new: Neuer Meldebogen
     create_success: Meldebogen erfolgreich angelegt
@@ -37,8 +38,8 @@ de:
     calcGemaCount: GEMA
     calcZeitungen: Zeitungen
     calcInvoice: Rechnungsbetrag
-    calcUV: Unfallversicherung
-    calcUvCount: Unfallversicherung
+    calc_uv: Unfallversicherung
+    calc_uv_count: Unfallversicherung
     totalActiveMembers: Gesamt Aktiv
     calcBeitrag: Mitgliedsbeiträge
     year: Jahr
