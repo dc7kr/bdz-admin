@@ -1,5 +1,5 @@
 %ul.nav.nav-tabs
-  - if not @orchestra.nil? then
+  - if @orchestra.present? then
     %li= link_to_up_path t("common.up"),  orchestra_path(@orchestra)
   - else
     %li= link_to_up_path t("common.up"), orchestras_path
@@ -8,4 +8,5 @@
     = nav_to_list OrchestraMember, orchestra_orchestra_members_path(@orchestra_member.orchestra)
     = nav_to_show @orchestra_member, orchestra_orchestra_member_path(@orchestra_member.orchestra,@orchestra_member)
     = nav_to_edit @orchestra_member, edit_orchestra_orchestra_member_path(@orchestra_member.orchestra,@orchestra_member)
-  = nav_to_new Orchestra, new_orchestra_orchestra_member_path(@orchestra)
+  - if @orchestra.present?
+    = nav_to_new Orchestra, new_orchestra_orchestra_member_path(@orchestra)
