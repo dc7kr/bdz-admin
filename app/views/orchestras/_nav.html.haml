@@ -15,4 +15,4 @@
   = nav_to_new Orchestra
 
 - content_for :search, render(:partial => 'nav_search', locals: { search_path: orchestras_path })
-- content_for :entity_menu, render(:partial => 'entity_menu')
+- content_for :entity_menu, render(partial: 'entity_menu', locals: { entity: @orchestra })

@@ -24,6 +24,12 @@
 
   = link_to "PDF", report_sheet_path(@report_sheet, :format=>"pdf"), class: "btn btn-primary"
   = link_to t("common.invoice_preview"), invoice_preview_report_sheet_path(@report_sheet),  data: { 'turbo_frame' => 'modal' }, class: 'btn btn-secondary btn-sm'
+  - if not @consistent
+    =link_to( t("report_sheet.update_from_members"), update_from_members_orchestra_report_sheet_path(@orchestra,@report_sheet), :class=>"btn btn-primary")
+  - if @needs_update and @consistent
+    =button_to(t("report_sheet.update_invoice"), update_invoice_orchestra_report_sheet_path(@orchestra,@report_sheet), :class=>"btn btn-primary" )
+
+
   .card
     .card-body
       %h5.card-title=t("invoice",count: 1)
@@ -67,10 +73,5 @@
       .row 
         .col-md-3.text-end.fw-bold=label(:report_sheet,:total)
         .col-md-9.fw-bold= @report_sheet.passive+@report_sheet.totalActiveMembers
-
-  - if not @consistent
-    =link_to( t("report_sheet.update_from_members"), update_from_members_orchestra_report_sheet_path(@orchestra,@report_sheet), :class=>"btn btn-primary")
-  - if @needs_update and @consistent
-    =button_to(t("report_sheet.update_invoice"), update_invoice_orchestra_report_sheet_path(@orchestra,@report_sheet), :class=>"btn btn-primary" )
 
 - content_for :sidebar, render(:partial => 'sidebar')

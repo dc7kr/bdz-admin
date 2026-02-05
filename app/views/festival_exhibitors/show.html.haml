@@ -14,8 +14,7 @@
   = entity_row(@festival_exhibitor, :tariff)
   - if policy(@festival_exhibitor).invoice_preview?
     = link_to 'Rechnungsvorschau', invoice_preview_festival_exhibitor_path(@festival_exhibitor),  data: { 'turbo_frame' => 'modal' }, class: 'btn btn-secondary btn-sm'
+  = link_to 'PDF', gen_invoice_festival_exhibitor_path(@festival_exhibitor), format: :pdf, class: 'btn btn-secondary btn-sm'
   %hr
   = render partial: "contacts/contact_show", :locals => { :contact =>  @festival_exhibitor.contact }
-
-
 

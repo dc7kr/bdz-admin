@@ -5,7 +5,7 @@
   %h3
     =  @orchestra.orchName
     - if not @orchestra.report_sheet_required? or not @orchestra.currentReportSheet.nil? then
-      = link_to 'Rechnungsvorschau', invoice_preview_orchestra_path(@orchestra),  data: { 'turbo_frame' => 'modal' }, class: 'btn btn-secondary btn-sm'
+      = link_to t("common.invoice_preview"), invoice_preview_orchestra_path(@orchestra),  data: { 'turbo_frame' => 'modal' }, class: 'btn btn-secondary btn-sm'
   #orchestraAccordion.accordion
     .accordion-item
       .accordion-header 

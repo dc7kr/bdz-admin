@@ -13,3 +13,4 @@
         = nav_to_show @report_sheet, orchestra_report_sheet_path(params[:orchestra_id],@report_sheet)
         = nav_to_edit @report_sheet, edit_orchestra_report_sheet_path(params[:orchestra_id],@report_sheet)
 
+- content_for :entity_menu, render(:partial => 'orchestras/entity_menu', locals: { entity: @orchestra })

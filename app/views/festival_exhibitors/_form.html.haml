@@ -1,9 +1,13 @@
-= bootstrap_form_for(@festival_exhibitor, :layout => :horizontal) do |f|
-  =f.check_box :special_tariff
-  =f.text_field :special_amount
-  =f.text_field :tariff
+= bootstrap_form_for(@festival_exhibitor, :layout => :horizontal ) do |f|
+  .card.mb-2#nameData
+    .card-header
+      =t("festival_exhibitor.fee")
+    .card-body
+      =f.check_box :special_tariff
+      =f.text_field :special_amount
+      =f.text_field :item_text
 
   = f.fields_for :contact do |contact_form|
-    = render :partial => "contacts/contact_form", :locals => { :f => contact_form,:contact=>@festival_exhibitor.contact}
+    = render :partial => "contacts/contact_form", :locals => { :f => contact_form,:contact=>@festival_exhibitor.contact }
 
   = f.submit

@@ -162,14 +162,17 @@ class MemberAccountBookingsController < AuthenticatedController
   # DELETE /bookings/1
   # DELETE /bookings/1.json
   def destroy
+    member_entity = @booking.member.member_entity
+    member_type = @booking.member_type 
+
     @booking.destroy
 
     respond_to do |format|
       format.html do
-        if params[:orchestra_id]
-          redirect_to orchestra_member_account_bookings_path(params[:orchestra_id])
+        if member_type == :orchestra 
+          redirect_to orchestra_member_account_bookings_path(member_entity)
         else
-          redirect_to person_member_member_account_bookings_path(params[:person_member_id])
+          redirect_to person_member_member_account_bookings_path(member_entity)
         end
       end
       format.json { render json: { status: "ok", op: "delete", entityId: @booking.id } }

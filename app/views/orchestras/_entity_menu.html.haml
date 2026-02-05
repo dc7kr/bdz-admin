@@ -2,16 +2,16 @@
   %button.btn.btn-outline-secondary.dropdown-toggle{:href=>"#", :role=>"button" ,:data=> { :bs=> { :toggle=>"dropdown" }}, :aria => { :expanded => "false"}}
     =t("orchestra", count:3)
   %ul.dropdown-menu
-    - if @orchestra and @orchestra.id.present?
-      %li= link_to( "Mitgliedskonto", orchestra_member_account_bookings_url(@orchestra), class: "dropdown-item")
-      %li= link_to( "Events", orchestra_member_events_url(@orchestra), class: "dropdown-item")
-      %li= link_to( "Kontakt-Adressen", orchestra_orchestra_contacts_url(@orchestra), class: "dropdown-item")
-      %li= link_to( "Orchestermitglieder", orchestra_orchestra_members_url(@orchestra), class: "dropdown-item")
-      %li= link_to( "Meldebögen", orchestra_report_sheets_url(@orchestra), class: "dropdown-item")
+    - if entity and entity.id.present?
+      %li= link_to( "Mitgliedskonto", orchestra_member_account_bookings_url(entity), class: "dropdown-item")
+      %li= link_to( "Events", orchestra_member_events_url(entity), class: "dropdown-item")
+      %li= link_to( "Kontakt-Adressen", orchestra_orchestra_contacts_url(entity), class: "dropdown-item")
+      %li= link_to( "Orchestermitglieder", orchestra_orchestra_members_url(entity), class: "dropdown-item")
+      %li= link_to( "Meldebögen", orchestra_report_sheets_url(entity), class: "dropdown-item")
       -if current_user.has_any_role? :national,:admin
-        %li= link_to( "Meldebogen-Eingabe-Objekte", report_sheet_inputs_url(:orch=>@orchestra.id), class: "dropdown-item")
-      - if @orchestra.is_regular?
-        %li= link_to( "Ehrungen", orchestra_distinctions_url(@orchestra), class: "dropdown-item")
+        %li= link_to( "Meldebogen-Eingabe-Objekte", report_sheet_inputs_url(:orch=>entity.id), class: "dropdown-item")
+      - if entity.is_regular?
+        %li= link_to( "Ehrungen", orchestra_distinctions_url(entity), class: "dropdown-item")
       %li
         %hr.dropdown-divider
 

@@ -8,3 +8,4 @@
     %li.nav-item= link_to_up_path t("common.up"), home_landing_page_path
   = nav_to_new RegionalOrganization
 
+- content_for :entity_menu, render(:partial => "entity_menu", locals: { entity: @regional_organization })

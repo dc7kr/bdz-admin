@@ -4,3 +4,4 @@
   = nav_to_show @distinction
   = nav_to_edit @distinction
   = nav_to_new Distinction, new_orchestra_distinction_path(@orchestra)
+- content_for :entity_menu, render(:partial => 'orchestras/entity_menu', locals: { entity: @orchestra })

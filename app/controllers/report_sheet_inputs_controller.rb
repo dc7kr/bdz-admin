@@ -8,6 +8,10 @@ class ReportSheetInputsController < AuthenticatedController
   # GET /report_sheet_inputs
   # GET /report_sheet_inputs.json
   def index
+    if params[:orch].present?
+      @orchestra = policy_scope(Orchestra).find(params[:orch])
+    end
+
     @report_sheet_inputs = if params[:orch].nil?
       policy_scope(ReportSheetInput).includes(:orchestra)
     else

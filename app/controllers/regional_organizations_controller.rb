@@ -99,8 +99,8 @@ class RegionalOrganizationsController < AuthenticatedController
   end
 
   def share_overview
-    @regional_organizations = RegionalOrganizationAuthorizer.readable_by(current_user)
-    authorize @regional_organizations.first
+    @regional_organizations = policy_scope(RegionalOrganization)
+
     @year = params[:year]
 
     @year = Time.zone.now.year if @year.nil?
@@ -159,5 +159,9 @@ class RegionalOrganizationsController < AuthenticatedController
     # logger.debug(params.to_s)
     params.require(:regional_organization).permit(:nummer, :name, :subname, :homepage, :jugend_url, :gema_kdnr,
                                                   :gema_kdnr_new, member_attributes: Member.nested_params)
+  end
+
+  def index_actions
+    super.append(:share_overview)
   end
 end

@@ -1,18 +1,18 @@
 %li.nav-item.dropdown
   %button.btn.btn-outline-secondary.dropdown-toggle{:href=>"#", :role=>"button" ,:data=> { :bs=> { :toggle=>"dropdown" }}, :aria => { :expanded => "false"}}
-    - if @regional_organization
+    - if entity
       = t("regional_organization", count:1)
     - else
       =t("regional_organization", count:3)
   %ul.dropdown-menu
-    - if @regional_organization and @regional_organization.id.present?
-      %li= link_to "Mitglieder", members_regional_organization_regional_organization_reports_path(@regional_organization), class: "dropdown-item"
-      %li= link_to "Mitglieder (PDF)", members_regional_organization_regional_organization_reports_path(@regional_organization,:format=>"pdf"), class: "dropdown-item"
-      %li= link_to "Mitgliedesorchester (ODS)", orchestras_regional_organization_regional_organization_reports_path(@regional_organization,:format=>"ods"), class: "dropdown-item"
-      %li= link_to "Einzelmitglieder (ODS)", person_members_regional_organization_regional_organization_reports_path(@regional_organization,:format=>"ods"), class: "dropdown-item"
-      %li= link_to "Beitragsanteile (PDF)", fee_shares_regional_organization_regional_organization_reports_path(@regional_organization,:format=>"pdf"), class: "dropdown-item"
+    - if entity and entity.id.present?
+      %li= link_to "Mitglieder", members_regional_organization_regional_organization_reports_path(entity), class: "dropdown-item"
+      %li= link_to "Mitglieder (PDF)", members_regional_organization_regional_organization_reports_path(entity,:format=>"pdf"), class: "dropdown-item"
+      %li= link_to "Mitgliedesorchester (ODS)", orchestras_regional_organization_regional_organization_reports_path(entity,:format=>"ods"), class: "dropdown-item"
+      %li= link_to "Einzelmitglieder (ODS)", person_members_regional_organization_regional_organization_reports_path(entity,:format=>"ods"), class: "dropdown-item"
+      %li= link_to "Beitragsanteile (PDF)", fee_shares_regional_organization_regional_organization_reports_path(entity,:format=>"pdf"), class: "dropdown-item"
 
-      %li= link_to "LV Konto", regional_organization_member_account_bookings_path(@regional_organization), class: "dropdown-item"
+      %li= link_to "LV Konto", regional_organization_member_account_bookings_path(entity), class: "dropdown-item"
       .dropdown-divider
 
     %li= link_to t('regional_organization.share_overview'), share_overview_regional_organizations_path, class: "dropdown-item"

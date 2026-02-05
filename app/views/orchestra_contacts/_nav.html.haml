@@ -5,5 +5,4 @@
     = nav_to_edit @orchestra_contact, edit_orchestra_orchestra_contact_path(@orchestra,@orchestra_contact)
   = nav_to_new OrchestraContact, new_orchestra_orchestra_contact_path(@orchestra)
 
-
-
+- content_for :entity_menu, render(:partial => 'orchestras/entity_menu', locals: { entity: @orchestra })

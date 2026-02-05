@@ -100,4 +100,4 @@
           %td=@ens_sum[:chamber_ens]
           %td=@ens_sum[:total]
 
-- content_for :entity_menu, render(:partial => 'regional_organizations/entity_menu')
+- content_for :entity_menu, render(:partial => 'regional_organizations/entity_menu', locals: { entity: @regional_organization })

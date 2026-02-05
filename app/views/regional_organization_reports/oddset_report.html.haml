@@ -1,5 +1,3 @@
-.secondary-navigation
-  = render :partial => 'nav'
 .container
   %h2.title
     = @regional_organization.name
@@ -18,3 +16,4 @@
     %tr
       %td.label=t('report_sheet.passive')
       %td=@sums[:passive]
+- content_for :entity_menu, render(:partial => 'regional_organizations/entity_menu', locals: { entity: @regional_organization })
