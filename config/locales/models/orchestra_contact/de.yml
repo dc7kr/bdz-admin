@@ -32,7 +32,9 @@ de:
 
   activerecord:
     models:
-      orchestra_contacts: "Kontakt-Adresse"
+      orchestra_contact: 
+        one: "Kontakt-Adresse"
+        other: "Kontakt-Adressen"
     attributes:
       orchestra_contacts:
         <<: *orchestra_contact_labels

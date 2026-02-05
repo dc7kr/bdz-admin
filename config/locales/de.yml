@@ -104,7 +104,15 @@ de:
       M: "Sehr geehrter Herr"
       W: "Sehr geehrte Frau"
       F: "Sehr geehrte Damen und Herren"
-  event_cards_mailer:
+    authz_error: "Sie dürfen diese %{class} nicht %{query}"
+    queries:
+      new?: "anlegen"
+      show?: "anzeigen"
+      create?: "erstellen"
+      destroy?: "löschen"
+      edit?: "bearbeiten"
+
+    event_cards_mailer:
     subject: "Ihre Kartenbestellung Nr. %{id} fuer das Eurofestival 2018"
   event_meals_mailer:
     subject: "Ihre Essensmeldung Nr. %{id} fuer das Eurofestival 2018"

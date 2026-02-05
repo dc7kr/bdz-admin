@@ -8,6 +8,10 @@ de:
     birthday: Geburtstag
     tarrif_id: Beitragstyp
 
+  person_members:
+    edit:
+      title: "Einzelmitglied bearbeiten"
+
   helpers:
     label:
       person_member:

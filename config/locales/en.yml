@@ -314,34 +314,5 @@ en:
         konto: Account number
         blz: BIC
   
-  activerecord:
-    attributes:
-      event_meal:
-        participant_id: 
-          one: "Participant No."
-          other: "{{count}} Participant IDs"
-        tln: 
-          one: "Overall festival tickets"
-        arrival_time:
-          one: "Estimated Arrival Time"
-        veg:
-          one: "- thereof vegetarian"
-        email:
-          one: E-Mail
-        name:
-          one: "Participant name"
-    errors:
-      template:
-        header: Errors in form 
-        body: Affected fields
-      models:
-        event_meal:
-          attributes:
-            veg:
-              must_be_less_tln: " must be less or equal overall meals!"
-            tln:
-              at_least_one: "Please order at least one meal."
-            arrival_time:
-              blank: "Please enter your estimated arrival time."
-web_app_theme:
+  web_app_theme:
   regional_organization: "Regional OrganizationTL"

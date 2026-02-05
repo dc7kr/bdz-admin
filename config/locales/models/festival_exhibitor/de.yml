@@ -5,7 +5,13 @@ de:
     special_tariff: "Sondervereinbarung"
     special_amount: "Sonder-Betrag"
     tariff: "Tarif"
-
+    item_text: "Rechnungstext"
+    fee: "Ausstellergebühr"
+  festival_exhibitors:
+    edit:
+      title: "Aussteller bearbeiten"
+    new:
+      title: "Aussteller erstellen"
   helpers:
     label:
       festival_exhibitor:
