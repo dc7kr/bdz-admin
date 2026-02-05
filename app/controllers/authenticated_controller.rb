@@ -16,7 +16,11 @@ class AuthenticatedController < ApplicationController
 
     msg = exception.message
 
-    flash[:error] = msg
+    query = exception.query
+    t_query = t("common.queries.#{query}")
+    t_class = I18n::t("activerecord.models.#{exception.record.model_name.to_s.underscore}", count: 1)
+    
+    flash[:error] = t("common.authz_error", query: t_query, class: t_class)
 
     redirect_to root_url
   end
