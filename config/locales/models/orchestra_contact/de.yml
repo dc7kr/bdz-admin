@@ -21,20 +21,22 @@ de:
     role: Rolle
     salutation: Anrede
     role: Rolle        
-
-  activerecord:
-    attributes:
-      orchestra_contact:
-  helpers:
-    label:
-      orchestra_contact:
-        <<: *orchestra_contact_labels
+  orchestra_contacts:
+    edit:
+      title: "Kontakt-Adresse bearbeiten"
+    new:
+      title: "Neue Kontakt-Adresse anlegen"
 
   activerecord:
     models:
       orchestra_contact: 
         one: "Kontakt-Adresse"
         other: "Kontakt-Adressen"
+
     attributes:
-      orchestra_contacts:
+      orchestra_contact:
+        <<: *orchestra_contact_labels
+  helpers:
+    label:
+      orchestra_contact:
         <<: *orchestra_contact_labels

@@ -1,8 +1,6 @@
 .secondary-navigation
   = render :partial => 'nav'
 .container
-  %h2.title
-    = t("orchestra_contact",:count=>1)
-    = t("common.edit")
+  %h2=t(".title")
   = render :partial => "form"
 - content_for :sidebar, render(:partial => 'sidebar')
