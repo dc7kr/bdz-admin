@@ -69,12 +69,26 @@ class AdminNotifier < ApplicationMailer
     mail(to: user.email, subject: "Meldebogen Anschreiben")
   end
 
-  def newinvoices_notification(recipient, invoices, sepa_file, current_user)
+  def single_invoice(recipient, invoice_url, sepa_url:nil, sepa_invoices_url:nil, triggered_by:, mglnr:, letter:false)
     @recipient = recipient
-    @invoice_url = invoices
-    @dd_url = sepa_file
+    @invoice_url = invoice_url
+    @sepa_url = sepa_url
+    @sepa_invoices_url = sepa_invoices_url
+    @mglnr = mglnr
 
-    set_triggered_by(current_user)
+    set_triggered_by(triggered_by)
+
+    mail(to: recipient.email, subject: "Neue Beitragsrechnung #{mglnr}")
+  end
+
+
+  def new_invoices(recipient, invoices_url, sepa_url:nil, sepa_invoices_url:nil, triggered_by:)
+    @recipient = recipient
+    @invoices_url = invoices_url
+    @sepa_url = sepa_url
+    @sepa_invoices_url = sepa_invoices_url
+
+    set_triggered_by(triggered_by)
 
     mail(to: recipient.email, subject: "BDZ Rechnungslauf")
   end
