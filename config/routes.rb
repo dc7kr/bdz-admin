@@ -487,8 +487,9 @@ Rails.application.routes.draw do
   get "dl/:year/:filename", to: "downloads#show", as: "dl"
 
   scope format: false do
-    get "downloads/combined_invoice_pdf/:generator_session_id" => "downloads#combined_invoice_pdf", as: "dl_combined_invoice"
-    get "downloads/combined_sepa/:generator_session_id" => "downloads#combined_sepa", as: "dl_combined_sepa"
+    get "downloads/invoices/:generator_session_id/letters" => "downloads#combined_letters_pdf", as: "dl_invoice_letters"
+    get "downloads/invoices/:generator_session_id/sepa" => "downloads#combined_sepa_pdf", as: "dl_sepa_invoices"
+    get "downloads/sepa/:generator_session_id" => "downloads#combined_sepa", as: "dl_sepa"
   end
 
   get "member_tools/kto_blz_to_iban_bic" => "member_tools#kto_blz_to_iban"
