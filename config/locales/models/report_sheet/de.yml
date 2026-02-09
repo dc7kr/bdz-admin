@@ -90,13 +90,28 @@ de:
     invoiced: Abgerechnet
     azubi: Beitragsfrei
     uv: Unfallversicherung
-    tag:
+  report_sheets:
+    tags:
       invalid: "Meldebogen fehlerhaft"
       not_invoiced: "keine Rechnung"
       inconsistent: "Mitgliederzahl muss abgeglichen werden!"
       update_needed: "Meldebogen muss aktualisiert werden"
       needs_new_invoice: "Neue Rechnung erforderlich!"
+    notice:
+      background_job_triggered: "Neue Rechnung wird im Hintergrund erzeugt."
+    edit: 
+      title: "Meldebogen bearbeiten"
+    new: 
+      title: "Meldebogen anlegen"
+    
+    buttons: 
+      pdf: "Meldebogen-PDF"
+
   activerecord:
+    models:
+      report_sheet:
+        one: "Meldebogen"
+        other: "Meldebögen"
     attributes:
       report_sheet:
         <<: *report_sheet_labels

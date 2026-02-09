@@ -157,6 +157,7 @@ class ReportSheetsController < AuthenticatedController
     @report_sheet.orchestra = @orchestra
     @report_sheet.year = Time.zone.now.year
     @report_sheet.report_date = Time.zone.now
+    authorize @report_sheet
 
     respond_to do |format|
       format.html # new.html.erb
@@ -176,6 +177,7 @@ class ReportSheetsController < AuthenticatedController
     @report_sheet = ReportSheet.new(report_sheet_params)
     orchestra = Orchestra.find(params[:orchestra_id])
     @report_sheet.orchestra = orchestra
+    authorize @report_sheet
 
     respond_to do |format|
       if @report_sheet.save
@@ -335,6 +337,7 @@ class ReportSheetsController < AuthenticatedController
   def update_invoice
     @orchestra = Orchestra.find(params[:orchestra_id])
     @report_sheet = ReportSheet.find(params[:id])
+    authorize @report_sheet
 
     year = @report_sheet.year
 
@@ -350,38 +353,12 @@ class ReportSheetsController < AuthenticatedController
       return
     end
 
-    date_prefix = Time.zone.now.strftime "%Y%m%d%H%M%S"
-    sepa_writer = CorikaInvoices::SepaWriter.new(date_prefix, INVOICE_CONFIG)
-
-    tw = CorikaInvoices::TexWriter.new(INVOICE_CONFIG)
-
-    invoice = @report_sheet.orchestra.gen_invoice(@report_sheet.year)
-    invoice_file = invoice.gen_pdf(tw)
-
-    booking = @report_sheet.find_booking
-
-    # booking is negative - so original invoice inverted
-    booking.amount
-
-    booking_txt = "Beitrag #{String(year)}"
-    @orchestra.member.create_invoice_booking(year, invoice, invoice_file.orig_filename, booking_txt)
-
-    booking.destroy
-
-    @report_sheet.gen_delta_booking(sepa_writer, invoice, @delta_value)
-
-    sepa_file = sepa_writer.generate_file
-
-    users = User.for_admin_notify
-
-    users.each do |user|
-      AdminNotifier.invoice_update(user, invoice, invoice_file, sepa_file, @delta_value, @report_sheet).deliver
-    end
+    GenerateOrchestraInvoiceJob.perform_later(@report_sheet.orchestra.id, @report_sheet.year, current_user.id)
 
     respond_to do |format|
       format.html do
         redirect_to orchestra_report_sheet_path(@report_sheet.orchestra, @report_sheet),
-                    notice: t("report_sheet.invoice_update_success")
+          notice: t("report_sheets.notice.background_job_triggered")
       end
     end
   end

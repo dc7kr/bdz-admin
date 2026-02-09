@@ -1,0 +1,22 @@
+Hallo <%= @recipient.name %>, <br/>
+<br/>
+
+eine neue Rechnung wurde von <%= @triggered_by %> erstellt.
+<br/>
+
+<%- if @letter %>
+  Die Rechnung muss postalisch verschickt werden!<br/>
+<%- else %>
+  Die Rechnung wurde per E-Mail versandt.<br/>
+<%- end %>
+
+<p>
+Die Rechnung kann unter 
+<a href="<%= @invoice_url %>"><%= @invoice_url %></a> heruntergeladen werden.<br/>
+</p>
+
+<%- if @sepa_url != nil then -%> 
+  <p>Es wurden Lastschriften erstellt - die zugehoerige SEPA Datei kann unter <a href="<%= @sepa_url %>"><%= @sepa_url %></a> heruntergeladen werden.</p>
+
+  <p>Ein PDF mit den in der SEPA Datei enthaltenen Buchungen hier: <a href="<%=@sepa_invoices_url %>"><%= @sepa_invoices_url %></a> </p>
+<%- end -%>

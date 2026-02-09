@@ -4,31 +4,32 @@
   %h2
     = @report_sheet.orchestra.orchName 
     (#{@orchestra.member.mglnr})
-    %br
+  %h3
     = t("report_sheet",:count=>1)
     = @report_sheet.year
     vom
     = l @report_sheet.report_date
 
-  // badges
-  - if not @report_sheet.valid?
-    %span.badge.bg-danger=t("report_sheet.tag.invalid")
-  - if @report_sheet.generated == 1 
-    %span.badge.bg-info=t("report_sheet.generated")
-  - if @needs_update
-    %span.badge.bg-danger=t("report_sheet.tag.needs_new_invoice")
-  - if @inconsistent
-    %span.badge.bg-danger=t("report_sheet.tag.inconsistent")
-  - if not @invoiced
-    %span.badge.bg-danger=t("report_sheet.tag.not_invoiced")
+    // badges
+    - if not @report_sheet.valid?
+      %span.badge.bg-danger=t("report_sheets.tags.invalid")
+    - if @report_sheet.generated == 1 
+      %span.badge.bg-info=t("report_sheet.generated")
+    - if @needs_update
+      %span.badge.bg-danger=t("report_sheets.tags.needs_new_invoice")
+    - if @inconsistent
+      %span.badge.bg-danger=t("report_sheets.tags.inconsistent")
+    - if not @invoiced
+      %span.badge.bg-danger=t("report_sheets.tags.not_invoiced")
+  .mb-2
+    = link_to t("report_sheets.buttons.pdf"), report_sheet_path(@report_sheet, :format=>"pdf"), class: "btn btn-sm btn-primary"
+    = link_to t("common.invoice_preview"), invoice_preview_report_sheet_path(@report_sheet),  data: { 'turbo_frame' => 'modal' }, class: 'btn btn-secondary btn-sm'
+    - if not @consistent
+      = link_to( t("report_sheet.update_from_members"), update_from_members_orchestra_report_sheet_path(@orchestra,@report_sheet), :class=>"btn btn-primary")
 
-  = link_to "PDF", report_sheet_path(@report_sheet, :format=>"pdf"), class: "btn btn-primary"
-  = link_to t("common.invoice_preview"), invoice_preview_report_sheet_path(@report_sheet),  data: { 'turbo_frame' => 'modal' }, class: 'btn btn-secondary btn-sm'
-  - if not @consistent
-    =link_to( t("report_sheet.update_from_members"), update_from_members_orchestra_report_sheet_path(@orchestra,@report_sheet), :class=>"btn btn-primary")
-  - if @needs_update and @consistent
-    =button_to(t("report_sheet.update_invoice"), update_invoice_orchestra_report_sheet_path(@orchestra,@report_sheet), :class=>"btn btn-primary" )
-
+  .mb-2
+    - if @needs_update and @consistent
+      = button_to(t("report_sheet.update_invoice"), update_invoice_orchestra_report_sheet_path(@orchestra,@report_sheet), :class=>"btn btn-sm btn-primary" )
 
   .card
     .card-body

@@ -7,7 +7,7 @@ class PersonMemberInvoicesJob < BaseInvoicesJob
   def perform(year = nil, user_id = nil)
     year = Time.zone.now.year if year.nil?
 
-    init_fields(year, user_id)
+    init_fields(user_id)
     letters = []
 
     person_members = PersonMember.notinvoiced(year)

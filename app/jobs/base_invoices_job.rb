@@ -16,7 +16,7 @@ class BaseInvoicesJob < ApplicationJob
     }
   end
 
-  def init_fields(_year, user_id)
+  def init_fields(user_id)
     self.generator_session_id = SecureRandom.uuid
     self.date_prefix = Time.zone.now.strftime "%Y%m%d%H%M%S"
 
@@ -31,18 +31,31 @@ class BaseInvoicesJob < ApplicationJob
     end
   end
 
-  def send_mail(ddFile, letterFile)
-    base_url = Rails.application.routes.url_helpers.cron_downloads_url
-    dd_url = nil
-    invoices_url = nil
+  def send_mail(sepa_file, letter_file, generator_session_id=nil)
+    url_helpers = Rails.application.routes.url_helpers
 
-    invoices_url = "#{base_url}?year=#{letterFile.archive_folder}&filename=#{letterFile.orig_filename}" unless letterFile.nil?
-
-    dd_url = "#{base_url}?year=#{ddFile.archive_folder}&filename=#{ddFile.orig_filename}" unless ddFile.nil?
+    sepa_url = dl_url_for_file(sepa_file)
+    invoices_url = dl_url_for_file(letter_file)
+    sepa_invoices_url = url_helpers.dl_combined_invoice_url(generator_session_id: generator_session_id) unless generator_session_id.nil?
 
     User.for_admin_notify.each do |user|
-      AdminNotifier.newinvoices_notification(user, invoices_url, dd_url, triggered_by).deliver
-      logger.info "new invoice notify sent to %s" % user.email
+      AdminNotifier.new_invoices(user, invoices_url: invoices_url, sepa_url: sepa_url, sepa_invoices_url: sepa_invoices_url, triggered_by: triggered_by).deliver
     end
+  end
+
+  private
+  def dl_url_for_file(file)
+    url_helpers = Rails.application.routes.url_helpers
+
+    url = nil
+
+    if file.nil? 
+      Rails.logger.warning("Download URL file is nil")
+      return nil
+    end
+
+    url = url_helpers.dl_url(year: file.archive_folder, filename: file.orig_filename) unless file.nil?
+
+    url
   end
 end

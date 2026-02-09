@@ -14,7 +14,7 @@ class OrchestraInvoicesJob < BaseInvoicesJob
   # sidekiq_options retry: false
 
   def perform(year = Time.zone.now.year, user_id = nil)
-    init_fields(year, user_id)
+    init_fields(user_id)
     letters = []
 
     @orchestras = Orchestra.notinvoiced(year)

@@ -9,7 +9,7 @@
       %li.nav-item= link_to t("report_sheet.analysis"), analysis_report_sheets_path, :class => tabActiveClass(@current_action,'analysis')
     -if @orchestra
       = nav_to_new ReportSheet, new_orchestra_report_sheet_path(params[:orchestra_id])
-      - if not @report_sheet.nil?
+      - if @report_sheet.present? and @report_sheet.id.present?
         = nav_to_show @report_sheet, orchestra_report_sheet_path(params[:orchestra_id],@report_sheet)
         = nav_to_edit @report_sheet, edit_orchestra_report_sheet_path(params[:orchestra_id],@report_sheet)
 

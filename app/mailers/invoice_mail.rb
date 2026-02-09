@@ -1,11 +1,11 @@
 class InvoiceMail < ApplicationMailer
   def notify(recipient, invoice_hash, _attachment_hash, params)
-    year = params[:year]
+    @year = params[:year]
     mglnr = params[:mglnr]
 
     invoice_file = MailingFile.from_hash(invoice_hash)
 
-    subject = "BDZ-Beitragsrechnung #{year} Mglnr. #{mglnr}"
+    subject = "BDZ-Beitragsrechnung #{@year} Mglnr. #{mglnr}"
 
     INVOICE_CONFIG.archive_dir
 
