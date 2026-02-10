@@ -28,6 +28,7 @@ class HonorMembersController < AuthenticatedController
   # GET /honor_members/new.json
   def new
     @honor_member = HonorMember.new
+    authorize @honor_member
 
     respond_to do |format|
       format.html # new.html.erb
@@ -43,6 +44,7 @@ class HonorMembersController < AuthenticatedController
   # POST /honor_members.json
   def create
     @honor_member = HonorMember.new(honor_member_params)
+    authorize @honor_member
 
     respond_to do |format|
       if @honor_member.save
@@ -58,8 +60,6 @@ class HonorMembersController < AuthenticatedController
   # PUT /honor_members/1
   # PUT /honor_members/1.json
   def update
-    @honor_member = policy_scope(HonorMember).find(params[:id])
-
     respond_to do |format|
       if @honor_member.update(honor_member_params)
         format.html { redirect_to @honor_member, notice: "Honor member was successfully updated." }

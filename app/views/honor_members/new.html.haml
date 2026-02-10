@@ -1,7 +1,5 @@
 .secondary-navigation
   =render :partial=>'nav'
 .container
-  %h2
-    =t("common.new")
-    =t("honor_member",:count=>1)
+  %h2=t(".title")
   = render 'form'

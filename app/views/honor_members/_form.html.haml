@@ -8,6 +8,5 @@
   .row
     .control-label.col-sm-2=label(:honor_member, :deceased)
     .col-sm-10=f.check_box :deceased, { inline: true, hide_label: true, label: ""  }
-  .actions
-    = submit_button
-    = cancel_button
+  = f.submit
+  = cancel_button

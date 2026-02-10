@@ -9,6 +9,17 @@ de:
     honorType: Ehrungstyp
     honorDate: Ehrungs-Datum
     deceased: Verstorben
+  honor_members:
+    edit:
+      title: "Ehrung bearbeiten"
+    new:
+      title: "Ehrung anlegen"
+  
+  activerecord:
+    models:
+      honor_member:
+        one: "Ehrung"
+        other: "Ehrungen"
   helpers:
     label:
       honor_member:
