@@ -2,8 +2,7 @@ class Contact < ApplicationRecord
   include CountryHelper
 
   def self.nested_attributes
-    %i[id company first_name last_name street zip city country_code salutation phone fax
-       office_phone email]
+    %i[id company first_name last_name street zip city country_code salutation phone fax office_phone email title department]
   end
 
   belongs_to :contact_entity, polymorphic: true
