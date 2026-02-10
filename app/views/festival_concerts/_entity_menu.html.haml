@@ -2,7 +2,7 @@
   %button_to.btn.btn-outline-secondary.dropdown-toggle{:href=>"#", :role=>"button" ,:data=> { :bs=> { :toggle=>"dropdown" }}, :aria => { :expanded => "false"}}
     =t("festival_concert", count:3)
   %ul.dropdown-menu
-    - if @festival_concert
+    - if @festival_concert.present? and @festival_concert.id.present?
       %li=link_to t("festival_concert.programme"), programme_festival_concert_path(@festival_concert), class: "dropdown-item"
       %li
         %hr.dropdown-divider

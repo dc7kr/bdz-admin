@@ -1,7 +1,7 @@
 %ul.nav.nav-tabs
   %li.nav-item= link_to_up_path t("common.up"), home_landing_page_path
   = nav_to_list FestivalConcert 
-  -if (@festival_concert and not @festival_concert.id.nil?)
+  - if @festival_concert.present? and @festival_concert.id.present?
     = nav_to_show @festival_concert 
     = nav_to_edit @festival_concert 
   = nav_to_new FestivalConcert
