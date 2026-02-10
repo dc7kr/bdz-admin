@@ -266,7 +266,7 @@ class Member < ApplicationRecord
   def create_dd_booking(sepa_writer, invoice, year, delta_amount = nil)
     customer = member_entity.to_customer
 
-    booking_txt = "Rechnung Nr. #{invoice.number} #{mglnr}"
+    booking_txt = "Rechnung Nr. #{invoice.full_number} #{mglnr}"
 
     if delta_amount.nil?
       amount = invoice.sum
