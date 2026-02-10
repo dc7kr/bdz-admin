@@ -192,7 +192,8 @@ class Orchestra < ApplicationRecord
     invoice.template_subdir = "bdz"
     invoice.template = "beitragsrechnung"
 
-    invoice.number = "#{member.mglnr}-BEITRAG#{year}"
+    invoice.number_suffix = "#{member.mglnr}-BEITRAG#{year}"
+    invoice.number_format = "%d-%s"
 
     # this ensures that the invoice number is unique (generates -XX suffix)
     invoice.make_distinct
@@ -200,7 +201,10 @@ class Orchestra < ApplicationRecord
     # taxfree
     invoice.tax_mode = "E"
 
-    invoice.customer = to_customer
+    cust = to_customer
+    
+    invoice.customer = cust
+
 
     c_hash = INVOICE_CONTACT_HASH["gs"]
     contact = CorikaInvoices::Contact.new(c_hash)
@@ -269,7 +273,7 @@ class Orchestra < ApplicationRecord
   end
 
   def letter_country(delivery = nil)
-    if !delivery.nil? && !delivery_contact.nil?
+    if !delivery.nil? && delivery_contact.present?
       delivery_contact.letter_country
     else
       member.letter_country
@@ -277,7 +281,7 @@ class Orchestra < ApplicationRecord
   end
 
   def countryCode(delivery = nil)
-    if !delivery.nil? && !delivery_contact.nil?
+    if !delivery.nil? && delivery_contact.present?
       delivery_contact.country_code
     else
       member.countryCode
@@ -383,8 +387,8 @@ class Orchestra < ApplicationRecord
   def to_addressee
     addressee = member.to_addressee
 
-    addressee.company      = orchName
     addressee.name         = fullname
+    addressee.company      = orchName
     addressee.entity       = self
     addressee.event_class = event_class
 
@@ -397,6 +401,13 @@ class Orchestra < ApplicationRecord
 
     cust.company = orchName
     cust.account_owner = orchName
+
+    orch_inv_contact = invoice_contact 
+
+    if orch_inv_contact.present?
+      hash = orch_inv_contact.to_hash
+      cust.overwrite_with(hash)
+   end
 
     cust
   end
@@ -553,8 +564,16 @@ class Orchestra < ApplicationRecord
     }
   end
 
+  def find_contact(role: )
+    orchestra_contacts.find_by(role: role)
+  end
+
+  def invoice_contact
+    find_contact(role: "R")
+  end
+
   def delivery_contact
-    orchestra_contacts.where("role='Z'").first
+    find_contact(role: "Z")
   end
 
   def age(year = Time.now.year)
