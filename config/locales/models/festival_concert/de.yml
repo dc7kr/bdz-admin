@@ -10,6 +10,11 @@ de:
     outdoor: "Open-Air Veranstaltung"
     programme: "Konzertprogramm"
     overview: "GEMA-Übersicht"
+  festival_concerts:
+    edit:
+      title: "Konzert bearbeiten"
+    new: 
+      title: "Konzert anlegen"
 
   helpers:
     label:

@@ -1,9 +1,7 @@
 .secondary-navigation
   = render :partial =>'nav'
 .container
-  %h2.title
-    = t("common.new")
-    = t("festival_concert",:count=>1)
+  %h2.title=t(".title")
 
   = render 'form'
 
