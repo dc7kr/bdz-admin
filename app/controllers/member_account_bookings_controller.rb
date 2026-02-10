@@ -43,6 +43,8 @@ class MemberAccountBookingsController < AuthenticatedController
   # GET /bookings/1
   # GET /bookings/1.json
   def show
+    @member_entity = @booking.member.member_entity
+    @member_type = @member_entity.class.name.singularize.underscore.to_sym
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @booking }
