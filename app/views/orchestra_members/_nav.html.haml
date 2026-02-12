@@ -10,3 +10,5 @@
     = nav_to_edit @orchestra_member, edit_orchestra_orchestra_member_path(@orchestra_member.orchestra,@orchestra_member)
   - if @orchestra.present?
     = nav_to_new Orchestra, new_orchestra_orchestra_member_path(@orchestra)
+
+- content_for :entity_menu, render(:partial => 'orchestras/entity_menu', locals: { entity: @orchestra })
