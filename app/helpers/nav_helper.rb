@@ -1,13 +1,16 @@
 module NavHelper
   def nav_to_edit(entity, path = nil)
-    return if entity.nil? 
+    return if not entity.present? or not entity.id.present?
 
     if entity.is_a?(Array)
       namespace = entity[0]
       entity = entity[1]
-      path = "edit_#{namespace}_#{entity.class.name.singularize.underscore}_path" if path.nil?
+      # resolve by reflection
+      path = send("edit_#{namespace}_#{entity.class.name.singularize.underscore}_path",entity) if path.nil?
+    else
+      path = send("edit_#{entity.class.name.singularize.underscore}_path",entity.id) if path.nil?
     end
-
+      
     return if entity.nil? or entity.id.nil?
 
     return unless policy(entity).update?
@@ -39,7 +42,7 @@ module NavHelper
 
   def nav_to_show(entity, path = nil)
     
-    return if entity.nil? 
+    return if not entity.present? or not entity.id.present?
 
     if entity.is_a?(Array)
       namespace = entity[0]
