@@ -16,6 +16,8 @@ de:
     check_double: "Doppel-Mitgliedschaft prüfen"
 
   orchestra_members:
+    index:
+      title: "Alle Orchestermitglieder"
     new:
       title: "Neues Orchestermitglied"
     edit:
@@ -23,10 +25,6 @@ de:
     show:
       title: "Orchestermitglied anzeigen"
 
-
-  activerecord:
-    attributes:
-      orchestra_member:
   helpers:
     label:
       orchestra_member:
