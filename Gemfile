@@ -162,7 +162,7 @@ gem "acts_as_paranoid"
 # Google libphonenumber
 gem "telephone_number"
 
-gem "corika_invoices",  git: 'https://github.com/dc7kr/invoices-gem', ref: "f04b2daeff1cd4851b4c6fa0a2b5ce7f4480a800", tag: "2.3"
+gem "corika_invoices",  git: 'https://github.com/dc7kr/invoices-gem', ref: "d0c19658f4795d83e41d68bf20c9e307c57fa05e", tag: "2.4"
 # for developing the gem in parallel:
 #gem "corika_invoices", path: "/srv/src/invoices-gem"
 
