@@ -1,11 +1,14 @@
 class Prices
   # fees
-  def self.mgebuehr1
-    BDZ_SETTINGS["fees"]["mgebuehr1"]
-  end
-
-  def self.mgebuehr2
-    BDZ_SETTINGS["fees"]["mgebuehr2"]
+  def self.reminder_fee(level)
+    case level
+    when 1
+      BDZ_SETTINGS["fees"]["mgebuehr1"]
+    when 2
+      BDZ_SETTINGS["fees"]["mgebuehr2"]
+    else
+      0
+    end
   end
 
   def self.delayFee

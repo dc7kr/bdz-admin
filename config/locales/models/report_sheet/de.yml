@@ -26,6 +26,8 @@ de:
     adult_col: "28-64"
     senior_col: "65+"
     delay_fee: "Säumniszuschlag"
+    reminder_level: "Mahnstufe"
+    reminder_fee: "Mahngebühr Stufe %{level}"
     final: "Eingereichte Meldebögen"
     analysis: "Auffällige Meldebögen"
     no_update_needed: "Meldebogen ist aktuell"

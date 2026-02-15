@@ -390,7 +390,7 @@ class ReportSheetsController < AuthenticatedController
       :child_ens, :youth_ens, :adult_ens, :senior_ens, :chamber_ens,
       :other_ens, :token, :azubi_child, :azubi_teens, :azubi_youth,
       :azubi_adult, :azubi_senior, :supporters, :zo, :zi_o, :go, :oz,
-      :report_date, :report_date_str, :comment, :ms_total
+      :report_date, :report_date_str, :comment, :ms_total, :reminder_level
     )
   end
   
