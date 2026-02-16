@@ -6,7 +6,7 @@ eine neue Ehrungsrechnung für Mitgliedsnummer <%= @mglnr %> wurde erstellt.
 
 <%- if @direct_debit then %>
 Die zugehörige SEPA-Datei ist unter <br/>
-<a href="<%= @sepafile_url %>"><%= @sepafile_url %></a><br/>
+<a href="<%= @sepa_dl_url %>"><%= @sepa_dl_url %></a><br/>
 verfuegbar.
 <%- else %>
 <br/>

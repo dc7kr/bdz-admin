@@ -41,11 +41,7 @@ class GenerateDistinctionInvoiceJob < BaseInvoicesJob
   def send_mail(triggered_by, invoice, sepa)
     invoice.pdf_filename
 
-    base_url = cron_downloads_url
-
-    "#{base_url}?year=#{invoice.invoice_date.year}&filename=#{sepa.orig_filename}" unless sepa.nil?
-
-    AdminNotifier.new_distinction_notification(triggered_by, invoice, sepa).deliver
+    AdminNotifier.new_distinction_notification(triggered_by, invoice).deliver
   end
 
 

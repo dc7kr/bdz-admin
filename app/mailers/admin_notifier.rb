@@ -22,18 +22,18 @@ class AdminNotifier < ApplicationMailer
     @resigned_persons = resigned_persons
     @resigned_orchestras = resigned_orchestras
 
-    mail(to: user.email, subject: "[BDZDB] Automatische Austritte")
+    mail(to: user.email, subject: "[BDZDB] Automatische Austritte", from: system_from)
   end
 
   def invalid_member_notification(user, orch_invalid, em_invalid)
     @recipient = user
     @em_invalid = em_invalid
     @orch_invalid = orch_invalid
-    mail(to: user.email, subject: "[BDZDB] Ungültige Mitgliedsdaten")
+    mail(to: user.email, subject: "[BDZDB] Ungültige Mitgliedsdaten", from: system_from)
   end
 
   def em_tariff_fix_notification(user, changes)
-    @changes = changes 
+    @changes = changes
     @recipient = user
     mail(to: user.email, subject: "[BDZDB] EM Tarifanpassung")
   end
@@ -97,7 +97,7 @@ class AdminNotifier < ApplicationMailer
     @recipient = recipient
     @results = results
     @letter_url = letters_url
-    
+
     set_triggered_by(triggered_by)
 
     mail(to: recipient.email, subject: "Rundschreiben wurde erstellt")
@@ -123,24 +123,41 @@ class AdminNotifier < ApplicationMailer
     current_user_addr = email_address_with_name(current_user.email, current_user.name)
 
     adm = contact_email("admin")
-    from = contact_email("system")
+    from = system_from
 
     mail(to: current_user_addr, subject: "[BDZDB] Test Notification", from:  from, bcc: adm)
   end
 
-  def new_distinction_notification(triggered_by, invoice, sepa_file)
-    @sepafile_url = sepa_file
-
+  def new_distinction_notification(triggered_by, invoice)
     @direct_debit = invoice.customer.direct_debit?
 
     @invoice_number = invoice.full_number
     @mglnr = invoice.customer.customer_id
 
-    user = contact_email("treasurer")
-    cc = contact_email("admin")
+    sepa_file = invoice.gen_sepa_file
+    invoice_file = invoice.gen_pdf
 
-    mail(to: user, cc: cc, subject: "Neue Ehrungsrechnung Nr. #{@invoice_number}")
-    mail(to: triggered_by, subject: "Neue Ehrungsrechnung Nr. #{@invoice_number}")
+    @sepa_dl_url = get_download_url(sepa_file)
+
+    treasurer_to = contact_email_with_name("treasurer")
+    admin_cc = contact_email("admin")
+    user_to = triggered_by.email
+
+    unless sepa_file.nil?
+      attachment_data = File.new(sepa_file.full_path).read
+      attachments[sepa_file.orig_filename] = attachment_data
+    end
+
+    invoice_data = File.new(invoice_file.full_path).read
+    attachments[invoice_file.orig_filename] = invoice_data
+
+    Rails.logger.info("Sending notify to #{treasurer_to} cc: #{admin_cc}")
+    @name = contact_name("treasurer")
+    mail(to: treasurer_to, cc: admin_cc, subject: "Neue Ehrungsrechnung Nr. #{@invoice_number}", from: system_from).deliver
+
+    @name =  triggered_by.name
+    Rails.logger.info("Sending notify to #{user_to}")
+    mail(to: user_to, subject: "Neue Ehrungsrechnung Nr. #{@invoice_number}", from: system_from).deliver
   end
 
   def generic_pdf_notification
@@ -151,16 +168,9 @@ class AdminNotifier < ApplicationMailer
 
     attachments[p_attachment.orig_filename] = File.read(p_attachment.full_path)
 
-    mail(to: recipient, subject: "PDF Erzeugung abgeschlossen: #{topic}")
+    mail(to: recipient, subject: "PDF Erzeugung abgeschlossen: #{topic}", from: system_from)
   end
 
   private
 
-  def set_triggered_by(current_user)
-    @triggered_by = if current_user.nil?
-                      "(System)"
-    else
-                      "#{current_user.name} (@#{current_user.username})"
-    end
-  end
 end
