@@ -23,14 +23,14 @@ class Distinction < ApplicationRecord
     invoice.number = invoiceNumber
 
     # Brutto Rechnung
-    invoice.tax_mode = "E"
+    invoice.tax_mode = "S"
 
-    invoice.consider_item(certificates, Prices.certificate, "Urkunden")
-    invoice.consider_item(silver_needles, Prices.silverNeedle, "Silbernadel")
-    invoice.consider_item(gold_needles, Prices.goldenNeedle, "Goldnadel")
-    invoice.consider_item(honorletters, Prices.honorLetter, "Ehrenbrief mit Urkundenmappe")
-    invoice.consider_item(medals, Prices.medal, "BDZ-Verdienstmedaille")
-    invoice.consider_item(national_needles, Prices.nationalNeedle, "BDZ-Bundesnadel")
+    invoice.consider_item_gross(certificates, Prices.certificate, "Urkunden")
+    invoice.consider_item_gross(silver_needles, Prices.silverNeedle, "Silbernadel")
+    invoice.consider_item_gross(gold_needles, Prices.goldenNeedle, "Goldnadel")
+    invoice.consider_item_gross(honorletters, Prices.honorLetter, "Ehrenbrief mit Urkundenmappe")
+    invoice.consider_item_gross(medals, Prices.medal, "BDZ-Verdienstmedaille")
+    invoice.consider_item_gross(national_needles, Prices.nationalNeedle, "BDZ-Bundesnadel")
 
     portoPrice = if porto.nil?
                    Prices.distinctionPorto
