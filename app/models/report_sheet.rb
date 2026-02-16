@@ -227,7 +227,7 @@ class ReportSheet < ApplicationRecord
     if report_date.nil?
       false
     else
-      report_date >= Date.new(year, 3, 1)
+      report_date >= Date.new(year, 2, 5)
     end
   end
 
@@ -271,7 +271,7 @@ class ReportSheet < ApplicationRecord
       if isMinTariff?
         invoice.add_item(1, Prices.minTariff, I18n.t("report_sheet.min_tariff"))
       elsif isMaxTariff?
-        invoice.add_item(1, Prices.maxTariff, I18n.t("report_sheet.max_tariff"))
+        i = invoice.add_item(1, Prices.maxTariff, I18n.t("report_sheet.max_tariff"))
       end
     end
 
@@ -281,6 +281,8 @@ class ReportSheet < ApplicationRecord
     invoice.add_item(1, booking.amount, I18n.t("report_sheet.already_payed_amount")) if booking.present?
     
     invoice.add_item(1, Prices.delayFee, I18n.t("report_sheet.delay_fee")) if delayed?
+
+    invoice.add_item(1, Prices.reminder_fee(reminder_level), I18n.t("report_sheet.reminder_fee", level: reminder_level)) if reminder_level > 0
 
     invoice
   end
