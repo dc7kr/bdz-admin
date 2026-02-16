@@ -1,24 +1,23 @@
--if readable?(orchestra_member) 
-  %tr{:class => cycle("odd", "even")}
-    %td= orchestra_member.first_name
-    %td= orchestra_member.last_name
-    - if ( orchestra_member.is_dummy_birthday? or not orchestra_member.is_birthday_valid?) then
-      %td.invalid
-        = format_date orchestra_member.date_of_birth
-    - else 
-      %td= format_date orchestra_member.date_of_birth
-    - if @orchestra.is_lorch?
-      - other_orch = Orchestra.for_mglnr(orchestra_member.mglnr)
-      - if not other_orch.nil? 
-        %td= link_to orchestra_member.mglnr.to_s, orchestra_orchestra_members_path(other_orch)
-      - else
-        -if orchestra_member.mglnr.nil? or orchestra_member.mglnr == 0 then
-          %td
-        -else
-          %td.faulty=orchestra_member.mglnr.to_s  
-    %td= orchestra_member.instrument
-    %td
-      = link_to_show orchestra_member
-      = link_to_edit orchestra_member, edit_orchestra_member_path(orchestra_member)
-      = link_to_delete orchestra_member, orchestra_member_path(orchestra_member)
-      = link_to_exchange exchange_orchestra_member_path(orchestra_member), t('common.exchange') , orchestra_member
+%tr{:class => cycle("odd", "even")}
+  %td= orchestra_member.first_name
+  %td= orchestra_member.last_name
+  - if ( orchestra_member.is_dummy_birthday? or not orchestra_member.is_birthday_valid?) then
+    %td.invalid
+      = format_date orchestra_member.date_of_birth
+  - else 
+    %td= format_date orchestra_member.date_of_birth
+  - if @orchestra.is_lorch?
+    - other_orch = Orchestra.for_mglnr(orchestra_member.mglnr)
+    - if not other_orch.nil? 
+      %td= link_to orchestra_member.mglnr.to_s, orchestra_orchestra_members_path(other_orch)
+    - else
+      -if orchestra_member.mglnr.nil? or orchestra_member.mglnr == 0 then
+        %td
+      -else
+        %td.faulty=orchestra_member.mglnr.to_s  
+  %td= orchestra_member.instrument
+  %td
+    = link_to_show orchestra_member
+    = link_to_edit orchestra_member, edit_orchestra_member_path(orchestra_member)
+    = link_to_delete orchestra_member, orchestra_member_path(orchestra_member)
+    = link_to_exchange exchange_orchestra_member_path(orchestra_member), t('common.exchange') , orchestra_member
