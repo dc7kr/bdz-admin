@@ -9,7 +9,7 @@ class GenerateDistinctionInvoiceJob < BaseInvoicesJob
     orchestra = distinction.orchestra
     year = Time.zone.now.year
 
-    init_fields(year, user_id)
+    init_fields(user_id)
 
     invoice = distinction.gen_invoice
     invoice.save
