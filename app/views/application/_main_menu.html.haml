@@ -6,21 +6,22 @@
         %span.navbar-toggler-icon
 
       #mainMenuNavbarContent.collapse.navbar-collapse
-        %ul.navbar-nav.navbar-left
-          %li
-            %a.nav-link{:href=>"/"}= my_fa_icon(:home)
-          - if current_user and current_user.member_data_permission? then
-            =render :partial => "member_data_dropdown"
-          - if current_user and current_user.reference_data_permission? then
-            =render :partial => "reference_data_dropdown"
-          - if current_user and current_user.magazine_permission? then
-            =render :partial => "magazine_dropdown"
-          - if current_user and current_user.festival_permission? then
-            =render :partial => "festival_data_dropdown"
-          -if current_user and current_user.has_role?(:regional) then
-            %li.nav-item.dropdown{ :class => tabActiveClass(current_area,'regional','last')}= link_to "#{t("main_menu.regional")}", RegionalOrganization.with_role(:regional, current_user).first
+        - if not devise_controller?
+          %ul.navbar-nav.navbar-left
+            %li
+              %a.nav-link{:href=>"/"}= my_fa_icon(:home)
+            - if current_user and current_user.member_data_permission? then
+              =render :partial => "member_data_dropdown"
+            - if current_user and current_user.reference_data_permission? then
+              =render :partial => "reference_data_dropdown"
+            - if current_user and current_user.magazine_permission? then
+              =render :partial => "magazine_dropdown"
+            - if current_user and current_user.festival_permission? then
+              =render :partial => "festival_data_dropdown"
+            -if current_user and current_user.has_role?(:regional) then
+              %li.nav-item.dropdown{ :class => tabActiveClass(current_area,'regional','last')}= link_to "#{t("main_menu.regional")}", RegionalOrganization.with_role(:regional, current_user).first
 
-          = yield :entity_menu
+            = yield :entity_menu
 
         - if current_user then
           .ms-auto
@@ -34,6 +35,6 @@
           -if current_user
             = render :partial => "user_dropdown"
             %li.nav-item
-              %a.nav-link.btn.btn-outline-dark.btn-sm{:href=>'#offcanvasSidebar',:aria=>{:controls=>"offcanvasSidebar" },:data=>{ :bs => { :toggle=>"offcanvas"}},:role=>"button"} 
+              %a.nav-link.btn.btn-outline-dark.btn-sm{:href=>'#offcanvasSidebar',:aria=>{:controls=>"offcanvasSidebar" },:data=>{ :bs => { :toggle=>"offcanvas"}},:role=>"button"}
                 =my_fa_icon("bars")
 
