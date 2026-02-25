@@ -1,0 +1,3 @@
+= turbo_stream.update(:main, render( partial: "login", locals: { mglnr: mglnr, token: token, notice: notice }))
+= turbo_stream.update(:flash_messages, render( partial: "flash_messages", locals: { flash: flash }))
+
