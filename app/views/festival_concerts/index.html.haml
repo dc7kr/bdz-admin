@@ -1,10 +1,8 @@
 .secondary-navigation
   =render :partial=>'nav'
 .container
-  %h2.title
-    = t("common.all")
-    = t("festival_concert",:count=>3)
-  %table.table-sm.table-hover.table-condensed
+  %h2.title=t(".title")
+  %table.table.table-sm.table-hover.table-condensed
     %tr
       %th=t("common.number")
       %th=attr_heading(FestivalConcert, :title)
