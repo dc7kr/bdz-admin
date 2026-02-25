@@ -8,6 +8,8 @@ class FestivalApplication < ApplicationRecord
   has_one :event_meal, foreign_key: "participant_id"
   has_one :contact_person
 
+  has_one_attached :stage_plan
+
   accepts_nested_attributes_for :festival_pieces, allow_destroy: true
 
   validates :conductor, :num_players, :orch_name, presence: true
@@ -77,10 +79,8 @@ class FestivalApplication < ApplicationRecord
     inv.template_subdir = "ef"
 
     c_hash = INVOICE_CONTACT_HASH["festival_gs"]
-    p c_hash
 
     contact = CorikaInvoices::Contact.new(c_hash)
-    p contact.iban
     inv.contact = contact
 
     if INVOICE_CONFIG.default_tax_mode == "E"
