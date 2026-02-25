@@ -8,7 +8,9 @@
   = entity_row @booking, :booking_txt
   = entity_row @booking, :amount, :currency
   = entity_row @booking, :filename
-  = entity_row @booking, :invoice_id
+  - if @booking.invoice_id.present?  and @booking.invoice.generator_session_id.present?
+    = entity_row @booking, :invoice_id
+    = entity_row @booking.invoice, :generator_session_id
 
   .row 
     .col-md-3.text-end.fw-bold=t("invoice", count: 1)
