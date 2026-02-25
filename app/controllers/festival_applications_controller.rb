@@ -416,7 +416,8 @@ class FestivalApplicationsController < AuthenticatedController
       :rehearsal_time,
       :payment_status,
       :comment,
-      :stage_plan
+      :stage_plan,
+      :player_list
     )
   end
 

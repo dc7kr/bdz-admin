@@ -12,7 +12,7 @@
   .container-fluid.mt-3
     .card.mb-2
       .card-header#headingOne
-        %h4=t("festival_applications.general_panel_title")
+        %h4=t("festival_applications.general_panel.title")
 
       .card-body
         =custom_entity_row(t("festival_application.group_type"), display_group_type(@festival_application.group_type))
@@ -47,6 +47,7 @@
           =entity_row(@festival_application,:rehearsal_time)
           =entity_row(@festival_application,:num_players)
           =entity_row(@festival_application,:stage_plan, :active_storage)
+          =entity_row(@festival_application,:player_list, :active_storage)
           =entity_row(@festival_application,:equipment)
           =entity_row(@festival_application,:special_cast)
           =entity_row(@festival_application,:soloist_tickets)

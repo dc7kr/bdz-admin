@@ -190,6 +190,7 @@ module Ef
         :tickets_red,
         :soloist_tickets,
         :stage_plan,
+        :player_list,
         contact_person: ContactPerson.nested_params
       )
     end

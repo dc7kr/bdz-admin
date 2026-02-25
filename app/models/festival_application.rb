@@ -9,6 +9,7 @@ class FestivalApplication < ApplicationRecord
   has_one :contact_person
 
   has_one_attached :stage_plan
+  has_one_attached :player_list
 
   accepts_nested_attributes_for :festival_pieces, allow_destroy: true
 
