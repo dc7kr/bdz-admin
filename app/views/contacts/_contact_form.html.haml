@@ -1,5 +1,5 @@
-.card
-  .card-header#nameData
+.card.mb-2#name_data
+  .card-header
     Name
   .card-body
     = f.text_field :company
@@ -8,8 +8,8 @@
     = f.text_field :title
     = f.text_field :first_name
     = f.text_field :last_name
-.card
-  .card-header#addressData
+.card.mb-2#address_data
+  .card-header
     Adresse
   .card-body
     = f.text_field :street
@@ -18,8 +18,8 @@
     .row
       .col-md-2=f.label :country_code
       .col-md-10=f.country_select(:country_code, { iso_codes:true }, { class:  "form-select"})
-.card
-  .card-header#addressData
+.card#contact_data
+  .card-header
     Telefon und E-Mail
   .card-body
     = f.text_field :phone
