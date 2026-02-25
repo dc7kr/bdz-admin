@@ -110,7 +110,7 @@ module Ef
 
       cancel = params[:cancel].present?
 
-      if cancel 
+      if cancel
         respond_to do |format|
           format.turbo_stream {
             redirect_to ef_festival_application(@festival_application),
@@ -159,7 +159,7 @@ module Ef
 
     def update_tickets
       @festival_application = FestivalApplication.find_by token: params[:token]
-      
+
       fa_params = festival_application_params
       respond_to do |format|
         if @festival_application.update(fa_params)
@@ -189,6 +189,7 @@ module Ef
         :tickets,
         :tickets_red,
         :soloist_tickets,
+        :stage_plan,
         contact_person: ContactPerson.nested_params
       )
     end

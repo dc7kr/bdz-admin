@@ -25,17 +25,18 @@
         = f.text_field :orch_name
         = f.text_field :conductor
         = f.number_field :num_players
+        = f.file_field :stage_plan
       #contact-tab-pane.tab-pane.fade{ role: "tabpanel", 'aria-labelledby': "contact-tab", 'tabindex': 0 }
         =  f.fields_for(@festival_application.contact_person)  do |person_f|
           =person_f.select :salutation, get_salutation_options( @festival_application.contact_person.salutation)
-          =person_f.text_field :first_name 
+          =person_f.text_field :first_name
           =person_f.text_field :last_name
           =person_f.text_field :street
           =person_f.text_field :zip
           =person_f.text_field :city
           .row.mb-3
             .col-md-3=person_f.label :country_code, { class: "control-label col-md-3" }
-            .col-md-9=person_f.country_select( :country_code ,{ iso_codes:true}, {class: "form-control"}) 
+            .col-md-9=person_f.country_select( :country_code ,{ iso_codes:true}, {class: "form-control"})
           =person_f.text_field :phone
           =person_f.text_field :email
       #additional-tab-pane.tab-pane.fade{ role: "tabpanel", 'aria-labelledby': "additional-tab", 'tabindex': 0 }
@@ -52,4 +53,4 @@
     - else
       = f.submit t("common.update")
 
-     
+

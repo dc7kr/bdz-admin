@@ -2,7 +2,8 @@
   %li.nav-item= link_to_up_path t("common.up"), home_landing_page_path
   =nav_to_list FestivalApplication 
   %li.nav-item= link_to t("festival_applications.permitted.nav"), permitted_festival_applications_path, :class =>    tabActiveClass(@current_action,'permitted',"nav-link")
-  %li.nav-item= link_to t("festival_applications.no_tickets.nav"), no_tickets_festival_applications_path, :class =>    tabActiveClass(@current_action,'no_tickets',"nav-link")
+  - if policy(FestivalApplication).no_tickets?
+    %li.nav-item= link_to t("festival_applications.no_tickets.nav"), no_tickets_festival_applications_path, :class =>    tabActiveClass(@current_action,'no_tickets',"nav-link")
   %li.nav-item 
     - if policy(FestivalApplication).accounting_permission? 
       = link_to t("festival_applications.open_issues.nav"), open_issues_festival_applications_path, :class => tabActiveClass(@current_action,'open_issues',"nav-link")

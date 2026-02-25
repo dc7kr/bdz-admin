@@ -486,6 +486,8 @@ module ApplicationHelper
         else
                  ctry.translations[I18n.locale.to_s]
         end
+      elsif type == :active_storage
+        data = link_to "Link", url_for(@festival_application.stage_plan)
       end
 
       concat(content_tag(:div, label, class: "col-md-3 text-end fw-bold"))

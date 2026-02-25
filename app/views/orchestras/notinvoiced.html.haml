@@ -13,5 +13,6 @@
         %th= sortable "orchName", attr_heading(Orchestra, :orchName), "table-dark"
         %th= attr_heading(Member,:email)
         %th.last &nbsp;
-    =render @orchestras
+    %tbody#orchestras
+      =render @orchestras
 - content_for :sidebar, render(:partial => 'sidebar')
