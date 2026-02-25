@@ -8,6 +8,10 @@ class FestivalExhibitorPolicy < FestivalDataPolicy
     national_permission?
   end
 
+  def gen_invoice?
+    national_permission?
+  end
+
   class Scope < FestivalDataPolicy::Scope
     def resolve
       if national_permission? or user.has_role? :festival
