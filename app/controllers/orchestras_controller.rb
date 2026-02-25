@@ -58,9 +58,9 @@ class OrchestrasController < AuthenticatedController
     @orchestras = policy_scope(Orchestra).notinvoiced(year).search(params[:search]).order("#{sort_column} #{sort_direction}").page(params[:page]).per(20)
 
     respond_to do |format|
-      format.js
       format.html
-      format.turbo_stream { render partial: "list" }
+      format.turbo_stream { render partial: "list", locals: { resources: @orchestras }  }
+      format.csv { render csv: @members, style: :minimal, filename: "nopayment_#{Time.zone.now.year}" }
       format.json do
         render json: @orchestras.to_json(
           { member: { include: :member } }
