@@ -11,6 +11,8 @@ de:
     programme: "Konzertprogramm"
     overview: "GEMA-Übersicht"
   festival_concerts:
+    index:
+      title: "Alle Festival-Konzerte"
     edit:
       title: "Konzert bearbeiten"
     new: 

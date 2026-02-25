@@ -273,12 +273,14 @@ de:
       second: Sekunden
       year: Jahr
   errors:
-    report_sheet: 
+    report_sheet:
       at_least_one: "Es muss mindestens ein aktives Mitglied gemeldet werden."
     iban:
       required: "IBAN muss eingegeben werden"
       iban_cc_missing: "Ungültige IBAN: kein Ländercode"
       invalid_format: "Ungültiges IBAN-Format"
+      invalid_length: "Ungültige Länge - erwarte %{expected} Zeichen"
+      invalid_value: "Ungültige IBAN - Prüfsummenfehler"
       required_for_dd: "IBAN ist für Zahlungsart Lastschrift erforderlich!"
     bic:
       invalid: "BIC ist ungültig"
@@ -564,7 +566,7 @@ de:
       next: "Nächste &rsaquo;"
       truncate: "&hellip;"
   helpers:
-    form_title: 
+    form_title:
         create: ! '%{model} anlegen'
         edit: ! '%{model} bearbeiten'
     select:

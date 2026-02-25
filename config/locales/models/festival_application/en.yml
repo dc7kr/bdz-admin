@@ -20,6 +20,7 @@ en:
     conductor: Conductor
     tickets_not_yet_ordered: "Tickets not yet ordered"
     num_players: "Number of players"
+    stage_plan: "Stage plan"
     equipment: "Required equipment"
     special_cast: "Special cast"
     contact_person: "Contact person"
@@ -45,11 +46,11 @@ en:
       O: Orchestra
       E: Ensemble
       S: "Soloist"
-      D: Duo 
+      D: Duo
       T: Trio
 
   festival_applications:
-    additional_panel: 
+    additional_panel:
       title: "Additional Info"
     permitted:
       title: "Permitted Festival Applications"
@@ -62,11 +63,11 @@ en:
       nav: "Open issues"
     contact_panel:
       title: "Contact Person"
-    general_panel: 
+    general_panel:
       title: "General Information"
-    concert_panel: 
+    concert_panel:
       title: "Concert Data"
-    tickets_panel: 
+    tickets_panel:
       title: "Tickets"
 
   activerecord:
@@ -75,9 +76,9 @@ en:
         one: "Festival application"
         other: "Festival applications"
     attributes:
-      festival_application: 
+      festival_application:
         <<: *festival_app_labels
   helpers:
-    label:  
+    label:
       festival_application:
         <<: *festival_app_labels

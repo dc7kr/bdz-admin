@@ -13,6 +13,9 @@ de:
     other: Kartenbestellungen
     regular: "Regulär:"
     orderdate: Bestelldatum
+    food_part: "Anteil Mahlzeiten"
+    drink_part: "Anteil Getränke"
+    ticket_part: "BDZ eurofestival zupfmusik"
     pickup_success: "Abholung erfolgreich eingetragen"
     reduced: "Ermäßigt:"
     fest: Festivalkarten
@@ -31,15 +34,25 @@ de:
     card_type: "Kartentyp"
     single_price: "Einzelpreis"
     total_price: "Gesamtpreis"
+    checkout_reference: "Checkout-Referenz"
+    checkout_id: "Checkout-ID"
     payment_method: "Zahlungsart"
-    payment_methods: 
+    payment_methods:
       pickup: "Bei Abholung an der Infotheke"
       credit_card: "Kreditkarte"
       direct_debit: "Lastschrift"
 
-  activerecord: 
+  event_cards:
+    edit:
+      title: "Kartenbestellung Nr. %{id} bearbeiten"
+    new:
+      title: "Neue Kartenbestellung"
+
+  activerecord:
     models:
-      event_card: "Kartenbestellung"
+      event_card:
+        one: "Kartenbestellung"
+        other: "Kartenbestellungen"
     errors:
       models:
         event_card:
@@ -56,5 +69,9 @@ de:
         order_form: "Bestellung aufgeben 2"
   ef:
     event_cards:
-      choose_payment: 
+      choose_payment:
         title: "Bitte Zahlungsart auswählen"
+      payment:
+        submit: "Verbindlich bestellen"
+      payment_complete:
+        title: "Zahlung abgeschlossen"

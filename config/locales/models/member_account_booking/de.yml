@@ -22,6 +22,7 @@ de:
     booking_type_R: Rücklastschrift
     booking_type_S: Sollstellung
     booking_type_Z: Zahlungseingang
+    booking_type_M: Mahngebühr
     booking_year: Geschäftsjahr
     booking_date: Buchungsdatum
     booking_text: Buchungstext

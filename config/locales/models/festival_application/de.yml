@@ -56,6 +56,7 @@ de:
     festival_concert_id: "Konzert"
     permission_granted: "zugelassen"
     num_players: "Anzahl Spieler"
+    stage_plan: "Sitzplan"
     equipment: "Benötigte Ausrüstung"
     special_cast: "Spezielle Besetzung"
     workshop_request: "Vorschläge für Workshop-Themen"
@@ -66,7 +67,7 @@ de:
       O: Orchester
       E: Ensemble
       S: Solist
-      D: Duo 
+      D: Duo
       T: Trio
 
   festival_applications:
@@ -76,7 +77,7 @@ de:
       title: "Neue Festival-Bewerbung"
     contact_panel:
       title: "Kontakt-Person"
-    additional_panel: 
+    additional_panel:
       title: "Weitere Angaben"
     permitted:
       title: "Zugelassene Festival-Bewerbungen"
@@ -84,14 +85,14 @@ de:
     no_tickets:
       title: "Festival-Bewerbungen ohne Tickets"
       nav: "Keine Tickets"
-    open_issues: 
+    open_issues:
       title: "Offene Posten"
       nav: "Offene Posten"
-    general_panel: 
+    general_panel:
       title: "Allgemeine Angaben"
-    concert_panel: 
+    concert_panel:
       title: "Konzert-Daten"
-    tickets_panel: 
+    tickets_panel:
       title: "Tickets"
 
   activerecord:
@@ -104,7 +105,7 @@ de:
         <<: *festival_app_labels
   helpers:
     label:
-      festival_application: 
+      festival_application:
         <<: *festival_app_labels
   festival_participant:
     one: "Festival-Teilnehmer"
