@@ -19,7 +19,7 @@
   %body
     - if not current_user.nil?
       = render :partial => "main_menu"
-    #flash-messages
+    #flash_messages
       = render :partial => "flash_messages", locals: { :flash => flash }
 
     .wrapper
@@ -27,6 +27,9 @@
         #main
           = yield
           = turbo_frame_tag :modal
+          = turbo_stream_from :notifications
+          #notifications{ data: { controller: "toast"} }
+            / Notifications will be appended here
           .toast#remote_toast{"aria-atomic" => "true", "aria-live" => "assertive", :role => "alert"}
             .toast-header
               %i.fas.fa-info-circle
@@ -41,13 +44,8 @@
           .offcanvas-header
             %h5.offcanvas-title#sidebarLabel Sidebar
             %button.btn-close.text-reset{ :type=>"button", :data=> { :bs=> { :dismiss=> "offcanvas"}, :aria => {:label => "close"}}}
-          .offcanvas-body 
+          .offcanvas-body
             = yield :sidebar
- 
+
     = render "footer"
-    %script
-      window.onload = (event) => {
-      const toastElList = document.querySelectorAll('.toast')
-      const toastList = [...toastElList].map(toastEl => new bootstrap.Toast(toastEl))
-      console.log(toastElList);
-      };
+
