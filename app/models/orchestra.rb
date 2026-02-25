@@ -1,6 +1,6 @@
 require "valid_email"
 class Orchestra < ApplicationRecord
-  
+
 
   acts_as_paranoid
 
@@ -191,6 +191,7 @@ class Orchestra < ApplicationRecord
     invoice.booking_year = year
     invoice.template_subdir = "bdz"
     invoice.template = "beitragsrechnung"
+    invoice.paid = false
 
     invoice.number_suffix = "#{member.mglnr}-BEITRAG#{year}"
     invoice.number_format = "%d-%s"
@@ -202,7 +203,7 @@ class Orchestra < ApplicationRecord
     invoice.tax_mode = "E"
 
     cust = to_customer
-    
+
     invoice.customer = cust
 
 
@@ -402,7 +403,7 @@ class Orchestra < ApplicationRecord
     cust.company = orchName
     cust.account_owner = orchName
 
-    orch_inv_contact = invoice_contact 
+    orch_inv_contact = invoice_contact
 
     if orch_inv_contact.present?
       hash = orch_inv_contact.to_hash

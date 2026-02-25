@@ -208,6 +208,7 @@ class PersonMember < ApplicationRecord
     invoice.booking_year = year
     invoice.template_subdir = "bdz"
     invoice.template = "beitragsrechnung"
+    invoice.paid = false
 
     # taxfree
     invoice.tax_mode = "E"
