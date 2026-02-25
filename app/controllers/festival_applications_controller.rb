@@ -118,7 +118,7 @@ class FestivalApplicationsController < AuthenticatedController
         @festival_applications = policy_scope(FestivalApplication).where(permission: true, year: params["year"]).order("#{sort_column} #{sort_direction}").page(params[:page]).per(20)
     end
 
-    @festival_applications = @festival_applications.where(permission: true).where("(tickets IS NULL or tickets = 0) and (tickets_red IS NULL or tickets_red =0)" ).order("#{sort_column} #{sort_direction}").page(params[:page]).per(20) 
+    @festival_applications = @festival_applications.where(permission: true).where("(tickets IS NULL or tickets = 0) and (tickets_red IS NULL or tickets_red =0)" ).order("#{sort_column} #{sort_direction}").page(params[:page]).per(20)
 
     respond_to do |format|
       format.js
@@ -133,7 +133,7 @@ class FestivalApplicationsController < AuthenticatedController
   end
 
   def list
-    
+
     @festival_applications = policy_scope(FestivalApplication).current_festival.order(%i[group_type orch_name])
     now = Time.zone.now
     currDate = now.strftime("%d.%m.%Y")
@@ -162,8 +162,8 @@ class FestivalApplicationsController < AuthenticatedController
     @visitor_type =  group_list_params[:visitor_type]
     file_format = group_list_params[:file_format]
 
-    @festival_applications = policy_scope(FestivalApplication).current_festival.where(visitor_type: @visitor_type) 
-        .order(%i[group_type orch_name]) 
+    @festival_applications = policy_scope(FestivalApplication).current_festival.where(visitor_type: @visitor_type)
+        .order(%i[group_type orch_name])
 
     @sums = calc_sums(@year, @visitor_type)
 
@@ -185,7 +185,7 @@ class FestivalApplicationsController < AuthenticatedController
         send_data(pdf.render, filename: "#{base_filename}.pdf", type: "application/octet-stream")
       end
 
-      format.ods do 
+      format.ods do
         Rails.logger.info("ODS")
         sheet = FestivalApplicationsSpreadsheet.new(@festival_applications)
         sheet.render
@@ -194,7 +194,7 @@ class FestivalApplicationsController < AuthenticatedController
 
       format.html do
         Rails.logger.info("HTML")
-        render 
+        render
       end
     end
   end
@@ -244,7 +244,7 @@ class FestivalApplicationsController < AuthenticatedController
   def new
     @festival_application = FestivalApplication.new
     @festival_application.contact_person = ContactPerson.new
-    
+
     authorize @festival_application
 
     respond_to do |format|
@@ -318,7 +318,7 @@ class FestivalApplicationsController < AuthenticatedController
     end
   end
 
-  
+
 
   def participant_overview
     datePrefix = Time.zone.now.strftime("%Y%m%d%H%M%S_")
@@ -415,11 +415,12 @@ class FestivalApplicationsController < AuthenticatedController
       :festival_concert_id,
       :rehearsal_time,
       :payment_status,
-      :comment
+      :comment,
+      :stage_plan
     )
   end
 
-  protected 
+  protected
   def index_actions
     super.append(:permitted, :open_issues, :list, :grp_list, :no_tickets )
 
