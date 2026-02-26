@@ -461,6 +461,12 @@ module ApplicationHelper
       data = nil
       tmp = entity.send(field) unless entity.nil?
 
+      if tmp.nil?
+        return nil
+      end
+
+      Rails.logger.info(tmp)
+
       if type.nil?
         data = tmp
       elsif type == :date
@@ -487,7 +493,11 @@ module ApplicationHelper
                  ctry.translations[I18n.locale.to_s]
         end
       elsif type == :active_storage
-        data = link_to "Link", url_for(@festival_application.stage_plan)
+        if tmp.attached?
+          data = link_to "Link", url_for(tmp)
+        else
+          data = "---"
+        end
       end
 
       concat(content_tag(:div, label, class: "col-md-3 text-end fw-bold"))
@@ -554,7 +564,8 @@ module ApplicationHelper
     I18n.t("common.update_success", entity: t(entity, count: 1))
   end
 
-  def download_exists? filename
+
+ def download_exists? filename
     full_path = File.join(DOCS_CONFIG.archive_dir, filename)
     Rails.logger.debug(full_path)
     return  File.exist?(full_path)
