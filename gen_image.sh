@@ -13,6 +13,6 @@ fi
 
 docker build . --target prod --tag $APP_NAME:$APP_VERSION
 
-IMG_ID=$(docker image ls bdz-admin-app:$APP_VERSION |tail -1 | awk '{print $3}')
+IMG_ID=$(docker image ls $APP_NAME:$APP_VERSION --format json |sed -e 's/^.*ID":"//;s/".*$//')
 
 docker tag $IMG_ID bdz-admin-app:latest
