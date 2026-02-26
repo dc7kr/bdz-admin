@@ -1,9 +1,21 @@
-= render layout: 'layouts/modal', locals: { title: t("invoice.preview") } do 
+= render layout: 'layouts/modal', locals: { title: t("invoice.preview") } do
   %h2=@invoice_hash[:number]
+  .row
+    .col &nbsp;
+    .col
+      =@invoice_hash[:customer][:name]
+      %br
+      =@invoice_hash[:customer][:street]
+      %br
+      =@invoice_hash[:customer][:zip]
+      =@invoice_hash[:customer][:city]
+      %br
+      =@invoice_hash[:customer][:email]
+      %br
+
   .row
     .col=t("invoice.invoice_date")
     .col=@invoice_hash[:date]
-
   .row
     .col=t("invoice.template")
     .col=@invoice_hash[:template]
@@ -18,15 +30,29 @@
         %th Beschreibung
         %th USt
         %th Einzelpreis
-        %th Gesamtpreis
+        %th Gesamt (netto)
+        %th Gesamt (brutto)
     %tbody
       - @invoice_hash[:items].each do |it|
         %tr
-          %td=it[:count]
+          %td=it[:count].to_i
           %td=it[:label]
-          %td #{it[:tax_rate]} %
-          %td.text-end=format_currency it[:basis]
+          %td=it[:tax_rate] unless it[:taxes].length > 1
+          %td.text-end=format_currency it[:basis] unless it[:taxes].length > 1
           %td.text-end=format_currency it[:total]
+          %td.text-end=format_currency it[:total]+it[:tax_total]
+        - if it[:taxes].length > 1
+          - it[:taxes].each do |tx|
+            %tr
+              %td &nbsp;
+              %td
+                &nbsp;
+                \-
+                =tx[:label]
+              %td.text-end #{tx[:tax_rate]} %
+              %td.text-end=format_currency tx[:tax_basis]
+              %td.text-end=format_currency tx[:tax_basis]*it[:count]
+              %td.text-end &nbsp;
     %tfoot
       - if @invoice_hash[:tax_mode] == 'S'
         %tr
@@ -43,7 +69,7 @@
             %td.fw-bold #{tax[:rate]} %
             - if @invoice_hash[:sum][:taxes].size > 1
               %td.text-end.fw-bold=format_currency tax[:basis]
-            - else 
+            - else
               %td &nbsp;
             %td.text-end.fw-bold=format_currency tax[:sum]
       %tr

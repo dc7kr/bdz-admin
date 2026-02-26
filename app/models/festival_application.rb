@@ -2,6 +2,8 @@ class FestivalApplication < ApplicationRecord
   include CountryHelper
   include InvoiceHelper
 
+  include FestivalTicketHelper
+
   # attr_accessible :conductor, :contact_person, :equipment, :country_code, :num_players, :orch_name, :orchestra, :special_cast, :group_type,:permission,:festival_concert_id, :visitor_type, :rehearsal_time, :stage_time, :payment_status, :tickets, :tickets_red, :bdz_tickets_red, :bdz_tickets, :amount, :soloist_tickets, :contact_phone
   has_many :festival_pieces
   has_many :festival_application_attachments
@@ -127,9 +129,9 @@ class FestivalApplication < ApplicationRecord
     inv = prepare_invoice(inv_nr)
 
     if num_players < 30
-      item = CorikaInvoices::InvoiceItem.create_gross(1, prices["reduced_fee"], I18n.t("festival_application.fee"), "C62", 7)
+      item = CorikaInvoices::InvoiceItem.create_gross(1, prices["reduced_fee"], I18n.t("festival_application.fee"), tax_rate: 7)
     else
-      item = CorikaInvoices::InvoiceItem.create_gross(1, prices["fee"], I18n.t("festival_application.fee"), "C62", 7)
+      item = CorikaInvoices::InvoiceItem.create_gross(1, prices["fee"], I18n.t("festival_application.fee"), tax_rate: 7)
     end
 
     inv.invoice_items << item
@@ -150,10 +152,11 @@ class FestivalApplication < ApplicationRecord
     inv = prepare_invoice(inv_nr)
 
 
-    consider_item_gross(inv, tickets, prices["fest"], I18n.t("event_card.fest"))
-    consider_item_gross(inv, tickets_red, prices["fest_erm"], I18n.t("event_card.fest_erm"))
-    consider_item_gross(inv, bdz_tickets, prices["fest_bdz"], I18n.t("event_card.fest_bdz"))
-    consider_item_gross(inv, bdz_tickets_red, prices["fest_bdz_erm"], I18n.t("event_card.fest_bdz_erm"))
+    consider_regular_tickets(inv, tickets)
+    consider_reduced_tickets(inv, tickets_red)
+
+    #consider_item_gross(inv, bdz_tickets, prices["fest_bdz"], I18n.t("event_card.fest_bdz"), tax_rate: 7)
+    #consider_item_gross(inv, bdz_tickets_red, prices["fest_bdz_erm"], I18n.t("event_card.fest_bdz_erm"), tax_rate: 7)
 
     inv
   end
