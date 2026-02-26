@@ -1,5 +1,10 @@
 %tr{:id => dom_id(festival_piece) }
-  %td= festival_piece.title
+  %td
+    = festival_piece.title
+    - if festival_piece.premiere
+      %span.badge.text-bg-primary=t("festival_piece.premiere")
+    - if festival_piece.outdoor
+      %span.badge.text-bg-primary=t("festival_piece.outdoor")
   %td= festival_piece.composer
   %td= festival_piece.arranger
   %td= festival_piece.publisher

@@ -1,6 +1,6 @@
 module Ef
   class FestivalPiecesController < Ef::ApplicationController
-    
+
     before_action :set_festival_application, only: %i[new index show edit update ]
 
     helper ApplicationHelper
@@ -39,7 +39,7 @@ module Ef
                 turbo_stream.update(:piece_form, partial: "new_piece_form",
                                               locals: { festival_application: @festival_application, festival_piece: @festival_piece })
             ]
-        
+
         }
         format.html # new.html.erb
         format.json { render json: @festival_piece }
@@ -149,14 +149,14 @@ module Ef
     end
 
     def festival_piece_params
-      params.require(:festival_piece).permit(:composer, :title, :duration, :arranger, :publisher, :soloist, :premiere)
+      params.require(:festival_piece).permit(:composer, :title, :duration, :arranger, :publisher, :soloist, :premiere, :outdoor)
     end
 
-    private 
+    private
     def set_festival_application
       @festival_application = FestivalApplication.find_by token: params[:festival_application_token]
       @festival_pieces = @festival_application.festival_pieces
     end
-    
+
   end
 end

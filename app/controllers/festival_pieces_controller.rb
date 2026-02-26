@@ -100,7 +100,8 @@ class FestivalPiecesController < AuthenticatedController
       :publisher,
       :duration,
       :soloist,
-      :premiere
+      :premiere,
+      :outdoor
     )
   end
 

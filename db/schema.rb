@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_12_17_093158) do
+ActiveRecord::Schema[7.2].define(version: 2026_02_25_105250) do
   create_table "Inserenten", id: false, charset: "utf8mb3", collation: "utf8mb3_general_ci", options: "ENGINE=InnoDB ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.string "Firmenname", limit: 35
     t.string "Titel", limit: 5
@@ -370,6 +370,12 @@ ActiveRecord::Schema[7.2].define(version: 2025_12_17_093158) do
     t.integer "festival_year"
     t.string "checkout_reference"
     t.string "checkout_id"
+    t.string "payment_method"
+    t.string "iban"
+    t.string "bic"
+    t.string "account_owner"
+    t.string "bank_name"
+    t.string "invoice_id"
   end
 
   create_table "event_meals", charset: "utf8mb3", collation: "utf8mb3_general_ci", options: "ENGINE=InnoDB ROW_FORMAT=DYNAMIC", force: :cascade do |t|
@@ -458,6 +464,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_12_17_093158) do
     t.integer "tariff"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "item_text"
   end
 
   create_table "festival_pieces", id: :integer, charset: "utf8mb3", collation: "utf8mb3_general_ci", options: "ENGINE=InnoDB ROW_FORMAT=DYNAMIC", force: :cascade do |t|
@@ -472,6 +479,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_12_17_093158) do
     t.text "soloist"
     t.boolean "premiere"
     t.time "duration"
+    t.boolean "outdoor"
   end
 
   create_table "festivals", charset: "utf8mb3", collation: "utf8mb3_general_ci", options: "ENGINE=InnoDB ROW_FORMAT=DYNAMIC", force: :cascade do |t|
@@ -646,7 +654,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_12_17_093158) do
 
   create_table "member_account_bookings", charset: "utf8mb3", collation: "utf8mb3_general_ci", options: "ENGINE=InnoDB ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.bigint "member_id", null: false
-    t.column "booking_type", "enum('B','L','G','R','S','Z','E','A','X')", null: false
+    t.string "booking_type", limit: 1, null: false
     t.integer "booking_year", null: false
     t.column "booking_mode", "enum('A','M')", null: false
     t.datetime "booking_date", precision: nil, null: false
@@ -981,6 +989,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_12_17_093158) do
     t.boolean "generated"
     t.integer "orchestra_id"
     t.integer "ms_total"
+    t.integer "reminder_level", default: 0
     t.index ["year", "orchestra_id_old"], name: "oneperyear", unique: true
   end
 
