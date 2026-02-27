@@ -1,12 +1,12 @@
 %tr{:id=>"row#{member_account_booking.id}"}
   %td=l member_account_booking.booking_date.to_date, :format => :long
-  %td=t('member_account_booking.booking_type_'+member_account_booking.booking_type)
+  %td=t('member_account_bookings.booking_types.'+member_account_booking.booking_type)
   %td=member_account_booking.booking_year
   %td=member_account_booking.booking_txt
   %td=format_currency(member_account_booking.amount,'€')
   %td=member_account_booking.has_reference?
   - member = member_account_booking.member
-  - if not member.nil? 
+  - if not member.nil?
     - is_orchestra = member.member_entity.is_a?(Orchestra)
     - is_pm= member.member_entity.is_a?(PersonMember)
     - is_lv=member.member_entity.is_a?(RegionalOrganization)
@@ -22,6 +22,6 @@
       = link_to_delete member_account_booking
     -if is_orchestra
       = link_to_download_path member_account_booking, download_orchestra_member_account_booking_path(member_account_booking.member,member_account_booking)
-    -elsif is_pm 
+    -elsif is_pm
       = link_to_download_path member_account_booking, download_person_member_member_account_booking_path(member_account_booking.member,member_account_booking)
 

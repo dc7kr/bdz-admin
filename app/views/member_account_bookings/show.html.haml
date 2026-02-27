@@ -1,6 +1,7 @@
 .secondary-navigation=render :partial=>'nav'
 .container
   %h2.title
+    = t("member_account_bookings.booking_types.#{@booking.booking_type}")
     = t("member_account_booking", count:1)
 
   = entity_row @booking, :booking_year
