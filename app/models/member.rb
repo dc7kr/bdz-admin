@@ -2,7 +2,7 @@ class Member < ApplicationRecord
   acts_as_paranoid
   # acts_as_superclass
   resourcify
-  # 
+  #
 
   # attr_encrypted :iban, key: Rails.application.secrets.member_iban_key
   # attr_encrypted :bic, key: Rails.application.secrets.member_bic_key
@@ -300,8 +300,11 @@ class Member < ApplicationRecord
     BIC_FINDER.exist?(bic)
   end
 
+  def member_fee_balance
+    booking_sum = MemberAccountBooking.where("member_id = ? and booking_type in ('B','A','L','Z','R','G')", id).sum(:amount)
+  end
+
   def zero_member_fee_balance?
-    booking_sum = MemberAccountBooking.where("member_id = ? and booking_type in ('B','A','L','Z','R')", id).sum(:amount)
-    booking_sum > -0.1
+    member_fee_balance > -0.1
   end
 end
