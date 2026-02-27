@@ -2,7 +2,7 @@
   %li.nav-item= link_to_up_path t("common.up"), home_landing_page_path
   = nav_to_list Advertiser
   = nav_to_show @advertiser
-  = nav_to_edit @advertiser
+  = nav_to_edit [:magazine, @advertiser]
   = nav_to_new Advertiser
 
 
