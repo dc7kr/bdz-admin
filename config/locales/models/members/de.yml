@@ -5,7 +5,7 @@ de:
 
     fullname: "Name"
     vorname: Vorname
-    nachname: Nachname 
+    nachname: Nachname
     country_code: Land
     strasse: Straße
     plz: PLZ
@@ -30,10 +30,10 @@ de:
     ztg_calculated: berechnet
     magazines: Anzahl Zeitungen
     magazine_help: "Sonderwerte: 0: keine Zeitungen, -1: automatischen Wert beibehalten"
-    
+
     nopayment: Säumige Zahler
     last_payment: "Letzte Zahlung"
-    nonzero_balance: "Zahlungsrückstand im Beitragskonto!"
+    nonzero_balance: "%{amount} EUR Zahlungsrückstand im Beitragskonto!"
     direct_debit: "Lastschrift"
     notinvoiced: Keine Rechnung
     invalid_mail: Ungültige Mailadresse

@@ -14,20 +14,22 @@ de:
     has_reference: Referenz
     balance: Saldo
     booking_type: Buchungstyp
-    booking_type_A: Beitragszahlung
-    booking_type_B: Beitrag
-    booking_type_L: Lastschrift
-    booking_type_G: Gutschrift
-    booking_type_E: Ehrungsrechnung
-    booking_type_R: Rücklastschrift
-    booking_type_S: Sollstellung
-    booking_type_Z: Zahlungseingang
-    booking_type_M: Mahngebühr
     booking_year: Geschäftsjahr
     booking_date: Buchungsdatum
     booking_text: Buchungstext
     amount: Betrag
   member_account_bookings:
+    booking_types: 
+      A: Beitragszahlung
+      B: Beitrag
+      L: Lastschrift
+      G: Gutschrift
+      E: Ehrungsrechnung
+      M: Mahngebühr
+      R: Rücklastschrift
+      S: Sollstellung
+      Z: Zahlungseingang
+
     edit:
       title: "Buchung bearbeiten"
     new: 
