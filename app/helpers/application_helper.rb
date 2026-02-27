@@ -1,8 +1,19 @@
+require "rqrcode"
+
 module ApplicationHelper
   include CountryHelper
-  include ButtonHelper
-  include NavHelper
-  include FontAwesomeHelper
+
+  def qrcode(txt, format = :svg)
+
+  end
+
+  def sumup_qr_svg(amount, label)
+    qrcode = RQRCode::QRCode.new("sumupmerchant://pay/1.0?amount=#{amount}&currency=EUR&title=#{label}&affiliate-key=blabla")
+
+    raw qrcode.as_svg(viewbox: true, use_path: true ).html_safe
+
+  end
+
 
   def is_production?
     ENV["RAILS_ENV"] == "production"
