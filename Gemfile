@@ -162,7 +162,7 @@ gem "acts_as_paranoid"
 # Google libphonenumber
 gem "telephone_number"
 
-gem "corika_invoices",  git: 'https://github.com/dc7kr/invoices-gem', ref: "92b455f4ef099c4a40752c25bdf3060b137dbb11", tag: "2.5"
+gem "corika_invoices",  git: 'https://github.com/dc7kr/invoices-gem', ref: "42ab42ae6ca3774ea0aaf4acdd7e43f79d5c2d6d", tag: "2.6"
 # for developing the gem in parallel:
 #gem "corika_invoices", path: "/srv/src/invoices-gem"
 
@@ -174,11 +174,13 @@ gem "actionview-encoded_mail_to"
 
 gem "exception_notification"
 
+# for QR generation
+gem "rqrcode", "~> 3.0"
+
 group :development do
   gem "rubocop"
   gem "rubocop-discourse"
   gem "rubocop-performance"
   gem "rubocop-rails"
 end
-
 
