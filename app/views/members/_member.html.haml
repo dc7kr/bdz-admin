@@ -1,10 +1,10 @@
 #memberAccordion.accordion
   .accordion-item
-    .accordion-header 
+    .accordion-header
       %button.accordion-button{"aria-controls" => "memberDataCollapse", "aria-expanded" => "true"}
         Mitgliedsdaten
         - if not member.zero_member_fee_balance?
-          %span.badge.bg-danger=t("member.nonzero_balance")
+          %span.badge.bg-danger=t("member.nonzero_balance", amount: member.member_fee_balance*-1)
     #memberDataCollapse.accordion-collapse.collapse.show{"data-bs-parent" => "#memberAccordion"}
 
       .accordion-body
@@ -16,10 +16,10 @@
         .row
           .col-md-3.text-end.fw-bold=label :member,:magazines
           .col-md-9
-            - if member.magazines >= 0 
+            - if member.magazines >= 0
               = member.magazines
               %span.badge.bg-warning=t("member.is_ztg_override")
-              ( berechnet: 
+              ( berechnet:
               = member.member_entity.currentMagazines(false)
               )
             - else
@@ -41,7 +41,7 @@
       =entity_row(member,:telefon)
       =entity_row(member,:fax)
   .accordion-item
-    .accordion-header 
+    .accordion-header
       %button.accordion-button
         Zahlungsdaten
         - if member.direct_debit? then
