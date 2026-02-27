@@ -1,13 +1,15 @@
 module NavHelper
   def nav_to_edit(entity, path = nil)
-    return if not entity.present? or not entity.id.present?
+    return if not entity.present? 
 
     if entity.is_a?(Array)
       namespace = entity[0]
       entity = entity[1]
+      return unless entity.present? and entity.id.present?
       # resolve by reflection
       path = send("edit_#{namespace}_#{entity.class.name.singularize.underscore}_path",entity) if path.nil?
     else
+      return unless entity.id.present?
       path = send("edit_#{entity.class.name.singularize.underscore}_path",entity.id) if path.nil?
     end
       
