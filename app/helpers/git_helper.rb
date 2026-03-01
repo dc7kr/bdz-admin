@@ -29,7 +29,7 @@ module GitHelper
         commit[:date] = DateTime.parse(c.gsub(/^Date:\ +/, ""))
       else
         commit[:lines] = [] if commit[:lines].nil?
-        commit[:lines] << c
+        commit[:lines] << c unless c.empty?
       end
     end
 
