@@ -340,6 +340,11 @@ class OrchestrasController < AuthenticatedController
       format.turbo_stream { render template: "corika_invoices/invoices/preview" }
       format.html { render template: "corika_invoices/invoices/preview" }
       format.json { render json: @invoice }
+
+      format.yaml {
+        yml = @invoice.to_yaml.to_s
+        send_data(yml, filename: "invoice.yml")
+      }
     end
   end
 
