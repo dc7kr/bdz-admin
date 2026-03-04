@@ -1,0 +1,22 @@
+- invoice = event_card.to_invoice
+
+%table.table
+  %thead
+    %tr
+      %th=t("common.count")
+      %th=t("event_card.card_type")
+      %th=t("event_card.price_each")
+      %th=t("event_card.price_total")
+
+  - invoice.invoice_items.each do |i|
+    %tr
+      %td.number=i.count.to_i
+      %td=i.label
+      %td=t('event_card.each_price', price: i.unit_price.round())
+      %td.number="%.2f EUR" % i.gross
+  %tr
+    %td &nbsp;
+    %td.sum=t('common.sum')
+    %td &nbsp;
+    %td{:class=> "sum number"}="%.2f EUR" % invoice.total
+

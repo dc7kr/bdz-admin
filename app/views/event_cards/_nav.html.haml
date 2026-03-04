@@ -1,7 +1,8 @@
 %ul.nav.nav-tabs
-  %li.nav-item= link_to_up_path t("common.up"), home_landing_page_path
-  = nav_to_list EventCard 
-  = nav_to_show @event_card
-  = nav_to_edit @event_card
+  //%li.nav-item= link_to_up_path t("common.up"), home_landing_page_path
+  = nav_to_list EventCard
+  - if @event_card.present? and @event_card.persisted?
+    = nav_to_show(@event_card, event_card_path(checkout_reference: @event_card.checkout_reference)) unless @event_card.nil?
+    = nav_to_edit @event_card, edit_event_card_path(checkout_reference: @event_card.checkout_reference) unless @event_card.nil?
   = nav_to_new EventCard
 

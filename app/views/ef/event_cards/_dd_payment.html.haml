@@ -1,0 +1,8 @@
+%h2=t(".title")
+= bootstrap_form_for @event_card, url: confirm_dd_payment_ef_event_card_path(@event_card) do |f|
+  = f.text_field :iban
+  = f.text_field :bic
+  = f.text_field :bank_name
+  = f.text_field :account_owner
+  = f.submit t(".submit")
+

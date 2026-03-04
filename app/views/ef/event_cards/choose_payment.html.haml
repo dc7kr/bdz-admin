@@ -1,0 +1,21 @@
+.secondary-navigation
+  = render :partial =>'nav'
+.page-title-section
+  %h1= t(".title")
+.ef-inner
+  %h2
+    = t("event_card", count:1)
+    = t("common.number")
+    = @event_card.id
+
+  = render partial: "card_order_table",  locals: { event_card: @event_card }
+
+  #payment_form
+    = bootstrap_form_for(@event_card, url: payment_ef_event_card_path(@event_card)) do |f|
+      = f.form_group :payment_method, label: { text: t("event_card.payment_method") } do
+        = f.radio_button :payment_method, "credit_card", label: t("event_card.payment_methods.credit_card"), checked: true
+        = f.radio_button :payment_method, "direct_debit", label: t("event_card.payment_methods.direct_debit")
+      = f.submit
+
+
+%script{:src => "https://gateway.sumup.com/gateway/ecom/card/v2/sdk.js", :type => "text/javascript"}

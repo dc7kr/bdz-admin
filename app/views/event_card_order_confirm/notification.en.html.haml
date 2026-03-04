@@ -1,0 +1,22 @@
+Ladies and gentlement,
+%br
+
+%p
+  thank you for your ticket reservation for the BDZ eurofestial zupfmusik. We hve registered your order as number
+  %b=@event_card.id
+
+
+%p The tickets are deposited at the information desk in the Bürgerzentrum Bruchsal, and can be picked up starting #{@pickup_date}.
+%p Find attached the invoice for your order.
+
+- if @invoice.payment_method == "credit_card"
+  %p
+    %b The invoice is already paid.
+- else
+  %p
+    %b We will debit the invoice amount from your bank account IBAN #{@invoice.customer.iban}, BIC #{@invoice.customer.bic} within the next few days.
+
+Kind regards
+%br
+%br
+Bund Deutscher Zupfmusiker e.V.

@@ -1,9 +1,8 @@
-%p 
-  =t('event_card.order_confirm.thanks',email: @event_card.email, nr: @event_card.id )
+%h2= t('.title')
 
 .heading 
-  t('event_card.order_confirm.heading', nr: @event_card.id )
-%table 
+  =t('event_card.order_confirm.heading', nr: @event_card.id )
+%table.table
 
   - @event_card.ordered_cards.each do |c|
     -if c.count >0 

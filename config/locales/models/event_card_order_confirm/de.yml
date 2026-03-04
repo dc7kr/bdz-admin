@@ -1,0 +1,6 @@
+de:
+  event_card_order_confirm:
+    notification:
+      subject: "Bestätigung Ihrer Kartenbestellung Nr. %{order_number}"
+    treasurer:
+      subject: "SEPA Datei für Kartenbestellung Nr. %{order_number}"

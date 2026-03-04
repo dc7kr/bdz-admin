@@ -1,63 +1,64 @@
-= bootstrap_form_for :event_card, :layout=> :horizontal, :url => order_success_ef_event_cards_path, :html => { :class => :form } do |f|
+= bootstrap_form_for @event_card, :layout=> :horizontal, :url => order_ef_event_cards_path(format: :html) do |f|
+  = f.alert_message  t("common.please_fix_form_errors")
   =f.text_field :name
   = f.email_field :email
   =f.text_field :street
   =f.text_field :zip
   =f.text_field :city
-  .row
+  .row.mb-3
     .col-md-2.col-sm-2=f.label :country_code, class: "control-label col-sm-2"
-    .col-md-10=f.country_select :country_code, {iso_codes:true, priority: %w(DE UK), prompt: t("common.please_select_country")}, class: 'form-control'
-  =f.select(:preferred_lang, options_for_select([['Deutsch','de'],['Englisch','en']],:selected=>@event_card.preferred_lang))
+    .col-md-10=f.country_select :country_code, {iso_codes:true, priority_countries: %w(DE UK), selected: @event_card.country_code, prompt: t("common.please_select_country")}, class: 'form-control'
+  .row.mb-3
+    =f.select(:preferred_lang, options_for_select([['Deutsch','de'],['Englisch','en']],:selected=>@event_card.preferred_lang))
 
   .row
     .col-md-2.col-sm-2 &nbsp;
     .col-md-2.col-sm-2=t('event_card.regular')
     .col-md-2.col-sm-2 &nbsp;
     .col-md-2.col-sm-2=t('event_card.reduced')
-  .form-group
+    .col-md-4.col-sm-4 &nbsp;
+  .row
     .col-md-2.col-sm-2= f.label :nr_fest, t("event_card.fest")
     .col-md-2.col-sm-2= f.number_field :nr_fest, hide_label: true, class: "col-md-2.col-sm-2"
-    .form-control-static.col-md-2.col-sm-2= t('event_card.each_price', { :price => @prices["fest"]})
+    .col-md-2.col-sm-2= t("event_card.each_price", price: @prices["ticket"])
     .col-md-2.col-sm-2= f.number_field :nr_fest_erm , hide_label: true, class: "col-md-2.col-sm-2"
-    .form-control-static.col-md-2.col-sm-2=t('event_card.each_price', { :price => @prices["fest_erm"]})
+    .col-md-2.col-sm-2=t('event_card.each_price', price: @prices["ticket_red"])
     .col-md-2.col-sm-2#fest_sum
-  .row
-    .col-md-2.col-sm-2= f.label :nr_fest_bdz, t("event_card.fest_bdz")
-    .col-md-2.col-sm-2= f.number_field :nr_fest_bdz, hide_label:true  
-    .col-md-2.col-sm-2=t('event_card.each_price', { :price => @prices["fest_bdz"]})
-    .col-md-2.col-sm-2= f.number_field :nr_fest_bdz_erm, hide_label:true 
-    .col-md-2.col-sm-2=t('event_card.each_price', { :price => @prices["fest_bdz_erm"]})
-    .col-md-2.col-sm-2#fest_sum_bdz
   .row
     .col-md-2.col-sm-2= f.label :nr_do, t('event_card.do')
     .col-md-2.col-sm-2= f.number_field :nr_do, hide_label:true 
-    .col-md-2.col-sm-2= t('event_card.each_price', { :price => @prices["tageskarte"]})
+    .col-md-2.col-sm-2= t('event_card.each_price', price: @prices["tageskarte"])
     .col-md-2.col-sm-2= f.number_field :nr_do_erm, hide_label:true
-    .col-md-2.col-sm-2=t('event_card.each_price', { :price => @prices["tageskarte_erm"]})
+    .col-md-2.col-sm-2=t('event_card.each_price', price: @prices["tageskarte_erm"])
     .col-md-2.col-sm-2#sum_do
   .row
     .col-md-2.col-sm-2= f.label :nr_fr, t('event_card.fr')
     .col-md-2.col-sm-2= f.number_field :nr_fr , hide_label:true
-    .col-md-2.col-sm-2= t('event_card.each_price', { :price => @prices["tageskarte"]})
+    .col-md-2.col-sm-2= t('event_card.each_price', price: @prices["tageskarte"])
     .col-md-2.col-sm-2= f.number_field :nr_fr_erm, hide_label:true
-    .col-md-2.col-sm-2= t('event_card.each_price', { :price => @prices["tageskarte_erm"]})
+    .col-md-2.col-sm-2= t('event_card.each_price', price: @prices["tageskarte_erm"])
     .col-md-2.col-sm-2#sum_fr
   .row
     .col-md-2.col-sm-2= f.label :nr_sa, t('event_card.sa')
     .col-md-2.col-sm-2= f.number_field :nr_sa , hide_label:true
-    .col-md-2.col-sm-2=t('event_card.each_price', { :price => @prices["tageskarte"]})
+    .col-md-2.col-sm-2=t('event_card.each_price', price: @prices["tageskarte"])
     .col-md-2.col-sm-2= f.number_field :nr_sa_erm, hide_label:true
-    .col-md-2.col-sm-2=t('event_card.each_price', { :price => @prices["tageskarte_erm"]})
+    .col-md-2.col-sm-2=t('event_card.each_price', price: @prices["tageskarte_erm"])
     .col-md-2.col-sm-2#sum_sa
   -#
     .row
       .col-md-2.col-sm-2= f.label :nr_concert_so, t('event_card.concert_so')
       .col-md-2.col-sm-2= f.number_field :nr_concert_so, hide_label:true
-      .col-md-2.col-sm-2=t('event_card.each_price', { :price => @prices["concert"]})
+      .col-md-2.col-sm-2=t('event_card.each_price', price: @prices["concert"])
       .col-md-2.col-sm-2= f.number_field :nr_concert_so_erm, hide_label:true
-      .col-md-2.col-sm-2=t('event_card.each_price', { :price => @prices["concert_erm"]})
+      .col-md-2.col-sm-2=t('event_card.each_price', price: @prices["concert_erm"])
       .col-md-2.col-sm-2#sum_concert
+  =f.hidden_field  :nr_fest_bdz, value: 0
+  =f.hidden_field  :nr_fest_bdz_erm, value: 0 
   =f.hidden_field  :nr_concert_so_erm, value:0 
   =f.hidden_field  :nr_concert_so, value:0
+  =f.hidden_field  :nr_schloss_1, value:0
+  =f.hidden_field  :nr_schloss_2, value:0
+  =f.hidden_field  :nr_schloss_3, value:0
 
-  =f.primary t("common.send")
+  =f.submit

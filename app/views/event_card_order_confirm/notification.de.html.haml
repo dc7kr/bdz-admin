@@ -1,0 +1,23 @@
+Sehr geehrte Damen und Herren,
+%br
+
+%p
+  vielen Dank für Ihre Kartenreservierung für das BDZ eurofestival Zupfmusik, die wir unter der Reservierungsnummer
+  %b=@event_card.id
+  führen.
+
+%p Die Karten werden für Sie an der Infotheke im Bürgerzentrum Bruchsal hinterlegt und können ab dem #{@pickup_date} abgeholt werden.
+%p Die Rechnung für Ihre Tickets finden Sie als Anlage.
+
+- if @invoice.payment_method == "credit_card"
+  %p
+    %b Die Rechnung wurde bereits bezahlt, bitte nicht überweisen!
+- else
+  %p
+    %b Der Rechnungsbetrag wird in den nächsten Tagen von Ihrem Konto IBAN #{@invoice.customer.iban}, BIC #{@invoice.customer.bic} abgebucht.
+
+Mit freundlichen Grüßen
+%br
+%br
+Bund Deutscher Zupfmusiker e.V.
+

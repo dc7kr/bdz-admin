@@ -4,7 +4,6 @@ en:
         title: "Ticket order for the eurofestival 2014"
         submit: "Order"
         info1: "The day passes don't include meals. Meal vouchers can be purchased at the info desk"
-        info2: "Ordered tickets are reserved for the entered name at the info desk in the Bürgerzentrum. Tickets for children concert and youth music theatre on Friday, May 11th 2018 can be ordered at geschaeftsstelle@bdz-online.de"
         info3: "The ticket payment is expected in cash on pickup at the info desk"
     order_confirm:
       thanks: "Thank you for your ticket order. You will receive a confirmation e-mail to %{email} shortly. Your order is referenced on our side as number %{nr}."
@@ -31,6 +30,47 @@ en:
     single_price: "unit price"
     total_price: "all round price"
 
+    checkout_reference: "Checkout Reference"
+    checkout_id: "Checkout ID"
+    payment_method: "Payment method"
+    iban: "IBAN"
+    bic: "BIC/SWIFT-Code"
+    bank_name: "Name of bank"
+    account_owner: "Account Owner"
+    payment_methods:
+      pickup: "Pickup"
+      credit_card: "Credit card"
+      direct_debit: "Direct debit"
+
+  ef:
+    event_cards:
+      order_form:
+        title: "Ticket order"
+      choose_payment:
+        title: "Please choose payment method"
+      payment:
+        submit: "Place binding order"
+      payment_complete:
+        title: "Payment complete"
+        thank_you: "Thank you for your ticket order, you will receive a confirmation email shortly."
+      dd_payment:
+        title: "Direct debit"
+        submit: "Place binding order"
+
+  activerecord:
+    models:
+      event_card:
+        one: "Ticket order"
+        other: "Ticket orders"
+    attributes:
+      event_card:
+        <<: *event_card_labels
+    errors:
+      models:
+        event_card:
+          attributes:
+            base:
+              total_card_count_zero: "Please order at least one ticket."
   helpers:
     label:
       event_card:

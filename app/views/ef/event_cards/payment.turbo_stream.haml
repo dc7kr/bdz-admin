@@ -1,0 +1,6 @@
+= turbo_stream.update :payment_form do
+  - if @event_card.payment_method == "credit_card"
+    = render partial: "sumup_payment"
+  - else
+    = render partial: "dd_payment"
+

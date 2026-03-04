@@ -37,6 +37,10 @@ de:
     checkout_reference: "Checkout-Referenz"
     checkout_id: "Checkout-ID"
     payment_method: "Zahlungsart"
+    iban: "IBAN"
+    bic: "BIC/SWIFT-Code"
+    bank_name: "Name der Bank"
+    account_owner: "Kontoinhaber"
     payment_methods:
       pickup: "Bei Abholung an der Infotheke"
       credit_card: "Kreditkarte"
@@ -53,6 +57,9 @@ de:
       event_card:
         one: "Kartenbestellung"
         other: "Kartenbestellungen"
+    attributes:
+      event_card:
+        <<: *event_card_labels
     errors:
       models:
         event_card:
@@ -69,9 +76,15 @@ de:
         order_form: "Bestellung aufgeben 2"
   ef:
     event_cards:
+      order_form:
+        title: "Kartenbestellung"
       choose_payment:
         title: "Bitte Zahlungsart auswählen"
       payment:
         submit: "Verbindlich bestellen"
       payment_complete:
         title: "Zahlung abgeschlossen"
+        thank_you: "Vielen Dank für Ihre Kartenbestellung, sie erhalten in Kürze eine E-Mail Bestätigung."
+      dd_payment:
+        title: "Lastschrift-Zahlung"
+        submit: "Verbindlich bestellen"

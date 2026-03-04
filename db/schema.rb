@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_02_25_105250) do
+ActiveRecord::Schema[7.2].define(version: 2026_02_26_165950) do
   create_table "Inserenten", id: false, charset: "utf8mb3", collation: "utf8mb3_general_ci", options: "ENGINE=InnoDB ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.string "Firmenname", limit: 35
     t.string "Titel", limit: 5
@@ -376,6 +376,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_02_25_105250) do
     t.string "account_owner"
     t.string "bank_name"
     t.string "invoice_id"
+    t.string "transaction_code"
   end
 
   create_table "event_meals", charset: "utf8mb3", collation: "utf8mb3_general_ci", options: "ENGINE=InnoDB ROW_FORMAT=DYNAMIC", force: :cascade do |t|

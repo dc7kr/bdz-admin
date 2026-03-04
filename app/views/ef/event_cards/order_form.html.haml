@@ -1,15 +1,20 @@
-%h2.title
-  = t("event_card.order_form.title")
-.panel.panel-default
-  .panel-heading
-    .panel-title
-      %span.glyphicon.glyphicon-info-sign
-      &nbsp;
-      =t('common.info')
-  .panel-body
-    %ul
-      %li=t('event_card.order_form.info1')
-      %li=t('event_card.order_form.info2')
-      %li=t('event_card.order_form.info3')
-= render :partial => "form"
-- content_for :sidebar, render(:partial => 'sidebar')
+.secondary-navigation
+  = render :partial =>'nav'
+.page-title-section
+  %h1= t(".title")
+.ef-inner
+  .card.mb-2
+    .card-body.text-bg-primary
+      %h5.card-title
+        =my_fa_icon("info") 
+        &nbsp;
+        =t('common.info')
+      %ul
+        %li=t('event_card.order_form.info1')
+        %li=t('event_card.order_form.info2')
+        %li=t('event_card.order_form.info3')
+
+  = render :partial => "form"
+= render :partial => "ef/footer"
+
+

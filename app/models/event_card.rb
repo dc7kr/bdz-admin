@@ -3,11 +3,15 @@ class EventCard < ApplicationRecord
   validates :email, email_format: true
   validates :name, presence: true
   validates :email, presence: true
+
   validates_with EventCardValidator
-  
+
+  include FestivalTicketHelper
+
   scope :current_festival, -> { where("festival_year = ?", year =BDZ_SETTINGS["config"]["festival_year"]) }
 
   scope :not_invoiced, -> { where(invoiced: 0) }
+
 
   def self.search(search)
     if search
@@ -101,33 +105,53 @@ class EventCard < ApplicationRecord
     sum + (nr_concert_so_erm * prices["concert_erm"])
   end
 
-  def invoice
-    BDZ_SETTINGS["festival_prices"]
+  def to_invoice
+
+    if has_invoice?
+      i = CorikaInvoices::Invoice.find(invoice_id)
+      return i
+    end
+
+
     ts = Time.zone.now.strftime "%Y%m%d"
 
     renr = ts + "-EC#{id}"
 
-    invoice = CorikaInvoices::Invoice.new
-    invoice.number = renr
-    customer = to_customer
-    invoice.customer = customer
+    year = Time.zone.now.year if year.nil?
 
-    invoice.tax_type = "B"
+    invoice = CorikaInvoices::Invoice.new
+    invoice.invoice_date = Time.zone.now
+    invoice.booking_year = year
+    invoice.template_subdir = "ef"
+    invoice.template = "event_card.#{preferred_lang}"
+    invoice.locale = preferred_lang
+    invoice.payment_method = payment_method
+
+    # With tax
+    invoice.tax_mode = "S"
+
+    invoice.number_suffix = renr
+    invoice.customer = to_customer
+
+    c_hash = INVOICE_CONTACT_HASH["festival_gs"]
+    contact = CorikaInvoices::Contact.new(c_hash)
+    invoice.contact = contact
 
     prices = BDZ_SETTINGS["festival_prices"]
 
-    invoice.considerItem(nr_fest, prices["fest"], I18n.t("event_card.fest"))
-    invoice.considerItem(nr_fest_erm, prices["fest_erm"], I18n.t("event_card.fest_erm"))
-    invoice.considerItem(nr_fest_bdz, prices["fest_bdz"], I18n.t("event_card.fest_bdz"))
-    invoice.considerItem(nr_fest_bdz_erm, prices["fest_bdz_erm"], I18n.t("event_card.fest_bdz_erm"))
-    invoice.considerItem(nr_do, prices["tageskarte"], I18n.t("event_card.do"))
-    invoice.considerItem(nr_fr, prices["tageskarte"], I18n.t("event_card.fr"))
-    invoice.considerItem(nr_sa, prices["tageskarte"], I18n.t("event_card.sa"))
-    invoice.considerItem(nr_do_erm, prices["tageskarte_erm"], I18n.t("event_card.do_erm"))
-    invoice.considerItem(nr_fr_erm, prices["tageskarte_erm"], I18n.t("event_card.fr_erm"))
-    invoice.considerItem(nr_sa_erm, prices["tageskarte_erm"], I18n.t("event_card.sa_erm"))
-    invoice.considerItem(nr_concert_so, prices["concert"], I18n.t("event_card.concert_so"))
-    invoice.considerItem(nr_concert_so_erm, prices["concert_erm"], I18n.t("event_card.concert_so_erm"))
+    item = consider_regular_tickets(invoice, nr_fest)
+    item = consider_reduced_tickets(invoice, nr_fest)
+
+    #invoice.consider_item_gross(nr_fest_bdz, prices["fest_bdz"], I18n.t("event_card.fest_bdz"))
+    #invoice.consider_item_gross(nr_fest_bdz_erm, prices["fest_bdz_erm"], I18n.t("event_card.fest_bdz_erm"))
+    invoice.consider_item_gross(nr_do, prices["tageskarte"], I18n.t("event_card.do"), vat:7)
+    invoice.consider_item_gross(nr_fr, prices["tageskarte"], I18n.t("event_card.fr"), vat:7)
+    invoice.consider_item_gross(nr_sa, prices["tageskarte"], I18n.t("event_card.sa"), vat:7)
+    invoice.consider_item_gross(nr_do_erm, prices["tageskarte_erm"], I18n.t("event_card.do_erm"),vat:7)
+    invoice.consider_item_gross(nr_fr_erm, prices["tageskarte_erm"], I18n.t("event_card.fr_erm"),vat:7)
+    invoice.consider_item_gross(nr_sa_erm, prices["tageskarte_erm"], I18n.t("event_card.sa_erm"),vat:7)
+    invoice.consider_item_gross(nr_concert_so, prices["concert"], I18n.t("event_card.concert_so"),vat:7)
+    invoice.consider_item_gross(nr_concert_so_erm, prices["concert_erm"], I18n.t("event_card.concert_so_erm"),vat:7)
 
     invoice
   end
@@ -138,28 +162,56 @@ class EventCard < ApplicationRecord
 
   def to_customer
     cust = CorikaInvoices::Customer.new
-    cust.customer_id
-    cust.last_name
+    cust.customer_id = id
+    cust.last_name = name
 
-    cust.street = if street.nil?
-                    "- via mail -"
+    if street.present?
+      cust.zip = zip
+      cust.city = city
+      cust.street = street
+      cust.country_code = country_code
     else
-                    street
+      cust.street = "- via mail -"
+      cust.city = " "
+      cust.zip = " "
+      cust.country_code = " "
     end
 
-    cust.zip = zip
-    cust.city = city
-    cust.country = country_code
+    cust.country_code = country_code
 
     # cust.preferred_lang = preferred_lang
+    if cust.country_code.nil?
+      cust.country_code = "DE" if email.end_with?(".de") || email.end_with?(".at")
+    end
 
-    cust.country = "de" if email.end_with?(".de") || email.end_with?(".at")
+    if payment_method == "direct_debit"
+      cust.iban = iban
+      cust.bic = bic
+      cust.mandate_id = "EF_CARD_#{id}"
+    end
 
     cust
   end
 
+  def payment_text
+    "#{I18n.t("event_card", count: 1)} #{id}"
+  end
+
+
   def event_class
     # ContactEvent
     nil
+  end
+
+  def to_param
+    checkout_reference
+  end
+
+  def has_invoice?
+    not invoice_id.nil?
+  end
+
+  def is_online_payment?
+    return payment_method == "credit_card"
   end
 end
