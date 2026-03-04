@@ -63,6 +63,7 @@ Rails.application.routes.draw do
   end
 
   mount CorikaInvoices::Engine, at: "/invoice_engine", as: "invoice_engine"
+  mount CorikaSumup::Engine, at: "/sumup", as: "sumup_engine"
 
   get "/auth/:provider/callback", to: "sessions#create"
 
@@ -490,7 +491,7 @@ Rails.application.routes.draw do
   scope format: false do
     get "downloads/invoices/:generator_session_id/letters" => "downloads#combined_letters_pdf", as: "dl_invoice_letters"
     get "downloads/invoices/:generator_session_id/sepa" => "downloads#combined_sepa_pdf", as: "dl_sepa_invoices"
-    get "downloads/sepa/:generator_session_id" => "downloads#combined_sepa", as: "dl_sepa"
+    get "downloads/sepa/:generator_session_id" => "downloads#combined_sepa_xml", as: "dl_sepa"
   end
 
   get "member_tools/kto_blz_to_iban_bic" => "member_tools#kto_blz_to_iban"
