@@ -1,16 +1,18 @@
 class EventCardsController < AuthenticatedController
 
-  before_action :set_event_card, only: %i[ show edit update destroy ]
+  before_action :set_event_card, only: %i[ show edit update destroy invoice_preview ]
+
   # GET /event_cards
   # GET /event_cards.json
   def index
     year = BDZ_SETTINGS["config"]["festival_year"]
     @event_cards = policy_scope(EventCard).where("festival_year= ?", year).search(params[:search])
 
+
     @sum = 0
     @payed = 0
     @event_cards.each do |e|
-      iv = e.invoice
+      iv = e.to_invoice
       @sum += iv.sum
       @payed += iv.sum if e.payment_received
     end
@@ -18,6 +20,20 @@ class EventCardsController < AuthenticatedController
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @event_cards }
+    end
+  end
+
+  def invoice_preview
+    @event_card = policy_scope(EventCard).find_by(checkout_reference: params[:checkout_reference])
+
+    @invoice = @event_card.to_invoice
+
+    @invoice_hash = @invoice.to_hash[:invoice]
+
+    respond_to do |format|
+      format.turbo_stream { render template: "corika_invoices/invoices/preview" }
+      format.html { render template: "corika_invoices/invoices/preview" }
+      format.json { render json: @invoice }
     end
   end
 
@@ -45,7 +61,12 @@ class EventCardsController < AuthenticatedController
   # GET /event_cards/1
   # GET /event_cards/1.json
   def show
-    @event_card = EventCard.find(params[:id])
+
+    if @event_card.checkout_id.nil?
+      @checkout = nil
+    else
+      @checkout = CorikaSumup::Checkout.find_by(checkout_id: @event_card.checkout_id)
+    end
 
     respond_to do |format|
       format.html # show.html.erb
@@ -58,6 +79,7 @@ class EventCardsController < AuthenticatedController
   def new
     @event_card = EventCard.new
     @prices = BDZ_SETTINGS["festival_prices"]
+    authorize @event_card
 
     respond_to do |format|
       format.html # new.html.erb
@@ -67,7 +89,6 @@ class EventCardsController < AuthenticatedController
 
   # GET /event_cards/1/edit
   def edit
-    @event_card = EventCard.find(params[:id])
     @prices = BDZ_SETTINGS["festival_prices"]
   end
 
@@ -76,6 +97,7 @@ class EventCardsController < AuthenticatedController
   def create
     @event_card = EventCard.new(params[:event_card])
     @event_card.festival_year = BDZ_SETTINGS["config"]["festival_year"]
+    authorize @event_card
 
     respond_to do |format|
       if @event_card.save
@@ -91,10 +113,8 @@ class EventCardsController < AuthenticatedController
   # PUT /event_cards/1
   # PUT /event_cards/1.json
   def update
-    @event_card = EventCard.find(params[:id])
-
     respond_to do |format|
-      if @event_card.update(params[:event_card])
+      if @event_card.update(event_card_params)
         format.html { redirect_to @event_card, notice: "Event card was successfully updated." }
         format.json { head :no_content }
       else
@@ -107,7 +127,6 @@ class EventCardsController < AuthenticatedController
   # DELETE /event_cards/1
   # DELETE /event_cards/1.json
   def destroy
-    @event_card = EventCard.find(params[:id])
     @event_card.destroy
 
     respond_to do |format|
@@ -118,14 +137,10 @@ class EventCardsController < AuthenticatedController
 
   def gen_invoice
     @event_card = EventCard.find(params[:id])
-    tw = TexWriter.new
 
-    fa = FileArchiveTool.new(DOCS_CONFIG)
+    @invoice = @event_card.to_invoice
 
-    prefix = Time.zone.now.strftime("%Y%m%d%H%M%S_")
-    year = Time.zone.now.year
-    invoice = @event_card.invoice
-    tw.writeInvoice(invoice, "festival", year)
+    pdf = @invoice.gen_pdf
 
     inv_type = "event_card.en"
     inv_type = "event_card.de" if (invoice.customer.country == "de") || (invoice.customer.country == "at")
@@ -183,8 +198,13 @@ class EventCardsController < AuthenticatedController
     fa.archive_file(workdir, work_pdf_file, year)
   end
 
+  def event_card_params
+    params.require(:event_card).permit(:pickup, :company, :name, :email, :street, :zip, :city, :country_code, :preferred_lang, :invoiced, :payment_received,
+        :nr_fest, :nr_fest_erm, :nr_fest_bdz, :nr_fest_bdz_erm, :nr_do, :nr_do_erm, :nr_fr, :nr_fr_erm, :nr_sa, :nr_sa_erm, :nr_concert_so, :nr_concert_so_erm, :iban, :bic, :account_owner, :bank_name)
+  end
+
   def set_event_card
-    @event_card = policy_scope(EventCard).find(params[:id])
+    @event_card = policy_scope(EventCard).find_by(checkout_reference: params[:checkout_reference])
     authorize @event_card
   end
 end
