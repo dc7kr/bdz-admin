@@ -34,6 +34,7 @@ de:
     please_fix_form_errors: "Bitte beheben Sie folgene Fehler:"
     fineprint: "Das Kleingedruckte"
     invoice_preview: "Rechnungsvorschau"
+    invoice_preview_yaml: "YAML Vorschau"
     in: "in"
     count: "Anzahl"
     yes_: "Ja"
