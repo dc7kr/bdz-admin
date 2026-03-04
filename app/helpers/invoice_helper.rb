@@ -8,9 +8,9 @@ module InvoiceHelper
     [ childSum, teensSum, youthSum, adultSum ]
   end
 
-  def consider_item_gross(invoice, count, price, label, type_code = "C62", vat = 7)
+  def consider_item_gross(invoice, count, price, label, unit_code: "C62", tax_rate: 7)
     if  not count.nil? and count > 0
-      item = CorikaInvoices::InvoiceItem.create_gross(count, price, label, type_code, vat)
+      item = CorikaInvoices::InvoiceItem.create_gross(count, price, label, unit_code: unit_code, tax_rate: tax_rate)
       invoice << item
     end
   end
