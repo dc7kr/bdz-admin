@@ -164,10 +164,11 @@ Rails.application.routes.draw do
     resources :event_meals, as: :meals
   end
 
-  resources :event_cards do
+  resources :event_cards, param: :checkout_reference do
     member do
       get :gen_invoice
       get :pickup
+      get :invoice_preview
     end
     collection do
       get :overview
@@ -223,7 +224,7 @@ Rails.application.routes.draw do
     collection do
       get :for_admin_notify
     end
-    member do 
+    member do
       post :add_role
     end
   end
@@ -305,8 +306,8 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :report_sheets do 
-      member do 
+    resources :report_sheets do
+      member do
         get :invoice_preview
       end
     end
@@ -477,8 +478,8 @@ Rails.application.routes.draw do
 
     # TODO: These aren't resources!
     resources :mails
-    resources :downloads  do 
-      member do 
+    resources :downloads  do
+      member do
         get :combined_invoice_pdf
       end
     end
@@ -534,12 +535,20 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :event_meals do
+    resources :event_cards, param: :checkout_reference do
       collection do
         get :order_form
-        post :order_success
+        post :order
+      end
+      member do
+       get :choose_payment
+       patch :payment
+       get :payment_complete
+       post :order_success
+       patch :confirm_dd_payment
       end
     end
+
   end
 
   # BEGIN public namespace
