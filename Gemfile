@@ -162,9 +162,11 @@ gem "acts_as_paranoid"
 # Google libphonenumber
 gem "telephone_number"
 
-gem "corika_invoices",  git: 'https://github.com/dc7kr/invoices-gem', ref: "42ab42ae6ca3774ea0aaf4acdd7e43f79d5c2d6d", tag: "2.6"
+gem "corika_invoices",  git: 'https://github.com/dc7kr/invoices-gem', ref: "602c97627421a9be08d346fbc31c5a0da7b24422", tag: "2.7"
+gem "corika_sumup", git: 'https://github.com/dc7kr/sumup-gem', ref: "ffc3be437b9d48e225967e6b14ce5451dbf2c67a", tag: "1.0"
 # for developing the gem in parallel:
 #gem "corika_invoices", path: "/srv/src/invoices-gem"
+#gem "corika_sumup", path: "/srv/src/sumup_gem"
 
 # crypto
 # gem "attr_encrypted", "~> 3.1.0"
@@ -183,4 +185,3 @@ group :development do
   gem "rubocop-performance"
   gem "rubocop-rails"
 end
-

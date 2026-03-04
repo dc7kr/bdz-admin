@@ -1,16 +1,28 @@
 GIT
   remote: https://github.com/dc7kr/invoices-gem
-  revision: 42ab42ae6ca3774ea0aaf4acdd7e43f79d5c2d6d
-  ref: 42ab42ae6ca3774ea0aaf4acdd7e43f79d5c2d6d
-  tag: 2.6
+  revision: 602c97627421a9be08d346fbc31c5a0da7b24422
+  ref: 602c97627421a9be08d346fbc31c5a0da7b24422
+  tag: 2.7
   specs:
-    corika_invoices (2.6)
+    corika_invoices (2.7)
       countries
       kaminari
       kaminari-mongoid
       mongoid
       rails (>= 5.0)
       sepa_king
+
+GIT
+  remote: https://github.com/dc7kr/sumup-gem
+  revision: ffc3be437b9d48e225967e6b14ce5451dbf2c67a
+  ref: ffc3be437b9d48e225967e6b14ce5451dbf2c67a
+  tag: 1.0
+  specs:
+    corika_sumup (1.0)
+      countries
+      kaminari
+      mongoid (~> 9.0)
+      rails (>= 5.0, < 8.0)
 
 GIT
   remote: https://github.com/salesking/sepa_king.git
@@ -547,6 +559,7 @@ DEPENDENCIES
   comma (~> 3.0)
   connection_pool (< 3)
   corika_invoices!
+  corika_sumup!
   countries
   country_select
   debug
