@@ -1,5 +1,3 @@
 - flash.each do |msg_type,msg_text|
-  .alert.alert-dismissible.fade.show{ class: bootstrap_class_for(msg_type) }
-    %button.btn-close{ aria: { label: "Close" },data: { "bs-dismiss": 'alert' }} 
-    = msg_text
+  = render partial: "flash_message", locals: { msg_type:msg_type, msg_text: msg_text }
 
