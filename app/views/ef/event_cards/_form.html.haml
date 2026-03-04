@@ -19,30 +19,30 @@
     .col-md-4.col-sm-4 &nbsp;
   .row
     .col-md-2.col-sm-2= f.label :nr_fest, t("event_card.fest")
-    .col-md-2.col-sm-2= f.number_field :nr_fest, hide_label: true, class: "col-md-2.col-sm-2"
+    .col-md-2.col-sm-2= f.number_field :nr_fest, min: 0, hide_label: true, class: "col-md-2.col-sm-2"
     .col-md-2.col-sm-2= t("event_card.each_price", price: @prices["ticket"])
-    .col-md-2.col-sm-2= f.number_field :nr_fest_erm , hide_label: true, class: "col-md-2.col-sm-2"
+    .col-md-2.col-sm-2= f.number_field :nr_fest_erm , min: 0, hide_label: true, class: "col-md-2.col-sm-2"
     .col-md-2.col-sm-2=t('event_card.each_price', price: @prices["ticket_red"])
     .col-md-2.col-sm-2#fest_sum
   .row
     .col-md-2.col-sm-2= f.label :nr_do, t('event_card.do')
-    .col-md-2.col-sm-2= f.number_field :nr_do, hide_label:true 
+    .col-md-2.col-sm-2= f.number_field :nr_do, min:0, hide_label:true 
     .col-md-2.col-sm-2= t('event_card.each_price', price: @prices["tageskarte"])
-    .col-md-2.col-sm-2= f.number_field :nr_do_erm, hide_label:true
+    .col-md-2.col-sm-2= f.number_field :nr_do_erm, min:0, hide_label:true
     .col-md-2.col-sm-2=t('event_card.each_price', price: @prices["tageskarte_erm"])
     .col-md-2.col-sm-2#sum_do
   .row
     .col-md-2.col-sm-2= f.label :nr_fr, t('event_card.fr')
-    .col-md-2.col-sm-2= f.number_field :nr_fr , hide_label:true
+    .col-md-2.col-sm-2= f.number_field :nr_fr , min:0, hide_label:true
     .col-md-2.col-sm-2= t('event_card.each_price', price: @prices["tageskarte"])
-    .col-md-2.col-sm-2= f.number_field :nr_fr_erm, hide_label:true
+    .col-md-2.col-sm-2= f.number_field :nr_fr_erm, min:0, hide_label:true
     .col-md-2.col-sm-2= t('event_card.each_price', price: @prices["tageskarte_erm"])
     .col-md-2.col-sm-2#sum_fr
   .row
     .col-md-2.col-sm-2= f.label :nr_sa, t('event_card.sa')
-    .col-md-2.col-sm-2= f.number_field :nr_sa , hide_label:true
+    .col-md-2.col-sm-2= f.number_field :nr_sa , min:0, hide_label:true
     .col-md-2.col-sm-2=t('event_card.each_price', price: @prices["tageskarte"])
-    .col-md-2.col-sm-2= f.number_field :nr_sa_erm, hide_label:true
+    .col-md-2.col-sm-2= f.number_field :nr_sa_erm, min:0, hide_label:true
     .col-md-2.col-sm-2=t('event_card.each_price', price: @prices["tageskarte_erm"])
     .col-md-2.col-sm-2#sum_sa
   -#
