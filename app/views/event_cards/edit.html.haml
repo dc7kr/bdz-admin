@@ -4,7 +4,6 @@
   .card.bg-light
     .card-body
       %h2.card-title
-        = t("common.edit")
-        = t("event_card",:count=>1)
+        = t(".title", id: @event_card.id)
       = render :partial => "form"
 - content_for :sidebar, render(:partial => 'sidebar')

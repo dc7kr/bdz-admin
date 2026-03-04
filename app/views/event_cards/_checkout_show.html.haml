@@ -1,0 +1,13 @@
+.font-monospace
+  = entity_row checkout, :checkout_id
+  = entity_row checkout, :amount, :currency
+  = entity_row checkout, :currency
+  = entity_row checkout, :status
+  = entity_row checkout, :date
+  = entity_row checkout, :description
+  = entity_row checkout, :transaction_code
+  = entity_row checkout, :transaction_id
+= link_to "Refresh", sumup_engine.refresh_checkout_path(checkout), data: { turbo_stream: true }, class: "btn btn-secondary"
+
+
+
