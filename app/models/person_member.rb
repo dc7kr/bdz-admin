@@ -220,7 +220,7 @@ class PersonMember < ApplicationRecord
     contact = CorikaInvoices::Contact.new(c_hash)
     invoice.contact = contact
 
-    invoice.add_item(1, tariff.amount, "Beitrag #{tariff.description}")
+    invoice.add_item(1, tariff.amount, "Beitrag #{tariff.description}", tax_rate: 0)
 
     invoice
   end

@@ -254,35 +254,35 @@ class ReportSheet < ApplicationRecord
       if isMinTariff? || isMaxTariff?
         # in case of min or max tariff we don't
         # charge the real fees but 0 (just print out the statistics)
-        invoice.add_item(children, 0, I18n.t("report_sheet.children_rate"))
-        invoice.add_item(teens, 0, I18n.t("report_sheet.teens_rate"))
-        invoice.add_item(youth, 0, I18n.t("report_sheet.youth_rate"))
-        invoice.add_item(adult, 0, I18n.t("report_sheet.adult_rate"))
-        invoice.add_item(senior, 0, I18n.t("report_sheet.senior_rate"))
+        invoice.add_item(children, 0, I18n.t("report_sheet.children_rate"), tax_rate:0 )
+        invoice.add_item(teens, 0, I18n.t("report_sheet.teens_rate"), tax_rate: 0 )
+        invoice.add_item(youth, 0, I18n.t("report_sheet.youth_rate"), tax_rate: 0 )
+        invoice.add_item(adult, 0, I18n.t("report_sheet.adult_rate"), tax_rate: 0 )
+        invoice.add_item(senior, 0, I18n.t("report_sheet.senior_rate"), tax_rate: 0 )
       else
         # regular price calculation
-        invoice.add_item(children, Prices.childrenRate, I18n.t("report_sheet.children_rate"))
-        invoice.add_item(teens, Prices.teensRate, I18n.t("report_sheet.teens_rate"))
-        invoice.add_item(youth, Prices.youthRate, I18n.t("report_sheet.youth_rate"))
-        invoice.add_item(adult, Prices.adultRate, I18n.t("report_sheet.adult_rate"))
-        invoice.add_item(senior, Prices.seniorRate, I18n.t("report_sheet.senior_rate"))
+        invoice.add_item(children, Prices.childrenRate, I18n.t("report_sheet.children_rate"), tax_rate: 0 )
+        invoice.add_item(teens, Prices.teensRate, I18n.t("report_sheet.teens_rate"), tax_rate: 0 )
+        invoice.add_item(youth, Prices.youthRate, I18n.t("report_sheet.youth_rate"), tax_rate: 0 )
+        invoice.add_item(adult, Prices.adultRate, I18n.t("report_sheet.adult_rate"), tax_rate: 0 )
+        invoice.add_item(senior, Prices.seniorRate, I18n.t("report_sheet.senior_rate"), tax_rate: 0 )
       end
 
       if isMinTariff?
-        invoice.add_item(1, Prices.minTariff, I18n.t("report_sheet.min_tariff"))
+        invoice.add_item(1, Prices.minTariff, I18n.t("report_sheet.min_tariff"), tax_rate: 0 )
       elsif isMaxTariff?
-        i = invoice.add_item(1, Prices.maxTariff, I18n.t("report_sheet.max_tariff"))
+        i = invoice.add_item(1, Prices.maxTariff, I18n.t("report_sheet.max_tariff"), tax_rate: 0 )
       end
     end
 
-    invoice.add_item(calc_uv_count, Prices.uvRate, I18n.t("report_sheet.uv")) if uv
+    invoice.add_item(calc_uv_count, Prices.uvRate, I18n.t("report_sheet.uv"), tax_rate: 0 ) if uv
     booking = find_booking
 
-    invoice.add_item(1, booking.amount, I18n.t("report_sheet.already_payed_amount")) if booking.present?
+    invoice.add_item(1, booking.amount, I18n.t("report_sheet.already_payed_amount"), tax_rate: 0 ) if booking.present?
     
-    invoice.add_item(1, Prices.delayFee, I18n.t("report_sheet.delay_fee")) if delayed?
+    invoice.add_item(1, Prices.delayFee, I18n.t("report_sheet.delay_fee"), tax_rate: 0 ) if delayed?
 
-    invoice.add_item(1, Prices.reminder_fee(reminder_level), I18n.t("report_sheet.reminder_fee", level: reminder_level)) if reminder_level > 0
+    invoice.add_item(1, Prices.reminder_fee(reminder_level), I18n.t("report_sheet.reminder_fee", level: reminder_level), tax_rate: 0) if reminder_level > 0
 
     invoice
   end
