@@ -1,17 +1,16 @@
 class EventCard < ApplicationRecord
   # attr_accessible :title, :body
-  validates :email, email_format: true
   validates :name, presence: true
   validates :email, presence: true
+  validates :email, email_format: true
 
   validates_with EventCardValidator
 
   include FestivalTicketHelper
 
-  scope :current_festival, -> { where("festival_year = ?", year =BDZ_SETTINGS["config"]["festival_year"]) }
+  scope :current_festival, -> { where("festival_year = ?", BDZ_SETTINGS["config"]["festival_year"]) }
 
   scope :not_invoiced, -> { where(invoiced: 0) }
-
 
   def self.search(search)
     if search
@@ -26,12 +25,12 @@ class EventCard < ApplicationRecord
     prices = BDZ_SETTINGS["festival_prices"]
 
     if nr_fest.positive?
-      c = OrderedCard.new(nr_fest, prices["fest"], "fest")
+      c = OrderedCard.new(nr_fest, prices["ticket"], "fest")
       ordered << c
     end
 
     if nr_fest_erm.positive?
-      c = OrderedCard.new(nr_fest_erm, prices["fest_erm"], "fest_erm")
+      c = OrderedCard.new(nr_fest_erm, prices["ticket_red"], "fest_erm")
       ordered << c
     end
 
@@ -95,8 +94,8 @@ class EventCard < ApplicationRecord
   def sum
     prices = BDZ_SETTINGS["festival_prices"]
     sum = 0
-    sum += nr_fest * prices["fest"]
-    sum += nr_fest_erm * prices["fest_erm"]
+    sum += nr_fest * prices["ticket"]
+    sum += nr_fest_erm * prices["ticket_red"]
     sum += nr_fest_bdz * prices["fest_bdz"]
     sum += nr_fest_bdz_erm * prices["fest_bdz_erm"]
     sum += (nr_do + nr_fr + nr_sa) * prices["tageskarte"]
@@ -111,7 +110,6 @@ class EventCard < ApplicationRecord
       i = CorikaInvoices::Invoice.find(invoice_id)
       return i
     end
-
 
     ts = Time.zone.now.strftime "%Y%m%d"
 
@@ -140,7 +138,7 @@ class EventCard < ApplicationRecord
     prices = BDZ_SETTINGS["festival_prices"]
 
     item = consider_regular_tickets(invoice, nr_fest)
-    item = consider_reduced_tickets(invoice, nr_fest)
+    item = consider_reduced_tickets(invoice, nr_fest_erm)
 
     #invoice.consider_item_gross(nr_fest_bdz, prices["fest_bdz"], I18n.t("event_card.fest_bdz"))
     #invoice.consider_item_gross(nr_fest_bdz_erm, prices["fest_bdz_erm"], I18n.t("event_card.fest_bdz_erm"))
@@ -164,6 +162,9 @@ class EventCard < ApplicationRecord
     cust = CorikaInvoices::Customer.new
     cust.customer_id = id
     cust.last_name = name
+    cust.salutation = ""
+
+    ef_year = BDZ_SETTINGS["config"]["festival_year"]
 
     if street.present?
       cust.zip = zip
@@ -185,12 +186,23 @@ class EventCard < ApplicationRecord
     end
 
     if payment_method == "direct_debit"
+      cust.direct_debit = 1
       cust.iban = iban
       cust.bic = bic
-      cust.mandate_id = "EF_CARD_#{id}"
+      cust.account_owner = account_owner
+      cust.mandate_id = "EF#{ef_year}CARD#{id}"
+      cust.sig_date = Time.now
     end
 
     cust
+  end
+
+  def to_locale
+    if preferred_lang  == "de"
+      "de"
+    else
+      "en"
+    end
   end
 
   def payment_text
