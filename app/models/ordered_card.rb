@@ -8,6 +8,10 @@ class OrderedCard
   end
 
   def total
-    @count * @price
+    if @count.nil? or @price.nil?
+      0
+    else
+      @count * @price
+    end
   end
 end
