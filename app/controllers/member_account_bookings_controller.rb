@@ -45,6 +45,11 @@ class MemberAccountBookingsController < AuthenticatedController
   def show
     @member_entity = @booking.member.member_entity
     @member_type = @member_entity.class.name.singularize.underscore.to_sym
+
+    if @booking.invoice_id.present?
+      @invoice = CorikaInvoices::Invoice.find(@booking.invoice_id)
+    end
+
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @booking }
@@ -165,13 +170,13 @@ class MemberAccountBookingsController < AuthenticatedController
   # DELETE /bookings/1.json
   def destroy
     member_entity = @booking.member.member_entity
-    member_type = @booking.member_type 
+    member_type = @booking.member_type
 
     @booking.destroy
 
     respond_to do |format|
       format.html do
-        if member_type == :orchestra 
+        if member_type == :orchestra
           redirect_to orchestra_member_account_bookings_path(member_entity)
         else
           redirect_to person_member_member_account_bookings_path(member_entity)
@@ -198,7 +203,7 @@ class MemberAccountBookingsController < AuthenticatedController
 
     send_data(sepa, filename: filename, type: "application/octet-stream")
   end
-  
+
   def invoice_preview
     @invoice = CorikaInvoices::Invoice.find(@booking.invoice_id)
 
@@ -225,12 +230,12 @@ class MemberAccountBookingsController < AuthenticatedController
       :person_member
     elsif params[:regional_organization_id]
       :regional_organization
-    else 
+    else
       :none
     end
   end
 
-  private 
+  private
   def set_booking
     @booking = policy_scope(MemberAccountBooking).find(params[:id])
     authorize @booking

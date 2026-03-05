@@ -5,23 +5,23 @@
     = t("member_account_booking", count:1)
 
   = entity_row @booking, :booking_year
-  = entity_row @booking, :booking_date, :date 
+  = entity_row @booking, :booking_date, :date
   = entity_row @booking, :booking_txt
   = entity_row @booking, :amount, :currency
   = entity_row @booking, :filename
-  - if @booking.invoice_id.present?  and @booking.invoice.generator_session_id.present?
+  - if @invoice.present?  and @invoice.generator_session_id.present?
+    - invoice = CorikaInvoices::Invoice.find(@booking.invoice_id)
     = entity_row @booking, :invoice_id
-    = entity_row @booking.invoice, :generator_session_id
+    = entity_row invoice, :generator_session_id
 
-  .row 
+  .row
     .col-md-3.text-end.fw-bold=t("invoice", count: 1)
     .col-md-9
       - if @booking.invoice_id.present?
-        - invoice = CorikaInvoices::Invoice.find(@booking.invoice_id)
-        %b Nr. #{invoice.full_number} vom #{l invoice.invoice_date}
+        %b Nr. #{@invoice.full_number} vom #{l @invoice.invoice_date}
         = link_to_download_path @booking, download_member_account_booking_path(@booking)
         = link_to 'Rechnungsvorschau', invoice_preview_member_account_booking_path(@booking), data: { 'turbo_frame' => 'modal' }, class: 'btn btn-secondary btn-sm'
-        - if invoice.customer.direct_debit?
+        - if @invoice.customer.direct_debit?
           = link_to 'SEPA', invoice_sepa_member_account_booking_path(@booking), class: 'btn btn-secondary btn-sm'
 
 
