@@ -15,7 +15,7 @@
       = f.form_group :payment_method, label: { text: t("event_card.payment_method") } do
         = f.radio_button :payment_method, "credit_card", label: t("event_card.payment_methods.credit_card"), checked: true
         = f.radio_button :payment_method, "direct_debit", label: t("event_card.payment_methods.direct_debit")
-      = f.submit
+      = f.submit t(".submit")
 
 
 %script{:src => "https://gateway.sumup.com/gateway/ecom/card/v2/sdk.js", :type => "text/javascript"}
