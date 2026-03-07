@@ -3,20 +3,20 @@
 %table.table
   %thead
     %tr
-      %th=t("common.count")
+      %th.number=t("common.count")
       %th=t("event_card.card_type")
-      %th=t("event_card.price_each")
-      %th=t("event_card.price_total")
+      %th.number=t("event_card.single_price")
+      %th.number=t("event_card.total_price")
 
   - invoice.invoice_items.each do |i|
     %tr
       %td.number=i.count.to_i
       %td=i.label
-      %td=t('event_card.each_price', price: i.unit_price.round())
-      %td.number="%.2f EUR" % i.gross
+      %td.number=t('event_card.each_price', price: i.unit_price.round())
+      %td.number=format_currency i.gross
   %tr
     %td &nbsp;
     %td.sum=t('common.sum')
     %td &nbsp;
-    %td{:class=> "sum number"}="%.2f EUR" % invoice.total
+    %td.sum.number=format_currency invoice.total
 
