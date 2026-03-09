@@ -15,6 +15,7 @@ class FestivalConcertOverviewSpreadsheet
     
     t.row do
       cell "Konzert"
+      cell "ID"
       cell "Interpret"
       cell "Spieler"
       cell "Titel"
@@ -43,6 +44,7 @@ class FestivalConcertOverviewSpreadsheet
 
         t.row do 
           cell  concert_nr
+          cell fa.id
           cell fa.orch_name
           cell fa.num_players
           cell fp.title
