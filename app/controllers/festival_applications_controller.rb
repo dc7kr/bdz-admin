@@ -413,6 +413,7 @@ class FestivalApplicationsController < AuthenticatedController
       :amount,
       :stage_time,
       :festival_concert_id,
+      :outdoor_concert_id,
       :rehearsal_time,
       :payment_status,
       :comment,
