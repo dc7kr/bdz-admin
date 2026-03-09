@@ -19,6 +19,7 @@ class FestivalApplication < ApplicationRecord
 
   belongs_to :orchestra, optional: true
   belongs_to :festival_concert, optional: true
+  belongs_to :outdoor_concert, class_name: 'FestivalConcert', foreign_key: :outdoor_concert_id, optional: true
 
   scope :current_festival, -> { where(year: BDZ_SETTINGS["config"]["festival_year"]) }
   scope :regular, -> { where("permission = 1 and visitor_type='R'") }
