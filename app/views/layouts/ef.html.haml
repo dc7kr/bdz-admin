@@ -1,11 +1,11 @@
 !!!
 %html
   %head
-    %title eurofestival #{BDZ_SETTINGS["config"]["festival_year"]}
+    %title BDZ eurofestival zupfmusik #{BDZ_SETTINGS["config"]["festival_year"]}
     %meta{:name=>"viewport", :content=>"width=device-width, initial-scale=1, shrink-to-fit=no"}
     = csrf_meta_tags
     = csp_meta_tag
-    = stylesheet_link_tag "ef", "data-turbo-track": "reload" 
+    = stylesheet_link_tag "ef", "data-turbo-track": "reload"
     = javascript_importmap_tags
   %body.boxed.body
     #user-navigation.mb-10
@@ -17,7 +17,7 @@
               %button.navbar-toggle.collapsed{"aria-expanded" => "false", "data-target" => "#bs-example-navbar-collapse-1", "data-toggle" => "collapse", :type => "button"}
               %span.navbar-text.navbar-right Eingeloggt als #{current_user.email}
               %a.btn.btn-danger.navbar-btn.navbar-right{:href => "/logout"}= t("web-app-theme.logout", :default => "Logout")
-    #flash-messages 
+    #flash-messages
       = render :partial => "flash_messages", locals: { :flash => flash }
     .container.ef-container
       = render :partial => "ef/main_nav"
