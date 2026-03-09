@@ -13,8 +13,11 @@
 #
 # To learn more, please read the Rails Internationalization guide
 # available at http://guides.rubyonrails.org/i18n.html.
- 
+
 en:
+  lang:
+    de: "German"
+    en: "English"
   account:
     profile: Profile
     settings: Settings
@@ -96,7 +99,7 @@ en:
   advertiser:
     one: Advertiser
     other: Advertisers
-    customer_number: Customer No. 
+    customer_number: Customer No.
   magazine_advert:
     other: Ad bookings
     one: Ad bookings
@@ -104,9 +107,9 @@ en:
     advert_types:
      F: Full page
      H: 1/2 page
-     T: 1/3 page 
-     Q: 1/4 page  
-    
+     T: 1/3 page
+     Q: 1/4 page
+
   magazine_issue:
     other: Issues
     one: Issue
@@ -231,14 +234,14 @@ en:
   regional_organization:
     other: Regional organizations
     one: Regional organization
-    share_overview: Share 
+    share_overview: Share
 
 
   member:
     nopayment: No payment
     notinvoiced: Not invoiced
     invalid_mail: Invalid mail address
-    mglnr: Member No. 
+    mglnr: Member No.
     eintritt: Eintritt
     austritt_zum: Austritt zum
     salutation: Salutation
@@ -269,15 +272,15 @@ en:
     orch_type: orchestratyp
     anrede: Anrede
     vorname: Vorname
-    nachname: Nachname 
+    nachname: Nachname
     gruendung: Gründungsdatum
     koopMitglied: Kooperativ
-    schreibenVom: Schreiben vom 
+    schreibenVom: Schreiben vom
     bemerkung: Bemerkung
     eMail: E-Mail
     url: Homepage
     zweitanschrift: Zweitanschrift
-    name2: Zweiter Name 	
+    name2: Zweiter Name
     type_O: Vereinsorchester
     type_K: Kooperativ
     type_L: Landesorchester
@@ -300,10 +303,10 @@ en:
     delete_all: "Alle orchestra members löschen"
     exchange_success: "Vorname und Name erfolgreich ausgetauscht."
     check_double: "Doppel-Mitgliedschaft prüfen"
-    
+
   event_cards_mailer:
     subject: "Your ticket order no. %{id} for the eurofestival 2018"
-  event_meals_mailer: 
+  event_meals_mailer:
     subject: "Your meal order no. %{id} fuer das Eurofestival 2018"
   helpers:
     label:
@@ -313,6 +316,21 @@ en:
         jugend_url: Youth homepage
         konto: Account number
         blz: BIC
-  
+  errors:
+    iban:
+      required: "IBAN is required for direct debit"
+      iban_cc_missing: "IBAN invalid: country code is missing"
+      invalid_format: "Invalid IBAN format"
+      invalid_length: "Invalid length - expected %{expected} chars"
+      invalid_value: "IBAN is invalid: checksum error"
+      required_for_dd: "IBAN required for direct debit!"
+    bic:
+      invalid: "BIC invalid"
+      invalid_len: "BIC invalid length"
+      unknown: "BIC is unknown!"
+      invalid_country: "BIC invalid country code"
+      invalid_bank_code: "BIC invalid bank code"
+      required_for_dd: "BIC is required for direct debit!"
+
   web_app_theme:
   regional_organization: "Regional OrganizationTL"

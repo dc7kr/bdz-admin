@@ -1,5 +1,8 @@
 ---
 de:
+  lang:
+    de: "Deutsch"
+    en: "Englisch"
   about:
     last_commits: "Letzte Änderungen"
   participant_sheet:
@@ -285,8 +288,10 @@ de:
       required_for_dd: "IBAN ist für Zahlungsart Lastschrift erforderlich!"
     bic:
       invalid: "BIC ist ungültig"
-      invalid_len: "BIC ungültig - nicht 11-stellig"
+      invalid_len: "BIC ungültige Länge"
       unknown: "BIC ist unbekannt!"
+      invalid_country: "BIC ungültiger Ländercode"
+      invalid_bank_code: "BIC ungültiger Bank Code"
       required_for_dd: "BIC ist für Zahlungsart Lastschrift erforderlich!"
     format: "%{message}"
 
