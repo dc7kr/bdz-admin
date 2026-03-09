@@ -31,6 +31,7 @@
       %h5.card-title=t("festival_applications.concert_panel.title")
 
       = f.collection_select(:festival_concert_id, FestivalConcert.current_festival, :id, :label)
+      = f.collection_select(:outdoor_concert_id, FestivalConcert.current_outdoor, :id, :label, include_blank:true)
       = f.text_field :rehearsal_time
       = f.text_field :stage_time
 

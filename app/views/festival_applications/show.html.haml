@@ -43,6 +43,11 @@
             - else
               keine Zuweisung
         .card-body
+          - if @festival_application.outdoor_concert then
+            = @festival_application.outdoor_concert.label
+          - else
+            keine Zuweisung
+
           =entity_row(@festival_application,:stage_time)
           =entity_row(@festival_application,:rehearsal_time)
           =entity_row(@festival_application,:num_players)
