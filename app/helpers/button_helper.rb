@@ -60,8 +60,10 @@ module ButtonHelper
     end
   end
 
-  def link_to_show(entity, path = nil, txt = nil, btn_class = "btn-sm btn-outline-dark")
-    return unless policy(entity).show?
+  def link_to_show(entity, path = nil, txt = nil, btn_class = "btn-sm btn-outline-dark", authz: true)
+    if authz == true
+      return unless policy(entity).show?
+    end
 
     if entity.is_a?(Array)
       namespace = entity[0]
