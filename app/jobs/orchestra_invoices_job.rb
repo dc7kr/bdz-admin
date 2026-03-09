@@ -39,7 +39,13 @@ class OrchestraInvoicesJob < BaseInvoicesJob
       end
 
       Rails.logger.debug { "Generate invoice for: #{mglnr}" }
-      invoice_file = orchestra_invoice(orch, year)
+      invoice, invoice_file = orchestra_invoice(orch, year)
+
+      customer = invoice.customer
+
+      c_hash = customer.to_hash
+      addr = Addressee.new
+      addr.overwrite_with(c_hash)
 
       if invoice_file.nil?
         logger.error("No invoice generated for mglnr: #{mglnr}")
@@ -48,7 +54,9 @@ class OrchestraInvoicesJob < BaseInvoicesJob
 
         add_mailer_params = { year: year, mglnr: mglnr }
 
-        tool.deliver_mailing(InvoiceMail, orch.to_addressee, invoice_file, nil, letters, add_mailer_params)
+        # don't use orchestra.to_addressee here as it 
+        # will not return the invoice contact
+        tool.deliver_mailing(InvoiceMail, addr, invoice_file, nil, letters, add_mailer_params)
         delivered += 1
       end
     end
@@ -86,6 +94,6 @@ class OrchestraInvoicesJob < BaseInvoicesJob
     orch.member.create_invoice_booking(year, invoice, invoice_file.orig_filename, booking_txt)
     orch.member.create_dd_booking(sepa_writer, invoice, year)
 
-    invoice_file
+    return invoice, invoice_file
   end
 end
