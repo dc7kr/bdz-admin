@@ -1,10 +1,10 @@
 GIT
   remote: https://github.com/dc7kr/invoices-gem
-  revision: 602c97627421a9be08d346fbc31c5a0da7b24422
-  ref: 602c97627421a9be08d346fbc31c5a0da7b24422
-  tag: 2.7
+  revision: 733ba1db8ddc0a53fabb88d303b44315eeb736b3
+  ref: 733ba1db8ddc0a53fabb88d303b44315eeb736b3
+  tag: 2.8
   specs:
-    corika_invoices (2.7)
+    corika_invoices (2.8)
       countries
       kaminari
       kaminari-mongoid
@@ -14,11 +14,11 @@ GIT
 
 GIT
   remote: https://github.com/dc7kr/sumup-gem
-  revision: ffc3be437b9d48e225967e6b14ce5451dbf2c67a
-  ref: ffc3be437b9d48e225967e6b14ce5451dbf2c67a
-  tag: 1.0
+  revision: b5939d5861ea43abe48bb7891229ccc2d02969d0
+  ref: b5939d5861ea43abe48bb7891229ccc2d02969d0
+  tag: 1.1
   specs:
-    corika_sumup (1.0)
+    corika_sumup (1.1)
       countries
       kaminari
       mongoid (~> 9.0)
