@@ -12,9 +12,13 @@ class EventCardsController < AuthenticatedController
     @sum = 0
     @payed = 0
     @event_cards.each do |e|
-      iv = e.to_invoice
-      @sum += iv.sum
-      @payed += iv.sum if e.payment_received
+      iv = e.invoice
+      if iv.nil?
+        Rails.logger.error("INVOICE IS NIL: #{e.id}")
+      else
+        @sum += iv.sum
+        @payed += iv.sum if e.payment_received
+      end
     end
 
     respond_to do |format|
@@ -26,7 +30,7 @@ class EventCardsController < AuthenticatedController
   def invoice_preview
     @event_card = policy_scope(EventCard).find_by(checkout_reference: params[:checkout_reference])
 
-    @invoice = @event_card.to_invoice
+    @invoice = @event_card.invoice
 
     @invoice_hash = @invoice.to_hash[:invoice]
 
