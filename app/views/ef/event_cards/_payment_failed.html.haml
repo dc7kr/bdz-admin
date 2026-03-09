@@ -1,0 +1,4 @@
+.alert.alert-danger{ role: "alert"}
+   = t(".payment_failed", status: @status)
+
+= link_to t(".retry_button"),  choose_payment_ef_event_card_path(@event_card), class: "btn btn-primary"

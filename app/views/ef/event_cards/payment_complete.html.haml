@@ -1,14 +1,21 @@
 .secondary-navigation
   = render :partial =>'nav'
 .page-title-section
-  %h1= t(".title")
+  %h1
+    - if @status == "PAID"
+      = t(".title")
+    - else
+      = t(".title_failed")
 .ef-inner
-  %h2 
+  %h2
     = t("event_card", count:1)
     = t("common.number")
     = @event_card.id
 
-  = render partial: "card_order_table",  locals: { event_card: @event_card }
-  = t(".thank_you")
+  - if @status == "PAID"
+    = render partial: "card_order_table",  locals: { event_card: @event_card }
+    = t(".thank_you")
+  - else
+    = render partial: "payment_failed"
 
 = render :partial => "ef/footer"

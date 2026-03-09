@@ -7,9 +7,14 @@
     onResponse: function (type, body) {
       if (String(type) == 'success') {
         window.location.assign('#{payment_complete_ef_event_card_url(@event_card)}')
+      } else if (String(type)== 'auth-screen') {
+        alert("Auth screen!");
+        alert(body);
       } else {
         console.log('Type', type);
         console.log('Body', body);
+        alert(type);
+        alert(body);
       }
     },
   });
