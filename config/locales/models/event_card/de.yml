@@ -4,8 +4,9 @@ de:
         title: "Kartenbestellung für das eurofestival 2026"
         submit: "Bestellen"
         info1: "Die Tageskarten enthalten keine Verpflegung. Essensbons können nur an der Infotheke des BÜZ erworben werden."
+        info2: "Karten für die Konzerte im Schloss können aus organisatorischen Gründen nur vor Ort erworben werden."
 
-        info3: "Die Auswahl der Zahlugsart folgt im nächsten Schitt. "
+        info3: "Die Auswahl der Zahlugsart folgt im nächsten Schritt."
     order_confirm:
       thanks: "Vielen Dank für Ihre Kartenbestellung. Sie erhalten in Kürze eine Bestätigungs-Email an %{email}. Ihre Bestellung wird bei uns unter der Nummer %{nr} geführt."
       heading: "Kartenbestellung Nr. %{nr} für das eurofestival Zupfmusik 2018 in Bruchsal"
@@ -72,18 +73,28 @@ de:
         <<: *event_card_labels
     submit:
       event_card:
-        create: "Bestellung aufgeben"
-        order_form: "Bestellung aufgeben 2"
+        create: "Weiter zur Zahlungsart"
+        order_form: "Weiter zur Zahlungsart"
   ef:
     event_cards:
+      invalid_state:
+        title: "Seite nicht mehr gültig"
+        note: "Die aufgerufene Seite ist nicht mehr gültig. Bitte starten Sie die Kartenbestellung erneut."
       order_form:
         title: "Kartenbestellung"
+      form:
+        submit: "Weiter zur Zahlungsart"
       choose_payment:
         title: "Bitte Zahlungsart auswählen"
+        submit: "Zahlungsart wählen"
       payment:
         submit: "Verbindlich bestellen"
+      payment_failed:
+        payment_failed: "Die Kreditkartenzahlung war nicht erfolgreich: %{status}."
+        retry_button: "Zahlung erneut durchführen"
       payment_complete:
         title: "Zahlung abgeschlossen"
+        title_failed: "Zahlung fehlgeschlagen"
         thank_you: "Vielen Dank für Ihre Kartenbestellung, sie erhalten in Kürze eine E-Mail Bestätigung."
       dd_payment:
         title: "Lastschrift-Zahlung"
