@@ -33,7 +33,7 @@ class GenerateOrchestraInvoiceJob < BaseInvoicesJob
     end
 
     Rails.logger.debug { "Generate invoice for: #{mglnr}" }
-    invoice_pdf = orchestra_invoice(orchestra, year)
+    invoice, invoice_pdf = orchestra_invoice(orchestra, year)
 
     if invoice_pdf.nil?
       logger.error("No invoice generated for mglnr: #{mglnr}")
@@ -43,7 +43,12 @@ class GenerateOrchestraInvoiceJob < BaseInvoicesJob
 
       add_mailer_params = { year: year, mglnr: mglnr }
 
-      tool.deliver_mailing(InvoiceMail, orchestra.to_addressee, invoice_pdf, nil, letters, add_mailer_params)
+      c_hash = invoice.customer.to_hash
+
+      addr = Addressee.new
+      addr.overwrite_with(c_hash)
+
+      tool.deliver_mailing(InvoiceMail, addr, invoice_pdf, nil, letters, add_mailer_params)
     end
 
     sepa_file = sepa_writer.generate_file 
