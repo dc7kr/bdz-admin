@@ -54,6 +54,8 @@ Rails.application.routes.draw do
 
   authenticate :user, ->(u) { u.admin? } do
     mount Sidekiq::Web, at: "/sidekiq"
+    mount CorikaInvoices::Engine, at: "/invoice_engine", as: "invoice_engine"
+    mount CorikaSumup::Engine, at: "/sumup", as: "sumup_engine"
   end
 
   resources :gema_events do
@@ -62,8 +64,6 @@ Rails.application.routes.draw do
     end
   end
 
-  mount CorikaInvoices::Engine, at: "/invoice_engine", as: "invoice_engine"
-  mount CorikaSumup::Engine, at: "/sumup", as: "sumup_engine"
 
   get "/auth/:provider/callback", to: "sessions#create"
 
@@ -540,12 +540,14 @@ Rails.application.routes.draw do
       collection do
         get :order_form
         post :order
+        get :invalid_state
       end
       member do
        get :choose_payment
        patch :payment
        get :payment_complete
        post :order_success
+       post :order
        patch :confirm_dd_payment
       end
     end
