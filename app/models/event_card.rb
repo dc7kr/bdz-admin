@@ -6,6 +6,9 @@ class EventCard < ApplicationRecord
 
   validates_with EventCardValidator
 
+  validates :iban, iban:true, if: :direct_debit?
+  validates :bic, bic: true, if: :direct_debit?
+
   include FestivalTicketHelper
 
   scope :current_festival, -> { where("festival_year = ?", BDZ_SETTINGS["config"]["festival_year"]) }
@@ -104,36 +107,46 @@ class EventCard < ApplicationRecord
     sum + (nr_concert_so_erm * prices["concert_erm"])
   end
 
-  def to_invoice
-
+  def invoice
     if has_invoice?
-      i = CorikaInvoices::Invoice.find(invoice_id)
-      return i
+      CorikaInvoices::Invoice.find(invoice_id)
+    else
+      nil
+    end
+  end
+
+  def to_invoice
+    if has_invoice?
+      invoice = CorikaInvoices::Invoice.find(invoice_id)
+      if invoice.final?
+        return invoice
+      end
+    else
+      ts = Time.zone.now.strftime "%Y%m%d"
+      renr = ts + "-EC#{id}"
+      year = Time.zone.now.year if year.nil?
+
+      invoice = CorikaInvoices::Invoice.new
+      invoice.invoice_date = Time.zone.now
+      invoice.booking_year = year
+      invoice.template_subdir = "ef"
+
+      # With tax
+      invoice.tax_mode = "S"
+      invoice.number_suffix = renr
+
+      c_hash = INVOICE_CONTACT_HASH["festival_gs"]
+      contact = CorikaInvoices::Contact.new(c_hash)
+      invoice.contact = contact
     end
 
-    ts = Time.zone.now.strftime "%Y%m%d"
-
-    renr = ts + "-EC#{id}"
-
-    year = Time.zone.now.year if year.nil?
-
-    invoice = CorikaInvoices::Invoice.new
-    invoice.invoice_date = Time.zone.now
-    invoice.booking_year = year
-    invoice.template_subdir = "ef"
     invoice.template = "event_card.#{preferred_lang}"
     invoice.locale = preferred_lang
     invoice.payment_method = payment_method
 
-    # With tax
-    invoice.tax_mode = "S"
-
-    invoice.number_suffix = renr
     invoice.customer = to_customer
 
-    c_hash = INVOICE_CONTACT_HASH["festival_gs"]
-    contact = CorikaInvoices::Contact.new(c_hash)
-    invoice.contact = contact
+    invoice.invoice_items.clear()
 
     prices = BDZ_SETTINGS["festival_prices"]
 
@@ -142,14 +155,14 @@ class EventCard < ApplicationRecord
 
     #invoice.consider_item_gross(nr_fest_bdz, prices["fest_bdz"], I18n.t("event_card.fest_bdz"))
     #invoice.consider_item_gross(nr_fest_bdz_erm, prices["fest_bdz_erm"], I18n.t("event_card.fest_bdz_erm"))
-    invoice.consider_item_gross(nr_do, prices["tageskarte"], I18n.t("event_card.do"), vat:7)
-    invoice.consider_item_gross(nr_fr, prices["tageskarte"], I18n.t("event_card.fr"), vat:7)
-    invoice.consider_item_gross(nr_sa, prices["tageskarte"], I18n.t("event_card.sa"), vat:7)
-    invoice.consider_item_gross(nr_do_erm, prices["tageskarte_erm"], I18n.t("event_card.do_erm"),vat:7)
-    invoice.consider_item_gross(nr_fr_erm, prices["tageskarte_erm"], I18n.t("event_card.fr_erm"),vat:7)
-    invoice.consider_item_gross(nr_sa_erm, prices["tageskarte_erm"], I18n.t("event_card.sa_erm"),vat:7)
-    invoice.consider_item_gross(nr_concert_so, prices["concert"], I18n.t("event_card.concert_so"),vat:7)
-    invoice.consider_item_gross(nr_concert_so_erm, prices["concert_erm"], I18n.t("event_card.concert_so_erm"),vat:7)
+    invoice.consider_item_gross(nr_do, prices["tageskarte"], I18n.t("event_card.do"), tax_rate:7)
+    invoice.consider_item_gross(nr_fr, prices["tageskarte"], I18n.t("event_card.fr"), tax_rate:7)
+    invoice.consider_item_gross(nr_sa, prices["tageskarte"], I18n.t("event_card.sa"), tax_rate:7)
+    invoice.consider_item_gross(nr_do_erm, prices["tageskarte_erm"], I18n.t("event_card.do_erm"),tax_rate:7)
+    invoice.consider_item_gross(nr_fr_erm, prices["tageskarte_erm"], I18n.t("event_card.fr_erm"),tax_rate:7)
+    invoice.consider_item_gross(nr_sa_erm, prices["tageskarte_erm"], I18n.t("event_card.sa_erm"),tax_rate:7)
+    invoice.consider_item_gross(nr_concert_so, prices["concert"], I18n.t("event_card.concert_so"),tax_rate:7)
+    invoice.consider_item_gross(nr_concert_so_erm, prices["concert_erm"], I18n.t("event_card.concert_so_erm"),tax_rate:7)
 
     invoice
   end
@@ -185,7 +198,7 @@ class EventCard < ApplicationRecord
       cust.country_code = "DE" if email.end_with?(".de") || email.end_with?(".at")
     end
 
-    if payment_method == "direct_debit"
+    if direct_debit?
       cust.direct_debit = 1
       cust.iban = iban
       cust.bic = bic
@@ -225,5 +238,29 @@ class EventCard < ApplicationRecord
 
   def is_online_payment?
     return payment_method == "credit_card"
+  end
+
+  def direct_debit?
+    return payment_method == "direct_debit"
+  end
+
+  def update_invoice
+    return  to_invoice unless has_invoice?
+
+    i = invoice
+    ef_year = BDZ_SETTINGS["config"]["festival_year"]
+
+    i.payment_method = payment_method
+
+    if direct_debit?
+      i.customer.direct_debit = 1
+      i.customer.iban = iban
+      i.customer.bic = bic
+      i.customer.account_owner = account_owner
+      i.customer.mandate_id = "EF#{ef_year}CARD#{id}"
+      i.customer.sig_date = Time.now
+    end
+
+    i
   end
 end
