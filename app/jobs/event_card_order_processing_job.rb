@@ -5,7 +5,7 @@ class EventCardOrderProcessingJob < BaseInvoicesJob
   def perform(checkout_reference)
 
     event_card = EventCard.find_by(checkout_reference: checkout_reference)
-    invoice = event_card.to_invoice
+    invoice = event_card.invoice
 
     if event_card.payment_method == "credit_card"
       checkout = CorikaSumup::Checkout.find_by(checkout_reference: checkout_reference)
