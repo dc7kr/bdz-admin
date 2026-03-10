@@ -140,6 +140,11 @@ class EventCard < ApplicationRecord
       invoice.contact = contact
     end
 
+    populate_invoice(invoice)
+    invoice
+  end
+
+  def populate_invoice(invoice)
     invoice.template = "event_card.#{preferred_lang}"
     invoice.locale = preferred_lang
     invoice.payment_method = payment_method
@@ -163,8 +168,6 @@ class EventCard < ApplicationRecord
     invoice.consider_item_gross(nr_sa_erm, prices["tageskarte_erm"], I18n.t("event_card.sa_erm"),tax_rate:7)
     invoice.consider_item_gross(nr_concert_so, prices["concert"], I18n.t("event_card.concert_so"),tax_rate:7)
     invoice.consider_item_gross(nr_concert_so_erm, prices["concert_erm"], I18n.t("event_card.concert_so_erm"),tax_rate:7)
-
-    invoice
   end
 
   def has_email?
@@ -245,9 +248,13 @@ class EventCard < ApplicationRecord
   end
 
   def update_invoice
-    return  to_invoice unless has_invoice?
+    return to_invoice unless has_invoice?
 
     i = invoice
+
+    if i.final?
+      return i
+    end
     ef_year = BDZ_SETTINGS["config"]["festival_year"]
 
     i.payment_method = payment_method
@@ -260,6 +267,8 @@ class EventCard < ApplicationRecord
       i.customer.mandate_id = "EF#{ef_year}CARD#{id}"
       i.customer.sig_date = Time.now
     end
+
+    populate_invoice(i)
 
     i
   end
