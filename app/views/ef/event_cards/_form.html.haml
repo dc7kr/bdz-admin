@@ -53,7 +53,10 @@
       .col-md-2.col-sm-2= f.number_field :nr_concert_so_erm, hide_label:true
       .col-md-2.col-sm-2=t('event_card.each_price', price: @prices["concert_erm"])
       .col-md-2.col-sm-2#sum_concert
-  =f.hidden_field  :nr_fest_bdz, value: 0
+  - if current_user
+    =f.number_field  :nr_fest_bdz, value: 0, min:0
+  - else 
+    =f.hidden_field  :nr_fest_bdz, value: 0
   =f.hidden_field  :nr_fest_bdz_erm, value: 0
   =f.hidden_field  :nr_concert_so_erm, value:0
   =f.hidden_field  :nr_concert_so, value:0
