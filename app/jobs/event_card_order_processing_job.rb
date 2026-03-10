@@ -5,7 +5,7 @@ class EventCardOrderProcessingJob < BaseInvoicesJob
   def perform(checkout_reference)
 
     event_card = EventCard.find_by(checkout_reference: checkout_reference)
-    invoice = event_card.invoice
+    invoice_obj = event_card.invoice
 
     if event_card.payment_method == "credit_card"
       checkout = CorikaSumup::Checkout.find_by(checkout_reference: checkout_reference)
@@ -16,9 +16,9 @@ class EventCardOrderProcessingJob < BaseInvoicesJob
       end
 
       if checkout.status == "PAID"
-        invoice.paid=true
-        invoice.transaction_code = checkout.transaction_code
-        invoice.save
+        invoice_obj.paid=true
+        invoice_obj.transaction_code = checkout.transaction_code
+        invoice_obj.save
       else
         # wait for PAID status
         EventCardOrderProcessingJob.wait(30.second).perform_later(checkout_reference)
@@ -26,7 +26,6 @@ class EventCardOrderProcessingJob < BaseInvoicesJob
     end
 
     # generate invoice PDF
-    invoice_obj = event_card.to_invoice
     pdf_file = invoice_obj.gen_pdf
 
     # send invoice pdf to customer

@@ -3,7 +3,7 @@ class EventCardOrderConfirm < ApplicationMailer
   def notification(checkout_reference)
     @event_card = EventCard.find_by(checkout_reference: checkout_reference)
 
-    @invoice = CorikaInvoices::Invoice.find(@event_card.invoice_id)
+    @invoice = @event_card.invoice
 
     to = email_address_with_name(@event_card.email, @event_card.name)
     from = contact_email_with_name("festival_gs")
@@ -23,7 +23,7 @@ class EventCardOrderConfirm < ApplicationMailer
 
   def treasurer(checkout_reference)
     @event_card = EventCard.find_by(checkout_reference: checkout_reference)
-    @invoice = CorikaInvoices::Invoice.find(@event_card.invoice_id)
+    @invoice = @event_card.invoice
 
     pdf_file = @invoice.get_invoice_file
     sepa_data = @invoice.gen_sepa_xml
