@@ -8,13 +8,10 @@
       if (String(type) == 'success') {
         window.location.assign('#{payment_complete_ef_event_card_url(@event_card)}')
       } else if (String(type)== 'auth-screen') {
-        alert("Auth screen!");
-        alert(body);
+        console.log("Auth screen!");
       } else {
-        console.log('Type', type);
-        console.log('Body', body);
-        alert(type);
-        alert(body);
+        console.log('Type:', type);
+        console.log('Body:', body);
       }
     },
   });
