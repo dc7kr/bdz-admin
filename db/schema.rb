@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_02_26_165950) do
+ActiveRecord::Schema[7.2].define(version: 2026_03_08_080733) do
   create_table "Inserenten", id: false, charset: "utf8mb3", collation: "utf8mb3_general_ci", options: "ENGINE=InnoDB ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.string "Firmenname", limit: 35
     t.string "Titel", limit: 5
@@ -377,6 +377,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_02_26_165950) do
     t.string "bank_name"
     t.string "invoice_id"
     t.string "transaction_code"
+    t.integer "order_state"
   end
 
   create_table "event_meals", charset: "utf8mb3", collation: "utf8mb3_general_ci", options: "ENGINE=InnoDB ROW_FORMAT=DYNAMIC", force: :cascade do |t|
@@ -445,6 +446,8 @@ ActiveRecord::Schema[7.2].define(version: 2026_02_26_165950) do
     t.boolean "confirmed"
     t.string "fee_invoice_id"
     t.string "ticket_invoice_id"
+    t.integer "outdoor_concert_id"
+    t.index ["outdoor_concert_id"], name: "index_festival_applications_on_outdoor_concert_id"
   end
 
   create_table "festival_concerts", id: :integer, charset: "utf8mb3", collation: "utf8mb3_general_ci", options: "ENGINE=InnoDB ROW_FORMAT=DYNAMIC", force: :cascade do |t|
@@ -1149,6 +1152,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_02_26_165950) do
   add_foreign_key "concerts", "bundeslaender", column: "bland", name: "concerts_ibfk_6"
   add_foreign_key "courses", "bundeslaender", column: "bland", name: "courses_ibfk_1"
   add_foreign_key "courses", "festivals", column: "fk_festival", name: "courses_ibfk_2"
+  add_foreign_key "festival_applications", "festival_concerts", column: "outdoor_concert_id"
   add_foreign_key "festivals", "bundeslaender", column: "bland", name: "festivals_ibfk_3", on_update: :cascade
   add_foreign_key "gema_events", "orchestras"
   add_foreign_key "magazine_adverts", "magazine_issues", name: "magazine_adverts_ibfk_2", on_update: :cascade, on_delete: :cascade
