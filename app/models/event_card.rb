@@ -158,7 +158,6 @@ class EventCard < ApplicationRecord
     item = consider_regular_tickets(invoice, nr_fest)
     item = consider_reduced_tickets(invoice, nr_fest_erm)
 
-    #invoice.consider_item_gross(nr_fest_bdz, prices["fest_bdz"], I18n.t("event_card.fest_bdz"))
     #invoice.consider_item_gross(nr_fest_bdz_erm, prices["fest_bdz_erm"], I18n.t("event_card.fest_bdz_erm"))
     invoice.consider_item_gross(nr_do, prices["tageskarte"], I18n.t("event_card.do"), tax_rate:7)
     invoice.consider_item_gross(nr_fr, prices["tageskarte"], I18n.t("event_card.fr"), tax_rate:7)
@@ -168,6 +167,7 @@ class EventCard < ApplicationRecord
     invoice.consider_item_gross(nr_sa_erm, prices["tageskarte_erm"], I18n.t("event_card.sa_erm"),tax_rate:7)
     invoice.consider_item_gross(nr_concert_so, prices["concert"], I18n.t("event_card.concert_so"),tax_rate:7)
     invoice.consider_item_gross(nr_concert_so_erm, prices["concert_erm"], I18n.t("event_card.concert_so_erm"),tax_rate:7)
+    invoice.consider_item_gross(nr_fest_bdz, prices["fest_bdz"], I18n.t("event_card.fest_bdz"))
   end
 
   def has_email?
