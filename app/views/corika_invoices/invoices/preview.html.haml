@@ -63,15 +63,16 @@
           %td.text-end.fw-bold=format_currency @invoice_hash[:sum][:line_total]
 
         - @invoice_hash[:sum][:taxes].each do |tax|
-          %tr
-            %td &nbsp;
-            %td.text-end.fw-bold MwSt
-            %td.fw-bold #{tax[:rate]} %
-            - if @invoice_hash[:sum][:taxes].size > 1
-              %td.text-end.fw-bold=format_currency tax[:basis]
-            - else
+          - if tax[:rate] > 0
+            %tr
               %td &nbsp;
-            %td.text-end.fw-bold=format_currency tax[:sum]
+              %td.text-end.fw-bold MwSt
+              %td.fw-bold #{tax[:rate]} %
+              - if @invoice_hash[:sum][:taxes].size > 1
+                %td.text-end.fw-bold=format_currency tax[:basis]
+              - else
+                %td &nbsp;
+              %td.text-end.fw-bold=format_currency tax[:sum]
       %tr
         %td &nbsp;
         %td.text-end.fw-bold Gesamtsumme
