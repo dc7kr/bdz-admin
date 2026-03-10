@@ -173,19 +173,24 @@ module Ef
     def payment_complete
       @event_card = EventCard.find_by_checkout_reference(params[:checkout_reference])
 
-      client = CorikaSumup::Client.new
-      checkouts = client.get_checkouts(@event_card.checkout_reference)
+      if @event_card.payment_method == "credit_card"
+        client = CorikaSumup::Client.new
+        checkouts = client.get_checkouts(@event_card.checkout_reference)
 
-      if checkouts.length >0
-        checkout = checkouts.first
+        if checkouts.length >0
+          checkout = checkouts.first
 
-        @status = checkout["status"]
+          @status = checkout["status"]
+        end
+      else
+        # default status for dd payment
+        @status = "PAID"
       end
 
       Rails.logger.debug("Payment complete: #{@status}")
       #redirected = check_order_state(@event_card)
       #return if redirected
-      if status == "PAID"
+      if @status == "PAID"
         @event_card.order_state = 99
         @event_card.save
         # remove checkout reference from session
