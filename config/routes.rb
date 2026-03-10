@@ -10,10 +10,11 @@ hosts = {
 Rails.application.routes.default_url_options[:host] = hosts[Rails.env.to_sym]
 
 Rails.application.routes.draw do
-  resources :festival_exhibitors do 
-        member do 
+  resources :festival_exhibitors do
+        member do
           get :invoice_preview
-        end 
+          get :gen_invoice
+        end
   end
   # Can be used by load balancers and uptime monitors to verify that the app is live.
   get "up" => "rails/health#show", as: :rails_health_check
@@ -55,8 +56,9 @@ Rails.application.routes.draw do
   authenticate :user, ->(u) { u.admin? } do
     mount Sidekiq::Web, at: "/sidekiq"
     mount CorikaInvoices::Engine, at: "/invoice_engine", as: "invoice_engine"
-    mount CorikaSumup::Engine, at: "/sumup", as: "sumup_engine"
   end
+  
+  mount CorikaSumup::Engine, at: "/sumup", as: "sumup_engine"
 
   resources :gema_events do
     collection do
@@ -96,8 +98,13 @@ Rails.application.routes.draw do
   end
 
   # resources :mgl, :controller => "member_area"
+  # TODO: Clarify scoping
+  # devise_scope [:member,:user] do
+  # authenticated do
   # BEGIN member namespace
   namespace :mgl do
+    get 'sign_in', to: 'sessions#new'
+
     resources :orchestras
     resources :person_members
 
@@ -502,6 +509,11 @@ Rails.application.routes.draw do
 
   namespace :adm do
     resources :letter_file_regeneration
+    resources :pdf_test do
+      member do
+        get :report_sheet_reminder
+      end
+    end
     resources :sepa_regeneration do
       collection do
         post :regenerate
