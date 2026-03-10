@@ -14,7 +14,7 @@
 
   - if @status == "PAID"
     = render partial: "card_order_table",  locals: { event_card: @event_card }
-    = t(".thank_you")
+    .alert.alert-success= t(".thank_you")
   - else
     = render partial: "payment_failed"
 
