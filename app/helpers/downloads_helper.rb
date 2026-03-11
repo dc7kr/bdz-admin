@@ -1,7 +1,7 @@
 module DownloadsHelper
 
   def invoice_pdf_download_path(invoice)
-    return unless invoice.present?
+    return unless invoice.present? and invoice.pdf_filename.present?
 
     pdf_file = invoice.get_invoice_file
 
