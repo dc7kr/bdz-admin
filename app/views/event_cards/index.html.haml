@@ -4,18 +4,17 @@
   %h2.title
     = t("common.all")
     = t("event_card",:count=>3)
-  %p 
-    %b Bezahlt 
+  %p
+    %b Bezahlt
     #{format_currency(@payed)}
     %br
-    %b Gesamtsumme 
+    %b Gesamtsumme
     #{format_currency(@sum)}
   %table.table.table-sm.table-hover.table-condensed.table-striped
     %thead
       %tr
         %th=attr_heading(EventCard,:id)
-        %th=attr_heading(EventCard,:fest)
-        %th Tageskarten |Do|Fr|Sa|
+        %th=attr_heading(EventCard,:payment_method)
         %th=attr_heading(EventCard,:name)
         %th &nbsp;
     = render @event_cards

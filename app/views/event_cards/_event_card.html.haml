@@ -1,13 +1,8 @@
-%tr{:class => cycle("odd", "even"), :id=>"row#{event_card.id}"}
-  %td #{event_card.id}
+%tr
   %td
-    Normal: #{event_card.nr_fest}/#{event_card.nr_fest_erm}
-    %br
-    BDZ: #{event_card.nr_fest_bdz}/#{event_card.nr_fest_bdz_erm}
+    #{event_card.id}
   %td
-    Normal: #{event_card.nr_do},#{event_card.nr_fr},#{event_card.nr_sa}
-    %br
-    Erm.: #{event_card.nr_do_erm},#{event_card.nr_fr_erm},#{event_card.nr_sa_erm}
+    =t("event_card.payment_methods.#{event_card.payment_method}") if event_card.payment_method.present?
   %td=mail_to event_card.email,event_card.name
   %td
     = link_to_show event_card, event_card_path(checkout_reference: event_card.checkout_reference)
