@@ -38,8 +38,8 @@
         %td #{t("common.sum")}
         %td
         %td.sum= format_currency(invoice.total,'€')
-
-  = link_to t("common.invoice_preview"), invoice_preview_event_card_path(@event_card.checkout_reference),  data: { 'turbo_frame' => 'modal' }, class: 'btn btn-secondary btn-sm'
+  - if @event_card.has_invoice?
+    = link_to t("common.invoice_preview"), invoice_preview_event_card_path(@event_card.checkout_reference),  data: { 'turbo_frame' => 'modal' }, class: 'btn btn-secondary btn-sm'
   - if @event_card.checkout_reference.present?
     =link_to "PDF", gen_invoice_event_card_path(@event_card.checkout_reference)
 
