@@ -1,7 +1,7 @@
 GIT
   remote: https://github.com/dc7kr/invoices-gem
-  revision: 1f6d7f23f50c08c1c04e01efcdd0326596bc1167
-  ref: 1f6d7f23f50c08c1c04e01efcdd0326596bc1167
+  revision: a3dc1260d98db8cbd9fe59ff2af3d605c0c78064
+  ref: a3dc1260d98db8cbd9fe59ff2af3d605c0c78064
   tag: 2.8
   specs:
     corika_invoices (2.8)
