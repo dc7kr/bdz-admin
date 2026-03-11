@@ -1,5 +1,7 @@
 class EventCardsController < AuthenticatedController
 
+  helper :downloads
+
   before_action :set_event_card, only: %i[ show edit update destroy invoice_preview ]
 
   # GET /event_cards
