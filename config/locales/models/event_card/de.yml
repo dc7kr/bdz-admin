@@ -1,5 +1,6 @@
 de:
   event_card: &event_card_labels
+    id: "Nummer"
     order_form:
         title: "Kartenbestellung für das eurofestival 2026"
         submit: "Bestellen"
@@ -46,6 +47,7 @@ de:
     checkout_reference: "Checkout-Referenz"
     checkout_id: "Checkout-ID"
     payment_method: "Zahlungsart"
+    name: "Name"
     iban: "IBAN"
     bic: "BIC/SWIFT-Code"
     bank_name: "Name der Bank"
