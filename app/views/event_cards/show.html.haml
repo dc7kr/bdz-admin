@@ -40,9 +40,15 @@
         %td.sum= format_currency(invoice.total,'€')
   - if @event_card.has_invoice?
     = link_to t("common.invoice_preview"), invoice_preview_event_card_path(@event_card.checkout_reference),  data: { 'turbo_frame' => 'modal' }, class: 'btn btn-secondary btn-sm'
-    = link_to "Rechnung PDF", invoice_pdf_download_path(@event_card.invoice),:class=>"btn btn-primary btn-sm", data: { turbo:false }
+    - if @event_card.invoice.pdf_filename.present? 
+      = link_to "Rechnung PDF", invoice_pdf_download_path(@event_card.invoice),:class=>"btn btn-primary btn-sm", data: { turbo:false }
+    - else 
+      .badge.text-bg-warning No PDF
     - if @event_card.invoice.customer.direct_debit?
-      = link_to "Rechnung SEPA", invoice_sepa_download_path(@event_card.invoice),:class=>"btn btn-primary btn-sm", data: { turbo:false }
+      - if @event_card.invoice.sepa_filename.present? 
+        = link_to "Rechnung SEPA", invoice_sepa_download_path(@event_card.invoice),:class=>"btn btn-primary btn-sm", data: { turbo:false }
+      - else 
+        .badge.text-bg-warning No SEPA
   - if @event_card.checkout_reference.present?
     =link_to "Sheet PDF", gen_invoice_event_card_path(@event_card.checkout_reference)
 

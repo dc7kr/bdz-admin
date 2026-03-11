@@ -1,6 +1,8 @@
 %tr
   %td
     #{event_card.id}
+    - if not event_card.invoice.present? or not event_card.invoice.pdf_filename.present?
+      .badge.text-bg-warning No PDF
   %td
     =t("event_card.payment_methods.#{event_card.payment_method}") if event_card.payment_method.present?
   %td=mail_to event_card.email,event_card.name
