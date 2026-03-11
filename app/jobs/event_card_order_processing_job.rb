@@ -20,8 +20,13 @@ class EventCardOrderProcessingJob < BaseInvoicesJob
         invoice_obj.transaction_code = checkout.transaction_code
         invoice_obj.save
       else
-        # wait for PAID status
-        EventCardOrderProcessingJob.wait(30.second).perform_later(checkout_reference)
+        # wait for PAID status unless EXPIRED
+        if checkout.status == "EXPIRED"
+          Rails.logger.info("Checkout #{checout_reference} is expired. Not re-sheduling.")
+        else
+          EventCardOrderProcessingJob.set(wait: 30.second).perform_later(checkout_reference)
+        end
+        return
       end
     end
 
