@@ -188,8 +188,9 @@ module Ef
       end
 
       Rails.logger.debug("Payment complete: #{@status}")
-      #redirected = check_order_state(@event_card)
-      #return if redirected
+      redirected = check_order_state(@event_card)
+      return if redirected
+
       if @status == "PAID"
         @event_card.order_state = 99
         @event_card.save
