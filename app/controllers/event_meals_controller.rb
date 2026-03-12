@@ -117,7 +117,7 @@ class EventMealsController < AuthenticatedController
   end
 
   def arrival_overview
-    @event_meals = policy_scope(EventMeal).order(:arrival_time)
+    @event_meals = policy_scope(EventMeal).current_festival.order(:arrival_time)
 
     @counts = {}
     @counts[:do] = { mittag: { tln: 0, veg: 0 }, abend: { tln: 0, veg: 0 } }
