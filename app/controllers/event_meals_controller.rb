@@ -125,9 +125,9 @@ class EventMealsController < AuthenticatedController
     @counts[:sa] = { mittag: { tln: 0, veg: 0 }, abend: { tln: 0, veg: 0 } }
 
     @event_meals.each do |e|
-      update_hash(10, @counts[:do], e)
-      update_hash(11, @counts[:fr], e)
-      update_hash(12, @counts[:sa], e)
+      update_hash(14, @counts[:do], e)
+      update_hash(15, @counts[:fr], e)
+      update_hash(16, @counts[:sa], e)
     end
   end
 
