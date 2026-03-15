@@ -30,7 +30,7 @@ class ParticipantSheetPdf < Prawn::Document
     end
 
     move_down 20
-    text "#{I18n.t('contact_person.phone')}:", size: 14, style: :bold
+    text "#{I18n.t('contact_person.phone')}: #{app.contact_person.phone}", size: 14, style: :bold
 
     return unless app.payment_status != "S"
 
@@ -64,7 +64,7 @@ class ParticipantSheetPdf < Prawn::Document
       count += i[:count].to_i if i[:basis].positive?
 
       if appl.payment_status == "S"
-        rows << [ i[:count].to_i, i[:label], "", "" ] if i.basis.positive?
+        rows << [ i[:count].to_i, i[:label], "", "" ] if i[:basis].positive?
       else
         rows << [ i[:count].to_i, i[:label], @view.format_currency(i[:basis], "EUR"),
                  @view.format_currency(i.count * i[:basis], "EUR") ]
