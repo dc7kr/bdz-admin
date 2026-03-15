@@ -38,7 +38,7 @@ class Distinction < ApplicationRecord
                    porto
     end
 
-    item = invoice.consider_item(1, portoPrice, "Porto und Verpackungskostenanteil", tax_rate: 0)
+    item = invoice.consider_item(1, portoPrice, "Porto und Verpackungskostenanteil", tax_rate: 19)
 
     invoice
   end
