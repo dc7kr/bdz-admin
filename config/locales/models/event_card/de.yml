@@ -58,6 +58,8 @@ de:
       direct_debit: "Lastschrift"
 
   event_cards:
+    form:
+      submit: "Kartenbestellung aktualisieren"
     edit:
       title: "Kartenbestellung Nr. %{id} bearbeiten"
     new:
