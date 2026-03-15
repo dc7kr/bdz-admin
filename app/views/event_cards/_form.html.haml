@@ -13,19 +13,21 @@
   = f.check_box :invoiced
   = f.check_box :payment_received
 
-  = f.text_field :iban
-  = f.text_field :bic
-  = f.text_field :bank_name
-  = f.text_field :account_owner
+  .card.mb-3
+    .card-body
+      = f.text_field :iban
+      = f.text_field :bic
+      = f.text_field :bank_name
+      = f.text_field :account_owner
   .row
     .col-md-2
     .col-md-4=t('event_card.regular')
     .col-md-4=t('event_card.reduced')
   .row
-    .col-md-2= f.label :nr_fest, t('event_card.fest')
-    .col-md-2= f.number_field :nr_fest,hide_label: true
+    .col-md-2= f.label :nr_fest, t('event_card.fest', price: @prices["fest"])
+    .col-md-2= f.number_field :nr_fest,hide_label: true, label: ""
     .col-md-2= t('event_card.each_price', price: @prices["fest"])
-    .col-md-2= f.number_field :nr_fest_erm ,hide_label: true
+    .col-md-2= f.number_field :nr_fest_erm ,hide_label: true, label: ""
     .col-md-2=t('event_card.each_price', price: @prices["fest_erm"])
     .col-md-2#fest_sum
   .row
@@ -37,23 +39,23 @@
     .col-md-2#fest_sum_bdz
   .row
     .col-md-2= f.label :nr_do, t('event_card.do')
-    .col-md-2= f.number_field :nr_do ,hide_label: true
+    .col-md-2= f.number_field :nr_do ,hide_label: true, label: ""
     .col-md-2=t('event_card.each_price', price: @prices["tageskarte"])
-    .col-md-2= f.number_field :nr_do_erm,hide_label: true
+    .col-md-2= f.number_field :nr_do_erm,hide_label: true, label: ""
     .col-md-2=t('event_card.each_price', price: @prices["tageskarte_erm"])
     .col-md-2#sum_do
   .row
     .col-md-2= f.label :nr_fr, t('event_card.fr')
-    .col-md-2= f.number_field :nr_fr ,hide_label: true
+    .col-md-2= f.number_field :nr_fr ,hide_label: true, label: ""
     .col-md-2=t('event_card.each_price', price: @prices["tageskarte"])
-    .col-md-2= f.number_field :nr_fr_erm,hide_label: true
+    .col-md-2= f.number_field :nr_fr_erm,hide_label: true, label: ""
     .col-md-2=t('event_card.each_price', price: @prices["tageskarte_erm"])
     .col-md-2#sum_fr
   .row
     .col-md-2= f.label :nr_sa, t('event_card.sa')
-    .col-md-2= f.number_field :nr_sa ,hide_label: true
+    .col-md-2= f.number_field :nr_sa ,hide_label: true, label: ""
     .col-md-2=t('event_card.each_price', price: @prices["tageskarte"])
-    .col-md-2= f.number_field :nr_sa_erm,hide_label: true
+    .col-md-2= f.number_field :nr_sa_erm,hide_label: true, label: ""
     .col-md-2=t('event_card.each_price', price: @prices["tageskarte_erm"])
     .col-md-2#sum_sa
   .row
