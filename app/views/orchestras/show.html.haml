@@ -6,9 +6,11 @@
     =  @orchestra.orchName
     - if not @orchestra.report_sheet_required? or not @orchestra.currentReportSheet.nil? then
       = link_to t("common.invoice_preview"), invoice_preview_orchestra_path(@orchestra),  data: { 'turbo_frame' => 'modal' }, class: 'btn btn-secondary btn-sm'
+      - if current_user.admin?
+        = link_to t("common.invoice_preview_yaml"), invoice_preview_orchestra_path(@orchestra, format: :yaml),  class: 'btn btn-secondary btn-sm'
   #orchestraAccordion.accordion
     .accordion-item
-      .accordion-header 
+      .accordion-header
         %button.accordion-button{"aria-controls" => "paymentDataCollapse", "aria-expanded" => "true" }
           Orchesterdaten
       .accordion-body

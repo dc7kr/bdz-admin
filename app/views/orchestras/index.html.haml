@@ -11,7 +11,7 @@
       %tr
         %th= sortable "mglnr", attr_heading(Member,:mglnr), "table-dark"
         %th= sortable "orchName", attr_heading(Orchestra,:orchName), "table-dark"
-        %th= sortable "email", attr_heading(Member,:email), "table-dark"
+        %th.d-none.d-md-inline= sortable "email", attr_heading(Member,:email), "table-dark"
         %th.last &nbsp;
     %tbody#orchestras
       =render @orchestras

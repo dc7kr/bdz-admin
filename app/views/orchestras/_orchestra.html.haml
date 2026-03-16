@@ -12,11 +12,12 @@
         
   %td
     = truncate(orchestra.orchName,:length => 50)
+    .d-md-none= mail_to orchestra.member.email, orchestra.member.email
 
   - if orchestra.member.nil? then
-    %td INCONSISTENT
+    %td.d-none.d-md-inline INCONSISTENT
   - else
-    %td
+    %td.d-none.d-md-inline
       = mail_to orchestra.member.email, orchestra.member.email
   %td.last
     = link_to_show orchestra

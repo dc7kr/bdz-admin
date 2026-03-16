@@ -14,7 +14,7 @@
         =entity_row(member,:dsgvo,:boolean)
         =entity_row(member,:dsgvo_date,:date)
         .row
-          .col-md-3.text-end.fw-bold=label :member,:magazines
+          .col-md-3.fw-bold=label :member,:magazines
           .col-md-9
             - if member.magazines >= 0
               = member.magazines
@@ -50,7 +50,7 @@
       =custom_entity_row(t("member.za"), t("common.za_"+member.za))
       =entity_row(member,:iban)
       .row
-        .col-md-3.text-end.fw-bold=label :member, :bic
+        .col-md-3.fw-bold=label :member, :bic
         .col-md-9
           =member.bic
           - if not BIC_FINDER.valid?(member.bic)
