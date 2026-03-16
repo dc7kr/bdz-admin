@@ -1,0 +1,5 @@
+%tr
+  %td=festival_application.id
+  %td=festival_application.orch_name
+  %td=l festival_application.rehearsal_time if festival_application.rehearsal_time.present?
+  %td=l festival_application.stage_time if festival_application.stage_time.present?

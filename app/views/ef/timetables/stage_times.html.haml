@@ -1,0 +1,14 @@
+.page-title-section
+  %h1=t(".title")
+
+.ef-inner#ef_inner
+  %table.table
+    %tr
+      %th=t("festival_application", count: 1)
+      %th=t("festival_application.orch_name")
+      %th=t("festival_application.rehearsal_time")
+      %th=t("festival_application.stage_time")
+    = render partial: "fa_stage_time", collection: @festival_applications, as: :festival_application
+
+= render :partial => "ef/footer"
+
