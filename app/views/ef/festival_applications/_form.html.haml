@@ -27,6 +27,19 @@
         = f.number_field :num_players
         = f.file_field :stage_plan
         = f.file_field :player_list
+        .row.mb-3
+          .col-md-3
+          .col-md-9
+            = t(".template_hint")
+            %br
+            = link_to "/downloads/sitzplan_vorlage.pdf", class: "btn btn-outline-secondary me-2" do
+              %i.fas.fa-download
+              = t(".stage_plan_template")
+
+            = link_to "/downloads/teilnahmeliste.ods", class: "btn btn-outline-secondary" do 
+              %i.fas.fa-download
+              = t(".player_list_template")
+
       #contact-tab-pane.tab-pane.fade{ role: "tabpanel", 'aria-labelledby': "contact-tab", 'tabindex': 0 }
         =  f.fields_for(@festival_application.contact_person)  do |person_f|
           =person_f.select :salutation, get_salutation_options( @festival_application.contact_person.salutation)
