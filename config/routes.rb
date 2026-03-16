@@ -57,7 +57,7 @@ Rails.application.routes.draw do
     mount Sidekiq::Web, at: "/sidekiq"
     mount CorikaInvoices::Engine, at: "/invoice_engine", as: "invoice_engine"
   end
-  
+
   mount CorikaSumup::Engine, at: "/sumup", as: "sumup_engine"
 
   resources :gema_events do
@@ -526,6 +526,11 @@ Rails.application.routes.draw do
   # BEGIN EF Namespace
 
   namespace :ef do
+    resources :timetables do
+      collection do
+        get :stage_times
+      end
+    end
     resources :festival_applications, param: :token do
       member do
         get :step2
