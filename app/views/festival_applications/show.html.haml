@@ -48,8 +48,10 @@
           - else
             keine Zuweisung
 
-          =entity_row(@festival_application,:stage_time)
-          =entity_row(@festival_application,:rehearsal_time)
+          =entity_row(@festival_application,:program_item)
+          =entity_row(@festival_application,:stage_timeslot)
+          =entity_row(@festival_application,:stage_time, :date)
+          =entity_row(@festival_application,:rehearsal_time, :date)
           =entity_row(@festival_application,:num_players)
           =entity_row(@festival_application,:stage_plan, :active_storage)
           =entity_row(@festival_application,:player_list, :active_storage)
