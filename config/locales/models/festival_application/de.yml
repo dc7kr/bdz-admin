@@ -121,6 +121,8 @@ de:
     festival_applications:
       form:
         template_hint: "Bitte verwenden Sie diese Vorlagen für Sitzplan und Spieler-Liste"
+        stage_plan_template: "Sitzplan-Vorlage"
+        player_list_template: "Spieler-Liste-Vorlage"
     timetables:
       stage_times:
         title: "Bühnenzeiten"
