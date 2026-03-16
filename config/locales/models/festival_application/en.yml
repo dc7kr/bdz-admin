@@ -85,6 +85,9 @@ en:
         <<: *festival_app_labels
 
   ef:
+    festival_applications:
+      form:
+        template_hint: "Please use the templates below for stage plan and player list upload."
     timetables:
       stage_times:
         title: "Stage times"

@@ -116,6 +116,9 @@ de:
 
 
   ef:
+    festival_applications:
+      form:
+        template_hint: "Bitte verwenden Sie diese Vorlagen für Sitzplan und Spieler-Liste"
     timetables:
       stage_times:
         title: "Bühnenzeiten"
