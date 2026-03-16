@@ -454,7 +454,7 @@ module ApplicationHelper
 
   def custom_entity_row(label, value)
     content_tag :div, class: "row" do
-      concat(content_tag(:div, content_tag(:label, label), class: "col-md-3 text-end fw-bold"))
+      concat(content_tag(:div, content_tag(:label, label), class: "col-md-3 fw-bold"))
       concat(content_tag(:div, value, class: "col-md-9"))
     end
   end
@@ -511,7 +511,7 @@ module ApplicationHelper
         end
       end
 
-      concat(content_tag(:div, label, class: "col-md-3 text-end fw-bold"))
+      concat(content_tag(:div, label, class: "col-md-3 fw-bold"))
       concat(content_tag(:div, data, class: "col-md-9"))
     end
   end
