@@ -29,6 +29,8 @@ de:
     group_list: Gruppen-Liste
     soloist_tickets: Solisten-Tageskarten
     stage_time: Auftrittszeit (ca.)
+    stage_timeslot: Auftrittsdauer (Minuten)
+    program_item: Programm-Position
     contact_phone: Kontakt-Telefon
     invoice: Rechnung
     payment_status: Zahlungsstatus

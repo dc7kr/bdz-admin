@@ -32,8 +32,10 @@
 
       = f.collection_select(:festival_concert_id, FestivalConcert.current_festival, :id, :label)
       = f.collection_select(:outdoor_concert_id, FestivalConcert.current_outdoor, :id, :label, include_blank:true)
-      = f.text_field :rehearsal_time
-      = f.text_field :stage_time
+      = f.datetime_field :rehearsal_time
+      = f.datetime_field :stage_time
+      = f.number_field :program_item
+      = f.number_field :stage_timeslot
 
   .card.mb-3.bg-light
     .card-body

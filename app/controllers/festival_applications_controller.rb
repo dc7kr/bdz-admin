@@ -418,7 +418,9 @@ class FestivalApplicationsController < AuthenticatedController
       :payment_status,
       :comment,
       :stage_plan,
-      :player_list
+      :player_list,
+      :stage_timeslot,
+      :program_item
     )
   end
 
