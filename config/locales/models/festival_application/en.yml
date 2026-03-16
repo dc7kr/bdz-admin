@@ -26,7 +26,7 @@ en:
     special_cast: "Special cast"
     contact_person: "Contact person"
     group_type: "Group type"
-    stage_time: Stage time
+    stage_time: Estimated Stage time
     rehearsal_time: Rehearsal time
     comment: "Comment"
     public_comment: "Additional information"
@@ -83,3 +83,8 @@ en:
     label:
       festival_application:
         <<: *festival_app_labels
+
+  ef:
+    timetables:
+      stage_times:
+        title: "Stage times"

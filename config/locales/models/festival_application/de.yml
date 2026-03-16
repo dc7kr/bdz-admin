@@ -28,7 +28,7 @@ de:
     closed: "Eine Anmeldung ist nicht mehr möglich. Wir bitten um Ihr Verständnis."
     group_list: Gruppen-Liste
     soloist_tickets: Solisten-Tageskarten
-    stage_time: Auftrittszeit
+    stage_time: Auftrittszeit (ca.)
     contact_phone: Kontakt-Telefon
     invoice: Rechnung
     payment_status: Zahlungsstatus
@@ -72,6 +72,8 @@ de:
       T: Trio
 
   festival_applications:
+    stage_times:
+      title: "Bühnenzeiten"
     index:
       title: "Alle Festival-Bewerbungen"
     new:
@@ -112,3 +114,8 @@ de:
     one: "Festival-Teilnehmer"
     other: "Festival-Teilnehmer"
 
+
+  ef:
+    timetables:
+      stage_times:
+        title: "Bühnenzeiten"
