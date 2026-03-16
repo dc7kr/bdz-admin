@@ -3,7 +3,7 @@
     - if event_meal.participant_id.nil? then
       NIL
     -else
-      = link_to event_meal.participant_id, festival_application_path(event_meal.participant_id)
+      = link_to event_meal.participant_id, festival_application_path(event_meal.festival_application)
   %td=event_meal.tln
   %td=event_meal.veg
   %td
