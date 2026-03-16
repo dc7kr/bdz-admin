@@ -107,7 +107,7 @@ de:
       payment_complete:
         title: "Zahlung abgeschlossen"
         title_failed: "Zahlung fehlgeschlagen"
-        thank_you: "Vielen Dank für Ihre Kartenbestellung, sie erhalten in Kürze eine E-Mail Bestätigung."
+        thank_you: "Vielen Dank für Ihre Kartenbestellung, Sie erhalten in Kürze per E-Mail eine Bestätigung und die Rechnung zu Ihrer Bestellung."
       dd_payment:
         title: "Lastschrift-Zahlung"
         submit: "Verbindlich bestellen"
