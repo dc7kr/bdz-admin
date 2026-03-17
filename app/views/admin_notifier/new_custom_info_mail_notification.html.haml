@@ -10,11 +10,11 @@
 
 Hallo #{@recipient.name},
 %br
-%p 
-  ein neues 
-  %b Rundschreiben 
-  wurde von 
-  %b=@triggered_by 
+%p
+  ein neues
+  %b Rundschreiben
+  wurde von
+  %b=@triggered_by
   erstellt.
 
 %p
@@ -26,11 +26,12 @@ Hallo #{@recipient.name},
 %h2 Ergebnisse:
 
 %table
-  - @results.each do |res|
-    - if not res.nil? then
-      %tr
-        %td=res[:mode]
-        %td=res[:entity].id
-        %td
-          %a{href: "mailto:#{res[:entity].email}"}
-            =res[:entity].email
+  - if @results.present?
+    - @results.each do |res|
+      - if not res.nil? then
+        %tr
+          %td=res[:mode]
+          %td=res[:entity].id
+          %td
+            %a{href: "mailto:#{res[:entity].email}"}
+              =res[:entity].email

@@ -7,6 +7,7 @@ ein neues Rundschreiben wurde von #{@triggered_by} erstellt.
 - else
   Sämtliche Schreiben wurden per E-Mail versandt.
 Ergebnisse:
-- @results.each do |res|
-  - if not res.nil? then
-    |#{res[:mode]}|#{res[:entity].id}|#{res[:entity].email}|
+- if @results.present?
+  - @results.each do |res|
+    - if not res.nil? then
+      |#{res[:mode]}|#{res[:entity].id}|#{res[:entity].email}|
