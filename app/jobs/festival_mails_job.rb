@@ -1,4 +1,7 @@
-class FestivalMailsJob < ApplicationJob
+class FestivalMailsJob < BaseMailerJob
+  queue_as :default
+  sidekiq_options retry: false
+
   include BulkMailHelper
   include Rails.application.routes.url_helpers
 
@@ -19,8 +22,6 @@ class FestivalMailsJob < ApplicationJob
     body_template = mail_params[:body]
 
     cur_year = Time.zone.now.year
-
-    triggered_by = User.find(_user_id)
 
     results = []
 
@@ -69,7 +70,7 @@ class FestivalMailsJob < ApplicationJob
       end
     end
 
-    send_admin_mail(nil, triggered_by, results)
+    send_admin_mail(nil, _user_id, results)
   end
 
   private
