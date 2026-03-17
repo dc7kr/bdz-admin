@@ -1,4 +1,4 @@
-class CustomInfoMailJob < ApplicationJob
+class CustomInfoMailJob < BaseMailerJob
   include Rails.application.routes.url_helpers
 
   sidekiq_options retry: false
@@ -16,8 +16,6 @@ class CustomInfoMailJob < ApplicationJob
 
   def perform(user_id, letterfile_hash, attachment_hash, subject, body, event_id, grp, via_paper)
     fa = FileArchiveTool.new(DOCS_CONFIG)
-
-    triggered_by = User.find(user_id)
 
     letterfile = MailingFile.from_hash(letterfile_hash)
     attachment = MailingFile.from_hash(attachment_hash)
@@ -95,6 +93,7 @@ class CustomInfoMailJob < ApplicationJob
       fa.merge_pdfs(letterArray, pdf_merged_file)
     end
 
-    send_admin_mail(pdf_merged_file, triggered_by, results)
+    send_admin_mail(pdf_merged_file, user_id, results)
   end
+
 end
