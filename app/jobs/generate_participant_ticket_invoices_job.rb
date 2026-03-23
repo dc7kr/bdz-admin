@@ -1,4 +1,7 @@
 class GenerateParticipantTicketInvoicesJob < BaseInvoicesJob
+  queue_as :default
+  sidekiq_options retry: false
+
   include BulkMailHelper
   include Rails.application.routes.url_helpers
 
