@@ -1,0 +1,17 @@
+Ladies and gentlemen,
+
+please find attached our invoice no.  <%= @invoice.full_number %> for your festival ticket order.
+
+Please transfer the invoiced amount to our bank account IBAN <%= @invoice.contact.iban %> BIC/SWIFT-CODE <%= @invoice.contact.bic %> at the
+<%= @invoice.contact.bank %> stating the invoice no. <%= @invoice.full_number %> and participant no. <%= @invoice.customer.id %>
+
+
+We are looking forward to welcoming you to the BDZ eurofestival <%= BDZ_SETTINGS["config"]["festival_year"] %> in Bruchsal soon.
+
+You can pickup your festival tickets and included event meals starting <%= @pickup_date %> at the info desk in the Bürgerzentrum Bruchsal.
+
+Kind regards
+
+
+Bund Deutscher Zupfmusiker e.V.
+

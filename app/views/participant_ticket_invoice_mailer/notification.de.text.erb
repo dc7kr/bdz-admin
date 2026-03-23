@@ -1,0 +1,15 @@
+Sehr geehrte Damen und Herren,
+
+als Anlage erhalten Sie die Rechnung Nr. <%= @invoice.full_number %> für Ihre Festival-Ticket-Bestellung.
+
+Bitte überweisen Sie den Rechnungsbetrag innerhalb von 14 Tagen nach Erhalt dieser Mail auf unser Festivalkonto IBAN <%= @invoice.contact.iban %> BIC <%= @invoice.contact.bic %> bei der
+<%= @invoice.contact.bank %> unter Angabe der Rechnungsnummer <%= @invoice.full_number %> und Teilnehmernummer  <%= @invoice.customer.id %>
+
+Wir freuen uns, sie schon bald beim BDZ eurofestival <%= BDZ_SETTINGS["config"]["festival_year"] %> begrüßen zu dürfen.
+
+Sie können Ihre Festival-Unterlagen ab dem <%= @pickup_date %> an der Info-Theke im Bürgerzentrum Bruchsal abholen.
+
+Mit freundlichen Grüßen
+
+Bund Deutscher Zupfmusiker e.V.
+

@@ -1,0 +1,4 @@
+de:
+  participant_ticket_invoice_mailer:
+    notification:
+      subject: "BDZ eurofestival zupfmusik %{festival_year} - Ticket Rechnung Nr. %{invoice_nr} fuer Teilnehmer Nr. %{participant_id}"

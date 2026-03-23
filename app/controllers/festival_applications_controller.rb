@@ -350,7 +350,7 @@ class FestivalApplicationsController < AuthenticatedController
   end
 
   def ticket_invoice
-    if @festival_application.fee_invoice_id.nil?
+    if @festival_application.ticket_invoice_id.nil?
         respond_to do |format|
             format.html { render :show, status: :unprocessable_entity }
         end

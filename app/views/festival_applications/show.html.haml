@@ -23,7 +23,7 @@
         =entity_row(@festival_application,:conductor)
         .row
           .col-md-3.text-end #{t("festival_application.contact_person")}:
-          .col-md-9= render(:partial =>  'contact_person_oneline')
+          .col-md-9= render(:partial =>  'contact_person_oneline', locals: { contact_person: @festival_application.contact_person })
     -if @festival_application.permission
       .card.mb-2
         .card-header
