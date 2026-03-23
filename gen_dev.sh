@@ -11,8 +11,8 @@ fi
 
 ./gen_version_info.sh $1
 
-docker build --target dev  .  --tag $APP_NAME:$APP_VERSION
+docker build --target dev .  --tag $APP_NAME:$APP_VERSION
 
-IMG_ID=$(docker image ls $APP_NAME:$APP_VERSION |tail -1 | awk '{print $3}')
+IMG_ID=$(docker image ls $APP_NAME:$APP_VERSION --format json |sed -e 's/^.*ID":"//;s/".*$//')
 
 docker tag $IMG_ID $APP_NAME:latest
