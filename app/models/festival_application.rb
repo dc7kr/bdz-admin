@@ -52,6 +52,9 @@ class FestivalApplication < ApplicationRecord
     cust.iban = nil
     cust.bic = nil
     cust.sig_date = nil
+    cust.email = contact_person.email
+    cust.entity_type = self.class.name
+    cust.entity_id = id
 
     cust.company = orch_name
     cust.salutation = contact_person.salutation
@@ -149,16 +152,29 @@ class FestivalApplication < ApplicationRecord
 
     prices = BDZ_SETTINGS["festival_prices"]
 
-    ts = Time.zone.now.strftime "%Y%m%d"
-    inv_nr = ts + "-T-#{id}"
-    inv = prepare_invoice(inv_nr)
+    ec = EventCard.new
 
+    ec.nr_fest = tickets
+    ec.nr_fest_erm =  tickets_red
 
-    consider_regular_tickets(inv, tickets)
-    consider_reduced_tickets(inv, tickets_red)
+    cust = to_customer
 
-    #consider_item_gross(inv, bdz_tickets, prices["fest_bdz"], I18n.t("event_card.fest_bdz"), tax_rate: 7)
-    #consider_item_gross(inv, bdz_tickets_red, prices["fest_bdz_erm"], I18n.t("event_card.fest_bdz_erm"), tax_rate: 7)
+    ec.email =  cust.email
+
+    if contact_person.country_code.present?
+      preferred_lang = contact_person.country_code.downcase
+      ec.preferred_lang = preferred_lang
+      if preferred_lang != 'de'
+         ec.preferred_lang = 'en'
+      end
+    end
+
+    inv = nil
+    I18n.with_locale(ec.to_locale) do
+      inv = ec.to_invoice
+      inv.template = "participant_card.#{ec.preferred_lang}"
+      inv.customer = to_customer
+    end
 
     inv
   end
