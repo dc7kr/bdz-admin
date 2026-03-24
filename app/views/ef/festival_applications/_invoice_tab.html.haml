@@ -14,6 +14,6 @@
           = t('festival_application.ticket_invoice') 
           - invoice = CorikaInvoices::Invoice.find(@festival_application.ticket_invoice_id)
           = invoice.full_number
-        .col-md-4=link_to my_fa_icon('file-dowload', 'fas'), ticket_invoice_ef_festival_application_path(@festival_application),:class=>"btn btn-primary btn-sm", data: { turbo:false }
+        .col-md-4=link_to my_fa_icon('file-download', 'fas'), ticket_invoice_ef_festival_application_path(@festival_application),:class=>"btn btn-primary btn-sm", data: { turbo:false }
     =custom_entity_row(t("festival_application.payment_status"), t("festival_application.payment_states.#{@festival_application.payment_status}"))
 
