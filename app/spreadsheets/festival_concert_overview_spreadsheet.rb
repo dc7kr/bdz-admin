@@ -35,13 +35,27 @@ class FestivalConcertOverviewSpreadsheet
     end
 
     festival_applications.each do |fa|
-      fa.festival_pieces.each do |fp|
         if fa.festival_concert.nil?
-          concert_nr = "keine"
+          fa_concert_nr = "keine"
         else
-          concert_nr = fa.festival_concert.number
+          fa_concert_nr = fa.festival_concert.number
         end
 
+        if fa.outdoor_concert.nil?
+          outdoor_concert = "keines"
+        else
+          outdoor_concert = fa.outdoor_concert.number
+        end
+      
+      fa.festival_pieces.each do |fp|
+        concert_nr = nil 
+
+        if fp.outdoor 
+          concert_nr = outdoor_concert
+        else
+          concert_nr = fa_concert_nr
+        end
+        
         t.row do 
           cell  concert_nr
           cell fa.id

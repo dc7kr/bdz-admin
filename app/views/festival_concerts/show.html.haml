@@ -21,5 +21,9 @@
         %th=t("festival_application.orch_name")
         %th=t("festival_application.num_players")
         %th=t("festival_application.payment_status")
-    %tbody= render @festival_concert.festival_applications
+    %tbody
+      - if @festival_concert.outdoor
+        = render @festival_concert.outdoor_participants.order(:program_item)
+      - else 
+        = render @festival_concert.festival_applications.order(:program_item)
 
