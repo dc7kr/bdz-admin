@@ -5,6 +5,8 @@
     #{t("event_card",:count=>1)} Nr. #{@event_card.id}
     - if @event_card.pickup then
       (bereits abgeholt)
+    - if not @event_card.order_state.present? or @event_card.order_state != 99
+      %span.badge.text-bg-warning=t("event_cards.order_incomplete")
   .inner
     %h3=mail_to @event_card.email, @event_card.name
     %h4 #{t('event_card.orderdate')}:  #{format_date @event_card.orderdate}
@@ -14,6 +16,7 @@
     =entity_row(@event_card, :zip)
     =entity_row(@event_card, :city)
     =entity_row(@event_card, :country_code,:country)
+    =entity_row(@event_card, :order_state)
 
     = entity_row(@event_card, :payment_method)
     = entity_row(@event_card, :payment_received)
