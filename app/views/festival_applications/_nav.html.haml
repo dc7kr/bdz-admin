@@ -1,16 +1,18 @@
 %ul.nav.nav-tabs
   %li.nav-item= link_to_up_path t("common.up"), home_landing_page_path
-  =nav_to_list FestivalApplication 
+  =nav_to_list FestivalApplication
   %li.nav-item= link_to t("festival_applications.permitted.nav"), permitted_festival_applications_path, :class =>    tabActiveClass(@current_action,'permitted',"nav-link")
   - if policy(FestivalApplication).no_tickets?
-    %li.nav-item= link_to t("festival_applications.no_tickets.nav"), no_tickets_festival_applications_path, :class =>    tabActiveClass(@current_action,'no_tickets',"nav-link")
-  %li.nav-item 
-    - if policy(FestivalApplication).accounting_permission? 
+    %li.nav-item= link_to t("festival_applications.no_tickets.nav"), no_tickets_festival_applications_path, :class => tabActiveClass(@current_action,'no_tickets',"nav-link")
+  - if policy(FestivalApplication).no_meals?
+    %li.nav-item= link_to t("festival_applications.no_meals.nav"), no_meals_festival_applications_path, :class => tabActiveClass(@current_action,'no_meals',"nav-link")
+  %li.nav-item
+    - if policy(FestivalApplication).accounting_permission?
       = link_to t("festival_applications.open_issues.nav"), open_issues_festival_applications_path, :class => tabActiveClass(@current_action,'open_issues',"nav-link")
   -if (@festival_application and not @festival_application.id.nil?)
-    = nav_to_show @festival_application 
+    = nav_to_show @festival_application
     = nav_to_edit @festival_application
     %li.nav-item= link_to t("festival_piece",:count=>3), festival_application_festival_pieces_path(@festival_application), :class => tabActiveClass(@current_action,'festival_pieces',"nav-link")
-  = nav_to_new FestivalApplication 
+  = nav_to_new FestivalApplication
 
 - content_for :search, render(:partial => 'nav_search', locals: { search_path: festival_applications_path})

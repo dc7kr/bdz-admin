@@ -90,6 +90,9 @@ de:
     no_tickets:
       title: "Festival-Bewerbungen ohne Tickets"
       nav: "Keine Tickets"
+    no_meals:
+      title: "Fehlende Essensmeldungen"
+      nav: "Keine Essensmeldung"
     open_issues:
       title: "Offene Posten"
       nav: "Offene Posten"

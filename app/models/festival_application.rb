@@ -27,6 +27,9 @@ class FestivalApplication < ApplicationRecord
 
   scope :current_with_contacts, -> { FestivalApplication.current_festival.includes(:contact_person) }
 
+  scope :no_meals, -> { left_outer_joins(:event_meal).where("event_meals.tln is NULL") }
+
+
   def t_country(locale = "de")
     translated_country(country_code, locale)
   end

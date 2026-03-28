@@ -9,31 +9,35 @@ class FestivalApplicationPolicy < FestivalDataPolicy
   end
 
   def fee_invoice_preview?
-    national_permission? 
+    national_permission?
   end
- 
+
   def fee_invoice?
-    national_permission? 
+    national_permission?
   end
 
   def ticket_invoice_preview?
-    national_permission? 
+    national_permission?
   end
 
   def no_tickets?
     national_permission?
   end
 
+  def no_meals?
+    national_permission?
+  end
+
   def ticket_invoice?
-    national_permission? 
+    national_permission?
   end
 
   def finalize?
-    national_permission? 
+    national_permission?
   end
 
   def gen_participant_sheet?
-    national_permission? 
+    national_permission?
   end
 
   class Scope < FestivalDataPolicy::Scope

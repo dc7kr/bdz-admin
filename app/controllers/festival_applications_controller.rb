@@ -63,7 +63,7 @@ class FestivalApplicationsController < AuthenticatedController
 
     if params["year"].nil?
       @sum_players = 42  # FestivalApplication.current_festival.sum(:num_players)
-        @festival_applications = policy_scope(FestivalApplication).current_festival.where(permission: true).order("#{sort_column} #{sort_direction}").page(params[:page]).per(20)
+        @festival_applications = policy_scope(FestivalApplication).current_festival.permitted.order("#{sort_column} #{sort_direction}").page(params[:page]).per(20)
     else
         @sum_players = policy_scope(FestivalApplication).where(year: params["year"]).sum(:num_players)
         @festival_applications = policy_scope(FestivalApplication).where(permission: true, year: params["year"]).order("#{sort_column} #{sort_direction}").page(params[:page]).per(20)
@@ -102,6 +102,21 @@ class FestivalApplicationsController < AuthenticatedController
       end
     end
   end
+
+  def no_meals
+    @festival_applications = policy_scope(FestivalApplication).current_festival.permitted.no_meals.page(params[:page]).per(20)
+
+    Rails.logger.debug(@festival_applications.count)
+
+    respond_to do |format|
+      format.html # index.html.erb
+
+      format.turbo_stream do
+        render partial: "list", locals: { resources: @festival_applications }
+      end
+    end
+  end
+
 
   def no_tickets
     authorize :festival_application, :no_tickets?
@@ -426,7 +441,7 @@ class FestivalApplicationsController < AuthenticatedController
 
   protected
   def index_actions
-    super.append(:permitted, :open_issues, :list, :grp_list, :no_tickets )
+    super.append(:permitted, :open_issues, :list, :grp_list, :no_tickets, :no_meals )
 
   end
 
