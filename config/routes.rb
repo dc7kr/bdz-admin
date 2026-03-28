@@ -155,6 +155,7 @@ Rails.application.routes.draw do
       get :list
       get :permitted
       get :no_tickets
+      get :no_meals
       get :participant_overview
       get :gen_participant_sheets
       get :open_issues
