@@ -8,6 +8,12 @@ class ReportSheetsController < AuthenticatedController
   # GET /report_sheets
   # GET /report_sheets.json
   def index
+    if params[:year].nil?
+      @year = Time.zone.now.year
+    else
+      @year = params[:year]
+    end
+ 
     if params[:orchestra_id]
       @orchestra = policy_scope(Orchestra).find(params[:orchestra_id])
 
@@ -17,17 +23,10 @@ class ReportSheetsController < AuthenticatedController
         @has_current_report_sheet = true if rs.year == thisYear
       end
     elsif params[:regional_organization_id]
-
-      year = if params[:year].nil?
-               Time.zone.now.year
-      else
-               params[:year]
-      end
-      @report_sheets = ReportSheet.for_regional_organization(year, params[:regional_organization_id])
+     @report_sheets = policy_scope(ReportSheet).for_regional_organization(@year, params[:regional_organization_id])
 
     else
-      @curYear = Time.zone.now.year
-      @report_sheets = ReportSheet.joins(orchestra: :member).order("members.mglnr").find_all_by_year(@curYear)
+      @report_sheets = policy_scope(ReportSheet).joins(orchestra: :member).all_for_year(@year).order("members.mglnr")
     end
 
     respond_to do |format|
@@ -39,53 +38,6 @@ class ReportSheetsController < AuthenticatedController
         ReportSheet.renderOds(@report_sheets, tmpfile.path)
         send_file(tmpfile.path, filename: "meldeboegen_#{year}.ods", type: "application/octet-stream")
       end
-    end
-  end
-
-  def copy_from_last_year
-    @orchestra = Orchestra.find(params[:orchestra_id])
-
-    @curYear = Time.zone.now.year
-    @prevYear = @curYear - 1
-
-    @prev = ReportSheet.where(year: @prevYear, orchestra_id: params[:orchestra_id]).first
-
-    logger.debug "PREV Sheet ID: #{@prev.id}"
-
-    @cur = ReportSheet.where(year: @curYear, orchestra_id: params[:orchestra_id]).first
-
-    cur_id = if @cur.nil?
-               nil
-    else
-               @cur.id
-    end
-
-    @cur = @prev.dup
-    @cur.year = Time.zone.now.year
-    @cur.report_date = Time.zone.now
-    @cur.id = cur_id
-    @cur.init_empty
-    @cur.generated = true
-    @cur.comment = t("report_sheet.data_from_last_year")
-    @cur.orchestra = @orchestra
-
-    unless @cur.valid?
-      @cur.errors.each do |e|
-        logger.warn "Invalid: #{e}:#{@cur.errors[e]}"
-      end
-    end
-
-    logger.debug("UV: #{@cur.uv}")
-
-    respond_to do |format|
-      if @cur.save
-        format.html do
-          redirect_to orchestra_report_sheet_path(@cur.orchestra, @cur), notice: t("report_sheet.create_success")
-        end
-      else
-        logger.error("ERROR: could not save report sheet")
-      end
-      logger.info("ID is: #{@cur.id}")
     end
   end
 
@@ -393,7 +345,7 @@ class ReportSheetsController < AuthenticatedController
       :report_date, :report_date_str, :comment, :ms_total, :reminder_level
     )
   end
-  
+
   protected
   def index_actions
     super.append(:final, :analysis)

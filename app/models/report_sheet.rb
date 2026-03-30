@@ -35,6 +35,8 @@ class ReportSheet < ApplicationRecord
   scope :final, ->(year) { where("year = ? and orchestra_id is not null", year) }
   scope :not_final, -> {  where(orchestra_id: nil) }
 
+  scope :all_for_year, ->(year) { where(year:year) }
+
   scope :current,
         -> { { conditions: [ "year =  ?", String(Time.zone.now.year) ] } }
 
@@ -279,7 +281,7 @@ class ReportSheet < ApplicationRecord
     booking = find_booking
 
     invoice.add_item(1, booking.amount, I18n.t("report_sheet.already_payed_amount"), tax_rate: 0 ) if booking.present?
-    
+
     invoice.add_item(1, Prices.delayFee, I18n.t("report_sheet.delay_fee"), tax_rate: 0 ) if delayed?
 
     invoice.add_item(1, Prices.reminder_fee(reminder_level), I18n.t("report_sheet.reminder_fee", level: reminder_level), tax_rate: 0) if reminder_level > 0
@@ -472,7 +474,7 @@ class ReportSheet < ApplicationRecord
     instr_sum+=go unless go.nil?
     instr_sum+=zi_o unless zi_o.nil?
     instr_sum+=oz unless oz.nil?
-    
+
     Rails.logger.info("Instrumentation: #{instr_sum}")
     return if instr_sum > 0
 
@@ -481,10 +483,27 @@ class ReportSheet < ApplicationRecord
 
   def at_least_one_member
     return unless !orchestra.nil? && !orchestra.is_coop?
-    
+
     return unless calcGemaCount <= 0
 
     errors.add(:adult, I18n.t("errors.report_sheet.at_least_one"))
+  end
+
+  def populate_from(other_rs)
+    attr_to_copy = [ "children" , "teens" , "youth" , "adult" , "senior" , "uv" , "zusatz_uv" , "korr_ztg" , "zusatz_ztg" , "gema" , "azubi" , "passive" , "child_ens" , "youth_ens" , "adult_ens" , "senior_ens" , "chamber_ens" , "other_ens" , "azubi_child" , "azubi_teens" , "azubi_youth" , "azubi_adult" , "azubi_senior" , "supporters" , "zo" , "zi_o" , "go" , "oz", "ms_total" ]
+
+    p "ID: #{other_rs.id}"
+
+    for attr_str in attr_to_copy do
+        value = other_rs.read_attribute(attr_str) if other_rs.has_attribute?(attr_str)
+        p value
+        public_send("#{attr_str}=", value) if respond_to? "#{attr_str}="
+    end
+
+    self.report_date=Time.now
+    self.generated= true
+    self.orchestra= other_rs.orchestra
+    self.comment = I18n.t("report_sheet.data_from_last_year")
   end
 
   #	TODO: def scoped for easier retrieval!
