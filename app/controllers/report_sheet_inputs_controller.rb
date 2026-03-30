@@ -13,12 +13,13 @@ class ReportSheetInputsController < AuthenticatedController
     end
 
     @report_sheet_inputs = if params[:orch].nil?
-      policy_scope(ReportSheetInput).includes(:orchestra)
+      policy_scope(ReportSheetInput).includes(:orchestra).page(params[:page]).per(20)
     else
       policy_scope(ReportSheetInput).includes(:orchestra).where(orchestra_id: params[:orch])
     end
 
     respond_to do |format|
+      format.turbo_stream { render partial: "list", locals: { resources: @report_sheet_inputs }  }
       format.html # index.html.erb
       format.json { render json: @report_sheet_inputs }
     end

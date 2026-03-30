@@ -15,5 +15,7 @@
     %td=report_sheet_input.token
     %td=report_sheet_input.report_sheet.updated_at unless report_sheet_input.report_sheet.nil?
     %td=link_to t("report_sheet_input",:count=>1)+" "+report_sheet_input.report_sheet.year.to_s, metadata_report_sheet_input_path(report_sheet_input)
-    %td=link_to "Direkt", login_mgl_report_sheet_inputs_path(:mglnr=>report_sheet_input.orchestra.member.mglnr,:token=> report_sheet_input.token)
+    %td
+      - if report_sheet_input.orchestra.present?
+        =link_to "Direkt", login_mgl_report_sheet_inputs_path(:mglnr=>report_sheet_input.orchestra.member.mglnr,:token=> report_sheet_input.token)
 
