@@ -196,7 +196,7 @@ module Ef
         @event_card.save
         # remove checkout reference from session
         session[:checkout_reference] = nil
-        EventCardOrderProcessingJob.perform_later(params[:checkout_reference])
+        EventCardOrderProcessingJob.set(wait: 5.second).perform_later(params[:checkout_reference])
       end
 
       respond_to do |format|
