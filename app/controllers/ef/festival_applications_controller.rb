@@ -26,14 +26,16 @@ module Ef
       end
     end
 
-    def fee_invoice
-      invoice = CorikaInvoices::Invoice.find(@festival_application.fee_invoice_id)
+    def ticket_invoice
+      invoice = CorikaInvoices::Invoice.find(@festival_application.ticket_invoice_id)
       invoice_file = CorikaInvoices::ArchiveFile.new(invoice.pdf_filename, invoice.pdf_filename, invoice.booking_year.to_s)
       send_file(invoice_file.full_path, filename: invoice_file.orig_filename, type: "application/octet-stream")
     end
 
-    def ticket_invoice
-      invoice = CorikaInvoices::Invoice.find(@festival_application.ticket_invoice_id)
+    def fee_invoice
+      invoice = CorikaInvoices::Invoice.find(@festival_application.fee_invoice_id)
+      invoice_file = CorikaInvoices::ArchiveFile.new(invoice.pdf_filename, invoice.pdf_filename, invoice.booking_year.to_s)
+      send_file(invoice_file.full_path, filename: invoice_file.orig_filename, type: "application/octet-stream")
     end
 
     def closed; end
