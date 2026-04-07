@@ -26,11 +26,32 @@ class ReportSheetInput < ApplicationRecord
   end
 
   def self.for_year(year)
-    includes(:report_sheet, :orchestra).where(report_sheets: { year: year }).first
+    includes(:report_sheet, :orchestra).where(report_sheets: { year: year })
   end
 
   def self.for_orchestra_and_year(orchestra, year)
     joins(:report_sheet).where("report_sheet_inputs.orchestra_id = :orchestra_id and report_sheets.year = :year",
                                orchestra_id: orchestra.id, year: year).first
+  end
+
+  def populate_from_last_year
+      last_rs = ReportSheet.find_by(orchestra_id: self.orchestra_id, year: report_sheet.year-1)
+
+      if not last_rs.present?
+        Rails.logger.warn("No report sheet for year #{report_sheet.year-1} and member #{orchestra.member.mglnr}")
+        return false
+      end
+
+      Rails.logger.debug(last_rs.year)
+      report_sheet.populate_from(last_rs)
+      report_sheet.reminder_level = 2
+      report_sheet.orchestra = self.orchestra
+
+      if report_sheet.save
+        report_sheet
+      else
+        Rails.logger.warning("Could not save: #{report_sheet.errors}")
+        nil
+      end
   end
 end

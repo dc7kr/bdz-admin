@@ -261,6 +261,13 @@ class ReportSheet < ApplicationRecord
         invoice.add_item(youth, 0, I18n.t("report_sheet.youth_rate"), tax_rate: 0 )
         invoice.add_item(adult, 0, I18n.t("report_sheet.adult_rate"), tax_rate: 0 )
         invoice.add_item(senior, 0, I18n.t("report_sheet.senior_rate"), tax_rate: 0 )
+
+        if isMinTariff?
+          invoice.add_item(1, Prices.minTariff, I18n.t("report_sheet.min_tariff"), tax_rate: 0 )
+        elsif isMaxTariff?
+          i = invoice.add_item(1, Prices.maxTariff, I18n.t("report_sheet.max_tariff"), tax_rate: 0 )
+        end
+
       else
         # regular price calculation
         invoice.add_item(children, Prices.childrenRate, I18n.t("report_sheet.children_rate"), tax_rate: 0 )
@@ -270,21 +277,18 @@ class ReportSheet < ApplicationRecord
         invoice.add_item(senior, Prices.seniorRate, I18n.t("report_sheet.senior_rate"), tax_rate: 0 )
       end
 
-      if isMinTariff?
-        invoice.add_item(1, Prices.minTariff, I18n.t("report_sheet.min_tariff"), tax_rate: 0 )
-      elsif isMaxTariff?
-        i = invoice.add_item(1, Prices.maxTariff, I18n.t("report_sheet.max_tariff"), tax_rate: 0 )
-      end
     end
 
     invoice.add_item(calc_uv_count, Prices.uvRate, I18n.t("report_sheet.uv"), tax_rate: 0 ) if uv
+
     booking = find_booking
 
     invoice.add_item(1, booking.amount, I18n.t("report_sheet.already_payed_amount"), tax_rate: 0 ) if booking.present?
 
     invoice.add_item(1, Prices.delayFee, I18n.t("report_sheet.delay_fee"), tax_rate: 0 ) if delayed?
 
-    invoice.add_item(1, Prices.reminder_fee(reminder_level), I18n.t("report_sheet.reminder_fee", level: reminder_level), tax_rate: 0) if reminder_level > 0
+    invoice.add_item(1, Prices.reminder_fee(1), I18n.t("report_sheet.reminder_fee", level: 1), tax_rate: 0) if reminder_level > 0
+    invoice.add_item(1, Prices.reminder_fee(2), I18n.t("report_sheet.reminder_fee", level: 2), tax_rate: 0) if reminder_level > 1
 
     invoice
   end
@@ -492,11 +496,8 @@ class ReportSheet < ApplicationRecord
   def populate_from(other_rs)
     attr_to_copy = [ "children" , "teens" , "youth" , "adult" , "senior" , "uv" , "zusatz_uv" , "korr_ztg" , "zusatz_ztg" , "gema" , "azubi" , "passive" , "child_ens" , "youth_ens" , "adult_ens" , "senior_ens" , "chamber_ens" , "other_ens" , "azubi_child" , "azubi_teens" , "azubi_youth" , "azubi_adult" , "azubi_senior" , "supporters" , "zo" , "zi_o" , "go" , "oz", "ms_total" ]
 
-    p "ID: #{other_rs.id}"
-
     for attr_str in attr_to_copy do
         value = other_rs.read_attribute(attr_str) if other_rs.has_attribute?(attr_str)
-        p value
         public_send("#{attr_str}=", value) if respond_to? "#{attr_str}="
     end
 
