@@ -17,8 +17,17 @@ class AuthenticatedController < ApplicationController
     msg = exception.message
 
     query = exception.query
+    if not query.present?
+      query = "show?"
+    end
+
     t_query = t("common.queries.#{query}")
-    t_class = I18n::t("activerecord.models.#{exception.record.model_name.to_s.underscore}", count: 1)
+    
+    if exception.record.present? 
+      t_class = I18n::t("activerecord.models.#{exception.record.model_name.to_s.underscore}", count: 1)
+    else
+      t_class = "model"
+    end
     
     flash[:error] = t("common.authz_error", query: t_query, class: t_class)
 
