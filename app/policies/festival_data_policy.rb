@@ -21,6 +21,8 @@ class FestivalDataPolicy < ApplicationPolicy
     def resolve
       if national_permission? 
         scope.all
+      else
+         raise Pundit::NotAuthorizedError, 'not allowed to view this action'
       end
     end
   end
