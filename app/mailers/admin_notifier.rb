@@ -160,6 +160,13 @@ class AdminNotifier < ApplicationMailer
     mail(to: user_to, subject: "Neue Ehrungsrechnung Nr. #{@invoice_number}", from: system_from).deliver
   end
 
+  def populate_missing_rs_notification(recipient, year, generated_member_nrs)
+    @generated = generated_member_nrs
+    @year = year
+
+    mail(to: recipient, subject: "[BDZDB] Fehlende Meldebögen #{@year} wurden generiert.")
+  end
+
   def generic_pdf_notification
     recipient = params[:recipient]
     p_attachment = MailingFile.from_hash(params[:attachment])
