@@ -24,7 +24,7 @@ class User < ApplicationRecord
   # This is in addition to a real persisted field like 'username'
   attr_accessor :login
 
-  # attr_accessible :login
+  scope :for_admin_notify, -> { with_any_role(:admin, :accounting) }
 
   def self.find_first_by_auth_conditions(warden_conditions)
     conditions = warden_conditions.dup
@@ -35,9 +35,6 @@ class User < ApplicationRecord
     end
   end
 
-  def self.for_admin_notify
-    User.with_any_role(:admin, :accounting)
-  end
 
   def self.for_developer_notify
     retval = []
