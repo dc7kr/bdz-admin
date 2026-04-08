@@ -14,11 +14,11 @@ GIT
 
 GIT
   remote: https://github.com/dc7kr/sumup-gem
-  revision: b5939d5861ea43abe48bb7891229ccc2d02969d0
-  ref: b5939d5861ea43abe48bb7891229ccc2d02969d0
-  tag: 1.1
+  revision: b400eb0b3019b70c7b94a5c69263ca250e2ca7a4
+  ref: b400eb0b3019b70c7b94a5c69263ca250e2ca7a4
+  tag: 1.2
   specs:
-    corika_sumup (1.1)
+    corika_sumup (1.2)
       countries
       kaminari
       mongoid (~> 9.0)
