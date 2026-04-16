@@ -39,7 +39,7 @@ class BaseInvoicesJob < ApplicationJob
     sepa_invoices_url = url_helpers.dl_combined_invoice_url(generator_session_id: generator_session_id) unless generator_session_id.nil?
 
     User.for_admin_notify.each do |user|
-      AdminNotifier.new_invoices(user, invoices_url: invoices_url, sepa_url: sepa_url, sepa_invoices_url: sepa_invoices_url, triggered_by: triggered_by).deliver
+      AdminNotifier.new_invoices(user, invoices_url: invoices_url, sepa_url: sepa_url, sepa_invoices_url: sepa_invoices_url).deliver
     end
   end
 
@@ -49,7 +49,7 @@ class BaseInvoicesJob < ApplicationJob
 
     url = nil
 
-    if file.nil? 
+    if file.nil?
       Rails.logger.warning("Download URL file is nil")
       return nil
     end
