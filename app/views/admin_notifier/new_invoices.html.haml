@@ -1,0 +1,16 @@
+Hallo #{@recipient.name},
+%br
+
+ein neuer Rechnungslauf wurde durchgefuehrt.
+%br
+
+
+- if not @invoices_url.nil?
+  %p Die Rechnungen wurden per E-Mail versandt.
+  %p  Verbleibende Papier-Rechnungen koennen unter #{link_to @invoices_url, @invoices_url} heruntergeladen werden.
+- else
+  %p Alle Rechnungen wurden per E-Mail verschickt.
+
+- if @sepa_url != nil
+  %p Es wurden Lastschriften erstellt - die zugehoerige SEPA Datei kann unter #{link_to @sepa_url, @sepa_url} heruntergeladen werden.
+  %p Ein PDF mit den in der SEPA Datei enthaltenen Buchungen hier: #{link_to @sepa_invoices_url, @sepa_invoices_url}.
