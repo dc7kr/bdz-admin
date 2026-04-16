@@ -69,58 +69,59 @@ class AdminNotifier < ApplicationMailer
     mail(to: user.email, subject: "Meldebogen Anschreiben")
   end
 
-  def single_invoice(recipient, invoice_url, sepa_url:nil, sepa_invoices_url:nil, triggered_by:, mglnr:, letter:false)
+  def single_invoice(recipient, invoice_url, sepa_url:nil, sepa_invoices_url:nil, triggered_by_id:, mglnr:, letter:false)
     @recipient = recipient
     @invoice_url = invoice_url
     @sepa_url = sepa_url
     @sepa_invoices_url = sepa_invoices_url
     @mglnr = mglnr
 
-    set_triggered_by(triggered_by)
+    set_triggered_by(triggered_by_id)
 
     mail(to: recipient.email, subject: "Neue Beitragsrechnung #{mglnr}")
   end
 
 
-  def new_invoices(recipient, invoices_url, sepa_url:nil, sepa_invoices_url:nil, triggered_by:)
+  def new_invoices(recipient, invoices_url, sepa_url:nil, sepa_invoices_url:nil, triggered_by_id:)
     @recipient = recipient
     @invoices_url = invoices_url
     @sepa_url = sepa_url
     @sepa_invoices_url = sepa_invoices_url
 
-    set_triggered_by(triggered_by)
+    set_triggered_by(triggered_by_id)
 
     mail(to: recipient.email, subject: "BDZ Rechnungslauf")
   end
 
-  def new_custom_info_mail_notification(recipient, letters_url, results, triggered_by)
+  def new_custom_info_mail_notification(recipient, letters_url, results, triggered_by_id:)
     @recipient = recipient
     @results = results
     @letter_url = letters_url
 
-    set_triggered_by(triggered_by)
+    set_triggered_by(triggered_by_id)
 
     mail(to: recipient.email, subject: "Rundschreiben wurde erstellt")
   end
 
-  def new_reminders_notification(recipient, reminders, current_user)
+  def new_reminders_notification(recipient, reminders, triggered_by_id: )
+    set_triggered_by(triggered_by_id)
     @recipient = recipient
     @reminders_url = reminders
 
-    @current_user = current_user
     mail(to: recipient.email, subject: "BDZ Mahnungslauf")
   end
 
-  def new_lv_ct_notification(recipient, sepa_file, current_user)
+  def new_lv_ct_notification(recipient, sepa_file, triggered_by_id:)
+    set_triggered_by(triggered_by_id)
     @recipient = recipient
-    @sepafile_url = sepa_file
+    @sepa_url = sepa_file
 
-    @current_user = current_user
     mail(to: recipient.email, subject: "BDZ LV Beitragsanteile SEPA CT")
   end
 
-  def test_notification(current_user)
-    current_user_addr = email_address_with_name(current_user.email, current_user.name)
+  def test_notification(triggered_by_id)
+    set_triggered_by(triggered_by_id)
+    current_user_addr = email_address_with_name(self.triggered_by.email, self.triggered_by.name)
 
     adm = contact_email("admin")
     from = system_from
@@ -128,7 +129,9 @@ class AdminNotifier < ApplicationMailer
     mail(to: current_user_addr, subject: "[BDZDB] Test Notification", from:  from, bcc: adm)
   end
 
-  def new_distinction_notification(triggered_by, invoice)
+  def new_distinction_notification(triggered_by_id, invoice)
+    set_triggered_by(triggered_by_id)
+
     @direct_debit = invoice.customer.direct_debit?
 
     @invoice_number = invoice.full_number
@@ -155,7 +158,7 @@ class AdminNotifier < ApplicationMailer
     @name = contact_name("treasurer")
     mail(to: treasurer_to, cc: admin_cc, subject: "Neue Ehrungsrechnung Nr. #{@invoice_number}", from: system_from).deliver
 
-    @name =  triggered_by.name
+    @name =  self.triggered_by.name
     Rails.logger.info("Sending notify to #{user_to}")
     mail(to: user_to, subject: "Neue Ehrungsrechnung Nr. #{@invoice_number}", from: system_from).deliver
   end
