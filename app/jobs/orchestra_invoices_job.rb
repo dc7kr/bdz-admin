@@ -8,7 +8,8 @@ class OrchestraInvoicesJob < BaseInvoicesJob
 
   sidekiq_options lock: :while_executing,
                   lock_timeout: 2,
-                  on_conflict: :reject
+                  on_conflict: :reject,
+                  retry: false
 
   # sidekiq_options queue: "high"
   # sidekiq_options retry: false
@@ -54,7 +55,7 @@ class OrchestraInvoicesJob < BaseInvoicesJob
 
         add_mailer_params = { year: year, mglnr: mglnr }
 
-        # don't use orchestra.to_addressee here as it 
+        # don't use orchestra.to_addressee here as it
         # will not return the invoice contact
         tool.deliver_mailing(InvoiceMail, addr, invoice_file, nil, letters, add_mailer_params)
         delivered += 1
