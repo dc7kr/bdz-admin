@@ -14,15 +14,18 @@ class TicketOrderOverviewPdf < Prawn::Document
     invoice = event_card.invoice
 
     retval = ""
-    invoice.items.each do |item|
-      retval += "#{item.count} #{item.label}\n"
+
+    if invoice.present?
+      invoice.items.each do |item|
+        retval += "#{item.count} #{item.label}\n"
+      end
     end
 
     retval
   end
 
   def render_payed(item)
-    if item.payment_received
+    if item.payment_received or item.payment_method == :credit_card
       "x"
     else
       ""
@@ -32,14 +35,15 @@ class TicketOrderOverviewPdf < Prawn::Document
   def format_orders
     @result = []
 
-    @result << [ "Nr.", "Name", "Tickets", "Summe", "Bezahlt" ]
+    @result << [ "Nr.", "Name", "Tickets", "Summe", "Bezahlt", "Abgeholt" ]
 
     @result += @event_cards.map do |item|
       [ item.id,
        item.name,
        format_ticket_list(item),
-       @view.format_currency(item.invoice.sum),
-       render_payed(item) ]
+       item.invoice.present? ? @view.format_currency(item.invoice.total) : "",
+       render_payed(item),
+       "" ]
     end
 
     @result
@@ -50,10 +54,11 @@ class TicketOrderOverviewPdf < Prawn::Document
       row(0).font_style = :bold
       columns(0).align = :right
       columns(1).align = :left
-      columns(2..3).align = :right
+      columns(2).align = :left
+      columns(3).align = :right
       self.row_colors = %w[FFFFFF DDDDDD]
       self.header = true
-      self.column_widths = { 0 => 50, 3 => 60 }
+      self.column_widths = { 0 => 50, 2=> 180, 3 => 60 }
     end
   end
 
