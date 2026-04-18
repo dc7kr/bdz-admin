@@ -179,6 +179,8 @@ gem "exception_notification"
 # for QR generation
 gem "rqrcode", "~> 3.0"
 
+gem 'phonelib'
+
 group :development do
   gem "rubocop"
   gem "rubocop-discourse"
