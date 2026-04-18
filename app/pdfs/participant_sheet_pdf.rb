@@ -30,6 +30,7 @@ class ParticipantSheetPdf < Prawn::Document
     end
 
     move_down 20
+    text "#{app.contact_person.fullname}", size: 14, style: :bold
     text "#{I18n.t('contact_person.phone')}: #{app.contact_person.phone}", size: 14, style: :bold
 
     return unless app.payment_status != "S"
@@ -55,26 +56,17 @@ class ParticipantSheetPdf < Prawn::Document
   end
 
   def invoice(appl)
-    move_down 20
-    text I18n.t("participant_sheet.tickets"), style: :bold, size: 14
     rows = []
     count = 0
 
-    @invoice_hash[:items].each do |i|
-      count += i[:count].to_i if i[:basis].positive?
+    rows << [ appl.tickets, I18n.t("festival_application.tickets")]
+    rows << [ appl.tickets_red, I18n.t("festival_application.tickets_red")]
 
-      if appl.payment_status == "S"
-        rows << [ i[:count].to_i, i[:label], "", "" ] if i[:basis].positive?
-      else
-        rows << [ i[:count].to_i, i[:label], @view.format_currency(i[:basis], "EUR"),
-                 @view.format_currency(i.count * i[:basis], "EUR") ]
-      end
-    end
+    move_down 20
+    text I18n.t("participant_sheet.tickets"), style: :bold, size: 14
 
-    rows << if appl.payment_status == "S"
-              [ count, I18n.t("common.sum"), "", "" ]
-    else
-              [ count, I18n.t("common.sum"), "", @view.format_currency(@invoice_hash[:sum][:grand_total], "EUR") ]
+    if @appl.soloist_tickets.present? && @appl.soloist_tickets.positive?
+      rows << [ @appl.soloist_tickets, I18n.t('festival_application.soloist_tickets') ]
     end
 
     table rows do
@@ -88,9 +80,6 @@ class ParticipantSheetPdf < Prawn::Document
     end
 
     move_down 20
-    return unless !@appl.soloist_tickets.nil? && @appl.soloist_tickets.positive?
-
-    text "#{@appl.soloist_tickets} #{I18n.t('festival_application.soloist_tickets')}"
   end
 
   def performance(app)
@@ -122,8 +111,20 @@ class ParticipantSheetPdf < Prawn::Document
       restore_stroke_and_fill
     else
       text I18n.t("participant_sheet.food"), style: :bold
-      text "#{I18n.t('participant_sheet.meals')} #{app.event_meal.tln}"
-      text "#{I18n.t('event_meal.veg')} #{app.event_meal.veg}"
+
+      rows = []
+
+      rows << [ app.event_meal.veg, I18n.t('event_meal.veg') ]
+      rows << [ app.event_meal.tln-app.event_meal.veg, I18n.t('event_meals.regular_meals') ] 
+      rows << [ app.event_meal.tln, I18n.t('participant_sheet.meals') ]
+
+      table rows do
+        cells.borders = []
+        cells.style(padding: 2)
+        columns(0).font_style = :bold
+        columns(0).align = :right
+        columns(1).align = :left
+      end
     end
   end
 
