@@ -176,8 +176,10 @@ class EventCardsController < AuthenticatedController
   end
 
   def overview
+    year = BDZ_SETTINGS["config"]["festival_year"]
+    @event_cards = policy_scope(EventCard).where("festival_year= ?", year).order(:id)
+
     datePrefix = Time.zone.now.strftime "%Y%m%d%H%M%s"
-    @event_cards = policy_scope(EventCard).where("pickup=0").order(:id)
     respond_to do |format|
       format.pdf do
         pdf = TicketOrderOverviewPdf.new(@event_cards, view_context)
@@ -213,4 +215,10 @@ class EventCardsController < AuthenticatedController
     @event_card = policy_scope(EventCard).find_by(checkout_reference: params[:checkout_reference])
     authorize @event_card
   end
+
+  protected
+  def index_actions
+    super.append(:overview)
+  end
+
 end
