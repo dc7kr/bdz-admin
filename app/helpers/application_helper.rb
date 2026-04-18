@@ -496,6 +496,8 @@ module ApplicationHelper
         data = link_to tmp, tmp
       elsif type == :select
         data = "TODO"
+      elsif type == :phone
+        data = link_to_phone(tmp)
       elsif type == :country
         ctry = ISO3166::Country[tmp]
         data = if ctry.nil?
@@ -590,5 +592,13 @@ module ApplicationHelper
     end
 
     I18n.t("helpers.form_title.#{key}", model: t(entity_class.model_name.i18n_key, count: 1))
+  end
+
+  def link_to_phone(phone)
+    return if phone.blank?
+
+    parsed = Phonelib.parse(phone)
+
+    link_to parsed.national, "tel:#{parsed.full_e164}"
   end
 end
