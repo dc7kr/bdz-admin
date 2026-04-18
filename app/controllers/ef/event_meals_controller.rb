@@ -31,9 +31,9 @@ module Ef
       @event_meal = EventMeal.new
       @festival_application = FestivalApplication.find_by_token(params[:festival_application_token])
       @event_meal.arrival_time=DateTime.new(2026,5,14,6,0,Rational(2,24))
+      @event_meal.festival_year = BDZ_SETTINGS["config"]["festival_year"]
       @event_meal.participant_id = @festival_application.id
       @event_meal.tln = @festival_application.tickets_total
-
 
       respond_to do |format|
         format.html # new.html.erb
@@ -73,6 +73,7 @@ module Ef
       @event_meal.email = @festival_application.contact_person.email
       @event_meal.name= @festival_application.contact_person.fullname
       @event_meal.orderdate = Time.zone.now
+      @event_meal.festival_year = BDZ_SETTINGS["config"]["festival_year"]
 
       respond_to do |format|
         if @event_meal.save
