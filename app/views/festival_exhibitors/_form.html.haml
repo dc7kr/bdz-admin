@@ -4,8 +4,11 @@
       =t("festival_exhibitor.fee")
     .card-body
       =f.check_box :special_tariff
+      =f.number_field :tariff
       =f.text_field :special_amount
       =f.text_field :item_text
+      =f.number_field :rollups
+      =f.number_field :advert_type
 
   = f.fields_for :contact do |contact_form|
     = render :partial => "contacts/contact_form", :locals => { :f => contact_form,:contact=>@festival_exhibitor.contact }

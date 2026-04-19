@@ -10,8 +10,13 @@
 
   = entity_row(@festival_exhibitor, :year)
   = entity_row(@festival_exhibitor, :special_tariff)
-  = entity_row(@festival_exhibitor, :special_amount)
-  = entity_row(@festival_exhibitor, :tariff)
+  - if @festival_exhibitor.special_tariff == 1
+    = entity_row(@festival_exhibitor, :special_amount)
+  - else
+    = entity_row(@festival_exhibitor, :tariff)
+  = entity_row(@festival_exhibitor, :rollups)
+  = entity_row(@festival_exhibitor, :advert_type)
+
   - if policy(@festival_exhibitor).invoice_preview?
     = link_to 'Rechnungsvorschau', invoice_preview_festival_exhibitor_path(@festival_exhibitor),  data: { 'turbo_frame' => 'modal' }, class: 'btn btn-secondary btn-sm'
   = link_to 'PDF', gen_invoice_festival_exhibitor_path(@festival_exhibitor), format: :pdf, class: 'btn btn-secondary btn-sm'
