@@ -4,15 +4,15 @@ class FestivalExhibitor < ApplicationRecord
   has_one :contact, as: :contact_entity
 
   accepts_nested_attributes_for :contact
- 
+
 
   def gen_invoice
 
     prices = BDZ_SETTINGS["festival_prices"]
-    
+
     ts = Time.zone.now.strftime "%Y%m%d"
     invoice_nr = ts + "-EXH-#{id}"
-    
+
     invoice = CorikaInvoices::Invoice.new
     invoice.booking_year = Time.now.year
     invoice.invoice_date = Time.now.to_date
@@ -37,16 +37,28 @@ class FestivalExhibitor < ApplicationRecord
     invoice.template = "exhibitor.de"
     invoice.locale = :de
 
-    price = nil
-    if not special_amount.nil? and special_amount > 0
-        price=special_amount
+    #price = nil
+    #if not special_amount.nil? and special_amount > 0
+    #    price=special_amount
+    #else
+    #    price=prices["exhibitors"][tariff]
+    #end
+    if special_tariff==1
+      invoice.consider_item(1, special_amount, item_text, tax_rate: 19)
     else
-        price=prices["exhibitors"][tariff]
+      amount = prices["exhibitors"]["pack_#{tariff}"]
+      invoice.consider_item(1, amount, "#{I18n.t("festival_exhibitor.tariff")} #{tariff}",tax_rate: 19)
     end
 
-    invoice.consider_item(1, price, "Ausstellergebühr BDZ eurofestival zupfmusik 2026", "C62", 19)
+    if rollups.present? and rollups > 0
+      invoice.consider_item(rollups, prices["exhibitors"]["rollup"], I18n.t("festival_exhibitor.rollup"), tax_rate: 19)
+    end
 
-    invoice 
+    if advert_type.present? and advert_type > 0
+      invoice.consider_item(1, prices["exhibitors"]["advert_#{advert_type}"], I18n.t("festival_exhibitors.advert_#{advert_type}"), tax_rate: 19)
+    end
+
+    invoice
   end
 
   def to_customer
@@ -71,7 +83,7 @@ class FestivalExhibitor < ApplicationRecord
     cust.street = contact.street
     cust.zip = contact.zip
     cust.city = contact.city
-    cust.country = contact.country_code
+    cust.country_code = contact.country_code
 
     cust
   end
