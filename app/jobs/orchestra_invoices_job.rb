@@ -40,25 +40,28 @@ class OrchestraInvoicesJob < BaseInvoicesJob
       end
 
       Rails.logger.debug { "Generate invoice for: #{mglnr}" }
-      invoice, invoice_file = orchestra_invoice(orch, year)
 
-      customer = invoice.customer
+      I18n.with_locale(:de) do
+        invoice, invoice_file = orchestra_invoice(orch, year)
 
-      c_hash = customer.to_hash
-      addr = Addressee.new
-      addr.overwrite_with(c_hash)
+        customer = invoice.customer
 
-      if invoice_file.nil?
-        logger.error("No invoice generated for mglnr: #{mglnr}")
-      else
-        logger.debug("PDF File archived as #{invoice_file}")
+        c_hash = customer.to_hash
+        addr = Addressee.new
+        addr.overwrite_with(c_hash)
 
-        add_mailer_params = { year: year, mglnr: mglnr }
+        if invoice_file.nil?
+          logger.error("No invoice generated for mglnr: #{mglnr}")
+        else
+          logger.debug("PDF File archived as #{invoice_file}")
 
-        # don't use orchestra.to_addressee here as it
-        # will not return the invoice contact
-        tool.deliver_mailing(InvoiceMail, addr, invoice_file, nil, letters, add_mailer_params)
-        delivered += 1
+          add_mailer_params = { year: year, mglnr: mglnr }
+
+          # don't use orchestra.to_addressee here as it
+          # will not return the invoice contact
+          tool.deliver_mailing(InvoiceMail, addr, invoice_file, nil, letters, add_mailer_params)
+          delivered += 1
+        end
       end
     end
 
