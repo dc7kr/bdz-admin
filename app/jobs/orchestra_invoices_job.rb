@@ -72,8 +72,8 @@ class OrchestraInvoicesJob < BaseInvoicesJob
     end
 
     if delivered.positive?
-      ddFile = sepa_writer.generate_file
-      send_mail(ddFile, pdf_merged_file)
+      sepa_file = sepa_writer.generate_file
+      send_mail(sepa_file, pdf_merged_file, generator_session_id)
     else
       logger.info("No invoices delivered. Not sending notify")
     end
