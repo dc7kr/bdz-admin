@@ -212,9 +212,9 @@ class Orchestra < ApplicationRecord
     invoice.contact = contact
 
     if is_coop?
-      invoice.add_item(1, Prices.coopRate, "Beitrag kooperativ")
+      invoice.add_item(1, Prices.coopRate, "Beitrag kooperativ", tax_type: "E")
     elsif is_foreign_coop?
-      invoice.add_item(1, Prices.foreignCoopRate, "Auslandsorchesterbeitrag")
+      invoice.add_item(1, Prices.foreignCoopRate, "Auslandsorchesterbeitrag", tax_type: "E")
     else
       sheet = sheet_for_year(year)
 

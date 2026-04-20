@@ -251,44 +251,44 @@ class ReportSheet < ApplicationRecord
       return
     elsif orchestra.is_lorch?
       # regional orchestras only pay a fixed fee no calculation...
-      invoice.add_item(1, Prices.lvOrchRate, "Landesorchesterbeitrag")
+      invoice.add_item(1, Prices.lvOrchRate, "Landesorchesterbeitrag", tax_type: "E")
     else
       if isMinTariff? || isMaxTariff?
         # in case of min or max tariff we don't
         # charge the real fees but 0 (just print out the statistics)
-        invoice.add_item(children, 0, I18n.t("report_sheet.children_rate"), tax_rate:0 )
-        invoice.add_item(teens, 0, I18n.t("report_sheet.teens_rate"), tax_rate: 0 )
-        invoice.add_item(youth, 0, I18n.t("report_sheet.youth_rate"), tax_rate: 0 )
-        invoice.add_item(adult, 0, I18n.t("report_sheet.adult_rate"), tax_rate: 0 )
-        invoice.add_item(senior, 0, I18n.t("report_sheet.senior_rate"), tax_rate: 0 )
+        invoice.add_item(children, 0, I18n.t("report_sheet.children_rate"), tax_type: "E" )
+        invoice.add_item(teens, 0, I18n.t("report_sheet.teens_rate"), tax_type: "E" )
+        invoice.add_item(youth, 0, I18n.t("report_sheet.youth_rate"), tax_type: "E" )
+        invoice.add_item(adult, 0, I18n.t("report_sheet.adult_rate"), tax_type: "E" )
+        invoice.add_item(senior, 0, I18n.t("report_sheet.senior_rate"), tax_type: "E" )
 
         if isMinTariff?
-          invoice.add_item(1, Prices.minTariff, I18n.t("report_sheet.min_tariff"), tax_rate: 0 )
+          invoice.add_item(1, Prices.minTariff, I18n.t("report_sheet.min_tariff"), tax_type: "E" )
         elsif isMaxTariff?
-          i = invoice.add_item(1, Prices.maxTariff, I18n.t("report_sheet.max_tariff"), tax_rate: 0 )
+          i = invoice.add_item(1, Prices.maxTariff, I18n.t("report_sheet.max_tariff"), tax_type: "E" )
         end
 
       else
         # regular price calculation
-        invoice.add_item(children, Prices.childrenRate, I18n.t("report_sheet.children_rate"), tax_rate: 0 )
-        invoice.add_item(teens, Prices.teensRate, I18n.t("report_sheet.teens_rate"), tax_rate: 0 )
-        invoice.add_item(youth, Prices.youthRate, I18n.t("report_sheet.youth_rate"), tax_rate: 0 )
-        invoice.add_item(adult, Prices.adultRate, I18n.t("report_sheet.adult_rate"), tax_rate: 0 )
-        invoice.add_item(senior, Prices.seniorRate, I18n.t("report_sheet.senior_rate"), tax_rate: 0 )
+        invoice.add_item(children, Prices.childrenRate, I18n.t("report_sheet.children_rate"), tax_type: "E" )
+        invoice.add_item(teens, Prices.teensRate, I18n.t("report_sheet.teens_rate"), tax_type: "E" )
+        invoice.add_item(youth, Prices.youthRate, I18n.t("report_sheet.youth_rate"), tax_type: "E" )
+        invoice.add_item(adult, Prices.adultRate, I18n.t("report_sheet.adult_rate"), tax_type: "E" )
+        invoice.add_item(senior, Prices.seniorRate, I18n.t("report_sheet.senior_rate"), tax_type: "E" )
       end
 
     end
 
-    invoice.add_item(calc_uv_count, Prices.uvRate, I18n.t("report_sheet.uv"), tax_rate: 0 ) if uv
+    invoice.add_item(calc_uv_count, Prices.uvRate, I18n.t("report_sheet.uv"), tax_type: "E" ) if uv
 
     booking = find_booking
 
-    invoice.add_item(1, booking.amount, I18n.t("report_sheet.already_payed_amount"), tax_rate: 0 ) if booking.present?
+    invoice.add_item(1, booking.amount, I18n.t("report_sheet.already_payed_amount"), tax_type: "E" ) if booking.present?
 
-    invoice.add_item(1, Prices.delayFee, I18n.t("report_sheet.delay_fee"), tax_rate: 0 ) if delayed?
+    invoice.add_item(1, Prices.delayFee, I18n.t("report_sheet.delay_fee"), tax_type: "E" ) if delayed?
 
-    invoice.add_item(1, Prices.reminder_fee(1), I18n.t("report_sheet.reminder_fee", level: 1), tax_rate: 0) if reminder_level > 0
-    invoice.add_item(1, Prices.reminder_fee(2), I18n.t("report_sheet.reminder_fee", level: 2), tax_rate: 0) if reminder_level > 1
+    invoice.add_item(1, Prices.reminder_fee(1), I18n.t("report_sheet.reminder_fee", level: 1), tax_type: "E") if reminder_level > 0
+    invoice.add_item(1, Prices.reminder_fee(2), I18n.t("report_sheet.reminder_fee", level: 2), tax_type: "E") if reminder_level > 1
 
     invoice
   end
