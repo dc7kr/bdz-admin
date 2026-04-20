@@ -20,8 +20,5 @@
     -if ( member_account_booking.booking_mode=='M' or isAdmin?) then
       = link_to_edit member_account_booking
       = link_to_delete member_account_booking
-    -if is_orchestra
-      = link_to_download_path member_account_booking, download_orchestra_member_account_booking_path(member_account_booking.member,member_account_booking)
-    -elsif is_pm
-      = link_to_download_path member_account_booking, download_person_member_member_account_booking_path(member_account_booking.member,member_account_booking)
+    = booking_dl_link(member_account_booking)
 
