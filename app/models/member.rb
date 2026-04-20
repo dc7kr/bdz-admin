@@ -233,6 +233,7 @@ class Member < ApplicationRecord
     booking.member_id = id
     booking.booking_year = year
     booking.filename = filename
+    booking.invoice_id = invoice.id
     booking.save
 
     booking
