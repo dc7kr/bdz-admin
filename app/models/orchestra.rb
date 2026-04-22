@@ -57,6 +57,30 @@ class Orchestra < ApplicationRecord
     h
   end
 
+  def regenerate_invoice(year)
+    mab = member.member_account_bookings.find_by(booking_year: year, booking_type: "B")
+
+    if not mab.present?
+      return false
+    end
+
+    invoice = CorikaInvoices::Invoice.find(mab.invoice_id)
+
+    invoice.items.clear
+
+    if invoice.items.length > 0
+      Rails.logger.error("Items remaining: #{invoice.items.length}!")
+      return nil
+    end
+
+    populate_invoice(invoice, year)
+
+    invoice.pdf_filename = nil
+    invoice.save
+
+    invoice
+  end
+
   def self.for_mglnr(mglnr)
     member = Member.find_by("mglnr = ?", mglnr)
 
@@ -199,32 +223,11 @@ class Orchestra < ApplicationRecord
     # this ensures that the invoice number is unique (generates -XX suffix)
     invoice.make_distinct
 
-    # taxfree
-    invoice.tax_mode = "E"
-
-    cust = to_customer
-
-    invoice.customer = cust
-
-
     c_hash = INVOICE_CONTACT_HASH["gs"]
     contact = CorikaInvoices::Contact.new(c_hash)
     invoice.contact = contact
 
-    if is_coop?
-      invoice.add_item(1, Prices.coopRate, "Beitrag kooperativ", tax_type: "E")
-    elsif is_foreign_coop?
-      invoice.add_item(1, Prices.foreignCoopRate, "Auslandsorchesterbeitrag", tax_type: "E")
-    else
-      sheet = sheet_for_year(year)
-
-      if sheet.nil? && !is_coop?
-        Rails.logger.info("No Sheet for orchestra #{self} and year#{year}")
-        return nil
-      end
-
-      sheet.add_invoice_items(invoice)
-    end
+    populate_invoice(invoice,year)
 
     invoice
   end
@@ -584,4 +587,34 @@ class Orchestra < ApplicationRecord
       nil
     end
   end
+
+
+  private
+  def populate_invoice(invoice, year)
+      # taxfree
+    invoice.tax_mode = "E"
+
+    cust = to_customer
+
+    invoice.customer = cust
+
+
+    if is_coop?
+      invoice.add_item(1, Prices.coopRate, "Beitrag kooperativ", tax_type: "E")
+    elsif is_foreign_coop?
+      invoice.add_item(1, Prices.foreignCoopRate, "Auslandsorchesterbeitrag", tax_type: "E")
+    else
+      sheet = sheet_for_year(year)
+
+      if sheet.nil? && !is_coop?
+        Rails.logger.info("No Sheet for orchestra #{self} and year#{year}")
+        return nil
+      end
+
+      sheet.add_invoice_items(invoice)
+    end
+
+    invoice
+  end
+
 end

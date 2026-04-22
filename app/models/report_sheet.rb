@@ -246,6 +246,7 @@ class ReportSheet < ApplicationRecord
   end
 
   def add_invoice_items(invoice)
+
     if orchestra.is_coop? || orchestra.is_foreign_coop?
       logger.info("No additional items - special orchestra")
       return
@@ -276,14 +277,16 @@ class ReportSheet < ApplicationRecord
         invoice.add_item(adult, Prices.adultRate, I18n.t("report_sheet.adult_rate"), tax_type: "E" )
         invoice.add_item(senior, Prices.seniorRate, I18n.t("report_sheet.senior_rate"), tax_type: "E" )
       end
-
     end
 
     invoice.add_item(calc_uv_count, Prices.uvRate, I18n.t("report_sheet.uv"), tax_type: "E" ) if uv
 
-    booking = find_booking
+    # if it was persisted previously this is a regeneration
+    if not invoice.persisted?
+      booking = find_booking
 
-    invoice.add_item(1, booking.amount, I18n.t("report_sheet.already_payed_amount"), tax_type: "E" ) if booking.present?
+      invoice.add_item(1, booking.amount, I18n.t("report_sheet.already_payed_amount"), tax_type: "E" ) if booking.present?
+    end
 
     invoice.add_item(1, Prices.delayFee, I18n.t("report_sheet.delay_fee"), tax_type: "E" ) if delayed?
 
