@@ -59,7 +59,7 @@ class FestivalMailsJob < BaseMailerJob
       logger.debug("Result: #{body}")
       mailer_params = { body: body, subject: subject }
 
-      result = tool.deliver_mailing(FestivalMail, appl.contact_person.to_addressee, nil, nil, letterArray,
+      result = tool.deliver_mailing(FestivalMail, appl.contact_person.to_addressee, nil, attachment, letterArray,
                                     mailer_params)
       results << result
 
