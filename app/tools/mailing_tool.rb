@@ -103,10 +103,14 @@ class MailingTool
       type = addressee.entity.class
       if mail_blacklisted?(addressee.email)
         record_mail_failure(addressee, "blacklist")
-        { err: "blacklisted", entity: addressee, type: type, mode: "E" }
-
+        return { err: "blacklisted", entity: addressee, type: type, mode: "E" }
       else
         # to correctly record failed mails we have to use deliver_now ...
+        if not addressee.email.present?
+          Rails.logger.warn "Empty recipient. Skipping."
+          record_mail_failure(addressee, "invalid")
+          return { err: "invalid", entity: addressee, type: type, mode: "E" }
+        end
         mailer.notify(addressee.email, letter_hash, attachment_hash, additional_mailer_params).deliver_now
         record_mail_success(addressee, @event_title, letter)
         { success: true, mode: "E", entity: addressee }
