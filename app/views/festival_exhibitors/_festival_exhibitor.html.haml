@@ -1,10 +1,23 @@
 %tr
-  %td= festival_exhibitor.year
-  %td= festival_exhibitor.special_tariff
-  %td= festival_exhibitor.special_amount
-  - if festival_exhibitor.contact.present?
-    %td= festival_exhibitor.contact.company
-  %td= festival_exhibitor.tariff
+  %td=festival_exhibitor.id
+  %td
+    - if festival_exhibitor.contact.present?
+      - if festival_exhibitor.contact.company.present?
+        = festival_exhibitor.contact.company
+      - else
+        = festival_exhibitor.contact.fullname
+  %td
+    - if festival_exhibitor.special_tariff == 1
+      n/a
+    - else
+      = festival_exhibitor.tariff
+  %td
+    - if festival_exhibitor.special_tariff == 1
+      = format_currency festival_exhibitor.special_amount
+    - else
+      - invoice = festival_exhibitor.gen_invoice
+      - if invoice.present?
+        = format_currency invoice.net_sum
   %td= link_to_show festival_exhibitor
   %td= link_to_edit festival_exhibitor
   %td= link_to_delete festival_exhibitor

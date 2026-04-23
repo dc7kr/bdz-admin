@@ -20,7 +20,11 @@
 
   - if policy(@festival_exhibitor).invoice_preview?
     = link_to 'Rechnungsvorschau', invoice_preview_festival_exhibitor_path(@festival_exhibitor),  data: { 'turbo_frame' => 'modal' }, class: 'btn btn-secondary btn-sm'
-  = link_to 'PDF', gen_invoice_festival_exhibitor_path(@festival_exhibitor), format: :pdf, class: 'btn btn-secondary btn-sm'
+
+  - if @festival_exhibitor.has_invoice?
+    = link_to "Rechnung PDF", invoice_pdf_download_path(@festival_exhibitor.invoice),:class=>"btn btn-primary btn-sm", data: { turbo:false }
+  - else
+    = link_to 'Generate PDF', gen_invoice_festival_exhibitor_path(@festival_exhibitor), format: :pdf, class: 'btn btn-secondary btn-sm'
   %hr
   = render partial: "contacts/contact_show", :locals => { :contact =>  @festival_exhibitor.contact }
 
