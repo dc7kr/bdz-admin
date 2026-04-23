@@ -124,6 +124,8 @@ Rails.application.configure do
 
   config.time_zone = "Berlin"
 
+  config.i18n.default_locale = :de
+
   Rails.application.config.middleware.use ExceptionNotification::Rack,
                                           email: {
                                             email_prefix: "[BDZDB] ", # Default: [ERROR]
