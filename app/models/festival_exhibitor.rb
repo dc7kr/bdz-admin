@@ -79,6 +79,12 @@ class FestivalExhibitor < ApplicationRecord
     cust.bic = nil
     cust.sig_date = nil
 
+    if not contact.present?
+      Rails.logger.error("Contact is nil in exhibitor #{id}")
+      cust.last_name = "INCONSISTENT"
+      cust.company = "INCONSISTENT"
+      return cust
+    end
 
     cust.company = contact.company
     cust.salutation = contact.salutation
