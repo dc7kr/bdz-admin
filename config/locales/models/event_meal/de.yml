@@ -18,13 +18,15 @@ de:
       title: Essenbestellung
     binding_note: Bitte beachten Sie, dass aus organisatorischen Gründen eine Entscheidung für vegetarisches Essen bindend ist.
     additional_note: "Zusätzliche Essen können an der Infotheke im Bürgerzentrum erworben werden."
+  event_meals:
+    regular_meals: "Normale Essen"
   ef:
     event_meals:
       meal_form:
         title: "Essen melden"
-      show_event_meal: 
+      show_event_meal:
         order_tickets_first: "Bitte zuerst Festivaltickets bestellen."
-        
+
   helpers:
     label:
       event_meal:
@@ -44,7 +46,7 @@ de:
 
     models:
       event_meal: "Essen-Meldung"
-    attributes: 
+    attributes:
 
-      event_meal: 
+      event_meal:
         <<: *event_meal_labels
