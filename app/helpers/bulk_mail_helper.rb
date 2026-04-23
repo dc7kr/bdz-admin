@@ -41,20 +41,4 @@ module BulkMailHelper
     File.join(DOCS_CONFIG.archive_dir, year.to_s)
   end
 
-  def send_admin_mail(letterFile, triggered_by, results)
-    year = Time.zone.now.strftime("%Y")
-
-    users = User.for_admin_notify
-
-    base_url = cron_downloads_url
-
-    letters_url = nil
-
-    letters_url = "#{base_url}?year=#{year}&filename=#{letterFile.orig_filename}" unless letterFile.nil?
-
-    users.each do |user|
-      AdminNotifier.new_custom_info_mail_notification(user, letters_url, results, triggered_by).deliver
-      logger.debug "sent to %s" % user.email
-    end
-  end
 end
