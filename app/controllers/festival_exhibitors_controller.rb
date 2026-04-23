@@ -1,6 +1,8 @@
 class FestivalExhibitorsController < AuthenticatedController
   before_action :set_festival_exhibitor, only: %i[ show edit update destroy invoice_preview gen_invoice ]
 
+  helper :downloads
+
   # GET /festival_exhibitors or /festival_exhibitors.json
   def index
     @festival_exhibitors = policy_scope(FestivalExhibitor).all
