@@ -111,5 +111,9 @@ Rails.application.configure do
 
   config.time_zone = "Berlin"
 
+  config.log_level = :debug
+
   config.web_console.permissions = "172.20.0.0/16"
+
+  config.i18n.default_locale = :de
 end
