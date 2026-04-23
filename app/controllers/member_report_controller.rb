@@ -17,7 +17,7 @@ class MemberReportController < AuthenticatedController
     @vers_sums = []
     @vers_hash = {}
 
-    @uv_sum = sheets.where("orchestras.orch_type<>'K' and uv=1").calculate(:sum, "children+teens+youth+adult+senior")
+    @uv_sum = sheets.where("orchestras.orch_type<>'K' and uv=1").calculate(:sum, "children+teens+youth+adult+senior+zusatz_uv")
 
     @uv_sum.each do |uv|
       @vers_sums.push(uv[0])
