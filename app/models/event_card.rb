@@ -10,7 +10,6 @@ class EventCard < Invoiceable
   validates :bic, bic: true, if: :direct_debit?
 
   include FestivalTicketHelper
-  include Invoiceable
 
   scope :current_festival, -> { where("festival_year = ?", BDZ_SETTINGS["config"]["festival_year"]) }
 
