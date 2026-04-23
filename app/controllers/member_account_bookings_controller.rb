@@ -188,9 +188,16 @@ class MemberAccountBookingsController < AuthenticatedController
 
   def download
     x_sendfile = false
-    fullPath = "#{INVOICE_CONFIG.archive_dir}/#{String(@booking.booking_year)}/#{@booking.filename}"
     # send_file(fullPath, :filename => @booking.filename, :x_sendfile=>true,:type=>"application/octet-stream")
-    send_file(fullPath, filename: @booking.filename, x_sendfile: x_sendfile, type: "application/octet-stream")
+    if @booking.invoice_id.present?
+      invoice = CorikaInvoices::Invoice.find(@booking.invoice_id)
+
+      send_file(fullPath, filename: @booking.filename, x_sendfile: x_sendfile, type: "application/octet-stream")
+
+    else
+      fullPath = "#{INVOICE_CONFIG.archive_dir}/#{String(@booking.booking_year)}/#{@booking.filename}"
+      send_file(fullPath, filename: @booking.filename, x_sendfile: x_sendfile, type: "application/octet-stream")
+    end
   end
 
   def invoice_sepa
