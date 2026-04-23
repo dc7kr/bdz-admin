@@ -13,6 +13,14 @@ class Orchestra < ApplicationRecord
 
   validates :orchName, presence: true
 
+  scope :coop, lambda {
+    includes(:member).where("orch_type = 'K'").order("members.mglnr")
+  }
+
+  scope :lv_orch, lambda {
+    includes(:member).where("orch_type = 'L'").order("members.mglnr")
+  }
+
   scope :cancelled, lambda {
     joins(:member).where("members.austritt_zum is not null and members.austritt_zum != '0000-00-00' and austritt_zum < now()")
   }
