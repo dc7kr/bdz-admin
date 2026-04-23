@@ -3,6 +3,9 @@
   .row
     .col &nbsp;
     .col
+      - if @invoice_hash[:customer][:company].present?
+        =@invoice_hash[:customer][:company]
+        %br
       =@invoice_hash[:customer][:name]
       %br
       =@invoice_hash[:customer][:street]
