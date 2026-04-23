@@ -1,5 +1,5 @@
 class FestivalExhibitorsController < AuthenticatedController
-  before_action :set_festival_exhibitor, only: %i[ show edit update destroy invoice_preview ]
+  before_action :set_festival_exhibitor, only: %i[ show edit update destroy invoice_preview gen_invoice ]
 
   # GET /festival_exhibitors or /festival_exhibitors.json
   def index
@@ -14,6 +14,7 @@ class FestivalExhibitorsController < AuthenticatedController
   def new
     @festival_exhibitor = FestivalExhibitor.new
     @festival_exhibitor.contact = Contact.new
+    @festival_exhibitor.contact.country_code = "DE"
     authorize @festival_exhibitor
   end
 
@@ -61,6 +62,18 @@ class FestivalExhibitorsController < AuthenticatedController
     end
   end
 
+  def gen_invoice
+
+    # Start background job
+    GenerateExhibitorInvoiceJob.perform_later(@festival_exhibitor.id, current_user.id)
+
+    respond_to do |format|
+      format.html do
+        redirect_to festival_exhibitor_path(@festival_exhibitor), notice: t("festival_exhibitor.invoice_generation_triggered")
+      end
+    end
+  end
+
   def invoice_preview
     @invoice = @festival_exhibitor.gen_invoice
 
@@ -72,7 +85,6 @@ class FestivalExhibitorsController < AuthenticatedController
       format.yaml {
         filename = "#{@invoice.full_number}.yml"
         send_data @invoice.to_yaml, type: "text/yaml", disposition: 'attachment', filename: filename
-      
       }
       format.json { render json: @invoice }
     end
@@ -87,6 +99,6 @@ class FestivalExhibitorsController < AuthenticatedController
 
     # Only allow a list of trusted parameters through.
     def festival_exhibitor_params
-      params.require(:festival_exhibitor).permit(:year, :special_tariff, :special_amount, :tariff, contact_attributes: Contact.nested_attributes)
+      params.require(:festival_exhibitor).permit(:year, :special_tariff, :item_text, :special_amount, :tariff, :rollups, :advert_type, :extra_tables, contact_attributes: Contact.nested_attributes)
     end
 end

@@ -58,6 +58,10 @@ class FestivalExhibitor < ApplicationRecord
       invoice.consider_item(1, prices["exhibitors"]["advert_#{advert_type}"], I18n.t("festival_exhibitors.advert_#{advert_type}"), tax_rate: 19)
     end
 
+    if extra_tables.present? and extra_tables > 0
+      invoice.consider_item(extra_tables, prices["exhibitors"]["extra_tables"], I18n.t("festival_exhibitor.extra_tables"), tax_rate: 19)
+    end
+
     invoice
   end
 
