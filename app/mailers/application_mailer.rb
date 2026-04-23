@@ -51,7 +51,7 @@ class ApplicationMailer < ActionMailer::Base
   end
 
   def set_triggered_by(triggered_by_id)
-    if triggered_by_id.present? and triggered_by_id > 0 
+    if triggered_by_id.present? and triggered_by_id > 0
       self.triggered_by = User.find(triggered_by_id)
     else
       self.triggered_by = nil

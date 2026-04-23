@@ -7,8 +7,6 @@ class InvoiceMail < ApplicationMailer
 
     subject = "BDZ-Beitragsrechnung #{@year} Mglnr. #{mglnr}"
 
-    INVOICE_CONFIG.archive_dir
-
     attachment_data = File.new(invoice_file.full_path).read
     attachments[invoice_file.orig_filename] = attachment_data
 
