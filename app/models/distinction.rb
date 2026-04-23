@@ -1,4 +1,4 @@
-class Distinction < ApplicationRecord
+class Distinction < Invoiceable
   belongs_to :orchestra
   belongs_to :member_account_booking, optional: true
 

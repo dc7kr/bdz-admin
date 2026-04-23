@@ -1,4 +1,4 @@
-class EventCard < ApplicationRecord
+class EventCard < Invoiceable
   # attr_accessible :title, :body
   validates :name, presence: true
   validates :email, presence: true
@@ -10,6 +10,7 @@ class EventCard < ApplicationRecord
   validates :bic, bic: true, if: :direct_debit?
 
   include FestivalTicketHelper
+  include Invoiceable
 
   scope :current_festival, -> { where("festival_year = ?", BDZ_SETTINGS["config"]["festival_year"]) }
 
@@ -107,14 +108,6 @@ class EventCard < ApplicationRecord
     sum + (nr_concert_so_erm * prices["concert_erm"])
   end
 
-  def invoice
-    if has_invoice?
-      CorikaInvoices::Invoice.find(invoice_id)
-    else
-      nil
-    end
-  end
-
   def to_invoice
     if has_invoice?
       invoice = CorikaInvoices::Invoice.find(invoice_id)
@@ -130,6 +123,7 @@ class EventCard < ApplicationRecord
       invoice.invoice_date = Time.zone.now
       invoice.booking_year = year
       invoice.template_subdir = "ef"
+      invoice.number_format= "%d-%s"
 
       # With tax
       invoice.tax_mode = "S"
@@ -210,6 +204,9 @@ class EventCard < ApplicationRecord
       cust.sig_date = Time.now
     end
 
+    cust.entity_type = self.class.name
+    cust.entity_id = id
+
     cust
   end
 
@@ -233,10 +230,6 @@ class EventCard < ApplicationRecord
 
   def to_param
     checkout_reference
-  end
-
-  def has_invoice?
-    not invoice_id.nil?
   end
 
   def is_online_payment?
