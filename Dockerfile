@@ -171,6 +171,8 @@ RUN apt-get update -y && apt-get install --no-install-recommends -y \
         bind9-dnsutils \
         iputils-ping \
         iproute2 \
+        pipx \
+        openssh-client \
         sudo
 
 # Run and own only the runtime files as a non-root user for security
@@ -178,9 +180,7 @@ RUN useradd rails --create-home --shell /bin/bash
 
 RUN echo "rails ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
-# Invoice related stuff
-COPY --from=python-invoice /venv /venv
-COPY --from=python-invoice /app /opt/tex-invoices
+# TeX-Invoice related stuff is mounted not copied!
 
 
 USER rails:rails
