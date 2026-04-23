@@ -7,7 +7,7 @@ class EventMealsController < AuthenticatedController
   # GET /event_meals.json
   def index
     year =BDZ_SETTINGS["config"]["festival_year"]
-    @event_meals = policy_scope(EventMeal).where("festival_year = ?", year)
+    @event_meals = policy_scope(EventMeal).where("festival_year = ?", year).order("participant_id")
 
     respond_to do |format|
       format.html # index.html.erb
@@ -166,12 +166,12 @@ class EventMealsController < AuthenticatedController
     end
   end
 
-  protected 
+  protected
   def index_actions
     super.append(:arrival_overview)
   end
 
-  private 
+  private
   def event_meal_params
     params.require(:event_meal).permit(:participant_id, :name, :email, :arrival_time, :tln, :veg)
   end
