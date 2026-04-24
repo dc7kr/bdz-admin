@@ -112,7 +112,7 @@ class AdminNotifier < ApplicationMailer
 
     treasurer_to = contact_email_with_name("treasurer")
 
-    cc = [ invoice_out_cc, contact_email("admin")]
+    cc = [ invoice_out_bcc, contact_email("admin")]
     user_to = triggered_by.email
 
     unless sepa_file.nil?
