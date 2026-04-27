@@ -173,7 +173,7 @@ class EventMealsController < AuthenticatedController
 
   private
   def event_meal_params
-    params.require(:event_meal).permit(:participant_id, :name, :email, :arrival_time, :tln, :veg)
+    params.require(:event_meal).permit(:participant_id, :name, :email, :arrival_time, :tln, :veg, :lunch1, :lunch2,:lunch3,:dinner1,:dinner2,:dinner3)
   end
 
   def set_event_meal
