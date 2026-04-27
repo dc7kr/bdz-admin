@@ -3,10 +3,33 @@
   =entity_row(event_meal, :tln)
   =entity_row(event_meal, :veg)
   =entity_row(event_meal, :arrival_time,:date)
+  %br
+  %h4=t("event_meals.meal_times")
+  .row
+    .col-md-3 &nbsp;
+    .col-md-3.fw-bold=t("event_meals.lunch")
+    .col-md-3.fw-bold=t("event_meals.dinner")
+  .row
+    .col-md-3.text-end=t('date.day_names')[4]
+    .col-md-3=t("event_meals.l_do")[event_meal.lunch1-1]
+    .col-md-3=t("event_meals.d_do")[event_meal.dinner1-1]
+  .row
+    .col-md-3.text-end=t('date.day_names')[5]
+    .col-md-3=t("event_meals.l_fr")[event_meal.lunch2-1]
+    .col-md-3=t("event_meals.d_fr")[event_meal.dinner2-1]
+  .row
+    .col-md-3.text-end=t('date.day_names')[6]
+    .col-md-3=t("event_meals.l_sa")[event_meal.lunch3-1]
+    .col-md-3=t("event_meals.d_sa")[event_meal.dinner3-1]
+
+
+
+
+
   = link_to_edit event_meal, edit_ef_festival_application_event_meal_path(festival_application, event_meal), txt: t("common.edit"), turbo:true, authz: false
 - else
   - if festival_application.tickets_total == 0
     %h3= t(".order_tickets_first")
-  - else 
+  - else
     = link_to_new EventMeal, new_ef_festival_application_event_meal_path(festival_application), txt: t("ef.event_meals.meal_form.title"), turbo:true, authz: false
 
