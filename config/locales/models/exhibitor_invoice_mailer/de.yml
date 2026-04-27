@@ -1,0 +1,6 @@
+de:
+  exhibitor_invoice_mailer:
+    customer_mail:
+      subject: "BDZ eurofestival zupfmusik %{festival_year} - Austeller-Rechnung Nr. %{invoice_number}"
+    admin_mail:
+      subject: "BDZ eurofestival zupfmusik %{festival_year} - Aussteller-Rechnungslauf beendet."
