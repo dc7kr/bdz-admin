@@ -25,6 +25,26 @@ de:
     dinner2: Slot Fr Abend
     dinner3: Slot Sa Abend
   event_meals:
+    meal_times: "Essens-Zeiten"
+    lunch: "Mittag"
+    dinner: "Abend"
+    l_do:
+      - "12:30-14:00"
+    l_fr:
+      - "11:30-12:30"
+      - "12:45-13:45"
+    l_sa:
+      - "11:30-12:30"
+      - "12:45-13:45"
+    d_do:
+      - "17:00-18:00"
+      - "18:15-19:15"
+    d_fr:
+      - "17:00-18:00"
+      - "18:15-19:15"
+    d_sa:
+      - "17:00-18:00"
+      - "18:15-19:15"
     regular_meals: "Normale Essen"
   ef:
     event_meals:

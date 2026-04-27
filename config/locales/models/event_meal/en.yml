@@ -9,17 +9,45 @@ en:
     arrival_time: Estimated arrival time
     orderdate: "Order date"
     order_form:
-      title: Meal order 
+      title: Meal order
     binding_note: Please note that for organisational reasons the decision for a vegetarian meal is binding.
     additional_note: You can purchase additional meal vouchers at the info desk.
+    lunch1: Lunch Thu
+    lunch2: Lunch Fri
+    lunch3: Lunch Sat
+    dinner1: Dinner Thu
+    dinner2: Dinner Fri
+    dinner3: Dinner Sat
+  event_meals:
+    meal_times: "Meal times"
+    lunch: "Lunch"
+    dinner: "Dinner"
+    l_do:
+      - "12:30-14:00"
+    l_fr:
+      - "11:30-12:30"
+      - "12:45-13:45"
+    l_sa:
+      - "11:30-12:30"
+      - "12:45-13:45"
+    d_do:
+      - "17:00-18:00"
+      - "18:15-19:15"
+    d_fr:
+      - "17:00-18:00"
+      - "18:15-19:15"
+    d_sa:
+      - "17:00-18:00"
+      - "18:15-19:15"
+    regular_meals: "Normale Essen"
 
   ef:
     event_meals:
       meal_form:
         title: "Report meals"
-      show_event_meal: 
+      show_event_meal:
         order_tickets_first: "Bitte zuerst Festivaltickets bestellen."
-        
+
   helpers:
     label:
       event_meal:
@@ -30,7 +58,7 @@ en:
         <<: *event_meal_labels
     errors:
       template:
-        header: Errors in form 
+        header: Errors in form
         body: Affected fields
       models:
         event_meal:
