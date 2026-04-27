@@ -18,6 +18,12 @@ de:
       title: Essenbestellung
     binding_note: Bitte beachten Sie, dass aus organisatorischen Gründen eine Entscheidung für vegetarisches Essen bindend ist.
     additional_note: "Zusätzliche Essen können an der Infotheke im Bürgerzentrum erworben werden."
+    lunch1: Slot Do Mittag
+    lunch2: Slot Fr Mittag
+    lunch3: Slot Sa Mittag
+    dinner1: Slot Do Abend
+    dinner2: Slot Fr Abend
+    dinner3: Slot Sa Abend
   event_meals:
     regular_meals: "Normale Essen"
   ef:
