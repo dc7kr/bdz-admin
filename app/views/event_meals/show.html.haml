@@ -25,5 +25,25 @@
         .col-md-3.text-end=t('event_meal.orderdate')
         .col-md-9=format_date @event_meal.orderdate
 
+      %h4.card-title Essenszeiten
+      .row
+        .col-md-3 &nbsp;
+        .col-md-3.fw-bold Mittag
+        .col-md-3.fw-bold Abend
+      .row
+        .col-md-3.text-end=t('date.day_names')[4]
+        .col-md-3=@event_meal.lunch1
+        .col-md-3=@event_meal.dinner1
+      .row
+        .col-md-3.text-end=t('date.day_names')[5]
+        .col-md-3=@event_meal.lunch2
+        .col-md-3=@event_meal.dinner2
+      .row
+        .col-md-3.text-end=t('date.day_names')[6]
+        .col-md-3=@event_meal.lunch3
+        .col-md-3=@event_meal.dinner3
+
+
+
       .row
         .col-md-12=link_to_edit @event_meal, t("common.edit")
