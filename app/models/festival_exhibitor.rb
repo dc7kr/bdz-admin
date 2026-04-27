@@ -7,6 +7,10 @@ class FestivalExhibitor < Invoiceable
 
   def gen_invoice
 
+    if invoice_id.present?
+      return CorikaInvoices::Invoice.find(invoice_id)
+    end
+
     prices = BDZ_SETTINGS["festival_prices"]
 
     ts = Time.zone.now.strftime "%Y%m%d"
@@ -15,7 +19,7 @@ class FestivalExhibitor < Invoiceable
     invoice = CorikaInvoices::Invoice.new
     invoice.booking_year = Time.now.year
     invoice.invoice_date = Time.now.to_date
-    invoice.number = invoice_nr
+    invoice.number_suffix = invoice_nr
     invoice.template_subdir = "ef"
 
     c_hash = INVOICE_CONTACT_HASH["festival_gs"]
@@ -43,7 +47,7 @@ class FestivalExhibitor < Invoiceable
     #    price=prices["exhibitors"][tariff]
     #end
     if special_tariff==1
-      invoice.consider_item(1, special_amount, item_text, tax_rate: 19)
+      invoice.consider_item(1, special_amount, I18n.t("festival_exhibitor.special_tariff"), tax_rate: 19)
     else
       amount = prices["exhibitors"]["pack_#{tariff}"]
       invoice.consider_item(1, amount, "#{I18n.t("festival_exhibitor.tariff")} #{tariff}",tax_rate: 19)
@@ -93,6 +97,7 @@ class FestivalExhibitor < Invoiceable
     cust.zip = contact.zip
     cust.city = contact.city
     cust.country_code = contact.country_code
+    cust.email = contact.email
 
     cust
   end
