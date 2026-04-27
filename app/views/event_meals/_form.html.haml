@@ -3,9 +3,18 @@
   =f.text_field :name
   =f.email_field :email
   =f.text_field :arrival_time, :id => 'festival_arrival_time'
-  =f.number_field :tln 
+  =f.number_field :tln
   =f.number_field :veg
   =f.text_field :orderdate
-  
-  = f.submit 
+
+  %h2 Essenszeiten
+
+  =f.number_field :lunch1
+  =f.number_field :dinner1
+  =f.number_field :lunch2
+  =f.number_field :dinner2
+  =f.number_field :lunch3
+  =f.number_field :dinner3
+
+  = f.submit
   = cancel_button
