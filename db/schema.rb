@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_03_08_080733) do
+ActiveRecord::Schema[7.2].define(version: 2026_04_28_071905) do
   create_table "Inserenten", id: false, charset: "utf8mb3", collation: "utf8mb3_general_ci", options: "ENGINE=InnoDB ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.string "Firmenname", limit: 35
     t.string "Titel", limit: 5
@@ -389,6 +389,12 @@ ActiveRecord::Schema[7.2].define(version: 2026_03_08_080733) do
     t.integer "participant_id"
     t.datetime "arrival_time", precision: nil
     t.integer "festival_year"
+    t.integer "lunch1"
+    t.integer "dinner1"
+    t.integer "lunch2"
+    t.integer "dinner2"
+    t.integer "lunch3"
+    t.integer "dinner3"
   end
 
   create_table "feature_requests", id: :integer, charset: "utf8mb3", collation: "utf8mb3_general_ci", options: "ENGINE=InnoDB ROW_FORMAT=DYNAMIC", force: :cascade do |t|
@@ -426,7 +432,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_03_08_080733) do
     t.string "uuid"
     t.boolean "permission"
     t.integer "festival_concert_id"
-    t.datetime "rehearsal_time", precision: nil
+    t.datetime "rehearsal_time"
     t.string "visitor_type"
     t.string "country_code", limit: 2
     t.column "payment_status", "enum('N','P','F','S')", default: "N"
@@ -436,7 +442,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_03_08_080733) do
     t.integer "bdz_tickets_red"
     t.float "amount", limit: 53
     t.integer "soloist_tickets"
-    t.time "stage_time"
+    t.datetime "stage_time"
     t.string "contact_phone"
     t.integer "festival_year"
     t.string "token"
@@ -447,6 +453,9 @@ ActiveRecord::Schema[7.2].define(version: 2026_03_08_080733) do
     t.string "fee_invoice_id"
     t.string "ticket_invoice_id"
     t.integer "outdoor_concert_id"
+    t.integer "program_item"
+    t.integer "stage_timeslot"
+    t.string "storno_invoice_id"
     t.index ["outdoor_concert_id"], name: "index_festival_applications_on_outdoor_concert_id"
   end
 
@@ -469,6 +478,10 @@ ActiveRecord::Schema[7.2].define(version: 2026_03_08_080733) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "item_text"
+    t.integer "advert_type"
+    t.integer "rollups"
+    t.integer "extra_tables"
+    t.string "invoice_id"
   end
 
   create_table "festival_pieces", id: :integer, charset: "utf8mb3", collation: "utf8mb3_general_ci", options: "ENGINE=InnoDB ROW_FORMAT=DYNAMIC", force: :cascade do |t|
