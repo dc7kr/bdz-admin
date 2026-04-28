@@ -35,15 +35,19 @@ class TicketOrderOverviewPdf < Prawn::Document
   def format_orders
     @result = []
 
-    @result << [ "Nr.", "Name", "Tickets", "Summe", "Bezahlt", "Abgeholt" ]
+    @result << [ "Nr.", "Name", "Tickets", "Summe", "Abgeholt" ]
 
-    @result += @event_cards.map do |item|
-      [ item.id,
-       item.name,
-       format_ticket_list(item),
-       item.invoice.present? ? @view.format_currency(item.invoice.total) : "",
-       render_payed(item),
-       "" ]
+    @event_cards.each do |item|
+
+      if item.incomplete?
+        next
+      else
+        @result << [ item.id,
+          item.name,
+          format_ticket_list(item),
+          item.invoice.present? ? @view.format_currency(item.invoice.total) : "",
+          "" ]
+      end
     end
 
     @result
