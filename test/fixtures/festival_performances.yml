@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  stage_timeslot: 1
+  program_item: 1
+  stage_time: 2026-03-16 15:52:42
+  rehearsal_time: 2026-03-16 15:52:42
+
+two:
+  stage_timeslot: 1
+  program_item: 1
+  stage_time: 2026-03-16 15:52:42
+  rehearsal_time: 2026-03-16 15:52:42
