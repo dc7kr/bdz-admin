@@ -6,7 +6,7 @@ class FestivalApplicationsController < AuthenticatedController
 
   helper_method :sort_column, :sort_direction
 
-  before_action :set_festival_application, only: %i[ show edit update destroy fee_invoice_preview fee_invoice ticket_invoice_preview ticket_invoice finalize gen_participant_sheet ]
+  before_action :set_festival_application, only: %i[ show edit update destroy fee_invoice_preview fee_invoice ticket_invoice_preview ticket_invoice finalize gen_participant_sheet storno ]
 
   layout :choose_layout
   # GET /festival_applications
@@ -247,6 +247,31 @@ class FestivalApplicationsController < AuthenticatedController
       format.turbo_stream { render template: "corika_invoices/invoices/preview" }
       format.html { render template: "corika_invoices/invoices/preview" }
       format.json { render json: @invoice }
+    end
+  end
+
+  def storno
+    if not @festival_application.ticket_invoice_id.present?
+      respond_to do |format|
+        format.html { render :show, status: :unprocessable_entity }
+        return 
+      end
+    else
+      invoice = CorikaInvoices::Invoice.find(@festival_application.ticket_invoice_id)
+
+      storno_invoice = invoice.storno
+      storno_invoice.gen_pdf
+      storno_invoice.save
+      storno_invoice.pdf_filename
+
+      
+      @festival_application.ticket_invoice_id = nil
+
+      AdminMailer.new_storno(invoice.id, storno_invoice.id)
+      
+      respond_to do |format|
+        format.html { render :show }
+      end
     end
   end
 
