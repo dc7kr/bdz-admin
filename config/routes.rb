@@ -166,6 +166,7 @@ Rails.application.routes.draw do
       get :ticket_invoice_preview
       get :fee_invoice
       get :fee_invoice_preview
+      get :storno
     end
 
     resources :festival_pieces
