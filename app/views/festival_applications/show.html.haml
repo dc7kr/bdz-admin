@@ -68,8 +68,12 @@
       .card-body
         =entity_row(@festival_application,:amount)
         =custom_entity_row(t("festival_application.payment_status"), t("festival_application.payment_states.#{@festival_application.payment_status}"))
+        - if @festival_application.storno_invoice_id.present?
+          = link_to "Storno PDF", dl_url(@festival_application.storno_invoice.booking_year, @festival_application.storno_invoice.pdf_filename),  class: "btn btn-secondary btn-sm", data: { turbo:false }
+
         - if @festival_application.has_ticket_invoice?
           =link_to "Ticket PDF", ticket_invoice_festival_application_path(@festival_application),:class=>"btn btn-primary btn-sm", data: { turbo:false }
+          = link_to "Ticket Storno", storno_festival_application_path(@festival_application),class: "btn btn-danger btn-sm", data: { turbo:false }
         - else
           = link_to 'Ticket Preview', ticket_invoice_preview_festival_application_path(@festival_application),  data: { 'turbo_frame' => 'modal' }, class: 'btn btn-secondary btn-sm'
         - if @festival_application.needs_fee_invoice?
