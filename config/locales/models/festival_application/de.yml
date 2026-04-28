@@ -22,7 +22,7 @@ de:
       V: "Teilnehmer mit Sondervereinbarung"
       Y: "Jugend musiziert Ensemble"
       O: "OpenAir Teilnehmer"
-    rehearsal_time: "Einspiel-Beginn"
+    rehearsal_time: "Bühnen-Stellprobe"
     comment: "Kommentar"
     public_comment: "Sonstige Hinweise"
     closed: "Eine Anmeldung ist nicht mehr möglich. Wir bitten um Ihr Verständnis."
@@ -44,7 +44,7 @@ de:
       P: "Anzahlung erhalten"
       F: "Volle Zahlung erhalten"
       S: "Sondervereinbarung"
-    amount: "Bisherige Zahlung"
+    amount: "Bereits geleistete Zahlung"
     country_code: "Herkunftsland"
     orchestra: Orchester
     orch_name: Name der Gruppe
@@ -74,6 +74,8 @@ de:
       T: Trio
 
   festival_applications:
+    paid_amount: "Bereits geleistete Zahlung"
+    confirm_ticket_received: "Hiermit bestätige ich den Erhalt der Festival-Tickets und zugehörigen Essens-Marken."
     stage_times:
       title: "Bühnenzeiten"
     index:

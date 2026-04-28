@@ -18,6 +18,7 @@ en:
     orchestra: Orchestra
     orch_name: Group name
     conductor: Conductor
+    amount: "Payment already made"
     tickets_not_yet_ordered: "Tickets not yet ordered"
     num_players: "Number of players"
     stage_plan: "Stage plan"
@@ -27,7 +28,7 @@ en:
     contact_person: "Contact person"
     group_type: "Group type"
     stage_time: Estimated Stage time
-    rehearsal_time: Rehearsal time
+    rehearsal_time: Stage rehearsal
     comment: "Comment"
     public_comment: "Additional information"
     create: "Create festival application"
@@ -51,6 +52,7 @@ en:
       T: Trio
 
   festival_applications:
+    paid_amount: "Payment already made"
     additional_panel:
       title: "Additional Info"
     permitted:
