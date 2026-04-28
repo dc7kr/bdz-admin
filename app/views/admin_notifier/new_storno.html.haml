@@ -1,0 +1,11 @@
+%p Hallo,
+
+%p die Rechnung Nr. #{@orig_invoice_nr} wurde storniert. Die Nummer der Storno-Rechnung lautet: #{@storno_invoice_nr}.
+
+Download-Links;
+%br
+Ursprüngliche Rechnung:
+= link_to @orig_url, @orig_url
+%br
+Storno-Rechnung:
+= link_to @storno_url, @storno_url

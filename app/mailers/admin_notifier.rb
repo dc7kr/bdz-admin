@@ -38,6 +38,22 @@ class AdminNotifier < ApplicationMailer
     mail(to: user.email, subject: "[BDZDB] EM Tarifanpassung", from: system_from)
   end
 
+  def new_storno(orig_invoice_id, storno_invoice_id)
+    orig_invoice = CorikaInvoices::Invoice.find(orig_invoice_id)
+    storno_invoice = CorikaInvoices::Invoice.find(storno_invoice_id)
+
+    @orig_invoice_nr = orig_invoice.seq_nr
+    @storno_invoice_nr = storno_invoice.seq_nr
+
+    @storno_url = dl_url(storno_invoice.booking_year, filename: storno_invoice.pdf_filename )
+    @orig_url = dl_url(year: orig_invoice.booking_year, filename: orig_invoice.pdf_filename )
+
+    treasurer_to = contact_email_with_name("treasurer")
+    cc = contact_email_with_name("admin")
+
+    mail(to: treasurer_to, cc: cc, subject: "Storno-Rechnung Nr. #{@storno_invoice_nr} zu Rechnung Nr. #{@orig_invoice_nr}")
+  end
+
   def invoice_update(user, invoice, invoice_file, sepa_file, delta_amount, report_sheet)
     @recipient = user
     @invoice = invoice
@@ -186,6 +202,8 @@ class AdminNotifier < ApplicationMailer
     mail(to: recipient, subject: "[BDZDB] PDF Erzeugung abgeschlossen: #{topic}", from: system_from)
   end
 
-  private
+  def invoice_generation_finished(user, generator_session_id)
+  end
 
+  private
 end
