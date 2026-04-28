@@ -2,7 +2,7 @@ class EventCardsController < AuthenticatedController
 
   helper :downloads
 
-  before_action :set_event_card, only: %i[ show edit update destroy invoice_preview ]
+  before_action :set_event_card, only: %i[ show edit update destroy invoice_preview storno ]
 
   # GET /event_cards
   # GET /event_cards.json
@@ -189,6 +189,32 @@ class EventCardsController < AuthenticatedController
     end
   end
 
+  def storno
+    if not @event_card.invoice_id.present?
+      respond_to do |format|
+        format.html { render :show, status: :unprocessable_entity }
+        return
+      end
+    else
+      invoice = CorikaInvoices::Invoice.find(@event_card.invoice_id)
+
+      storno_invoice = invoice.storno
+      storno_invoice.gen_pdf
+
+      @event_card.invoice_id = nil
+      @event_card.storno_invoice_id = storno_invoice.id
+      @event_card.save
+
+      AdminNotifier.new_storno(invoice.id, storno_invoice.id).deliver
+
+      respond_to do |format|
+        format.html { redirect_to event_card_path(@event_card), notice: t("event_card.storno_success") }
+      end
+    end
+  end
+
+
+
   private
 
   def event_card_invoice(datePrefix, event_card, year, tw)
@@ -215,6 +241,8 @@ class EventCardsController < AuthenticatedController
     @event_card = policy_scope(EventCard).find_by(checkout_reference: params[:checkout_reference])
     authorize @event_card
   end
+
+
 
   protected
   def index_actions

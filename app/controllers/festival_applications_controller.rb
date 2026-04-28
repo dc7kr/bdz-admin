@@ -254,7 +254,7 @@ class FestivalApplicationsController < AuthenticatedController
     if not @festival_application.ticket_invoice_id.present?
       respond_to do |format|
         format.html { render :show, status: :unprocessable_entity }
-        return 
+        return
       end
     else
       invoice = CorikaInvoices::Invoice.find(@festival_application.ticket_invoice_id)
@@ -264,13 +264,15 @@ class FestivalApplicationsController < AuthenticatedController
       storno_invoice.save
       storno_invoice.pdf_filename
 
-      
-      @festival_application.ticket_invoice_id = nil
 
-      AdminMailer.new_storno(invoice.id, storno_invoice.id)
-      
+      @festival_application.ticket_invoice_id = nil
+      @festival_application.storno_invoice_id = storno_invoice.id
+      @festival_application.save
+
+      AdminNotifier.new_storno(invoice.id, storno_invoice.id).deliver
+
       respond_to do |format|
-        format.html { render :show }
+        format.html { redirect_to @festival_application, notice: t("festival_application.storno_success") }
       end
     end
   end
