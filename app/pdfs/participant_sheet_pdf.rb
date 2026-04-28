@@ -33,26 +33,31 @@ class ParticipantSheetPdf < Prawn::Document
     text "#{app.contact_person.fullname}", size: 14, style: :bold
     text "#{I18n.t('contact_person.phone')}: #{app.contact_person.phone}", size: 14, style: :bold
 
-    return unless app.payment_status != "S"
+    return if app.payment_status == "S"
 
-    if @invoice_hash[:sum][:grand_total].negative?
-      save_stroke_and_fill
-      fill_color "00ff00"
-      fill_and_stroke_rounded_rectangle([ 400, 700 ], 100, 25, 5)
-      stroke_color "000000"
-      fill_color "000000"
-      draw_text @view.format_currency(@invoice_hash[:grand_total], "EUR"), at: [ 420, 685 ]
-      restore_stroke_and_fill
-    elsif @invoice_hash[:sum][:grand_total]
-      save_stroke_and_fill
-      fill_color "ff0000"
-      stroke_color "ff0000"
-      fill_and_stroke_rounded_rectangle([ 400, 700 ], 100, 25, 5)
-      stroke_color "ffffff"
-      fill_color "ffffff"
-      draw_text @view.format_currency(@invoice_hash[:sum][:grand_total], "EUR"), at: [ 420, 685 ]
-      restore_stroke_and_fill
+    save_stroke_and_fill
+
+    rect_fill = nil
+
+    if app.payment_status == "F"
+      rect_fill = "ffffff"
+      rect_stroke = "000000"
+      text_color = "000000"
+    else
+      rect_fill = "ff0000"
+      rect_stroke = "ff0000"
+      text_color = "ffffff"
     end
+    fill_color rect_fill
+    stroke_color rect_stroke
+    fill_and_stroke_rounded_rectangle([ 400, 725 ], 100, 25, 5)
+    stroke_color text_color
+    fill_color text_color
+    draw_text @view.format_currency(@invoice_hash[:sum][:grand_total], "EUR"), at: [ 420, 710 ]
+
+    restore_stroke_and_fill
+
+
   end
 
   def invoice(appl)
