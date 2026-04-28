@@ -1,6 +1,6 @@
 class ParticipantSheetPdf < Prawn::Document
   def initialize(appl, view)
-    super(top_margin: 70, left_margin: 70)
+    super(top_margin: 50, left_margin: 70)
     @appl = appl
     @invoice_hash = appl.get_ticket_invoice.to_hash[:invoice]
 
@@ -96,8 +96,8 @@ class ParticipantSheetPdf < Prawn::Document
     else
       rows << [ I18n.t('festival_application.festival_concert_id'), "#{app.festival_concert.title} #{@view.l app.festival_concert.event_time}" ]
       rows << [ I18n.t('festival_concert.location'), app.festival_concert.location ]
-      rows << [ I18n.t('festival_application.rehearsal_time'), "#{app.rehearsal_time.localtime.strftime('%H:%M')}" ] unless app.rehearsal_time.nil?
-      rows << [ I18n.t('festival_application.stage_time'), "#{app.stage_time.strftime('%H:%M')}" ] unless app.stage_time.nil?
+      rows << [ I18n.t('festival_application.rehearsal_time'), "#{@view.l app.rehearsal_time,format: "%H:%M Uhr"}" ] unless app.rehearsal_time.nil?
+      rows << [ I18n.t('festival_application.stage_time'), "#{@view.l app.stage_time.to_time, format: "%H:%M Uhr"}" ] unless app.stage_time.nil?
       rows << [I18n.t('festival_application.equipment'), "#{app.equipment}" ]
       rows << [I18n.t('festival_application.comment'), "#{app.comment}" ]
 
