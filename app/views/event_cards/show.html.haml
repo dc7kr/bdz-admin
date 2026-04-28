@@ -5,7 +5,7 @@
     #{t("event_card",:count=>1)} Nr. #{@event_card.id}
     - if @event_card.pickup then
       (bereits abgeholt)
-    - if not @event_card.order_state.present? or @event_card.order_state != 99
+    - if @event_card.incomplete?
       %span.badge.text-bg-warning=t("event_cards.order_incomplete")
   .inner
     %h3=mail_to @event_card.email, @event_card.name
