@@ -23,6 +23,10 @@ class EventCard < Invoiceable
     end
   end
 
+  def incomplete?
+    not order_state.present? or order_state != 99
+  end
+
   def ordered_cards
     ordered = []
     prices = BDZ_SETTINGS["festival_prices"]
