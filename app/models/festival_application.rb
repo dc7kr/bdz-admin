@@ -1,4 +1,4 @@
-class FestivalApplication < ApplicationRecord
+class FestivalApplication < Invoiceable
   include CountryHelper
   include InvoiceHelper
 
@@ -177,6 +177,17 @@ class FestivalApplication < ApplicationRecord
       inv = ec.to_invoice
       inv.template = "participant_card.#{ec.preferred_lang}"
       inv.customer = to_customer
+
+      if storno_invoice_id.present?
+        inv_hash = storno_invoice.to_hash
+        net = inv_hash[:invoice][:sum][:tax_basis]
+
+        item = inv.add_item(1, net, I18n.t("festival_applications.paid_amount"), tax_rate: 19 )
+        item.item_taxes.clear
+        inv_hash[:invoice][:sum][:taxes].each do |tax|
+          item.add_split_tax(tax[:rate],tax[:basis], I18n.t("common.vat"))
+        end
+      end
     end
 
     inv
