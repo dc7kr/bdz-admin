@@ -26,6 +26,7 @@ de:
     dinner3: Slot Sa Abend
   event_meals:
     meal_times: "Essens-Zeiten"
+    veg: "Vegane Essen"
     lunch: "Mittag"
     dinner: "Abend"
     l_do:

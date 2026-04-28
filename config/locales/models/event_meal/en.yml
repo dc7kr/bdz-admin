@@ -20,6 +20,7 @@ en:
     dinner3: Dinner Sat
   event_meals:
     meal_times: "Meal times"
+    veg: "vegan meals"
     lunch: "Lunch"
     dinner: "Dinner"
     l_do:
