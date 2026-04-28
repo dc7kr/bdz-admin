@@ -179,6 +179,7 @@ Rails.application.routes.draw do
       get :gen_invoice
       get :pickup
       get :invoice_preview
+      get :storno
     end
     collection do
       get :overview
