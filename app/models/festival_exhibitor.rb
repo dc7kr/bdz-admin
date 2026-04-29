@@ -5,40 +5,11 @@ class FestivalExhibitor < Invoiceable
 
   accepts_nested_attributes_for :contact
 
-  def gen_invoice
-
-    if invoice_id.present?
-      return CorikaInvoices::Invoice.find(invoice_id)
-    end
+  def populate_invoice(invoice)
 
     prices = BDZ_SETTINGS["festival_prices"]
 
-    ts = Time.zone.now.strftime "%Y%m%d"
-    invoice_nr = ts + "-EXH-#{id}"
-
-    invoice = CorikaInvoices::Invoice.new
-    invoice.booking_year = Time.now.year
-    invoice.invoice_date = Time.now.to_date
-    invoice.number_suffix = invoice_nr
-    invoice.template_subdir = "ef"
-
-    c_hash = INVOICE_CONTACT_HASH["festival_gs"]
-
-    contact = CorikaInvoices::Contact.new(c_hash)
-    invoice.contact = contact
-
     invoice.customer = to_customer
-
-    if INVOICE_CONFIG.default_tax_mode == "E"
-      # tax exempt
-      invoice.tax_mode = "E"
-      invoice.exemption_reason = I18n.t("invoice.exempt_reason")
-    else
-      invoice.tax_mode = "S"
-    end
-
-    invoice.template = "exhibitor.de"
-    invoice.locale = :de
 
     #price = nil
     #if not special_amount.nil? and special_amount > 0
@@ -64,6 +35,44 @@ class FestivalExhibitor < Invoiceable
     if extra_tables.present? and extra_tables > 0
       invoice.consider_item(extra_tables, prices["exhibitors"]["extra_tables"], I18n.t("festival_exhibitor.extra_tables"), tax_rate: 19)
     end
+
+    invoice
+  end
+
+  def gen_invoice
+
+    if invoice_id.present?
+      return CorikaInvoices::Invoice.find(invoice_id)
+    end
+
+
+    ts = Time.zone.now.strftime "%Y%m%d"
+    invoice_nr = ts + "-EXH-#{id}"
+
+    invoice = CorikaInvoices::Invoice.new
+    invoice.booking_year = Time.now.year
+    invoice.invoice_date = Time.now.to_date
+    invoice.number_suffix = invoice_nr
+    invoice.template_subdir = "ef"
+
+    c_hash = INVOICE_CONTACT_HASH["festival_gs"]
+
+    contact = CorikaInvoices::Contact.new(c_hash)
+    invoice.contact = contact
+
+    if INVOICE_CONFIG.default_tax_mode == "E"
+      # tax exempt
+      invoice.tax_mode = "E"
+      invoice.exemption_reason = I18n.t("invoice.exempt_reason")
+    else
+      invoice.tax_mode = "S"
+    end
+
+    invoice.template = "exhibitor.de"
+    invoice.locale = :de
+
+
+    populate_invoice(invoice)
 
     invoice
   end
