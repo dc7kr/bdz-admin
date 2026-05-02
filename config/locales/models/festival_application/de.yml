@@ -74,6 +74,10 @@ de:
       T: Trio
 
   festival_applications:
+    gen_ticket_invoice: "Neue Ticket Rechnung"
+    show:
+      ticket_storno_confirm_title: "Rechnung stornieren"
+      ticket_storno_confirm_txt: "Wollen Sie die Rechnung wirklich stornieren?"
     paid_amount: "Bereits geleistete Zahlung"
     confirm_ticket_received: "Hiermit bestätige ich den Erhalt der Festival-Tickets und zugehörigen Essens-Marken."
     stage_times:
