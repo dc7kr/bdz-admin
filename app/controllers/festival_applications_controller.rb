@@ -6,7 +6,7 @@ class FestivalApplicationsController < AuthenticatedController
 
   helper_method :sort_column, :sort_direction
 
-  before_action :set_festival_application, only: %i[ show edit update destroy fee_invoice_preview fee_invoice ticket_invoice_preview ticket_invoice finalize gen_participant_sheet storno ]
+  before_action :set_festival_application, only: %i[ show edit update destroy fee_invoice_preview fee_invoice ticket_invoice_preview ticket_invoice gen_ticket_invoice finalize gen_participant_sheet storno ]
 
   layout :choose_layout
   # GET /festival_applications
@@ -247,6 +247,18 @@ class FestivalApplicationsController < AuthenticatedController
       format.turbo_stream { render template: "corika_invoices/invoices/preview" }
       format.html { render template: "corika_invoices/invoices/preview" }
       format.json { render json: @invoice }
+    end
+  end
+
+  def gen_ticket_invoice
+    @invoice = @festival_application.get_ticket_invoice
+    @invoice.gen_pdf
+
+    @festival_application.ticket_invoice_id = @invoice.id
+    @festival_application.save
+
+    respond_to do |format|
+          format.html { redirect_to @festival_application, notice: t("festival_application.ticket_invoice_success") }
     end
   end
 
