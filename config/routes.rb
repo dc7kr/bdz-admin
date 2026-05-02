@@ -162,11 +162,12 @@ Rails.application.routes.draw do
     end
     member do
       get :gen_participant_sheet
+      post :gen_ticket_invoice
       get :ticket_invoice
       get :ticket_invoice_preview
       get :fee_invoice
       get :fee_invoice_preview
-      get :storno
+      post :storno
     end
 
     resources :festival_pieces
@@ -497,6 +498,11 @@ Rails.application.routes.draw do
   end
 
   get "dl/:year/:filename", to: "downloads#show", as: "dl"
+
+  scope format: false do
+    get "invoice/:invoice_id/pdf", to: "invoice#pdf", as: "invoice_pdf"
+    get "invoice/:invoice_id/sepa", to: "invoices#sepa"
+  end
 
   scope format: false do
     get "downloads/invoices/:generator_session_id/letters" => "downloads#combined_letters_pdf", as: "dl_invoice_letters"
