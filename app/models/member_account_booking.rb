@@ -1,4 +1,4 @@
-class MemberAccountBooking < ApplicationRecord
+class MemberAccountBooking < Invoiceable
   belongs_to :member
   validates :amount, :booking_txt, presence: true
 

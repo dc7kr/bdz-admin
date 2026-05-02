@@ -201,12 +201,16 @@ class MemberAccountBookingsController < AuthenticatedController
   end
 
   def invoice_sepa
-    @invoice = CorikaInvoices::Invoice.find(@booking.invoice_id)
+    invoice = @booking.invoice
 
-    sepa = @invoice.gen_sepa_xml
+    if invoice.nil?
+      return
+    end
 
-    filename = File.basename(@booking.filename)
-    filename.append(".sepa.xml")
+    sepa = invoice.gen_sepa_xml
+
+    filename = invoice.full_number
+    filename.concat(".sepa.xml")
 
     send_data(sepa, filename: filename, type: "application/octet-stream")
   end
