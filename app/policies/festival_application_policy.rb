@@ -28,6 +28,10 @@ class FestivalApplicationPolicy < FestivalDataPolicy
     national_permission?
   end
 
+  def gen_ticket_invoice?
+    national_permission?
+  end
+
   def ticket_invoice?
     national_permission?
   end
