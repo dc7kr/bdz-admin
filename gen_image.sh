@@ -9,6 +9,8 @@ then
         exit 1
 fi
 
+git submodule update
+
 ./gen_version_info.sh $1
 
 docker build . --target prod --tag $APP_NAME:$APP_VERSION
