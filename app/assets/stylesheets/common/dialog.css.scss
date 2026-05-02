@@ -1,0 +1,90 @@
+$background-color_1: rgba(0, 0, 0, 0.5);
+$background-color_2: rgba(0, 0, 0, 0);
+$background-color_3: rgba(0, 0, 0, 0.25);
+$background-10pct: rgba(255, 255, 255, 0.1);
+$background-5pct: rgba(255, 255, 255, 0.05);
+
+$white-10pct: rgba(255, 255, 255, 0.1);
+$white-20pct: rgba(255, 255, 255, 0.2);
+
+dialog {
+	opacity: 1;
+	scale: 1;
+	transition: opacity 0.2s ease-out, scale 0.2s ease-out, overlay 0.2s ease-out allow-discrete, display 0.2s ease-out allow-discrete;
+	@starting-style { opacity: 0; scale: 0.95; }
+	&::backdrop {
+		background-color: $background-color_1;
+		transition: background-color 0.2s ease-out, overlay 0.2s ease-out allow-discrete, display 0.2s ease-out allow-discrete;
+		@starting-style { background-color: rgba(0, 0, 0, 0); }
+  }
+}
+dialog {
+		&:not([open]) {
+			opacity: 0;
+			scale: 0.95;
+			&::backdrop {
+				background-color: $background-color_2;
+			}
+		}
+}
+
+
+#turbo-confirm-dialog {
+  border-radius: 0.5rem;
+  background-color: #27272a;
+  padding: 1.5rem;
+  text-align: left;
+  box-shadow: 0 25px 50px -12px $background_color_3;
+  border: none;
+  outline: 1px solid $white-10pct;
+  outline-offset: -1px;
+  margin-top: 33dvh;
+  width: 100%;
+  max-width: 32rem;
+  /* Animation */
+  opacity: 1;
+  scale: 1;
+  transition: opacity 0.2s ease-out, scale 0.2s ease-out, overlay 0.2s ease-out allow-discrete, display 0.2s ease-out allow-discrete;
+          }
+
+#turbo-confirm-dialog[open] {
+  @starting-style { opacity: 0; scale: 0.95; }
+}
+
+#turbo-confirm-dialog:not([open]) { opacity: 0; scale: 0.95; }
+#turbo-confirm-dialog::backdrop {
+  background-color: $background_color_1;
+  transition: background-color 0.2s ease-out, overlay 0.2s ease-out allow-discrete, display 0.2s ease-out allow-discrete;
+}
+
+#turbo-confirm-dialog[open]::backdrop {
+  @starting-style { background-color: $background_color_2; }
+}
+
+#turbo-confirm-dialog:not([open])::backdrop {
+  background-color: $background_color_2;
+}
+
+/* Dialog header */
+#turbo-confirm-dialog header hgroup { text-align: left; margin: 0; }
+
+#turbo-confirm-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  margin: 0;
+}
+
+#turbo-confirm-message {
+  margin: 0.5rem 0 0 0;
+  font-size: 0.875rem;
+  color: #a1a1aa;
+}
+
+/* Dialog footer */
+#turbo-confirm-dialog footer {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: row;
+  gap: 0.75rem;
+}

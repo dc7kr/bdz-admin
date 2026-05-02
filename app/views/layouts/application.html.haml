@@ -48,4 +48,15 @@
             = yield :sidebar
 
     = render "footer"
+    %dialog#turbo-confirm-dialog{"aria-describedby" => "turbo-confirm-message", "aria-labelledby" => "turbo-confirm-title", :closedby => "any"}
+      %header
+        %hgroup
+          %h3#turbo-confirm-title=t("common.confirm")
+          %p#turbo-confirm-message
+      %footer
+        %button.btn.btn-sm.btn-secondary{:command => "close", :commandfor => "turbo-confirm-dialog", :type => "button"}
+          =t("common.cancel")
+        %form{:method => "dialog"}
+          %button.btn.btn-sm.btn-danger{:type => "submit", :value => "confirm"}
+            Confirm
 
