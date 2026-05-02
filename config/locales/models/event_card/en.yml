@@ -3,7 +3,7 @@ en:
     order_form:
         title: "Ticket order for the eurofestival 2014"
         submit: "Order"
-        info1: "The day passes don't include meals. Meal vouchers can be purchased at the info desk"
+        info1: "The day passes don't include meals."
         info2: "For organizational reasons, tickets for the concerts in Bruchsal Palace can only be purchased on-site."
         info3: "The payment method is selected in the next step."
     order_confirm:

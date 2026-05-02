@@ -4,7 +4,7 @@ de:
     order_form:
         title: "Kartenbestellung für das eurofestival 2026"
         submit: "Bestellen"
-        info1: "Die Tageskarten enthalten keine Verpflegung. Essensbons können nur an der Infotheke des BÜZ erworben werden."
+        info1: "Die Tageskarten enthalten keine Verpflegung."
         info2: "Karten für die Konzerte im Schloss können aus organisatorischen Gründen nur vor Ort erworben werden."
 
         info3: "Die Auswahl der Zahlugsart folgt im nächsten Schritt."
