@@ -12,7 +12,8 @@
       cell I18n.t("common.number")
       cell I18n.t("festival_application.group_type")
       cell I18n.t("festival_application.orch_name")
-      cell I18n.t("festival_application.country_id")
+      cell I18n.t("festival_application.conductor")
+      cell I18n.t("festival_application.country_code")
       cell I18n.t("festival_application.num_players")
       cell I18n.t("contact_person.salutation")
       cell I18n.t("contact_person.first_name")
@@ -52,6 +53,7 @@
         cell app.id
         cell I18n.t("festival_application.group_types.#{app.group_type}")
         cell app.orch_name
+        cell app.conductor
         cell app.t_country
         cell app.num_players
         cell I18n.t("common.salutations.#{app.contact_person.salutation}", locale: grp_locale)
