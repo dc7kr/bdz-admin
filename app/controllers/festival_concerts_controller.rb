@@ -21,6 +21,12 @@ class FestivalConcertsController < AuthenticatedController
   def show
     respond_to do |format|
       format.html # show.html.erb
+      format.pdf  do 
+        pdf = FestivalConcertPdf.new(@festival_concert, view_context)
+        pdf.generate
+        filename = "concert_#{@festival_concert.number}.pdf"
+        send_data pdf.render, filename: filename, type: "application/pdf"
+      end
       format.json { render json: @festival_concert }
     end
   end
