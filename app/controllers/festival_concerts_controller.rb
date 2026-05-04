@@ -8,10 +8,20 @@ class FestivalConcertsController < AuthenticatedController
   helper FestivalPiecesHelper
 
   def index
-    @festival_concerts = policy_scope(FestivalConcert).current_festival
+    @festival_concerts = policy_scope(FestivalConcert).current_festival.order(:number)
 
     respond_to do |format|
       format.html # index.html.erb
+      format.pdf {
+        combined_file = CombinePDF.new
+        @festival_concerts.each do |c|
+          pdf = FestivalConcertPdf.new(c, view_context)
+          pdf.generate
+          combined_file << CombinePDF.parse(pdf.render)
+        end
+        send_data combined_file.to_pdf, filename: "festival_concerts.pdf", type: "application/pdf"
+      }
+
       format.json { render json: @festival_concerts }
     end
   end
