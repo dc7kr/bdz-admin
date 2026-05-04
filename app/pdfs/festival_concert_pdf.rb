@@ -34,6 +34,8 @@ class FestivalConcertPdf < Prawn::Document
   end
 
   def programme(app)
+
+    return unless app.permission
     move_down 5 
     text app.orch_name, style: :bold
     label = nil
