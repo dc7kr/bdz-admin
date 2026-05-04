@@ -19,6 +19,7 @@ class FestivalConcertPdf < Prawn::Document
   end
   def generate
     head(self.concert)
+    stroke_horizontal_rule
     self.concert.festival_applications.order(:program_item).each do |fa|
       programme(fa)
       stroke_horizontal_rule
@@ -26,14 +27,23 @@ class FestivalConcertPdf < Prawn::Document
   end
 
   def head(concert)
+    text concert.location
+    text I18n.l concert.event_time
     text "#{I18n.t('festival_concert', count: 1)} Nr. #{concert.number}", size: 20, style: :bold
     text concert.title, size: 20, style: :bold
   end
 
   def programme(app)
-    move_down 20
+    move_down 5 
     text app.orch_name, style: :bold
-    text "#{I18n.t("festival_application.conductor")}: #{app.conductor}"
+    label = nil
+    if app.group_type == "O"
+      label = "#{I18n.t("festival_application.conductor")}: "
+    else
+      label = ""
+    end
+
+    text "#{label}#{app.conductor}" if app.conductor.present?
     move_down 2
 
 
