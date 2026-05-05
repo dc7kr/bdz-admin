@@ -13,7 +13,7 @@ class FestivalApplicationsController < AuthenticatedController
   # GET /festival_applications.json
 
   def calc_sums(year = BDZ_SETTINGS["config"]["festival_year"], visitor_type = nil)
-    query = policy_scope(FestivalApplication).where(year: year).select("SUM(num_players) as players, SUM(tickets) as tickets, SUM(tickets_red) as tickets_red, SUM(bdz_tickets) as bdz_tickets, SUM(bdz_tickets_red) as bdz_tickets_red")
+    query = policy_scope(FestivalApplication).where(year: year, permission: 1).select("SUM(num_players) as players, SUM(tickets) as tickets, SUM(tickets_red) as tickets_red, SUM(bdz_tickets) as bdz_tickets, SUM(bdz_tickets_red) as bdz_tickets_red")
 
     if visitor_type.present?
       query= query.where(visitor_type: visitor_type)
