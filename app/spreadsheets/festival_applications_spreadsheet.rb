@@ -15,6 +15,7 @@
       cell I18n.t("festival_application.conductor")
       cell I18n.t("festival_application.country_code")
       cell I18n.t("festival_application.num_players")
+      cell I18n.t("festival_concert", count:1)
       cell I18n.t("contact_person.salutation")
       cell I18n.t("contact_person.first_name")
       cell I18n.t("contact_person.last_name")
@@ -56,6 +57,7 @@
         cell app.conductor
         cell app.t_country
         cell app.num_players
+        cell app.festival_concert.title
         cell I18n.t("common.salutations.#{app.contact_person.salutation}", locale: grp_locale)
         cell app.contact_person.first_name
         cell app.contact_person.last_name
