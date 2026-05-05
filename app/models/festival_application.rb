@@ -147,14 +147,7 @@ class FestivalApplication < Invoiceable
     inv
   end
 
-  def get_ticket_invoice
-    if has_ticket_invoice?
-      i = CorikaInvoices::Invoice.find(ticket_invoice_id)
-      return i
-    end
-
-    prices = BDZ_SETTINGS["festival_prices"]
-
+  def to_event_card
     ec = EventCard.new
 
     ec.nr_fest = tickets
@@ -172,10 +165,23 @@ class FestivalApplication < Invoiceable
       end
     end
 
-    inv = nil
+    ec
+  end
+
+  def populate_invoice(inv)
+    ec = to_event_card
+
     I18n.with_locale(ec.to_locale) do
-      inv = ec.to_invoice
+
+      if not inv.present?
+        inv = ec.to_invoice unless inv.present?
+      else
+        inv.invoice_items.clear
+        ec.populate_invoice(inv)
+      end
+
       inv.template = "participant_card.#{ec.preferred_lang}"
+
       inv.customer = to_customer
 
       if storno_invoice_id.present?
@@ -189,6 +195,26 @@ class FestivalApplication < Invoiceable
         end
       end
     end
+
+    inv
+  end
+
+  def refresh_ticket_invoice
+      i = CorikaInvoices::Invoice.find(ticket_invoice_id)
+
+      return unless i.present?
+      populate_invoice(i)
+
+      i
+  end
+
+  def get_ticket_invoice
+    if has_ticket_invoice?
+      i = CorikaInvoices::Invoice.find(ticket_invoice_id)
+      return i
+    end
+
+    inv = populate_invoice(nil)
 
     inv
   end
