@@ -131,7 +131,7 @@ de:
     festival_applications:
       form:
         template_hint: "Bitte verwenden Sie diese Vorlagen für Sitzplan und Spieler-Liste"
-        invoice_already_created: "Die Rechnung wurde bereits erzeugt. Bitte wenden Sie sich an das Festial-Team für Änderungen."
+        invoice_already_created: "Die Rechnung wurde bereits erzeugt. Bitte wenden Sie sich an das Festival-Team für Änderungen."
         stage_plan_template: "Sitzplan-Vorlage"
         player_list_template: "Spieler-Liste-Vorlage"
     timetables:
