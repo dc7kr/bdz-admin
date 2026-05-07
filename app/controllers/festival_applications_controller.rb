@@ -436,6 +436,27 @@ class FestivalApplicationsController < AuthenticatedController
     @festival_applications = policy_scope(FestivalApplication).current_festival.order(:id)
   end
 
+
+  def stage_plans
+    @festival_applications = policy_scope(FestivalApplication).current_festival.where(permission: 1).order(:id)
+    filename = "stage_plans.zip"
+    temp_file = Tempfile.new(filename)
+
+    Zip::OutputStream.open(temp_file.path) do |zos|
+      @festival_applications.each do |fa|
+        plan = fa.stage_plan
+
+        next if not plan.attached?
+        zos.put_next_entry("#{fa.id}_#{plan.filename.to_s}")
+        zos.print plan.download
+      end
+    end
+
+    send_file temp_file.path, type: 'application/zip', disposition: 'attachment', filename: filename
+  ensure
+    temp_file.close
+  end
+
   def sort_column
     FestivalApplication.column_names.include?(params[:sort]) ? params[:sort] : "id"
     # group_type [:group_type,:orch_name])
@@ -480,7 +501,7 @@ class FestivalApplicationsController < AuthenticatedController
 
   protected
   def index_actions
-    super.append(:permitted, :open_issues, :list, :grp_list, :no_tickets, :no_meals )
+    super.append(:permitted, :open_issues, :list, :grp_list, :no_tickets, :no_meals, :stage_plans )
 
   end
 

@@ -48,6 +48,10 @@ class FestivalApplicationPolicy < FestivalDataPolicy
     national_permission?
   end
 
+  def stage_plans?
+    national_permission? or user.has_role? :festival
+  end
+
   class Scope < FestivalDataPolicy::Scope
     def resolve
       if national_permission? or user.has_role? :festival

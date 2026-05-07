@@ -159,6 +159,7 @@ Rails.application.routes.draw do
       get :participant_overview
       get :gen_participant_sheets
       get :open_issues
+      get :stage_plans
     end
     member do
       get :gen_participant_sheet
