@@ -31,6 +31,7 @@ class FestivalConcertPdf < Prawn::Document
     text I18n.l concert.event_time
     text "#{I18n.t('festival_concert', count: 1)} Nr. #{concert.number}", size: 20, style: :bold
     text concert.full_title, size: 20, style: :bold
+    text concert.subtitle
   end
 
   def programme(app)

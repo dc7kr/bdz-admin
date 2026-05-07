@@ -110,7 +110,7 @@ class FestivalConcertsController < AuthenticatedController
   end
 
   def festival_concert_params
-    params.require(:festival_concert).permit(:concert_type, :number, :title, :location, :event_time, :outdoor, :concert_id)
+    params.require(:festival_concert).permit(:concert_type, :number, :title, :subtitle, :location, :event_time, :outdoor, :concert_id)
   end
 
   def details

@@ -3,10 +3,11 @@
 .container
   .card.bg-light.mb-3
     .card-body
-      %h5.card-title 
+      %h5.card-title
         #{t("festival_concert",:count=>1)} Nr. #{@festival_concert.concert_type} #{@festival_concert.number}
-
+      =entity_row(@festival_concert,:concert_id)
       =entity_row(@festival_concert,:title)
+      =entity_row(@festival_concert,:subtitle)
       =entity_row(@festival_concert,:location)
       =entity_row(@festival_concert,:event_time)
       = link_to t("festival_concert.programme"), programme_festival_concert_path(@festival_concert),  data: { 'turbo_frame' => 'modal' }, class: 'btn btn-secondary btn-sm'
@@ -24,6 +25,6 @@
     %tbody
       - if @festival_concert.outdoor
         = render @festival_concert.outdoor_participants.order(:program_item)
-      - else 
+      - else
         = render @festival_concert.festival_applications.order(:program_item).where(permission: 1)
 
