@@ -30,13 +30,13 @@ class FestivalConcertPdf < Prawn::Document
     text concert.location
     text I18n.l concert.event_time
     text "#{I18n.t('festival_concert', count: 1)} Nr. #{concert.number}", size: 20, style: :bold
-    text concert.title, size: 20, style: :bold
+    text concert.full_title, size: 20, style: :bold
   end
 
   def programme(app)
 
     return unless app.permission
-    move_down 5 
+    move_down 5
     text app.orch_name, style: :bold
     label = nil
     if app.group_type == "O"
@@ -59,6 +59,6 @@ class FestivalConcertPdf < Prawn::Document
     text piece.composer
     text piece.title, style: :bold
     text "#{I18n.t("festival_piece.duration")}: #{I18n.l piece.duration, format: "%H:%M"}"
-    move_down 2 
+    move_down 2
   end
 end

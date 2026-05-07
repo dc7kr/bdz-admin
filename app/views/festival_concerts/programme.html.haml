@@ -1,10 +1,10 @@
-= render layout: 'layouts/modal', locals: { title: t("festival_concert.programme") } do 
-  %h1.title 
+= render layout: 'layouts/modal', locals: { title: t("festival_concert.programme") } do
+  %h1.title
     #{t("festival_concert", count: 1)} Nr. #{@festival_concert.number}
-    “#{@festival_concert.title}”
+    “#{@festival_concert.full_title}”
   %h3
     =l @festival_concert.event_time
-    (#{@festival_concert.location}) 
+    (#{@festival_concert.location})
   %hr
 
   - @groups.each do |g|

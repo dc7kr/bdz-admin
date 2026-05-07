@@ -12,4 +12,12 @@ class FestivalConcert < ApplicationRecord
   def label
     "#{I18n.t('common.number')} #{number} #{title}"
   end
+
+  def full_title
+    if title.present?
+      "#{concert_id} - #{title}"
+    else
+      "#{concert_id}"
+    end
+  end
 end

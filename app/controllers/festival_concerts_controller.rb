@@ -110,22 +110,22 @@ class FestivalConcertsController < AuthenticatedController
   end
 
   def festival_concert_params
-    params.require(:festival_concert).permit(:concert_type, :number, :title, :location, :event_time, :outdoor)
+    params.require(:festival_concert).permit(:concert_type, :number, :title, :location, :event_time, :outdoor, :concert_id)
   end
 
   def overview
-      
+
     @applications = policy_scope(FestivalApplication).current_festival.where(permission: true).includes(:festival_concert).includes(:festival_pieces).includes(:contact_person)
     respond_to do |format|
       format.html
-      format.ods do 
+      format.ods do
         spreadsheet = FestivalConcertOverviewSpreadsheet.new(@applications)
         spreadsheet.render(self)
         send_data spreadsheet.bytes, filename: "concert_overview.ods", type: "application/octet-stream"
       end
     end
-  end 
- 
+  end
+
 
   private
   def set_festival_concert

@@ -1,14 +1,15 @@
 %tr
   %td= festival_concert.number
+  %td= festival_concert.concert_id
   %td= festival_concert.title
   %td= festival_concert.location
   %td
     - if festival_concert.event_time then
-      = l festival_concert.event_time 
-      
+      = l festival_concert.event_time
+
   %td= format_bool(festival_concert.outdoor, symbol: true)
   %td
-    .btn-group 
+    .btn-group
       = link_to my_fa_icon("list"), programme_festival_concert_path(festival_concert),  data: { 'turbo_frame' => 'modal' }, class: 'btn btn-secondary btn-sm'
       = link_to_show festival_concert
       = link_to_edit festival_concert
