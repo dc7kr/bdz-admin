@@ -21,8 +21,16 @@ class FestivalConcertPdf < Prawn::Document
     head(self.concert)
     stroke_horizontal_rule
     self.concert.festival_applications.order(:program_item).each do |fa|
+      next unless fa.permission 
       programme(fa)
       stroke_horizontal_rule
+    end
+    if self.concert.outdoor == true
+      self.concert.outdoor_participants.order(:program_item).each do |fa|
+        next unless fa.permission 
+        programme(fa)
+        stroke_horizontal_rule
+      end
     end
   end
 
