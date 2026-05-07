@@ -7,6 +7,8 @@
       = festival_application.orch_name
     - if festival_application.ticket_warning?
       %span.badge.bg-warning=t("festival_application.ticket_deviation")
+    - if festival_application.payment_mismatch?
+      %span.badge.bg-danger=t("festival_applications.payment_mismatch")
     %br
     #{t('festival_application.conductor')}: #{festival_application.conductor}
     %br
@@ -19,7 +21,7 @@
   %td= t("festival_application.payment_states.#{festival_application.payment_status}")
   %td=format_currency festival_application.amount
   %td
-    .btn-group 
+    .btn-group
       =link_to_show festival_application
       =link_to_edit festival_application
       =link_to_delete festival_application

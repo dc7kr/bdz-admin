@@ -230,6 +230,30 @@ class FestivalApplication < Invoiceable
     tickets_total > 0 and ticket_quota < 0.9
   end
 
+  def payment_mismatch?
+    ti = get_ticket_invoice
+
+    if payment_status == "S"
+      return false
+    end
+
+    return true unless ti.present?
+
+    if ti.invoice_items[0].nil?
+      return true
+    end
+
+    if ti.invoice_items[0].count != tickets
+      return true
+    end
+
+    if ti.invoice_items.length > 1 and ti.invoice_items[1].count != tickets_red
+      return true
+    end
+
+    false
+  end
+
   def ticket_quota
     tickets_total*1.0/num_players
   end

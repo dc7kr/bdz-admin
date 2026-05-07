@@ -74,6 +74,7 @@ de:
       T: Trio
 
   festival_applications:
+    payment_mismatch: "Rechnungsabweichung"
     gen_ticket_invoice: "Neue Ticket Rechnung"
     show:
       ticket_storno_confirm_title: "Rechnung stornieren"
