@@ -247,8 +247,13 @@ class FestivalApplication < Invoiceable
       return true
     end
 
-    if ti.invoice_items.length > 1 and ti.invoice_items[1].count != tickets_red
-      return true
+    if ti.invoice_items.length > 1
+      if ti.invoice_items[1].total < 0 
+        return false
+      end
+      if ti.invoice_items[1].count != tickets_red
+        return true
+      end
     end
 
     false
