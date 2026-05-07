@@ -59,9 +59,12 @@
         = f.text_area :workshop_request
         = f.text_area :comment, label: t("festival_application.public_comment")
       #ticket-tab-pane.tab-pane.fade{ role: "tabpanel", 'aria-labelledby': "ticket-tab", 'tabindex': 0 }
-        = f.number_field :tickets
-        = f.number_field :tickets_red
-        = f.number_field :soloist_tickets
+        - if @festival_application.tickets_editable?
+          = f.number_field :tickets
+          = f.number_field :tickets_red
+          = f.number_field :soloist_tickets
+        - else
+          =t(".invoice_already_created")
     - if @festival_application.new_record?
       = f.submit t("festival_application.create")
     - else

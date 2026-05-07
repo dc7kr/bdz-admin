@@ -267,6 +267,11 @@ class FestivalApplication < Invoiceable
     token
   end
 
+
+  def tickets_editable?
+    not has_ticket_invoice?     
+  end
+
   def to_hash
     result = Hash.new
     result["name"] = orch_name

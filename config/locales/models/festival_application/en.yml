@@ -90,6 +90,7 @@ en:
     festival_applications:
       form:
         template_hint: "Please use the templates below for stage plan and player list upload."
+        invoice_already_created: "The invoice was already created. Please contact the festival team for changes."
     timetables:
       stage_times:
         title: "Stage times"
