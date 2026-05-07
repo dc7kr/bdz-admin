@@ -1,9 +1,10 @@
 = bootstrap_form_for [:ef,festival_application], url: update_tickets_ef_festival_application_path(festival_application), :layout=> :horizontal, label_col: "col-sm-3", control_col: "col-sm-9" do |f|
   .container
-    = f.number_field :tickets
-    - if festival_application.visitor_type == "R"
-      = f.number_field :tickets_red
-    = f.number_field :soloist_tickets
-    = f.submit t("common.update")
-
-     
+    - if @festival_application.tickets_editable?
+      = f.number_field :tickets
+      - if festival_application.visitor_type == "R"
+        = f.number_field :tickets_red
+      = f.number_field :soloist_tickets
+      = f.submit t("common.update")
+    - else
+      =t(".invoice_already_created")
