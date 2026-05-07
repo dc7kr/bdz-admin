@@ -31,12 +31,16 @@ class FestivalConcert < ApplicationRecord
 
 
     if outdoor
-      outdoor_participants.each do |fp|
-        result["participants"] << fp.to_hash
+      outdoor_participants.order(:program_item).each do |fp|
+        if fp.permission == true
+          result["participants"] << fp.to_hash
+        end
       end
     else
-      festival_applications.each do |fp|
-        result["participants"] << fp.to_hash
+      festival_applications.order(:program_item).each do |fp|
+        if fp.permission == true
+          result["participants"] << fp.to_hash
+        end
       end
     end
 
