@@ -7,7 +7,7 @@
     (#{@festival_concert.location})
   %hr
 
-  - @groups.each do |g|
+  - @groups.order(:program_item).each do |g|
     .mb-2
       %b=g.orch_name
       %table.table
