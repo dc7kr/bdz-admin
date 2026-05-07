@@ -237,4 +237,13 @@ class FestivalApplication < Invoiceable
   def to_param
     token
   end
+
+  def to_hash
+    result = Hash.new
+    result["name"] = orch_name
+    result["conductor"] = conductor
+    result["group_type"] =  group_type
+
+    result
+  end
 end

@@ -86,6 +86,7 @@ Rails.application.routes.draw do
     end
     collection do
       get :overview
+      get :details
     end
   end
 

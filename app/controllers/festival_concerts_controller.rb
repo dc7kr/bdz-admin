@@ -31,7 +31,7 @@ class FestivalConcertsController < AuthenticatedController
   def show
     respond_to do |format|
       format.html # show.html.erb
-      format.pdf  do 
+      format.pdf  do
         pdf = FestivalConcertPdf.new(@festival_concert, view_context)
         pdf.generate
         filename = "concert_#{@festival_concert.number}.pdf"
@@ -113,6 +113,21 @@ class FestivalConcertsController < AuthenticatedController
     params.require(:festival_concert).permit(:concert_type, :number, :title, :location, :event_time, :outdoor, :concert_id)
   end
 
+  def details
+    @festival_concerts = policy_scope(FestivalConcert).current_festival.includes(:festival_applications, :outdoor_participants)
+
+
+    array = Array.new
+
+    @festival_concerts.each do |concert|
+      array << concert.to_hash
+    end
+
+    send_data YAML.dump(array), filename: "concert_details.yml", type: "application/octet-stream"
+
+  end
+
+
   def overview
 
     @applications = policy_scope(FestivalApplication).current_festival.where(permission: true).includes(:festival_concert).includes(:festival_pieces).includes(:contact_person)
@@ -133,6 +148,6 @@ class FestivalConcertsController < AuthenticatedController
     authorize @festival_concert
   end
   def index_actions
-    super.append(:overview)
+    super.append(:overview, :details)
   end
 end

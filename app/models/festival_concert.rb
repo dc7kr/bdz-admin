@@ -20,4 +20,28 @@ class FestivalConcert < ApplicationRecord
       "#{concert_id}"
     end
   end
+
+  def to_hash
+    result = Hash.new
+    result["location"] = location
+    result["id"] = concert_id
+    result["title"] = title
+    result["datetime"] = I18n.l event_time
+    result["id"] = title[0..2]
+    result["participants"] = Array.new
+
+
+    if outdoor
+      outdoor_participants.each do |fp|
+        result["participants"] << fp.to_hash
+      end
+    else
+      festival_applications.each do |fp|
+        result["participants"] << fp.to_hash
+      end
+    end
+
+    result
+  end
+
 end
