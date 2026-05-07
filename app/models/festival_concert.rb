@@ -10,7 +10,7 @@ class FestivalConcert < ApplicationRecord
   has_many :outdoor_participants, class_name: "FestivalApplication", foreign_key: "outdoor_concert_id"
 
   def label
-    "#{I18n.t('common.number')} #{number} #{title}"
+    "#{I18n.t('common.number')} #{number} #{full_title}"
   end
 
   def full_title
