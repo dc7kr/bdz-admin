@@ -27,7 +27,6 @@ class FestivalConcert < ApplicationRecord
     result["id"] = concert_id
     result["title"] = title
     result["datetime"] = I18n.l event_time
-    result["id"] = title[0..2]
     result["participants"] = Array.new
 
 
