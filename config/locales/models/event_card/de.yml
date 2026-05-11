@@ -58,6 +58,7 @@ de:
       direct_debit: "Lastschrift"
 
   event_cards:
+    pickup: "Abholung"
     order_incomplete: "Bestellung nicht abgeschlossen"
     form:
       submit: "Kartenbestellung aktualisieren"
