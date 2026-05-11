@@ -46,7 +46,7 @@ class ParticipantOverviewSpreadsheet
 
       invoice_hash = app.get_ticket_invoice.to_hash[:invoice]
 
-      if app.payment_status == "F"
+      if app.payment_status == "F" or app.payment_status == "S"
         due_amount = 0
       else
         due_amount = invoice_hash[:sum][:grand_total]
@@ -85,6 +85,13 @@ class ParticipantOverviewSpreadsheet
           r.cell meal.dinner2.to_i
           r.cell meal.lunch3.to_i
           r.cell meal.dinner3.to_i
+        else
+          r.cell ""
+          r.cell ""
+          r.cell ""
+          r.cell ""
+          r.cell ""
+          r.cell ""
         end
         
         r.cell view.number_to_currency(due_amount, precision: 2, locale: :de)
