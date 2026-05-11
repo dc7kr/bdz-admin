@@ -95,6 +95,7 @@ de:
         note: "Die aufgerufene Seite ist nicht mehr gültig. Bitte starten Sie die Kartenbestellung erneut."
       order_form:
         title: "Kartenbestellung"
+        presale_closed: "Der Vorverkauf ist beendet. Tickets erhalten Sie nun ausschließlich an der Info-Theke im Bürgerzentrum Bruchsal."
       form:
         submit: "Weiter zur Zahlungsart"
       choose_payment:

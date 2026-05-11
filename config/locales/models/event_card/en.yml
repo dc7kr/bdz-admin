@@ -59,6 +59,7 @@ en:
     event_cards:
       order_form:
         title: "Ticket order"
+        presale_closed: "Presale has ended. You can purchase tickets locally at the info desk."
       form:
         submit: "Proceed to payment"
       invalid_state:
