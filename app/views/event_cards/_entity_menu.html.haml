@@ -1,0 +1,8 @@
+%li.nav-item.dropdown
+  %button.btn.btn-outline-secondary.dropdown-toggle{href: "#", role: "button" ,data:  { bs:  { toggle: "dropdown" }}, :aria => { expanded:  "false"}}
+    =t(controller_name.singularize, count:3)
+  .dropdown-menu
+    %h4.px-4= t("common.list")
+    .dropdown-divider
+    = link_to "Übersicht (ODS)", overview_event_cards_path(format: "ods"), class: "dropdown-item"
+    = link_to "Übersicht (PDF)", overview_event_cards_path(format: "pdf"), class: "dropdown-item"

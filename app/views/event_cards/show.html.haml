@@ -7,6 +7,8 @@
       (bereits abgeholt)
     - if @event_card.incomplete?
       %span.badge.text-bg-warning=t("event_cards.order_incomplete")
+    - if not @event_card.pickup
+      = link_to t("event_cards.pickup"), pickup_event_card_path(checkout_reference: @event_card.checkout_reference), class: "btn btn-sm btn-secondary"
   .inner
     %h3=mail_to @event_card.email, @event_card.name
     %h4 #{t('event_card.orderdate')}:  #{format_date @event_card.orderdate}
@@ -70,3 +72,4 @@
   .p-5.sumup_qr{ style: "width: 250px"}= sumup_qr_svg(invoice.total,"Festivalkartenbestellung ##{invoice.customer.id}")
 
 
+- content_for :entity_menu, render(:partial => 'entity_menu')

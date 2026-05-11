@@ -12,5 +12,6 @@
   %td
     = link_to_show event_card, event_card_path(checkout_reference: event_card.checkout_reference)
     = link_to_edit event_card
-    = link_to "Pickup", pickup_event_card_path(checkout_reference: event_card.checkout_reference)
+    - if not event_card.pickup
+      = link_to t("event_cards.pickup"), pickup_event_card_path(checkout_reference: event_card.checkout_reference), class: "btn btn-sm btn-secondary"
     = link_to_delete event_card
