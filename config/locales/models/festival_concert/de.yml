@@ -11,6 +11,7 @@ de:
     programme: "Konzertprogramm"
     overview: "GEMA-Übersicht"
   festival_concerts:
+    concert_day: "Konzert-Tag"
     index:
       title: "Alle Festival-Konzerte"
     edit:

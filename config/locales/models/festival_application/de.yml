@@ -74,6 +74,7 @@ de:
       T: Trio
 
   festival_applications:
+    due_amount: "Offener Betrag"
     payment_mismatch: "Rechnungsabweichung"
     gen_ticket_invoice: "Neue Ticket Rechnung"
     show:
