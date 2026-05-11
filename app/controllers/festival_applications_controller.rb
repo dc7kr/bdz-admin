@@ -375,7 +375,7 @@ class FestivalApplicationsController < AuthenticatedController
 
 
   def participant_overview
-    datePrefix = Time.zone.now.strftime("%Y%m%d%H%M%S_")
+    date_prefix = Time.zone.now.strftime("%Y%m%d%H%M%S_")
 
     @participants = if params[:alpha]
                       policy_scope(FestivalApplication).current_festival.permitted.order(:orch_name)
@@ -386,14 +386,14 @@ class FestivalApplicationsController < AuthenticatedController
     respond_to do |format|
       format.pdf do
         pdf = ParticipantOverviewPdf.new(@participants, view_context)
-        send_data pdf.render, filename: "participant_overview_#{datePrefix}.pdf", type: "application/pdf",
+        send_data pdf.render, filename: "#{date_prefix}participant_overview.pdf", type: "application/pdf",
                               disposition: "inline"
       end
 
       format.ods do
         ods = ParticipantOverviewSpreadsheet.new(@participants, view_context)
         ods.render
-        send_data ods.bytes, filename: "#{datePrefix}_participant_overview.ods", type: "application/octet-stream"
+        send_data ods.bytes, filename: "#{date_prefix}participant_overview.ods", type: "application/octet-stream"
       end
     end
   end
@@ -425,6 +425,21 @@ class FestivalApplicationsController < AuthenticatedController
     invoice_file = invoice.gen_pdf
 
     send_file(invoice_file.full_path, filename: invoice_file.orig_filename, type: "application/octet-stream")
+  end
+
+  def datasheets
+    applications = policy_scope(FestivalApplication).current_festival.permitted.order(:id)
+
+    date_prefix = Time.zone.now.strftime("%Y%m%d%H%M%S_")
+
+    combined_file = CombinePDF.new
+
+    applications.each do |appl|
+      pdf = ParticipantSheetPdf.new(appl, view_context)
+      combined_file << CombinePDF.parse(pdf.render)
+    end
+
+    send_data combined_file.to_pdf, filename: "#{date_prefix}datasheets.pdf", type: "application/pdf"
   end
 
   def gen_participant_sheets
@@ -511,7 +526,7 @@ class FestivalApplicationsController < AuthenticatedController
 
   protected
   def index_actions
-    super.append(:permitted, :open_issues, :participant_overview, :list, :grp_list, :no_tickets, :no_meals, :stage_plans )
+    super.append(:permitted, :open_issues, :participant_overview, :list, :grp_list, :no_tickets, :no_meals, :stage_plans, :datasheets )
 
   end
 

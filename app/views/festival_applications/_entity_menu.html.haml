@@ -12,7 +12,8 @@
     = link_to "Zulassungsliste (PDF)", "/festival_applications/permitted.pdf", class: "dropdown-item"
     = link_to "Zulassungsliste (ODS)", "/festival_applications/permitted.ods", class: "dropdown-item"
     .dropdown-divider
-    = link_to "Teilnehmerliste (ODS)", "/festival_applications/participant_overview.ods", class: "dropdown-item"
+    = link_to "Teilnehmerliste (ODS)", participant_overview_festival_applications_path(format: "ods"), class: "dropdown-item"
+    = link_to "Datenblätter (merged PDF)", datasheets_festival_applications_path, class: "dropdown-item"
     = link_to "Sitzpläne", stage_plans_festival_applications_path, class: "dropdown-item"
     .dropdown-divider
     = form_tag grp_list_festival_applications_path, method: :post, data: {turbo:false}, class: "px-4 py-3" do
