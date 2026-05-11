@@ -11,7 +11,8 @@
     .dropdown-divider
     = link_to "Zulassungsliste (PDF)", "/festival_applications/permitted.pdf", class: "dropdown-item"
     = link_to "Zulassungsliste (ODS)", "/festival_applications/permitted.ods", class: "dropdown-item"
-    = link_to "Teilnehmerliste (ODS)", "/festival_applications/permitted.ods", class: "dropdown-item"
+    .dropdown-divider
+    = link_to "Teilnehmerliste (ODS)", "/festival_applications/participant_overview.ods", class: "dropdown-item"
     = link_to "Sitzpläne", stage_plans_festival_applications_path, class: "dropdown-item"
     .dropdown-divider
     = form_tag grp_list_festival_applications_path, method: :post, data: {turbo:false}, class: "px-4 py-3" do
@@ -22,4 +23,3 @@
         %label{ for: "file_format"}=t("common.file_format")
         = select_tag :file_format, options_for_select([["HTML", "html"], ["PDF", "pdf"],["ODS","ods"]], "pdf"), class: "form-control"
       = submit_tag "Liste", :name => :list, data: { disable_with: false }, class: "form-control btn btn-primary"
-.block
