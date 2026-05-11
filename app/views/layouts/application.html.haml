@@ -19,6 +19,8 @@
   %body
     - if not current_user.nil?
       = render :partial => "main_menu"
+    - if Rails.env == "development"
+      .development
     #flash_messages
       = render :partial => "flash_messages", locals: { :flash => flash }
 
@@ -46,7 +48,9 @@
             %button.btn-close.text-reset{ :type=>"button", :data=> { :bs=> { :dismiss=> "offcanvas"}, :aria => {:label => "close"}}}
           .offcanvas-body
             = yield :sidebar
-
+    - if Rails.env == "development"
+      #watermark
+        %h2=Rails.env
     = render "footer"
     %dialog#turbo-confirm-dialog{"aria-describedby" => "turbo-confirm-message", "aria-labelledby" => "turbo-confirm-title", :closedby => "any"}
       %header

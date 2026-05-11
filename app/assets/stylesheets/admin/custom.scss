@@ -116,3 +116,25 @@ hr.calc_final {
     color:red;
   }
 }
+
+.development {
+  height: 5px;
+  background-color: red;
+
+}
+
+#watermark
+{
+ position:fixed;
+ top:100px;
+ right:20px;
+ width: 100%;
+ opacity:0.5;
+ z-index:99;
+ color:grey;
+ text-align: right;
+
+  h2 {
+    font-size: 3rem;
+  }
+}
