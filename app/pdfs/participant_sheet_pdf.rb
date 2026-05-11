@@ -148,9 +148,9 @@ class ParticipantSheetPdf < Prawn::Document
 
       rows = []
       rows << [ "", I18n.t("event_meals.lunch"), I18n.t("event_meals.dinner") ]
-      rows << [ I18n.t('date.day_names')[4], I18n.t("event_meals.l_do")[meal.lunch1-1], I18n.t("event_meals.d_do")[meal.dinner1-1] ]
-      rows << [ I18n.t('date.day_names')[5], I18n.t("event_meals.l_fr")[meal.lunch2-1], I18n.t("event_meals.d_fr")[meal.dinner2-1] ]
-      rows << [ I18n.t('date.day_names')[6], I18n.t("event_meals.l_sa")[meal.lunch3-1], I18n.t("event_meals.d_sa")[meal.dinner3-1] ]
+      rows << [ I18n.t('date.day_names')[4], I18n.t("event_meals.l_do")[meal.lunch1.to_i-1], I18n.t("event_meals.d_do")[meal.dinner1.to_i-1] ]
+      rows << [ I18n.t('date.day_names')[5], I18n.t("event_meals.l_fr")[meal.lunch2.to_i-1], I18n.t("event_meals.d_fr")[meal.dinner2.to_i-1] ]
+      rows << [ I18n.t('date.day_names')[6], I18n.t("event_meals.l_sa")[meal.lunch3.to_i-1], I18n.t("event_meals.d_sa")[meal.dinner3.to_i-1] ]
 
       table rows do
         cells.borders = []
