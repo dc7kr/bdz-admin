@@ -17,6 +17,7 @@ class FestivalConcertOverviewSpreadsheet
       cell "Konzert"
       cell "ID"
       cell "Interpret"
+      cell "Programm-Position"
       cell "Spieler"
       cell "Titel"
       cell "Dauer"
@@ -60,6 +61,7 @@ class FestivalConcertOverviewSpreadsheet
           cell  concert_nr
           cell fa.id
           cell fa.orch_name
+          cell fa.program_item
           cell fa.num_players
           cell fp.title
           cell fp.printable_duration
