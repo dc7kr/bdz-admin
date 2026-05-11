@@ -6,3 +6,4 @@
     = nav_to_edit @event_card, edit_event_card_path(checkout_reference: @event_card.checkout_reference) unless @event_card.nil?
   = nav_to_new EventCard
 
+- content_for :search, render(:partial => 'nav_search', locals: { search_path: event_cards_path })

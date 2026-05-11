@@ -1,7 +1,8 @@
 class EventCardsController < AuthenticatedController
 
   helper :downloads
-
+  helper_method :sort_column, :sort_direction
+  
   before_action :set_event_card, only: %i[ show edit update destroy invoice_preview storno ]
 
   # GET /event_cards
@@ -186,6 +187,11 @@ class EventCardsController < AuthenticatedController
         send_data pdf.render, filename: "#{datePrefix}_ticket_orders.pdf", type: "application/pdf",
                               disposition: "inline"
       end
+      format.ods do
+        ods_sheet = TicketOrderSpreadsheet.new(@event_cards)
+        ods_sheet.render 
+        send_data ods_sheet.bytes, filename: "#{datePrefix}_ticket_orders.ods", type: "application/octet-stream"
+      end
     end
   end
 
@@ -213,6 +219,10 @@ class EventCardsController < AuthenticatedController
     end
   end
 
+
+  def sort_column
+    EventCard.column_names.include?(params[:sort]) ? params[:sort] : "event_cards.nr"
+  end
 
 
   private
