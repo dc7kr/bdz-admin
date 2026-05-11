@@ -8,6 +8,10 @@ class EventCardPolicy < FestivalDataPolicy
     national_permission?
   end
 
+  def pickup?
+    national_permission?
+  end
+
   def overview?
     national_permission?
   end

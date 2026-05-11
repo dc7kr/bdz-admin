@@ -2,8 +2,8 @@ class EventCardsController < AuthenticatedController
 
   helper :downloads
   helper_method :sort_column, :sort_direction
-  
-  before_action :set_event_card, only: %i[ show edit update destroy invoice_preview storno ]
+
+  before_action :set_event_card, only: %i[ show edit update destroy invoice_preview storno pickup]
 
   # GET /event_cards
   # GET /event_cards.json
@@ -189,7 +189,7 @@ class EventCardsController < AuthenticatedController
       end
       format.ods do
         ods_sheet = TicketOrderSpreadsheet.new(@event_cards)
-        ods_sheet.render 
+        ods_sheet.render
         send_data ods_sheet.bytes, filename: "#{datePrefix}_ticket_orders.ods", type: "application/octet-stream"
       end
     end
