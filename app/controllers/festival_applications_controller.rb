@@ -378,14 +378,24 @@ class FestivalApplicationsController < AuthenticatedController
     datePrefix = Time.zone.now.strftime("%Y%m%d%H%M%S_")
 
     @participants = if params[:alpha]
-                      policy_scope(FestivalApplication).where("permission = 1").order(:orch_name)
+                      policy_scope(FestivalApplication).current_festival.permitted.order(:orch_name)
     else
-                      policy_scope(FestivalApplication).where("permission = 1").order(:id)
+                      policy_scope(FestivalApplication).current_festival.permitted.order(:id)
     end
 
-    pdf = ParticipantOverviewPdf.new(@participants, view_context)
-    send_data pdf.render, filename: "participant_overview_#{datePrefix}.pdf", type: "application/pdf",
-                          disposition: "inline"
+    respond_to do |format|
+      format.pdf do
+        pdf = ParticipantOverviewPdf.new(@participants, view_context)
+        send_data pdf.render, filename: "participant_overview_#{datePrefix}.pdf", type: "application/pdf",
+                              disposition: "inline"
+      end
+
+      format.ods do
+        ods = ParticipantOverviewSpreadsheet.new(@participants, view_context)
+        ods.render
+        send_data ods.bytes, filename: "#{datePrefix}_participant_overview.ods", type: "application/octet-stream"
+      end
+    end
   end
 
   def fee_invoice
@@ -501,7 +511,7 @@ class FestivalApplicationsController < AuthenticatedController
 
   protected
   def index_actions
-    super.append(:permitted, :open_issues, :list, :grp_list, :no_tickets, :no_meals, :stage_plans )
+    super.append(:permitted, :open_issues, :participant_overview, :list, :grp_list, :no_tickets, :no_meals, :stage_plans )
 
   end
 
