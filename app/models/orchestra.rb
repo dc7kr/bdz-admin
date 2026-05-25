@@ -521,8 +521,8 @@ class Orchestra < ApplicationRecord
   end
 
   def report_sheet_required?
-    # foreign orchestras and special members
-    orch_type != "X" and orch_type != "A"
+    # only regular and regional orchestras 
+    orch_type == "R" or orch_type == "L"
   end
 
   def has_faulty_double_members?
