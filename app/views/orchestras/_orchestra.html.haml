@@ -15,9 +15,9 @@
     .d-md-none= mail_to orchestra.member.email, orchestra.member.email
 
   - if orchestra.member.nil? then
-    %td.d-none.d-md-inline INCONSISTENT
+    %td.d-none.d-md-table-cell INCONSISTENT
   - else
-    %td.d-none.d-md-inline
+    %td.d-none.d-md-table-cell
       = mail_to orchestra.member.email, orchestra.member.email
   %td.last
     = link_to_show orchestra
