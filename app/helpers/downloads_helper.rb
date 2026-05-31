@@ -1,5 +1,11 @@
 module DownloadsHelper
 
+  def invoice_storage_path(invoice)
+    return unless invoice.present? and invoice.pdf_filename.present?
+
+    File.join(DOCS_CONFIG.archive_dir, invoice.booking_year.to_s, invoice.pdf_filename)
+  end
+
   def invoice_pdf_download_path(invoice)
     return unless invoice.present? and invoice.pdf_filename.present?
 

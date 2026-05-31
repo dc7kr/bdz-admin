@@ -1,5 +1,6 @@
 class MemberAccountBookingsController < AuthenticatedController
   include ApplicationHelper
+  include DownloadsHelper
 
   before_action :set_booking, only: %i[ show edit update destroy download invoice_preview invoice_sepa ]
   helper_method :sort_column, :sort_direction
@@ -188,20 +189,22 @@ class MemberAccountBookingsController < AuthenticatedController
 
   def download
     x_sendfile = false
-    # send_file(fullPath, :filename => @booking.filename, :x_sendfile=>true,:type=>"application/octet-stream")
+    # send_file(full_path, :filename => @booking.filename, :x_sendfile=>true,:type=>"application/octet-stream")
     if @booking.invoice_id.present?
       invoice = CorikaInvoices::Invoice.find(@booking.invoice_id)
-
-      send_file(fullPath, filename: @booking.filename, x_sendfile: x_sendfile, type: "application/octet-stream")
-
+      full_path = invoice_storage_path(invoice)
+      send_file(full_path, filename: invoice.pdf_filename, x_sendfile: x_sendfile, type: "application/octet-stream")
     else
-      fullPath = "#{INVOICE_CONFIG.archive_dir}/#{String(@booking.booking_year)}/#{@booking.filename}"
-      send_file(fullPath, filename: @booking.filename, x_sendfile: x_sendfile, type: "application/octet-stream")
+      full_path = "#{INVOICE_CONFIG.archive_dir}/#{String(@booking.booking_year)}/#{@booking.filename}"
+      send_file(full_path, filename: @booking.filename, x_sendfile: x_sendfile, type: "application/octet-stream")
     end
   end
 
   def invoice_sepa
     invoice = @booking.invoice
+
+
+    invoice_pdf
 
     if invoice.nil?
       return
