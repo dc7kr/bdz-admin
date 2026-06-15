@@ -203,9 +203,6 @@ class MemberAccountBookingsController < AuthenticatedController
   def invoice_sepa
     invoice = @booking.invoice
 
-
-    invoice_pdf
-
     if invoice.nil?
       return
     end
