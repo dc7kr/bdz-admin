@@ -36,7 +36,11 @@ module MemberAccountBookingsHelper
 
     if member_account_booking.invoice_id.present?
       invoice = CorikaInvoices::Invoice.find(member_account_booking.invoice_id)
-      path = invoice_pdf_download_path(invoice)
+      if member_account_booking.booking_type == "L"
+        path = invoice_sepa_download_path(invoice)
+      else
+        path = invoice_pdf_download_path(invoice)
+      end
     else
       return unless member_account_booking.filename.present?
       if is_orchestra
@@ -46,8 +50,12 @@ module MemberAccountBookingsHelper
       end
     end
 
-    link_to path, class: "btn btn-sm btn-primary", data: { turbo: false } do
-      concat(my_fa_icon("download"))
+    if member_account_booking.booking_type == "L"
+      link_to "SEPA", path, class: "btn btn-sm btn-primary", data: { turbo: false } 
+    else
+      link_to path, class: "btn btn-sm btn-primary", data: { turbo: false } do
+        concat(my_fa_icon("download"))
+      end
     end
   end
 end
