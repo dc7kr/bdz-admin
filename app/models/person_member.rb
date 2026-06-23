@@ -91,14 +91,12 @@ class PersonMember < ApplicationRecord
 
   delegate :countryCode, to: :member
 
-  def currentMagazines(override = true)
-    if member.magazines.positive? && override
-      member.magazines
-    elsif member.magazines.negative?
-      1
-    else
-      0
+  def current_magazines(override = true)
+    if member.magazines == -1 
+      return 0
     end
+
+    return member.magazines
   end
 
   comma :minimal do
@@ -119,7 +117,7 @@ class PersonMember < ApplicationRecord
     plz
     ort
     letter_country
-    currentMagazines "Zeitungen"
+    current_magazines "Zeitungen"
   end
 
   def lvPart
@@ -159,7 +157,13 @@ class PersonMember < ApplicationRecord
   def self.with_zero_balance(_year = nil)
     ids = Member.ids_with_non_zero_balance(PersonMember)
 
-    PersonMember.joins(:member).where("NOT (members.id  in (?) )", ids)
+    pms = PersonMember.joins(:member)
+    if not ids.empty?
+    else
+      pms = pms.where("NOT (members.id  in (?) )", ids)
+    end
+
+    pms
   end
 
   # address interface
@@ -236,7 +240,7 @@ class PersonMember < ApplicationRecord
   end
 
   def magazine_address_list_row
-    return unless currentMagazines.positive?
+    return if current_magazines.zero?
 
     {
       identifier: member.mglnr,
@@ -248,7 +252,7 @@ class PersonMember < ApplicationRecord
       zip: member.plz,
       city: member.ort,
       country: member.letter_country,
-      magazines: currentMagazines
+      magazines: current_magazines
     }
   end
 end
