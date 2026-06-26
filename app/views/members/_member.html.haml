@@ -20,10 +20,10 @@
               = member.magazines
               %span.badge.bg-warning=t("member.is_ztg_override")
               ( berechnet:
-              = member.member_entity.currentMagazines(false)
+              = member.member_entity.current_magazines(false)
               )
             - else
-              = member.member_entity.currentMagazines(true)
+              = member.member_entity.current_magazines(true)
               %span.badge.bg-success=t("member.ztg_calculated")
 
   .accordion-item
