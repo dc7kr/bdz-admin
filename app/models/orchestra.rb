@@ -18,7 +18,7 @@ class Orchestra < ApplicationRecord
   }
 
   scope :lv_orch, lambda {
-    includes(:member).where("orch_type = 'L'").order("members.mglnr")
+    includes(:member).where("orch_type = 'L'")
   }
 
   scope :cancelled, lambda {
@@ -158,7 +158,7 @@ class Orchestra < ApplicationRecord
     rs.first
   end
 
-  def currentMagazines(override = true)
+  def current_magazines(override = true)
     return BDZ_SETTINGS["tariff"]["koopZtgCount"].to_i if is_coop?
 
     return member.magazines if (member.magazines >= 0) && override
@@ -265,7 +265,7 @@ class Orchestra < ApplicationRecord
   end
 
   comma :magazine do
-    currentMagazines "Zeitungen"
+    current_magazines "Zeitungen"
     cleanOrchName
     fullname
     strasse
@@ -559,7 +559,7 @@ class Orchestra < ApplicationRecord
   end
 
   def magazine_address_list_row
-    mag_count = currentMagazines
+    mag_count = current_magazines
     return unless mag_count.positive?
 
     {
@@ -572,7 +572,7 @@ class Orchestra < ApplicationRecord
       zip: zip(:delivery),
       city: city(:delivery),
       country: letter_country,
-      magazines: currentMagazines
+      magazines: current_magazines
     }
   end
 

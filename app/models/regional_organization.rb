@@ -91,7 +91,7 @@ class RegionalOrganization < ApplicationRecord
     member.nil?
   end
 
-  def currentMagazines(override = false)
+  def current_magazines(override = false)
     return BDZ_SETTINGS["tariff"]["lvZtgCount"].to_i unless override
     return member.magazines if member.magazines >= 0
 
@@ -115,7 +115,7 @@ class RegionalOrganization < ApplicationRecord
   end
 
   def magazine_address_list_row
-    mag_count = currentMagazines(true)
+    mag_count = current_magazines(true)
     return unless mag_count.positive?
 
     {
