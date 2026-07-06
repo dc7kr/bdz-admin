@@ -4,6 +4,9 @@ class ApplicationController < ActionController::Base
   helper NavHelper
   helper FontAwesomeHelper
 
+  rescue_from ActionController::InvalidAuthenticityToken, with: :handle_csrf_error
+
+
   # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
   allow_browser versions: :modern
 
@@ -104,6 +107,20 @@ class ApplicationController < ActionController::Base
   def flash_type
     %i[error warning notice].each do |type|
       return type if flash[type].present?
+    end
+  end
+
+  def handle_csrf_error
+    # Clear the invalid session to prevent infinite redirect loops
+    reset_session 
+
+    respond_to do |format|
+      format.html { 
+        redirect_to root_path, alert: "Your session expired. Please sign in again." 
+      }
+      format.json { 
+        render json: { error: "Invalid CSRF token" }, status: :unprocessable_entity 
+      }
     end
   end
 
