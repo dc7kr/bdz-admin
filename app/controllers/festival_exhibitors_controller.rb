@@ -1,5 +1,5 @@
 class FestivalExhibitorsController < AuthenticatedController
-  before_action :set_festival_exhibitor, only: %i[ show edit update destroy invoice_preview gen_invoice ]
+  before_action :set_festival_exhibitor, only: %i[ show edit update destroy invoice_preview gen_invoice storno ]
 
   helper :downloads
 
@@ -91,6 +91,33 @@ class FestivalExhibitorsController < AuthenticatedController
       format.json { render json: @invoice }
     end
   end
+
+  def storno
+    if not @festival_exhibitor.invoice_id.present?
+      respond_to do |format|
+        format.html { render :show, status: :unprocessable_entity }
+        return
+      end
+    else
+      invoice = CorikaInvoices::Invoice.find(@festival_exhibitor.invoice_id)
+
+      storno_invoice = invoice.storno
+      storno_invoice.gen_pdf
+      storno_invoice.save
+
+      @festival_exhibitor.invoice_id = nil
+      @festival_exhibitor.storno_invoice_id = storno_invoice.id
+      @festival_exhibitor.save
+
+      AdminNotifier.new_storno(invoice.id, storno_invoice.id).deliver
+
+      respond_to do |format|
+        format.html { redirect_to @festival_exhibitor, notice: t("festival_exhibitor.storno_success") }
+      end
+    end
+  end
+
+
 
   private
     # Use callbacks to share common setup or constraints between actions.
