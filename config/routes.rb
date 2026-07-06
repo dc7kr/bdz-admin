@@ -14,6 +14,7 @@ Rails.application.routes.draw do
         member do
           get :invoice_preview
           get :gen_invoice
+          post :storno
         end
   end
   # Can be used by load balancers and uptime monitors to verify that the app is live.
