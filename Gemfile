@@ -148,7 +148,7 @@ gem "mini_racer"
 
 # Bootstrap 5
 gem "sassc-rails"
-gem "bootstrap", "~> 5.3.5"
+gem "bootstrap", "~> 5.3.8"
 gem "bootstrap_form", "~> 5.4"
 gem "font_awesome5_rails"
 
