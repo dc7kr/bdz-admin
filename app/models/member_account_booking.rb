@@ -117,7 +117,7 @@ class MemberAccountBooking < Invoiceable
       :person_member
     elsif clazz == Orchestra
       :orchestra
-    elsif clazz == RegionalOrganizatioon
+    elsif clazz == RegionalOrganization
       :regional_organization
     end
   end
