@@ -179,8 +179,10 @@ class MemberAccountBookingsController < AuthenticatedController
       format.html do
         if member_type == :orchestra
           redirect_to orchestra_member_account_bookings_path(member_entity)
-        else
+        elsif member_type ==  :person_member
           redirect_to person_member_member_account_bookings_path(member_entity)
+        else
+          redirect_to regional_organization_member_account_bookings_path(member_entity)
         end
       end
       format.json { render json: { status: "ok", op: "delete", entityId: @booking.id } }
