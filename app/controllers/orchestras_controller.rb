@@ -134,7 +134,7 @@ class OrchestrasController < AuthenticatedController
   end
 
   def lorch
-    @orchestras = policy_scope(Orchestra).includes(:member).where("orch_type='L'").order("#{sort_column} #{sort_direction}").page(params[:page]).per(20)
+    @orchestras = policy_scope(Orchestra).lv_orch.order("#{sort_column} #{sort_direction}").page(params[:page]).per(20)
 
     # authorize @orchestras
 
@@ -385,12 +385,12 @@ class OrchestrasController < AuthenticatedController
                                       :kuendigungErfasst, :gema_kdnr, :gema_kdnr_new, :promusica, :publish_url, :publish_address, :ztg_override, member_attributes: Member.nested_params)
   end
 
-  protected 
+  protected
   def index_actions
     super.append(:notinvoiced, :noreport, :lorch, :nomail, :nopayment, :pro_musica)
   end
 
-  private 
+  private
   def set_orchestra
     @orchestra = policy_scope(Orchestra).includes(:member).includes(:report_sheets).find(params[:id])
     authorize @orchestra
