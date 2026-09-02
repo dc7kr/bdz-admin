@@ -43,15 +43,11 @@ module MemberAccountBookingsHelper
       end
     else
       return unless member_account_booking.filename.present?
-      if is_orchestra
-        path = download_orchestra_member_account_booking_path(member_account_booking.member,member_account_booking)
-      elsif is_pm
-        path = download_person_member_member_account_booking_path(member_account_booking.member,member_account_booking)
-      end
+      path = download_member_account_booking_path(member_account_booking.member,member_account_booking)
     end
 
     if member_account_booking.booking_type == "L"
-      link_to "SEPA", path, class: "btn btn-sm btn-primary", data: { turbo: false } 
+      link_to "SEPA", path, class: "btn btn-sm btn-primary", data: { turbo: false }
     else
       link_to path, class: "btn btn-sm btn-primary", data: { turbo: false } do
         concat(my_fa_icon("download"))
