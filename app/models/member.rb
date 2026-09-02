@@ -308,4 +308,8 @@ class Member < ApplicationRecord
   def zero_member_fee_balance?
     member_fee_balance > -0.1
   end
+
+  def to_entity_type
+    member_entity.class.to_s.underscore.to_sym
+  end
 end
