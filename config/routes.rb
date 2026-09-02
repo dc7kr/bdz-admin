@@ -376,7 +376,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :member_account_bookings do
+    resources :member_account_bookings, shallow: true do
       member do
         get "download"
       end
@@ -427,7 +427,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :member_account_bookings do
+    resources :member_account_bookings, shallow: true do
       member do
         get "download"
       end
