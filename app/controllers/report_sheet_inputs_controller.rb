@@ -15,7 +15,7 @@ class ReportSheetInputsController < AuthenticatedController
     @report_sheet_inputs = if params[:orch].nil?
       policy_scope(ReportSheetInput).includes(:orchestra).page(params[:page]).per(20)
     else
-      policy_scope(ReportSheetInput).includes(:orchestra).where(orchestra_id: params[:orch])
+      policy_scope(ReportSheetInput).includes(:orchestra).where(orchestra_id: params[:orch]).page(params[:page]).per(20)
     end
 
     respond_to do |format|
@@ -124,7 +124,7 @@ class ReportSheetInputsController < AuthenticatedController
     end
   end
 
-  private 
+  private
   def set_report_sheet_input
     @report_sheet_input = policy_scope(ReportSheetInput).find(params[:id])
     authorize @report_sheet_input
