@@ -1,5 +1,7 @@
 class RegionalOrganizationShareBookingJob < ApplicationJob
 
+  include Rails.application.routes.url_helpers
+
   def perform
 
     reg_orgs = RegionalOrganization.all
@@ -46,21 +48,16 @@ class RegionalOrganizationShareBookingJob < ApplicationJob
 
     sepa_file = ctw.generate_file
 
-    send_mail(sepa_file, @current_user)
+    send_mail(sepa_file, year, @current_user)
   end
 
-  def send_mail(ctFile, triggered_by)
-    year = Time.zone.now.strftime("%Y")
-    Time.zone.now.strftime "%Y%m%d"
-
-    base_url = cron_downloads_url
+  def send_mail(ct_file, year, triggered_by)
     dd_url = nil
 
-    dd_url = "#{base_url}?year=#{year}&filename=#{ctFile.orig_filename}" unless ctFile.nil?
+    dd_url = dl_url(year: year, filename: ct_file.orig_filename) unless ct_file.nil?
 
     User.for_admin_notify.each do |user|
-      AdminNotifier.new_lv_ct_notification(user, dd_url, triggered_by).deliver
-      logger.info "sent to %s" % user.email
+      AdminNotifier.new_lv_ct_notification(user, dd_url, triggered_by_id: triggered_by).deliver
     end
   end
 end
