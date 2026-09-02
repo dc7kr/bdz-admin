@@ -82,7 +82,7 @@ class HomeController < AuthenticatedController
   end
 
   def export_view
-    authorize MemberAccountBooking, :show? 
+    authorize MemberAccountBooking, :show?
 
     prefix = "#{Time.zone.now.strftime('%Y%m%d')}_"
 
@@ -92,7 +92,7 @@ class HomeController < AuthenticatedController
 
     filename = "#{prefix}#{view_suffix}.ods"
 
-    data = GenericView.connection.select_all("SELECT * from public_#{view_suffix}")
+    data = GenericView.connection.select_all("SELECT * from public_?", view_suffix)
 
     tmp = Tempfile.new("view")
     writer = OdsViewWriter.new(data, view_suffix)
