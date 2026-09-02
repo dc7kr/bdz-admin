@@ -104,7 +104,7 @@ class Member < ApplicationRecord
     c.country_code = country_code
     c.sig_date = sig_date
     c.mandate_id =  mandate_id
-    c.account_owner = zahler
+    c.account_owner = zahler.present? ? zahler : fullname
     c.company = ""
 
 

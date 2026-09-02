@@ -1,5 +1,5 @@
 class RegionalOrganization < ApplicationRecord
-  
+
 
   has_one :member, as: :member_entity
   accepts_nested_attributes_for :member
@@ -49,9 +49,9 @@ class RegionalOrganization < ApplicationRecord
 
     orch_ids = []
 
-    @sheets = ReportSheet.final(year).includes(orchestra: [ :member ]).where("year = ? and report_date < ? ", year,
+    sheets = ReportSheet.final(year).includes(orchestra: [ :member ]).where("year = ? and report_date < ? ", year,
                                                                            before)
-    @sheets.each do |s|
+    sheets.each do |s|
       orch = s.orchestra
 
       if s.orchestra.nil?
@@ -104,13 +104,16 @@ class RegionalOrganization < ApplicationRecord
       return nil
     end
 
-    customer = CorikaInvoices::Customer.new
+    customer = member.to_customer
+    customer.entity = self
 
     customer.customer_id = "LV#{nummer}"
     customer.company = "Bund Deutscher Zupfmusiker e.V. LV #{name}"
     customer.direct_debit = true
     customer.iban = member.iban
     customer.bic = member.bic
+    customer.account_owner = customer.company
+
     customer
   end
 
