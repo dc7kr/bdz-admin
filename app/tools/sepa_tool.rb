@@ -1,13 +1,10 @@
 require "sepa_king"
 
 class SepaTool
-  attr_accessor :company, :bic, :iban, :creditor_id, :message_prefix
+  attr_accessor :payee, :message_prefix
 
   def initialize(settings)
-    @company = settings.company
-    @bic = settings.bic
-    @iban = settings.iban.gsub(/ /, "")
-    @creditor_id = settings.creditor_id
+    self.payee =  settings.payee
     @message_prefix = settings.message_prefix
 
     return unless @message_prefix.nil?
@@ -19,10 +16,10 @@ class SepaTool
     requested_date = 5.days.from_now.to_date if requested_date.nil?
 
     sdd = SEPA::DirectDebit.new(
-      name: @company,
-      bic: @bic,
-      iban: @iban,
-      creditor_identifier: @creditor_id
+      name: self.company,
+      bic: sanitize_bic(self.payee.bic),
+      iban: sanitize_iban(self.payee.iban),
+      creditor_identifier: self.payee.creditor_id
     )
 
     # REQUIRES sepa_king > 0.1.0
@@ -54,16 +51,24 @@ class SepaTool
     sdd.to_xml
   end
 
+  def sanitize_bic(bic)
+    bic.gsub(/[^a-zA-Z0-9]/, "").upcase
+  end
+
+  def sanitize_iban(iban)
+    iban.gsub(/[^a-zA-Z0-9]/, "").upcase
+  end
+
   def create_credit_transfer(credit_transfers)
     # First: Create the main object
     sct = SEPA::CreditTransfer.new(
-      name: @company,
-      bic: @bic,
-      iban: @iban
+      name: self.payee.company,
+      bic: sanitize_bic(self.payee.bic),
+      iban: sanitize_iban(self.payee.iban)
     )
 
     credit_transfers.each do |c|
-      Rails.logger.debug { "Credit Transfer: #{c.iban} BIC: #{c.bic}" }
+      Rails.logger.debug { "Credit Transfer: #{c.iban} BIC: #{c.bic} owner: #{c.customer.account_owner}" }
       # Second: Add transactions
       sct.add_transaction(
         name: c.customer.account_owner,
