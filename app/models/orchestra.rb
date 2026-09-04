@@ -45,7 +45,7 @@ class Orchestra < ApplicationRecord
   scope :regional, -> { where("orch_type = 'L' ") }
 
   scope :no_report_sheet, lambda { |year|
-    includes([ :member ]).joins("LEFT JOIN report_sheets ON report_sheets.orchestra_id = orchestras.id AND report_sheets.year=?",String(year)).where([ 'report_sheets.id IS NULL AND orchestras.orch_type in ( "L","O")' ])
+    includes([ :member ]).joins(sanitize_sql_array(["LEFT JOIN report_sheets ON report_sheets.orchestra_id = orchestras.id AND report_sheets.year=?",String(year)])).where([ 'report_sheets.id IS NULL AND orchestras.orch_type in ( "L","O")' ])
   }
 
   def self.no_payment(before = nil, lv = nil)
@@ -104,7 +104,7 @@ class Orchestra < ApplicationRecord
   # validates :mglnr, :orch_mglnr => true
 
   def self.notinvoiced(year)
-    normal = joins(:member).joins("LEFT JOIN member_account_bookings mb ON members.id=mb.member_id AND mb.booking_type='B' and mb.booking_year = ?",year).where("mb.id IS NULL AND orchestras.orch_type <> 'X'").order("members.mglnr")
+    normal = joins(:member).joins(sanitize_sql_array(["LEFT JOIN member_account_bookings mb ON members.id=mb.member_id AND mb.booking_type='B' and mb.booking_year = ?",year])).where("mb.id IS NULL AND orchestras.orch_type <> 'X'").order("members.mglnr")
     joins(:member).joins("LEFT JOIN member_account_bookings mb ON members.id=mb.member_id AND mb.booking_type='B' and mb.booking_year = ?",year).where("mb.id IS NULL AND orch_type='K'")
 
     normal
@@ -112,9 +112,9 @@ class Orchestra < ApplicationRecord
 
   def self.mailForEvent(event, via_paper)
     if via_paper
-      joins([ :member ]).joins("LEFT JOIN member_events e ON members.id=e.member_id AND members.member_entity_id = orchestras.id AND members.member_entity_type='Orchestra' AND e.event_id=?",event).where(e: { id: nil })
+      joins([ :member ]).joins(sanitize_sql_array(["LEFT JOIN member_events e ON members.id=e.member_id AND members.member_entity_id = orchestras.id AND members.member_entity_type='Orchestra' AND e.event_id=?",event])).where(e: { id: nil })
     else
-      joins([ :member ]).joins("LEFT JOIN member_events e ON members.id=e.member_id AND members.member_entity_id = orchestras.id AND members.member_entity_type='Orchestra' AND e.event_type='E' and e.event_id=?",event).where("members.email IS NOT NULL and length(members.email) >3 and e.id IS NULL")
+      joins([ :member ]).joins(sanitize_sql_array(["LEFT JOIN member_events e ON members.id=e.member_id AND members.member_entity_id = orchestras.id AND members.member_entity_type='Orchestra' AND e.event_type='E' and e.event_id=?",event])).where("members.email IS NOT NULL and length(members.email) >3 and e.id IS NULL")
     end
   end
 
