@@ -85,7 +85,7 @@ class HonorMembersController < AuthenticatedController
   private
 
   def honor_member_params
-    params.require(:honor_member).permit(:nr, :vorname, :name, :ort, :honorType, :honorDate, :deceased)
+    params.require(:honor_member).permit(:nr, :title, :vorname, :name, :ort, :honorType, :honorDate, :deceased)
   end
 
   def set_honor_member

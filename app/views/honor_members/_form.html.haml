@@ -1,5 +1,6 @@
-= bootstrap_form_for(@honor_member, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10") do |f| 
+= bootstrap_form_for(@honor_member, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10") do |f|
   =f.number_field :nr
+  =f.text_field :title
   =f.text_field :vorname
   =f.text_field :name
   =f.text_field :ort
