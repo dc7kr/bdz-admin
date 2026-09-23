@@ -1,4 +1,4 @@
-class DeleteObsoleteColumnsFromPersonMembers < ActiveRecord::Migration[7.1]
+class RemoveObsoleteColumnsFromPersonMembers < ActiveRecord::Migration[7.1]
   def up
     remove_column :person_members, :zeitungen
     remove_column :person_members, :zusatzzeitung

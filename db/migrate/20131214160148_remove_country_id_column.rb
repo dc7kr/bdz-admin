@@ -1,20 +1,20 @@
 class RemoveCountryIdColumn < ActiveRecord::Migration[4.2]
 
   def drop_if_exists(table,col)
-    if column_exists? table,col then 
-      remove_column table,col 
+    if column_exists? table,col then
+      remove_column table,col
     end
   end
 
   def up
 
-    drop_if_exists :festival_applications,:country_id 
+    drop_if_exists :festival_applications,:country_id
 
     if column_exists? :bundeslaender, :country_id then
       ActiveRecord::Base.connection.execute <<-EOS
         ALTER TABLE  bundeslaender DROP FOREIGN KEY bundeslaender_ibfk_2
       EOS
-    
+
       remove_index(:bundeslaender, name: "country")
       remove_column :bundeslaender, :country_id
     end
@@ -29,7 +29,7 @@ class RemoveCountryIdColumn < ActiveRecord::Migration[4.2]
 
     drop_if_exists :concerts, :country_id
 
-    if column_exists? :festivals,:country_id 
+    if column_exists? :festivals,:country_id
 
       remove_iundex(:festivals, name: "land")
       remove_column :festivals, :country_id
@@ -37,12 +37,12 @@ class RemoveCountryIdColumn < ActiveRecord::Migration[4.2]
     drop_if_exists :contact_people, :country_id
     drop_if_exists :contacts, :country_id
 
-    if column_exists?(:hochschulen, :country_id) then
+    if column_exists?(:universities, :country_id) then
       ActiveRecord::Base.connection.execute <<-EOS
-        ALTER TABLE  hochschulen DROP FOREIGN KEY  hochschulen_ibfk_1
+        ALTER TABLE  universities DROP FOREIGN KEY  universities_ibfk_1
       EOS
       remove_index(:festivals, name: "land")
-      remove_column :hochschulen, :country_id
+      remove_column :universities, :country_id
     end
   end
 
