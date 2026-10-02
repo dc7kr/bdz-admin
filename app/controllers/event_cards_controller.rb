@@ -31,7 +31,7 @@ class EventCardsController < AuthenticatedController
   end
 
   def invoice_preview
-    @event_card = policy_scope(EventCard).find_by(checkout_reference: params[:checkout_reference])
+    @event_card = policy_scope(EventCard).find_by!(checkout_reference: params[:checkout_reference])
 
     @invoice = @event_card.invoice
 
@@ -248,7 +248,7 @@ class EventCardsController < AuthenticatedController
   end
 
   def set_event_card
-    @event_card = policy_scope(EventCard).find_by(checkout_reference: params[:checkout_reference])
+    @event_card = policy_scope(EventCard).find_by!(checkout_reference: params[:checkout_reference])
     authorize @event_card
   end
 

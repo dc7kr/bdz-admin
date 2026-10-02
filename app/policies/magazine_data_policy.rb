@@ -4,7 +4,7 @@ class MagazineDataPolicy < ApplicationPolicy
 
   class Scope < ApplicationPolicy::Scope
     def resolve
-      scope.all if permitted?(:national, :magazine)
+      all_if_permitted(:national, :magazine)
     end
   end
 end

@@ -9,7 +9,7 @@ class FestivalDataPoliciesTest < PolicyTestCase
       assert_crud policy_class, :festival_data,
                   index: NOBODY, show: NATIONAL_FESTIVAL,
                   create: NATIONAL, update: NATIONAL, destroy: NOBODY
-      assert_scope policy_class, all: NATIONAL, raise: ALL - NATIONAL
+      assert_scope policy_class, all: NATIONAL, none: ALL - NATIONAL
     end
   end
 
@@ -22,7 +22,7 @@ class FestivalDataPoliciesTest < PolicyTestCase
                           no_tickets? no_meals? finalize? storno? gen_participant_sheet? participant_overview?],
                        NATIONAL
     assert_permissions FestivalApplicationPolicy, FestivalApplication, %i[stage_plans? datasheets?], NATIONAL_FESTIVAL
-    assert_scope FestivalApplicationPolicy, all: NATIONAL_FESTIVAL, nil => ALL - NATIONAL_FESTIVAL
+    assert_scope FestivalApplicationPolicy, all: NATIONAL_FESTIVAL, none: ALL - NATIONAL_FESTIVAL
   end
 
   test "festival concerts" do
@@ -30,7 +30,7 @@ class FestivalDataPoliciesTest < PolicyTestCase
                 index: NOBODY, show: NATIONAL_FESTIVAL,
                 create: NATIONAL, update: NATIONAL, destroy: NATIONAL
     assert_permissions FestivalConcertPolicy, FestivalConcert, %i[programme? details?], NATIONAL_FESTIVAL
-    assert_scope FestivalConcertPolicy, all: NATIONAL_FESTIVAL, nil => ALL - NATIONAL_FESTIVAL
+    assert_scope FestivalConcertPolicy, all: NATIONAL_FESTIVAL, none: ALL - NATIONAL_FESTIVAL
   end
 
   test "festival exhibitors" do
@@ -38,14 +38,14 @@ class FestivalDataPoliciesTest < PolicyTestCase
                 index: NOBODY, show: NATIONAL_FESTIVAL,
                 create: NATIONAL, update: NATIONAL, destroy: NOBODY
     assert_permissions FestivalExhibitorPolicy, FestivalExhibitor, %i[invoice_preview? gen_invoice? storno?], NATIONAL
-    assert_scope FestivalExhibitorPolicy, all: NATIONAL_FESTIVAL, nil => ALL - NATIONAL_FESTIVAL
+    assert_scope FestivalExhibitorPolicy, all: NATIONAL_FESTIVAL, none: ALL - NATIONAL_FESTIVAL
   end
 
   test "festival pieces" do
     assert_crud FestivalPiecePolicy, FestivalPiece,
                 index: NOBODY, show: NATIONAL_FESTIVAL,
                 create: NATIONAL, update: NATIONAL, destroy: NATIONAL
-    assert_scope FestivalPiecePolicy, all: NATIONAL_FESTIVAL, nil => ALL - NATIONAL_FESTIVAL
+    assert_scope FestivalPiecePolicy, all: NATIONAL_FESTIVAL, none: ALL - NATIONAL_FESTIVAL
   end
 
   test "event cards" do
@@ -57,7 +57,7 @@ class FestivalDataPoliciesTest < PolicyTestCase
                 index: NOBODY, show: NATIONAL_FESTIVAL,
                 create: NATIONAL, update: NATIONAL, destroy: NOBODY
     assert_permissions EventMealPolicy, EventMeal, :arrival_overview?, NATIONAL_FESTIVAL
-    assert_scope EventMealPolicy, all: NATIONAL_FESTIVAL, nil => ALL - NATIONAL_FESTIVAL
+    assert_scope EventMealPolicy, all: NATIONAL_FESTIVAL, none: ALL - NATIONAL_FESTIVAL
   end
 
   test "festival mails use the bulk policy" do

@@ -5,7 +5,7 @@ class ReferenceDataPolicy < ApplicationPolicy
 
   class Scope < ApplicationPolicy::Scope
     def resolve
-      scope.all if permitted?(:signed_in)
+      all_if_permitted(:signed_in)
     end
   end
 end

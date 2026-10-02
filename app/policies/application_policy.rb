@@ -63,6 +63,11 @@ class ApplicationPolicy
       raise NoMethodError, "You must define #resolve in #{self.class}"
     end
 
+    # all records for users with any of the permissions, none for everybody else
+    def all_if_permitted(*names)
+      permitted?(*names) ? scope.all : scope.none
+    end
+
     private
 
     attr_reader :user, :scope

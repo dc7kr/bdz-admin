@@ -14,7 +14,7 @@ class OtherPoliciesTest < PolicyTestCase
     allowed = NATIONAL + %i[magazine]
     { MagazineDataPolicy => MagazineIssue, MagazineIssuePolicy => MagazineIssue, AdvertiserPolicy => Advertiser }.each do |policy_class, model|
       assert_crud policy_class, model, index: allowed, show: allowed, create: allowed, update: allowed, destroy: allowed
-      assert_scope policy_class, all: allowed, nil => ALL - allowed
+      assert_scope policy_class, all: allowed, none: ALL - allowed
     end
   end
 
@@ -27,7 +27,7 @@ class OtherPoliciesTest < PolicyTestCase
     assert_crud MagazineSamplingPolicy, MagazineSampling,
                 index: NOBODY, show: NATIONAL + %i[regional_role],
                 create: NATIONAL, update: NATIONAL, destroy: NOBODY
-    assert_scope MagazineSamplingPolicy, all: NATIONAL, nil => ALL - NATIONAL
+    assert_scope MagazineSamplingPolicy, all: NATIONAL, none: ALL - NATIONAL
   end
 
   test "public data" do
@@ -52,7 +52,7 @@ class OtherPoliciesTest < PolicyTestCase
                 index: NOBODY, show: NATIONAL + %i[regional_role],
                 create: NATIONAL, update: ADMIN, destroy: ADMIN
     assert_permissions UserPolicy, User, :add_role?, ADMIN
-    assert_scope UserPolicy, all: NATIONAL, nil => ALL - NATIONAL
+    assert_scope UserPolicy, all: NATIONAL, none: ALL - NATIONAL
   end
 
   test "bulk mails" do

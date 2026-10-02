@@ -11,8 +11,7 @@ class FeatureRequestPolicy < ApplicationPolicy
 
   class Scope < ApplicationPolicy::Scope
     def resolve
-      # TODO: returns false instead of nil like the other scopes
-      permitted?(:signed_in) ? scope.all : false
+      all_if_permitted(:signed_in)
     end
   end
 end

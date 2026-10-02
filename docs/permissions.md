@@ -79,6 +79,9 @@ such as `DistinctionPolicy#update?`, are still written as methods.
   with a flash message.
 - Actions without a model use headless policies, for example `authorize :admin, :show?` or
   `authorize :download`.
+- Scopes return `scope.none` for users without permission, never `nil` and never an error.
+  `ApplicationPolicy::Scope#all_if_permitted(*names)` returns all records for users with any of
+  the permissions and none for everybody else.
 - Policy scopes restrict lists. `Orchestra.for_user` and `PersonMember.for_user` limit
   regional users to their regional organization. Policies do **not** check the
   regional organization of a single record. Controllers must load single records
@@ -104,7 +107,7 @@ such as `DistinctionPolicy#update?`, are still written as methods.
 | `index?`                        | national             |
 | `show?`                         | national, regional   |
 | `create?`, `update?`, `destroy?`| national             |
-| scope                           | national: all; others: `nil` |
+| scope                           | national: all; others: none  |
 
 These policies use the defaults without changes: `MemberPolicy`, `OrchestraContactPolicy`,
 `RegionalOrganizationPolicy`, `ContactEventPolicy`. `RegionalOrganizationPolicy` stays member
@@ -166,7 +169,7 @@ edited by admins.
 | `show?` | national, festival |
 | `create?`, `update?` | national |
 | `index?`, `destroy?` | nobody |
-| scope | national: all; others: raises `Pundit::NotAuthorizedError` |
+| scope | national: all; others: none |
 
 `FestivalMealPolicy` uses the defaults without changes.
 
@@ -209,7 +212,7 @@ policy (see [Policies that deny everything](#policies-that-deny-everything)).
 | Action | Who |
 |--------|-----|
 | `index?`, `show?`, `create?`, `update?`, `destroy?` | national, magazine |
-| scope | national, magazine: all; others: `nil` |
+| scope | national, magazine: all; others: none |
 
 Used by `MagazineIssuePolicy` and `AdvertiserPolicy`. The `magazine` role is created by the
 migration `20261002140000_create_magazine_role`.
@@ -271,9 +274,6 @@ controllers (public entities such as composers, courses, contests) do not call P
 
 These are known and planned to be cleaned up. Until then, keep them in mind when changing policies.
 
-- Unauthorized scopes behave differently: most return `nil` (the controller then fails
-  on the next query method), `FestivalDataPolicy::Scope` raises, and `FeatureRequestPolicy::Scope`
-  returns `false`. New scopes should return `scope.none`.
 - `show?` does not check the regional organization of a single record (see
   [Enforcement](#enforcement)).
 - `PersonMemberPolicy` denies `index?` and `destroy?` to everybody, unlike the other member data.

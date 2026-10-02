@@ -13,7 +13,7 @@ class DistinctionPolicy < MemberDataPolicy
 
   class Scope < ApplicationPolicy::Scope
     def resolve
-      scope.all if permitted?(:national, :distinction)
+      all_if_permitted(:national, :distinction)
     end
   end
 end

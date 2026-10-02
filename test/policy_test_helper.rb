@@ -68,23 +68,15 @@ class PolicyTestCase < ActiveSupport::TestCase
     end
   end
 
-  # assert_scope OrchestraPolicy, :for_user => NATIONAL, :none => ALL - NATIONAL
-  # Use nil as key for scopes that return nil and :raise for scopes that raise
-  # Pundit::NotAuthorizedError.
+  # assert_scope OrchestraPolicy, for_user: NATIONAL, none: ALL - NATIONAL
   def assert_scope(policy_class, expectations)
     covered = expectations.values.flatten
     assert_equal PERSONAS.keys.sort, covered.sort, "#{policy_class}::Scope: every persona must be listed exactly once"
 
     expectations.each do |expected, personas|
       personas.each do |persona|
-        scope = policy_class::Scope.new(user_for(persona), FakeRelation.new)
-        if expected == :raise
-          assert_raises(Pundit::NotAuthorizedError, "#{policy_class}::Scope should raise for #{persona}") { scope.resolve }
-        else
-          actual = scope.resolve
-          message = "#{policy_class}::Scope for #{persona}"
-          expected.nil? ? assert_nil(actual, message) : assert_equal(expected, actual, message)
-        end
+        actual = policy_class::Scope.new(user_for(persona), FakeRelation.new).resolve
+        assert_equal expected, actual, "#{policy_class}::Scope for #{persona}"
       end
     end
   end

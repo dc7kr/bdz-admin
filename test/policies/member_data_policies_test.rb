@@ -27,13 +27,13 @@ class MemberDataPoliciesTest < PolicyTestCase
 
   test "member data default scope" do
     [ MemberDataPolicy, MemberPolicy, ReportSheetPolicy, ContactEventPolicy ].each do |policy_class|
-      assert_scope policy_class, all: NATIONAL, nil => ALL - NATIONAL
+      assert_scope policy_class, all: NATIONAL, none: ALL - NATIONAL
     end
   end
 
   test "contact person scope includes festival" do
     allowed = NATIONAL + %i[festival]
-    assert_scope ContactPersonPolicy, all: allowed, nil => ALL - allowed
+    assert_scope ContactPersonPolicy, all: allowed, none: ALL - allowed
   end
 
   test "orchestras" do
@@ -59,7 +59,7 @@ class MemberDataPoliciesTest < PolicyTestCase
                 index: NATIONAL_DISTINCTION, show: NATIONAL_REGIONAL + %i[distinction],
                 create: NATIONAL, update: NATIONAL, destroy: NATIONAL
     assert_permissions OrchestraMemberPolicy, OrchestraMember, :exchange?, NATIONAL
-    assert_scope OrchestraMemberPolicy, all: NATIONAL_DISTINCTION, nil => ALL - NATIONAL_DISTINCTION
+    assert_scope OrchestraMemberPolicy, all: NATIONAL_DISTINCTION, none: ALL - NATIONAL_DISTINCTION
   end
 
   test "distinctions" do
@@ -71,14 +71,14 @@ class MemberDataPoliciesTest < PolicyTestCase
     assert_permissions DistinctionPolicy, Distinction, %i[invoice_preview? gen_invoice?], ACCOUNTING + %i[distinction]
     assert_permissions DistinctionPolicy, unbooked, %i[update? edit? destroy?], NATIONAL_DISTINCTION
     assert_permissions DistinctionPolicy, booked, %i[update? edit? destroy?], ADMIN
-    assert_scope DistinctionPolicy, all: NATIONAL_DISTINCTION, nil => ALL - NATIONAL_DISTINCTION
+    assert_scope DistinctionPolicy, all: NATIONAL_DISTINCTION, none: ALL - NATIONAL_DISTINCTION
   end
 
   test "honor members" do
     assert_crud HonorMemberPolicy, HonorMember,
                 index: NATIONAL, show: NATIONAL_REGIONAL + %i[distinction],
                 create: NATIONAL_DISTINCTION, update: NATIONAL_DISTINCTION, destroy: NATIONAL
-    assert_scope HonorMemberPolicy, all: NATIONAL_DISTINCTION, nil => ALL - NATIONAL_DISTINCTION
+    assert_scope HonorMemberPolicy, all: NATIONAL_DISTINCTION, none: ALL - NATIONAL_DISTINCTION
   end
 
   test "member events" do
@@ -118,6 +118,6 @@ class MemberDataPoliciesTest < PolicyTestCase
     assert_permissions MemberAccountBookingPolicy, MemberAccountBooking, :destroy?, ADMIN
     assert_permissions MemberAccountBookingPolicy, MemberAccountBooking, %i[invoice_preview? invoice_sepa?], ACCOUNTING
     assert_permissions MemberAccountBookingPolicy, MemberAccountBooking, :download?, NATIONAL_DISTINCTION
-    assert_scope MemberAccountBookingPolicy, all: NATIONAL_DISTINCTION, nil => ALL - NATIONAL_DISTINCTION
+    assert_scope MemberAccountBookingPolicy, all: NATIONAL_DISTINCTION, none: ALL - NATIONAL_DISTINCTION
   end
 end

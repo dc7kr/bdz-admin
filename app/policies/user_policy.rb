@@ -5,7 +5,7 @@ class UserPolicy < ApplicationPolicy
 
   class Scope < ApplicationPolicy::Scope
     def resolve
-      scope.all if permitted?(:national)
+      all_if_permitted(:national)
     end
   end
 end
