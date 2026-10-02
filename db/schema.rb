@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_04_28_071905) do
+ActiveRecord::Schema[7.2].define(version: 2026_09_24_074447) do
   create_table "Inserenten", id: false, charset: "utf8mb3", collation: "utf8mb3_general_ci", options: "ENGINE=InnoDB ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.string "Firmenname", limit: 35
     t.string "Titel", limit: 5
@@ -870,6 +870,20 @@ ActiveRecord::Schema[7.2].define(version: 2026_04_28_071905) do
     t.index ["t3ver_oid", "t3ver_wsid"], name: "t3ver_oid"
   end
 
+  create_table "passkeys", charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "label", null: false
+    t.string "external_id", null: false, collation: "ascii_bin"
+    t.text "public_key", null: false
+    t.integer "sign_count", default: 0, null: false
+    t.datetime "last_used_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["external_id"], name: "index_passkeys_on_external_id", unique: true
+    t.index ["user_id", "label"], name: "index_passkeys_on_user_id_and_label", unique: true
+    t.index ["user_id"], name: "index_passkeys_on_user_id"
+  end
+
   create_table "person_members", charset: "utf8mb3", collation: "utf8mb3_general_ci", options: "ENGINE=InnoDB ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.bigint "member_id_off"
     t.date "geburtstag"
@@ -1149,8 +1163,10 @@ ActiveRecord::Schema[7.2].define(version: 2026_04_28_071905) do
     t.string "username"
     t.string "entity_class"
     t.integer "entity_id"
+    t.string "webauthn_id", collation: "ascii_bin"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["webauthn_id"], name: "index_users_on_webauthn_id", unique: true
   end
 
   create_table "users_roles", id: false, charset: "utf8mb3", collation: "utf8mb3_general_ci", options: "ENGINE=InnoDB ROW_FORMAT=DYNAMIC", force: :cascade do |t|
@@ -1173,6 +1189,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_04_28_071905) do
   add_foreign_key "member_events", "members", name: "member_events_ibfk_1", on_update: :cascade, on_delete: :cascade
   add_foreign_key "orchestra_contacts", "members", column: "orchestra_id_old", name: "orchestra_contacts_ibfk_1", on_update: :cascade, on_delete: :cascade
   add_foreign_key "orte", "bundeslaender", column: "fk_bland_id", name: "orte_ibfk_1"
+  add_foreign_key "passkeys", "users"
   add_foreign_key "plz2bl", "bundeslaender", column: "bl_id", name: "plz2bl_ibfk_2"
   add_foreign_key "plz2bl", "geo_orte", column: "loc_id", primary_key: "loc_id", name: "plz2bl_ibfk_1"
   add_foreign_key "urls", "bundeslaender", column: "bland", name: "urls_ibfk_5", on_update: :cascade

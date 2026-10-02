@@ -16,6 +16,11 @@
         = my_fa_icon("user-circle")
         &nbsp;
         =t("account.profile")
+    %li
+      = link_to users_passkeys_path, class: "dropdown-item" do
+        = my_fa_icon("key")
+        &nbsp;
+        =t("account.passkeys")
     - if current_user and current_user.has_role? :admin
       %li
         %hr.dropdown-divider/

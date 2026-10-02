@@ -2,14 +2,26 @@ class User < ApplicationRecord
   rolify
 
   before_create :generate_api_token
+  before_create :generate_webauthn_id
 
   has_many :concerts
+  has_many :passkeys, dependent: :destroy
+
+  # required by devise-passkeys
+  def self.passkeys_class
+    Passkey
+  end
+
+  # required by devise-passkeys
+  def self.find_for_passkey(passkey)
+    find_by(id: passkey.user_id)
+  end
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable
   # FUTURE: async mailers !
   # devise :database_authenticatable, :async, :recoverable, :rememberable, :trackable, :validatable, :authentication_keys => [:login]
-  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable,
+  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable, :passkey_authenticatable,
          authentication_keys: [ :login ]
 
   validates :username,
@@ -152,5 +164,9 @@ class User < ApplicationRecord
       self.authentication_token = SecureRandom.hex
       break unless self.class.exists?(authentication_token: authentication_token)
     end
+  end
+
+  def generate_webauthn_id
+    self.webauthn_id ||= WebAuthn.generate_user_id
   end
 end

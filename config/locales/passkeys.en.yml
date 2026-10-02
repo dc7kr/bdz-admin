@@ -1,0 +1,50 @@
+en:
+  account:
+    passkeys: Passkeys
+  activerecord:
+    models:
+      passkey:
+        one: Passkey
+        other: Passkeys
+    attributes:
+      passkey:
+        label: Label
+        created_at: Created
+        last_used_at: Last used
+  users:
+    passkeys:
+      index:
+        title: My passkeys
+        intro: A passkey lets you sign in without a password, e.g. with your fingerprint, face recognition or a security key. Signing in with your password keeps working.
+        none: No passkeys yet.
+        add: Add passkey
+        label_placeholder: e.g. laptop, phone
+        current_password: Current password
+        confirm_delete: "Really delete passkey \"%{label}\"?"
+  devise:
+    sessions:
+      new:
+        sign_in_with_passkey: Sign in with passkey
+    failure: &passkey_errors
+      credential_missing_or_could_not_be_parsed: The passkey could not be read. Please try again.
+      stored_credential_not_found: This passkey is not registered (anymore).
+      invalid_passkey: Signing in with the passkey failed.
+      webauthn_attestation_statement_format_not_supported: This passkey is not supported.
+      webauthn_public_key_unsupported_algorithm: This passkey is not supported.
+      webauthn_attestation_statement_unsupported_algorithm: This passkey is not supported.
+      webauthn_user_verified_verification_error: User verification (PIN, fingerprint, …) failed.
+      webauthn_origin_verification_error: The passkey does not belong to this site.
+      webauthn_challenge_verification_error: The request expired. Please try again.
+      webauthn_sign_count_verification_error: The passkey was rejected (invalid sign count).
+      webauthn_verification_error: The passkey could not be verified.
+      webauthn_client_data_missing: The passkey could not be verified.
+      webauthn_authenticator_data_format: The passkey could not be verified.
+      webauthn_attested_credential_data_format: The passkey could not be verified.
+      webauthn_root_certificate_finder_not_supported: The passkey could not be verified.
+      webauthn_generic_error: The passkey could not be verified.
+    passkeys:
+      <<: *passkey_errors
+      passkey_created: The passkey has been added.
+      passkey_deleted: The passkey has been deleted.
+      passkey_label_missing: Please enter a label for the passkey.
+      invalid_current_password: The current password is wrong.

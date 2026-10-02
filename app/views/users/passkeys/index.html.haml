@@ -1,0 +1,39 @@
+.container.w-50
+  %h2
+    = my_fa_icon("key")
+    &nbsp;
+    = t(".title")
+  %p.text-muted= t(".intro")
+
+  %table.table.table-sm
+    %thead
+      %tr
+        %th= Passkey.human_attribute_name(:label)
+        %th= Passkey.human_attribute_name(:created_at)
+        %th= Passkey.human_attribute_name(:last_used_at)
+        %th
+    %tbody
+      - @passkeys.each do |passkey|
+        %tr
+          %td= passkey.label
+          %td= l(passkey.created_at, format: :short)
+          %td= passkey.last_used_at ? l(passkey.last_used_at, format: :short) : "-"
+          %td.text-end
+            = button_to users_passkey_path(passkey), method: :delete, class: "btn btn-sm btn-outline-danger",
+              data: { turbo_confirm: t(".confirm_delete", label: passkey.label) } do
+              = my_fa_icon("trash")
+      - if @passkeys.empty?
+        %tr
+          %td.text-muted{ colspan: 4 }= t(".none")
+
+  %h4.mt-4= t(".add")
+  = form_with scope: :passkey, url: users_passkeys_path,
+    data: { controller: "passkey", passkey_challenge_url_value: new_create_challenge_users_passkeys_path, passkey_create_url_value: users_passkeys_path, action: "submit->passkey#register" } do |f|
+    .alert.alert-danger{ hidden: true, data: { passkey_target: "error" } }
+    .mb-3
+      = f.label :label, Passkey.human_attribute_name(:label), class: "form-label"
+      = f.text_field :label, class: "form-control", required: true, placeholder: t(".label_placeholder"), data: { passkey_target: "label" }
+    .mb-3
+      = f.label :current_password, t(".current_password"), class: "form-label"
+      = f.password_field :current_password, class: "form-control", required: true, autocomplete: "current-password", data: { passkey_target: "password" }
+    = f.submit t(".add"), class: "btn btn-primary"

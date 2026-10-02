@@ -233,7 +233,20 @@ Rails.application.routes.draw do
 
   resources :advertisements
 
-  devise_for :users, skip: [ :registrations ]
+  devise_for :users, skip: [ :registrations ], controllers: { sessions: "users/sessions" }
+
+  devise_scope :user do
+    post "users/sign_in/new_challenge", to: "users/sessions#new_challenge", as: :new_user_session_challenge
+
+    namespace :users do
+      resources :passkeys, only: %i[index create destroy] do
+        collection do
+          post :new_create_challenge
+        end
+      end
+    end
+  end
+
   devise_for :members, controllers: { registrations: "registrations" }, path_prefix: "mem"
 
   resources :users, path: :accounts do

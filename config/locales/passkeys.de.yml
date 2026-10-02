@@ -1,0 +1,50 @@
+de:
+  account:
+    passkeys: Passkeys
+  activerecord:
+    models:
+      passkey:
+        one: Passkey
+        other: Passkeys
+    attributes:
+      passkey:
+        label: Bezeichnung
+        created_at: Angelegt
+        last_used_at: Zuletzt verwendet
+  users:
+    passkeys:
+      index:
+        title: Meine Passkeys
+        intro: Mit einem Passkey kannst du dich ohne Passwort anmelden, z.B. per Fingerabdruck, Gesichtserkennung oder Sicherheitsschlüssel. Die Anmeldung mit Passwort bleibt weiterhin möglich.
+        none: Noch keine Passkeys angelegt.
+        add: Passkey hinzufügen
+        label_placeholder: z.B. Laptop, Smartphone
+        current_password: Aktuelles Passwort
+        confirm_delete: "Passkey „%{label}“ wirklich löschen?"
+  devise:
+    sessions:
+      new:
+        sign_in_with_passkey: Mit Passkey anmelden
+    failure: &passkey_errors
+      credential_missing_or_could_not_be_parsed: Der Passkey konnte nicht gelesen werden. Bitte versuche es erneut.
+      stored_credential_not_found: Dieser Passkey ist nicht (mehr) registriert.
+      invalid_passkey: Die Anmeldung mit dem Passkey ist fehlgeschlagen.
+      webauthn_attestation_statement_format_not_supported: Dieser Passkey wird nicht unterstützt.
+      webauthn_public_key_unsupported_algorithm: Dieser Passkey wird nicht unterstützt.
+      webauthn_attestation_statement_unsupported_algorithm: Dieser Passkey wird nicht unterstützt.
+      webauthn_user_verified_verification_error: Die Benutzerverifizierung (PIN, Fingerabdruck, …) ist fehlgeschlagen.
+      webauthn_origin_verification_error: Der Passkey gehört nicht zu dieser Seite.
+      webauthn_challenge_verification_error: Die Anfrage ist abgelaufen. Bitte versuche es erneut.
+      webauthn_sign_count_verification_error: Der Passkey wurde abgelehnt (Zähler ungültig).
+      webauthn_verification_error: Der Passkey konnte nicht verifiziert werden.
+      webauthn_client_data_missing: Der Passkey konnte nicht verifiziert werden.
+      webauthn_authenticator_data_format: Der Passkey konnte nicht verifiziert werden.
+      webauthn_attested_credential_data_format: Der Passkey konnte nicht verifiziert werden.
+      webauthn_root_certificate_finder_not_supported: Der Passkey konnte nicht verifiziert werden.
+      webauthn_generic_error: Der Passkey konnte nicht verifiziert werden.
+    passkeys:
+      <<: *passkey_errors
+      passkey_created: Der Passkey wurde hinzugefügt.
+      passkey_deleted: Der Passkey wurde gelöscht.
+      passkey_label_missing: Bitte gib eine Bezeichnung für den Passkey an.
+      invalid_current_password: Das aktuelle Passwort ist falsch.

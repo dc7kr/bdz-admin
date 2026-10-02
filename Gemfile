@@ -92,6 +92,7 @@ gem "connection_pool", "<3"
 # authenticate
 gem "devise"
 # gem 'devise-async'
+gem 'devise-passkeys'
 
 # authorize
 gem "pundit", "~> 2.5.2"
