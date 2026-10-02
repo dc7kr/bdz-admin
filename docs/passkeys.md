@@ -118,8 +118,8 @@ still the hand-wired `devise/registrations#edit` route.
 5. Devise signs the user in as usual. The `after_sign_in_path_for` rules apply, so
    member users land in `/mgl`.
 
-Failures (unknown passkey, failed verification, replayed assertion) redirect back
-to the login page with an error from `devise.failure.*`.
+Failures (unknown passkey, failed verification, replayed assertion) render the login
+page again (status 200, like a wrong password) with an error from `devise.failure.*`.
 
 ### Add a passkey
 
@@ -196,9 +196,12 @@ finds passkeys of the current user. The controller redirects with `303 See Other
 - a wrong current password gets `422`
 - sign in with an unregistered passkey fails
 
-The test database is SQLite and cannot load the MySQL schema, so the suite doesn't
-run at the moment. The flows were verified with an integration script against the
-development database:
+Run them with `bin/rails test test/integration/passkey_test.rb`. The test database is
+SQLite and built from the migrations (`RAILS_ENV=test bin/rails db:migrate`). Its schema
+is dumped to `db/test_schema.rb` (`schema_dump` in the test section of `config/database.yml`),
+so it doesn't overwrite the MySQL `db/schema.rb`.
+
+These flows were also verified with an integration script against the development database:
 
 - password and passkey login
 - adding with a wrong or correct password

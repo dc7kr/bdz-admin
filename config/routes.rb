@@ -4,7 +4,8 @@ require "sidekiq/cron/web"
 
 hosts = {
   development: "admin-dev.zupfmusiker.de",
-  production: "admin.zupfmusiker.de"
+  production: "admin.zupfmusiker.de",
+  test: "www.example.com"
 }.freeze
 
 Rails.application.routes.default_url_options[:host] = hosts[Rails.env.to_sym]

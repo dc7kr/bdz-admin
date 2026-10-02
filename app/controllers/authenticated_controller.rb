@@ -23,7 +23,8 @@ class AuthenticatedController < ApplicationController
 
     t_query = t("common.queries.#{query}")
     
-    if exception.record.present? 
+    # headless policies (authorize :download) have a symbol as record
+    if exception.record.respond_to?(:model_name)
       t_class = I18n::t("activerecord.models.#{exception.record.model_name.to_s.underscore}", count: 1)
     else
       t_class = "model"

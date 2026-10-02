@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_09_24_074447) do
+ActiveRecord::Schema[7.2].define(version: 2026_10_02_160000) do
   create_table "Inserenten", id: false, charset: "utf8mb3", collation: "utf8mb3_general_ci", options: "ENGINE=InnoDB ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.string "Firmenname", limit: 35
     t.string "Titel", limit: 5
@@ -1032,6 +1032,18 @@ ActiveRecord::Schema[7.2].define(version: 2026_09_24_074447) do
     t.datetime "updated_at", precision: nil, null: false
     t.index ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource_type_and_resource_id"
     t.index ["name"], name: "index_roles_on_name"
+  end
+
+  create_table "runtime_options", charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
+    t.string "key", null: false
+    t.boolean "bool_value"
+    t.datetime "datetime_value"
+    t.string "string_value"
+    t.string "value_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "integer_value"
+    t.index ["key"], name: "index_runtime_options_on_key", unique: true
   end
 
   create_table "static_tsconfig_help", primary_key: "uid", id: :integer, charset: "utf8mb3", collation: "utf8mb3_general_ci", options: "ENGINE=InnoDB ROW_FORMAT=DYNAMIC", force: :cascade do |t|

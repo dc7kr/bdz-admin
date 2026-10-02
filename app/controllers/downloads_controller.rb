@@ -11,7 +11,7 @@ class DownloadsController < AuthenticatedController
       if File.exist?(full_path)
         send_file(full_path, filename: file_name, type: "application/octet-stream")
       else
-        render "errors/404", content_type: "text/html", layout: false, status: :not_found
+        render "errors/404", formats: [ :html ], content_type: "text/html", layout: false, status: :not_found
       end
   end
 

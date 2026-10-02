@@ -1,5 +1,9 @@
 class ErrorsController < ApplicationController
   layout "error"
+
+  # as exceptions app this also renders errors raised before the Warden middleware
+  # (e.g. ActiveRecord::PendingMigrationError), where Devise helpers aren't available
+  skip_before_action :confine_member_level_user
   def show
     @exception = request.env["action_dispatch.exception"]
     Rails.logger.error(@exception.backtrace.join("\n"))
