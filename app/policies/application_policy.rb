@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class ApplicationPolicy
+  include Permissions
+
   attr_reader :user, :record
 
   def initialize(user, record)
@@ -36,15 +38,9 @@ class ApplicationPolicy
     false
   end
 
-  def national_permission?
-    user.is_admin? or user.has_role? :national
-  end
-
-  def accounting_permission?
-    user.is_admin? or user.has_role? :accounting
-  end
-
   class Scope
+    include Permissions
+
     def initialize(user, scope)
       @user = user
       @scope = scope
@@ -52,10 +48,6 @@ class ApplicationPolicy
 
     def resolve
       raise NoMethodError, "You must define #resolve in #{self.class}"
-    end
-    
-    def national_permission?
-      user.is_admin? or user.has_role? :national
     end
 
     private

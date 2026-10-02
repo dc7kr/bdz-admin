@@ -9,26 +9,26 @@ class HomepagePolicy < ApplicationPolicy
   end
 
   def self.editable_by?(user)
-    user.has_role? :admin
+    permitted?(:admin)
   end
 
   def update?
-    user.has_role? :admin
+    permitted?(:admin)
   end
 
   def destroy?
-    user.has_role? :admin
+    permitted?(:admin)
   end
 
   def deletable_by?(user)
-    user.has_role? :admin
+    permitted?(:admin)
   end
 
   def editable_by?(user)
-    user.has_role? :admin
+    permitted?(:admin)
   end
 
   def updatable_by?(user)
-    user.has_role? :admin
+    permitted?(:admin)
   end
 end

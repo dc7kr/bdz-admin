@@ -1,17 +1,17 @@
 class MagazineContextPolicy < ApplicationPolicy
   def create?
-    national_permission?
+    permitted?(:national)
   end
 
   def update?
-    result = (national_permission?)
+    result = (permitted?(:national))
     Rails.logger.debug { "updatable class: #{result}" }
 
     result
   end
 
   def updatable_by?(user)
-    result = (national_permission?)
+    result = (permitted?(:national))
 
     Rails.logger.debug { "updatable: admin?: #{user.is_admin?} national: #{user.has_role? :national} : #{result}" }
 
@@ -19,10 +19,10 @@ class MagazineContextPolicy < ApplicationPolicy
   end
 
   def show?
-    national_permission?
+    permitted?(:national)
   end
 
   def readable_by?(user)
-    national_permission? or user.has_role? :distinction
+    permitted?(:national, :distinction)
   end
 end

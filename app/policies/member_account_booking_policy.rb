@@ -7,36 +7,36 @@ class MemberAccountBookingPolicy < ApplicationPolicy
   end
 
   def create?
-    user.has_role? :accounting or user.has_role? :admin
+    permitted?(:accounting)
   end
 
   def update?
-    user.has_role? :admin or (user.has_role? :accounting and member_account_booking.booking_mode == "M")
+    permitted?(:admin) or (permitted?(:accounting) and member_account_booking.booking_mode == "M")
   end
 
   def show?
-    national_permission? 
+    permitted?(:national) 
   end
 
   def destroy?
-    user.has_role? :admin
+    permitted?(:admin)
   end
 
   def invoice_preview?
-    accounting_permission?
+    permitted?(:accounting)
   end
 
   def invoice_sepa?
-    accounting_permission?
+    permitted?(:accounting)
   end
 
   def download?
-    national_permission? or user.has_role? :distinction
+    permitted?(:national, :distinction)
   end
 
   class Scope < ApplicationPolicy::Scope
     def resolve
-      if national_permission? or user.has_role? :distinction
+      if permitted?(:national, :distinction)
         scope.all
       end
     end

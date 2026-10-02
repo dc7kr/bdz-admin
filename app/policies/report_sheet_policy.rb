@@ -1,14 +1,14 @@
 class ReportSheetPolicy < MemberDataPolicy
 
   def invoice_preview?
-    national_permission? or accounting_permission?
+    permitted?(:national, :accounting)
   end
 
   def update_invoice?
-    accounting_permission?
+    permitted?(:accounting)
   end
 
   def copy_from_last_year?
-    national_permission?
+    permitted?(:national)
   end
 end

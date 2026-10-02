@@ -1,19 +1,19 @@
 class FestivalConcertPolicy < FestivalDataPolicy
   def programme?
-    national_permission? or user.has_role? :festival
+    permitted?(:national, :festival)
   end
 
   def destroy?
-    national_permission?
+    permitted?(:national)
   end
 
   def details?
-    national_permission? or user.has_role? :festival
+    permitted?(:national, :festival)
   end
 
   class Scope < ApplicationPolicy::Scope
     def resolve
-      if national_permission? or user.has_role? :festival
+      if permitted?(:national, :festival)
         scope.all
       end
     end

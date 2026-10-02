@@ -7,30 +7,30 @@ class UserPolicy < ApplicationPolicy
   end
 
   def create?
-    national_permission?
+    permitted?(:national)
   end
 
   def update?
-    user.has_role? :admin
+    permitted?(:admin)
   end
 
   def destroy?
-    user.has_role? :admin
+    permitted?(:admin)
   end
         
 
   def show?
     Rails.logger.debug("readable static: member data entity")
-    national_permission? or user.has_role? :regional
+    permitted?(:national, :regional_role)
   end
 
   def add_role?
-    user.has_role? :admin
+    permitted?(:admin)
   end
 
   class Scope < MemberDataPolicy::Scope
     def resolve
-      if national_permission?
+      if permitted?(:national)
         scope.all
       end
     end

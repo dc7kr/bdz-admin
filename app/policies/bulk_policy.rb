@@ -9,19 +9,19 @@ class BulkPolicy < ApplicationPolicy
   end
 
   def index?
-    user.has_role? :bulk or user.has_role? :bulk_notify or user.has_role? :admin
+    permitted?(:bulk, :bulk_notify)
   end
 
   def show?
-    user.has_role? :bulk or user.has_role? :bulk_notify or user.has_role? :admin 
+    permitted?(:bulk, :bulk_notify) 
   end
 
   def create?
-    user.has_role? :bulk  or user.has_role? :admin
+    permitted?(:bulk)
   end
 
   def send_mails?
-    user.has_role? :bulk  or user.has_role? :admin
+    permitted?(:bulk)
   end
 
 end

@@ -1,23 +1,23 @@
 class FeatureRequestPolicy < ApplicationPolicy 
   def show?
-    user.present?
+    permitted?(:signed_in)
   end
 
   def create?
-    user.present?
+    permitted?(:signed_in)
   end
 
   def destroy?
-    record.user == user or user.has_role? :admin
+    record.user == user or permitted?(:admin)
   end
 
   def update?
-    user.present? and (record.user == user or user.has_role? :admin)
+    permitted?(:signed_in) and (record.user == user or permitted?(:admin))
   end
 
   class Scope < ApplicationPolicy::Scope
     def resolve
-      if user.present?
+      if permitted?(:signed_in)
         scope.all
       else
         false

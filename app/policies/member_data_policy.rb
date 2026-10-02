@@ -6,28 +6,28 @@ class MemberDataPolicy < ApplicationPolicy
   end
   
   def index?
-    national_permission?
+    permitted?(:national)
   end
 
   def create?
-    national_permission?
+    permitted?(:national)
   end
 
   def update?
-    national_permission?
+    permitted?(:national)
   end
 
   def show?
-    national_permission? or user.regional_level?
+    permitted?(:national, :regional)
   end
 
   def destroy?
-    national_permission?
+    permitted?(:national)
   end
 
   class Scope < ApplicationPolicy::Scope
     def resolve
-      if national_permission?
+      if permitted?(:national)
         scope.all
       end
     end

@@ -102,6 +102,14 @@ class MemberDataPoliciesTest < PolicyTestCase
                        %i[combined_letters_pdf? combined_sepa_pdf? combined_invoice_pdf? combined_sepa?], ACCOUNTING
   end
 
+  test "regional organization reports" do
+    assert_crud Report::RegionalOrganizationPolicy, RegionalOrganization,
+                index: NATIONAL, show: NATIONAL_REGIONAL,
+                create: NATIONAL, update: NATIONAL, destroy: NATIONAL
+    assert_permissions Report::RegionalOrganizationPolicy, RegionalOrganization,
+                       %i[members? orchestras? person_members?], NATIONAL
+  end
+
   test "member account bookings" do
     manual = Struct.new(:booking_mode).new("M")
     automatic = Struct.new(:booking_mode).new("A")

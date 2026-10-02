@@ -9,11 +9,11 @@ class AdminPolicy < ApplicationPolicy
   end
 
   def index?
-    user.has_role? :admin
+    permitted?(:admin)
   end
 
   def show?
-    user.has_role? :admin
+    permitted?(:admin)
   end
 
 end

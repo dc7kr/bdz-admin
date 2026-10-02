@@ -6,28 +6,28 @@ class OrchestraPolicy < MemberDataPolicy
   end
 
   def create?
-    national_permission?
+    permitted?(:national)
   end
 
   def update?
-    national_permission?
+    permitted?(:national)
   end
 
   def show?
-    national_permission? or user.regional_level? or user.has_role? :distinction
+    permitted?(:national, :regional, :distinction)
   end
 
   def invoice_preview?
-    user.has_role? :accounting or user.has_role? :admin
+    permitted?(:accounting)
   end
 
   class Scope < ApplicationPolicy::Scope
     def resolve
-      return scope.none if user.member_level?
+      return scope.none if permitted?(:member)
 
-      if national_permission? or user.has_role? :distinction
+      if permitted?(:national, :distinction)
         scope.for_user(user)
-      elsif user.regional_level?
+      elsif permitted?(:regional)
         scope.for_user(user)
       else
         scope.none

@@ -1,24 +1,24 @@
 class FestivalExhibitorPolicy < FestivalDataPolicy
 
   def show?
-    super or user.has_role? :festival
+    super or permitted?(:festival)
   end
 
   def invoice_preview?
-    national_permission?
+    permitted?(:national)
   end
 
   def gen_invoice?
-    national_permission?
+    permitted?(:national)
   end
 
   def storno?
-    national_permission?
+    permitted?(:national)
   end
 
   class Scope < FestivalDataPolicy::Scope
     def resolve
-      if national_permission? or user.has_role? :festival
+      if permitted?(:national, :festival)
         scope.all
       end
     end

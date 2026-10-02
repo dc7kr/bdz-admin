@@ -1,16 +1,16 @@
 class FestivalPiecePolicy < FestivalDataPolicy
   def show?
-    super or user.has_role? :festival
+    super or permitted?(:festival)
   end
 
   def destroy?
-    national_permission?
+    permitted?(:national)
   end
 
   
   class Scope < FestivalDataPolicy::Scope
     def resolve
-      if national_permission? or user.has_role? :festival
+      if permitted?(:national, :festival)
         scope.all
       end
     end

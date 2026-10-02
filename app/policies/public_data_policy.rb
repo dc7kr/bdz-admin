@@ -1,7 +1,7 @@
 class PublicDataPolicy < ApplicationPolicy
 
   def manage_permission?
-    user.has_role? :admin or user.has_role? :national or user.has_role? :public_data
+    permitted?(:national, :public_data)
   end
 
   # anyone can create a public entity

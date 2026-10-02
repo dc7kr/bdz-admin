@@ -1,18 +1,18 @@
 class EventCardPolicy < FestivalDataPolicy
 
   def invoice_preview?
-    national_permission?
+    permitted?(:national)
   end
 
   def storno?
-    national_permission?
+    permitted?(:national)
   end
 
   def pickup?
-    national_permission?
+    permitted?(:national)
   end
 
   def overview?
-    national_permission?
+    permitted?(:national)
   end
 end

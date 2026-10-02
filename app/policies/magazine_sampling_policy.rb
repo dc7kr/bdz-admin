@@ -6,17 +6,17 @@ class MagazineSamplingPolicy < ApplicationPolicy
   end
 
   def create?
-    national_permission?
+    permitted?(:national)
   end
 
   def update?
-    result = (national_permission?)
+    result = (permitted?(:national))
 
     result
   end
 
   def updatable_by?(user)
-    result = (national_permission?)
+    result = (permitted?(:national))
 
     Rails.logger.debug { "updatable: admin?: #{user.is_admin?} national: #{user.has_role? :national} : #{result}" }
 
@@ -26,16 +26,16 @@ class MagazineSamplingPolicy < ApplicationPolicy
   # is ANY magazine_sampling readable by user - entity tests follow!
   def show?
     Rails.logger.debug("readable static: MagazineSampling")
-    national_permission? or user.has_role? :regional
+    permitted?(:national, :regional_role)
   end
 
   def readable_by?(user)
-    national_permission? 
+    permitted?(:national) 
   end
 
   class Scope < ApplicationPolicy::Scope
     def resolve
-      if national_permission?
+      if permitted?(:national)
         scope.all
       end
     end

@@ -6,20 +6,20 @@ class FestivalDataPolicy < ApplicationPolicy
   end
 
   def create?
-    national_permission?
+    permitted?(:national)
   end
 
   def update?
-    national_permission?
+    permitted?(:national)
   end
 
   def show?
-    national_permission? or user.has_role? :festival
+    permitted?(:national, :festival)
   end
 
   class Scope < ApplicationPolicy::Scope
     def resolve
-      if national_permission? 
+      if permitted?(:national) 
         scope.all
       else
          raise Pundit::NotAuthorizedError, 'not allowed to view this action'

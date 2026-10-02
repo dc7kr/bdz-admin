@@ -1,6 +1,6 @@
 class MemberEventPolicy < MemberDataPolicy
 
   def download?
-    national_permission?
+    permitted?(:national)
   end
 end

@@ -1,15 +1,15 @@
 class Report::RegionalOrganizationPolicy < MemberDataPolicy
 
   def members?
-    national_permission? 
+    permitted?(:national) 
   end
 
   def orchestras?
-    national_permission? 
+    permitted?(:national) 
   end
   
   def person_members?
-    national_permission? 
+    permitted?(:national) 
   end
 
 

@@ -28,13 +28,22 @@ Access is controlled by two independent things:
 | `public_data` | edit and delete public data (URLs, concerts)                            |
 | `regional`    | legacy; only still checked in `UserPolicy#show?` and `MagazineSamplingPolicy#show?`. Use the regional access level instead. |
 
-The terms below are used throughout this document:
+Policies check permissions by name with `permitted?` from the `Permissions` module
+(`app/policies/permissions.rb`), which `ApplicationPolicy` and `ApplicationPolicy::Scope`
+include. `permitted?(:national, :distinction)` is true if the user has any of the named
+permissions. Unknown names raise `ArgumentError`.
 
-- **admin**: `admin` role.
-- **national**: `admin` or `national` role (`national_permission?`).
-- **accounting**: `admin` or `accounting` role (`accounting_permission?`).
-- **regional**: regional access level (`User#regional_level?`).
-- **signed in**: any main area user.
+| Permission | Granted to |
+|------------|------------|
+| `:admin`, `:national`, `:accounting`, `:distinction`, `:festival`, `:bulk`, `:bulk_notify`, `:public_data` | users with that role, and always admins |
+| `:regional_role` | users with the legacy `regional` role, and admins |
+| `:regional` | regional access level (`User#regional_level?`); not admins |
+| `:member` | member access level (`User#member_level?`); not admins |
+| `:signed_in` | any user |
+
+The tables below use these names. **national** means admins and users with the `national` role,
+**accounting** means admins and users with the `accounting` role, and so on.
+`national_permission?` and `accounting_permission?` stay available on policies for views.
 
 ## Enforcement
 

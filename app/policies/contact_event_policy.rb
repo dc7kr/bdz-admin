@@ -2,7 +2,7 @@ class ContactEventPolicy < MemberDataPolicy
 
   class Scope < ApplicationPolicy::Scope
     def resolve
-      if national_permission? 
+      if permitted?(:national) 
         scope.all
       end
     end
