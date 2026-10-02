@@ -1,41 +1,19 @@
 class DistinctionPolicy < MemberDataPolicy
-  attr_reader :user, :distinction
+  allow :show?, :create?, to: %i[national distinction]
+  allow :invoice_preview?, :gen_invoice?, to: %i[accounting distinction]
 
-  def initialize(user, distinction)
-    @user = user
-    @distinction = distinction
-  end
-
-  def show? 
-    permitted?(:national, :distinction)
-  end
-
-  def invoice_preview?
-    permitted?(:accounting, :distinction)
-  end
-
-  def gen_invoice?
-    permitted?(:accounting, :distinction)
+  # booked distinctions may only be changed by admins
+  def update?
+    permitted?(:admin) or (record.member_account_booking.nil? and permitted?(:national, :distinction))
   end
 
   def destroy?
-    permitted?(:admin) or (distinction.member_account_booking == nil and permitted?(:national, :distinction))
-  end
-
-  def update?
-    permitted?(:admin) or (distinction.member_account_booking == nil and permitted?(:national, :distinction))
-  end
-
-  def create?
-    permitted?(:national, :distinction)
+    update?
   end
 
   class Scope < ApplicationPolicy::Scope
     def resolve
-      if permitted?(:national, :distinction)
-        scope.all
-      end
+      scope.all if permitted?(:national, :distinction)
     end
   end
-
 end

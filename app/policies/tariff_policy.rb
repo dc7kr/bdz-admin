@@ -1,2 +1,2 @@
-class TariffPolicy < MemberDataPolicy
+class TariffPolicy < ReferenceDataPolicy
 end

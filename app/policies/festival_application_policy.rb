@@ -1,70 +1,9 @@
 class FestivalApplicationPolicy < FestivalDataPolicy
+  allow :destroy?, :fee_invoice_preview?, :fee_invoice?, :ticket_invoice_preview?, :gen_ticket_invoice?,
+        :ticket_invoice?, :no_tickets?, :no_meals?, :finalize?, :storno?, :gen_participant_sheet?,
+        :participant_overview?, to: :national
+  allow :stage_plans?, :datasheets?, to: %i[national festival]
 
-  def show?
-    super or user.has_role? :festival
-  end
-
-  def destroy?
-    national_permission?
-  end
-
-  def fee_invoice_preview?
-    national_permission?
-  end
-
-  def fee_invoice?
-    national_permission?
-  end
-
-  def ticket_invoice_preview?
-    national_permission?
-  end
-
-  def no_tickets?
-    national_permission?
-  end
-
-  def no_meals?
-    national_permission?
-  end
-
-  def gen_ticket_invoice?
-    national_permission?
-  end
-
-  def ticket_invoice?
-    national_permission?
-  end
-
-  def finalize?
-    national_permission?
-  end
-
-  def gen_participant_sheet?
-    national_permission?
-  end
-
-  def participant_overview?
-    national_permission?
-  end
-
-  def storno?
-    national_permission?
-  end
-
-  def stage_plans?
-    national_permission? or user.has_role? :festival
-  end
-
-  def datasheets?
-    national_permission? or user.has_role? :festival
-  end
-
-  class Scope < FestivalDataPolicy::Scope
-    def resolve
-      if national_permission? or user.has_role? :festival
-        scope.all
-      end
-    end
+  class Scope < FestivalScope
   end
 end

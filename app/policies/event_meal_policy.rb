@@ -1,14 +1,6 @@
 class EventMealPolicy < FestivalDataPolicy
-  def arrival_overview?
-    permitted?(:national, :festival)
-  end
+  allow :arrival_overview?, to: %i[national festival]
 
-
-  class Scope < FestivalDataPolicy::Scope
-    def resolve
-      if permitted?(:national, :festival)
-        scope.all
-      end
-    end
+  class Scope < FestivalScope
   end
 end

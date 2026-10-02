@@ -1,23 +1,11 @@
 class OrchestraMemberPolicy < MemberDataPolicy
-
-  def exchange?
-    permitted?(:national)
-  end
-
-  def index?
-    super or permitted?(:distinction)
-  end
-
-  def show?
-    super or permitted?(:distinction)
-  end
+  allow :index?, to: %i[national distinction]
+  allow :show?, to: %i[national regional distinction]
+  allow :exchange?, to: :national
 
   class Scope < ApplicationPolicy::Scope
     def resolve
-      if permitted?(:national, :distinction)
-        scope.all
-      end
+      scope.all if permitted?(:national, :distinction)
     end
   end
-
 end

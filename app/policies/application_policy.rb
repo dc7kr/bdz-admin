@@ -10,6 +10,19 @@ class ApplicationPolicy
     @record = record
   end
 
+  # Defines actions that are allowed for any of the given permissions:
+  #
+  #   allow :index?, :show?, to: %i[national regional]
+  #   allow :destroy?, to: []    # nobody
+  #
+  # Subclasses inherit the actions and may redefine them with allow or def.
+  def self.allow(*actions, to:)
+    names = Array(to).freeze
+    actions.each do |action|
+      define_method(action) { permitted?(*names) }
+    end
+  end
+
   def index?
     false
   end

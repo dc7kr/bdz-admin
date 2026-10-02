@@ -2,6 +2,22 @@ require "policy_test_helper"
 
 # Magazine, public data, administration and tools, see docs/permissions.md
 class OtherPoliciesTest < PolicyTestCase
+  test "reference data" do
+    { ReferenceDataPolicy => State, StatePolicy => State, TariffPolicy => Tariff }.each do |policy_class, model|
+      assert_crud policy_class, model,
+                  index: ALL, show: ALL, create: NATIONAL, update: NATIONAL, destroy: NATIONAL
+      assert_scope policy_class, all: ALL
+    end
+  end
+
+  test "magazine data" do
+    allowed = NATIONAL + %i[magazine]
+    { MagazineDataPolicy => MagazineIssue, MagazineIssuePolicy => MagazineIssue, AdvertiserPolicy => Advertiser }.each do |policy_class, model|
+      assert_crud policy_class, model, index: allowed, show: allowed, create: allowed, update: allowed, destroy: allowed
+      assert_scope policy_class, all: allowed, nil => ALL - allowed
+    end
+  end
+
   test "magazine contexts" do
     assert_crud MagazineContextPolicy, :magazine_context,
                 index: NOBODY, show: NATIONAL, create: NATIONAL, update: NATIONAL, destroy: NOBODY

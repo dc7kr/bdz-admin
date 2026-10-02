@@ -1,39 +1,13 @@
-class PersonMemberPolicy < ApplicationPolicy 
-  attr_reader :user, :person_member
-  def initialize(user, person_member)
-    @user = user
-    @person_member = person_member
-  end
-
-  def create?
-    permitted?(:national)
-  end
-
-  def update?
-    result = (permitted?(:national))
-
-    result
-  end
-
-  def invoice_preview?
-    permitted?(:accounting)
-  end
-
-  def show?
-    permitted?(:national, :regional)
-  end
+class PersonMemberPolicy < MemberDataPolicy
+  # TODO: index? and destroy? are denied for everybody, unlike the other member data
+  allow :index?, :destroy?, to: []
+  allow :invoice_preview?, to: :accounting
 
   class Scope < ApplicationPolicy::Scope
     def resolve
       return scope.none if permitted?(:member)
 
-      if permitted?(:national)
-        scope.for_user(user)
-      elsif permitted?(:regional)
-        scope.for_user(user)
-      else
-        scope.none
-      end
+      permitted?(:national, :regional) ? scope.for_user(user) : scope.none
     end
   end
 end

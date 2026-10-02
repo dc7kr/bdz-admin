@@ -1,44 +1,17 @@
 class MemberAccountBookingPolicy < ApplicationPolicy
-  attr_reader :user, :member_account_booking
+  allow :show?, to: :national
+  allow :create?, :invoice_preview?, :invoice_sepa?, to: :accounting
+  allow :destroy?, to: :admin
+  allow :download?, to: %i[national distinction]
 
-  def initialize(user, member_account_booking)
-    @user = user
-    @member_account_booking = member_account_booking
-  end
-
-  def create?
-    permitted?(:accounting)
-  end
-
+  # admins may edit any booking, accounting users only manual bookings
   def update?
-    permitted?(:admin) or (permitted?(:accounting) and member_account_booking.booking_mode == "M")
-  end
-
-  def show?
-    permitted?(:national) 
-  end
-
-  def destroy?
-    permitted?(:admin)
-  end
-
-  def invoice_preview?
-    permitted?(:accounting)
-  end
-
-  def invoice_sepa?
-    permitted?(:accounting)
-  end
-
-  def download?
-    permitted?(:national, :distinction)
+    permitted?(:admin) or (permitted?(:accounting) and record.booking_mode == "M")
   end
 
   class Scope < ApplicationPolicy::Scope
     def resolve
-      if permitted?(:national, :distinction)
-        scope.all
-      end
+      scope.all if permitted?(:national, :distinction)
     end
   end
 end

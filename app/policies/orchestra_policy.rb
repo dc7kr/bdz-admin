@@ -1,37 +1,12 @@
 class OrchestraPolicy < MemberDataPolicy
-  attr_reader :user, :orchestra
-  def initialize(user, orchestra)
-    @user = user
-    @orchestra = orchestra
-  end
-
-  def create?
-    permitted?(:national)
-  end
-
-  def update?
-    permitted?(:national)
-  end
-
-  def show?
-    permitted?(:national, :regional, :distinction)
-  end
-
-  def invoice_preview?
-    permitted?(:accounting)
-  end
+  allow :show?, to: %i[national regional distinction]
+  allow :invoice_preview?, to: :accounting
 
   class Scope < ApplicationPolicy::Scope
     def resolve
       return scope.none if permitted?(:member)
 
-      if permitted?(:national, :distinction)
-        scope.for_user(user)
-      elsif permitted?(:regional)
-        scope.for_user(user)
-      else
-        scope.none
-      end
+      permitted?(:national, :distinction, :regional) ? scope.for_user(user) : scope.none
     end
   end
 end

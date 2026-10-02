@@ -1,27 +1,7 @@
 # frozen_string_literal: true
 
+# headless policy for bulk mails: authorize :bulk, :create?
 class BulkPolicy < ApplicationPolicy
-  attr_reader :user, :record
-
-  def initialize(user, record)
-    @user = user
-    @record = record
-  end
-
-  def index?
-    permitted?(:bulk, :bulk_notify)
-  end
-
-  def show?
-    permitted?(:bulk, :bulk_notify) 
-  end
-
-  def create?
-    permitted?(:bulk)
-  end
-
-  def send_mails?
-    permitted?(:bulk)
-  end
-
+  allow :index?, :show?, to: %i[bulk bulk_notify]
+  allow :create?, :send_mails?, to: :bulk
 end

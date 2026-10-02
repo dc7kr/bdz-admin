@@ -1,19 +1,6 @@
 # frozen_string_literal: true
 
+# headless policy for the admin pages: authorize :admin, :show?
 class AdminPolicy < ApplicationPolicy
-  attr_reader :user, :record
-
-  def initialize(user, record)
-    @user = user
-    @record = record
-  end
-
-  def index?
-    permitted?(:admin)
-  end
-
-  def show?
-    permitted?(:admin)
-  end
-
+  allow :index?, :show?, to: :admin
 end

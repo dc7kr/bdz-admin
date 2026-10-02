@@ -100,7 +100,7 @@ class User < ApplicationRecord
   end
 
   def magazine_permission?
-    national_permission?
+    national_permission? or has_role? :magazine
   end
 
   def accounting_permission?

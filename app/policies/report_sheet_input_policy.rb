@@ -1,6 +1,3 @@
 class ReportSheetInputPolicy < MemberDataPolicy
-
-  def metadata?
-    permitted?(:national)
-  end
+  allow :metadata?, to: :national
 end

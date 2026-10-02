@@ -1,29 +1,21 @@
+# Default rules for festival data, see docs/permissions.md#festival-data
 class FestivalDataPolicy < ApplicationPolicy
-  attr_reader :user, :festival_data_entity
-  def initialize(user, festival_data_entity)
-    @user = user
-    @festival_data_entity = festival_data_entity
-  end
-
-  def create?
-    permitted?(:national)
-  end
-
-  def update?
-    permitted?(:national)
-  end
-
-  def show?
-    permitted?(:national, :festival)
-  end
+  allow :show?, to: %i[national festival]
+  allow :create?, :update?, to: :national
 
   class Scope < ApplicationPolicy::Scope
     def resolve
-      if permitted?(:national) 
-        scope.all
-      else
-         raise Pundit::NotAuthorizedError, 'not allowed to view this action'
-      end
+      # TODO: raises instead of returning nil like the other scopes
+      raise Pundit::NotAuthorizedError, "not allowed to view this action" unless permitted?(:national)
+
+      scope.all
+    end
+  end
+
+  # scope for the festival policies that festival users may list
+  class FestivalScope < ApplicationPolicy::Scope
+    def resolve
+      scope.all if permitted?(:national, :festival)
     end
   end
 end

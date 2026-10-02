@@ -1,2 +1,2 @@
-class StatePolicy < MemberDataPolicy
+class StatePolicy < ReferenceDataPolicy
 end

@@ -23,6 +23,7 @@ Access is controlled by two independent things:
 | `accounting`  | bookings, invoices, SEPA                                                |
 | `distinction` | distinctions, honor members, orchestra members                          |
 | `festival`    | read access to festival data                                            |
+| `magazine`    | magazine issues and advertisers                                         |
 | `bulk`        | send bulk mails                                                         |
 | `bulk_notify` | view bulk mails                                                         |
 | `public_data` | edit and delete public data (URLs, concerts)                            |
@@ -35,7 +36,7 @@ permissions. Unknown names raise `ArgumentError`.
 
 | Permission | Granted to |
 |------------|------------|
-| `:admin`, `:national`, `:accounting`, `:distinction`, `:festival`, `:bulk`, `:bulk_notify`, `:public_data` | users with that role, and always admins |
+| `:admin`, `:national`, `:accounting`, `:distinction`, `:festival`, `:magazine`, `:bulk`, `:bulk_notify`, `:public_data` | users with that role, and always admins |
 | `:regional_role` | users with the legacy `regional` role, and admins |
 | `:regional` | regional access level (`User#regional_level?`); not admins |
 | `:member` | member access level (`User#member_level?`); not admins |
@@ -44,6 +45,27 @@ permissions. Unknown names raise `ArgumentError`.
 The tables below use these names. **national** means admins and users with the `national` role,
 **accounting** means admins and users with the `accounting` role, and so on.
 `national_permission?` and `accounting_permission?` stay available on policies for views.
+
+Policies declare their rules with `allow` (defined in `ApplicationPolicy`). Each area has a
+base policy with its defaults, and concrete policies only add or override actions:
+
+```ruby
+class FestivalConcertPolicy < FestivalDataPolicy
+  allow :destroy?, to: :national
+  allow :programme?, :details?, to: %i[national festival]
+end
+```
+
+`allow :action?, to: []` denies an action to everybody. Rules that depend on the record,
+such as `DistinctionPolicy#update?`, are still written as methods.
+
+| Area | Base policy |
+|------|-------------|
+| Member data | `MemberDataPolicy` |
+| Reference data | `ReferenceDataPolicy` |
+| Magazine | `MagazineDataPolicy` |
+| Festival data | `FestivalDataPolicy` |
+| Public data | `PublicDataPolicy` |
 
 ## Enforcement
 
@@ -68,7 +90,7 @@ The tables below use these names. **national** means admins and users with the `
   |-----------------|--------------------------------|------------------------------|
   | Member data     | `member_data_permission?`      | national, regional, distinction |
   | Reference data  | `reference_data_permission?`   | national                     |
-  | Magazine        | `magazine_permission?`         | national                     |
+  | Magazine        | `magazine_permission?`         | national, magazine (samplings and address list: national) |
   | Festival        | `festival_permission?`         | national, festival           |
   | Tools           | `tools_permission?`            | accounting                   |
   | Bulk mails      | `bulk_permission?`             | admin, bulk                  |
@@ -85,9 +107,8 @@ The tables below use these names. **national** means admins and users with the `
 | scope                           | national: all; others: `nil` |
 
 These policies use the defaults without changes: `MemberPolicy`, `OrchestraContactPolicy`,
-`RegionalOrganizationPolicy`, `StatePolicy`, `TariffPolicy`, `AdvertiserPolicy`,
-`MagazineIssuePolicy`. The last four are reference or magazine data. Because they
-inherit the member data defaults, regional users can open them with `show?`.
+`RegionalOrganizationPolicy`, `ContactEventPolicy`. `RegionalOrganizationPolicy` stays member
+data because regional users open their own regional organization from the menu.
 
 ### Exceptions
 
@@ -96,7 +117,7 @@ inherit the member data defaults, regional users can open them with `show?`.
 | `OrchestraPolicy` | `show?` | national, regional, distinction |
 | | `invoice_preview?` | accounting |
 | | scope | member level: none; national, distinction, regional: `Orchestra.for_user`; others: none |
-| `PersonMemberPolicy` (inherits `ApplicationPolicy`) | `show?` | national, regional |
+| `PersonMemberPolicy` | `show?` | national, regional |
 | | `create?`, `update?` | national |
 | | `invoice_preview?` | accounting |
 | | `index?`, `destroy?` | nobody |
@@ -168,11 +189,35 @@ edited by admins.
 | | scope | national, festival |
 | `FestivalMailPolicy` | (inherits `BulkPolicy`) | see below |
 
+## Reference data
+
+### Defaults (`ReferenceDataPolicy`)
+
+| Action | Who |
+|--------|-----|
+| `index?`, `show?` | signed in |
+| `create?`, `update?`, `destroy?` | national |
+| scope | signed in: all |
+
+Used by `StatePolicy` and `TariffPolicy`. `RegionalOrganizationBookingPolicy` is still an empty
+policy (see [Policies that deny everything](#policies-that-deny-everything)).
+
 ## Magazine
+
+### Defaults (`MagazineDataPolicy`)
+
+| Action | Who |
+|--------|-----|
+| `index?`, `show?`, `create?`, `update?`, `destroy?` | national, magazine |
+| scope | national, magazine: all; others: `nil` |
+
+Used by `MagazineIssuePolicy` and `AdvertiserPolicy`. The `magazine` role is created by the
+migration `20261002140000_create_magazine_role`.
+
+### Other magazine policies
 
 | Policy | Action | Who |
 |--------|--------|-----|
-| `MagazineIssuePolicy`, `AdvertiserPolicy` | | member data defaults |
 | `MagazineContextPolicy` | `show?`, `create?`, `update?` | national |
 | `MagazineSamplingPolicy` | `create?`, `update?` | national |
 | | `show?` | national, `regional` role |
@@ -188,9 +233,8 @@ edited by admins.
 | `show?`, `create?` | everyone |
 | `update?`, `destroy?` | national, `public_data` role |
 
-Used by `UrlPolicy` and `ConcertPolicy`.
-
-`HomepagePolicy`: `show?`, `create?` everyone; `update?`, `destroy?` admin.
+Used by `UrlPolicy`, `ConcertPolicy` and `HomepagePolicy`. `HomepagePolicy` limits `update?` and
+`destroy?` to admins.
 
 ## Administration and tools
 
@@ -232,8 +276,8 @@ These are known and planned to be cleaned up. Until then, keep them in mind when
   returns `false`. New scopes should return `scope.none`.
 - `show?` does not check the regional organization of a single record (see
   [Enforcement](#enforcement)).
-- `PersonMemberPolicy` does not inherit `MemberDataPolicy`, so `index?` and `destroy?` are
-  always denied.
-- Reference and magazine data inherit the member data defaults instead of having their own policies.
+- `PersonMemberPolicy` denies `index?` and `destroy?` to everybody, unlike the other member data.
+- `MagazineContextPolicy`, `MagazineSamplingPolicy` and `MagazineAdvertPolicy` don't use the
+  magazine defaults yet.
 - The `regional` role is still checked in `UserPolicy` and `MagazineSamplingPolicy`.
 - The menu helpers on `User` and the policies are two separate sources of truth.

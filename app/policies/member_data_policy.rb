@@ -1,35 +1,12 @@
+# Default rules for member data, see docs/permissions.md#member-data
 class MemberDataPolicy < ApplicationPolicy
-  attr_reader :user, :member_data_entity
-  def initialize(user, member_data_entity)
-    @user = user
-    @member_data_entity = member_data_entity
-  end
-  
-  def index?
-    permitted?(:national)
-  end
-
-  def create?
-    permitted?(:national)
-  end
-
-  def update?
-    permitted?(:national)
-  end
-
-  def show?
-    permitted?(:national, :regional)
-  end
-
-  def destroy?
-    permitted?(:national)
-  end
+  allow :index?, to: :national
+  allow :show?, to: %i[national regional]
+  allow :create?, :update?, :destroy?, to: :national
 
   class Scope < ApplicationPolicy::Scope
     def resolve
-      if permitted?(:national)
-        scope.all
-      end
+      scope.all if permitted?(:national)
     end
   end
 end

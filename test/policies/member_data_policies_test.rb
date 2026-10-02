@@ -10,10 +10,6 @@ class MemberDataPoliciesTest < PolicyTestCase
     MemberPolicy => Member,
     OrchestraContactPolicy => OrchestraContact,
     RegionalOrganizationPolicy => RegionalOrganization,
-    StatePolicy => State,
-    TariffPolicy => Tariff,
-    AdvertiserPolicy => Advertiser,
-    MagazineIssuePolicy => MagazineIssue,
     ContactEventPolicy => ContactEvent,
     ContactPersonPolicy => ContactPerson,
     MemberEventPolicy => MemberEvent,
@@ -30,7 +26,7 @@ class MemberDataPoliciesTest < PolicyTestCase
   end
 
   test "member data default scope" do
-    [ MemberDataPolicy, MemberPolicy, StatePolicy, ReportSheetPolicy, ContactEventPolicy ].each do |policy_class|
+    [ MemberDataPolicy, MemberPolicy, ReportSheetPolicy, ContactEventPolicy ].each do |policy_class|
       assert_scope policy_class, all: NATIONAL, nil => ALL - NATIONAL
     end
   end

@@ -37,4 +37,13 @@ class PermissionsTest < PolicyTestCase
     assert scope.permitted?(:national)
     assert_not scope.permitted?(:accounting)
   end
+
+  test "allow defines actions and subclasses may redefine them" do
+    base = Class.new(ApplicationPolicy) { allow :show?, :custom?, to: %i[national festival] }
+    sub = Class.new(base) { allow :custom?, to: [] }
+
+    assert_permissions base, :record, %i[show? custom?], NATIONAL + %i[festival]
+    assert_permissions sub, :record, :show?, NATIONAL + %i[festival]
+    assert_permissions sub, :record, :custom?, NOBODY
+  end
 end

@@ -1,9 +1,7 @@
 class ContactPersonPolicy < MemberDataPolicy
   class Scope < ApplicationPolicy::Scope
     def resolve
-      if permitted?(:national, :festival)
-        scope.all
-      end
+      scope.all if permitted?(:national, :festival)
     end
   end
 end

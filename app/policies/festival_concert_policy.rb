@@ -1,21 +1,7 @@
 class FestivalConcertPolicy < FestivalDataPolicy
-  def programme?
-    permitted?(:national, :festival)
-  end
+  allow :destroy?, to: :national
+  allow :programme?, :details?, to: %i[national festival]
 
-  def destroy?
-    permitted?(:national)
-  end
-
-  def details?
-    permitted?(:national, :festival)
-  end
-
-  class Scope < ApplicationPolicy::Scope
-    def resolve
-      if permitted?(:national, :festival)
-        scope.all
-      end
-    end
+  class Scope < FestivalScope
   end
 end

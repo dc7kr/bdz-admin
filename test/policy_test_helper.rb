@@ -21,6 +21,7 @@ class PolicyTestCase < ActiveSupport::TestCase
     accounting:    { roles: %i[accounting] },
     distinction:   { roles: %i[distinction] },
     festival:      { roles: %i[festival] },
+    magazine:      { roles: %i[magazine] },
     bulk:          { roles: %i[bulk] },
     bulk_notify:   { roles: %i[bulk_notify] },
     public_data:   { roles: %i[public_data] },

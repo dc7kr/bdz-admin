@@ -1,2 +1,2 @@
-class MagazineIssuePolicy < MemberDataPolicy
+class MagazineIssuePolicy < MagazineDataPolicy
 end

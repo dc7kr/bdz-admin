@@ -1,23 +1,4 @@
+# headless policy for the download pages: authorize :download
 class DownloadPolicy < MemberDataPolicy
-
-  def index?
-    permitted?(:national)
-  end
-
-  def combined_letters_pdf?
-    permitted?(:accounting)
-  end
-  
-  def combined_sepa_pdf?
-    permitted?(:accounting)
-  end
-  
-  
-  def combined_invoice_pdf?
-    permitted?(:accounting)
-  end
-  
-  def combined_sepa?
-    permitted?(:accounting)
-  end
+  allow :combined_letters_pdf?, :combined_sepa_pdf?, :combined_invoice_pdf?, :combined_sepa?, to: :accounting
 end
