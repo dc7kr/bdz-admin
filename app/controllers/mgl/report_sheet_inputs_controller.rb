@@ -3,7 +3,8 @@ module Mgl
     layout "mgl"
 
     before_action :authorize, except: %i[login submit_login]
-    
+    before_action :reject_locked, only: %i[submit1 submit2 submit4 upload delete_members]
+
     include ::ApplicationHelper
     include ::ButtonHelper
 
@@ -39,6 +40,13 @@ module Mgl
       nil
     end
 
+    # the report sheet has been invoiced, changes are not allowed anymore
+    def reject_locked
+      return unless @report_sheet_input.locked?
+
+      redirect_to url_for(action: :step1, id: @report_sheet_input), flash: { error: t("mgl.report_sheets.locked") }
+    end
+
     def login
       # session[:report_sheet_token] = params[:token]
       @mglnr = params[:mglnr]
@@ -47,6 +55,11 @@ module Mgl
 
       @report_sheet_input = ReportSheetInput.new
       @report_sheet_input.token = params[:token]
+
+      respond_to do |format|
+        format.html { render "login", locals: { token: @token, mglnr: @mglnr }}
+        format.turbo_stream { render "login", locals: { token: @token, mglnr: @mglnr }  }
+      end
     end
 
     def submit_login
@@ -55,16 +68,17 @@ module Mgl
       @dsgvo = params[:dsgvo]
       if !@dsgvo
         flash[:error] = t("report_sheet_input.please_confirm_dsgvo")
-        redirect_to action: :login
+        respond_to do |format|
+          format.html { redirect_to action: :login, status: :unprocessable_entity, notice: t("report_sheet_input.please_confirm_dsgvo") }
+          format.turbo_stream { render "login", locals: { token: params[:token], mglnr: params[:mglnr], flash: flash  }  }
+        end
       elsif @report_sheet_input.nil?
         Rails.logger.warn("Invalid token: ")
         flash[:error] = t("report_sheet_input.invalid_token")
         redirect_to action: :login
       else
         @orchestra = @report_sheet_input.orchestra
-        @orchestra.member.dsgvo = true
-        @orchestra.member.dsgvo_date = Time.zone.now
-        @orchestra.member.save!
+        @orchestra.member.update_columns(dsgvo: true, dsgvo_date: Time.zone.now)
         session[:report_sheet_input_id] = @report_sheet_input.id
         session[:report_sheet_input_token] = params[:token]
 
@@ -136,7 +150,7 @@ module Mgl
                    location: url_for(action: :step2, id: @report_sheet_input)
           end
         else
-          format.html { render action: "step1" }
+          format.html { render action: "step1" , status: :unprocessable_entity }
           format.json { render json: @report_sheet_input.errors, status: :unprocessable_entity }
         end
       end
@@ -226,16 +240,13 @@ module Mgl
 
       @rs.update_from_orchestra_members(@report_sheet_input.orchestra.orchestra_members)
 
-      respond_to do |format|
-        format.html do
-          if @rs.update(report_sheet_params(params))
-            redirect_to url_for(action: :finalize, id: @report_sheet_input),
+
+      if @rs.update(report_sheet_params(params))
+        redirect_to url_for(action: :finalize, id: @report_sheet_input),
                         notice: t("report_sheet_input.save_success")
-          else
-            redirect_to url_for(action: :step4, id: @report_sheet_input),
+      else
+        redirect_to url_for(action: :step4, id: @report_sheet_input), status: :unprocessable_entity,
                         flash: { error: t("report_sheet_input.save_error") }
-          end
-        end
       end
     end
 
