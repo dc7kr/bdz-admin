@@ -1,8 +1,17 @@
 require "test_helper"
 
+# GemaEvent is a Mongoid document; these tests need the MongoDB configured for the
+# test environment in config/mongoid.yml and are skipped without it.
 class GemaEventsControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @gema_event = gema_events(:one)
+    skip "MongoDB for the test environment is not available" unless mongodb_available?
+
+    @gema_event = GemaEvent.create!(name: "Frühjahrskonzert", event_date: Date.new(2026, 4, 1), location: "Stadthalle")
+    sign_in create_user(:national)
+  end
+
+  teardown do
+    GemaEvent.delete_all if mongodb_available?
   end
 
   test "should get index" do
@@ -17,7 +26,7 @@ class GemaEventsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create gema_event" do
     assert_difference("GemaEvent.count") do
-      post gema_events_url, params: { gema_event: { admission_price: @gema_event.admission_price, cultural_reduction: @gema_event.cultural_reduction, description: @gema_event.description, e_reduction: @gema_event.e_reduction, event_date: @gema_event.event_date, gema_amount: @gema_event.gema_amount, gstv_reduction: @gema_event.gstv_reduction, kdnr: @gema_event.kdnr, license_nr: @gema_event.license_nr, location: @gema_event.location, music_effort: @gema_event.music_effort, name: @gema_event.name, netto: @gema_event.netto, orchestra_id: @gema_event.orchestra_id, room_size: @gema_event.room_size, sap_nr: @gema_event.sap_nr, setlist: @gema_event.setlist, tariff: @gema_event.tariff, ticket_total: @gema_event.ticket_total, visitors: @gema_event.visitors } }
+      post gema_events_url, params: { gema_event: { name: "Herbstkonzert", event_date: "2026-10-01" } }
     end
 
     assert_redirected_to gema_event_url(GemaEvent.last)
@@ -34,8 +43,9 @@ class GemaEventsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update gema_event" do
-    patch gema_event_url(@gema_event), params: { gema_event: { admission_price: @gema_event.admission_price, cultural_reduction: @gema_event.cultural_reduction, description: @gema_event.description, e_reduction: @gema_event.e_reduction, event_date: @gema_event.event_date, gema_amount: @gema_event.gema_amount, gstv_reduction: @gema_event.gstv_reduction, kdnr: @gema_event.kdnr, license_nr: @gema_event.license_nr, location: @gema_event.location, music_effort: @gema_event.music_effort, name: @gema_event.name, netto: @gema_event.netto, orchestra_id: @gema_event.orchestra_id, room_size: @gema_event.room_size, sap_nr: @gema_event.sap_nr, setlist: @gema_event.setlist, tariff: @gema_event.tariff, ticket_total: @gema_event.ticket_total, visitors: @gema_event.visitors } }
+    patch gema_event_url(@gema_event), params: { gema_event: { location: "Kirche" } }
     assert_redirected_to gema_event_url(@gema_event)
+    assert_equal "Kirche", @gema_event.reload.location
   end
 
   test "should destroy gema_event" do
@@ -45,4 +55,20 @@ class GemaEventsControllerTest < ActionDispatch::IntegrationTest
 
     assert_redirected_to gema_events_url
   end
+
+  # checked once per test run
+  def self.mongodb_available?
+    return @mongodb_available if defined?(@mongodb_available)
+
+    @mongodb_available = begin
+      Mongoid.default_client.with(server_selection_timeout: 1).database.command(ping: 1)
+      true
+    rescue Mongo::Error
+      false
+    end
+  end
+
+  private
+
+  def mongodb_available? = self.class.mongodb_available?
 end

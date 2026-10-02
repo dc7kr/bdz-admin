@@ -1,7 +1,7 @@
 require "test_helper"
 require "webauthn/fake_client"
 
-class PasskeyTest < ActionDispatch::IntegrationTest
+class PasskeySignInTest < ActionDispatch::IntegrationTest
   setup do
     @user = users(:admin)
     @user.update!(password: "secret-password", password_confirmation: "secret-password")
@@ -48,7 +48,9 @@ class PasskeyTest < ActionDispatch::IntegrationTest
     assertion = @client.get(challenge: response.parsed_body["challenge"], user_verified: true)
 
     post user_session_path, params: { user: { passkey_credential: assertion.to_json } }
-    assert_response :redirect
-    assert_redirected_to new_user_session_path
+    # devise renders the login page again, like after a wrong password
+    assert_response :success
+    assert_equal I18n.t("devise.failure.stored_credential_not_found"), flash[:alert]
+    assert_nil controller.current_user
   end
 end

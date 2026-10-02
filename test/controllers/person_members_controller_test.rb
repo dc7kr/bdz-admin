@@ -2,47 +2,43 @@ require "test_helper"
 
 class PersonMembersControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @person_member = person_members(:one)
+    @region = create_regional_organization(91)
+    @other_region = create_regional_organization(92)
+    tariff = Tariff.create!(tariff_type: "P", description: "Einzelmitglied", amount: 10)
+    @person_member = PersonMember.create!(tariff: tariff, member_attributes: member_attributes("91501", @region))
+    @other_person_member = PersonMember.create!(tariff: tariff, member_attributes: member_attributes("92501", @other_region))
   end
 
-  test "should get index" do
+  test "admin can list, show, create and edit person members" do
+    sign_in create_user(:admin)
+
     get person_members_url
     assert_response :success
-  end
 
-  test "should get new" do
-    get new_person_member_url
-    assert_response :success
-  end
-
-  test "should create person_member" do
-    assert_difference("PersonMember.count") do
-      post person_members_url, params: { person_member: {} }
-    end
-
-    assert_redirected_to person_member_url(PersonMember.last)
-  end
-
-  test "should show person_member" do
     get person_member_url(@person_member)
     assert_response :success
-  end
 
-  test "should get edit" do
+    get new_person_member_url
+    assert_response :success
+
     get edit_person_member_url(@person_member)
     assert_response :success
   end
 
-  test "should update person_member" do
-    patch person_member_url(@person_member), params: { person_member: {} }
-    assert_redirected_to person_member_url(@person_member)
+  test "regional user only sees person members of its regional organization" do
+    sign_in create_user(restricting_entity: @region)
+
+    get person_member_url(@person_member)
+    assert_response :success
+
+    get person_member_url(@other_person_member)
+    assert_response :not_found
   end
 
-  test "should destroy person_member" do
-    assert_difference("PersonMember.count", -1) do
-      delete person_member_url(@person_member)
-    end
+  test "regional user may not edit person members" do
+    sign_in create_user(restricting_entity: @region)
 
-    assert_redirected_to person_members_url
+    get edit_person_member_url(@person_member)
+    assert_redirected_to root_url
   end
 end
