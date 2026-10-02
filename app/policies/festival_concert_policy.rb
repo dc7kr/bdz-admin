@@ -1,10 +1,14 @@
 class FestivalConcertPolicy < FestivalDataPolicy
-  def programme? 
+  def programme?
     national_permission? or user.has_role? :festival
   end
 
   def destroy?
     national_permission?
+  end
+
+  def details?
+    national_permission? or user.has_role? :festival
   end
 
   class Scope < ApplicationPolicy::Scope

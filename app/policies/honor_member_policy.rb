@@ -11,7 +11,7 @@ class HonorMemberPolicy < MemberDataPolicy
   end
 
   def update?
-    super or user.has_role :distinction
+    super or user.has_role? :distinction
   end
 
   def create?

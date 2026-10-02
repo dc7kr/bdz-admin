@@ -4,11 +4,11 @@ class OrchestraMemberPolicy < MemberDataPolicy
     national_permission?
   end
 
-  def index
+  def index?
     super or user.has_role? :distinction
   end
 
-  def show
+  def show?
     super or user.has_role? :distinction
   end
 

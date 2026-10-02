@@ -1,6 +1,6 @@
 class EventMealPolicy < FestivalDataPolicy
   def arrival_overview?
-    national_permission or user.has_role? :festival
+    national_permission? or user.has_role? :festival
   end
 
 

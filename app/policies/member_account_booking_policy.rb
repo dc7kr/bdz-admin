@@ -11,7 +11,7 @@ class MemberAccountBookingPolicy < ApplicationPolicy
   end
 
   def update?
-    user.has_role? :admin 
+    user.has_role? :admin or (user.has_role? :accounting and member_account_booking.booking_mode == "M")
   end
 
   def show?

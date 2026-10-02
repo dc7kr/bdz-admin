@@ -44,11 +44,19 @@ class FestivalApplicationPolicy < FestivalDataPolicy
     national_permission?
   end
 
+  def participant_overview?
+    national_permission?
+  end
+
   def storno?
     national_permission?
   end
 
   def stage_plans?
+    national_permission? or user.has_role? :festival
+  end
+
+  def datasheets?
     national_permission? or user.has_role? :festival
   end
 

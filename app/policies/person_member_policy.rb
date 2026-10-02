@@ -20,18 +20,20 @@ class PersonMemberPolicy < ApplicationPolicy
   end
 
   def show?
-    national_permission? or user.has_role? :regional
+    national_permission? or user.regional_level?
   end
 
   class Scope < ApplicationPolicy::Scope
     def resolve
+      return scope.none if user.member_level?
+
       if national_permission?
-        scope.all
+        scope.for_user(user)
+      elsif user.regional_level?
+        scope.for_user(user)
+      else
+        scope.none
       end
     end
-  end
-
-  def update?
-    national_permission?
   end
 end

@@ -8,4 +8,7 @@ class ReportSheetPolicy < MemberDataPolicy
     accounting_permission?
   end
 
+  def copy_from_last_year?
+    national_permission?
+  end
 end

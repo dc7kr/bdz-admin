@@ -19,7 +19,7 @@ class DistinctionPolicy < MemberDataPolicy
   end
 
   def destroy?
-    distinction.member_account_booking == nil or user.has_role? :admin 
+    user.has_role? :admin or (distinction.member_account_booking == nil and (user.has_role? :national or user.has_role? :distinction))
   end
 
   def update?

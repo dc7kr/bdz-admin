@@ -11,9 +11,7 @@ class UserPolicy < ApplicationPolicy
   end
 
   def update?
-    result = (national_permission?)
-
-    result
+    user.has_role? :admin
   end
 
   def destroy?
@@ -36,9 +34,5 @@ class UserPolicy < ApplicationPolicy
         scope.all
       end
     end
-  end
-
-  def update?
-    user.has_role? :admin 
   end
 end

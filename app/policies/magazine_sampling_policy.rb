@@ -40,8 +40,4 @@ class MagazineSamplingPolicy < ApplicationPolicy
       end
     end
   end
-
-  def update?
-    national_permission?
-  end
 end

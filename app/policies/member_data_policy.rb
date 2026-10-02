@@ -18,7 +18,7 @@ class MemberDataPolicy < ApplicationPolicy
   end
 
   def show?
-    national_permission? or user.has_role? :regional
+    national_permission? or user.regional_level?
   end
 
   def destroy?

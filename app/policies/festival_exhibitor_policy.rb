@@ -12,6 +12,10 @@ class FestivalExhibitorPolicy < FestivalDataPolicy
     national_permission?
   end
 
+  def storno?
+    national_permission?
+  end
+
   class Scope < FestivalDataPolicy::Scope
     def resolve
       if national_permission? or user.has_role? :festival

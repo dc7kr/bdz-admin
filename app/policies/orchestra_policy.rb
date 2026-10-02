@@ -14,7 +14,7 @@ class OrchestraPolicy < MemberDataPolicy
   end
 
   def show?
-    national_permission? or user.has_role? :regional or user.has_role? :distinction
+    national_permission? or user.regional_level? or user.has_role? :distinction
   end
 
   def invoice_preview?
@@ -23,8 +23,14 @@ class OrchestraPolicy < MemberDataPolicy
 
   class Scope < ApplicationPolicy::Scope
     def resolve
+      return scope.none if user.member_level?
+
       if national_permission? or user.has_role? :distinction
-        scope.all
+        scope.for_user(user)
+      elsif user.regional_level?
+        scope.for_user(user)
+      else
+        scope.none
       end
     end
   end
