@@ -1,5 +1,5 @@
 class FestivalExhibitor < Invoiceable
-  scope :current_festival, -> { where(year: BDZ_SETTINGS["config"]["festival_year"]) }
+  scope :current_festival, -> { where(year: RuntimeOption.festival_year) }
 
   has_one :contact, as: :contact_entity
 

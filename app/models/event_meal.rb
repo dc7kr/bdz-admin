@@ -11,7 +11,7 @@ class EventMeal < ApplicationRecord
   validates :tln, meal: true
   validates :veg, meal: true
 
-  scope :current_festival, -> { where("festival_year = ?", BDZ_SETTINGS["config"]["festival_year"]) }
+  scope :current_festival, -> { where("festival_year = ?", RuntimeOption.festival_year) }
 
   def must_be_leq_tickets
     total_tickets = festival_application.tickets_total

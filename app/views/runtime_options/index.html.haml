@@ -1,0 +1,36 @@
+.secondary-navigation= render partial: "nav"
+.container
+  %h2.title= t("runtime_option.title")
+  %p.text-muted= t("runtime_option.intro")
+  %table.table.table-sm.table-hover
+    %thead.table-dark
+      %tr
+        %th= t("runtime_option.name")
+        %th= t("runtime_option.value")
+        %th= t("runtime_option.source")
+        %th.last &nbsp;
+    %tbody
+      - @runtime_options.each do |runtime_option|
+        %tr
+          %td
+            = t("runtime_option.options.#{runtime_option.key}.name")
+            %br
+            %small.text-muted
+              %code= runtime_option.key
+              = t("runtime_option.options.#{runtime_option.key}.hint", default: "")
+          %td= runtime_option_value(RuntimeOption[runtime_option.key])
+          %td
+            - if runtime_option.persisted?
+              %span.badge.bg-primary= t("runtime_option.stored")
+            - else
+              %span.badge.bg-secondary= t("runtime_option.default")
+          %td.last.text-end
+            = link_to_edit runtime_option
+            - if runtime_option.persisted?
+              = link_to_delete runtime_option, confirm: t("runtime_option.reset_confirm"), txt: t("runtime_option.reset")
+
+  - if policy(RuntimeOption).reload?
+    = button_to reload_runtime_options_path, class: "btn btn-outline-dark", form: { data: { turbo: false } } do
+      = my_fa_icon("sync")
+      = t("runtime_option.reload")
+    %p.text-muted.mt-2= t("runtime_option.reload_hint", seconds: RuntimeOption.check_interval)

@@ -10,6 +10,11 @@
         &nbsp;
         =t("user", count: 1)
 
+    %li
+      = link_to runtime_options_path, :class=>"dropdown-item" do
+        =my_fa_icon("sliders-h")
+        &nbsp;
+        =t("runtime_option.title")
     %li= link_to "SideKiq", "/sidekiq", :class=>"dropdown-item"
     %li
       = link_to "/invoice_engine/invoices", :class=>"dropdown-item" do

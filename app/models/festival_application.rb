@@ -21,7 +21,7 @@ class FestivalApplication < Invoiceable
   belongs_to :festival_concert, optional: true
   belongs_to :outdoor_concert, class_name: 'FestivalConcert', foreign_key: :outdoor_concert_id, optional: true
 
-  scope :current_festival, -> { where(year: BDZ_SETTINGS["config"]["festival_year"]) }
+  scope :current_festival, -> { where(year: RuntimeOption.festival_year) }
   scope :permitted, -> { where(permission:  1) }
   scope :regular, -> { where("permission = 1 and visitor_type='R'") }
 

@@ -4,7 +4,7 @@ class ExhibitorInvoiceMailer < ApplicationMailer
 
     cust = @invoice.customer
 
-    @festival_year = BDZ_SETTINGS["config"]["festival_year"]
+    @festival_year = RuntimeOption.festival_year
 
     to = email_address_with_name(cust.email, cust.full_name)
     from = contact_email_with_name("festival_gs")
@@ -24,7 +24,7 @@ class ExhibitorInvoiceMailer < ApplicationMailer
 
     @generator_session_id = generator_session_id
 
-    festival_year = BDZ_SETTINGS["config"]["festival_year"]
+    festival_year = RuntimeOption.festival_year
     from = contact_email_with_name("system")
     subject = default_i18n_subject(festival_year: festival_year)
 

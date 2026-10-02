@@ -12,7 +12,7 @@ class FestivalApplicationsController < AuthenticatedController
   # GET /festival_applications
   # GET /festival_applications.json
 
-  def calc_sums(year = BDZ_SETTINGS["config"]["festival_year"], visitor_type = nil)
+  def calc_sums(year = RuntimeOption.festival_year, visitor_type = nil)
     query = policy_scope(FestivalApplication).where(year: year, permission: 1).select("SUM(num_players) as players, SUM(tickets) as tickets, SUM(tickets_red) as tickets_red, SUM(bdz_tickets) as bdz_tickets, SUM(bdz_tickets_red) as bdz_tickets_red")
 
     if visitor_type.present?
@@ -322,7 +322,7 @@ class FestivalApplicationsController < AuthenticatedController
     @festival_application.token = SecureRandom.uuid
 
     if @festival_application.year.nil?
-        @festival_application.year = BDZ_SETTINGS["config"]["festival_year"]
+        @festival_application.year = RuntimeOption.festival_year
     end
 
     if @festival_application.contact_person.save
@@ -533,7 +533,7 @@ class FestivalApplicationsController < AuthenticatedController
   private
     def set_year(params)
       if params[:year].nil?
-    @year = BDZ_SETTINGS["config"]["festival_year"]
+    @year = RuntimeOption.festival_year
       else
     @year = params["year"]
       end

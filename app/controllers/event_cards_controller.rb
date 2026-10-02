@@ -8,7 +8,7 @@ class EventCardsController < AuthenticatedController
   # GET /event_cards
   # GET /event_cards.json
   def index
-    year = BDZ_SETTINGS["config"]["festival_year"]
+    year = RuntimeOption.festival_year
     @event_cards = policy_scope(EventCard).where("festival_year= ?", year).search(params[:search])
 
 
@@ -103,7 +103,7 @@ class EventCardsController < AuthenticatedController
   # POST /event_cards.json
   def create
     @event_card = EventCard.new(params[:event_card])
-    @event_card.festival_year = BDZ_SETTINGS["config"]["festival_year"]
+    @event_card.festival_year = RuntimeOption.festival_year
     authorize @event_card
 
     respond_to do |format|
@@ -177,7 +177,7 @@ class EventCardsController < AuthenticatedController
   end
 
   def overview
-    year = BDZ_SETTINGS["config"]["festival_year"]
+    year = RuntimeOption.festival_year
     @event_cards = policy_scope(EventCard).where("festival_year= ?", year).order(:id)
 
     datePrefix = Time.zone.now.strftime "%Y%m%d%H%M%s"

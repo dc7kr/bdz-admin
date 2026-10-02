@@ -11,7 +11,7 @@ class GenerateParticipantTicketInvoicesJob < BaseInvoicesJob
 
   def perform
 
-    festival_year = BDZ_SETTINGS["config"]["festival_year"]
+    festival_year = RuntimeOption.festival_year
     event_id = "TICKET_INV_#{festival_year}"
 
     cur_year = Time.zone.now.year

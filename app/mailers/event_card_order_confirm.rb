@@ -12,7 +12,7 @@ class EventCardOrderConfirm < ApplicationMailer
     pdf_file = @invoice.get_invoice_file
     locale = @event_card.to_locale
 
-    @pickup_date = DateTime.parse(BDZ_SETTINGS["config"]["pickup_date"]).strftime("%d.%m.%Y %H:%M")
+    @pickup_date = RuntimeOption.pickup_date.strftime("%d.%m.%Y %H:%M")
 
     attachments[pdf_file.visible_filename] = File.read(pdf_file.full_path)
 

@@ -68,7 +68,7 @@ module Ef
 
       @prices = BDZ_SETTINGS["festival_prices"]
 
-      @event_card.festival_year = BDZ_SETTINGS["config"]["festival_year"]
+      @event_card.festival_year = RuntimeOption.festival_year
       @event_card.orderdate = Time.zone.now
 
 

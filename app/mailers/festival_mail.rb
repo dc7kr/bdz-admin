@@ -1,5 +1,5 @@
 class FestivalMail < ApplicationMailer
-  default from: BDZ_SETTINGS["config"]["festival_email"]
+  default from: -> { RuntimeOption.festival_email }
 
   def notify(recipient, personalized_hash, attachment_hash, params)
     subject = params[:subject]

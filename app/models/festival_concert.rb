@@ -3,8 +3,8 @@ class FestivalConcert < ApplicationRecord
 
   validates :event_time, presence: true
 
-  scope :current_festival, -> { where("year(event_time) = ?", BDZ_SETTINGS["config"]["festival_year"]) }
-  scope :current_outdoor, -> { where("year(event_time) = ? and outdoor=1", BDZ_SETTINGS["config"]["festival_year"]) }
+  scope :current_festival, -> { where("year(event_time) = ?", RuntimeOption.festival_year) }
+  scope :current_outdoor, -> { where("year(event_time) = ? and outdoor=1", RuntimeOption.festival_year) }
 
   has_many :festival_applications, class_name: "FestivalApplication", foreign_key: "festival_concert_id"
   has_many :outdoor_participants, class_name: "FestivalApplication", foreign_key: "outdoor_concert_id"

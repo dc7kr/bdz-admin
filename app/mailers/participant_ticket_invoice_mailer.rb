@@ -5,7 +5,7 @@ class ParticipantTicketInvoiceMailer < ApplicationMailer
 
     @invoice = @appl.get_ticket_invoice
 
-    festival_year = BDZ_SETTINGS["config"]["festival_year"]
+    festival_year = RuntimeOption.festival_year
 
     to = email_address_with_name(@invoice.customer.email, @invoice.customer.full_name)
     from = contact_email_with_name("festival_gs")
@@ -15,7 +15,7 @@ class ParticipantTicketInvoiceMailer < ApplicationMailer
 
     pdf_file = @invoice.get_invoice_file
 
-    @pickup_date = DateTime.parse(BDZ_SETTINGS["config"]["pickup_date"]).strftime("%d.%m.%Y %H:%M")
+    @pickup_date = RuntimeOption.pickup_date.strftime("%d.%m.%Y %H:%M")
 
     attachments[pdf_file.visible_filename] = File.read(pdf_file.full_path)
 

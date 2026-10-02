@@ -1,0 +1,16 @@
+- label = t("runtime_option.value")
+- case @runtime_option.definition.type
+- when "boolean"
+  = f.check_box :value, label: label, checked: @runtime_option.value.nil? ? @runtime_option.default_value : @runtime_option.value
+- when "integer"
+  = f.number_field :value, label: label, value: @runtime_option.value || @runtime_option.default_value
+- when "datetime"
+  = f.datetime_field :value, label: label, value: (@runtime_option.value || @runtime_option.default_value)&.strftime("%Y-%m-%dT%H:%M")
+- else
+  = f.text_field :value, label: label, value: @runtime_option.value || @runtime_option.default_value
+- unless @runtime_option.persisted?
+  %p.text-muted= t("runtime_option.default_hint", value: runtime_option_value(@runtime_option.default_value))
+
+.actions
+  = submit_button
+  = link_to t("common.cancel"), runtime_options_path, class: "btn btn-default"

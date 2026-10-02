@@ -1,0 +1,8 @@
+.secondary-navigation= render partial: "nav"
+.container
+  %h2.title= t("runtime_option.options.#{@runtime_option.key}.name")
+  %p.text-muted
+    %code= @runtime_option.key
+    = t("runtime_option.options.#{@runtime_option.key}.hint", default: "")
+  = bootstrap_form_for @runtime_option, url: runtime_option_path(@runtime_option), method: :patch, data: { turbo: false } do |f|
+    = render partial: "form", locals: { f: f }

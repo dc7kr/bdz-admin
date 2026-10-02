@@ -11,7 +11,7 @@ class FestivalFeeInvoiceMailsJob < BaseInvoicesJob
     failCount = 0
 
 
-    festival_year = BDZ_SETTINGS["config"]["festival_year"]
+    festival_year = RuntimeOption.festival_year
     cur_year = Time.zone.now.year
 
     event_id = "FEE_INV_#{festival_year}"

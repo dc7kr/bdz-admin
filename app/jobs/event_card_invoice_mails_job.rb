@@ -34,11 +34,11 @@ class EventCardInvoiceMailsJob < BaseInvoicesJob
 
         inv_type = "event_card.en"
         locale = :en
-        subject = "eurofestival zupfmusik #{BDZ_SETTINGS['config']['festival_year']} ticket invoice no. #{invoice.number} for reservation no. #{rsrv.id}"
+        subject = "eurofestival zupfmusik #{RuntimeOption.festival_year} ticket invoice no. #{invoice.number} for reservation no. #{rsrv.id}"
 
         if invoice.customer.preferred_lang == "de"
           inv_type = "event_card.de"
-          subject = "eurofestival zupfmusik #{BDZ_SETTINGS['config']['festival_year']} - Ticket Rechnung Nr. #{invoice.number} fuer Reservierung Nr. #{rsrv.id}"
+          subject = "eurofestival zupfmusik #{RuntimeOption.festival_year} - Ticket Rechnung Nr. #{invoice.number} fuer Reservierung Nr. #{rsrv.id}"
           locale = :de
         end
 

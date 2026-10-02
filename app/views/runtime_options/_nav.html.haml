@@ -1,0 +1,5 @@
+%ul.nav.nav-tabs.d-print-none
+  %li.nav-item= link_to_up_path t("common.up"), home_landing_page_path
+  %li.nav-item
+    = link_to runtime_options_path, class: tabActiveClass(action_name, "index", "nav-link") do
+      = my_fa_icon("list")

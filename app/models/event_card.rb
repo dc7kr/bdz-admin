@@ -11,7 +11,7 @@ class EventCard < Invoiceable
 
   include FestivalTicketHelper
 
-  scope :current_festival, -> { where("festival_year = ?", BDZ_SETTINGS["config"]["festival_year"]) }
+  scope :current_festival, -> { where("festival_year = ?", RuntimeOption.festival_year) }
 
   scope :not_invoiced, -> { where(invoiced: 0) }
 
@@ -177,7 +177,7 @@ class EventCard < Invoiceable
     cust.last_name = name
     cust.salutation = ""
 
-    ef_year = BDZ_SETTINGS["config"]["festival_year"]
+    ef_year = RuntimeOption.festival_year
 
     if street.present?
       cust.zip = zip
@@ -251,7 +251,7 @@ class EventCard < Invoiceable
     if i.final?
       return i
     end
-    ef_year = BDZ_SETTINGS["config"]["festival_year"]
+    ef_year = RuntimeOption.festival_year
 
     i.payment_method = payment_method
 

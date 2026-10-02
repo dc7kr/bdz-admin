@@ -64,4 +64,8 @@ Rails.application.configure do
 
   # Raise error when a before_action's only/except options reference missing actions.
   config.action_controller.raise_on_missing_callback_actions = true
+
+  # check for changed runtime options on every read, so a test sees its own
+  # changes and the rollback afterwards (see RuntimeOption)
+  config.x.runtime_options.check_interval = 0
 end

@@ -47,6 +47,13 @@ class OtherPoliciesTest < PolicyTestCase
     assert_permissions AdminPolicy, :admin, %i[index? show?], ADMIN
   end
 
+  test "runtime options" do
+    assert_crud RuntimeOptionPolicy, RuntimeOption,
+                index: ADMIN, show: ADMIN, create: NOBODY, update: ADMIN, destroy: ADMIN
+    assert_permissions RuntimeOptionPolicy, RuntimeOption, :reload?, ADMIN
+    assert_scope RuntimeOptionPolicy, all: ADMIN, none: ALL - ADMIN
+  end
+
   test "users" do
     assert_crud UserPolicy, User,
                 index: NOBODY, show: NATIONAL + %i[regional_role],

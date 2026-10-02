@@ -49,7 +49,7 @@ module Ef
       @festival_application.contact_person = ContactPerson.new
       @festival_application.contact_person.country_code = "DE"
 
-      closed = BDZ_SETTINGS["config"]["festival_application_open"]
+      closed = RuntimeOption.festival_application_open
 
       respond_to do |format|
         format.html do
@@ -75,7 +75,7 @@ module Ef
       fa_params[:contact_person] = nil
 
       @festival_application = FestivalApplication.new(fa_params)
-      @festival_application.year = BDZ_SETTINGS["config"]["festival_year"]
+      @festival_application.year = RuntimeOption.festival_year
 
       Rails.logger.debug("Festival application contact person")
       Rails.logger.debug(cp_params.to_json)

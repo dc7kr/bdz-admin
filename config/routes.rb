@@ -68,6 +68,10 @@ Rails.application.routes.draw do
   end
 
 
+  resources :runtime_options, only: %i[index edit update destroy], param: :key do
+    post :reload, on: :collection
+  end
+
   get "/auth/:provider/callback", to: "sessions#create"
 
   resources :orchestra_members do

@@ -1,0 +1,35 @@
+de:
+  runtime_option:
+    title: "Laufzeitoptionen"
+    intro: "Einstellungen, die ohne Neustart der Anwendung geändert werden können. Optionen ohne gespeicherten Wert verwenden den Standard aus config/bdz-settings.yml."
+    name: "Option"
+    value: "Wert"
+    source: "Quelle"
+    stored: "gespeichert"
+    default: "Standard"
+    default_hint: "Bisher wird der Standardwert %{value} verwendet."
+    "true": "ja"
+    "false": "nein"
+    reset: "Standard"
+    reset_confirm: "Option auf den Standardwert zurücksetzen?"
+    reload: "Alle Prozesse neu laden"
+    reload_hint: "Geänderte Optionen werden von allen Prozessen (Web, Sidekiq) spätestens nach %{seconds} Sekunden übernommen. Neu laden ist nur nötig, wenn die Tabelle direkt per SQL geändert wurde."
+    update_success: "%{name} wurde gespeichert."
+    reset_success: "%{name} wurde auf den Standardwert zurückgesetzt."
+    reload_success: "Die Laufzeitoptionen werden neu geladen."
+    options:
+      festival_year:
+        name: "Festivaljahr"
+        hint: "Jahr des aktuellen eurofestivals, z. B. für Anmeldungen, Karten und Essen."
+      festival_application_open:
+        name: "Festivalanmeldung offen"
+        hint: "Öffentliche Festivalanmeldung ist möglich."
+      presale_active:
+        name: "Kartenvorverkauf aktiv"
+        hint: "Öffentliches Bestellformular für Eintrittskarten ist freigeschaltet."
+      pickup_date:
+        name: "Abholdatum"
+        hint: "Ab wann Karten und Festivalunterlagen abgeholt werden können."
+      festival_email:
+        name: "Festival-E-Mail"
+        hint: "Absenderadresse der Festival-Mails."

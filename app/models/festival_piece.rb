@@ -3,7 +3,7 @@ class FestivalPiece < ApplicationRecord
 
   belongs_to :festival_application
 
-  scope :current_festival, -> { joins(:festival_application).where("festival_applications.year = ?", BDZ_SETTINGS["config"]["festival_year"]) }
+  scope :current_festival, -> { joins(:festival_application).where("festival_applications.year = ?", RuntimeOption.festival_year) }
 
   validates_presence_of :title, :composer, :duration, :publisher
 

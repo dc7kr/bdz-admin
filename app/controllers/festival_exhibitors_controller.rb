@@ -27,7 +27,7 @@ class FestivalExhibitorsController < AuthenticatedController
   # POST /festival_exhibitors or /festival_exhibitors.json
   def create
     @festival_exhibitor = FestivalExhibitor.new(festival_exhibitor_params)
-    @festival_exhibitor.year = BDZ_SETTINGS["config"]["festival_year"]
+    @festival_exhibitor.year = RuntimeOption.festival_year
     authorize @festival_exhibitor
 
     respond_to do |format|

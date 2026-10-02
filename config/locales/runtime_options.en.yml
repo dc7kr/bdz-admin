@@ -1,0 +1,35 @@
+en:
+  runtime_option:
+    title: "Runtime options"
+    intro: "Settings that can be changed without restarting the application. Options without a stored value use the default from config/bdz-settings.yml."
+    name: "Option"
+    value: "Value"
+    source: "Source"
+    stored: "stored"
+    default: "default"
+    default_hint: "Currently the default %{value} is used."
+    "true": "yes"
+    "false": "no"
+    reset: "Default"
+    reset_confirm: "Reset the option to its default?"
+    reload: "Reload all processes"
+    reload_hint: "All processes (web, sidekiq) pick up changed options within %{seconds} seconds. Reloading is only needed after the table was changed by SQL."
+    update_success: "%{name} was saved."
+    reset_success: "%{name} was reset to its default."
+    reload_success: "The runtime options are being reloaded."
+    options:
+      festival_year:
+        name: "Festival year"
+        hint: "Year of the current eurofestival, e.g. for applications, tickets and meals."
+      festival_application_open:
+        name: "Festival application open"
+        hint: "The public festival application is open."
+      presale_active:
+        name: "Ticket presale active"
+        hint: "The public ticket order form is enabled."
+      pickup_date:
+        name: "Pickup date"
+        hint: "From when tickets and festival documents can be picked up."
+      festival_email:
+        name: "Festival email"
+        hint: "Sender address of the festival mails."

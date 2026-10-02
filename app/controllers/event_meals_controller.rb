@@ -6,7 +6,7 @@ class EventMealsController < AuthenticatedController
   # GET /event_meals
   # GET /event_meals.json
   def index
-    year =BDZ_SETTINGS["config"]["festival_year"]
+    year =RuntimeOption.festival_year
     @event_meals = policy_scope(EventMeal).where("festival_year = ?", year).order("participant_id")
 
     respond_to do |format|
@@ -77,7 +77,7 @@ class EventMealsController < AuthenticatedController
   def create
     @event_meal = EventMeal.new(event_meal_params)
     @event_meal.orderdate = Time.zone.now
-    @event_meal.festival_year = BDZ_SETTINGS["config"]["festival_year"]
+    @event_meal.festival_year = RuntimeOption.festival_year
 
     respond_to do |format|
       if @event_meal.save
