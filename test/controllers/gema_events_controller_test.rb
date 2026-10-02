@@ -72,3 +72,22 @@ class GemaEventsControllerTest < ActionDispatch::IntegrationTest
 
   def mongodb_available? = self.class.mongodb_available?
 end
+
+# runs without MongoDB: requests are rejected before any event is loaded
+class GemaEventsAuthenticationTest < ActionDispatch::IntegrationTest
+  test "requires a signed in user" do
+    get gema_events_url
+    assert_redirected_to new_user_session_url
+
+    post gema_events_url, params: { gema_event: { name: "Herbstkonzert" } }
+    assert_redirected_to new_user_session_url
+
+    delete gema_event_url("0123456789abcdef01234567")
+    assert_redirected_to new_user_session_url
+  end
+
+  test "member area requires a signed in user" do
+    get mgl_gema_events_url
+    assert_redirected_to new_user_session_url
+  end
+end

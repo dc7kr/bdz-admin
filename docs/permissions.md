@@ -144,6 +144,16 @@ data because regional users open their own regional organization from the menu.
 | `ReportSheetInputPolicy` | `metadata?` | national |
 | `DownloadPolicy` (headless) | `index?` | national |
 | | `combined_letters_pdf?`, `combined_sepa_pdf?`, `combined_invoice_pdf?`, `combined_sepa?` | accounting |
+| `GemaEventPolicy` | `index?` | national, regional |
+| | `show?` | national; regional only for events of orchestras in their regional organization |
+| | `create?`, `update?`, `destroy?` | national |
+| | scope | national: all; regional: events of `Orchestra.for_user`; others: none |
+
+GEMA events are Mongoid documents linked to an orchestra by `orchestra_id`. Orchestra users
+read their own events in the member area (`Mgl::GemaEventPolicy`, see [member_area.md](member_area.md)).
+`GemaEventPolicy#show?` is the only main area policy that checks the regional organization
+of a single record; for the other member data the controllers load records through
+`policy_scope`.
 
 ### Bookings (`MemberAccountBookingPolicy`)
 

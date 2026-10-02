@@ -51,9 +51,9 @@
         %td= gema_event.e_reduction
         %td= gema_event.netto
         %td= link_to 'Show', gema_event
-        %td= link_to 'Edit', edit_gema_event_path(gema_event)
-        %td= link_to 'Destroy', gema_event, method: :delete, data: { confirm: 'Are you sure?' }
+        %td= link_to 'Edit', edit_gema_event_path(gema_event) if policy(gema_event).update?
+        %td= link_to 'Destroy', gema_event, method: :delete, data: { confirm: 'Are you sure?' } if policy(gema_event).destroy?
 
 %br
 
-= link_to 'New Gema event', new_gema_event_path
+= link_to 'New Gema event', new_gema_event_path if policy(GemaEvent).create?

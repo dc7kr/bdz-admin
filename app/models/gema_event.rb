@@ -21,5 +21,11 @@ class GemaEvent
   field :cultural_reduction, type: Float
   field :e_reduction, type: Float
   field :netto, type: Float
-  belongs_to :orchestra
+  # Orchestra is an ActiveRecord model, so it can't be a Mongoid relation
+  field :orchestra_id, type: Integer
+  index({ orchestra_id: 1 })
+
+  def orchestra
+    Orchestra.find_by(id: orchestra_id) if orchestra_id
+  end
 end

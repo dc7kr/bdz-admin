@@ -1,9 +1,9 @@
-class GemaEventsController < ApplicationController
+class GemaEventsController < AuthenticatedController
   before_action :set_gema_event, only: %i[show edit update destroy]
 
   # GET /gema_events or /gema_events.json
   def index
-    @gema_events = GemaEvent.all
+    @gema_events = policy_scope(GemaEvent)
   end
 
   # GET /gema_events/1 or /gema_events/1.json
@@ -12,6 +12,7 @@ class GemaEventsController < ApplicationController
   # GET /gema_events/new
   def new
     @gema_event = GemaEvent.new
+    authorize @gema_event
   end
 
   # GET /gema_events/1/edit
@@ -20,6 +21,7 @@ class GemaEventsController < ApplicationController
   # POST /gema_events or /gema_events.json
   def create
     @gema_event = GemaEvent.new(gema_event_params)
+    authorize @gema_event
 
     respond_to do |format|
       if @gema_event.save
@@ -59,7 +61,10 @@ class GemaEventsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_gema_event
-    @gema_event = GemaEvent.find(params[:id])
+    # mongoid may be configured not to raise (raise_not_found_error: false)
+    @gema_event = policy_scope(GemaEvent).find(params[:id]) or
+      raise Mongoid::Errors::DocumentNotFound.new(GemaEvent, params[:id])
+    authorize @gema_event
   end
 
   # Only allow a list of trusted parameters through.
