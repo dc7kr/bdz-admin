@@ -1,0 +1,27 @@
+.container
+  %h2= t("member_account_booking.index")
+  %p
+    %strong= t("member_account_booking.balance")
+    %span{ class: @balance.round(2).zero? ? "" : "text-danger fw-bold" }= format_currency(@balance, "€")
+  %table.table.table-sm.table-hover
+    %thead
+      %tr
+        %th= attr_heading(MemberAccountBooking, :booking_date)
+        %th= attr_heading(MemberAccountBooking, :booking_type)
+        %th= attr_heading(MemberAccountBooking, :booking_year)
+        %th= attr_heading(MemberAccountBooking, :booking_txt)
+        %th.text-end= attr_heading(MemberAccountBooking, :amount)
+        %th
+    %tbody
+      - @bookings.each do |booking|
+        %tr
+          %td= l booking.booking_date.to_date
+          %td= t("member_account_bookings.booking_types.#{booking.booking_type}", default: booking.booking_type)
+          %td= booking.booking_year
+          %td= booking.booking_txt
+          %td.text-end= format_currency(booking.amount, "€")
+          %td.text-end
+            = link_to t("common.show"), mgl_member_account_booking_path(booking), class: "btn btn-sm btn-outline-dark"
+            - if policy([ :mgl, booking ]).download?
+              = link_to t("common.download"), download_mgl_member_account_booking_path(booking), class: "btn btn-sm btn-outline-dark", data: { turbo: false }
+  = paginate @bookings

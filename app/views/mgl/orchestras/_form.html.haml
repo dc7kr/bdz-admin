@@ -1,0 +1,16 @@
+= bootstrap_form_with(model: @orchestra, url: mgl_orchestra_path, method: :patch, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10") do |f|
+  - if @member.errors.any?
+    .alert.alert-danger= t("common.please_fix_form_errors")
+  .card.mb-3
+    .card-header= t("mgl.orchestra.data")
+    .card-body
+      = f.text_field :orchName, required: true
+      = f.date_field :gruendung
+      = f.url_field :url
+      = f.check_box :publish_url, switch: true
+      = f.check_box :publish_address, switch: true
+
+  = render "mgl/members/fields", member: @member
+
+  = f.submit t("common.save"), class: "btn btn-primary"
+  = link_to t("common.cancel"), mgl_orchestra_path, class: "btn btn-secondary"

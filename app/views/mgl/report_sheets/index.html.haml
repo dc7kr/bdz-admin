@@ -1,0 +1,27 @@
+.container
+  %h2= t("report_sheet", count: 3)
+  %table.table.table-sm.table-hover
+    %thead
+      %tr
+        %th= attr_heading(ReportSheet, :year)
+        %th= t("mgl.report_sheets.report_date")
+        %th= attr_heading(ReportSheet, :totalActiveMembers)
+        %th= t("mgl.report_sheets.status")
+        %th
+    %tbody
+      - @report_sheets.each do |report_sheet|
+        %tr
+          %td= report_sheet.year
+          %td= format_date(report_sheet.report_date)
+          %td= report_sheet.totalActiveMembers
+          %td
+            - if report_sheet.locked?
+              %span.badge.bg-secondary= t("mgl.report_sheets.invoiced")
+            - elsif policy([ :mgl, report_sheet ]).update?
+              %span.badge.bg-info= t("mgl.report_sheets.open")
+            - else
+              %span.badge.bg-secondary= t("mgl.report_sheets.closed")
+          %td.text-end
+            = link_to t("common.show"), mgl_report_sheet_path(report_sheet), class: "btn btn-sm btn-outline-dark"
+            - if policy([ :mgl, report_sheet ]).update?
+              = link_to t("common.edit"), edit_mgl_report_sheet_path(report_sheet), class: "btn btn-sm btn-outline-dark"

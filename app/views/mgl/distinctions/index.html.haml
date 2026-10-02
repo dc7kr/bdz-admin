@@ -1,0 +1,24 @@
+.container
+  %h2= t("distinction", count: 3)
+  %table.table.table-sm.table-hover
+    %thead
+      %tr
+        %th= attr_heading(Distinction, :dist_date)
+        %th.text-center= attr_heading(Distinction, :silver_needles)
+        %th.text-center= attr_heading(Distinction, :gold_needles)
+        %th.text-center= attr_heading(Distinction, :national_needles)
+        %th.text-center= attr_heading(Distinction, :certificates)
+        %th.text-center= attr_heading(Distinction, :honorletters)
+        %th.text-center= attr_heading(Distinction, :medals)
+        %th
+    %tbody
+      - @distinctions.each do |distinction|
+        %tr
+          %td= format_date(distinction.dist_date)
+          %td.text-center= distinction.silver_needles
+          %td.text-center= distinction.gold_needles
+          %td.text-center= distinction.national_needles
+          %td.text-center= distinction.certificates
+          %td.text-center= distinction.honorletters
+          %td.text-center= distinction.medals
+          %td.text-end= link_to t("common.show"), mgl_distinction_path(distinction), class: "btn btn-sm btn-outline-dark"

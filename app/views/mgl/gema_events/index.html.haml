@@ -1,0 +1,23 @@
+.container
+  %h2= t("gema_event.title")
+  - if @gema_events.empty?
+    %p= t("gema_event.none")
+  - else
+    %table.table.table-sm.table-hover
+      %thead
+        %tr
+          %th= attr_heading(GemaEvent, :event_date)
+          %th= attr_heading(GemaEvent, :name)
+          %th= attr_heading(GemaEvent, :location)
+          %th.text-end= attr_heading(GemaEvent, :visitors)
+          %th.text-end= attr_heading(GemaEvent, :netto)
+          %th
+      %tbody
+        - @gema_events.each do |gema_event|
+          %tr
+            %td= format_date(gema_event.event_date)
+            %td= gema_event.name
+            %td= gema_event.location
+            %td.text-end= gema_event.visitors
+            %td.text-end= format_currency(gema_event.netto) if gema_event.netto
+            %td.text-end= link_to t("common.show"), mgl_gema_event_path(gema_event), class: "btn btn-sm btn-outline-dark"

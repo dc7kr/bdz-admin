@@ -1,0 +1,17 @@
+.container
+  %h2
+    = t("distinction", count: 1)
+    = format_date(@distinction.dist_date)
+  .card.mb-3
+    .card-body
+      = entity_row(@distinction, :dist_date, :date)
+      = entity_row(@distinction, :silver_needles)
+      = entity_row(@distinction, :gold_needles)
+      = entity_row(@distinction, :national_needles)
+      = entity_row(@distinction, :certificates)
+      = entity_row(@distinction, :honorletters)
+      = entity_row(@distinction, :medals)
+  - booking = @distinction.member_account_booking
+  - if booking && policy([ :mgl, booking ]).download?
+    = link_to t("common.download"), download_mgl_member_account_booking_path(booking), class: "btn btn-primary", data: { turbo: false }
+  = link_to t("common.back"), mgl_distinctions_path, class: "btn btn-secondary"

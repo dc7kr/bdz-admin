@@ -1,0 +1,34 @@
+= bootstrap_form_with(model: [ :mgl, @report_sheet ], layout: :horizontal, label_col: "col-sm-4", control_col: "col-sm-8") do |f|
+  - unless current_entity.is_coop?
+    .card.mb-3
+      .card-header= t("report_sheet.uv")
+      .card-body
+        = f.check_box :uv, switch: true
+
+  .card.mb-3
+    .card-header= t("mgl.report_sheets.members")
+    .card-body
+      - if current_entity.orchestra_members.any?
+        %p.text-muted= t("mgl.report_sheets.age_groups_from_members_html", link: link_to(t("orchestra_member", count: 3), mgl_orchestra_members_path))
+      = f.number_field :azubi_adult, min: 0
+      = f.number_field :passive, min: 0
+      = f.number_field :supporters, min: 0
+
+  .card.mb-3
+    .card-header= t("mgl.report_sheets.ensembles")
+    .card-body
+      = f.number_field :youth_ens, min: 0
+      = f.number_field :adult_ens, min: 0
+      = f.number_field :senior_ens, min: 0
+
+  .card.mb-3
+    .card-header= t("mgl.report_sheets.instrumentation")
+    .card-body
+      = f.number_field :zo, min: 0
+      = f.number_field :go, min: 0
+      = f.number_field :zi_o, min: 0
+      = f.number_field :oz, min: 0
+      = f.number_field :ms_total, min: 0
+
+  = f.submit t("common.save"), class: "btn btn-primary"
+  = link_to t("common.cancel"), mgl_report_sheet_path(@report_sheet), class: "btn btn-secondary"

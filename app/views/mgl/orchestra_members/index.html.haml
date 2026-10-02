@@ -1,0 +1,25 @@
+.container
+  %h2= t("orchestra_member", count: 3)
+  %p.text-muted= t("mgl.orchestra_members.intro")
+  .text-center= page_entries_info @orchestra_members
+  %table.table.table-sm.table-hover
+    %thead
+      %tr
+        %th= attr_heading(OrchestraMember, :last_name)
+        %th= attr_heading(OrchestraMember, :first_name)
+        %th= attr_heading(OrchestraMember, :date_of_birth)
+        %th= attr_heading(OrchestraMember, :instrument)
+        %th
+    %tbody
+      - @orchestra_members.each do |orchestra_member|
+        %tr
+          %td= orchestra_member.last_name
+          %td= orchestra_member.first_name
+          %td= format_date(orchestra_member.date_of_birth)
+          %td= orchestra_member.instrument
+          %td.text-end
+            = link_to t("common.edit"), edit_mgl_orchestra_member_path(orchestra_member), class: "btn btn-sm btn-outline-dark"
+            = button_to t("common.delete"), mgl_orchestra_member_path(orchestra_member), method: :delete, form_class: "d-inline",
+              class: "btn btn-sm btn-outline-danger", form: { data: { turbo_confirm: t("common.confirm_delete") } }
+  = paginate @orchestra_members
+  = link_to t("mgl.orchestra_members.new"), new_mgl_orchestra_member_path, class: "btn btn-primary"

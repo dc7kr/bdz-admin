@@ -1,0 +1,46 @@
+%div{:data=>{:"turbo-prefetch" => "false" }}
+  %nav.navbar.navbar-expand-lg.navbar-light.bg-light
+    .container-fluid
+      = link_to t("mgl.title"), mgl_root_path, class: "navbar-brand"
+      %button.navbar-toggler{ :type=>"button", :data => {  :bs => { :toggle=>"collapse", :target=>"#mainMenuNavbarContent" }}, :aria => { :controls=>"mainMenuNavbarContent", :expanded=>"false", :label=>"Toggle navigation" }}
+        %span.navbar-toggler-icon
+
+      #mainMenuNavbarContent.collapse.navbar-collapse
+        - if user_signed_in? && current_user.member_level? && current_user.restricting_entity
+          - entity = current_user.restricting_entity
+          %ul.navbar-nav.me-auto
+            - if entity.is_a?(Orchestra)
+              %li.nav-item= link_to t("mgl.menu.master_data"), mgl_orchestra_path, class: "nav-link"
+              %li.nav-item= link_to t("mgl.menu.contacts"), mgl_orchestra_contacts_path, class: "nav-link"
+              %li.nav-item= link_to t("mgl.menu.orchestra_members"), mgl_orchestra_members_path, class: "nav-link"
+              %li.nav-item= link_to t("mgl.menu.report_sheets"), mgl_report_sheets_path, class: "nav-link"
+              %li.nav-item= link_to t("mgl.menu.distinctions"), mgl_distinctions_path, class: "nav-link"
+              %li.nav-item= link_to t("mgl.menu.gema_events"), mgl_gema_events_path, class: "nav-link"
+            - else
+              %li.nav-item= link_to t("mgl.menu.master_data"), mgl_person_member_path, class: "nav-link"
+            %li.nav-item= link_to t("mgl.menu.member_account"), mgl_member_account_bookings_path, class: "nav-link"
+
+        - if user_signed_in?
+          %ul.navbar-nav.ms-auto
+            %li.nav-item.dropdown
+              %a.nav-link.dropdown-toggle{ data: { "bs-toggle": "dropdown" }, href: "#", role: "button", "aria-expanded": false }
+                = my_fa_icon("user")
+                = current_user.name
+              %ul.dropdown-menu.dropdown-menu-end
+                %li
+                  = link_to edit_user_registration_path, class: "dropdown-item" do
+                    = my_fa_icon("user-circle")
+                    &nbsp;
+                    = t("account.profile")
+                %li
+                  = link_to users_passkeys_path, class: "dropdown-item" do
+                    = my_fa_icon("key")
+                    &nbsp;
+                    = t("account.passkeys")
+                %li
+                  %hr.dropdown-divider/
+                %li
+                  = link_to destroy_user_session_path, data: { turbo_method: :delete }, class: "dropdown-item" do
+                    = my_fa_icon "sign-out-alt"
+                    &nbsp;
+                    = t("account.logout")

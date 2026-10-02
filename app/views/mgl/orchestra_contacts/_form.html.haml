@@ -1,0 +1,14 @@
+= bootstrap_form_with(model: [ :mgl, @orchestra_contact ], layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10") do |f|
+  = f.select :role, t_opts("orchestra_contact", "role", OrchestraContact.roles)
+  = f.select :salutation, [ [ "Herr", "M" ], [ "Frau", "W" ] ]
+  = f.text_field :first_name
+  = f.text_field :last_name
+  = f.text_field :street
+  = f.text_field :zip
+  = f.text_field :city
+  = f.country_select :country_code, { iso_codes: true, label: t("member.country_code") }, { class: "form-select" }
+  = f.email_field :email
+  = f.phone_field :phone
+
+  = f.submit t("common.save"), class: "btn btn-primary"
+  = link_to t("common.cancel"), mgl_orchestra_contacts_path, class: "btn btn-secondary"

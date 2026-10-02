@@ -1,0 +1,19 @@
+.container
+  %h2
+    = @person_member.fullname
+    %small.text-muted (#{@member.mglnr})
+  - unless @member.zero_member_fee_balance?
+    .alert.alert-warning
+      = t("mgl.member_account_bookings.open_balance", amount: format_currency(@member.member_fee_balance * -1, "€"))
+      = link_to t("mgl.menu.member_account"), mgl_member_account_bookings_path, class: "alert-link"
+
+  .card.mb-3
+    .card-header= t("mgl.person_member.data")
+    .card-body
+      = entity_row(@person_member, :geburtstag, :date)
+      = entity_row(@person_member, :telefonDienstl)
+      = entity_row(@person_member.tariff, :description, nil, :tariff) if @person_member.tariff
+
+  = render "mgl/members/member", member: @member
+
+  = link_to t("common.edit"), edit_mgl_person_member_path, class: "btn btn-primary"

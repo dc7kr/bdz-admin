@@ -1,0 +1,18 @@
+.container
+  %h2
+    = @gema_event.name
+    = format_date(@gema_event.event_date)
+  .card.mb-3
+    .card-body
+      = entity_row(@gema_event, :event_date, :date)
+      = entity_row(@gema_event, :name)
+      = entity_row(@gema_event, :location)
+      = entity_row(@gema_event, :description)
+      = entity_row(@gema_event, :setlist)
+      = entity_row(@gema_event, :tariff)
+      = entity_row(@gema_event, :visitors)
+      = entity_row(@gema_event, :room_size)
+      = entity_row(@gema_event, :admission_price)
+      = entity_row(@gema_event, :gema_amount)
+      = entity_row(@gema_event, :netto)
+  = link_to t("common.back"), mgl_gema_events_path, class: "btn btn-secondary"

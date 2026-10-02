@@ -1,0 +1,23 @@
+.container
+  %h2= t("orchestra_contact", count: 3)
+  %p.text-muted= t("mgl.orchestra_contacts.intro")
+  %table.table.table-sm.table-hover
+    %thead
+      %tr
+        %th= attr_heading(OrchestraContact, :role)
+        %th= attr_heading(OrchestraContact, :fullname)
+        %th= attr_heading(OrchestraContact, :email)
+        %th= attr_heading(OrchestraContact, :phone)
+        %th
+    %tbody
+      - @orchestra_contacts.each do |contact|
+        %tr
+          %td= t("orchestra_contact.role_#{contact.role}", default: contact.role.to_s)
+          %td= contact.fullname
+          %td= contact.email
+          %td= contact.phone
+          %td.text-end
+            = link_to t("common.edit"), edit_mgl_orchestra_contact_path(contact), class: "btn btn-sm btn-outline-dark"
+            = button_to t("common.delete"), mgl_orchestra_contact_path(contact), method: :delete, form_class: "d-inline",
+              class: "btn btn-sm btn-outline-danger", form: { data: { turbo_confirm: t("common.confirm_delete") } }
+  = link_to t("mgl.orchestra_contacts.new"), new_mgl_orchestra_contact_path, class: "btn btn-primary"

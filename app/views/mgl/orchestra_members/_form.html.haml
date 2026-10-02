@@ -1,0 +1,8 @@
+= bootstrap_form_with(model: [ :mgl, @orchestra_member ], layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10") do |f|
+  = f.text_field :first_name
+  = f.text_field :last_name
+  = f.date_field :date_of_birth
+  = f.text_field :instrument
+
+  = f.submit t("common.save"), class: "btn btn-primary"
+  = link_to t("common.cancel"), mgl_orchestra_members_path, class: "btn btn-secondary"

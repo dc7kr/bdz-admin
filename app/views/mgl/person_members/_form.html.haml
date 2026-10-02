@@ -1,0 +1,13 @@
+= bootstrap_form_with(model: @person_member, url: mgl_person_member_path, method: :patch, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10") do |f|
+  - if @member.errors.any?
+    .alert.alert-danger= t("common.please_fix_form_errors")
+  .card.mb-3
+    .card-header= t("mgl.person_member.data")
+    .card-body
+      = f.date_field :geburtstag, label: t("person_member.birthday")
+      = f.phone_field :telefonDienstl
+
+  = render "mgl/members/fields", member: @member
+
+  = f.submit t("common.save"), class: "btn btn-primary"
+  = link_to t("common.cancel"), mgl_person_member_path, class: "btn btn-secondary"

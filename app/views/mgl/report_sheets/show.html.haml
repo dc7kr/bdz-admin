@@ -1,0 +1,43 @@
+.container
+  %h2
+    = t("report_sheet", count: 1)
+    = @report_sheet.year
+    - if @report_sheet.locked?
+      %span.badge.bg-secondary= t("mgl.report_sheets.invoiced")
+  - unless policy([ :mgl, @report_sheet ]).update?
+    .alert.alert-info= t("mgl.report_sheets.locked")
+
+  .card.mb-3
+    .card-header= t("mgl.report_sheets.members")
+    .card-body
+      = entity_row(@report_sheet, :report_date, :date)
+      = custom_entity_row(t("report_sheet.uv"), t(@report_sheet.uv ? "common.yes_" : "common.no_"))
+      = entity_row(@report_sheet, :children)
+      = entity_row(@report_sheet, :teens)
+      = entity_row(@report_sheet, :youth)
+      = entity_row(@report_sheet, :adult)
+      = entity_row(@report_sheet, :senior)
+      = entity_row(@report_sheet, :totalActiveMembers)
+      = entity_row(@report_sheet, :azubi_adult)
+      = entity_row(@report_sheet, :passive)
+      = entity_row(@report_sheet, :supporters)
+
+  .card.mb-3
+    .card-header= t("mgl.report_sheets.ensembles")
+    .card-body
+      = entity_row(@report_sheet, :youth_ens)
+      = entity_row(@report_sheet, :adult_ens)
+      = entity_row(@report_sheet, :senior_ens)
+
+  .card.mb-3
+    .card-header= t("mgl.report_sheets.instrumentation")
+    .card-body
+      = entity_row(@report_sheet, :zo)
+      = entity_row(@report_sheet, :go)
+      = entity_row(@report_sheet, :zi_o)
+      = entity_row(@report_sheet, :oz)
+      = entity_row(@report_sheet, :ms_total)
+
+  = link_to t("common.back"), mgl_report_sheets_path, class: "btn btn-secondary"
+  - if policy([ :mgl, @report_sheet ]).update?
+    = link_to t("common.edit"), edit_mgl_report_sheet_path(@report_sheet), class: "btn btn-primary"

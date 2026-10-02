@@ -1,0 +1,29 @@
+-# read only view of the member record (membership, contact and payment data)
+.card.mb-3
+  .card-header= t("mgl.member.membership")
+  .card-body
+    = entity_row(member, :mglnr)
+    = entity_row(member.regional_organization, :name, nil, :regional_organization) if member.regional_organization
+    = entity_row(member, :eintritt, :date)
+    = entity_row(member, :austritt_zum, :date)
+
+.card.mb-3
+  .card-header= t("mgl.member.contact")
+  .card-body
+    = custom_entity_row(t("member.salutation"), t("common.salutations.#{member.anrede}", default: member.anrede.to_s))
+    = entity_row(member, :fullname)
+    = entity_row(member, :strasse)
+    = entity_row(member, :plz)
+    = entity_row(member, :ort)
+    = custom_entity_row(t("member.country_code"), translated_country(member.country_code)) if member.country_code.present?
+    = entity_row(member, :email)
+    = entity_row(member, :telefon)
+    = entity_row(member, :fax)
+
+.card.mb-3
+  .card-header= t("mgl.member.payment")
+  .card-body
+    = custom_entity_row(t("member.za"), t("common.za_#{member.za}", default: member.za.to_s))
+    = entity_row(member, :iban)
+    = entity_row(member, :bic)
+    = entity_row(member, :zahler)

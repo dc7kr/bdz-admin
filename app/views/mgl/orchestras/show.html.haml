@@ -1,0 +1,21 @@
+.container
+  %h2
+    = @orchestra.orchName
+    %small.text-muted (#{@member.mglnr})
+  - unless @member.zero_member_fee_balance?
+    .alert.alert-warning
+      = t("mgl.member_account_bookings.open_balance", amount: format_currency(@member.member_fee_balance * -1, "€"))
+      = link_to t("mgl.menu.member_account"), mgl_member_account_bookings_path, class: "alert-link"
+
+  .card.mb-3
+    .card-header= t("mgl.orchestra.data")
+    .card-body
+      = entity_row(@orchestra, :orchName)
+      = entity_row(@orchestra, :gruendung, :date)
+      = entity_row(@orchestra, :url)
+      = custom_entity_row(t("orchestra.publish_url"), t(@orchestra.publish_url ? "common.yes_" : "common.no_"))
+      = custom_entity_row(t("orchestra.publish_address"), t(@orchestra.publish_address ? "common.yes_" : "common.no_"))
+
+  = render "mgl/members/member", member: @member
+
+  = link_to t("common.edit"), edit_mgl_orchestra_path, class: "btn btn-primary"
