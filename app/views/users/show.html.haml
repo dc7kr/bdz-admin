@@ -17,7 +17,6 @@
         = render @user.roles
       = render partial: "role_form"
 
+  =custom_entity_row t("activerecord.attributes.user.access_level"), t("users.access_levels.#{@user.access_level}")
   -if not @user.restricting_entity.nil?
-    =entity_row @user,:entity_class
-    =entity_row @user,:entity_id
-    =entity_row @user,:restricting_entity
+    =custom_entity_row t("activerecord.attributes.user.restricting_entity"), "#{@user.restricting_entity} (#{@user.restricting_mglnr})"
