@@ -95,29 +95,27 @@ class MemberAccountBookingsController < AuthenticatedController
   # POST /bookings
   # POST /bookings.json
   def create
-    @member_type = member_type_from_params(params).to_sym
+    m = Member.find(params[:member_id])
 
-    if params[:person_member_id]
-      @member = PersonMember.find(params[:person_member_id])
-      @isOrchestra = false
-    elsif params[:orchestra_id]
-      @member = Orchestra.find(params[:orchestra_id])
-    else
-      @member = RegionalOrganization.find(params[:regional_organization_id])
-    end
+    entity_type = m.to_entity_type
+    @member = m.member_entity
+
 
     @booking = MemberAccountBooking.new(member_account_booking_params)
     authorize @booking
 
     @booking.booking_mode = "M"
-    @booking.member = @member.member
+    @booking.member = m
+
+    member_type = m.member_entity.to_i
+
     respond_to do |format|
       if @booking.save
         format.html do
-          if @member_type == :orchestra
+          if entity_type == :orchestra
             redirect_to orchestra_member_account_bookings_path(@booking.member.member_entity),
                         notice: t("member_account_booking.create_success")
-          elsif @member_type == :person_member
+          elsif entity_type == :person_member
             redirect_to person_member_member_account_bookings_path(@booking.member.member_entity),
                         notice: t("member_account_booking.create_success")
           else
@@ -140,18 +138,18 @@ class MemberAccountBookingsController < AuthenticatedController
 
     member_entity = @booking.member.member_entity
 
-    @member_type = member_type_from_params(params)
+    entity_type = member.to_entity_type
 
     params[:member_account_booking][:booking_mode] = "M"
 
     respond_to do |format|
       if @booking.update(member_account_booking_params)
         format.html do
-          if @member_type == :orchestra
+          if entity_type == :orchestra
             redirect_to orchestra_member_account_bookings_path(member_entity),
                         notice: t_update_success("member_account_booking")
 
-          elsif @member_type == :person_member
+          elsif entity_type == :person_member
             redirect_to person_member_member_account_bookings_path(member_entity),
                         notice: t_update_success("member_account_booking")
           else
