@@ -428,23 +428,15 @@ class Orchestra < ApplicationRecord
 
   delegate :get_unbalanced_bookings, to: :member
 
+  # records visible to the user according to its restricting entity
   def self.for_user(user)
-    return where(1) unless user.is_restricted_role?
-
     restr = user.restricting_entity
 
-    if restr.nil?
-      Rails.logger.warning("User #{current_user.email} has no restriction entity configured - SAFETY NET!")
-      return where("1=0")
-      # safety net
-    end
-
-    if restr.instance_of?(RegionalOrganization)
-      where(members: { regional_organization_id: restr.id })
-    elsif restr.instance_of?(Orchestra)
-      where(id: restr.id)
-    elsif restr.instance_of?(PersonMember)
-      where("1=0")
+    case restr
+    when nil then all
+    when RegionalOrganization then joins(:member).where(members: { regional_organization_id: restr.id })
+    when Orchestra then where(id: restr.id)
+    else none
     end
   end
 
