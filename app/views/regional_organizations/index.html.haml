@@ -4,7 +4,7 @@
   %h2
     = t("common.all")
     =t("regional_organization",:count=>3)
-  %table.table-sm.table-hover.table-condensed
+  %table.table-sm.table-hover.table-condensed{"data-turbo": "false"}
     %tr
       %th ID
       %th= attr_heading(RegionalOrganization,:name)
