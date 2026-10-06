@@ -11,8 +11,6 @@ class BicValidator < ActiveModel::EachValidator
     country_code = value[4..5]
     location = value[6..7]
 
-    Rails.logger.debug("BIC: #{bank_code}-#{country_code}-#{location}")
-
     if value.length == 11
       branch_code = value[8..10]
     end
