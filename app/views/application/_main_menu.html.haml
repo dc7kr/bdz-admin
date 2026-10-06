@@ -18,8 +18,8 @@
               =render :partial => "magazine_dropdown"
             - if current_user and current_user.festival_permission? then
               =render :partial => "festival_data_dropdown"
-            -if current_user and current_user.has_role?(:regional) then
-              %li.nav-item.dropdown{ :class => tabActiveClass(current_area,'regional','last')}= link_to "#{t("main_menu.regional")}", RegionalOrganization.with_role(:regional, current_user).first
+            -if current_user and current_user.regional_level? then
+              %li.nav-item.dropdown{ :class => tabActiveClass(current_area,'regional','last')}= link_to "#{t("main_menu.regional")}", current_user.restricting_entity
 
             = yield :entity_menu
 

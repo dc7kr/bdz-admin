@@ -1,0 +1,10 @@
+%div{:data=>{:"turbo-prefetch" => "false" }}
+  %nav.navbar.navbar-expand-lg.navbar-light.bg-light
+    .container-fluid
+      %a.navbar-brand{:href=>"/"} BDZ-Admin
+      %button.navbar-toggler{ :type=>"button", :data => {  :bs => { :toggle=>"collapse", :target=>"#mainMenuNavbarContent" },  :aria => { :controls=>"navbarSupportedContent", :expanded=>"false", :label=>"Toggle navigation" }}}
+        %span.navbar-toggler-icon
+
+      #mainMenuNavbarContent.collapse.navbar-collapse
+        - if not devise_controller?
+
