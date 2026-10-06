@@ -5,7 +5,7 @@
     - if honor_member.deceased then
       (†)
   %td= honor_member.ort
-  %td= honor_member.honorType
+  %td= t("honor_member.honor_types.#{honor_member.honorType}")
   %td= l honor_member.honorDate
   %td
     = link_to_show honor_member

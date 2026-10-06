@@ -7,6 +7,13 @@ de:
     name: Name
     ort: Ort
     honorType: Ehrungstyp
+    honor_types:
+      B: "Verdienstmedaille in Bronze"
+      S: "Verdienstmedaille in Silber"
+      G: "Verdienstmedaille in Gold"
+      EM: "Ehrenmitgliedschaft Im BDZ"
+      EP: "Ehrenpräsident"
+      TP: "Theodor-Ritter-Plakette"
     honorDate: Ehrungs-Datum
     deceased: Verstorben
   honor_members:

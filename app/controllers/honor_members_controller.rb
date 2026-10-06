@@ -6,11 +6,12 @@ class HonorMembersController < AuthenticatedController
   # GET /honor_members
   # GET /honor_members.json
   def index
-    @honor_members = policy_scope(HonorMember).order("#{sort_column} #{sort_direction}")
+    @honor_members = policy_scope(HonorMember).order("#{sort_column} #{sort_direction}").page(params[:page]).per(20)
 
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @honor_members }
+      format.turbo_stream { render partial: "list", locals: { resources: @honor_members}  }
     end
   end
 

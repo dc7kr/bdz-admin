@@ -6,10 +6,8 @@
     =@honor_member.fullname
   = entity_row(@honor_member,:nr)
   = entity_row(@honor_member,:title)
-  = entity_row(@honor_member,:vorname)
-  = entity_row(@honor_member,:name)
   = entity_row(@honor_member,:deceased)
   = entity_row(@honor_member,:ort)
-  = entity_row(@honor_member,:honorType)
+  = custom_entity_row(t("honor_member.honorType"), t("honor_member.honor_types.#{@honor_member.honorType}"))
   = entity_row(@honor_member,:honorDate,:date)
 
