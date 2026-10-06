@@ -6,7 +6,6 @@ class FestivalApplication < Invoiceable
 
   # attr_accessible :conductor, :contact_person, :equipment, :country_code, :num_players, :orch_name, :orchestra, :special_cast, :group_type,:permission,:festival_concert_id, :visitor_type, :rehearsal_time, :stage_time, :payment_status, :tickets, :tickets_red, :bdz_tickets_red, :bdz_tickets, :amount, :soloist_tickets, :contact_phone
   has_many :festival_pieces
-  has_many :festival_application_attachments
   has_one :event_meal, foreign_key: "participant_id"
   has_one :contact_person
 
@@ -248,7 +247,7 @@ class FestivalApplication < Invoiceable
     end
 
     if ti.invoice_items.length > 1
-      if ti.invoice_items[1].total < 0 
+      if ti.invoice_items[1].total < 0
         return false
       end
       if ti.invoice_items[1].count != tickets_red
@@ -269,7 +268,7 @@ class FestivalApplication < Invoiceable
 
 
   def tickets_editable?
-    not has_ticket_invoice?     
+    not has_ticket_invoice?
   end
 
   def to_hash
