@@ -120,14 +120,14 @@ module Magazine
       @person_member_count = 0
       @person_members = PersonMember.with_zero_balance
       @person_members.each do |p|
-        @person_member_count += p.currentMagazines
+        @person_member_count += p.current_magazines
       end
       @overall += @person_member_count
 
       @orchestra_count = 0
       @orchestras = Orchestra.with_zero_balance.includes(:report_sheets)
       @orchestras.each do |o|
-        @orchestra_count += o.currentMagazines
+        @orchestra_count += o.current_magazines
       end
 
       @overall += @orchestra_count
