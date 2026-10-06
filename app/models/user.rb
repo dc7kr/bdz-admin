@@ -7,6 +7,21 @@ class User < ApplicationRecord
   has_many :concerts
   has_many :passkeys, dependent: :destroy
 
+  # Restricts the data a user may see (see #access_level):
+  #   nil                   - no restriction, access is controlled by roles only
+  #   RegionalOrganization  - members of that regional organization (main area)
+  #   Orchestra             - only that orchestra (member area below /mgl)
+  #   PersonMember          - only that person member (member area below /mgl)
+  RESTRICTING_ENTITY_TYPES = %w[RegionalOrganization Orchestra PersonMember].freeze
+  MEMBER_ENTITY_TYPES = %w[Orchestra PersonMember].freeze
+
+  belongs_to :restricting_entity, polymorphic: true, optional: true,
+                                  foreign_key: :entity_id, foreign_type: :entity_class
+
+  validates :entity_class, inclusion: { in: RESTRICTING_ENTITY_TYPES }, allow_blank: true
+  validates :restricting_entity, presence: true, if: -> { entity_class.present? }
+  validate :restricting_mglnr_must_exist
+
   # required by devise-passkeys
   def self.passkeys_class
     Passkey
@@ -72,7 +87,7 @@ class User < ApplicationRecord
   end
 
   def member_data_permission?
-    national_permission? or has_role? :regional or has_role? :distinction
+    national_permission? or regional_level? or has_role? :distinction
   end
 
   def tools_permission?
@@ -140,13 +155,45 @@ class User < ApplicationRecord
     token
   end
 
-  def restricting_entity
-    return unless has_role? :member
+  # :admin, :regional or :member
+  def access_level
+    if entity_class.blank?
+      :admin
+    elsif entity_class == "RegionalOrganization"
+      :regional
+    else
+      :member
+    end
+  end
 
-    member = PersonMember.with_role(:member, self).first
-    return unless member.nil?
+  def admin_level?
+    access_level == :admin
+  end
 
-    Orchestra.with_role(:member, self).first
+  def regional_level?
+    access_level == :regional
+  end
+
+  # orchestra and person member users only have access to the member area below /mgl
+  def member_level?
+    access_level == :member
+  end
+
+  # the Member record (mglnr, address, account) of the restricting entity
+  def restricting_member
+    restricting_entity&.member
+  end
+
+  # mglnr of the restricting entity, used to assign it in the user admin
+  def restricting_mglnr
+    return @restricting_mglnr if defined?(@restricting_mglnr)
+
+    restricting_member&.mglnr
+  end
+
+  def restricting_mglnr=(value)
+    @restricting_mglnr = value.to_s.strip.presence
+    self.restricting_entity = @restricting_mglnr && Member.find_by(mglnr: @restricting_mglnr)&.member_entity
   end
 
   def to_s
@@ -168,5 +215,11 @@ class User < ApplicationRecord
 
   def generate_webauthn_id
     self.webauthn_id ||= WebAuthn.generate_user_id
+  end
+
+  def restricting_mglnr_must_exist
+    return if @restricting_mglnr.blank? || restricting_entity.present?
+
+    errors.add(:restricting_mglnr, :invalid)
   end
 end
