@@ -124,7 +124,7 @@ class UsersController < AuthenticatedController
   end
 
   def user_params
-    params.require(:user).permit(:username, :email, :password, :password_confirmation, :name)
+    params.require(:user).permit(:username, :email, :password, :password_confirmation, :name, :restricting_mglnr)
   end
   
   protected
