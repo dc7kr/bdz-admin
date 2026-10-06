@@ -95,7 +95,7 @@ module Cron
       base_url = cron_downloads_url
       reminders_url = "#{base_url}?year=#{year}&filename=#{pdf_file}"
       @users.each do |user|
-        AdminNotifier.newreminders_notification(user, reminders_url, current_user).deliver
+        AdminNotifier.new_reminders_notification(user, reminders_url, current_user).deliver
       end
     end
   end

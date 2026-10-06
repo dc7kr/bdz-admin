@@ -15,7 +15,7 @@ module Cron
       dtaus_url = "#{base_url}?year=2012&filename=20120529_dtaus.zip"
 
       @users.each do |user|
-        AdminNotifier.newinvoices_notification(user, invoices_url, dtaus_url).deliver
+        AdminNotifier.new_invoices_notification(user, invoices_url, dtaus_url).deliver
         Rails.logger.debug "sent to %s" % current_user.email
       end
     end
