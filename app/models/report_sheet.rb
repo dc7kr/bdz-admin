@@ -464,6 +464,11 @@ class ReportSheet < ApplicationRecord
     !find_booking.nil?
   end
 
+  # invoiced report sheets must not be changed by members anymore
+  def locked?
+    invoiced? || (orchestra.present? && is_invoiced?)
+  end
+
   def invoice_delta
     booking = find_booking
 

@@ -2,6 +2,8 @@ class ReportSheetInput < ApplicationRecord
   belongs_to :report_sheet
   belongs_to :orchestra
 
+  delegate :locked?, to: :report_sheet
+
   scope :not_final, -> { includes(:report_sheet).where(report_sheets: { orchestra_id: nil }) }
 
   def self.new_for_orchestra(orchestra, year)
