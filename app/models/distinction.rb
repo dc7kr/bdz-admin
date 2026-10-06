@@ -47,7 +47,4 @@ class Distinction < Invoiceable
     !member_account_booking.nil?
   end
 
-  def has_generated_invoice?
-    !invoice_id.nil?
-  end
 end
