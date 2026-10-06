@@ -22,6 +22,9 @@ class ApplicationController < ActionController::Base
 
   before_action :set_locale
 
+  # orchestra and person member users only get to see the member area
+  before_action :confine_member_level_user
+
   after_action :flash_to_headers
 
   layout :choose_layout
@@ -77,6 +80,14 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_area
 
+  def after_sign_in_path_for(resource)
+    if resource.is_a?(User) && resource.member_level?
+      mgl_root_path
+    else
+      super
+    end
+  end
+
   def goto_login_page
     flash[:error] = "Please login first."
     redirect_to root_url
@@ -107,6 +118,21 @@ class ApplicationController < ActionController::Base
   def flash_type
     %i[error warning notice].each do |type|
       return type if flash[type].present?
+    end
+  end
+
+  # controllers member level users may use outside of the member area
+  MEMBER_LEVEL_CONTROLLERS = %w[users/passkeys errors].freeze
+
+  def confine_member_level_user
+    return unless user_signed_in? && current_user.member_level?
+    return if controller_path.start_with?("mgl/") || devise_controller? ||
+              MEMBER_LEVEL_CONTROLLERS.include?(controller_path)
+
+    if request.get? && request.format.html?
+      redirect_to mgl_root_path
+    else
+      head :forbidden
     end
   end
 
@@ -154,6 +180,8 @@ class ApplicationController < ActionController::Base
   end
 
   def choose_layout
+    return "mgl" if user_signed_in? && current_user.member_level?
+
     path = request.fullpath.split("/")
     namespace = path.second if path.first
     case namespace
