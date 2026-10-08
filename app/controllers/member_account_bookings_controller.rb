@@ -95,19 +95,18 @@ class MemberAccountBookingsController < AuthenticatedController
   # POST /bookings
   # POST /bookings.json
   def create
-    m = Member.find(params[:member_id])
+    m = policy_scope(Member).find(params[:member_account_booking][:member_id])
 
     entity_type = m.to_entity_type
-    @member = m.member_entity
-
+    @member = m
+    @member_entity = m.member_entity
+    @member_type = entity_type
 
     @booking = MemberAccountBooking.new(member_account_booking_params)
-    authorize @booking
-
     @booking.booking_mode = "M"
     @booking.member = m
 
-    member_type = m.member_entity.to_i
+    authorize @booking
 
     respond_to do |format|
       if @booking.save
@@ -134,11 +133,12 @@ class MemberAccountBookingsController < AuthenticatedController
   # PUT /bookings/1
   # PUT /bookings/1.json
   def update
-    @booking = MemberAccountBooking.find(params[:id])
+    @member = @booking.member
+    member_entity = @member.member_entity
+    @member_entity = member_entity
 
-    member_entity = @booking.member.member_entity
-
-    entity_type = member.to_entity_type
+    entity_type = @member.to_entity_type
+    @member_type = entity_type
 
     params[:member_account_booking][:booking_mode] = "M"
 

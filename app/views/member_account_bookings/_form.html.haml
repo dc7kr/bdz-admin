@@ -1,5 +1,5 @@
 .container-fluid
-  = bootstrap_form_for([@member_entity,@booking], layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10") do |f|
+  = bootstrap_form_for([@booking], layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10") do |f|
     = f.hidden_field :member_id, :value=>@member.id
     =f.select :booking_type, options_for_select(booking_type_options, :selected=>@booking.booking_type)
     =f.number_field :booking_year
@@ -9,6 +9,6 @@
     - if isAdmin? then
       =f.text_field :filename
     .col-md-2
-    .col-md-10    
+    .col-md-10
       %button.btn.btn-primary{:type => "submit"}=t("common.save")
       = cancel_button()
