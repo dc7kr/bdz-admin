@@ -40,4 +40,4 @@
 
   = link_to t("common.back"), mgl_report_sheets_path, class: "btn btn-secondary"
   - if policy([ :mgl, @report_sheet ]).update?
-    = link_to t("common.edit"), edit_mgl_report_sheet_path(@report_sheet), class: "btn btn-primary"
+    = link_to_edit [ :mgl, @report_sheet ], txt: t("common.edit"), authz: false

@@ -22,6 +22,6 @@
             - else
               %span.badge.bg-secondary= t("mgl.report_sheets.closed")
           %td.text-end
-            = link_to t("common.show"), mgl_report_sheet_path(report_sheet), class: "btn btn-sm btn-outline-dark"
+            = link_to_show [ :mgl, report_sheet ]
             - if policy([ :mgl, report_sheet ]).update?
-              = link_to t("common.edit"), edit_mgl_report_sheet_path(report_sheet), class: "btn btn-sm btn-outline-dark"
+              = link_to_edit [ :mgl, report_sheet ], authz: false

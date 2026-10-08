@@ -8,5 +8,5 @@
       = entity_row(@booking, :booking_txt)
       = custom_entity_row(attr_heading(MemberAccountBooking, :amount), format_currency(@booking.amount, "€"))
   - if policy([ :mgl, @booking ]).download?
-    = link_to t("common.download"), download_mgl_member_account_booking_path(@booking), class: "btn btn-primary", data: { turbo: false }
+    = download_link download_mgl_member_account_booking_path(@booking), t("common.download")
   = link_to t("common.back"), mgl_member_account_bookings_path, class: "btn btn-secondary"

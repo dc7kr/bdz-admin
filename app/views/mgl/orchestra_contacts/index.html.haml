@@ -17,7 +17,6 @@
           %td= contact.email
           %td= contact.phone
           %td.text-end
-            = link_to t("common.edit"), edit_mgl_orchestra_contact_path(contact), class: "btn btn-sm btn-outline-dark"
-            = button_to t("common.delete"), mgl_orchestra_contact_path(contact), method: :delete, form_class: "d-inline",
-              class: "btn btn-sm btn-outline-danger", form: { data: { turbo_confirm: t("common.confirm_delete") } }
+            = link_to_edit [ :mgl, contact ], authz: false
+            = link_to_delete [ :mgl, contact ]
   = link_to t("mgl.orchestra_contacts.new"), new_mgl_orchestra_contact_path, class: "btn btn-primary"

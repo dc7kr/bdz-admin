@@ -9,12 +9,12 @@ module ButtonHelper
     else
       path = send("edit_#{entity.class.name.singularize.underscore}_path",entity) if path.nil?
     end
-      
+
     if authz == true
-      return unless policy(entity).update? 
+      return unless policy(entity).update?
     end
 
-    html_options = { 
+    html_options = {
       class: "btn #{btn_class}"
     }
 
@@ -26,6 +26,9 @@ module ButtonHelper
     else
       # escape turbo_stream if turbo inactive
       html_options["format"] = :html
+      html_options["data"]={
+        turbo: false
+      }
     end
 
 
@@ -51,6 +54,11 @@ module ButtonHelper
 
   def link_to_download_path(entity, path, txt=nil, btn_class="btn-sm btn-outline-dark")
     return unless entity.has_attachment? and policy(entity).download?
+    download_link(path, txt, btn_class)
+  end
+
+  # download button without authorization check, the caller checks the policy
+  def download_link(path, txt=nil, btn_class="btn-sm btn-outline-dark")
     link_to path, class: "btn #{btn_class}", data: { turbo: false } do
       concat(my_fa_icon("download"))
       if not txt.nil?
@@ -73,8 +81,8 @@ module ButtonHelper
     else
       path = send("#{entity.class.name.singularize.underscore}_path",entity) if path.nil?
     end
-      
-    link_to path, class: "btn btn-sm #{btn_class}" do 
+
+    link_to path, class: "btn btn-sm #{btn_class}" do
       concat(my_fa_icon("eye"))
       if not txt.nil?
         concat(raw("&nbsp;"))
@@ -86,12 +94,12 @@ module ButtonHelper
   def link_to_new(entity, path=nil, txt:nil, btn_class:"btn-sm btn-outline-dark", authz: true, turbo: false)
 
     if authz == true
-      return unless policy(entity).create? 
+      return unless policy(entity).create?
     end
 
     path = "new_#{entity.class.name.underscore.singularize}_path" if path.nil?
 
-    html_options = { 
+    html_options = {
       class: "btn #{btn_class}"
     }
 
@@ -122,7 +130,7 @@ module ButtonHelper
 
   def link_to_delete(p_entity, path=nil, txt: nil, confirm: nil, btn_class: "btn-sm btn-danger", authz: true)
     confirm = t("common.delete_confirm") if confirm.nil?
-    
+
     if p_entity.is_a?(Array)
       namespace = p_entity[0]
       entity = p_entity[1]
@@ -135,7 +143,7 @@ module ButtonHelper
 
     return unless not authz or policy(p_entity).destroy?
 
-    link_to path, data: { 'turbo-method': :delete, 'turbo-confirm': confirm }, class: "btn #{btn_class}" do 
+    link_to path, data: { 'turbo-method': :delete, 'turbo-confirm': confirm }, class: "btn #{btn_class}" do
       concat(my_fa_icon("trash-alt"))
       if not txt.nil?
         concat(raw("&nbsp;"))
@@ -210,8 +218,8 @@ module ButtonHelper
 
   def wizard_del_button(path, txt, _entity, btn_class: "btn-danger")
     html_options= {
-      data: { 
-        "turbo-confirm": t("common.delete_confirm"), 
+      data: {
+        "turbo-confirm": t("common.delete_confirm"),
         "turbo-prefetch": false
       },
       class: "btn #{btn_class}"

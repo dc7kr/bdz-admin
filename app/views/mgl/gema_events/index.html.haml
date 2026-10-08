@@ -20,4 +20,4 @@
             %td= gema_event.location
             %td.text-end= gema_event.visitors
             %td.text-end= format_currency(gema_event.netto) if gema_event.netto
-            %td.text-end= link_to t("common.show"), mgl_gema_event_path(gema_event), class: "btn btn-sm btn-outline-dark"
+            %td.text-end= link_to_show [ :mgl, gema_event ]

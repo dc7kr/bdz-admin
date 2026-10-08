@@ -13,5 +13,5 @@
       = entity_row(@distinction, :medals)
   - booking = @distinction.member_account_booking
   - if booking && policy([ :mgl, booking ]).download?
-    = link_to t("common.download"), download_mgl_member_account_booking_path(booking), class: "btn btn-primary", data: { turbo: false }
+    = download_link download_mgl_member_account_booking_path(booking), t("common.download")
   = link_to t("common.back"), mgl_distinctions_path, class: "btn btn-secondary"

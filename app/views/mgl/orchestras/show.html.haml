@@ -18,4 +18,4 @@
 
   = render "mgl/members/member", member: @member
 
-  = link_to t("common.edit"), edit_mgl_orchestra_path, class: "btn btn-primary"
+  = link_to_edit @orchestra, edit_mgl_orchestra_path, txt: t("common.edit"), authz: false

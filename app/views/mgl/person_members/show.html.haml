@@ -16,4 +16,4 @@
 
   = render "mgl/members/member", member: @member
 
-  = link_to t("common.edit"), edit_mgl_person_member_path, class: "btn btn-primary"
+  = link_to_edit @person_member, edit_mgl_person_member_path, txt: t("common.edit"), authz: false

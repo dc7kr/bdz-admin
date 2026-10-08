@@ -18,8 +18,7 @@
           %td= format_date(orchestra_member.date_of_birth)
           %td= orchestra_member.instrument
           %td.text-end
-            = link_to t("common.edit"), edit_mgl_orchestra_member_path(orchestra_member), class: "btn btn-sm btn-outline-dark"
-            = button_to t("common.delete"), mgl_orchestra_member_path(orchestra_member), method: :delete, form_class: "d-inline",
-              class: "btn btn-sm btn-outline-danger", form: { data: { turbo_confirm: t("common.confirm_delete") } }
+            = link_to_edit [ :mgl, orchestra_member ], authz: false
+            = link_to_delete [ :mgl, orchestra_member ]
   = paginate @orchestra_members
   = link_to t("mgl.orchestra_members.new"), new_mgl_orchestra_member_path, class: "btn btn-primary"
