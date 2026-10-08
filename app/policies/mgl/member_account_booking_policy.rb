@@ -10,7 +10,7 @@ module Mgl
     private
 
     def owned_by_entity?
-      record.member_id == user.restricting_member&.id
+      record.member_id == user.member&.id
     end
 
     class Scope < ApplicationPolicy::Scope

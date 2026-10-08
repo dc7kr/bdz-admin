@@ -6,8 +6,8 @@
         %span.navbar-toggler-icon
 
       #mainMenuNavbarContent.collapse.navbar-collapse
-        - if user_signed_in? && current_user.member_level? && current_user.restricting_entity
-          - entity = current_user.restricting_entity
+        - if user_signed_in? && mgl_entity
+          - entity = mgl_entity
           %ul.navbar-nav.me-auto
             - if entity.is_a?(Orchestra)
               %li.nav-item= link_to t("mgl.menu.master_data"), mgl_orchestra_path, class: "nav-link"

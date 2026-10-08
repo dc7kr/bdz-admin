@@ -1,0 +1,68 @@
+de:
+  activerecord:
+    attributes:
+      user:
+        restricting_mglnr: "Eingeschränkt auf Mitgl.-Nr."
+        restricting_entity: "Eingeschränkt auf"
+        access_level: "Zugriffsebene"
+  users:
+    access_levels:
+      admin: "Uneingeschränkt (Rollen)"
+      regional: "Landesverband"
+      member: "Mitglied (nur Mitgliederbereich)"
+    restricting_mglnr_help: "Mitgliedsnummer eines Landesverbands, Orchesters oder Einzelmitglieds. Orchester und Einzelmitglieder sehen nur den Mitgliederbereich. Leer lassen für uneingeschränkten Zugriff."
+  mgl:
+    title: "BDZ-Mitgliederbereich"
+    saved: "Die Daten wurden gespeichert."
+    deleted: "Der Eintrag wurde gelöscht."
+    not_authorized: "Sie sind nicht berechtigt, diese Aktion auszuführen."
+    member_users_only: "Der Mitgliederbereich steht nur Benutzern von Orchestern und Einzelmitgliedern zur Verfügung."
+    missing_entity: "Ihr Benutzerkonto ist keinem Mitglied mehr zugeordnet. Bitte wenden Sie sich an die Geschäftsstelle."
+    impersonation:
+      start: "Mitgliederbereich als dieses Mitglied öffnen"
+      started: "Sie nutzen den Mitgliederbereich jetzt im Namen von %{name}."
+      stop: "Beenden"
+      stopped: "Der Mitgliederbereich wurde verlassen."
+      banner: "Sie handeln als %{name} – angemeldet als %{user}. Alle Änderungen werden für dieses Mitglied gespeichert."
+      missing_entity: "Das Mitglied existiert nicht mehr. Der Mitgliederbereich wurde verlassen."
+    menu:
+      master_data: "Stammdaten"
+      contacts: "Kontakte"
+      orchestra_members: "Orchestermitglieder"
+      report_sheets: "Meldebögen"
+      distinctions: "Ehrungen"
+      gema_events: "GEMA"
+      member_account: "Mitgliedskonto"
+    member:
+      membership: "Mitgliedschaft"
+      contact: "Kontaktdaten"
+      payment: "Zahlungsdaten"
+      title: "Titel"
+    orchestra:
+      data: "Orchesterdaten"
+      edit: "%{name} bearbeiten"
+    person_member:
+      data: "Persönliche Daten"
+      edit: "%{name} bearbeiten"
+    orchestra_contacts:
+      intro: "Ansprechpartner Ihres Vereins, z.B. Vorsitzende, Dirigenten und Versandanschrift."
+      new: "Neuer Kontakt"
+      edit: "Kontakt %{name} bearbeiten"
+    orchestra_members:
+      intro: "Aus dieser Liste werden die Altersgruppen der Meldebögen berechnet."
+      new: "Neues Orchestermitglied"
+      edit: "%{name} bearbeiten"
+    report_sheets:
+      report_date: "Gemeldet am"
+      status: "Status"
+      open: "offen"
+      invoiced: "abgerechnet"
+      locked: "Dieser Meldebogen ist abgeschlossen oder wurde bereits abgerechnet und kann nicht mehr geändert werden. Bitte wenden Sie sich bei Korrekturen an die Geschäftsstelle."
+      closed: "abgeschlossen"
+      members: "Mitglieder"
+      ensembles: "Ensembles"
+      instrumentation: "Instrumentierung"
+      age_groups_from_members_html: "Die Altersgruppen werden beim Speichern aus der Liste der %{link} berechnet."
+    member_account_bookings:
+      open_balance: "Auf Ihrem Mitgliedskonto ist ein Betrag von %{amount} offen."
+      file_missing: "Das Dokument zu dieser Buchung ist nicht verfügbar."

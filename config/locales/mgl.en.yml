@@ -1,0 +1,68 @@
+en:
+  activerecord:
+    attributes:
+      user:
+        restricting_mglnr: "Restricted to member no."
+        restricting_entity: "Restricted to"
+        access_level: "Access level"
+  users:
+    access_levels:
+      admin: "Unrestricted (roles)"
+      regional: "Regional organization"
+      member: "Member (member area only)"
+    restricting_mglnr_help: "Member number of a regional organization, orchestra or person member. Orchestras and person members only see the member area. Leave empty for unrestricted access."
+  mgl:
+    title: "BDZ member area"
+    saved: "The data has been saved."
+    deleted: "The entry has been deleted."
+    not_authorized: "You are not allowed to do that."
+    member_users_only: "The member area is only available to orchestra and person member users."
+    missing_entity: "Your account is no longer linked to a member. Please contact the office."
+    impersonation:
+      start: "Open member area as this member"
+      started: "You are now using the member area on behalf of %{name}."
+      stop: "Stop"
+      stopped: "You left the member area."
+      banner: "You are acting as %{name} – signed in as %{user}. All changes are saved for this member."
+      missing_entity: "The member no longer exists. You left the member area."
+    menu:
+      master_data: "Master data"
+      contacts: "Contacts"
+      orchestra_members: "Orchestra members"
+      report_sheets: "Report sheets"
+      distinctions: "Distinctions"
+      gema_events: "GEMA"
+      member_account: "Member account"
+    member:
+      membership: "Membership"
+      contact: "Contact data"
+      payment: "Payment data"
+      title: "Title"
+    orchestra:
+      data: "Orchestra data"
+      edit: "Edit %{name}"
+    person_member:
+      data: "Personal data"
+      edit: "Edit %{name}"
+    orchestra_contacts:
+      intro: "Contact persons of your orchestra, e.g. chairpersons, conductors and shipping address."
+      new: "New contact"
+      edit: "Edit contact %{name}"
+    orchestra_members:
+      intro: "The age groups of the report sheets are calculated from this list."
+      new: "New orchestra member"
+      edit: "Edit %{name}"
+    report_sheets:
+      report_date: "Reported on"
+      status: "Status"
+      open: "open"
+      invoiced: "invoiced"
+      locked: "This report sheet is closed or has already been invoiced and can no longer be changed. Please contact the office for corrections."
+      closed: "closed"
+      members: "Members"
+      ensembles: "Ensembles"
+      instrumentation: "Instrumentation"
+      age_groups_from_members_html: "The age groups are calculated from the list of %{link} when saving."
+    member_account_bookings:
+      open_balance: "There is an open amount of %{amount} on your member account."
+      file_missing: "The document for this booking is not available."

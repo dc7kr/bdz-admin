@@ -1,8 +1,11 @@
 # frozen_string_literal: true
 
 module Mgl
-  # Base policy for the member area. Member level users may only access records
-  # belonging to their own restricting entity (Orchestra or PersonMember).
+  # Base policy for the member area. Users may only access records belonging to
+  # the entity they act for (Orchestra or PersonMember): a member user's own
+  # restricting entity or the entity a national user impersonates.
+  #
+  # user is a Mgl::MemberContext, not a User.
   class ApplicationPolicy
     attr_reader :user, :record
 
@@ -42,11 +45,11 @@ module Mgl
     private
 
     def member_user?
-      user.present? && user.member_level?
+      entity.present?
     end
 
     def entity
-      user.restricting_entity
+      user&.entity
     end
 
     def orchestra
@@ -69,9 +72,9 @@ module Mgl
       end
 
       def resolve
-        return scope.none unless user.present? && user.member_level?
+        return scope.none if user&.entity.nil?
 
-        resolve_for(user.restricting_entity)
+        resolve_for(user.entity)
       end
 
       private

@@ -23,7 +23,6 @@ Rails.application.routes.draw do
 
   mount ActionCable.server => "/cable"
 
-
   # Render dynamic PWA files from app/views/pwa/*
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
@@ -68,10 +67,10 @@ Rails.application.routes.draw do
     end
   end
 
-
   resources :runtime_options, only: %i[index edit update destroy], param: :key do
     post :reload, on: :collection
   end
+
 
   get "/auth/:provider/callback", to: "sessions#create"
 
@@ -104,18 +103,35 @@ Rails.application.routes.draw do
     end
   end
 
-  # resources :mgl, :controller => "member_area"
-  # TODO: Clarify scoping
-  # devise_scope [:member,:user] do
-  # authenticated do
-  # BEGIN member namespace
+  # BEGIN member area
+  #
+  # Restricted area for orchestra and person member users (see User#member_level?).
+  # The routes below operate on the signed in user's own entity, so they carry no
+  # orchestra / person member ids.
   namespace :mgl do
-    get 'sign_in', to: 'sessions#new'
+    root to: "home#show"
+    get "sign_in", to: redirect("/users/sign_in")
 
-    resources :orchestras
-    resources :person_members
+    # national users opening the member area in the name of a member
+    resource :impersonation, only: %i[create destroy]
 
-    resources :report_sheet_inputs do
+    resource :orchestra, only: %i[show edit update]
+    resource :person_member, only: %i[show edit update]
+
+    resources :orchestra_contacts, except: :show
+    resources :orchestra_members, except: :show
+    resources :report_sheets, only: %i[index show edit update]
+    resources :distinctions, only: %i[index show]
+    resources :gema_events, only: %i[index show]
+    resources :member_account_bookings, only: %i[index show] do
+      member do
+        get :download
+      end
+    end
+
+    # report sheet input wizard, authenticated by the token sent with the
+    # report sheet letter instead of a user account
+    resources :report_sheet_inputs, only: [] do
       collection do
         get :login
         post :submit_login
@@ -138,6 +154,7 @@ Rails.application.routes.draw do
       end
     end
   end
+  # END member area
 
   resources :report_sheet_inputs do
     collection do
@@ -180,7 +197,6 @@ Rails.application.routes.draw do
     end
 
     resources :festival_pieces
-    resources :festival_application_attachments
     resources :event_meals, as: :meals
   end
 
@@ -189,7 +205,7 @@ Rails.application.routes.draw do
       get :gen_invoice
       get :pickup
       get :invoice_preview
-      get :storno
+      post :storno
     end
     collection do
       get :overview

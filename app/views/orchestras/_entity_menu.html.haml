@@ -12,6 +12,8 @@
         %li= link_to( "Meldebogen-Eingabe-Objekte", report_sheet_inputs_url(:orch=>entity.id), class: "dropdown-item")
       - if entity.is_regular?
         %li= link_to( "Ehrungen", orchestra_distinctions_url(entity), class: "dropdown-item")
+      - if policy(entity).impersonate?
+        %li= button_to t("mgl.impersonation.start"), mgl_impersonation_path(entity_type: "Orchestra", entity_id: entity.id), class: "dropdown-item", form: { data: { turbo: false } }
       %li
         %hr.dropdown-divider
 

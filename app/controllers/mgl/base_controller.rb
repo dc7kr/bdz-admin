@@ -1,7 +1,8 @@
 module Mgl
   # Base controller of the member area. Only signed in orchestra and person member
-  # users (User#member_level?) get here, and everything they see is limited to
-  # their own entity by the policies in app/policies/mgl.
+  # users (User#member_level?) and national users impersonating a member
+  # (Mgl::Impersonation) get here, and everything they see is limited to that
+  # entity by the policies in app/policies/mgl.
   class BaseController < ApplicationController
     layout "mgl"
 
@@ -25,18 +26,22 @@ module Mgl
 
     protected
 
-    # Orchestra or PersonMember of the signed in user
+    # Orchestra or PersonMember the signed in user acts for
     def current_entity
-      current_user.restricting_entity
+      mgl_entity
     end
 
-    # Member record (mglnr, contact and payment data) of the signed in user
+    # Member record (mglnr, contact and payment data) of the current entity
     def current_member
       current_entity.member
     end
 
     def current_orchestra
       current_entity if current_entity.is_a?(Orchestra)
+    end
+
+    def pundit_user
+      MemberContext.new(user: current_user, entity: current_entity, impersonating: impersonating?)
     end
 
     # Mgl:: policies are looked up for all records
@@ -63,6 +68,14 @@ module Mgl
     private
 
     def require_member_level_user
+      if impersonating?
+        return if current_entity&.member.present?
+
+        stop_impersonation
+        redirect_to root_path, flash: { error: t("mgl.impersonation.missing_entity") }
+        return
+      end
+
       unless current_user.member_level?
         flash[:error] = t("mgl.member_users_only")
         redirect_to root_path

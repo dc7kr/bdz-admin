@@ -5,3 +5,5 @@
     %ul.dropdown-menu
       %li.nav-item= link_to( "Mitgliedskonto", person_member_member_account_bookings_url(entity),:class=>"nav-link")
       %li.nav-item= link_to( "Mitglied-Events", person_member_member_events_url(entity) , :class=>"nav-link")
+      - if policy(entity).impersonate?
+        %li.nav-item= button_to t("mgl.impersonation.start"), mgl_impersonation_path(entity_type: "PersonMember", entity_id: entity.id), class: "nav-link", form: { data: { turbo: false } }

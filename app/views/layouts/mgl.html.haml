@@ -1,7 +1,7 @@
 !!!
 %html
   %head
-    %title= content_for(:title)
+    %title= content_for?(:title) ? content_for(:title) : t("mgl.title")
     %meta{:name=>"viewport", :content=>"width=device-width, initial-scale=1, shrink-to-fit=no"}
     %meta{:name=>"apple-mobile-web-app-capable", :content=>"yes"}
     = csrf_meta_tags
@@ -18,8 +18,15 @@
     = stylesheet_link_tag "application", "data-turbo-track": "reload"
   %body
     .container
-      #flash-messages
-        = render :partial => "flash_messages", locals: { :flash => flash }
+      = render :partial => "mgl/main_menu"
+      - if impersonating? && mgl_entity
+        .alert.alert-warning.d-flex.align-items-center.justify-content-between.mt-2
+          %span
+            = my_fa_icon("user-secret")
+            = t("mgl.impersonation.banner", name: mgl_entity_name, user: current_user.name)
+          = button_to t("mgl.impersonation.stop"), mgl_impersonation_path, method: :delete, class: "btn btn-sm btn-warning", form: { data: { turbo: false } }
+      #flash_messages
+        = render :partial => "flash_messages", locals: { flash: flash }
 
     .wrapper
       #content.pb-5.w-100.container
@@ -28,3 +35,14 @@
           = turbo_frame_tag :modal
 
     = render "footer"
+    %dialog#turbo-confirm-dialog{"aria-describedby" => "turbo-confirm-message", "aria-labelledby" => "turbo-confirm-title", :closedby => "any"}
+      %header
+        %hgroup
+          %h3#turbo-confirm-title=t("common.confirm")
+          %p#turbo-confirm-message
+      %footer
+        %button.btn.btn-sm.btn-secondary{:command => "close", :commandfor => "turbo-confirm-dialog", :type => "button"}
+          =t("common.cancel")
+        %form{:method => "dialog"}
+          %button.btn.btn-sm.btn-danger{:type => "submit", :value => "confirm"}
+            =t("common.confirm")
