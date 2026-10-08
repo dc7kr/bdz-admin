@@ -32,7 +32,9 @@ module Mgl
     def booking_file
       if @booking.invoice_id.present?
         invoice = CorikaInvoices::Invoice.find_by(id: @booking.invoice_id)
-        [ helpers.invoice_storage_path(invoice), invoice&.pdf_filename ]
+        return [ nil, nil ] if invoice.nil? || invoice.pdf_filename.blank?
+
+        [ invoice.get_invoice_file.full_path, invoice.pdf_filename ]
       else
         filename = File.basename(@booking.filename.to_s)
         [ File.join(INVOICE_CONFIG.archive_dir, @booking.booking_year.to_s, filename), filename ]

@@ -35,18 +35,20 @@ module MemberAccountBookingsHelper
     path = nil
 
     if member_account_booking.invoice_id.present?
-      invoice = CorikaInvoices::Invoice.find(member_account_booking.invoice_id)
-      if member_account_booking.booking_type == "L"
-        path = invoice_sepa_download_path(invoice)
-      else
-        path = invoice_pdf_download_path(invoice)
-      end
+      invoice = CorikaInvoices::Invoice.where(id: member_account_booking.invoice_id).first
+      return if invoice.nil?
+
+      sepa_path = invoice_sepa_download_path(invoice) if member_account_booking.booking_type == "L"
+      # invoices of bulk runs have no SEPA file of their own, offer the invoice instead
+      path = sepa_path || invoice_pdf_download_path(invoice)
     else
       return unless member_account_booking.filename.present?
       path = download_member_account_booking_path(member_account_booking.member,member_account_booking)
     end
 
-    if member_account_booking.booking_type == "L"
+    return if path.nil?
+
+    if member_account_booking.booking_type == "L" and (sepa_path.present? or member_account_booking.invoice_id.blank?)
       link_to "SEPA", path, class: "btn btn-sm btn-primary", data: { turbo: false }
     else
       link_to path, class: "btn btn-sm btn-primary", data: { turbo: false } do
