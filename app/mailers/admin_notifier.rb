@@ -167,8 +167,9 @@ class AdminNotifier < ApplicationMailer
   end
 
 
-  def new_invoices(recipient, invoices_url:, sepa_url:nil, sepa_invoices_url:nil)
+  def new_invoices(recipient, invoices_url:, sepa_url:nil, sepa_invoices_url:nil, failures: [])
     @recipient = recipient
+    @failures = failures
     @invoices_url = invoices_url
     @sepa_url = sepa_url
     @sepa_invoices_url = sepa_invoices_url

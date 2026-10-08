@@ -19,22 +19,33 @@ class PersonMemberInvoicesJob < BaseInvoicesJob
 
     mailing_tool = MailingTool.new(year, "gs", "RECHNUNG#{year}", "Beitragsrechnung #{year}")
 
+    failures = []
+
     person_members.each do |pm|
       mglnr = pm.member.mglnr
 
-      logger.debug("Gen invoice for: #{pm.member.mglnr}")
-      invoice_file = person_member_invoice(pm, year)
+      begin
+        I18n.with_locale(:de) do
+          logger.debug("Gen invoice for: #{mglnr}")
+          invoice_file = person_member_invoice(pm, year)
 
-      if invoice_file.nil?
-        logger.info("No invoice generated for: #{mglnr} tariff: #{pm.tariff.description}")
-        next
+          if invoice_file.nil?
+            logger.info("No invoice generated for: #{mglnr} tariff: #{pm.tariff.description}")
+            failures << "#{mglnr}: keine Rechnung erzeugt"
+            next
+          end
+
+          logger.debug("PDF File archived as #{invoice_file}")
+
+          add_mailer_params = { year: year, mglnr: mglnr }
+
+          mailing_tool.deliver_mailing(InvoiceMail, pm.to_addressee, invoice_file, nil, letters, add_mailer_params)
+        end
+      rescue StandardError => e
+        logger.error("Invoice processing failed for #{mglnr}: #{e.class}: #{e.message}")
+        logger.error(e.backtrace.first(10).join("\n"))
+        failures << "#{mglnr}: #{e.class}: #{e.message}"
       end
-
-      logger.debug("PDF File archived as #{invoice_file}")
-
-      add_mailer_params = { year: year, mglnr: mglnr }
-
-      mailing_tool.deliver_mailing(InvoiceMail, pm.to_addressee, invoice_file, nil, letters, add_mailer_params)
     end
 
     pdf_merged_file = nil
@@ -49,11 +60,14 @@ class PersonMemberInvoicesJob < BaseInvoicesJob
 
     ddFile = sepa_writer.generate_file
 
-    send_mail(ddFile, pdf_merged_file)
+    send_mail(ddFile, pdf_merged_file, generator_session_id, failures: failures)
   end
 
   def person_member_invoice(person, year)
     invoice = person.gen_invoice(year)
+
+    return nil if invoice.nil?
+
     invoice.generator_session_id = generator_session_id
     invoice.save
 

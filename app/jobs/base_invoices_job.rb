@@ -31,7 +31,7 @@ class BaseInvoicesJob < ApplicationJob
     end
   end
 
-  def send_mail(sepa_file, letter_file, generator_session_id=nil)
+  def send_mail(sepa_file, letter_file, generator_session_id=nil, failures: [])
     url_helpers = Rails.application.routes.url_helpers
 
     sepa_url = dl_url_for_file(sepa_file)
@@ -39,7 +39,7 @@ class BaseInvoicesJob < ApplicationJob
     sepa_invoices_url = dl_sepa_invoices_url(generator_session_id: generator_session_id) unless generator_session_id.nil?
 
     User.for_admin_notify.each do |user|
-      AdminNotifier.new_invoices(user, invoices_url: invoices_url, sepa_url: sepa_url, sepa_invoices_url: sepa_invoices_url).deliver
+      AdminNotifier.new_invoices(user, invoices_url: invoices_url, sepa_url: sepa_url, sepa_invoices_url: sepa_invoices_url, failures: failures).deliver_now
     end
   end
 

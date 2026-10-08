@@ -192,7 +192,7 @@ class PersonMember < ApplicationRecord
 
   def gen_invoice(year)
     if tariff.amount.zero?
-      Rails.logger.warning("Requested invoice generation with 0 amount: #{mglnr}")
+      Rails.logger.warn("Requested invoice generation with 0 amount: #{member.mglnr}")
       return
     end
 

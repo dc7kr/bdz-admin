@@ -14,3 +14,9 @@ ein neuer Rechnungslauf wurde durchgefuehrt.
 - if @sepa_url != nil
   %p Es wurden Lastschriften erstellt - die zugehoerige SEPA Datei kann unter #{link_to @sepa_url, @sepa_url} heruntergeladen werden.
   %p Ein PDF mit den in der SEPA Datei enthaltenen Buchungen hier: #{link_to @sepa_invoices_url, @sepa_invoices_url}.
+
+- if @failures.present?
+  %p Bei folgenden Mitgliedern ist ein Fehler aufgetreten - bitte manuell prüfen:
+  %ul
+    - @failures.each do |line|
+      %li= line

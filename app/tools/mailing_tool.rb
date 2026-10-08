@@ -116,7 +116,8 @@ class MailingTool
         { success: true, mode: "E", entity: addressee }
 
       end
-    rescue Net::SMTPAuthenticationError, Net::SMTPServerBusy, Net::SMTPSyntaxError, Net::SMTPFatalError, Net::SMTPUnknownError => e
+    rescue Net::SMTPAuthenticationError, Net::SMTPServerBusy, Net::SMTPSyntaxError, Net::SMTPFatalError, Net::SMTPUnknownError,
+           Net::OpenTimeout, Net::ReadTimeout, Errno::ECONNREFUSED, Errno::ECONNRESET, IOError, OpenSSL::SSL::SSLError => e
       record_mail_failure(addressee, e.message)
       Rails.logger.warn e.backtrace.join("\n")
       { err: e.message, entity: addressee, type: type, mode: "E" }
