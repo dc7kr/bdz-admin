@@ -1,10 +1,10 @@
 GIT
   remote: https://github.com/dc7kr/invoices-gem
-  revision: 89fdda57e5711b0181236190d07ff56ed4322516
-  ref: 89fdda57e5711b0181236190d07ff56ed4322516
-  tag: 2.11
+  revision: 43574000a0603af9e5b836e1fb73f62a7fda7b0e
+  ref: 43574000a0603af9e5b836e1fb73f62a7fda7b0e
+  tag: 2.13
   specs:
-    corika_invoices (2.11)
+    corika_invoices (2.13)
       countries
       kaminari
       kaminari-mongoid
