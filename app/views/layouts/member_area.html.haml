@@ -10,8 +10,7 @@
   %body
     #container
       #header{:class=>Rails.env}
-        #main-nav
-          = render :partial => "member_area_main_menu"
+        #main-nav= render :partial => "member_area_main_menu"
       #flash-messages 
         = render :partial => "flash_messages", locals: { :flash => flash }
       #main
