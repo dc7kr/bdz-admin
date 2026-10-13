@@ -476,8 +476,6 @@ module ApplicationHelper
         return nil
       end
 
-      Rails.logger.info(tmp)
-
       if type.nil?
         data = tmp
       elsif type == :date

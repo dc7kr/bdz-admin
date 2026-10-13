@@ -2,7 +2,7 @@
 .container
   %h2.title
     = t("member_account_booking.index")
-    - if not @member.nil? then 
+    - if not @member.nil? then
       #{@name} (#{@member.mglnr})
   #enty_info.text-center
     = page_entries_info @bookings
@@ -12,7 +12,7 @@
     %thead.table-dark
       %tr
         %th= sortable "booking_date", attr_heading(MemberAccountBooking,:booking_date), "table-dark"
-        %th= attr_heading(MemberAccountBooking,:booking_type) 
+        %th= attr_heading(MemberAccountBooking,:booking_type)
         %th= attr_heading(MemberAccountBooking,:booking_year)
         %th= attr_heading(MemberAccountBooking,:booking_txt)
         %th= attr_heading(MemberAccountBooking,:amount)
