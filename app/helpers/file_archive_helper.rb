@@ -23,9 +23,16 @@ module FileArchiveHelper
 
   # all parameters are MailingFile instances!
   def merge_pdfs(to_merge, out_file)
+    combined_file = CombinePDF.new
+    
     Dir.chdir(out_file.full_dir)
-    cmd = "/usr/bin/pdftk #{to_merge.join(' ')} output #{out_file.full_path}"
-    Rails.logger.debug { "exec: #{cmd}" }
-    system(cmd)
+    for pdf in to_merge do
+      combined_file << pdf
+    end
+    
+    combined_file.save out_file.full_path
+    #cmd = "/usr/bin/pdftk #{to_merge.join(' ')} output #{out_file.full_path}"
+    #Rails.logger.debug { "exec: #{cmd}" }
+    #system(cmd)
   end
 end
