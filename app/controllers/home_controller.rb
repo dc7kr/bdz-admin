@@ -92,7 +92,12 @@ class HomeController < AuthenticatedController
 
     filename = "#{prefix}#{view_suffix}.ods"
 
-    data = GenericView.connection.select_all("SELECT * from public_?", view_suffix)
+    unless GenericView.public_views.include?(view_suffix)
+      head :not_found
+      return
+    end
+
+    data = GenericView.connection.select_all("SELECT * FROM #{GenericView.connection.quote_table_name("public_#{view_suffix}")}")
 
     tmp = Tempfile.new("view")
     writer = OdsViewWriter.new(data, view_suffix)
