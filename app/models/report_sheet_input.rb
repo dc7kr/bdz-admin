@@ -2,7 +2,14 @@ class ReportSheetInput < ApplicationRecord
   belongs_to :report_sheet
   belongs_to :orchestra
 
-  delegate :locked?, to: :report_sheet
+  # The report sheet of an input is a draft without an orchestra until the input
+  # is confirmed, so it can't tell by itself whether the year was invoiced already.
+  def locked?
+    return true if report_sheet.locked?
+
+    orchestra.present? && orchestra.member.member_account_bookings
+                                    .exists?(booking_year: report_sheet.year, booking_type: "B")
+  end
 
   scope :not_final, -> { includes(:report_sheet).where(report_sheets: { orchestra_id: nil }) }
 
