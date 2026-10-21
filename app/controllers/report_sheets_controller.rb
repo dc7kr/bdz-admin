@@ -17,17 +17,19 @@ class ReportSheetsController < AuthenticatedController
     if params[:orchestra_id]
       @orchestra = policy_scope(Orchestra).find(params[:orchestra_id])
 
-      @report_sheets = @orchestra.report_sheets.order(:year)
+      @report_sheets = @orchestra.report_sheets.includes(orchestra: :member).order(:year)
       thisYear = Time.zone.now.year
       @report_sheets.each do |rs|
         @has_current_report_sheet = true if rs.year == thisYear
       end
     elsif params[:regional_organization_id]
-     @report_sheets = policy_scope(ReportSheet).for_regional_organization(@year, params[:regional_organization_id])
+     @report_sheets = policy_scope(ReportSheet).for_regional_organization(@year, params[:regional_organization_id]).includes(orchestra: :member)
 
     else
-      @report_sheets = policy_scope(ReportSheet).joins(orchestra: :member).all_for_year(@year).order("members.mglnr")
+      @report_sheets = policy_scope(ReportSheet).joins(orchestra: :member).includes(orchestra: :member).all_for_year(@year).order("members.mglnr")
     end
+
+    ReportSheet.preload_invoice_bookings(@report_sheets)
 
     respond_to do |format|
       format.js

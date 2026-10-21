@@ -8,7 +8,9 @@ module Mgl
 
     def index
       authorize ReportSheet
-      @report_sheets = policy_scope(ReportSheet).order(year: :desc)
+      @report_sheets = ReportSheet.preload_invoice_bookings(
+        policy_scope(ReportSheet).includes(orchestra: :member).order(year: :desc)
+      )
     end
 
     def show

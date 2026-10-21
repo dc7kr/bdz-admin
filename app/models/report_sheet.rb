@@ -397,7 +397,39 @@ class ReportSheet < ApplicationRecord
     end
   end
 
+  # Loads the invoice bookings of all given report sheets with a single query,
+  # so that locked? does not query the bookings once per report sheet in lists.
+  # The orchestras and their members should be loaded already.
+  def self.preload_invoice_bookings(report_sheets)
+    sheets = report_sheets.to_a
+    member_ids = sheets.filter_map { |rs| rs.orchestra&.member&.id }.uniq
+
+    bookings = MemberAccountBooking.where(member_id: member_ids, booking_type: "B").order(:id)
+                                   .group_by { |b| [ b.member_id, b.booking_year ] }
+
+    sheets.each do |rs|
+      member = rs.orchestra&.member
+      next if member.nil?
+
+      rs.preloaded_invoice_booking = bookings[[ member.id, rs.year ]]&.first
+    end
+
+    sheets
+  end
+
+  def preloaded_invoice_booking=(booking)
+    @invoice_booking = booking
+    @invoice_booking_preloaded = true
+  end
+
+  def reload(*)
+    @invoice_booking_preloaded = false
+    super
+  end
+
   def find_booking
+    return @invoice_booking if @invoice_booking_preloaded
+
     bookings = orchestra.member.member_account_bookings.where(booking_year: year, booking_type: "B")
     return unless !bookings.nil? && (bookings.count >= 1)
 

@@ -5,10 +5,15 @@
         %span.badge.bg-danger 
           %i.fas.fa-exclamation-circle.bg-danger
       =link_to report_sheet.year.to_s, orchestra_report_sheet_path(@orchestra,report_sheet)
+      - if report_sheet.locked?
+        %span.text-secondary{title: t("mgl.report_sheets.invoiced")}= my_fa_icon("lock")
       - if report_sheet.generated then
         %span.badge.bg-secondary=t("report_sheet.generated")
   -else
-    %td=report_sheet.orchestra.member.mglnr
+    %td
+      = report_sheet.orchestra.member.mglnr
+      - if report_sheet.locked?
+        %span.text-secondary{title: t("mgl.report_sheets.invoiced")}= my_fa_icon("lock")
   %td #{report_sheet.children} - #{report_sheet.teens} - #{report_sheet.youth} - #{report_sheet.adult} - #{report_sheet.senior}
   %td=format_bool(report_sheet.uv,true)
   %td=report_sheet.zusatz_uv
