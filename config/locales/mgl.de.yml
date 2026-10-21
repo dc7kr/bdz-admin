@@ -9,8 +9,8 @@ de:
     access_levels:
       admin: "Uneingeschränkt (Rollen)"
       regional: "Landesverband"
-      member: "Mitglied (nur Mitgliederbereich)"
-    restricting_mglnr_help: "Mitgliedsnummer eines Landesverbands, Orchesters oder Einzelmitglieds. Orchester und Einzelmitglieder sehen nur den Mitgliederbereich. Leer lassen für uneingeschränkten Zugriff."
+      none: "Kein Zugang (Mitglieder melden sich als Mitglied an)"
+    restricting_mglnr_help: "Mitgliedsnummer eines Landesverbands. Leer lassen für uneingeschränkten Zugriff."
   mgl:
     title: "BDZ-Mitgliederbereich"
     saved: "Die Daten wurden gespeichert."

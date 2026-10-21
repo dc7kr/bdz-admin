@@ -435,7 +435,6 @@ class Orchestra < ApplicationRecord
     case restr
     when nil then all
     when RegionalOrganization then joins(:member).where(members: { regional_organization_id: restr.id })
-    when Orchestra then where(id: restr.id)
     else none
     end
   end

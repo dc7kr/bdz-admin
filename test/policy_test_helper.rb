@@ -27,7 +27,6 @@ class PolicyTestCase < ActiveSupport::TestCase
     public_data:   { roles: %i[public_data] },
     regional_role: { roles: %i[regional] },                   # legacy role, no restricting entity
     regional:      { entity_class: "RegionalOrganization" },  # regional access level
-    member:        { entity_class: "Orchestra" },             # member access level (/mgl only)
     plain:         {}                                         # signed in, no roles
   }.freeze
 

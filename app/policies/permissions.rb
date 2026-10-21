@@ -3,14 +3,14 @@
 #   permitted?(:national, :distinction)  # true if the user has any of them
 #
 # Role based permissions always include admins. The access level permissions
-# (:regional, :member) and :signed_in don't.
+# (:regional) and :signed_in don't.
 module Permissions
   ROLES = %i[admin national accounting distinction festival magazine bulk bulk_notify public_data].freeze
 
   # legacy role, only still used by UserPolicy and MagazineSamplingPolicy
   LEGACY_ROLES = { regional_role: :regional }.freeze
 
-  ACCESS_LEVELS = { regional: :regional_level?, member: :member_level? }.freeze
+  ACCESS_LEVELS = { regional: :regional_level? }.freeze
 
   def permitted?(*names)
     names.any? { |name| permission?(name) }

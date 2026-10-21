@@ -14,9 +14,26 @@ class PermissionsTest < PolicyTestCase
 
   test "access level permissions do not include admins" do
     assert_not permitted(:admin, :regional)
-    assert_not permitted(:admin, :member)
     assert permitted(:regional, :regional)
-    assert permitted(:member, :member)
+  end
+
+  test "member area access is not a main area permission" do
+    assert_raises(ArgumentError) { permitted(:admin, :member) }
+  end
+
+  test "access levels of users" do
+    assert_equal :admin, user_for(:admin).access_level
+    assert_equal :regional, user_for(:regional).access_level
+
+    # accounts restricted to an orchestra / person member by an earlier version
+    %w[Orchestra PersonMember].each do |entity_class|
+      user = User.allocate
+      user.define_singleton_method(:entity_class) { entity_class }
+
+      assert_equal :none, user.access_level
+      assert_not user.admin_level?
+      assert_not user.regional_level?
+    end
   end
 
   test "any of several permissions" do

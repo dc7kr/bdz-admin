@@ -1,6 +1,7 @@
 de:
   devise:
     failure:
+      member_account: "Orchester und Einzelmitglieder melden sich mit ihrer Mitgliedsnummer im Mitgliederbereich an."
       member_inactive: "Dieser Zugang ist nicht (mehr) aktiv. Bitte wenden Sie sich an die Geschäftsstelle."
   mgl:
     invitation:

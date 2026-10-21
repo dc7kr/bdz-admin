@@ -1,6 +1,7 @@
 en:
   devise:
     failure:
+      member_account: "Orchestras and person members sign in to the member area with their member number."
       member_inactive: "This account is not active (anymore). Please contact the office."
   mgl:
     invitation:

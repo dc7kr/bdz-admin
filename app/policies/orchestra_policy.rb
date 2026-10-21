@@ -4,8 +4,6 @@ class OrchestraPolicy < MemberDataPolicy
 
   class Scope < ApplicationPolicy::Scope
     def resolve
-      return scope.none if permitted?(:member)
-
       permitted?(:national, :distinction, :regional) ? scope.for_user(user) : scope.none
     end
   end

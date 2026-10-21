@@ -9,8 +9,8 @@ en:
     access_levels:
       admin: "Unrestricted (roles)"
       regional: "Regional organization"
-      member: "Member (member area only)"
-    restricting_mglnr_help: "Member number of a regional organization, orchestra or person member. Orchestras and person members only see the member area. Leave empty for unrestricted access."
+      none: "No access (members sign in as member)"
+    restricting_mglnr_help: "Member number of a regional organization. Leave empty for unrestricted access."
   mgl:
     title: "BDZ member area"
     saved: "The data has been saved."

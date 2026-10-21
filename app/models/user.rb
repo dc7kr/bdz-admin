@@ -10,10 +10,9 @@ class User < ApplicationRecord
   # Restricts the data a user may see (see #access_level):
   #   nil                   - no restriction, access is controlled by roles only
   #   RegionalOrganization  - members of that regional organization (main area)
-  #   Orchestra             - only that orchestra (member area below /mgl)
-  #   PersonMember          - only that person member (member area below /mgl)
-  RESTRICTING_ENTITY_TYPES = %w[RegionalOrganization Orchestra PersonMember].freeze
-  MEMBER_ENTITY_TYPES = %w[Orchestra PersonMember].freeze
+  # Orchestras and person members don't have a User, they sign in as Member to
+  # the member area below /mgl (see docs/member_area.md).
+  RESTRICTING_ENTITY_TYPES = %w[RegionalOrganization].freeze
 
   belongs_to :restricting_entity, polymorphic: true, optional: true,
                                   foreign_key: :entity_id, foreign_type: :entity_class
@@ -155,15 +154,26 @@ class User < ApplicationRecord
     token
   end
 
-  # :admin, :regional or :member
+  # :admin, :regional or :none for accounts restricted to an orchestra or person
+  # member by an earlier version, they don't have access anymore
   def access_level
     if entity_class.blank?
       :admin
     elsif entity_class == "RegionalOrganization"
       :regional
     else
-      :member
+      :none
     end
+  end
+
+  # accounts of orchestras and person members are Members since the member area
+  # has its own sign in
+  def active_for_authentication?
+    super && access_level != :none
+  end
+
+  def inactive_message
+    access_level == :none ? :member_account : super
   end
 
   def admin_level?
@@ -172,11 +182,6 @@ class User < ApplicationRecord
 
   def regional_level?
     access_level == :regional
-  end
-
-  # orchestra and person member users only have access to the member area below /mgl
-  def member_level?
-    access_level == :member
   end
 
   # the Member record (mglnr, address, account) of the restricting entity
@@ -218,7 +223,7 @@ class User < ApplicationRecord
   end
 
   def restricting_mglnr_must_exist
-    return if @restricting_mglnr.blank? || restricting_entity.present?
+    return if @restricting_mglnr.blank? || restricting_entity.is_a?(RegionalOrganization)
 
     errors.add(:restricting_mglnr, :invalid)
   end

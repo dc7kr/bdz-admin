@@ -90,6 +90,15 @@ class MemberDataPoliciesTest < PolicyTestCase
     assert_permissions ReportSheetPolicy, ReportSheet, :update_invoice?, ACCOUNTING
     assert_permissions ReportSheetPolicy, ReportSheet, :copy_from_last_year?, NATIONAL
     assert_permissions ReportSheetInputPolicy, ReportSheetInput, :metadata?, NATIONAL
+    assert_permissions ReportSheetInputPolicy, ReportSheetInput, :lockdown?, NATIONAL
+  end
+
+  test "locked report sheet inputs can not be destroyed" do
+    open_input = Struct.new(:locked?).new(false)
+    locked_input = Struct.new(:locked?).new(true)
+
+    assert_permissions ReportSheetInputPolicy, open_input, :destroy?, NATIONAL
+    assert_permissions ReportSheetInputPolicy, locked_input, :destroy?, NOBODY
   end
 
   test "downloads" do

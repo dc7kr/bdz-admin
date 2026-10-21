@@ -49,7 +49,6 @@ class PersonMember < ApplicationRecord
     case restr
     when nil then all
     when RegionalOrganization then joins(:member).where(members: { regional_organization_id: restr.id })
-    when PersonMember then where(id: restr.id)
     else none
     end
   end

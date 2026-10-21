@@ -54,26 +54,31 @@ class GemaEventPoliciesTest < PolicyTestCase
     end
   end
 
-  test "member area: orchestra users read the events of their orchestra" do
+  # the member area policies get a Mgl::MemberContext, not a User
+  def member_context(entity)
+    Mgl::MemberContext.new(user: nil, entity: entity, impersonating: false)
+  end
+
+  test "member area: orchestra members read the events of their orchestra" do
     orchestra = Orchestra.allocate
     orchestra.define_singleton_method(:id) { 7 }
-    user = user_for(:member)
-    user.define_singleton_method(:restricting_entity) { orchestra }
+    context = member_context(orchestra)
 
-    assert Mgl::GemaEventPolicy.new(user, GemaEvent).index?
-    assert Mgl::GemaEventPolicy.new(user, event(7)).show?
-    assert_not Mgl::GemaEventPolicy.new(user, event(8)).show?
-    assert_not Mgl::GemaEventPolicy.new(user, event(7)).update?
-    assert_not Mgl::GemaEventPolicy.new(user, event(7)).destroy?
+    assert Mgl::GemaEventPolicy.new(context, GemaEvent).index?
+    assert Mgl::GemaEventPolicy.new(context, event(7)).show?
+    assert_not Mgl::GemaEventPolicy.new(context, event(8)).show?
+    assert_not Mgl::GemaEventPolicy.new(context, event(7)).update?
+    assert_not Mgl::GemaEventPolicy.new(context, event(7)).destroy?
 
-    criteria = Mgl::GemaEventPolicy::Scope.new(user, FakeCriteria.new).resolve
+    criteria = Mgl::GemaEventPolicy::Scope.new(context, FakeCriteria.new).resolve
     assert_equal({ orchestra_id: 7 }, criteria.condition)
   end
 
-  test "member area: main area users have no access" do
-    (ALL - %i[member]).each do |persona|
-      assert_not Mgl::GemaEventPolicy.new(user_for(persona), event(7)).show?, persona
-      assert_equal :none, Mgl::GemaEventPolicy::Scope.new(user_for(persona), FakeCriteria.new).resolve, persona
-    end
+  test "member area: without an entity there is no access" do
+    context = member_context(nil)
+
+    assert_not Mgl::GemaEventPolicy.new(context, GemaEvent).index?
+    assert_not Mgl::GemaEventPolicy.new(context, event(7)).show?
+    assert_equal :none, Mgl::GemaEventPolicy::Scope.new(context, FakeCriteria.new).resolve
   end
 end
