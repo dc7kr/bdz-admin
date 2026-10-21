@@ -3,6 +3,13 @@ en:
     failure:
       member_inactive: "This account is not active (anymore). Please contact the office."
   mgl:
+    invitation:
+      send: "Invite to the member area"
+      sent: "The invitation was sent to %{email}."
+      inactive: "The member has no access to the member area (has left)."
+      link_title: "Invitation link"
+      link_intro: "%{name} has no email address. This link sets the password for the member area. It is valid for %{days} days and replaces earlier links."
+      link_hint: "Only hand the link over to the member."
     sign_in:
       title: "Sign in to the member area"
       mglnr: "Member number"

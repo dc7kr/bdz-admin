@@ -14,6 +14,8 @@
         %li= link_to( "Ehrungen", orchestra_distinctions_url(entity), class: "dropdown-item")
       - if policy(entity).impersonate?
         %li= button_to t("mgl.impersonation.start"), mgl_impersonation_path(entity_type: "Orchestra", entity_id: entity.id), class: "dropdown-item", form: { data: { turbo: false } }
+      - if policy(entity).invite?
+        %li= button_to t("mgl.invitation.send"), mgl_invitation_path(entity_type: "Orchestra", entity_id: entity.id), class: "dropdown-item", form: { data: { turbo: false } }
       %li
         %hr.dropdown-divider
 

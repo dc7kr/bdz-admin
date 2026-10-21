@@ -1,0 +1,7 @@
+.container
+  %h2= t("mgl.invitation.link_title")
+  %p= t("mgl.invitation.link_intro", name: mgl_entity_name(@entity), days: 7)
+  .input-group.mb-3
+    %input.form-control{ type: "text", readonly: true, value: @link, onfocus: "this.select()" }
+  %p.text-muted= t("mgl.invitation.link_hint")
+  = link_to t("common.back"), @entity, class: "btn btn-secondary"

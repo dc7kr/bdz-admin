@@ -7,3 +7,5 @@
       %li.nav-item= link_to( "Mitglied-Events", person_member_member_events_url(entity) , :class=>"nav-link")
       - if policy(entity).impersonate?
         %li.nav-item= button_to t("mgl.impersonation.start"), mgl_impersonation_path(entity_type: "PersonMember", entity_id: entity.id), class: "nav-link", form: { data: { turbo: false } }
+      - if policy(entity).invite?
+        %li.nav-item= button_to t("mgl.invitation.send"), mgl_invitation_path(entity_type: "PersonMember", entity_id: entity.id), class: "nav-link", form: { data: { turbo: false } }

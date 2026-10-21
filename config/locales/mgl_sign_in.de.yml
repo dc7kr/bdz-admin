@@ -3,6 +3,13 @@ de:
     failure:
       member_inactive: "Dieser Zugang ist nicht (mehr) aktiv. Bitte wenden Sie sich an die Geschäftsstelle."
   mgl:
+    invitation:
+      send: "Einladung zum Mitgliederbereich senden"
+      sent: "Die Einladung wurde an %{email} gesendet."
+      inactive: "Das Mitglied hat keinen Zugang zum Mitgliederbereich (ausgetreten)."
+      link_title: "Einladungslink"
+      link_intro: "%{name} hat keine E-Mail-Adresse. Mit diesem Link kann das Passwort für den Mitgliederbereich festgelegt werden. Er ist %{days} Tage gültig und ersetzt frühere Links."
+      link_hint: "Bitte geben Sie den Link nur an das Mitglied weiter."
     sign_in:
       title: "Anmeldung zum Mitgliederbereich"
       mglnr: "Mitgliedsnummer"

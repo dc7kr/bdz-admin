@@ -17,7 +17,8 @@ class Member < ApplicationRecord
   has_many :passkeys, as: :owner, dependent: :destroy
 
   devise :database_authenticatable, :recoverable, :rememberable, :trackable, :passkey_authenticatable,
-         authentication_keys: [ :mglnr ], reset_password_keys: [ :mglnr ]
+         authentication_keys: [ :mglnr ], reset_password_keys: [ :mglnr ],
+         reset_password_within: 7.days
 
   before_create :generate_webauthn_id
 
@@ -62,6 +63,17 @@ class Member < ApplicationRecord
     return false if errors.any?
 
     save(validate: false)
+  end
+
+  # One-time password link for members without an email address, the office
+  # hands it over. Members with an address get it by mail
+  # (send_reset_password_instructions).
+  def member_area_invite_token
+    raw, encrypted = Devise.token_generator.generate(self.class, :reset_password_token)
+    self.reset_password_token = encrypted
+    self.reset_password_sent_at = Time.current
+    save(validate: false)
+    raw
   end
 
   # mails of the devise modules (password reset) need an address

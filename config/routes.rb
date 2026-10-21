@@ -114,6 +114,9 @@ Rails.application.routes.draw do
     # national users opening the member area in the name of a member
     resource :impersonation, only: %i[create destroy]
 
+    # staff invites a member to the member area (password mail or link)
+    resource :invitation, only: :create
+
     resource :orchestra, only: %i[show edit update]
     resource :person_member, only: %i[show edit update]
 

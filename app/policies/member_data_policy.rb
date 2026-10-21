@@ -9,6 +9,11 @@ class MemberDataPolicy < ApplicationPolicy
     Mgl::Impersonation.allowed?(user)
   end
 
+  # invite the member to the member area (set a password), see Mgl::InvitationsController
+  def invite?
+    permitted?(:national)
+  end
+
   class Scope < ApplicationPolicy::Scope
     def resolve
       all_if_permitted(:national)
