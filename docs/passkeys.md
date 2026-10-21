@@ -1,7 +1,8 @@
 # Passkeys
 
 Users can sign in with a passkey (WebAuthn) as well as with username/email and
-password. Password login stays available. Passkeys are optional and are added
+password, members of the member area (orchestras and person members) as well as with
+their member number and password. Password login stays available. Passkeys are optional and are added
 on top of the password.
 
 Gems: `devise` 5, `devise-passkeys` 0.3, `warden-webauthn` 0.3, `webauthn` 3.4.
@@ -16,9 +17,11 @@ Gems: `devise` 5, `devise-passkeys` 0.3, `warden-webauthn` 0.3, `webauthn` 3.4.
 | Delete a passkey| `/users/passkeys`, trash button                | confirmation dialog          |
 
 - Users may delete their last passkey; they can still sign in with their password.
-- Member area users (orchestras and person members, see
-  [member_area.md](member_area.md)) can manage passkeys too. The page is shown in
-  the member area layout.
+- Members of the member area (orchestras and person members, see
+  [member_area.md](member_area.md)) sign in and manage their passkeys at
+  `/mgl/sign_in` and `/mgl/passkeys` (`Members::SessionsController`,
+  `Members::PasskeysController`). The management page is the same view as for users
+  and is shown in the member area layout.
 
 ## Data model
 
@@ -28,33 +31,34 @@ Migration: `db/migrate/20260924074447_create_passkeys.rb`.
 
 | Column         | Type                     | Notes                                                       |
 |----------------|--------------------------|-------------------------------------------------------------|
-| `user_id`      | reference, FK            |                                                             |
-| `label`        | string, not null         | unique per user (`index [user_id, label]`)                  |
+| `owner_type`, `owner_id` | polymorphic, not null | a `User` or a `Member` (`db/migrate/20261021100100_make_passkeys_polymorphic.rb`; no foreign key) |
+| `label`        | string, not null         | unique per owner (`index [owner_type, owner_id, label]`)    |
 | `external_id`  | string, not null, `ascii_bin` | credential id, Base64 (strict). Unique, case-sensitive collation |
 | `public_key`   | text, not null           | COSE public key; text because RSA keys exceed 255 chars     |
 | `sign_count`   | integer, default 0       |                                                             |
 | `last_used_at` | datetime                 | set on every passkey login                                  |
 | timestamps     |                          |                                                             |
 
-### `users.webauthn_id`
+### `users.webauthn_id` and `members.webauthn_id`
 
 - String, `ascii_bin`, with a unique index.
-- It is the WebAuthn user handle, a random id that is unrelated to `users.id`.
+- It is the WebAuthn user handle, a random id that is unrelated to the record id.
 - The migration filled it in for all existing users.
-- New users get one in `before_create :generate_webauthn_id`.
+- New users and members get one in `before_create :generate_webauthn_id`.
 - If it is still missing when a passkey is created, `user_details_for_registration`
   sets it then.
 
 ### Models
 
 - `Passkey < ApplicationRecord`:
-  - `belongs_to :user`
-  - validates `label` (present, unique per user), `external_id` and `public_key`
-- `User`:
-  - `has_many :passkeys, dependent: :destroy`
+  - `belongs_to :owner, polymorphic: true`
+  - validates `label` (present, unique per owner), `external_id` and `public_key`
+- `User` and `Member`:
+  - `has_many :passkeys, as: :owner, dependent: :destroy`
   - `:passkey_authenticatable` in the `devise` call
   - `self.passkeys_class` and `self.find_for_passkey(passkey)`, both required by
-    devise-passkeys
+    devise-passkeys. `find_for_passkey` returns the owner only if it is of the
+    model's own class, so a user's passkey can't sign in a member and vice versa.
 
 ## Configuration
 
@@ -93,6 +97,9 @@ devise_scope :user do
   end
 end
 ```
+
+The member area has the same structure for `:member` (`/mgl/sign_in`,
+`/mgl/sign_in/new_challenge`, `/mgl/passkeys`), see [member_area.md](member_area.md).
 
 Self-registration stays disabled (`skip: [:registrations]`). The profile page is
 still the hand-wired `devise/registrations#edit` route.
@@ -167,9 +174,11 @@ finds passkeys of the current user. The controller redirects with `303 See Other
 |------|---------|
 | `app/controllers/users/sessions_controller.rb` | `Devise::SessionsController` + `SessionsControllerConcern` (challenge for login) |
 | `app/controllers/users/passkeys_controller.rb` | list / add / delete, password check |
+| `app/controllers/members/sessions_controller.rb`, `members/passkeys_controller.rb` | the same for members of the member area |
 | `app/controllers/concerns/webauthn_relying_party.rb` | relying party from the request |
 | `app/views/devise/sessions/new.html.haml` | passkey login button |
-| `app/views/users/passkeys/index.html.haml` | passkey management |
+| `app/views/users/passkeys/index.html.haml` | passkey management (also rendered by `members/passkeys`) |
+| `app/views/members/sessions/new.html.haml` | member sign in with passkey button |
 | `app/views/application/_user_dropdown.html.haml` | **Passkeys** menu entry (main area) |
 | `app/views/mgl/_main_menu.html.haml` | **Passkeys** menu entry (member area) |
 | `config/locales/passkeys.{de,en}.yml` | texts and WebAuthn error messages |

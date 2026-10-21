@@ -12,8 +12,10 @@ Access is controlled by two independent things:
    - `admin_level?`: no restriction, roles decide.
    - `regional_level?`: restricted to one regional organization. These users can only see
      orchestras and person members of that organization.
-   - `member_level?`: orchestra or person member users. `ApplicationController#confine_member_level_user`
-     keeps them out of the main area completely.
+
+   Orchestras and person members are not users. They sign in as `Member` and
+   `ApplicationController#confine_member_level_user` keeps them out of the main
+   area completely.
 2. **Roles**: assigned with rolify (`users_roles`).
 
 | Role          | Meaning                                                                 |
@@ -39,7 +41,6 @@ permissions. Unknown names raise `ArgumentError`.
 | `:admin`, `:national`, `:accounting`, `:distinction`, `:festival`, `:magazine`, `:bulk`, `:bulk_notify`, `:public_data` | users with that role, and always admins |
 | `:regional_role` | users with the legacy `regional` role, and admins |
 | `:regional` | regional access level (`User#regional_level?`); not admins |
-| `:member` | member access level (`User#member_level?`); not admins |
 | `:signed_in` | any user |
 
 The tables below use these names. **national** means admins and users with the `national` role,
@@ -119,12 +120,12 @@ data because regional users open their own regional organization from the menu.
 |--------|--------|-----|
 | `OrchestraPolicy` | `show?` | national, regional, distinction |
 | | `invoice_preview?` | accounting |
-| | scope | member level: none; national, distinction, regional: `Orchestra.for_user`; others: none |
+| | scope | national, distinction, regional: `Orchestra.for_user`; others: none |
 | `PersonMemberPolicy` | `show?` | national, regional |
 | | `create?`, `update?` | national |
 | | `invoice_preview?` | accounting |
 | | `index?`, `destroy?` | nobody |
-| | scope | member level: none; national, regional: `PersonMember.for_user`; others: none |
+| | scope | national, regional: `PersonMember.for_user`; others: none |
 | `OrchestraMemberPolicy` | `index?`, `show?` | national, distinction (`show?` also regional) |
 | | `exchange?` | national |
 | | scope | national, distinction |
