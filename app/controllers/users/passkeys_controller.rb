@@ -24,7 +24,15 @@ class Users::PasskeysController < DeviseController
     redirect_to users_passkeys_path, notice: find_message(:passkey_deleted), status: :see_other
   end
 
+  helper_method :passkeys_path, :passkey_path, :passkey_challenge_path
+
   protected
+
+  def passkeys_path = users_passkeys_path
+
+  def passkey_path(passkey) = users_passkey_path(passkey)
+
+  def passkey_challenge_path = new_create_challenge_users_passkeys_path
 
   def create_passkey(resource:)
     passkey = resource.passkeys.build(

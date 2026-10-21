@@ -1,0 +1,10 @@
+.card.card-primary.mb-3.mt-3.mx-auto.shadow.w-50
+  .card-header.text-white.bg-primary= t("mgl.sign_in.forgot_password")
+  .card-body
+    %p.text-muted= t("mgl.sign_in.reset_intro")
+    = bootstrap_form_for(resource, as: resource_name, url: password_path(resource_name)) do |f|
+      = render "devise/shared/error_messages", resource: resource
+      = f.text_field :mglnr, label: t("mgl.sign_in.mglnr"), autofocus: true, inputmode: "numeric"
+      .d-grid.gap-2.mx-auto
+        = f.submit t("mgl.sign_in.send_reset")
+    .mt-4= link_to t("mgl.sign_in.back"), new_member_session_path

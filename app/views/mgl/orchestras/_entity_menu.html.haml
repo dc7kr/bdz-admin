@@ -8,7 +8,7 @@
       %li= link_to( "Kontakt-Adressen", orchestra_orchestra_contacts_url(entity), class: "dropdown-item")
       %li= link_to( "Orchestermitglieder", orchestra_orchestra_members_url(entity), class: "dropdown-item")
       %li= link_to( "Meldebögen", orchestra_report_sheets_url(entity), class: "dropdown-item")
-      -if current_user.has_any_role? :national,:admin
+      -if user_signed_in? && current_user.has_any_role?(:national,:admin)
         %li= link_to( "Meldebogen-Eingabe-Objekte", report_sheet_inputs_url(:orch=>entity.id), class: "dropdown-item")
       - if entity.is_regular?
         %li= link_to( "Ehrungen", orchestra_distinctions_url(entity), class: "dropdown-item")

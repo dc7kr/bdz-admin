@@ -5,7 +5,7 @@ class User < ApplicationRecord
   before_create :generate_webauthn_id
 
   has_many :concerts
-  has_many :passkeys, dependent: :destroy
+  has_many :passkeys, as: :owner, dependent: :destroy
 
   # Restricts the data a user may see (see #access_level):
   #   nil                   - no restriction, access is controlled by roles only
@@ -29,7 +29,7 @@ class User < ApplicationRecord
 
   # required by devise-passkeys
   def self.find_for_passkey(passkey)
-    find_by(id: passkey.user_id)
+    find_by(id: passkey.owner_id) if passkey.owner_type == name
   end
 
   # Include default devise modules. Others available are:

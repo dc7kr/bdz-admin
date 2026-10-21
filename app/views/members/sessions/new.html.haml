@@ -1,0 +1,19 @@
+.card.card-primary.mb-3.mt-3.mx-auto.shadow.login
+  .card-header.text-white.bg-primary= t("mgl.sign_in.title")
+  .card-body
+    = bootstrap_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+      = f.text_field :mglnr, label: t("mgl.sign_in.mglnr"), autofocus: true, autocomplete: "username", inputmode: "numeric"
+      = f.password_field :password, label: t("mgl.sign_in.password"), autocomplete: "current-password"
+      = f.check_box :remember_me, label: t("mgl.sign_in.remember_me")
+      .d-grid.gap-2.mx-auto
+        = f.submit t("mgl.sign_in.submit")
+    = form_with scope: resource_name, url: session_path(resource_name), class: "mt-3",
+      data: { controller: "passkey", passkey_challenge_url_value: new_member_session_challenge_path } do |f|
+      = f.hidden_field :passkey_credential, data: { passkey_target: "credential" }
+      .alert.alert-danger{ hidden: true, data: { passkey_target: "error" } }
+      .d-grid.gap-2.mx-auto
+        %button.btn.btn-outline-primary{ type: "button", data: { action: "passkey#login" } }
+          = my_fa_icon("key")
+          &nbsp;
+          = t("devise.sessions.new.sign_in_with_passkey")
+    .mt-4= link_to t("mgl.sign_in.forgot_password"), new_member_password_path

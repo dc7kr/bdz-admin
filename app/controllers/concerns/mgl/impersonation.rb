@@ -26,8 +26,8 @@ module Mgl
 
       @mgl_entity = if impersonating?
         impersonated_entity
-      elsif user_signed_in? && current_user.member_level?
-        current_user.restricting_entity
+      elsif member_signed_in?
+        current_member.member_entity
       end
     end
 

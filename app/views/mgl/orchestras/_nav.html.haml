@@ -4,7 +4,7 @@
     = nav_to_show @orchestra
     = nav_to_edit @orchestra
   -else
-    - if current_user.national_permission?
+    - if user_signed_in? && current_user.national_permission?
       %li.nav-item= link_to t("orchestra.noreport"), noreport_orchestras_path, :class => tabActiveClass(@current_action,'noreport',"nav-link")
       %li.nav-item= link_to t("member.nopayment"), nopayment_orchestras_path, :class => tabActiveClass(@current_action,'nopayment',"nav-link")
       %li.nav-item= link_to t("member.nomail"), nomail_orchestras_path, :class => tabActiveClass(@current_action,'nomail',"nav-link")

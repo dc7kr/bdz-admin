@@ -9,6 +9,68 @@ class Member < ApplicationRecord
 
   belongs_to :member_entity, polymorphic: true
 
+  # Orchestras and person members sign in to the member area (/mgl) as Member,
+  # with their member number and a password (docs/member_area.md).
+  # Regional organizations use User accounts.
+  LOGIN_ENTITY_TYPES = %w[Orchestra PersonMember].freeze
+
+  has_many :passkeys, as: :owner, dependent: :destroy
+
+  devise :database_authenticatable, :recoverable, :rememberable, :trackable, :passkey_authenticatable,
+         authentication_keys: [ :mglnr ], reset_password_keys: [ :mglnr ]
+
+  before_create :generate_webauthn_id
+
+  # required by devise-passkeys
+  def self.passkeys_class
+    Passkey
+  end
+
+  # required by devise-passkeys
+  def self.find_for_passkey(passkey)
+    find_by(id: passkey.owner_id) if passkey.owner_type == name
+  end
+
+  # Members that have left may not sign in anymore
+  def active_for_authentication?
+    super && LOGIN_ENTITY_TYPES.include?(member_entity_type) && member_entity.present? && !left?
+  end
+
+  def inactive_message
+    :member_inactive
+  end
+
+  def left?
+    austritt_zum.present? && austritt_zum < Time.zone.today
+  end
+
+  # Devise saves with all validations, but members with old data that is not
+  # valid anymore (iban, address, ...) must be able to reset their password as
+  # well. Only the password is checked here.
+  def reset_password(new_password, new_password_confirmation)
+    self.password = new_password
+    self.password_confirmation = new_password_confirmation
+
+    errors.clear
+    if new_password.blank?
+      errors.add(:password, :blank)
+    elsif new_password.length < Devise.password_length.min
+      errors.add(:password, :too_short, count: Devise.password_length.min)
+    elsif new_password != new_password_confirmation
+      errors.add(:password_confirmation, :confirmation, attribute: self.class.human_attribute_name(:password))
+    end
+    return false if errors.any?
+
+    save(validate: false)
+  end
+
+  # mails of the devise modules (password reset) need an address
+  def send_devise_notification(notification, *args)
+    return unless has_email?
+
+    super
+  end
+
   def self.nested_params
     %i[id regional_organization_id mglnr title anrede vorname name strasse plz ort email
        eintritt austritt_zum za konto blz zahler telefon fax bic iban country_code dsgvo dsgvo_date sepa_date sepa_mandate_nr magazines]
@@ -311,5 +373,11 @@ class Member < ApplicationRecord
 
   def to_entity_type
     member_entity.class.to_s.underscore.to_sym
+  end
+
+  private
+
+  def generate_webauthn_id
+    self.webauthn_id = WebAuthn.generate_user_id if webauthn_id.blank?
   end
 end

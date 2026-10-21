@@ -82,8 +82,16 @@ class ApplicationController < ActionController::Base
   helper_method :current_area
 
   def after_sign_in_path_for(resource)
-    if resource.is_a?(User) && resource.member_level?
+    if resource.is_a?(Member)
       mgl_root_path
+    else
+      super
+    end
+  end
+
+  def after_sign_out_path_for(resource_or_scope)
+    if resource_or_scope == :member || resource_or_scope.is_a?(Member)
+      new_member_session_path
     else
       super
     end
@@ -123,10 +131,10 @@ class ApplicationController < ActionController::Base
   end
 
   # controllers member level users may use outside of the member area
-  MEMBER_LEVEL_CONTROLLERS = %w[users/passkeys errors].freeze
+  MEMBER_LEVEL_CONTROLLERS = %w[members/passkeys errors].freeze
 
   def confine_member_level_user
-    return unless user_signed_in? && current_user.member_level?
+    return unless member_signed_in? && !user_signed_in?
     return if controller_path.start_with?("mgl/") || devise_controller? ||
               MEMBER_LEVEL_CONTROLLERS.include?(controller_path)
 
@@ -181,7 +189,7 @@ class ApplicationController < ActionController::Base
   end
 
   def choose_layout
-    return "mgl" if user_signed_in? && current_user.member_level?
+    return "mgl" if member_signed_in? && !user_signed_in?
 
     path = request.fullpath.split("/")
     namespace = path.second if path.first

@@ -1,0 +1,18 @@
+de:
+  devise:
+    failure:
+      member_inactive: "Dieser Zugang ist nicht (mehr) aktiv. Bitte wenden Sie sich an die Geschäftsstelle."
+  mgl:
+    sign_in:
+      title: "Anmeldung zum Mitgliederbereich"
+      mglnr: "Mitgliedsnummer"
+      password: "Passwort"
+      password_confirmation: "Passwort wiederholen"
+      remember_me: "Angemeldet bleiben"
+      submit: "Anmelden"
+      forgot_password: "Passwort vergessen?"
+      reset_intro: "Geben Sie Ihre Mitgliedsnummer ein. Wir senden Ihnen einen Link zum Setzen eines neuen Passworts an die bei uns hinterlegte E-Mail-Adresse."
+      send_reset: "Link zum Zurücksetzen senden"
+      back: "Zurück zur Anmeldung"
+      new_password: "Neues Passwort vergeben"
+      change_password: "Passwort ändern"

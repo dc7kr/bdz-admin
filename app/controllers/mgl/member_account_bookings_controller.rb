@@ -3,7 +3,7 @@ module Mgl
   class MemberAccountBookingsController < BaseController
     def index
       @bookings = policy_scope(MemberAccountBooking).order(booking_date: :desc).page(params[:page]).per(30)
-      @balance = current_member.member_fee_balance
+      @balance = mgl_member.member_fee_balance
     end
 
     def show

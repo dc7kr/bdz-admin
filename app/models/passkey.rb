@@ -1,6 +1,7 @@
 class Passkey < ApplicationRecord
-  belongs_to :user
+  # a User (staff) or a Member (member area)
+  belongs_to :owner, polymorphic: true
 
-  validates :label, presence: true, uniqueness: { scope: :user_id }
+  validates :label, presence: true, uniqueness: { scope: %i[owner_type owner_id] }
   validates :external_id, :public_key, presence: true
 end

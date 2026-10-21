@@ -6,7 +6,7 @@
         %span.navbar-toggler-icon
 
       #mainMenuNavbarContent.collapse.navbar-collapse
-        - if user_signed_in? && mgl_entity
+        - if (impersonating? || member_signed_in?) && mgl_entity
           - entity = mgl_entity
           %ul.navbar-nav.me-auto
             - if entity.is_a?(Orchestra)
@@ -20,7 +20,7 @@
               %li.nav-item= link_to t("mgl.menu.master_data"), mgl_person_member_path, class: "nav-link"
             %li.nav-item= link_to t("mgl.menu.member_account"), mgl_member_account_bookings_path, class: "nav-link"
 
-        - if user_signed_in?
+        - if impersonating? && user_signed_in?
           %ul.navbar-nav.ms-auto
             %li.nav-item.dropdown
               %a.nav-link.dropdown-toggle{ data: { "bs-toggle": "dropdown" }, href: "#", role: "button", "aria-expanded": false }
@@ -41,6 +41,25 @@
                   %hr.dropdown-divider/
                 %li
                   = link_to destroy_user_session_path, data: { turbo_method: :delete }, class: "dropdown-item" do
+                    = my_fa_icon "sign-out-alt"
+                    &nbsp;
+                    = t("account.logout")
+        - elsif member_signed_in?
+          %ul.navbar-nav.ms-auto
+            %li.nav-item.dropdown
+              %a.nav-link.dropdown-toggle{ data: { "bs-toggle": "dropdown" }, href: "#", role: "button", "aria-expanded": false }
+                = my_fa_icon("user")
+                = current_member.mglnr
+              %ul.dropdown-menu.dropdown-menu-end
+                %li
+                  = link_to members_passkeys_path, class: "dropdown-item" do
+                    = my_fa_icon("key")
+                    &nbsp;
+                    = t("account.passkeys")
+                %li
+                  %hr.dropdown-divider/
+                %li
+                  = link_to destroy_member_session_path, data: { turbo_method: :delete }, class: "dropdown-item" do
                     = my_fa_icon "sign-out-alt"
                     &nbsp;
                     = t("account.logout")

@@ -1,0 +1,10 @@
+.card.card-primary.mb-3.mt-3.mx-auto.shadow.w-50
+  .card-header.text-white.bg-primary= t("mgl.sign_in.new_password")
+  .card-body
+    = bootstrap_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f|
+      = render "devise/shared/error_messages", resource: resource
+      = f.hidden_field :reset_password_token
+      = f.password_field :password, label: t("mgl.sign_in.password"), autocomplete: "new-password"
+      = f.password_field :password_confirmation, label: t("mgl.sign_in.password_confirmation"), autocomplete: "new-password"
+      .d-grid.gap-2.mx-auto
+        = f.submit t("mgl.sign_in.change_password")

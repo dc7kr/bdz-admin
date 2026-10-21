@@ -105,12 +105,11 @@ Rails.application.routes.draw do
 
   # BEGIN member area
   #
-  # Restricted area for orchestra and person member users (see User#member_level?).
-  # The routes below operate on the signed in user's own entity, so they carry no
-  # orchestra / person member ids.
+  # Restricted area for orchestras and person members, who sign in as Member
+  # (see devise_for :members below). The routes below operate on the signed in
+  # member's own entity, so they carry no orchestra / person member ids.
   namespace :mgl do
     root to: "home#show"
-    get "sign_in", to: redirect("/users/sign_in")
 
     # national users opening the member area in the name of a member
     resource :impersonation, only: %i[create destroy]
@@ -267,7 +266,21 @@ Rails.application.routes.draw do
     end
   end
 
-  devise_for :members, controllers: { registrations: "registrations" }, path_prefix: "mem"
+  # sign in of the member area: /mgl/sign_in, /mgl/password/new, ...
+  devise_for :members, path: "mgl", skip: [ :registrations ],
+                       controllers: { sessions: "members/sessions", passwords: "members/passwords" }
+
+  devise_scope :member do
+    post "mgl/sign_in/new_challenge", to: "members/sessions#new_challenge", as: :new_member_session_challenge
+
+    namespace :members, path: "mgl" do
+      resources :passkeys, only: %i[index create destroy] do
+        collection do
+          post :new_create_challenge
+        end
+      end
+    end
+  end
 
   resources :users, path: :accounts do
     collection do

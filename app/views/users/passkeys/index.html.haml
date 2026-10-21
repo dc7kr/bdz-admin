@@ -19,7 +19,7 @@
           %td= l(passkey.created_at, format: :short)
           %td= passkey.last_used_at ? l(passkey.last_used_at, format: :short) : "-"
           %td.text-end
-            = button_to users_passkey_path(passkey), method: :delete, class: "btn btn-sm btn-outline-danger",
+            = button_to passkey_path(passkey), method: :delete, class: "btn btn-sm btn-outline-danger",
               data: { turbo_confirm: t(".confirm_delete", label: passkey.label) } do
               = my_fa_icon("trash")
       - if @passkeys.empty?
@@ -27,8 +27,8 @@
           %td.text-muted{ colspan: 4 }= t(".none")
 
   %h4.mt-4= t(".add")
-  = form_with scope: :passkey, url: users_passkeys_path,
-    data: { controller: "passkey", passkey_challenge_url_value: new_create_challenge_users_passkeys_path, passkey_create_url_value: users_passkeys_path, action: "submit->passkey#register" } do |f|
+  = form_with scope: :passkey, url: passkeys_path,
+    data: { controller: "passkey", passkey_challenge_url_value: passkey_challenge_path, passkey_create_url_value: passkeys_path, action: "submit->passkey#register" } do |f|
     .alert.alert-danger{ hidden: true, data: { passkey_target: "error" } }
     .mb-3
       = f.label :label, Passkey.human_attribute_name(:label), class: "form-label"

@@ -1,0 +1,18 @@
+en:
+  devise:
+    failure:
+      member_inactive: "This account is not active (anymore). Please contact the office."
+  mgl:
+    sign_in:
+      title: "Sign in to the member area"
+      mglnr: "Member number"
+      password: "Password"
+      password_confirmation: "Repeat password"
+      remember_me: "Stay signed in"
+      submit: "Sign in"
+      forgot_password: "Forgot your password?"
+      reset_intro: "Enter your member number. We will send a link to set a new password to the e-mail address we have on file."
+      send_reset: "Send reset link"
+      back: "Back to sign in"
+      new_password: "Set a new password"
+      change_password: "Change password"
