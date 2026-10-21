@@ -65,6 +65,15 @@ class Member < ApplicationRecord
     save(validate: false)
   end
 
+  # Sets the password of a member that doesn't have one yet and returns whether
+  # it was set. Existing passwords are never replaced.
+  def set_initial_password(new_password)
+    return false if encrypted_password.present? || new_password.blank?
+
+    self.password = new_password
+    save(validate: false)
+  end
+
   # One-time password link for members without an email address, the office
   # hands it over. Members with an address get it by mail
   # (send_reset_password_instructions).
