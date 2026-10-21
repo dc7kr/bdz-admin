@@ -49,44 +49,11 @@ class ReportSheetInputsController < AuthenticatedController
     end
   end
 
-  # POST /report_sheet_inputs
-  # POST /report_sheet_inputs
-  # POST /report_sheet_inputs.json
-  def create
-    @report_sheet_input = ReportSheetInput.new(params[:report_sheet_input])
-    @report_sheet_input.admin_flag = !current_user.nil?
-
-    respond_to do |format|
-      if @report_sheet_input.save
-        format.html { redirect_to @report_sheet_input, notice: "Report sheet input was successfully created." }
-        format.json { render json: @report_sheet_input, status: :created, location: @report_sheet_input }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @report_sheet_input.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # PUT /report_sheet_inputs/1
-  # PUT /report_sheet_inputs/1.json
-  def update
-    @report_sheet_input = policy_scope(ReportSheetInput).find(params[:id])
-
-    respond_to do |format|
-      if @report_sheet_input.update(report_sheet_input_params)
-        format.html { redirect_to @report_sheet_input, notice: "Report sheet input was successfully updated." }
-        format.json { head :no_content }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @report_sheet_input.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
   # DELETE /report_sheet_inputs/1
   # DELETE /report_sheet_inputs/1.json
   def destroy
     @report_sheet_input = policy_scope(ReportSheetInput).find(params[:id])
+    authorize @report_sheet_input
     @report_sheet_input.destroy
 
     respond_to do |format|
@@ -115,8 +82,11 @@ class ReportSheetInputsController < AuthenticatedController
     @report_sheet_input = policy_scope(ReportSheetInput).find(params[:id])
   end
 
+  # removes all inputs that were never submitted, invoiced ones are kept
   def lockdown
-    @report_sheet_inputs = policy_scope(ReportSheetInput).not_final
+    authorize ReportSheetInput
+
+    @report_sheet_inputs = policy_scope(ReportSheetInput).not_final.to_a.reject(&:locked?)
 
     @report_sheet_inputs.each do |rs|
       rs.report_sheet.destroy

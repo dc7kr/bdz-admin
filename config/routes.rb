@@ -143,7 +143,6 @@ Rails.application.routes.draw do
         get :step4
         patch :submit1
         patch :submit2
-        patch :submit3
         patch :submit4
         patch :finalize
         get :finalize
@@ -156,9 +155,9 @@ Rails.application.routes.draw do
   end
   # END member area
 
-  resources :report_sheet_inputs do
+  resources :report_sheet_inputs, only: %i[index show new destroy] do
     collection do
-      get :lockdown
+      post :lockdown
       get :generate
       get :search
     end
