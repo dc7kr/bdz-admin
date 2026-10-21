@@ -3,7 +3,7 @@ module Mgl
     layout "mgl"
 
     before_action :authorize, except: %i[login submit_login]
-    before_action :reject_locked, only: %i[submit1 submit2 submit4 upload delete_members]
+    before_action :reject_locked, only: %i[step2 step3 step4 submit1 submit2 submit4 finalize confirm upload delete_members]
 
     include ::ApplicationHelper
     include ::ButtonHelper
