@@ -55,9 +55,9 @@ class PersonMember < ApplicationRecord
 
   def self.mailForEvent(event, via_paper)
     if via_paper
-      joins([ :member ]).joins("LEFT JOIN member_events e ON members.id=e.member_id AND members.member_entity_id = person_members.id AND members.member_entity_type='PersonMember' AND e.event_id=?",event).where(e: { id: nil }).order("members.mglnr")
+      joins([ :member ]).joins(sanitize_sql_array(["LEFT JOIN member_events e ON members.id=e.member_id AND members.member_entity_id = person_members.id AND members.member_entity_type='PersonMember' AND e.event_id=?", event])).where(e: { id: nil }).order("members.mglnr")
     else
-      joins([ :member ]).joins("LEFT JOIN member_events e ON members.id=e.member_id AND members.member_entity_id = person_members.id AND members.member_entity_type='PersonMember' AND e.event_type='E' and e.event_id=?",event).where("members.email IS NOT NULL and length(members.email) >3 and e.id IS NULL")
+      joins([ :member ]).joins(sanitize_sql_array(["LEFT JOIN member_events e ON members.id=e.member_id AND members.member_entity_id = person_members.id AND members.member_entity_type='PersonMember' AND e.event_type='E' and e.event_id=?", event])).where("members.email IS NOT NULL and length(members.email) >3 and e.id IS NULL")
     end
   end
 

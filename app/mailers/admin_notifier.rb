@@ -141,7 +141,7 @@ class AdminNotifier < ApplicationMailer
 
     subject  = "[BDZDB] Neue Ehrungsrechnung Nr. #{@invoice_number}"
 
-    Rails.logger.info("Sending notify to #{treasurer_to} cc: #{admin_cc}")
+    Rails.logger.info("Sending notify to #{treasurer_to} cc: #{cc.inspect}")
     @name = contact_name("treasurer")
     mail(to: treasurer_to, cc: cc, subject: subject, from: system_from).deliver
 
