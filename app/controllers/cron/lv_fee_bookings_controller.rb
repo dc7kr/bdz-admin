@@ -64,7 +64,7 @@ module Cron
       dd_url = "#{base_url}?year=#{year}&filename=#{ctFile.orig_filename}" unless ctFile.nil?
 
       User.for_admin_notify.each do |user|
-        AdminNotifier.new_lv_ct_notification(user, dd_url, triggered_by).deliver
+        AdminNotifier.new_lv_ct_notification(user, dd_url, triggered_by_id: triggered_by).deliver
         logger.info "sent to %s" % user.email
       end
     end

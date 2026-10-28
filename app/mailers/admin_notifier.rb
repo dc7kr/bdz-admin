@@ -124,7 +124,7 @@ class AdminNotifier < ApplicationMailer
     sepa_file = invoice.gen_sepa_file
     invoice_file = invoice.gen_pdf
 
-    @sepa_dl_url = get_download_url(sepa_file)
+    @sepa_dl_url = get_download_url(sepa_file) unless sepa_file.nil?
 
     treasurer_to = contact_email_with_name("treasurer")
 

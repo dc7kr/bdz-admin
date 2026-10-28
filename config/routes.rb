@@ -160,7 +160,7 @@ Rails.application.routes.draw do
   resources :report_sheet_inputs, only: %i[index show new destroy] do
     collection do
       post :lockdown
-      get :generate
+      post :generate
       get :search
     end
     member do
