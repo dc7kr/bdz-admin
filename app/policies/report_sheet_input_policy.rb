@@ -1,5 +1,5 @@
 class ReportSheetInputPolicy < MemberDataPolicy
-  allow :metadata?, :lockdown?, to: :national
+  allow :metadata?, :lockdown?, :generate?, to: :national
 
   # invoiced report sheet inputs must be kept
   def destroy?

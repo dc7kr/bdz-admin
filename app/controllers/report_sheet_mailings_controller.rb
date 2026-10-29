@@ -3,7 +3,7 @@ class ReportSheetMailingsController < AuthenticatedNonResourceController
   include BulkMailHelper
 
   def gen_mailings
-    authorize! :index, Orchestra
+    authorize Orchestra, :index?
 
     now = Time.zone.now
 

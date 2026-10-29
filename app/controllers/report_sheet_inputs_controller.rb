@@ -63,7 +63,7 @@ class ReportSheetInputsController < AuthenticatedController
   end
 
   def generate
-    authorize! :index, Orchestra
+    authorize ReportSheetInput, :generate?
 
     rs_year = Time.zone.now.year + 1
 
