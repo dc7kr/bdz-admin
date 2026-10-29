@@ -513,7 +513,7 @@ class Orchestra < ApplicationRecord
 
   def report_sheet_required?
     # only regular and regional orchestras
-    orch_type == "R" or orch_type == "L"
+    %w[O L].include?(orch_type)
   end
 
   def has_faulty_double_members?
