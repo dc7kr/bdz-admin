@@ -1,7 +1,7 @@
 module Cron
   class RemindersController < AuthenticatedNonResourceController
     def report_sheet
-      authorize! :member, :edit
+      authorize :member, :edit?
 
       fa = FileArchiveTool.new(DOCS_CONFIG)
 
@@ -36,7 +36,7 @@ module Cron
     end
 
     def payment
-      authorize! :member, :edit
+      authorize :member, :edit?
 
       fa = FileArchiveTool.new(DOCS_CONFIG)
 

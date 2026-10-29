@@ -1,7 +1,7 @@
 module Cron
   class CleanupController < AuthenticatedNonResourceController
     def remove_resigned
-      authorize! :member, :edit
+      authorize :member, :edit?
       @orchestras = Orchestra.cancelled
       @person_members = PersonMember.cancelled
 

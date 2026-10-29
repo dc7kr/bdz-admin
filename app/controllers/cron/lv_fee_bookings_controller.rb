@@ -1,7 +1,7 @@
 module Cron
   class LvFeeBookingsController < AuthenticatedNonResourceController
     def index
-      authorize! :member, :edit
+      authorize :member, :edit?
 
       @lvs = RegionalOrganization.all
 

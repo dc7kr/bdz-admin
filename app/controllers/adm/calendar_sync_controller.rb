@@ -46,7 +46,7 @@ module Adm
     end
 
     def upload
-      authorize! :member, :edit
+      authorize :member, :edit?
       cal_file = open(@@bw_url)
 
       cals = Icalendar.parse(cal_file)

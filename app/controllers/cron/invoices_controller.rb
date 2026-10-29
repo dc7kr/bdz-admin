@@ -5,7 +5,7 @@ module Cron
     # load_and_authorize_resource
 
     def gen_all
-      authorize! :member, :edit
+      authorize :member, :edit?
       year = if params[:year]
                params[:year].to_i
       else
@@ -18,12 +18,12 @@ module Cron
     end
 
     def ping
-      authorize! :member, :edit
+      authorize :member, :edit?
       render text: "Pong"
     end
 
     def gen_orchestras
-      authorize! :member, :edit
+      authorize :member, :edit?
 
       year = if params[:year]
                params[:year].to_i
@@ -39,7 +39,7 @@ module Cron
     end
 
     def gen_persons
-      authorize! :member, :edit
+      authorize :member, :edit?
 
       year = if params[:year]
                params[:year].to_i
@@ -55,7 +55,7 @@ module Cron
     end
 
     def test_gen
-      authorize! :member, :edit
+      authorize :member, :edit?
       testGen(params[:date])
       render text: "Generation OK."
     end

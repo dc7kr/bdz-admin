@@ -4,11 +4,11 @@ class EventMailsController < AuthenticatedNonResourceController
   include UploadHelper
 
   def index
-    authorize! :member, :edit
+    authorize :member, :edit?
   end
 
   def kasitest
-    authorize! :member, :edit
+    authorize :member, :edit?
     @mail_params = { subject: "Testsubj", body: "This is a shiny testbody", event_id: "TEST_EVENT" }
     @results = []
 
@@ -37,7 +37,7 @@ class EventMailsController < AuthenticatedNonResourceController
   end
 
   def send_mail
-    authorize! :member, :edit
+    authorize :member, :edit?
     @mail_params = params[:email]
 
     orchestra = false

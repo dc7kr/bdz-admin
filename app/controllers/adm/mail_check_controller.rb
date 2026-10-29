@@ -5,7 +5,7 @@ module Adm
     end
 
     def admin_notify
-      authorize! :admin, :show?
+      authorize :admin, :show?
 
       AdminNotifier.test_notification(current_user).deliver
     end

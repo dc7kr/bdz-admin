@@ -2,7 +2,7 @@ require "rodf"
 module Reports
   class YouthAddressesController < AuthenticatedNonResourceController
     def index
-      authorize! :orchestra, :edit
+      authorize :orchestra, :edit?
       @contacts = OrchestraContact.where("role  = 'J'").includes(:orchestra)
 
       respond_to do |format|
