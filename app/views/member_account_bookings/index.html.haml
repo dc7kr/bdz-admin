@@ -4,6 +4,10 @@
     = t("member_account_booking.index")
     - if not @member.nil? then
       #{@name} (#{@member.mglnr})
+  - unless @balance.nil?
+    %p
+      %strong= t("member_account_booking.balance")
+      %span{ class: @balance.round(2).zero? ? "" : "text-danger fw-bold" }= format_currency(@balance, "€")
   #enty_info.text-center
     = page_entries_info @bookings
   #paginator

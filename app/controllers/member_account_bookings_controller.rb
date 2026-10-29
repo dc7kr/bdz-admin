@@ -30,7 +30,10 @@ class MemberAccountBookingsController < AuthenticatedController
     if @member.nil?
       @bookings = policy_scope(MemberAccountBooking).order("#{sort_column} #{sort_direction}").page(params[:page]).per(30)
     else
-      @bookings = policy_scope(MemberAccountBooking).where("member_id=?", @member.id).order("#{sort_column} #{sort_direction}").page(params[:page]).per(30)
+      member_bookings = policy_scope(MemberAccountBooking).where("member_id=?", @member.id)
+      @bookings = member_bookings.order("#{sort_column} #{sort_direction}").page(params[:page]).per(30)
+      # unfiltered total of every booking type, not just the current page
+      @balance = member_bookings.sum(:amount)
       @member_entity = @member.member_entity
     end
 
