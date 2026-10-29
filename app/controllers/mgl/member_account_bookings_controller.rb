@@ -2,8 +2,10 @@ module Mgl
   # read only
   class MemberAccountBookingsController < BaseController
     def index
-      @bookings = policy_scope(MemberAccountBooking).order(booking_date: :desc).page(params[:page]).per(30)
-      @balance = mgl_member.member_fee_balance
+      bookings = policy_scope(MemberAccountBooking)
+      @bookings = bookings.order(booking_date: :desc).page(params[:page]).per(30)
+      # unfiltered total of every booking type, matching the list shown
+      @balance = bookings.sum(:amount)
     end
 
     def show
